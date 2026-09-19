@@ -32,7 +32,8 @@ class SecurityBoundaryTests(unittest.TestCase):
     def write(self, name, source):
         path = self.root / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(source, encoding="utf-8")
+        # Byte-budget fixtures must contain identical LF bytes on every OS.
+        path.write_bytes(source.encode("utf-8"))
         return path
 
     def test_scan_never_imports_target_or_launches_child_process(self):
@@ -166,6 +167,20 @@ class SecurityBoundaryTests(unittest.TestCase):
         constrained = scan(self.root, max_total_bytes=8)
         self.assertEqual(constrained["summary"]["files_scanned"], 1)
         self.assertFalse(constrained["summary"]["scan_complete_within_selected_scope"])
+
+    def test_crlf_sources_charge_physical_bytes_and_preserve_line_numbers(self):
+        source = b"# auth\r\neval(user_input)\r\n"
+        for name in ("one.py", "two.py"):
+            (self.root / name).write_bytes(source)
+        report = scan(self.root, max_total_bytes=2 * len(source) + 1)
+        self.assertTrue(report["summary"]["scan_complete_within_selected_scope"])
+        self.assertEqual(report["summary"]["bytes_read"], 2 * len(source))
+        self.assertEqual(report["summary"]["bytes_charged"], 2 * len(source))
+        self.assertEqual([finding["line"] for finding in report["findings"]], [2, 2])
+        bundle = build_evidence(report, self.root)
+        self.assertEqual(bundle["coverage"]["bytes_read"], 2 * len(source))
+        self.assertTrue(all(item["start_line"] == 1 and item["end_line"] == 2 for item in bundle["evidence"]))
+        self.assertTrue(all("\r" not in item["text"] for item in bundle["evidence"]))
 
     def test_scanner_rejects_boolean_zero_negative_and_noninteger_limits(self):
         self.write("agent.py", "value = 1\n")

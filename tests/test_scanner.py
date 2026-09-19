@@ -114,10 +114,13 @@ class ScannerTests(unittest.TestCase):
         self.assertTrue(report["findings"])
 
     def test_markdown_escapes_repository_markup(self):
-        self.write("<script>alert(1)</script>.txt".replace("/", "_"), "x")
+        self.write("markup.txt", "x")
         report = scan(self.root)
-        report["coverage"]["errors"].append({"path": "[click](https://evil.example)", "error": "<img src=x onerror=alert(1)>", "kind": "test"})
+        # Inject hostile display text without requiring an OS to permit HTML
+        # delimiters in a real filename (Windows correctly rejects them).
+        report["coverage"]["errors"].append({"path": "<script>alert(1)</script>[click](https://evil.example)", "error": "<img src=x onerror=alert(1)>", "kind": "test"})
         text = markdown(report)
+        self.assertNotIn("<script", text)
         self.assertNotIn("<img", text)
         self.assertNotIn("[click](https://evil.example)", text)
 

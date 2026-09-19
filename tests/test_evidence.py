@@ -24,7 +24,8 @@ class EvidenceTests(unittest.TestCase):
     def write(self, name, source):
         path = self.root / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(source, encoding="utf-8")
+        # Preserve fixture byte counts instead of translating newlines on Windows.
+        path.write_bytes(source.encode("utf-8"))
         return path
 
     def manifest_entry(self, path):
