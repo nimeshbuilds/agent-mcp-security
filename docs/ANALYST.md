@@ -1,10 +1,12 @@
 # Invarune controlled security analyst
 
-When optional LLM review is enabled, the scanner queues every catalog control for a security analyst review, including controls with no deterministic findings. A deterministic controller selects evidence, schedules bounded requests, checks the response schema, and verifies citations. The analyst's interpretation remains nondeterministic and advisory.
+When optional LLM review is enabled, the scanner queues every active catalog control for a security analyst review, including controls with no deterministic findings. A deterministic controller selects evidence, schedules bounded requests, checks the response schema, and verifies citations. The analyst's interpretation remains nondeterministic and advisory.
 
-The packaged catalog currently contains **66 controls and 132 acceptance checks**. All are queued because a static pattern scan cannot establish that a control is implemented correctly or effective in production. The analyst can identify code evidence, propose potential gaps, and specify the next verification steps. It cannot turn incomplete evidence into a security pass or perform runtime validation.
+The packaged catalog currently contains **66 controls and 132 acceptance checks**. By default all are queued because a static pattern scan cannot establish that a control is implemented correctly or effective in production. The analyst can identify code evidence, propose potential gaps, and specify the next verification steps. It cannot turn incomplete evidence into a security pass or perform runtime validation.
 
 See the [control checklist](SECURITY_CHECKLIST.md) and [research and source mappings](RESEARCH.md) for the underlying control requirements. These are project-defined checks mapped to published guidance, not an official benchmark score or certification.
+
+Explicit user exceptions in `--review-config` retain `justified` or `disabled` checklist entries with their reason, but remove them from model requests, active totals and omitted-answer counts. They are not passes or model verdicts. Fully exempt controls require no evidence collection or control request. A partial control sends only active check text; request receipts map compact response indexes back to the original `CONTROL:INDEX` identities. User reasons are not added to analyst prompts. Source excerpts may still discuss related topics needed for active checks. See [review configuration](REVIEW_CONFIGURATION.md).
 
 ## Run the review
 
@@ -18,7 +20,7 @@ python3 scan.py /path/to/agent-or-mcp-repository \
   --output ./security-report
 ```
 
-`--judge-config` defaults to `--judge-mode full`. This performs one finding-triage request, followed by the bounded control analyst stage. The analyst examines all catalog checks that fit its budgets, including when the static scan reports zero findings. A request can fail, be omitted by the model, or be skipped when a budget is exhausted; every unanswered check stays visible in the report.
+`--judge-config` defaults to `--judge-mode full`. This performs one finding-triage request, followed by the bounded control analyst stage. The analyst examines all active catalog checks that fit its budgets, including when the static scan reports zero findings. A request can fail, be omitted by the model, or be skipped when a budget is exhausted; every unanswered check stays visible in the report.
 
 To retain the earlier finding-triage behavior:
 
@@ -63,7 +65,7 @@ Temperature zero, fixed seeds, strict JSON, and exact citations do not make the 
 
 For a catalog control marked `dynamic`, a model response of `supported_by_code` is deterministically changed to `needs_runtime_validation`. For `manual`, it becomes `needs_human_review`. The report records the original and adjusted status and the adjustment reason. Code support for `static` or `hybrid` controls remains advisory; it never establishes full control completion.
 
-Control-level `review_status` means `reviewed` when the model supplied every check, `partial` when it supplied some, or `not_reviewed` when it supplied none. A reviewed control may contain only `insufficient_evidence` answers. Overall analyst status `completed` means every check received an accepted answer; it does not mean the controls passed. `validation_established` remains false, and `coverage.validated_controls` remains zero.
+Control-level `review_status` means `reviewed` when the model supplied every active check, `partial` when it supplied some, or `not_reviewed` when it supplied none. A reviewed control may contain only `insufficient_evidence` answers. Overall analyst status `completed` means every active check received an accepted answer; it does not mean the controls passed. `validation_established` remains false, and `coverage.validated_controls` remains zero.
 
 ## Budgets and incomplete work
 
@@ -80,7 +82,7 @@ The CLI exposes these control-analyst limits:
 
 With 66 controls and a batch size of 6, a complete run normally uses **11 control requests plus 1 finding-triage request**. The default call budget permits up to 12 control attempts, but does not create a retry: there are no automatic retries. A failed request attempt counts toward the budget, including attempts rejected locally before an HTTP request is sent.
 
-`--analyst-max-calls 0` stops control requests only. The CLI still sends the finding-triage request when `--judge-config` is present, and it can still collect and retain local analyst evidence. It returns an incomplete control review. Omit `--judge-config` when no LLM request is intended.
+`--analyst-max-calls 0` stops control requests only. The CLI still sends the finding-triage request when `--judge-config` is present, and it can still collect and retain local analyst evidence. It returns an incomplete control review when active checks remain. Omit `--judge-config` when no LLM request is intended.
 
 Setting `--analyst-max-files 0`, `--analyst-max-bytes 0`, or `--analyst-max-chars 0` leaves the analyst with no source excerpts; it can still receive control metadata and must acknowledge missing evidence. A zero character limit does not prevent local source reads. These limits do not change the separate deterministic scanner or finding-triage payload.
 

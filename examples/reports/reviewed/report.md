@@ -2,7 +2,7 @@
 
 AI agent and MCP security report
 
-Scan ID: `fc2265dbbd82b4a20d7034a69f91ea644f15836cefa7d660776e9235558e09af`
+Scan ID: `9dbb2e2c1e9c3eb22f640380c263857392a0227df77c6a4a9d4dc112a71a872b`
 
 This is static security triage, not certification or proof that a system is secure.
 
@@ -10,15 +10,19 @@ This is static security triage, not certification or proof that a system is secu
 
 ### Critical/high findings need prompt review
 
-The scanner found 8 open critical/high patterns among 11 open findings\. Confirm exposure and prioritize the actions below\. Detector severity is not proof of exploitability or deployed risk\.
+The scanner found 8 open critical/high patterns among 9 open findings\. Confirm exposure and prioritize the actions below\. Detector severity is not proof of exploitability or deployed risk\.
 
 | Open findings | Critical/high | Affected files | Accepted baseline findings | Coverage gaps |
 |---:|---:|---:|---:|---:|
-| 11 | 8 | 3 | 0 | 0 |
+| 9 | 8 | 3 | 0 | 0 |
 
-**66 active controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.
+**65 active controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.
 
-**What the scanner found:** Tool execution: 3; Supply chain: 2; Transport security: 2; Agent permissions: 1; Deserialization: 1; Sandboxing: 1; Secrets: 1. These are detected pattern categories, not confirmed attack paths.
+**User review decisions:** 40 active rules; 129 active acceptance checks. Separately recorded: 1 justified / 1 disabled rules; 1 justified / 2 disabled checks; 1 justified / 1 disabled observed findings.
+
+Justified and disabled items are excluded from active totals without positive or negative credit. These are user decisions, not validated control passes. The complete reasons appear in **User review decisions** below.
+
+**What the scanner found:** Tool execution: 3; Transport security: 2; Agent permissions: 1; Deserialization: 1; Sandboxing: 1; Secrets: 1. These are detected pattern categories, not confirmed attack paths.
 
 **Execution:** exit 1; severity threshold high. The exit threshold does not change the review priorities below.
 
@@ -38,9 +42,7 @@ P0: critical, P1: high, P2: medium, P3: low/info\. These are deterministic revie
 | P1 | [AI010: Credential\-like literal in source or configuration](#group-57a1992f928c) (source) | 1 | Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process\. | Credential/service owner |
 | P1 | [AI029: Remote MCP URL uses plaintext HTTP](#group-b69c379f05c4) (source) | 1 | Use HTTPS with verified certificates; if a separate protected transport is intentional, document and test every network hop and termination boundary\. | MCP/gateway owner |
 | P1 | [AI031: Agent approval or sandbox safeguard explicitly bypassed](#group-0a77dbbc61c4) (source) | 1 | Review the effective permission policy and restore bounded tools and runtime isolation; require independent approval for the specific sensitive effects\. | Agent/platform owner |
-| P2 | [AI018: MCP package runner resolves an unpinned artifact](#group-964934e5a62a) (source) | 1 | Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets\. | MCP integration/build owner |
 | P2 | [AI021: Container explicitly runs as root](#group-f42ebc88841c) (source) | 1 | Verify the final build stage and deployed user, then run with a dedicated nonroot identity unless a documented operation requires otherwise\. | Container/platform owner |
-| P3 | [AI024: Container image is not digest pinned](#group-0cc3d39352a0) (source) | 1 | Identify the approved image digest and enforce it in the effective build or deployment while preserving a reviewed update process\. | Container/release owner |
 
 ## What could reduce the risk
 
@@ -234,30 +236,6 @@ Related controls: AGT\-01, AGT\-02, MCP\-09, SUP\-05
 
 Guidance sources (engineering synthesis): [ASD\-HARNESS](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices); [MCP\-TOOLS](https://modelcontextprotocol.io/specification/2026-07-28/server/tools); [OWASP\-AGENT\-CS](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html); [OWASP\-LLM2026](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/); [OWASP\-MCP\-CS](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html)
 
-<a id="group-964934e5a62a"></a>
-
-### AI018: MCP package runner resolves an unpinned artifact
-
-**MEDIUM** · open · 1 occurrences · source
-
-**Observed evidence:** [mcp\.json:4](#finding-62e5f603bc805d76)
-
-Source evidence: deployment reachability and active use have not been established\.
-
-**Possible impact:** If the package runner resolves a changed or malicious artifact, the next MCP launch could execute different code with the client environment permissions\.
-
-**Address the cause:** Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets\.
-
-| Additional defense | How it could help | Evidence needed | Remaining limitation |
-|---|---|---|---|
-| Resolve and install reviewed dependency bytes | Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory\. | Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it\. | An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained\. |
-| Verify artifact identity before use | Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest\. | Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact\. | Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content\. |
-| Limit credentials available to the workload | Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations\. | Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails\. | A compromised component can still use its allowed permissions until credentials expire or revocation takes effect\. |
-
-Related controls: MCP\-09, SUP\-01
-
-Guidance sources (engineering synthesis): [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [JOINT\-AGENTIC](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices); [NIST\-SSDF](https://csrc.nist.gov/pubs/sp/800/218/final); [OPENSSF\-BASELINE\-202608](https://baseline.openssf.org/versions/2026-08-28); [OPENSSF\-MODEL\-SIGNING](https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/); [OWASP\-MCP\-CS](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html); [SLSA\-12](https://slsa.dev/spec/v1.2/)
-
 <a id="group-f42ebc88841c"></a>
 
 ### AI021: Container explicitly runs as root
@@ -281,11 +259,35 @@ Related controls: SUP\-05
 
 Guidance sources (engineering synthesis): [CIS\-CONTROLS\-81](https://www.cisecurity.org/controls/v8-1); [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [CSA\-CCM](https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1); [JOINT\-AGENTIC](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely)
 
-<a id="group-0cc3d39352a0"></a>
+<a id="group-e166da3e2b8a"></a>
+
+### AI018: MCP package runner resolves an unpinned artifact
+
+**MEDIUM** · disabled · 1 occurrences · source
+
+**Observed evidence:** [mcp\.json:4](#finding-62e5f603bc805d76)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If the package runner resolves a changed or malicious artifact, the next MCP launch could execute different code with the client environment permissions\.
+
+**Address the cause:** Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Resolve and install reviewed dependency bytes | Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory\. | Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it\. | An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained\. |
+| Verify artifact identity before use | Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest\. | Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact\. | Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content\. |
+| Limit credentials available to the workload | Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations\. | Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails\. | A compromised component can still use its allowed permissions until credentials expire or revocation takes effect\. |
+
+Related controls: MCP\-09, SUP\-01
+
+Guidance sources (engineering synthesis): [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [JOINT\-AGENTIC](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices); [NIST\-SSDF](https://csrc.nist.gov/pubs/sp/800/218/final); [OPENSSF\-BASELINE\-202608](https://baseline.openssf.org/versions/2026-08-28); [OPENSSF\-MODEL\-SIGNING](https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/); [OWASP\-MCP\-CS](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html); [SLSA\-12](https://slsa.dev/spec/v1.2/)
+
+<a id="group-2501ac019de2"></a>
 
 ### AI024: Container image is not digest pinned
 
-**LOW** · open · 1 occurrences · source
+**LOW** · justified · 1 occurrences · source
 
 **Observed evidence:** [Dockerfile:1](#finding-0ca23a2f487902a4)
 
@@ -313,13 +315,36 @@ Guidance sources (engineering synthesis): [CISA\-SECURE\-BY\-DESIGN](https://www
 
 Guidance catalog version: 1\.0\.0; SHA-256: `dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1`. The catalog is bundled and does not contact external sources during a scan.
 
+## User review decisions
+
+`justified` records the user's rationale; `disabled` excludes a check from active assessment. Neither state means pass, earns positive credit, or counts against active totals. Observed evidence remains available. Only rule decisions exclude related findings from the severity gate; control and individual-check decisions affect checklist review only. Scan errors and coverage gaps remain unresolved.
+
+| Scope | Active | Justified | Disabled | Excluded with mixed check decisions | Catalog total |
+|---|---:|---:|---:|---:|---:|
+| Rules | 40 | 1 | 1 | 0 | 42 |
+| Controls | 65 | 0 | 1 | 0 | 66 |
+| Checks | 129 | 1 | 2 | 0 | 132 |
+
+### Configured decisions and reasons
+
+| Scope | Identifier | Decision | User reason |
+|---|---|---|---|
+| rules | AI018 | disabled | EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control\. |
+| rules | AI024 | justified | EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment\. |
+| controls | GOV\-01 | disabled | EXAMPLE ONLY: inventory governance is outside this selected engineering review\. |
+| checks | AUTH\-01:2 | justified | EXAMPLE ONLY: owner\-reviewed authentication evidence is recorded in the external assessment\. |
+
+Review configuration SHA-256: `4dc93595be2eae6cc393531fa91f41465ead3384f77c76fb1caa0bc8833a218b`.
+
+User dispositions are not validated passes and are excluded from actionable finding and active review counts\. Rule dispositions affect their findings; control and check dispositions affect review scope only and never waive static rule findings\. Observed evidence and operational coverage gaps remain in the report\. Shared static analysis may still collect evidence for disabled rules\.
+
 ## Scan details
 
-Scanned **3 files**; **11 open findings**, **0 suppressed findings**, and **0 coverage gaps**.
+Scanned **3 files**; **9 open findings**, **0 suppressed findings**, and **0 coverage gaps**.
 
 | Critical | High | Medium | Low | Info |
 |---:|---:|---:|---:|---:|
-| 0 | 8 | 2 | 1 | 0 |
+| 0 | 8 | 1 | 0 | 0 |
 
 Source I/O: **796 bytes read**, **796 bytes charged** against the budget, including **0 conservatively charged bytes** for failed reads. Each read reserves a sentinel byte to detect growth.
 
@@ -529,7 +554,7 @@ Weakness mappings: CWE\-250
 
 ### AI018 — MCP package runner resolves an unpinned artifact
 
-**MEDIUM** · Confidence: high · Status: open
+**MEDIUM** · Confidence: high · Status: disabled
 
 Location: mcp\.json:4–4 · Finding ID: `6b77081a826c4c6833edc47f`
 
@@ -541,6 +566,10 @@ An MCP launch configuration uses npx, uvx, or a similar ephemeral package runner
 
 **Remediation:** Pin an exact audited package version and lock or verify transitive artifacts\. Prefer preinstalled verified tools in a controlled environment\.
 
+**User decision:** disabled (rule AI018). **Reason:** EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control\.
+
+This observed pattern is retained for audit and excluded from active findings and the severity gate. Its recorded severity and evidence are unchanged; the user decision does not prove remediation.
+
 Weakness mappings: CWE\-829
 
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
@@ -550,7 +579,7 @@ Weakness mappings: CWE\-829
 
 ### AI024 — Container image is not digest pinned
 
-**LOW** · Confidence: low · Status: open
+**LOW** · Confidence: low · Status: justified
 
 Location: Dockerfile:1–1 · Finding ID: `055ed29e5f56926f1827a0b8`
 
@@ -562,6 +591,10 @@ FROM python:latest
 
 **Remediation:** Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability\-remediation workflows\.
 
+**User decision:** justified (rule AI024). **Reason:** EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment\.
+
+This observed pattern is retained for audit and excluded from active findings and the severity gate. Its recorded severity and evidence are unchanged; the user decision does not prove remediation.
+
 Weakness mappings: CWE\-829
 
 - [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
@@ -572,12 +605,14 @@ These are project-defined checks mapped to published guidance. They are not offi
 
 ### GOV\-01: Inventory every agent, MCP server, tool, and model
 
-Category: Governance · Status: manual\_review\_required · Validation: manual
+Category: Governance · Status: disabled · Validation: manual
 
 Not established by this static scan
 
-- [ ] Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints\.
-- [ ] Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers\.
+Underlying static status: manual\_review\_required. The user decision does not change detector evidence.
+
+- **disabled** · GOV\-01:1: Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints\. — User reason: EXAMPLE ONLY: inventory governance is outside this selected engineering review\.
+- **disabled** · GOV\-01:2: Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers\. — User reason: EXAMPLE ONLY: inventory governance is outside this selected engineering review\.
 - [Source](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10)
 
 ### GOV\-02: Model trust boundaries and attack paths
@@ -641,7 +676,7 @@ Category: Identity and authorization · Status: no\_pattern\_detected · Validat
 Partial static coverage only; absence of a finding is not a pass
 
 - [ ] Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries\.
-- [ ] Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation\.
+- **justified** · AUTH\-01:2: Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation\. — User reason: EXAMPLE ONLY: owner\-reviewed authentication evidence is recorded in the external assessment\.
 
 Partial static rules: AI026, AI041
 - [Source](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
@@ -844,7 +879,9 @@ Partial static coverage only; absence of a finding is not a pass
 
 Partial static rules: AI018, AI031
 
-Open finding IDs: 592fbfc9b7dab062dc97906c, 6b77081a826c4c6833edc47f
+Open finding IDs: 592fbfc9b7dab062dc97906c
+
+Disabled finding IDs: 6b77081a826c4c6833edc47f
 - [Source](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
 - [Source](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html)
 
@@ -1101,16 +1138,20 @@ Not established by this static scan
 
 ### SUP\-01: Pin and inventory executable dependencies
 
-Category: Supply chain · Status: findings\_detected · Validation: static
+Category: Supply chain · Status: findings\_exempted · Validation: static
 
 Partial static coverage only; absence of a finding is not a pass
+
+Underlying static status: findings\_detected. The user decision does not change detector evidence.
 
 - [ ] Review lockfiles and exact versions or immutable digests for packages, images, MCP servers, models, and plugins\.
 - [ ] Flag runtime installs, floating tags, remote scripts, and dependency sources outside approved registries\.
 
 Partial static rules: AI018, AI024, AI025
 
-Open finding IDs: 6b77081a826c4c6833edc47f, 055ed29e5f56926f1827a0b8
+Justified finding IDs: 055ed29e5f56926f1827a0b8
+
+Disabled finding IDs: 6b77081a826c4c6833edc47f
 - [Source](https://csrc.nist.gov/pubs/sp/800/218/final)
 
 ### SUP\-02: Check vulnerability and maintenance exposure
@@ -1125,16 +1166,18 @@ Not established by this static scan
 
 ### SUP\-03: Verify artifact identity and provenance
 
-Category: Supply chain · Status: findings\_detected · Validation: manual
+Category: Supply chain · Status: findings\_justified · Validation: manual
 
 Partial static coverage only; absence of a finding is not a pass
+
+Underlying static status: findings\_detected. The user decision does not change detector evidence.
 
 - [ ] Verify publisher identity, hashes/signatures, build provenance, and intended origin before enabling artifacts\.
 - [ ] Review model loading and serialization behavior; an integrity hash cannot make an untrusted publisher safe\.
 
 Partial static rules: AI019, AI024, AI035
 
-Open finding IDs: 055ed29e5f56926f1827a0b8
+Justified finding IDs: 055ed29e5f56926f1827a0b8
 - [Source](https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/)
 - [Source](https://csrc.nist.gov/pubs/sp/800/218/final)
 

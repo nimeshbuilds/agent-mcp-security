@@ -22,13 +22,13 @@ invarune --version
 
 The original `ai-security-scan` command remains a supported alias of `invarune`. Both call the same implementation. The package distribution remains `agent-mcp-security-scan` and the module remains `ai_security_scan`; no package or domain registration is implied by the product name.
 
-Use the absolute path to `scan.py` when invoking the script from another working directory. Relative target, output, baseline, and judge configuration paths resolve from the current working directory. Prefer absolute paths for automation. The target must be a real directory, not a symbolic link. The output directory must differ from the target root; it may be inside the target and is excluded from the scan automatically.
+Use the absolute path to `scan.py` when invoking the script from another working directory. Relative target, output, baseline, review, and judge configuration paths resolve from the current working directory. Prefer absolute paths for automation. The target must be a real directory, not a symbolic link. The output directory must differ from the target root; it may be inside the target and is excluded from the scan automatically.
 
 Long options require their complete spelling. Abbreviations such as `--judge-conf` are rejected to avoid selecting an unintended option.
 
 ## Complete offline help
 
-Version 0.6.0 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, every judge configuration field, native/custom gateway JSON examples, and twenty CLI examples. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
+Version 0.7.0 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, review dispositions, every judge configuration field, native/custom gateway JSON examples, and twenty-two CLI examples. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
 
 ```sh
 python3 scan.py --help
@@ -124,6 +124,12 @@ invarune ./repository --output ./reports --summary-json > ./summary.json
 
 `summary.json` in the example is outside the target. Redirecting stdout into the source tree can change the scanned input; keep external summary captures outside the target or explicitly exclude them.
 
+## User review dispositions
+
+`--review-config PATH` selects a trusted JSON file with `justified` or `disabled` entries keyed by rule ID, control ID, or individual `CONTROL:INDEX` check ID. It is optional and never auto-discovered. Justification requires a nonblank reason. Excluded items retain their evidence and user reason but contribute neither a pass nor a failure to active counts. Rule dispositions affect the finding gate; control/check dispositions affect the checklist and optional analyst queue only. Shared static analysis still collects evidence and reports parse/resource gaps.
+
+See [the schema and full examples](REVIEW_CONFIGURATION.md), also included in `--help`. `--list-controls` includes `check_ids` alongside the original check text. Invalid policy files fail with exit 2 before scanning or model requests. The same policy applies to source and image scans.
+
 ## JSON summary contract
 
 `--summary-json` emits a single JSON object with sorted keys and schema version `1.0`. On a scan that produced reports, it contains:
@@ -133,11 +139,12 @@ invarune ./repository --output ./reports --summary-json > ./summary.json
 | `schema_version`, `type` | `"1.0"` and `"scan_summary"`. |
 | `status` | `completed` or `incomplete`. A completed scan can still have findings and exit 1. |
 | `tool`, `scan_id` | Scanner/runtime identity, implementation hash, and deterministic scan identifier copied from the report. |
-| `summary` | The report's exact deterministic counts: open/suppressed findings, severity counts, scanned files, read/charged bytes, coverage gaps, and selected-scope completion. |
+| `summary` | The report's exact deterministic counts: open/suppressed findings, justified/disabled finding counts when configured, severity counts, scanned files, read/charged bytes, coverage gaps, and selected-scope completion. |
 | `assessment` | Compact deterministic executive `posture`, `metrics`, and guidance catalog provenance. The complete grouped findings, action plan, defense layers, sources, and unresolved validation work remain in `report.json`. |
 | `scope` | Resolved source target path, or displayed image reference/archive basename, and exact scan configuration. |
 | `image` | Present for image inputs: identity, acquisition, inventories, per-phase counters, analysis scope and explicit binary/CVE limits. |
 | `coverage` | Errors, skipped files/reasons, enabled rules, unmatched baseline IDs, limitations, control/check totals, statically mapped control count, and control status counts. |
+| `review_policy` | Present with `--review-config`: redacted user entries, policy hash, active and excluded counts, and assurance limits. `coverage.total_controls/total_checks` then use active denominators; separate `catalog_controls/catalog_checks` preserve full inventory totals. `statically_mapped_controls` counts active controls; `catalog_statically_mapped_controls` preserves its full-catalog counterpart. |
 | `optional_review.judge` | Whether finding triage was enabled, its status/mode, submission counts, and error if present. |
 | `optional_review.analyst` | Whether full control review was enabled, its status, and detailed control/check/evidence/request coverage if present. |
 | `execution` | Severity threshold, whether the deterministic finding gate triggered, and exit code. |
@@ -185,10 +192,10 @@ The three inspection modes are mutually exclusive, reject unknown rule IDs, and 
 | Argument | Default | Meaning |
 | --- | --- | --- |
 | `--judge-config PATH` | Disabled | Explicitly authorize bounded redacted payloads to the configured endpoint. Without this flag, no LLM is called. |
-| `--judge-mode full\|findings` | `full` | Full mode triages findings and reviews every control, including controls without static findings. Findings mode triages findings only. |
+| `--judge-mode full\|findings` | `full` | Full mode triages findings and reviews every active control/check, including controls without static findings. Findings mode triages findings only. |
 | `--judge-include-source` | Disabled | Add neighboring source to finding triage; requires `--judge-config`. Full mode's separately bounded evidence selection does not depend on this flag. |
 | `--judge-max-findings N` | `100` | Open findings submitted to finding triage; accepts 1–500. All findings remain in the deterministic report. |
-| `--analyst-max-calls N` | `12` | Control-review request budget, 0–100. Finding triage uses one additional request. Zero leaves controls explicitly unreviewed. |
+| `--analyst-max-calls N` | `12` | Control-review request budget, 0–100. Finding triage uses one additional request. Zero leaves active controls explicitly unreviewed. |
 | `--analyst-batch-size N` | `6` | Controls per review request, 1–20. Smaller batches can need more calls. |
 | `--analyst-max-files N` | `200` | Files considered for source evidence, 0–20000. |
 | `--analyst-max-bytes N` | `2000000` | Source-evidence read budget, 0–50000000. |
@@ -202,7 +209,7 @@ invarune ./repository --judge-config ./trusted-judge.json \
   --analyst-batch-size 3 --analyst-max-calls 24 --analyst-time-budget 600
 ```
 
-Full review currently covers all 66 controls and 132 checks. Every control is reviewed because even mapped static patterns provide only partial assurance. The model can identify contextual concerns or evidence gaps that deterministic patterns cannot resolve. Source selection, budgets, schema checking, evidence validation, and the absence of tool dispatch are deterministic boundaries; the model's security conclusions remain nondeterministic.
+The default full-review catalog contains 66 controls and 132 checks. Every active check is reviewed because even mapped static patterns provide only partial assurance. Explicit `--review-config` checklist exceptions are retained for audit and excluded from model requests and active review totals. The model can identify contextual concerns or evidence gaps that deterministic patterns cannot resolve. Source selection, budgets, schema checking, evidence validation, and the absence of tool dispatch are deterministic boundaries; the model's security conclusions remain nondeterministic.
 
 Unsupported claims and missing evidence stay unresolved. The analyst cannot turn code review into runtime validation, suppress findings, modify target files, or change the deterministic severity gate. Judge errors preserve deterministic report content and produce exit 2. The CLI reports incomplete analyst review on stderr even with `--quiet`.
 

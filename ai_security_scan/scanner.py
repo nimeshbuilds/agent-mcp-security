@@ -55,6 +55,47 @@ def _excluded(rel, patterns):
     return any(fnmatch.fnmatchcase(rel, p) or fnmatch.fnmatchcase(rel + "/", p) or fnmatch.fnmatchcase("/" + rel, p) for p in patterns)
 
 
+def _filesystem_identity(info):
+    return info.st_dev, info.st_ino, stat.S_IFMT(info.st_mode)
+
+
+def _exclusion_snapshot(paths):
+    """Pin explicit existing exclusions, including aliases outside the target.
+
+    Resolving selected paths preserves existing behavior for trusted aliases and
+    future output destinations. Device/inode/type matching additionally covers
+    case aliases and hardlinks. Only caller-selected paths are resolved; target
+    traversal entries are inspected with lstat and are never followed here.
+    """
+    roots = {Path(path).expanduser().resolve() for path in paths}
+    identities = set()
+    for path in roots:
+        try:
+            info = path.lstat()
+        except (FileNotFoundError, NotADirectoryError):
+            # Report/baseline destinations commonly do not exist until export.
+            continue
+        if stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode):
+            if not info.st_ino:
+                raise ValueError("An existing explicit exclusion has no stable filesystem identity")
+            identities.add(_filesystem_identity(info))
+    return roots, identities
+
+
+def _matches_exclusion(path, roots, identities):
+    if path.absolute() in roots:
+        return True, None
+    if not identities:
+        return False, None
+    try:
+        info = path.lstat()
+    except OSError:
+        # Normal traversal records any applicable read failure below. Do not
+        # treat unreadable entries as excluded or follow a possible symlink.
+        return False, None
+    return _filesystem_identity(info) in identities, info
+
+
 def load_controls():
     path = Path(__file__).parent / "data" / "controls.json"
     if not path.exists():
@@ -94,7 +135,7 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     excluded_directories = EXCLUDED_DIRS if default_excluded_directories is None else set(default_excluded_directories)
     if any(not isinstance(name, str) or not name or "/" in name or "\\" in name for name in excluded_directories):
         raise ValueError("Default directory exclusions must be directory names")
-    skip_roots = {Path(p).expanduser().resolve() for p in output_paths}
+    skip_roots, skip_identities = _exclusion_snapshot(output_paths)
     root_stat = root.stat()
     root_identity = (root_stat.st_dev, root_stat.st_ino)
     findings, skipped, errors, files = [], [], [], []
@@ -116,13 +157,15 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
         for name in directories:
             path = Path(parent) / name
             rel = path.relative_to(root).as_posix()
-            if path.absolute() in skip_roots:
+            excluded_path, entry_stat = _matches_exclusion(path, skip_roots, skip_identities)
+            if excluded_path:
                 continue
             entries += 1
             if entries > max_entries:
                 interrupted = True
                 break
-            if path.is_symlink():
+            is_link = stat.S_ISLNK(entry_stat.st_mode) if entry_stat is not None else path.is_symlink()
+            if is_link:
                 skip(rel, "symlink_directory", True)
             elif name in excluded_directories:
                 skip(rel, "default_excluded_directory")
@@ -135,14 +178,16 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
             break
         for name in names:
             path = Path(parent) / name
-            if path.absolute() in skip_roots:
+            excluded_path, entry_stat = _matches_exclusion(path, skip_roots, skip_identities)
+            if excluded_path:
                 continue
             entries += 1
             if entries > max_entries:
                 interrupted = True
                 break
             rel = path.relative_to(root).as_posix()
-            if path.is_symlink():
+            is_link = stat.S_ISLNK(entry_stat.st_mode) if entry_stat is not None else path.is_symlink()
+            if is_link:
                 skip(rel, "symlink_file", True)
                 continue
             if _excluded(rel, exclude):
@@ -156,7 +201,7 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
                 break
             try:
                 # lstat and O_NOFOLLOW prevent reading symbolic links/special files.
-                st = path.lstat()
+                st = entry_stat if entry_stat is not None else path.lstat()
                 if not stat.S_ISREG(st.st_mode):
                     skip(rel, "non_regular_file", True)
                     continue
@@ -239,7 +284,9 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     counts = {severity: sum(f["severity"] == severity for f in active) for severity in SEVERITIES}
     coverage_gaps = len(errors) + sum(s["coverage_gap"] for s in skipped)
     summary = {"open_findings": len(active), "suppressed_findings": len(findings) - len(active), "severity_counts": counts, "files_scanned": len(files), "bytes_read": bytes_read, "bytes_charged": bytes_charged, "failed_read_bytes_charged": failed_read_bytes_charged, "coverage_gaps": coverage_gaps, "assessment": "static_triage_only", "scan_complete_within_selected_scope": coverage_gaps == 0}
-    config = {**limits, "exclude": sorted(set(exclude)), "default_excluded_directories": sorted(excluded_directories), "generated_outputs_and_judge_config_excluded": True}
+    config = {**limits, "exclude": sorted(set(exclude)), "default_excluded_directories": sorted(excluded_directories), "generated_outputs_and_judge_config_excluded": True,
+              "explicit_exclusion_matching": "resolved_paths_and_snapshot_filesystem_identities",
+              "explicit_exclusion_identity_scope": "Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports."}
     implementation = hashlib.sha256()
     for module in sorted(Path(__file__).parent.glob("*.py")):
         implementation.update(module.name.encode())

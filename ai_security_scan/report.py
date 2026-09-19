@@ -34,13 +34,36 @@ def finding_anchor(identifier):
     return "finding-" + hashlib.sha256(_unicode_text(identifier).encode("utf-8")).hexdigest()[:16]
 
 
+def review_policy_markdown(report):
+    policy = report.get("review_policy", {})
+    if not policy.get("enabled"):
+        return []
+    counts = policy.get("counts", {})
+    lines = ["## User review decisions", "",
+             "`justified` records the user's rationale; `disabled` excludes a check from active assessment. Neither state means pass, earns positive credit, or counts against active totals. Observed evidence remains available. Only rule decisions exclude related findings from the severity gate; control and individual-check decisions affect checklist review only. Scan errors and coverage gaps remain unresolved.", "",
+             "| Scope | Active | Justified | Disabled | Excluded with mixed check decisions | Catalog total |",
+             "|---|---:|---:|---:|---:|---:|"]
+    for scope in ("rules", "controls", "checks"):
+        lines.append(f"| {scope.capitalize()} | {counts.get('active_' + scope, 0)} | {counts.get('justified_' + scope, 0)} | {counts.get('disabled_' + scope, 0)} | {counts.get('mixed_excluded_controls', 0) if scope == 'controls' else 0} | {counts.get('catalog_' + scope, 0)} |")
+    lines += ["", "### Configured decisions and reasons", "", "| Scope | Identifier | Decision | User reason |", "|---|---|---|---|"]
+    for scope in ("rules", "controls", "checks"):
+        for identifier, entry in sorted(policy.get("entries", {}).get(scope, {}).items()):
+            lines.append(f"| {scope} | {md(identifier)} | {md(entry['status'])} | {md(entry.get('reason') or 'No reason supplied.')} |")
+    lines += ["", "Review configuration SHA-256: `" + md(policy.get("sha256", "")) + "`.", "",
+              md(policy.get("assurance", "User decisions are recorded without verifying the stated safeguards.")), ""]
+    return lines
+
+
 def executive_markdown(report, assessment):
     posture, metrics = assessment["posture"], assessment["metrics"]
     lines = ["## Executive assessment", "", "### " + md(posture["title"]), "", md(posture["explanation"]), "",
              "| Open findings | Critical/high | Affected files | Accepted baseline findings | Coverage gaps |",
              "|---:|---:|---:|---:|---:|",
              f"| {metrics['open_findings']} | {metrics['urgent_findings']} | {metrics['affected_files']} | {metrics['suppressed_findings']} | {metrics['coverage_gaps']} |", "",
-             f"All **{metrics['controls_requiring_validation']} controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.", ""]
+             f"**{metrics['controls_requiring_validation']} active controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.", ""]
+    if report.get("review_policy", {}).get("enabled"):
+        lines += [f"**User review decisions:** {metrics['active_rules']} active rules; {metrics['active_checks']} active acceptance checks. Separately recorded: {metrics['justified_rules']} justified / {metrics['disabled_rules']} disabled rules; {metrics['justified_checks']} justified / {metrics['disabled_checks']} disabled checks; {metrics['justified_findings']} justified / {metrics['disabled_findings']} disabled observed findings.", "",
+                  "Justified and disabled items are excluded from active totals without positive or negative credit. These are user decisions, not validated control passes. The complete reasons appear in **User review decisions** below.", ""]
     if assessment["themes"]:
         lines += ["**What the scanner found:** " + "; ".join(f"{md(theme['name'])}: {theme['open_findings']}" for theme in assessment["themes"]) + ". These are detected pattern categories, not confirmed attack paths.", ""]
     if metrics["suppressed_findings"]:
@@ -98,6 +121,7 @@ def markdown(report):
     assessment = report.get("assessment") or build_assessment(report)
     lines = ["# " + md(report["tool"].get("display_name", DISPLAY_NAME)), "", "AI agent and MCP security report", "", f"Scan ID: `{report['scan_id']}`", "", "This is static security triage, not certification or proof that a system is secure.", ""]
     lines += executive_markdown(report, assessment)
+    lines += review_policy_markdown(report)
     lines += ["## Scan details", "", f"Scanned **{summary['files_scanned']} files**; **{summary['open_findings']} open findings**, **{summary['suppressed_findings']} suppressed findings**, and **{summary['coverage_gaps']} coverage gaps**.", "", "| Critical | High | Medium | Low | Info |", "|---:|---:|---:|---:|---:|"]
     lines.append("| " + " | ".join(str(summary["severity_counts"][s]) for s in ("critical", "high", "medium", "low", "info")) + " |")
     if "bytes_charged" in summary:
@@ -126,7 +150,7 @@ def markdown(report):
         analyst_controls = {item["control_id"]: item for item in analyst["control_assessments"]}
         lines += ["", "### Advisory security analyst", "",
                   f"Review status: **{md(analyst['status'])}** · Controls reviewed: **{coverage['reviewed_controls']}/{coverage['total_controls']}** · Unanswered checks: **{coverage['omitted_checks']}** · Control requests: **{coverage['calls_made']}/{coverage['call_budget']}**.", "",
-                  "Every control is routed for review because static patterns cannot establish completion. Review completion means an answer was received for every check; it does not mean the checks passed. The model is nondeterministic. Evidence selection, schema checks, and exact-quote validation are deterministic. Runtime execution and model tools are disabled.", "",
+                  "Every active control is routed for review because static patterns cannot establish completion. Review completion means an answer was received for every active check; it does not mean the checks passed. User-justified and disabled checks are excluded from review counts. The model is nondeterministic. Evidence selection, schema checks, and exact-quote validation are deterministic. Runtime execution and model tools are disabled.", "",
                   "| Advisory check status | Count |", "|---|---:|"]
         for status, count in analyst.get("check_status_counts", {}).items():
             lines.append(f"| {md(status)} | {count} |")
@@ -138,6 +162,10 @@ def markdown(report):
         lines += [f"### {md(f['rule_id'])} — {md(f['title'])}", "", f"**{md(f['severity'].upper())}** · Confidence: {md(f['confidence'])} · Status: {md(f['status'])}", "", f"Location: {md(f['path'])}:{f['line']}–{f.get('end_line', f['line'])} · Finding ID: `{f['id']}`", "", md(f["description"]), "", codeblock(f.get("evidence", "")), "", "**Remediation:** " + md(f["remediation"]), ""]
         if f.get("suppression_reason"):
             lines += ["**Suppression reason:** " + md(f["suppression_reason"]), ""]
+        if f.get("disposition"):
+            disposition = f["disposition"]
+            lines += ["**User decision:** " + md(disposition["status"]) + " (" + md(disposition.get("scope", "rule")) + " " + md(disposition.get("id", f["rule_id"])) + "). **Reason:** " + md(disposition.get("reason", "No reason supplied.")), "",
+                      "This observed pattern is retained for audit and excluded from active findings and the severity gate. Its recorded severity and evidence are unchanged; the user decision does not prove remediation.", ""]
         if f.get("image_context"):
             lines += ["Image evidence context: **" + md(f["image_context"]) + "**. Provenance: " + md(json.dumps(f.get("image_provenance", {}), sort_keys=True)), ""]
         if f.get("cwe"):
@@ -149,27 +177,40 @@ def markdown(report):
     lines += ["## Control checklist and coverage", "", "These are project-defined checks mapped to published guidance. They are not official benchmark scores. `no_pattern_detected` means only that the mapped detector did not fire. `findings_detected` requires investigation, not an automatic compliance failure.", ""]
     for c in report["controls"]:
         lines += [f"### {md(c['id'])}: {md(c['title'])}", "", f"Category: {md(c['category'])} · Status: {md(c['status'])} · Validation: {md(c['validation'])}", "", md(c["assurance"]), ""]
-        for check in c.get("checks", []):
-            lines.append("- [ ] " + md(check))
+        dispositions = {item["check_index"]: item for item in c.get("check_dispositions", [])}
+        if c.get("static_status") and c["static_status"] != c["status"]:
+            lines += ["Underlying static status: " + md(c["static_status"]) + ". The user decision does not change detector evidence.", ""]
+        for index, check in enumerate(c.get("checks", []), 1):
+            disposition = dispositions.get(index, {})
+            if disposition.get("status") in ("justified", "disabled"):
+                lines.append("- **" + md(disposition["status"]) + "** · " + md(disposition.get("check_id", c["id"] + ":" + str(index))) + ": " + md(check) + " — User reason: " + md(disposition.get("reason", "No reason supplied.")))
+            else:
+                lines.append("- [ ] " + md(check))
         if c["automated_rule_ids"]:
             lines += ["", "Partial static rules: " + ", ".join(md(r) for r in c["automated_rule_ids"])]
         if c["finding_ids"]:
             lines += ["", "Open finding IDs: " + ", ".join(c["finding_ids"])]
         if c.get("suppressed_finding_ids"):
             lines += ["", "Suppressed finding IDs: " + ", ".join(c["suppressed_finding_ids"])]
+        for status in ("justified", "disabled"):
+            if c.get(status + "_finding_ids"):
+                lines += ["", status.capitalize() + " finding IDs: " + ", ".join(md(identifier) for identifier in c[status + "_finding_ids"])]
         if c["id"] in analyst_controls:
             assessment = analyst_controls[c["id"]]
             lines += ["", f"**Advisory analyst:** {md(assessment['review_status'])}. Deterministic control status remains {md(c['status'])}.", ""]
             for check in assessment["check_assessments"]:
                 lines += [f"**Check {check['check_index']}: {md(check['status'])}**", "",
                           md(check["reason"]), ""]
-                if not check.get("model_supplied", False):
+                if check["status"] in ("justified", "disabled"):
+                    lines += ["User decision; excluded from optional review and active check totals.", ""]
+                elif not check.get("model_supplied", False):
                     lines += ["No model assessment was received for this check.", ""]
                 for citation in check["citations"]:
                     lines += [f"Evidence {md(citation['evidence_id'])}: {md(citation['path'])}:{citation['start_line']}–{citation['end_line']} (exact quote verified).",
                               "", codeblock(citation["quote"]), ""]
-                lines.append("Verification still required:")
-                for step in check["verification_steps"]:
+                if check.get("verification_steps"):
+                    lines.append("Verification still required:")
+                for step in check.get("verification_steps", []):
                     lines.append("- " + md(step))
                 lines.append("")
         for url in c.get("sources", []):
@@ -223,10 +264,20 @@ def sarif(report):
         item = {"ruleId": f["rule_id"], "ruleIndex": rule_index[f["rule_id"]], "level": "error" if f["severity"] in ("critical", "high") else "warning" if f["severity"] == "medium" else "note", "message": {"text": f["description"] + " Remediation: " + f["remediation"]}, "locations": [{"physicalLocation": {"artifactLocation": {"uri": quote_from_bytes(path_bytes, safe="/")}, "region": {"startLine": max(1, f["line"]), "endLine": max(f["line"], f.get("end_line", f["line"]))}}}], "partialFingerprints": {"agentMcpScan/v1": f["id"]}, "properties": {"severity": f["severity"], "confidence": f["confidence"], "status": f["status"]}}
         if f["status"] == "suppressed":
             item["suppressions"] = [{"kind": "external", "status": "accepted", "justification": f["suppression_reason"]}]
+        elif f["status"] in ("justified", "disabled"):
+            disposition = f.get("disposition", {})
+            item["suppressions"] = [{"kind": "external", "status": "accepted", "justification": disposition.get("reason") or "Disabled by user review configuration."}]
+            item["properties"]["userDisposition"] = disposition
+            item["properties"]["originalStatus"] = f.get("original_status", "open")
+            if f.get("suppression_reason"):
+                item["properties"]["baselineSuppressionReason"] = f["suppression_reason"]
         results.append(item)
     notifications = [{"level": "warning", "message": {"text": e["path"] + ": " + e["error"]}} for e in report["coverage"]["errors"]]
     notifications += [{"level": "warning", "message": {"text": s["path"] + ": " + s["reason"]}} for s in report["coverage"]["skipped"] if s["coverage_gap"]]
-    return {"$schema": "https://json.schemastore.org/sarif-2.1.0.json", "version": "2.1.0", "runs": [{"tool": {"driver": {"name": report["tool"]["name"], "fullName": report["tool"].get("display_name", DISPLAY_NAME), "version": report["tool"]["version"], "rules": descriptors}}, "invocations": [{"executionSuccessful": report["summary"]["scan_complete_within_selected_scope"], "toolExecutionNotifications": notifications}], "results": results}]}
+    run = {"tool": {"driver": {"name": report["tool"]["name"], "fullName": report["tool"].get("display_name", DISPLAY_NAME), "version": report["tool"]["version"], "rules": descriptors}}, "invocations": [{"executionSuccessful": report["summary"]["scan_complete_within_selected_scope"], "toolExecutionNotifications": notifications}], "results": results}
+    if report.get("review_policy", {}).get("enabled"):
+        run["properties"] = {"userReviewPolicy": report["review_policy"]}
+    return {"$schema": "https://json.schemastore.org/sarif-2.1.0.json", "version": "2.1.0", "runs": [run]}
 
 
 def atomic_write(path, text):

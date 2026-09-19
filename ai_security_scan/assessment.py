@@ -61,7 +61,8 @@ def build_assessment(report):
             "rule_id": rule_id, "title": first["title"], "severity": first["severity"],
             "status": status, "image_context": context,
             "context_note": CONTEXT_NOTES.get(context, "Image evidence; confirm its provenance and deployment applicability before drawing conclusions."),
-            "priority": PRIORITIES.get(first["severity"], "P3") if status == "open" else "Accepted",
+            "priority": (PRIORITIES.get(first["severity"], "P3") if status == "open"
+                         else {"justified": "Justified", "disabled": "Disabled"}.get(status, "Accepted")),
             "finding_ids": [finding["id"] for finding in findings],
             "locations": [{"finding_id": f["id"], "path": f["path"], "line": f["line"], "end_line": f.get("end_line", f["line"])} for f in findings],
             "count": len(findings), "confidence_counts": dict(sorted(Counter(f["confidence"] for f in findings).items())),
@@ -73,6 +74,12 @@ def build_assessment(report):
     groups.sort(key=_group_order)
     open_findings = [f for f in report["findings"] if f["status"] == "open"]
     suppressed = [f for f in report["findings"] if f["status"] == "suppressed"]
+    justified = [f for f in report["findings"] if f["status"] == "justified"]
+    disabled = [f for f in report["findings"] if f["status"] == "disabled"]
+    policy = report.get("review_policy", {})
+    counts = policy.get("counts", {}) if policy.get("enabled") else {}
+    has_exceptions = bool(justified or disabled or any(counts.get(key, 0) for key in (
+        "justified_rules", "disabled_rules", "justified_checks", "disabled_checks")))
     categories = defaultdict(list)
     for finding in open_findings:
         categories[finding.get("category", "other")].append(finding)
@@ -92,6 +99,9 @@ def build_assessment(report):
     elif open_findings:
         posture = {"code": "open_findings_review", "title": "Open findings need investigation",
                    "explanation": f"The scanner found {len(open_findings)} open patterns, with no open critical/high detections. Review applicability, address the causes, and validate the proposed defenses."}
+    elif has_exceptions:
+        posture = {"code": "configured_exceptions", "title": "No open findings; configured exceptions apply",
+                   "explanation": f"User configuration marks {len(justified)} observed findings justified and {len(disabled)} disabled; {len(suppressed)} baseline findings remain suppressed. Exempt rules and acceptance checks do not count toward active totals or establish a pass. Review the recorded reasons and preserved evidence."}
     elif suppressed:
         posture = {"code": "suppressed_findings_only", "title": "Only accepted baseline findings remain",
                    "explanation": f"All {len(suppressed)} detected findings were suppressed by the supplied baseline. They remain observed risk patterns; acceptance does not establish remediation or effective compensating controls."}
@@ -126,9 +136,18 @@ def build_assessment(report):
         "posture": posture,
         "priority_basis": "P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.",
         "metrics": {"open_findings": len(open_findings), "suppressed_findings": len(suppressed),
+                    "justified_findings": len(justified), "disabled_findings": len(disabled),
                     "urgent_findings": urgent, "affected_files": len({f["path"] for f in open_findings}),
                     "files_scanned": summary["files_scanned"], "coverage_gaps": gaps,
-                    "controls_total": len(report["controls"]), "controls_requiring_validation": len(report["controls"])},
+                    "controls_total": len(report["controls"]), "controls_requiring_validation": counts.get("active_controls", len(report["controls"])),
+                    "checks_total": sum(len(c.get("checks", [])) for c in report["controls"]),
+                    "active_checks": counts.get("active_checks", sum(len(c.get("checks", [])) for c in report["controls"])),
+                    "active_rules": counts.get("active_rules", len(report["coverage"].get("rules_enabled", []))),
+                    "justified_rules": counts.get("justified_rules", 0), "disabled_rules": counts.get("disabled_rules", 0),
+                    "justified_checks": counts.get("justified_checks", 0), "disabled_checks": counts.get("disabled_checks", 0),
+                    "justified_controls": counts.get("justified_controls", 0), "disabled_controls": counts.get("disabled_controls", 0),
+                    "excluded_controls": counts.get("excluded_controls", 0),
+                    "mixed_excluded_controls": counts.get("mixed_excluded_controls", 0)},
         "themes": themes, "finding_groups": groups, "immediate_actions": [g for g in groups if g["status"] == "open"],
         "coverage_attention": attention, "unknowns": unknowns,
     }

@@ -53,12 +53,14 @@ def parser():
     baseline.add_argument("--baseline", metavar="PATH", help="Load reviewed JSON finding IDs and nonempty reasons; matched findings remain in reports as suppressed")
     baseline.add_argument("--write-baseline", metavar="PATH", help="Write a baseline candidate; does not suppress this scan")
     baseline.add_argument("--baseline-reason", metavar="TEXT", help="Required nonempty justification for --write-baseline; quote multiword reasons")
+    policy = p.add_argument_group("User review dispositions (disabled by default)")
+    policy.add_argument("--review-config", metavar="PATH", help="Explicit trusted JSON rule/control/check exceptions; justified or disabled items are retained for audit and excluded from active counts. Schema and precedence below")
     judge = p.add_argument_group("Optional advisory LLM review (disabled by default)")
     judge.add_argument("--judge-config", metavar="PATH", help="Trusted JSON config; opt in to model calls and bounded redacted evidence disclosure. Protocols, fields and examples below")
-    judge.add_argument("--judge-mode", choices=("full", "findings"), default="full", help="full: finding triage plus every control, including zero-finding scans; findings: one finding-triage request only")
+    judge.add_argument("--judge-mode", choices=("full", "findings"), default="full", help="full: finding triage plus every active control/check, including zero-finding scans; findings: one finding-triage request only")
     judge.add_argument("--judge-include-source", action="store_true", help="Add neighboring source to finding triage; full analyst separately sends bounded source excerpts")
     judge.add_argument("--judge-max-findings", type=int, default=100, help="Maximum open findings sent to finding triage (1-500)")
-    judge.add_argument("--analyst-max-calls", type=int, default=12, help="Full control-review request budget (integer 0-100); triage uses one additional request. Zero leaves controls unreviewed")
+    judge.add_argument("--analyst-max-calls", type=int, default=12, help="Full control-review request budget (integer 0-100); triage uses one additional request. Zero leaves active controls unreviewed")
     judge.add_argument("--analyst-batch-size", type=int, default=6, help="Controls per analyst request (1-20)")
     judge.add_argument("--analyst-max-files", type=int, default=200, help="Full analyst evidence file budget (integer 0-20000); zero sends no source excerpts")
     judge.add_argument("--analyst-max-bytes", type=int, default=2_000_000, help="Full analyst evidence read-byte budget (integer 0-50000000); zero sends no source excerpts")
@@ -67,7 +69,7 @@ def parser():
     catalog = p.add_argument_group("Catalog inspection (no scan or network)")
     mode = catalog.add_mutually_exclusive_group()
     mode.add_argument("--list-rules", action="store_true", help="Print all deterministic rule metadata as JSON")
-    mode.add_argument("--list-controls", action="store_true", help="Print all control checks, rule mappings, and sources as JSON")
+    mode.add_argument("--list-controls", action="store_true", help="Print all control checks, stable CONTROL:INDEX check IDs, rule mappings, and sources as JSON")
     mode.add_argument("--explain-rule", metavar="ID", help="Print one rule's metadata, mapped controls, and interpretation as JSON")
     p.add_argument("--version", action="version", version=__version__, help="Print scanner version and exit without scanning or model calls")
     return p
@@ -92,15 +94,22 @@ def _json_summary(report, target, report_paths):
     analyst = report.get("analyst", {"enabled": False})
     judge_summary = {key: judge[key] for key in ("enabled", "status", "mode", "advisory_only", "selected_findings", "omitted_open_findings", "error") if key in judge}
     analyst_summary = {key: analyst[key] for key in ("enabled", "status", "advisory_only", "coverage") if key in analyst}
+    policy = report.get("review_policy", {})
+    counts = policy.get("counts", {})
+    active_controls = [control for control in controls
+                       if not policy or any(check["status"] == "active" for check in control.get("check_dispositions", []))]
     return {"schema_version": "1.0", "type": "scan_summary", "status": "completed" if report["execution"]["exit_code"] != 2 else "incomplete",
             "tool": report["tool"], "scan_id": report["scan_id"], "summary": report["summary"],
             "assessment": {key: report["assessment"][key] for key in ("posture", "metrics", "guidance")},
             "scope": {"target": report.get("image", {}).get("display_target", redact(str(target.resolve()))), "configuration": report["configuration"]},
-            "coverage": {**report["coverage"], "total_controls": len(controls),
-                         "total_checks": sum(len(control.get("checks", [])) for control in controls),
-                         "statically_mapped_controls": sum(bool(control.get("automated_rule_ids")) for control in controls),
+            "coverage": {**report["coverage"], "total_controls": counts.get("active_controls", len(controls)),
+                         "total_checks": counts.get("active_checks", sum(len(control.get("checks", [])) for control in controls)),
+                         **({"catalog_controls": counts["catalog_controls"], "catalog_checks": counts["catalog_checks"]} if policy else {}),
+                         "statically_mapped_controls": sum(bool(control.get("automated_rule_ids")) for control in active_controls),
+                         **({"catalog_statically_mapped_controls": sum(bool(control.get("automated_rule_ids")) for control in controls)} if policy else {}),
                          "control_status_counts": dict(sorted(Counter(control["status"] for control in controls).items()))},
             "optional_review": {"judge": judge_summary, "analyst": analyst_summary},
+            **({"review_policy": policy} if policy else {}),
             "execution": report["execution"], "exit_code": report["execution"]["exit_code"], "reports": report_paths,
             **({"image": report["image"]} if "image" in report else {})}
 
@@ -158,7 +167,9 @@ def main(argv=None):
         print(json.dumps(RULES, indent=2, sort_keys=True))
         return 0
     if args.list_controls:
-        print(json.dumps(load_controls(), indent=2, sort_keys=True))
+        print(json.dumps([{**control, "check_ids": [control["id"] + ":" + str(index)
+                         for index in range(1, len(control["checks"]) + 1)]}
+                         for control in load_controls()], indent=2, sort_keys=True))
         return 0
     if args.explain_rule is not None:
         try:
@@ -197,12 +208,26 @@ def main(argv=None):
     if not image_mode and output.resolve() == target.resolve():
         p.error("--output must be separate from the repository root")
     exclusions = [output.absolute()]
-    for name in (args.baseline, args.write_baseline, args.judge_config):
+    for name in (args.baseline, args.write_baseline, args.judge_config, args.review_config):
         if name:
             exclusions.append(Path(name).expanduser().absolute())
     report_paths = {}
     resources = ExitStack()
     try:
+        review_config = None
+        if args.review_config:
+            from .review_policy import apply_review_config, load_review_config
+            review_path = Path(args.review_config).expanduser()
+            review_config = load_review_config(review_path)
+            destinations = [output / name for name in ("report.html", "report.json", "report.md", "report.sarif")]
+            if args.write_baseline:
+                destinations.append(Path(args.write_baseline).expanduser())
+            try:
+                for path in destinations:
+                    if review_path.resolve() == path.resolve() or (path.exists() and review_path.samefile(path)):
+                        raise ValueError("--review-config must not be overwritten by a report or --write-baseline destination")
+            except RuntimeError as exc:
+                raise ValueError("Review configuration and output paths must not contain symbolic-link loops") from exc
         baseline = load_baseline(args.baseline) if args.baseline else None
         scan_options = dict(exclude=args.exclude, output_paths=exclusions, max_file_bytes=args.max_file_bytes, max_total_bytes=args.max_total_bytes, max_files=args.max_files, max_entries=args.max_entries, baseline=baseline)
         if image_mode:
@@ -214,11 +239,13 @@ def main(argv=None):
                 timeout_seconds=args.image_timeout, **scan_options))
         else:
             report = scan(target, **scan_options)
+        if review_config is not None:
+            report = apply_review_config(report, review_config)
         report["analyst"] = {"enabled": False}
         if args.judge_config:
             from .judge import JudgeError, load_config, review, validate_analyst_config
             from .analyst import run_analyst, unreviewed_analyst
-            scope_description = "findings and bounded source excerpts for every control" if args.judge_mode == "full" else "findings"
+            scope_description = "open findings and bounded source excerpts for active control checks" if args.judge_mode == "full" else "open findings"
             if not args.quiet:
                 print("Optional LLM review enabled: sending redacted " + scope_description + " to the configured endpoint. Redaction is best-effort.", file=sys.stderr)
             payload = judge_payload(report, target.resolve(), args.judge_include_source, args.judge_max_findings)
@@ -271,6 +298,9 @@ def main(argv=None):
         return report["execution"]["exit_code"]
     summary = report["summary"]
     print(f"Scanned {summary['files_scanned']} files; {summary['open_findings']} open findings; {summary['coverage_gaps']} coverage gaps.")
+    if report.get("review_policy"):
+        counts = report["review_policy"]["counts"]
+        print(f"User dispositions: {summary['justified_findings']} justified and {summary['disabled_findings']} disabled findings; {counts['active_rules']} active rules; {counts['active_checks']} active checks, {counts['justified_checks']} justified, {counts['disabled_checks']} disabled. Excluded items are not passes.")
     if report.get("image"):
         print(f"Image scope: {summary['image_analysis_scope']}; {summary['packaged_source_files_inspected']} packaged source files inspected. Binary logic and package CVEs were not analyzed.")
     print("Reports: " + str(output.resolve() / "report.html") + " (also Markdown, JSON and SARIF)")

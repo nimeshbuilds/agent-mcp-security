@@ -63,7 +63,20 @@ ENTRYPOINT ["/app/worker-binary"]
             archive_report = json.loads((archive_output / 'report.json').read_text(encoding='utf-8'))
             assert report['image']['identity']['config_digest'] == archive_report['image']['identity']['config_digest']
             assert report['findings'] == archive_report['findings']
-            for directory in (output, archive_output):
+            # Apply user policy after the same actual runtime image has been read.
+            review_config = root / 'trusted-review.json'
+            review_config.write_text(json.dumps({'schema_version': '1.0', 'rules': {
+                item['rule_id']: {'status': 'justified', 'reason': 'Synthetic built-image review fixture only.'}
+                for item in report['findings']}}), encoding='utf-8')
+            reviewed_output = root / 'reviewed-reference-report'
+            command([sys.executable, str(PROJECT / 'scan.py'), '--image', tag, '--output', str(reviewed_output),
+                     '--review-config', str(review_config)])
+            reviewed = json.loads((reviewed_output / 'report.json').read_text(encoding='utf-8'))
+            assert reviewed['summary']['open_findings'] == 0
+            assert reviewed['summary']['justified_findings'] == len(report['findings'])
+            assert {f['id'] for f in reviewed['findings']} == {f['id'] for f in report['findings']}
+            assert reviewed['image']['container_started'] is False
+            for directory in (output, archive_output, reviewed_output):
                 for path in directory.glob('report.*'):
                     content = path.read_text(encoding='utf-8')
                     assert 'syntheticImageConfigCredential0123456789' not in content
@@ -76,7 +89,7 @@ ENTRYPOINT ["/app/worker-binary"]
             assert binary['image']['analysis_scope'] == 'metadata_only'
             assert binary['summary']['packaged_source_files_inspected'] == 0
             assert binary['image']['binary_logic_analyzed'] is False
-            print('Actual Docker validation passed: local reference, saved archive, retained secrets, packaged source, binary-only scope, no container execution.')
+            print('Actual Docker validation passed: local reference, saved archive, retained secrets, packaged source, review dispositions, binary-only scope, no container execution.')
         finally:
             if built:
                 subprocess.run([docker, 'image', 'rm', '--force', tag], capture_output=True, timeout=30)

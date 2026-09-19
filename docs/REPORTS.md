@@ -29,7 +29,7 @@ The report does not assign a numerical risk score. Detector severity and confide
 | P3 | Low or informational | Review deployment context and hardening needs |
 | Accepted | Suppressed by an explicit baseline | Recheck the exception and its supporting evidence; it is not proven fixed |
 
-These are review priorities, not contractual remediation deadlines or incident declarations. Within a severity, ordering is stable by rule and image context. Repeated occurrences are grouped by rule, open/suppressed status, and image provenance. Historical layer evidence is kept separate from current packaged files and image defaults.
+These are review priorities, not contractual remediation deadlines or incident declarations. Within a severity, ordering is stable by rule and image context. Repeated occurrences are grouped by rule, open/suppressed/justified/disabled status, and image provenance. Historical layer evidence is kept separate from current packaged files and image defaults.
 
 ## Immediate action and additional defenses
 
@@ -55,7 +55,15 @@ Every suggested layer starts as `proposed_not_verified`. Invarune does not infer
 - The sensitive data and operations that remain reachable after the control is applied.
 - An accountable owner, evidence link, verification date, expiry/review date, and remaining limitations.
 
-Suggested layers never lower recorded severity, suppress findings, close controls, or change the CI finding gate. An explicit baseline is still required for an accepted finding, and its reason should reference the review record. Runtime tests and approvals described in the report are proposed work; the scanner has not performed them.
+Suggested layers never lower recorded severity, suppress findings, close controls, or change the CI finding gate. Use an explicit baseline for an individual accepted finding, or an explicit rule disposition for all matches of a rule, with a reason referencing the review record. Runtime tests and approvals described in the report are proposed work; the scanner has not performed them.
+
+## User dispositions and counts
+
+With `--review-config`, the opening summary distinguishes **justified** and **disabled** findings and checks from active items. Both are excluded from the active denominator and the findings gate where applicable. Neither counts as a pass. Original evidence, severity, baseline reasons and user rationale remain available for audit. The report has no numerical security score to inflate or penalize.
+
+Whole-control and individual-check exceptions exclude checklist items only; related static findings stay open unless their rule has an explicit exception. The user-policy audit shows every configured entry, including rules with no matches. The full catalog remains visible separately from active counts. An all-exempt scan is labeled as configured exceptions rather than no patterns detected. Errors and coverage gaps retain precedence.
+
+The optional analyst does not assess exempt checklist items or count them as missing answers. Responses for active subsets are mapped back to the original check IDs; the request receipt records the mapping. SARIF retains excepted findings as externally accepted suppressions with a distinct user-disposition property and rationale. See [review configuration](REVIEW_CONFIGURATION.md).
 
 ## Optional analyst and deterministic reporting
 

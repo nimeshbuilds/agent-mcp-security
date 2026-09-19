@@ -8,6 +8,54 @@
           "toolExecutionNotifications": []
         }
       ],
+      "properties": {
+        "userReviewPolicy": {
+          "assurance": "User dispositions are not validated passes and are excluded from actionable finding and active review counts. Rule dispositions affect their findings; control and check dispositions affect review scope only and never waive static rule findings. Observed evidence and operational coverage gaps remain in the report. Shared static analysis may still collect evidence for disabled rules.",
+          "counts": {
+            "active_checks": 129,
+            "active_controls": 65,
+            "active_rules": 40,
+            "catalog_checks": 132,
+            "catalog_controls": 66,
+            "catalog_rules": 42,
+            "disabled_checks": 2,
+            "disabled_controls": 1,
+            "disabled_rules": 1,
+            "excluded_controls": 1,
+            "justified_checks": 1,
+            "justified_controls": 0,
+            "justified_rules": 1,
+            "mixed_excluded_controls": 0
+          },
+          "enabled": true,
+          "entries": {
+            "checks": {
+              "AUTH-01:2": {
+                "reason": "EXAMPLE ONLY: owner-reviewed authentication evidence is recorded in the external assessment.",
+                "status": "justified"
+              }
+            },
+            "controls": {
+              "GOV-01": {
+                "reason": "EXAMPLE ONLY: inventory governance is outside this selected engineering review.",
+                "status": "disabled"
+              }
+            },
+            "rules": {
+              "AI018": {
+                "reason": "EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control.",
+                "status": "disabled"
+              },
+              "AI024": {
+                "reason": "EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment.",
+                "status": "justified"
+              }
+            }
+          },
+          "schema_version": "1.0",
+          "sha256": "4dc93595be2eae6cc393531fa91f41465ead3384f77c76fb1caa0bc8833a218b"
+        }
+      },
       "results": [
         {
           "level": "error",
@@ -15,28 +63,28 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": ".image-metadata/environment/000000.json"
+                  "uri": "agent.py"
                 },
                 "region": {
-                  "endLine": 2,
-                  "startLine": 2
+                  "endLine": 9,
+                  "startLine": 9
                 }
               }
             }
           ],
           "message": {
-            "text": "A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value. Remediation: If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege."
+            "text": "A subprocess call enables a shell, invokes a shell-specific API, or passes a dynamic command to an explicit shell executable. Shell metacharacters in agent or external input may become executable syntax. Remediation: Pass an argument list with shell=False, allowlist executable names and options, and enforce working-directory and resource restrictions."
           },
           "partialFingerprints": {
-            "agentMcpScan/v1": "9d4be3b23ed7a5edbf22f308"
+            "agentMcpScan/v1": "979d192981c1785a2394fe19"
           },
           "properties": {
             "confidence": "medium",
             "severity": "high",
             "status": "open"
           },
-          "ruleId": "AI010",
-          "ruleIndex": 9
+          "ruleId": "AI002",
+          "ruleIndex": 1
         },
         {
           "level": "error",
@@ -44,40 +92,11 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": ".image-metadata/retained-layer/000001.env"
+                  "uri": "agent.py"
                 },
                 "region": {
-                  "endLine": 2,
-                  "startLine": 1
-                }
-              }
-            }
-          ],
-          "message": {
-            "text": "A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value. This credential-like content remains in a retained image layer even though the file revision is absent from the final filesystem; this is artifact exposure, not a live source-code finding. Remediation: If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege."
-          },
-          "partialFingerprints": {
-            "agentMcpScan/v1": "e770b87231f7a7060cc1f9cc"
-          },
-          "properties": {
-            "confidence": "medium",
-            "severity": "high",
-            "status": "open"
-          },
-          "ruleId": "AI010",
-          "ruleIndex": 9
-        },
-        {
-          "level": "error",
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "rootfs/app/dist/agent.py"
-                },
-                "region": {
-                  "endLine": 2,
-                  "startLine": 2
+                  "endLine": 10,
+                  "startLine": 10
                 }
               }
             }
@@ -86,7 +105,7 @@
             "text": "os.system or os.popen executes a dynamically constructed command through the shell. Review the command's trust boundary. Remediation: Use subprocess with a fixed executable and argument list, shell=False, and explicit allowed options."
           },
           "partialFingerprints": {
-            "agentMcpScan/v1": "93d63de077ec33adbdb1ce75"
+            "agentMcpScan/v1": "0fa7e450cd583d78646ef397"
           },
           "properties": {
             "confidence": "medium",
@@ -95,6 +114,295 @@
           },
           "ruleId": "AI003",
           "ruleIndex": 2
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "agent.py"
+                },
+                "region": {
+                  "endLine": 11,
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Certificate verification is explicitly disabled. A network intermediary may impersonate the remote service and capture prompts, credentials, or tool results. Remediation: Enable certificate verification and install the correct CA bundle; use a trusted private CA for custom gateways."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "07fc5f6fd7699fd0194dc479"
+          },
+          "properties": {
+            "confidence": "high",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI006",
+          "ruleIndex": 5
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "agent.py"
+                },
+                "region": {
+                  "endLine": 12,
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Pickle-compatible deserialization can execute code. This finding identifies a dangerous trust boundary, not proof that the serialized input is attacker controlled. Remediation: Use a nonexecutable serialization format with schema validation. If compatibility requires pickle, accept only authenticated artifacts from a strictly controlled producer."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "d2d09fb2875db72f18779bfc"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI005",
+          "ruleIndex": 4
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "agent.py"
+                },
+                "region": {
+                  "endLine": 16,
+                  "startLine": 16
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "eval or exec receives a nonliteral expression. If agent, user, or tool content can reach it, it can execute arbitrary Python. Static analysis does not establish the full data flow. Remediation: Replace dynamic execution with an allowlisted operation dispatcher; use ast.literal_eval only for bounded literal parsing. Isolate unavoidable execution with no ambient credentials and strict resource limits."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "b1b0f0a3f33fe93875fcb58a"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI001",
+          "ruleIndex": 0
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "mcp.json"
+                },
+                "region": {
+                  "endLine": 6,
+                  "startLine": 6
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value. Remediation: If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "afb2bdb94696690028650faf"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI010",
+          "ruleIndex": 9
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "mcp.json"
+                },
+                "region": {
+                  "endLine": 7,
+                  "startLine": 7
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "An agent configuration or command explicitly disables approvals or enables unrestricted execution. The impact depends on the process identity, tools, and sandbox. Remediation: Use bounded tool permissions and an isolated runtime; require deliberate approval for destructive, external, financial, or credential-bearing actions."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "592fbfc9b7dab062dc97906c"
+          },
+          "properties": {
+            "confidence": "high",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI031",
+          "ruleIndex": 30
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "mcp.json"
+                },
+                "region": {
+                  "endLine": 10,
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "An MCP configuration points to a nonloopback HTTP URL. Credentials, tool requests, and results may be exposed in transit; network-layer protection is not established by this scan. Remediation: Use HTTPS with certificate verification for remote MCP endpoints. Reserve plaintext HTTP for explicitly controlled local development or a documented protected transport."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "d841174f55e032505f8136b9"
+          },
+          "properties": {
+            "confidence": "high",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI029",
+          "ruleIndex": 28
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile"
+                },
+                "region": {
+                  "endLine": 2,
+                  "startLine": 2
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A Dockerfile explicitly selects root. This increases the impact of agent or tool compromise; later USER instructions or runtime overrides may mitigate it. Remediation: Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "aa7bba175c60406f04c15d29"
+          },
+          "properties": {
+            "confidence": "high",
+            "severity": "medium",
+            "status": "open"
+          },
+          "ruleId": "AI021",
+          "ruleIndex": 20
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "mcp.json"
+                },
+                "region": {
+                  "endLine": 4,
+                  "startLine": 4
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "An MCP launch configuration uses npx, uvx, or a similar ephemeral package runner without an exact package version. The executable artifact can change between launches. Remediation: Pin an exact audited package version and lock or verify transitive artifacts. Prefer preinstalled verified tools in a controlled environment."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "6b77081a826c4c6833edc47f"
+          },
+          "properties": {
+            "confidence": "high",
+            "originalStatus": "open",
+            "severity": "medium",
+            "status": "disabled",
+            "userDisposition": {
+              "id": "AI018",
+              "reason": "EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control.",
+              "scope": "rule",
+              "status": "disabled"
+            }
+          },
+          "ruleId": "AI018",
+          "ruleIndex": 17,
+          "suppressions": [
+            {
+              "justification": "EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control.",
+              "kind": "external",
+              "status": "accepted"
+            }
+          ]
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile"
+                },
+                "region": {
+                  "endLine": 1,
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A container base or deployment image uses a mutable reference rather than a content digest. The bytes can change between builds or deployments. Remediation: Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability-remediation workflows."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "055ed29e5f56926f1827a0b8"
+          },
+          "properties": {
+            "confidence": "low",
+            "originalStatus": "open",
+            "severity": "low",
+            "status": "justified",
+            "userDisposition": {
+              "id": "AI024",
+              "reason": "EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment.",
+              "scope": "rule",
+              "status": "justified"
+            }
+          },
+          "ruleId": "AI024",
+          "ruleIndex": 23,
+          "suppressions": [
+            {
+              "justification": "EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment.",
+              "kind": "external",
+              "status": "accepted"
+            }
+          ]
         }
       ],
       "tool": {

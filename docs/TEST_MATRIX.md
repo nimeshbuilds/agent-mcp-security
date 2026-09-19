@@ -1,6 +1,6 @@
 # Scenario test matrix
 
-This matrix records concrete scanner and controller behavior tested for version **0.6.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
+This matrix records concrete scanner and controller behavior tested for version **0.7.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
 
 ## Reproducible scenario coverage
 
@@ -23,6 +23,11 @@ All filenames below are under `tests/` unless another path is given.
 | Input and traversal | Empty/invalid targets; supported/unsupported files; exclusions; malformed Python/JSON; binary, BOM, non-UTF-8 and CRLF data; symlinks, FIFO, changed inode/root; repeatability | `test_scanner.py`, `test_rules.py`, `test_security_boundaries.py` |
 | Resource accounting | File, entry, per-file and total-byte limits; rejected/failed reads charged; remaining-budget/sentinel boundary; AST recursion failures | `test_scanner.py`, `test_security_boundaries.py`, `test_rules.py` |
 | CLI policy | All six severity settings; operational failure precedence; invalid flags; listing/version commands; script/module entry points; baseline candidate, suppression, stale IDs and malformed baselines | `test_cli_contract.py`, `test_scanner.py`, `test_security_boundaries.py`, `test_judge_integration.py` |
+| User review configuration | Both dispositions for all 42 rules, all 66 controls and 132 check IDs; strict schema/types/IDs/duplicates/Unicode/size; baseline precedence, stable IDs and hashes, no false pass, retained gaps | `test_review_policy.py` |
+| Review CLI and reports | Source/image parity, active denominators, retained evidence, no auto-discovery, conflicting/invalid policy, original baseline reasons, all formats and output modes, config overwrite and symlink-loop rejection, all-exempt scopes | `test_review_policy_cli.py`, `test_review_policy_reports.py` |
+| Policy-aware analyst | Compact-to-original check mapping, exempt text/rationale excluded from requests, zero-call fully exempt scope, omissions/budgets/errors, user provenance retained | `test_analyst_review_policy.py` |
+| Review gateway integration | Six actual CLI subprocesses and 12 loopback HTTP requests, one triage plus one partial-check request per native/custom protocol | `test_review_policy_cli.py` |
+| Trusted path identity | Case aliases, explicit file hardlinks, external trusted configs, generated output directory aliases, manifest/model exclusion, stable reports and unchanged ordinary files | `test_exclusion_identity.py` |
 | Evidence selection | Stable ranking and IDs; manifest hashes; confinement; source replacement; duplicate entries; credential exclusions; redaction before truncation; zero/exhausted budgets | `test_evidence.py`, `test_security_boundaries.py` |
 | All-control routing | Zero findings still queue 66 controls and 132 checks; batch/call/time limits; first-error stopping; every omitted/unscheduled check retained | `test_analyst_controller.py`, `test_analyst_cli.py` |
 | All six protocols | Chat Completions, Responses, Anthropic, Gemini, Ollama and custom JSON gateway; both stages; exact endpoints and environment authentication | `test_judge.py`, `test_protocol_adversarial.py`, `test_full_gateway_e2e.py` |
@@ -102,3 +107,9 @@ This run used no production repository or live model credentials. Those checks r
 ## Executive reports and mitigation guidance
 
 `test_report_assessment.py` verifies severity ordering, repeated locations, category counts, open versus accepted findings, source/image coverage gaps, current versus historical image evidence, every rule's sourced guidance, and assessment independence from model verdicts and exit thresholds. `test_report_html.py` checks summary-local review status, all finding/control evidence, valid internal navigation, escaping of malicious source/model/exception text, URL rejection, script-free CSP, and lone-surrogate text. Existing CLI and gateway tests verify all four outputs, redaction, policy parity, package data, and repeatability. Suggested defense layers remain unverified and never reduce finding severity.
+
+## Explicit user dispositions
+
+Justified and disabled findings/checks retain their evidence and reason but never count as passes. Tests distinguish rule findings-gate exceptions from control/check review-scope exceptions. The all-exempt case requires zero control calls and produces zero active-check omissions; requested triage or operational failure still returns exit 2. The six new gateway cases verify that a response for compact index 1 is restored to original `AUTH-01:2`, without sending the exempt first check or either private user reason.
+
+Independent review also reproduced and fixed config/report filename collisions and trusted-config source disclosure through case aliases. Filesystem identity checks exclude explicit trusted-file hardlinks as well. Case-sensitive filesystems skip the case-alias-only cases; the portable hardlink and ordinary-path cases still run. These checks assume a stable filesystem during the scan and are not a general defense against a hostile actor modifying the host concurrently.

@@ -15,38 +15,78 @@
 <div class="edition">Evidence for agent security<br>Scanner 0.7.0</div></div>
 <div class="hero"><h1>AI agent &amp; MCP security report</h1>
 <p>Findings, priorities, and evidence needed to verify safeguards.</p>
-<div class="hero-meta"><span>Target: demo-agent.tar</span><span>Scan ID: <code>f272cac9d3754141a3915bde2e4cc8c2454a7a4563c74f1ce3f64e8fb0f0112e</code></span></div></div></div></header>
-<nav class="nav" aria-label="Report navigation"><div class="wrap"><a href="#summary">Executive summary</a><a href="#actions">Priority actions</a><a href="#findings">Finding evidence</a><a href="#coverage">Coverage</a><a href="#image">Image scope</a><a href="#advisory">Optional review</a><a href="#controls">All controls</a></div></nav>
+<div class="hero-meta"><span>Source scope: selected directory (relative paths)</span><span>Scan ID: <code>9dbb2e2c1e9c3eb22f640380c263857392a0227df77c6a4a9d4dc112a71a872b</code></span></div></div></div></header>
+<nav class="nav" aria-label="Report navigation"><div class="wrap"><a href="#summary">Executive summary</a><a href="#actions">Priority actions</a><a href="#findings">Finding evidence</a><a href="#coverage">Coverage</a><a href="#review-policy">User decisions</a><a href="#advisory">Optional review</a><a href="#controls">All controls</a></div></nav>
 <main class="wrap"><section id="summary"><p class="eyebrow">Start here</p><h2>Executive summary</h2>
-<div class="posture urgent"><div><h2>Critical/high findings need prompt review</h2><p>The scanner found 3 open critical/high patterns among 3 open findings. Confirm exposure and prioritize the actions below. Detector severity is not proof of exploitability or deployed risk.</p></div></div>
+<div class="posture urgent"><div><h2>Critical/high findings need prompt review</h2><p>The scanner found 8 open critical/high patterns among 9 open findings. Confirm exposure and prioritize the actions below. Detector severity is not proof of exploitability or deployed risk.</p></div></div>
 <div class="metrics">
-<div class="metric"><strong>3</strong><span>Open findings</span></div>
-<div class="metric"><strong>3</strong><span>Critical / high findings</span></div>
+<div class="metric"><strong>9</strong><span>Open findings</span></div>
+<div class="metric"><strong>8</strong><span>Critical / high findings</span></div>
 <div class="metric"><strong>3</strong><span>Files with open findings</span></div>
 <div class="metric"><strong>0</strong><span>Recorded coverage gaps</span></div>
 </div><div class="severity-row" aria-label="Open findings by severity">
 <div class="severity-cell"><span class="pill critical">critical</span><strong>0</strong></div>
-<div class="severity-cell"><span class="pill high">high</span><strong>3</strong></div>
-<div class="severity-cell"><span class="pill medium">medium</span><strong>0</strong></div>
+<div class="severity-cell"><span class="pill high">high</span><strong>8</strong></div>
+<div class="severity-cell"><span class="pill medium">medium</span><strong>1</strong></div>
 <div class="severity-cell"><span class="pill low">low</span><strong>0</strong></div>
 <div class="severity-cell"><span class="pill info">info</span><strong>0</strong></div>
-</div><p class="small">Inspected <strong>4 files</strong>; <strong>0 suppressed findings</strong> are retained below. <strong>66 active controls require validation</strong> from a catalog of 66; static pattern results do not establish control completion.</p>
-<p class="note warning"><strong>Image analysis scope:</strong> packaged_source_and_metadata · <strong>Packaged source files inspected:</strong> 1. The container was not started; native binary logic was not analyzed, and package inventory is not a CVE scan.</p>
+</div><p class="small">Inspected <strong>3 files</strong>; <strong>0 suppressed findings</strong> are retained below. <strong>65 active controls require validation</strong> from a catalog of 66; static pattern results do not establish control completion.</p>
+<p class="note warning"><strong>User review decisions:</strong> 40 active rules; 129 active acceptance checks.<br>Separately recorded: 1 justified / 1 disabled rules; 1 justified / 2 disabled checks; 1 justified / 1 disabled observed findings.<br>These items are excluded from active totals without positive or negative credit. They are user decisions, not validated passes. <a href="#review-policy">Read every reason and scope decision</a>.</p>
 <p class="small"><strong>Configured severity gate:</strong> high · <strong>Process exit code:</strong> 1. The exit code follows configured scan policy; it is not a security rating.</p>
 <p class="note">This is static security triage, not certification or proof that a system is secure. Finding severity describes a detected risk pattern; reachability, exploitability, exposure, and deployed safeguards still require verification.</p>
 <p class="small spacer"><strong>Optional review:</strong> disabled. The deterministic analysis ran offline; no LLM request was made.</p>
 <h3 class="spacer">What the scanner found</h3><p class="small">Detected categories describe observed patterns, not confirmed attack paths.</p><div class="badge-line">
-<span class="pill">Secrets: 2</span>
-<span class="pill">Tool execution: 1</span>
+<span class="pill">Tool execution: 3</span>
+<span class="pill">Transport security: 2</span>
+<span class="pill">Agent permissions: 1</span>
+<span class="pill">Deserialization: 1</span>
+<span class="pill">Sandboxing: 1</span>
+<span class="pill">Secrets: 1</span>
 </div>
 <h3 class="spacer">Immediate concerns</h3><p class="small">P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.</p><div class="action-preview">
-<article class="preview"><div class="badge-line"><span class="pill priority">P1</span><span class="pill high">high</span></div><h3><a href="#group-f7089a1bfe02350f">Dynamic os shell command</a></h3><p class="small">Replace os.system/os.popen with a fixed executable and validated argument list; trace all contributing values.</p></article>
-<article class="preview"><div class="badge-line"><span class="pill priority">P1</span><span class="pill high">high</span></div><h3><a href="#group-1c4bb9e9d3d197d4">Credential-like literal in source or configuration</a></h3><p class="small">Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process.</p></article>
-<article class="preview"><div class="badge-line"><span class="pill priority">P1</span><span class="pill high">high</span></div><h3><a href="#group-c6e3abfdb233308a">Credential-like literal in source or configuration</a></h3><p class="small">Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process.</p></article>
-</div><p class="small">Showing 3 of 3 open finding groups. <a href="#actions">Review every priority action and mitigation layer</a>.</p>
+<article class="preview"><div class="badge-line"><span class="pill priority">P1</span><span class="pill high">high</span></div><h3><a href="#group-2de47fa4c779effa">Dynamic Python code execution</a></h3><p class="small">Trace the input to eval/exec and replace it with fixed operations; if generated execution is essential, isolate it before accepting untrusted input.</p></article>
+<article class="preview"><div class="badge-line"><span class="pill priority">P1</span><span class="pill high">high</span></div><h3><a href="#group-f7d63e663cb007ac">Dynamic command executed through a shell</a></h3><p class="small">Remove shell interpretation, select a fixed executable, and validate each argument and permitted option.</p></article>
+<article class="preview"><div class="badge-line"><span class="pill priority">P1</span><span class="pill high">high</span></div><h3><a href="#group-0a926eb202f1400c">Dynamic os shell command</a></h3><p class="small">Replace os.system/os.popen with a fixed executable and validated argument list; trace all contributing values.</p></article>
+<article class="preview"><div class="badge-line"><span class="pill priority">P1</span><span class="pill high">high</span></div><h3><a href="#group-937fbcbdd1ae654a">Executable deserialization requires trusted inputs</a></h3><p class="small">Establish who can produce and replace the input; migrate to a nonexecutable data format or restrict verified legacy artifacts to an isolated conversion path.</p></article>
+<article class="preview"><div class="badge-line"><span class="pill priority">P1</span><span class="pill high">high</span></div><h3><a href="#group-0eab5af3c4ae0613">TLS certificate verification disabled</a></h3><p class="small">Enable certificate and hostname verification; install the intended CA for a private gateway and test rejection of an untrusted certificate.</p></article>
+</div><p class="small">Showing 5 of 9 open finding groups. <a href="#actions">Review every priority action and mitigation layer</a>.</p>
 </section><section id="actions"><div class="section-heading"><div><p class="eyebrow">Action plan</p><h2>Priority actions and defense layers</h2></div><a class="back" href="#top">Back to top</a></div>
 <p>Each group connects observed evidence to a practical first action, an accountable team, and additional safeguards. These layers are <strong>proposed, not verified</strong>; they do not automatically reduce finding severity or remove the need to fix the underlying condition.</p>
-<article class="action-card" id="group-f7089a1bfe02350f">
+<article class="action-card" id="group-2de47fa4c779effa">
+<div class="badge-line"><span class="pill priority">P1</span>
+<span class="pill high">high</span>
+<span class="pill">open</span>
+<span class="rule-label">AI001</span></div>
+<h3>Dynamic Python code execution</h3>
+<p class="small">1 occurrence(s) · Suggested owner: <strong>Agent/tool developer</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If external or generated content reaches this expression, it could execute Python with the process identity and access its files, credentials, and network.</p></div><div><h4>Immediate action</h4><p>Trace the input to eval/exec and replace it with fixed operations; if generated execution is essential, isolate it before accepting untrusted input.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-af20d1e161ca5c4a">agent.py:16</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-af20d1e161ca5c4a"><code>b1b0f0a3f33fe93875fcb58a</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-1bb786edd84bebeb">EXEC-02</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Enforce action policy outside the model • Isolate tool execution</p>
+<details class=""><summary>Additional layers that can lower risk (2)</summary><div class="details-body"><article class="layer"><h4>Enforce action policy outside the model</h4><p><strong>How it lowers risk:</strong> Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.</p><p><strong>Evidence to verify:</strong> Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.</p><p class="residual"><strong>Residual limitation:</strong> Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-f39da271682c06ce">AGT-01</a>, <a href="#control-90760a75ba8695e5">AUTH-02</a>, <a href="#control-74b16e6a9ccfed0e">MCP-02</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">MCP-TOOLS / MCP: Tools</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-AGENT-CS / AI Agent Security Cheat Sheet</a></li></ul></div></article><article class="layer"><h4>Isolate tool execution</h4><p><strong>How it lowers risk:</strong> Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.</p><p><strong>Evidence to verify:</strong> In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.</p><p class="residual"><strong>Residual limitation:</strong> Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-1bb786edd84bebeb">EXEC-02</a>, <a href="#control-488929fd82499efd">SUP-05</a>, <a href="#control-e8b81e26a6afe395">OPS-02</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (5)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">MCP-TOOLS / MCP: Tools</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-AGENT-CS / AI Agent Security Cheat Sheet</a></li><li><a href="https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" rel="noopener noreferrer">OWASP-LLM2026 / OWASP GenAI LLM Top 10 2026</a></li><li><a href="https://docs.python.org/3/library/security_warnings.html" rel="noopener noreferrer">TECH-PYTHON-SECURITY / Python Security Considerations</a></li></ul></div></div></details>
+</article>
+<article class="action-card" id="group-f7d63e663cb007ac">
+<div class="badge-line"><span class="pill priority">P1</span>
+<span class="pill high">high</span>
+<span class="pill">open</span>
+<span class="rule-label">AI002</span></div>
+<h3>Dynamic command executed through a shell</h3>
+<p class="small">1 occurrence(s) · Suggested owner: <strong>Agent/tool developer</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If a caller or agent controls command content, shell syntax could alter the intended operation and execute with the tool process permissions.</p></div><div><h4>Immediate action</h4><p>Remove shell interpretation, select a fixed executable, and validate each argument and permitted option.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-193f30b4480af19a">agent.py:9</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-193f30b4480af19a"><code>979d192981c1785a2394fe19</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-2cf819771f9eb45b">EXEC-01</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Enforce action policy outside the model • Isolate tool execution</p>
+<details class=""><summary>Additional layers that can lower risk (2)</summary><div class="details-body"><article class="layer"><h4>Enforce action policy outside the model</h4><p><strong>How it lowers risk:</strong> Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.</p><p><strong>Evidence to verify:</strong> Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.</p><p class="residual"><strong>Residual limitation:</strong> Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-f39da271682c06ce">AGT-01</a>, <a href="#control-90760a75ba8695e5">AUTH-02</a>, <a href="#control-74b16e6a9ccfed0e">MCP-02</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">MCP-TOOLS / MCP: Tools</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-AGENT-CS / AI Agent Security Cheat Sheet</a></li></ul></div></article><article class="layer"><h4>Isolate tool execution</h4><p><strong>How it lowers risk:</strong> Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.</p><p><strong>Evidence to verify:</strong> In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.</p><p class="residual"><strong>Residual limitation:</strong> Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-1bb786edd84bebeb">EXEC-02</a>, <a href="#control-488929fd82499efd">SUP-05</a>, <a href="#control-e8b81e26a6afe395">OPS-02</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (7)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">MCP-TOOLS / MCP: Tools</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-AGENT-CS / AI Agent Security Cheat Sheet</a></li><li><a href="https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" rel="noopener noreferrer">OWASP-LLM2026 / OWASP GenAI LLM Top 10 2026</a></li><li><a href="https://owasp.org/projects/mcp-top-10" rel="noopener noreferrer">OWASP-MCP10 / OWASP MCP Top 10</a></li><li><a href="https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/" rel="noopener noreferrer">OWASP-OUTPUT2025 / LLM05:2025 Improper Output Handling</a></li><li><a href="https://docs.python.org/3/library/security_warnings.html" rel="noopener noreferrer">TECH-PYTHON-SECURITY / Python Security Considerations</a></li></ul></div></div></details>
+</article>
+<article class="action-card" id="group-0a926eb202f1400c">
 <div class="badge-line"><span class="pill priority">P1</span>
 <span class="pill high">high</span>
 <span class="pill">open</span>
@@ -54,16 +94,50 @@
 <h3>Dynamic os shell command</h3>
 <p class="small">1 occurrence(s) · Suggested owner: <strong>Agent/tool developer</strong></p>
 <div class="action-grid"><div><h4>Why this matters</h4><p>If external values contribute to the command string, the shell could execute additional commands with the server identity.</p></div><div><h4>Immediate action</h4><p>Replace os.system/os.popen with a fixed executable and validated argument list; trace all contributing values.</p></div></div>
-<p class="small spacer"><strong>Image evidence context:</strong> final_filesystem</p>
-<p class="note spacer">Packaged file in the final image filesystem; whether it executes in deployment is unverified.</p>
-<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-048583e918841128">rootfs/app/dist/agent.py:2</a></li></ul></div></details>
-<p class="small"><strong>Evidence:</strong> <a href="#finding-048583e918841128"><code>93d63de077ec33adbdb1ce75</code></a></p>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-61b51e1ee40425bd">agent.py:10</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-61b51e1ee40425bd"><code>0fa7e450cd583d78646ef397</code></a></p>
 <p class="small"><strong>Related controls:</strong> <a href="#control-2cf819771f9eb45b">EXEC-01</a></p>
 <p class="small spacer"><strong>Additional defenses to verify:</strong> Enforce action policy outside the model • Isolate tool execution</p>
 <details class=""><summary>Additional layers that can lower risk (2)</summary><div class="details-body"><article class="layer"><h4>Enforce action policy outside the model</h4><p><strong>How it lowers risk:</strong> Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.</p><p><strong>Evidence to verify:</strong> Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.</p><p class="residual"><strong>Residual limitation:</strong> Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-f39da271682c06ce">AGT-01</a>, <a href="#control-90760a75ba8695e5">AUTH-02</a>, <a href="#control-74b16e6a9ccfed0e">MCP-02</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">MCP-TOOLS / MCP: Tools</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-AGENT-CS / AI Agent Security Cheat Sheet</a></li></ul></div></article><article class="layer"><h4>Isolate tool execution</h4><p><strong>How it lowers risk:</strong> Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.</p><p><strong>Evidence to verify:</strong> In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.</p><p class="residual"><strong>Residual limitation:</strong> Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-1bb786edd84bebeb">EXEC-02</a>, <a href="#control-488929fd82499efd">SUP-05</a>, <a href="#control-e8b81e26a6afe395">OPS-02</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li></ul></div></article></div></details>
 <details class=""><summary>Guidance sources (7)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">MCP-TOOLS / MCP: Tools</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-AGENT-CS / AI Agent Security Cheat Sheet</a></li><li><a href="https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" rel="noopener noreferrer">OWASP-LLM2026 / OWASP GenAI LLM Top 10 2026</a></li><li><a href="https://owasp.org/projects/mcp-top-10" rel="noopener noreferrer">OWASP-MCP10 / OWASP MCP Top 10</a></li><li><a href="https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/" rel="noopener noreferrer">OWASP-OUTPUT2025 / LLM05:2025 Improper Output Handling</a></li><li><a href="https://docs.python.org/3/library/security_warnings.html" rel="noopener noreferrer">TECH-PYTHON-SECURITY / Python Security Considerations</a></li></ul></div></div></details>
 </article>
-<article class="action-card" id="group-1c4bb9e9d3d197d4">
+<article class="action-card" id="group-937fbcbdd1ae654a">
+<div class="badge-line"><span class="pill priority">P1</span>
+<span class="pill high">high</span>
+<span class="pill">open</span>
+<span class="rule-label">AI005</span></div>
+<h3>Executable deserialization requires trusted inputs</h3>
+<p class="small">1 occurrence(s) · Suggested owner: <strong>Application/model pipeline owner</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If an attacker can supply or replace the serialized input, loading it may execute code even before the application examines the returned object.</p></div><div><h4>Immediate action</h4><p>Establish who can produce and replace the input; migrate to a nonexecutable data format or restrict verified legacy artifacts to an isolated conversion path.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-41a2872c0a4408e8">agent.py:12</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-41a2872c0a4408e8"><code>d2d09fb2875db72f18779bfc</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-15f6680ce355ea47">EXEC-06</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Verify artifact identity before use • Separate artifact conversion from production</p>
+<details class=""><summary>Additional layers that can lower risk (2)</summary><div class="details-body"><article class="layer"><h4>Verify artifact identity before use</h4><p><strong>How it lowers risk:</strong> Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.</p><p><strong>Evidence to verify:</strong> Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact.</p><p class="residual"><strong>Residual limitation:</strong> Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-5aa3257d5693ce20">SUP-03</a>, <a href="#control-31d20ef572c23fce">DATA-04</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/" rel="noopener noreferrer">OPENSSF-MODEL-SIGNING / Launch of Model Signing v1.0</a></li><li><a href="https://slsa.dev/spec/v1.2/" rel="noopener noreferrer">SLSA-12 / Supply-chain Levels for Software Artifacts specification</a></li></ul></div></article><article class="layer"><h4>Separate artifact conversion from production</h4><p><strong>How it lowers risk:</strong> Perform necessary conversion of legacy serialized artifacts in a disposable environment without production data or credentials.</p><p><strong>Evidence to verify:</strong> Demonstrate that a conversion job cannot reach production services and only approved output formats are promoted.</p><p class="residual"><strong>Residual limitation:</strong> Conversion output still needs integrity, format, and downstream behavior review; isolation is not proof of benign content.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-15f6680ce355ea47">EXEC-06</a>, <a href="#control-bf369f25d022339b">SUP-06</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://pytorch.org/docs/stable/notes/serialization.html" rel="noopener noreferrer">TECH-PYTORCH-SERIAL / PyTorch Serialization semantics</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (6)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li><li><a href="https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/" rel="noopener noreferrer">OPENSSF-MODEL-SIGNING / Launch of Model Signing v1.0</a></li><li><a href="https://slsa.dev/spec/v1.2/" rel="noopener noreferrer">SLSA-12 / Supply-chain Levels for Software Artifacts specification</a></li><li><a href="https://docs.python.org/3/library/security_warnings.html" rel="noopener noreferrer">TECH-PYTHON-SECURITY / Python Security Considerations</a></li><li><a href="https://pytorch.org/docs/stable/notes/serialization.html" rel="noopener noreferrer">TECH-PYTORCH-SERIAL / PyTorch Serialization semantics</a></li></ul></div></div></details>
+</article>
+<article class="action-card" id="group-0eab5af3c4ae0613">
+<div class="badge-line"><span class="pill priority">P1</span>
+<span class="pill high">high</span>
+<span class="pill">open</span>
+<span class="rule-label">AI006</span></div>
+<h3>TLS certificate verification disabled</h3>
+<p class="small">1 occurrence(s) · Suggested owner: <strong>Application and gateway owner</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If a network intermediary can impersonate the destination, disabled verification may expose or alter credentials, prompts, and tool responses.</p></div><div><h4>Immediate action</h4><p>Enable certificate and hostname verification; install the intended CA for a private gateway and test rejection of an untrusted certificate.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-b0fb0bf3edd91686">agent.py:11</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-b0fb0bf3edd91686"><code>07fc5f6fd7699fd0194dc479</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-7e7c857a2e49eba8">MCP-01</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Require authenticated encrypted transport • Restrict outbound destinations independently</p>
+<details class=""><summary>Additional layers that can lower risk (2)</summary><div class="details-body"><article class="layer"><h4>Require authenticated encrypted transport</h4><p><strong>How it lowers risk:</strong> Use verified TLS on every relevant network hop, with an appropriate public or private CA and validated service hostname.</p><p><strong>Evidence to verify:</strong> Present an untrusted, expired, or wrong-host certificate and verify rejection; inspect backend traffic after TLS termination.</p><p class="residual"><strong>Residual limitation:</strong> TLS does not protect data from an authorized endpoint, compromised gateway, or plaintext segments beyond termination.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-7e7c857a2e49eba8">MCP-01</a>, <a href="#control-ca087126ce18df20">AUTH-05</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">MCP-AUTH / MCP: Authorization</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations" rel="noopener noreferrer">MCP-AUTH-SEC / MCP: Authorization Security Considerations</a></li></ul></div></article><article class="layer"><h4>Restrict outbound destinations independently</h4><p><strong>How it lowers risk:</strong> Enforce an outbound policy outside the application that permits only required destinations and services; include IPv6 and proxy paths.</p><p><strong>Evidence to verify:</strong> From the deployed identity, test direct IP, DNS, redirect, metadata-service, and proxy-mediated attempts to prohibited destinations.</p><p class="residual"><strong>Residual limitation:</strong> Allowed destinations may themselves accept leaked data; destination rules do not replace content and action authorization.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-8d806d3c9d3c050c">EXEC-05</a>, <a href="#control-b1de427688b85eea">AGT-07</a>, <a href="#control-488929fd82499efd">SUP-05</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">MCP-SECURITY / MCP Security Best Practices</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (6)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">CISA-SECURE-BY-DESIGN / Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">MCP-AUTH / MCP: Authorization</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations" rel="noopener noreferrer">MCP-AUTH-SEC / MCP: Authorization Security Considerations</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http" rel="noopener noreferrer">MCP-HTTP / MCP: Streamable HTTP transport</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">MCP-SECURITY / MCP Security Best Practices</a></li></ul></div></div></details>
+</article>
+<article class="action-card" id="group-037c4fd0990bb199">
 <div class="badge-line"><span class="pill priority">P1</span>
 <span class="pill high">high</span>
 <span class="pill">open</span>
@@ -71,155 +145,333 @@
 <h3>Credential-like literal in source or configuration</h3>
 <p class="small">1 occurrence(s) · Suggested owner: <strong>Credential/service owner</strong></p>
 <div class="action-grid"><div><h4>Why this matters</h4><p>If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions.</p></div><div><h4>Immediate action</h4><p>Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process.</p></div></div>
-<p class="small spacer"><strong>Image evidence context:</strong> retained_layer</p>
-<p class="note spacer">Historical layer content remains in the distributed archive even if removed from the final filesystem. This does not mean the file currently executes. Real credentials can remain exposed through the retained layer.</p>
-<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-908179b40eae85ee">.image-metadata/retained-layer/000001.env:1–2</a></li></ul></div></details>
-<p class="small"><strong>Evidence:</strong> <a href="#finding-908179b40eae85ee"><code>e770b87231f7a7060cc1f9cc</code></a></p>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-905bdaaa0ff6de85">mcp.json:6</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-905bdaaa0ff6de85"><code>afb2bdb94696690028650faf</code></a></p>
 <p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-a2fca031abe0bb3c">DATA-01</a></p>
 <p class="small spacer"><strong>Additional defenses to verify:</strong> Investigate and contain confirmed secret exposure • Use managed credential injection and revocation • Limit credentials available to the workload</p>
 <details class=""><summary>Additional layers that can lower risk (3)</summary><div class="details-body"><article class="layer"><h4>Investigate and contain confirmed secret exposure</h4><p><strong>How it lowers risk:</strong> For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse.</p><p><strong>Evidence to verify:</strong> Confirm the old credential no longer works and record the exposure window, affected copies, and follow-up owner.</p><p class="residual"><strong>Residual limitation:</strong> Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-cdc216605e329050">OPS-06</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet" rel="noopener noreferrer">CISA-JCDC / JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li></ul></div></article><article class="layer"><h4>Use managed credential injection and revocation</h4><p><strong>How it lowers risk:</strong> Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context.</p><p><strong>Evidence to verify:</strong> Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies.</p><p class="residual"><strong>Residual limitation:</strong> Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-a2fca031abe0bb3c">DATA-01</a>, <a href="#control-b02fe54cb4097dff">DATA-06</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">MCP-AUTH / MCP: Authorization</a></li></ul></div></article><article class="layer"><h4>Limit credentials available to the workload</h4><p><strong>How it lowers risk:</strong> Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.</p><p><strong>Evidence to verify:</strong> Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.</p><p class="residual"><strong>Residual limitation:</strong> A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-e97f684d7ab98fa4">AUTH-09</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li></ul></div></article></div></details>
 <details class=""><summary>Guidance sources (8)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet" rel="noopener noreferrer">CISA-JCDC / JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)</a></li><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">CISA-SECURE-BY-DESIGN / Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">MCP-AUTH / MCP: Authorization</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations" rel="noopener noreferrer">MCP-AUTH-SEC / MCP: Authorization Security Considerations</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">MCP-SECURITY / MCP Security Best Practices</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li></ul></div></div></details>
 </article>
-<article class="action-card" id="group-c6e3abfdb233308a">
+<article class="action-card" id="group-a338b753bbb83163">
 <div class="badge-line"><span class="pill priority">P1</span>
 <span class="pill high">high</span>
 <span class="pill">open</span>
-<span class="rule-label">AI010</span></div>
-<h3>Credential-like literal in source or configuration</h3>
-<p class="small">1 occurrence(s) · Suggested owner: <strong>Credential/service owner</strong></p>
-<div class="action-grid"><div><h4>Why this matters</h4><p>If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions.</p></div><div><h4>Immediate action</h4><p>Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process.</p></div></div>
-<p class="small spacer"><strong>Image evidence context:</strong> runtime_configuration</p>
-<p class="note spacer">Image configuration defaults; actual deployment settings may override them.</p>
-<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-b1a04a9b8cb75eea">.image-metadata/environment/000000.json:2</a></li></ul></div></details>
-<p class="small"><strong>Evidence:</strong> <a href="#finding-b1a04a9b8cb75eea"><code>9d4be3b23ed7a5edbf22f308</code></a></p>
-<p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-a2fca031abe0bb3c">DATA-01</a></p>
-<p class="small spacer"><strong>Additional defenses to verify:</strong> Investigate and contain confirmed secret exposure • Use managed credential injection and revocation • Limit credentials available to the workload</p>
-<details class=""><summary>Additional layers that can lower risk (3)</summary><div class="details-body"><article class="layer"><h4>Investigate and contain confirmed secret exposure</h4><p><strong>How it lowers risk:</strong> For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse.</p><p><strong>Evidence to verify:</strong> Confirm the old credential no longer works and record the exposure window, affected copies, and follow-up owner.</p><p class="residual"><strong>Residual limitation:</strong> Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-cdc216605e329050">OPS-06</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet" rel="noopener noreferrer">CISA-JCDC / JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li></ul></div></article><article class="layer"><h4>Use managed credential injection and revocation</h4><p><strong>How it lowers risk:</strong> Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context.</p><p><strong>Evidence to verify:</strong> Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies.</p><p class="residual"><strong>Residual limitation:</strong> Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-a2fca031abe0bb3c">DATA-01</a>, <a href="#control-b02fe54cb4097dff">DATA-06</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">MCP-AUTH / MCP: Authorization</a></li></ul></div></article><article class="layer"><h4>Limit credentials available to the workload</h4><p><strong>How it lowers risk:</strong> Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.</p><p><strong>Evidence to verify:</strong> Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.</p><p class="residual"><strong>Residual limitation:</strong> A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-e97f684d7ab98fa4">AUTH-09</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li></ul></div></article></div></details>
-<details class=""><summary>Guidance sources (8)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet" rel="noopener noreferrer">CISA-JCDC / JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)</a></li><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">CISA-SECURE-BY-DESIGN / Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">MCP-AUTH / MCP: Authorization</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations" rel="noopener noreferrer">MCP-AUTH-SEC / MCP: Authorization Security Considerations</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">MCP-SECURITY / MCP Security Best Practices</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li></ul></div></div></details>
+<span class="rule-label">AI029</span></div>
+<h3>Remote MCP URL uses plaintext HTTP</h3>
+<p class="small">1 occurrence(s) · Suggested owner: <strong>MCP/gateway owner</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If remote traffic traverses an unprotected link, observers or intermediaries may read or modify MCP credentials, requests, and responses.</p></div><div><h4>Immediate action</h4><p>Use HTTPS with verified certificates; if a separate protected transport is intentional, document and test every network hop and termination boundary.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-972bd4a450d55cd8">mcp.json:10</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-972bd4a450d55cd8"><code>d841174f55e032505f8136b9</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-7e7c857a2e49eba8">MCP-01</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Require authenticated encrypted transport • Limit credentials available to the workload</p>
+<details class=""><summary>Additional layers that can lower risk (2)</summary><div class="details-body"><article class="layer"><h4>Require authenticated encrypted transport</h4><p><strong>How it lowers risk:</strong> Use verified TLS on every relevant network hop, with an appropriate public or private CA and validated service hostname.</p><p><strong>Evidence to verify:</strong> Present an untrusted, expired, or wrong-host certificate and verify rejection; inspect backend traffic after TLS termination.</p><p class="residual"><strong>Residual limitation:</strong> TLS does not protect data from an authorized endpoint, compromised gateway, or plaintext segments beyond termination.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-7e7c857a2e49eba8">MCP-01</a>, <a href="#control-ca087126ce18df20">AUTH-05</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">MCP-AUTH / MCP: Authorization</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations" rel="noopener noreferrer">MCP-AUTH-SEC / MCP: Authorization Security Considerations</a></li></ul></div></article><article class="layer"><h4>Limit credentials available to the workload</h4><p><strong>How it lowers risk:</strong> Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.</p><p><strong>Evidence to verify:</strong> Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.</p><p class="residual"><strong>Residual limitation:</strong> A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-e97f684d7ab98fa4">AUTH-09</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (5)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">MCP-AUTH / MCP: Authorization</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations" rel="noopener noreferrer">MCP-AUTH-SEC / MCP: Authorization Security Considerations</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http" rel="noopener noreferrer">MCP-HTTP / MCP: Streamable HTTP transport</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">MCP-SECURITY / MCP Security Best Practices</a></li></ul></div></div></details>
+</article>
+<article class="action-card" id="group-ac69450fee775f26">
+<div class="badge-line"><span class="pill priority">P1</span>
+<span class="pill high">high</span>
+<span class="pill">open</span>
+<span class="rule-label">AI031</span></div>
+<h3>Agent approval or sandbox safeguard explicitly bypassed</h3>
+<p class="small">1 occurrence(s) · Suggested owner: <strong>Agent/platform owner</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If unrestricted execution or disabled approval is effective, malicious context or an erroneous plan may reach sensitive actions with the agent identity.</p></div><div><h4>Immediate action</h4><p>Review the effective permission policy and restore bounded tools and runtime isolation; require independent approval for the specific sensitive effects.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-023509c337313312">mcp.json:7</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-023509c337313312"><code>592fbfc9b7dab062dc97906c</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-f39da271682c06ce">AGT-01</a>, <a href="#control-bc40bfe5f2e0dec4">AGT-02</a>, <a href="#control-9e184aee32fb1724">MCP-09</a>, <a href="#control-488929fd82499efd">SUP-05</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Enforce action policy outside the model • Bind sensitive actions to explicit approval • Isolate tool execution</p>
+<details class=""><summary>Additional layers that can lower risk (3)</summary><div class="details-body"><article class="layer"><h4>Enforce action policy outside the model</h4><p><strong>How it lowers risk:</strong> Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.</p><p><strong>Evidence to verify:</strong> Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.</p><p class="residual"><strong>Residual limitation:</strong> Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-f39da271682c06ce">AGT-01</a>, <a href="#control-90760a75ba8695e5">AUTH-02</a>, <a href="#control-74b16e6a9ccfed0e">MCP-02</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">MCP-TOOLS / MCP: Tools</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-AGENT-CS / AI Agent Security Cheat Sheet</a></li></ul></div></article><article class="layer"><h4>Bind sensitive actions to explicit approval</h4><p><strong>How it lowers risk:</strong> Require an independent approval for the exact actor, tool, normalized arguments, target, and expiry before irreversible effects occur.</p><p><strong>Evidence to verify:</strong> Change arguments after approval, replay the approval, and call after expiry; each attempt must be denied before a side effect.</p><p class="residual"><strong>Residual limitation:</strong> Approval cannot compensate for misleading previews, excessive approver authority, or actions that happen before the check.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-bc40bfe5f2e0dec4">AGT-02</a>, <a href="#control-acb6a59b5388b78c">OPS-04</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-AGENT-CS / AI Agent Security Cheat Sheet</a></li></ul></div></article><article class="layer"><h4>Isolate tool execution</h4><p><strong>How it lowers risk:</strong> Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.</p><p><strong>Evidence to verify:</strong> In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.</p><p class="residual"><strong>Residual limitation:</strong> Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-1bb786edd84bebeb">EXEC-02</a>, <a href="#control-488929fd82499efd">SUP-05</a>, <a href="#control-e8b81e26a6afe395">OPS-02</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (7)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses" rel="noopener noreferrer">ASD-HARNESS / Agentic AI harnesses: The layer above the model</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">MCP-SECURITY / MCP Security Best Practices</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">MCP-TOOLS / MCP: Tools</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-AGENT-CS / AI Agent Security Cheat Sheet</a></li><li><a href="https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" rel="noopener noreferrer">OWASP-LLM2026 / OWASP GenAI LLM Top 10 2026</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-MCP-CS / MCP Security Cheat Sheet</a></li></ul></div></div></details>
+</article>
+<article class="action-card" id="group-815eb2c0899ae938">
+<div class="badge-line"><span class="pill priority">P2</span>
+<span class="pill medium">medium</span>
+<span class="pill">open</span>
+<span class="rule-label">AI021</span></div>
+<h3>Container explicitly runs as root</h3>
+<p class="small">1 occurrence(s) · Suggested owner: <strong>Container/platform owner</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If this is the effective runtime user, a tool compromise may gain more authority within the container; host impact depends on mounts, capabilities, user mappings, and kernel isolation.</p></div><div><h4>Immediate action</h4><p>Verify the final build stage and deployed user, then run with a dedicated nonroot identity unless a documented operation requires otherwise.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-a258b8b7bd29cac1">Dockerfile:2</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-a258b8b7bd29cac1"><code>aa7bba175c60406f04c15d29</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-488929fd82499efd">SUP-05</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Apply runtime isolation controls together • Separate risky tools from sensitive workloads</p>
+<details class=""><summary>Additional layers that can lower risk (2)</summary><div class="details-body"><article class="layer"><h4>Apply runtime isolation controls together</h4><p><strong>How it lowers risk:</strong> Use a dedicated nonroot identity, minimal capabilities, no privilege escalation, and an enforced syscall and mandatory-access policy where supported.</p><p><strong>Evidence to verify:</strong> Inspect the effective workload and attempt privileged operations, prohibited syscalls, and access to protected host resources.</p><p class="residual"><strong>Residual limitation:</strong> Nonroot alone is insufficient; writable mounts, added capabilities, host namespaces, and kernel flaws can weaken isolation.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-488929fd82499efd">SUP-05</a>, <a href="#control-da798a68529027c6">TEST-05</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisecurity.org/controls/v8-1" rel="noopener noreferrer">CIS-CONTROLS-81 / CIS Critical Security Controls v8.1</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li></ul></div></article><article class="layer"><h4>Separate risky tools from sensitive workloads</h4><p><strong>How it lowers risk:</strong> Place tools needing exceptional privileges in a separate environment with narrow interfaces and no unrelated tenant data.</p><p><strong>Evidence to verify:</strong> Test cross-workload network and filesystem access and confirm the privileged component cannot impersonate the requesting agent.</p><p class="residual"><strong>Residual limitation:</strong> Shared kernels or administrative infrastructure may retain common failure paths; a container is not automatically a strong hostile-code boundary.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-488929fd82499efd">SUP-05</a>, <a href="#control-e1d405f05f567c43">TEST-04</a>, <a href="#control-86210927a6918d8e">GOV-02</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1" rel="noopener noreferrer">CSA-CCM / Cloud Controls Matrix and CAIQ v4.1</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (5)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisecurity.org/controls/v8-1" rel="noopener noreferrer">CIS-CONTROLS-81 / CIS Critical Security Controls v8.1</a></li><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">CISA-SECURE-BY-DESIGN / Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software</a></li><li><a href="https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1" rel="noopener noreferrer">CSA-CCM / Cloud Controls Matrix and CAIQ v4.1</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">JOINT-DEPLOY / Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems</a></li></ul></div></div></details>
+</article>
+<article class="action-card" id="group-0bd4c993ee78c9fb">
+<div class="badge-line"><span class="pill priority">Disabled</span>
+<span class="pill medium">medium</span>
+<span class="pill disabled">disabled</span>
+<span class="rule-label">AI018</span></div>
+<h3>MCP package runner resolves an unpinned artifact</h3>
+<p class="small">1 occurrence(s) · Suggested owner: <strong>MCP integration/build owner</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If the package runner resolves a changed or malicious artifact, the next MCP launch could execute different code with the client environment permissions.</p></div><div><h4>Immediate action</h4><p>Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-62e5f603bc805d76">mcp.json:4</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-62e5f603bc805d76"><code>6b77081a826c4c6833edc47f</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-9e184aee32fb1724">MCP-09</a>, <a href="#control-ef0baf6e8902818d">SUP-01</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Resolve and install reviewed dependency bytes • Verify artifact identity before use • Limit credentials available to the workload</p>
+<details class=""><summary>Additional layers that can lower risk (3)</summary><div class="details-body"><article class="layer"><h4>Resolve and install reviewed dependency bytes</h4><p><strong>How it lowers risk:</strong> Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory.</p><p><strong>Evidence to verify:</strong> Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it.</p><p class="residual"><strong>Residual limitation:</strong> An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ef0baf6e8902818d">SUP-01</a>, <a href="#control-5aa3257d5693ce20">SUP-03</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li><li><a href="https://baseline.openssf.org/versions/2026-08-28" rel="noopener noreferrer">OPENSSF-BASELINE-202608 / Open Source Project Security Baseline</a></li></ul></div></article><article class="layer"><h4>Verify artifact identity before use</h4><p><strong>How it lowers risk:</strong> Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.</p><p><strong>Evidence to verify:</strong> Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact.</p><p class="residual"><strong>Residual limitation:</strong> Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-5aa3257d5693ce20">SUP-03</a>, <a href="#control-31d20ef572c23fce">DATA-04</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/" rel="noopener noreferrer">OPENSSF-MODEL-SIGNING / Launch of Model Signing v1.0</a></li><li><a href="https://slsa.dev/spec/v1.2/" rel="noopener noreferrer">SLSA-12 / Supply-chain Levels for Software Artifacts specification</a></li></ul></div></article><article class="layer"><h4>Limit credentials available to the workload</h4><p><strong>How it lowers risk:</strong> Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.</p><p><strong>Evidence to verify:</strong> Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.</p><p class="residual"><strong>Residual limitation:</strong> A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ca087126ce18df20">AUTH-05</a>, <a href="#control-e97f684d7ab98fa4">AUTH-09</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (8)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">CISA-SECURE-BY-DESIGN / Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">JOINT-AGENTIC / Careful adoption of agentic AI services</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">MCP-SECURITY / MCP Security Best Practices</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li><li><a href="https://baseline.openssf.org/versions/2026-08-28" rel="noopener noreferrer">OPENSSF-BASELINE-202608 / Open Source Project Security Baseline</a></li><li><a href="https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/" rel="noopener noreferrer">OPENSSF-MODEL-SIGNING / Launch of Model Signing v1.0</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html" rel="noopener noreferrer">OWASP-MCP-CS / MCP Security Cheat Sheet</a></li><li><a href="https://slsa.dev/spec/v1.2/" rel="noopener noreferrer">SLSA-12 / Supply-chain Levels for Software Artifacts specification</a></li></ul></div></div></details>
+</article>
+<article class="action-card" id="group-a4da2835c77f2528">
+<div class="badge-line"><span class="pill priority">Justified</span>
+<span class="pill low">low</span>
+<span class="pill justified">justified</span>
+<span class="rule-label">AI024</span></div>
+<h3>Container image is not digest pinned</h3>
+<p class="small">1 occurrence(s) · Suggested owner: <strong>Container/release owner</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If a mutable image tag changes, a rebuild or deployment may consume unreviewed bytes; the scan does not establish that the current image is vulnerable.</p></div><div><h4>Immediate action</h4><p>Identify the approved image digest and enforce it in the effective build or deployment while preserving a reviewed update process.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (1)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-0ca23a2f487902a4">Dockerfile:1</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-0ca23a2f487902a4"><code>055ed29e5f56926f1827a0b8</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-ef0baf6e8902818d">SUP-01</a>, <a href="#control-5aa3257d5693ce20">SUP-03</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Verify artifact identity before use • Keep pinned artifacts maintained</p>
+<details class=""><summary>Additional layers that can lower risk (2)</summary><div class="details-body"><article class="layer"><h4>Verify artifact identity before use</h4><p><strong>How it lowers risk:</strong> Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.</p><p><strong>Evidence to verify:</strong> Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact.</p><p class="residual"><strong>Residual limitation:</strong> Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-5aa3257d5693ce20">SUP-03</a>, <a href="#control-31d20ef572c23fce">DATA-04</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/" rel="noopener noreferrer">OPENSSF-MODEL-SIGNING / Launch of Model Signing v1.0</a></li><li><a href="https://slsa.dev/spec/v1.2/" rel="noopener noreferrer">SLSA-12 / Supply-chain Levels for Software Artifacts specification</a></li></ul></div></article><article class="layer"><h4>Keep pinned artifacts maintained</h4><p><strong>How it lowers risk:</strong> Review known-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process.</p><p><strong>Evidence to verify:</strong> Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact.</p><p class="residual"><strong>Residual limitation:</strong> This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-fe84697e20b37c04">SUP-02</a>, <a href="#control-26ae27f338338f09">SUP-04</a>, <a href="#control-6021dc7b96002e12">OPS-05</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li><li><a href="https://securityscorecards.dev/" rel="noopener noreferrer">OPENSSF-SCORECARD / OpenSSF Scorecard</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (6)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">CISA-SECURE-BY-DESIGN / Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li><li><a href="https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/" rel="noopener noreferrer">NSA-DATA / AI Data Security: Best Practices for Securing Data Used to Train &amp; Operate AI Systems (NSA announcement)</a></li><li><a href="https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/" rel="noopener noreferrer">OPENSSF-MODEL-SIGNING / Launch of Model Signing v1.0</a></li><li><a href="https://securityscorecards.dev/" rel="noopener noreferrer">OPENSSF-SCORECARD / OpenSSF Scorecard</a></li><li><a href="https://slsa.dev/spec/v1.2/" rel="noopener noreferrer">SLSA-12 / Supply-chain Levels for Software Artifacts specification</a></li></ul></div></div></details>
 </article>
 </section><section id="findings"><div class="section-heading"><div><p class="eyebrow">Scanner observations</p><h2>Complete finding evidence</h2></div><a class="back" href="#top">Back to top</a></div>
-<p class="small">All 3 findings are retained with locations, stable IDs, confidence, remediation, and references. Suppressed, justified, and disabled findings remain visible as distinct exceptions.</p>
-<article class="finding" id="finding-b1a04a9b8cb75eea">
-<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI010</span></div>
-<h3>Credential-like literal in source or configuration</h3>
-<span class="evidence-location">.image-metadata/environment/000000.json:2–2</span>
-<p class="small"><strong>Finding ID:</strong> <code>9d4be3b23ed7a5edbf22f308</code><br><strong>Confidence:</strong> medium · <strong>Category:</strong> secrets</p>
-<p>A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value.</p>
-<h4>Observed evidence</h4><pre><code>[REDACTED: credential-related image evidence; inspect this location locally]</code></pre>
-<p><strong>Remediation:</strong> If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege.</p>
-<p><strong>Image evidence context:</strong> runtime_configuration</p>
-<details class=""><summary>Image evidence provenance</summary><div class="details-body"><pre class="audit"><code>{
-  &quot;field&quot;: &quot;Env&quot;,
-  &quot;index&quot;: 0,
-  &quot;key&quot;: &quot;SERVICE_API_KEY&quot;
-}</code></pre></div></details>
-<p class="small"><strong>Weakness mappings:</strong> CWE-798</p>
-<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
-</article>
-<article class="finding" id="finding-908179b40eae85ee">
-<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI010</span></div>
-<h3>Credential-like literal in source or configuration</h3>
-<span class="evidence-location">.image-metadata/retained-layer/000001.env:1–2</span>
-<p class="small"><strong>Finding ID:</strong> <code>e770b87231f7a7060cc1f9cc</code><br><strong>Confidence:</strong> medium · <strong>Category:</strong> secrets</p>
-<p>A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value. This credential-like content remains in a retained image layer even though the file revision is absent from the final filesystem; this is artifact exposure, not a live source-code finding.</p>
-<h4>Observed evidence</h4><pre><code>[REDACTED: credential-related image evidence; inspect this location locally]</code></pre>
-<p><strong>Remediation:</strong> If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege.</p>
-<p><strong>Image evidence context:</strong> retained_layer</p>
-<details class=""><summary>Image evidence provenance</summary><div class="details-body"><pre class="audit"><code>{
-  &quot;layer&quot;: 0,
-  &quot;original_path&quot;: &quot;app/.env&quot;,
-  &quot;present_in_final_filesystem&quot;: false,
-  &quot;sha256&quot;: &quot;df5fb811b2c6ca2b975051446a8ad7ea08b186178638c122c1f51704d2ee67d6&quot;
-}</code></pre></div></details>
-<p class="small"><strong>Weakness mappings:</strong> CWE-798</p>
-<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
-</article>
-<article class="finding" id="finding-048583e918841128">
-<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI003</span></div>
-<h3>Dynamic os shell command</h3>
-<span class="evidence-location">rootfs/app/dist/agent.py:2–2</span>
-<p class="small"><strong>Finding ID:</strong> <code>93d63de077ec33adbdb1ce75</code><br><strong>Confidence:</strong> medium · <strong>Category:</strong> tool_execution</p>
-<p>os.system or os.popen executes a dynamically constructed command through the shell. Review the command&#x27;s trust boundary.</p>
-<h4>Observed evidence</h4><pre><code>os.system(user_input)</code></pre>
-<p><strong>Remediation:</strong> Use subprocess with a fixed executable and argument list, shell=False, and explicit allowed options.</p>
-<p><strong>Image evidence context:</strong> final_filesystem</p>
-<details class=""><summary>Image evidence provenance</summary><div class="details-body"><pre class="audit"><code>{
-  &quot;container_path&quot;: &quot;/app/dist/agent.py&quot;,
-  &quot;layer&quot;: 0,
-  &quot;sha256&quot;: &quot;9fe29660ec2c4bb7ecdf4a6f98ceab57b516a9eeb33dd0a5d56388a92243b465&quot;
-}</code></pre></div></details>
+<p class="small">All 11 findings are retained with locations, stable IDs, confidence, remediation, and references. Suppressed, justified, and disabled findings remain visible as distinct exceptions.</p>
+<article class="finding" id="finding-193f30b4480af19a">
+<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI002</span></div>
+<h3>Dynamic command executed through a shell</h3>
+<span class="evidence-location">agent.py:9–9</span>
+<p class="small"><strong>Finding ID:</strong> <code>979d192981c1785a2394fe19</code><br><strong>Confidence:</strong> medium · <strong>Category:</strong> tool_execution</p>
+<p>A subprocess call enables a shell, invokes a shell-specific API, or passes a dynamic command to an explicit shell executable. Shell metacharacters in agent or external input may become executable syntax.</p>
+<h4>Observed evidence</h4><pre><code>    subprocess.run(user_command, shell=True)</code></pre>
+<p><strong>Remediation:</strong> Pass an argument list with shell=False, allowlist executable names and options, and enforce working-directory and resource restrictions.</p>
 <p class="small"><strong>Weakness mappings:</strong> CWE-78</p>
 <div class="sources"><strong>Finding references</strong><ul><li><a href="https://docs.python.org/3/library/security_warnings.html" rel="noopener noreferrer">https://docs.python.org/3/library/security_warnings.html</a></li><li><a href="https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" rel="noopener noreferrer">https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/</a></li></ul></div>
 </article>
+<article class="finding" id="finding-61b51e1ee40425bd">
+<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI003</span></div>
+<h3>Dynamic os shell command</h3>
+<span class="evidence-location">agent.py:10–10</span>
+<p class="small"><strong>Finding ID:</strong> <code>0fa7e450cd583d78646ef397</code><br><strong>Confidence:</strong> medium · <strong>Category:</strong> tool_execution</p>
+<p>os.system or os.popen executes a dynamically constructed command through the shell. Review the command&#x27;s trust boundary.</p>
+<h4>Observed evidence</h4><pre><code>    os.system(user_command)</code></pre>
+<p><strong>Remediation:</strong> Use subprocess with a fixed executable and argument list, shell=False, and explicit allowed options.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-78</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://docs.python.org/3/library/security_warnings.html" rel="noopener noreferrer">https://docs.python.org/3/library/security_warnings.html</a></li><li><a href="https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" rel="noopener noreferrer">https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/</a></li></ul></div>
+</article>
+<article class="finding" id="finding-b0fb0bf3edd91686">
+<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI006</span></div>
+<h3>TLS certificate verification disabled</h3>
+<span class="evidence-location">agent.py:11–11</span>
+<p class="small"><strong>Finding ID:</strong> <code>07fc5f6fd7699fd0194dc479</code><br><strong>Confidence:</strong> high · <strong>Category:</strong> transport_security</p>
+<p>Certificate verification is explicitly disabled. A network intermediary may impersonate the remote service and capture prompts, credentials, or tool results.</p>
+<h4>Observed evidence</h4><pre><code>    data = requests.get(remote_url, verify=False)</code></pre>
+<p><strong>Remediation:</strong> Enable certificate verification and install the correct CA bundle; use a trusted private CA for custom gateways.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-295</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-41a2872c0a4408e8">
+<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI005</span></div>
+<h3>Executable deserialization requires trusted inputs</h3>
+<span class="evidence-location">agent.py:12–12</span>
+<p class="small"><strong>Finding ID:</strong> <code>d2d09fb2875db72f18779bfc</code><br><strong>Confidence:</strong> medium · <strong>Category:</strong> deserialization</p>
+<p>Pickle-compatible deserialization can execute code. This finding identifies a dangerous trust boundary, not proof that the serialized input is attacker controlled.</p>
+<h4>Observed evidence</h4><pre><code>    return pickle.loads(serialized_data), data.text</code></pre>
+<p><strong>Remediation:</strong> Use a nonexecutable serialization format with schema validation. If compatibility requires pickle, accept only authenticated artifacts from a strictly controlled producer.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-502</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://docs.python.org/3/library/security_warnings.html" rel="noopener noreferrer">https://docs.python.org/3/library/security_warnings.html</a></li></ul></div>
+</article>
+<article class="finding" id="finding-af20d1e161ca5c4a">
+<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI001</span></div>
+<h3>Dynamic Python code execution</h3>
+<span class="evidence-location">agent.py:16–16</span>
+<p class="small"><strong>Finding ID:</strong> <code>b1b0f0a3f33fe93875fcb58a</code><br><strong>Confidence:</strong> medium · <strong>Category:</strong> tool_execution</p>
+<p>eval or exec receives a nonliteral expression. If agent, user, or tool content can reach it, it can execute arbitrary Python. Static analysis does not establish the full data flow.</p>
+<h4>Observed evidence</h4><pre><code>    return eval(model_response)</code></pre>
+<p><strong>Remediation:</strong> Replace dynamic execution with an allowlisted operation dispatcher; use ast.literal_eval only for bounded literal parsing. Isolate unavoidable execution with no ambient credentials and strict resource limits.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-95</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://docs.python.org/3/library/security_warnings.html" rel="noopener noreferrer">https://docs.python.org/3/library/security_warnings.html</a></li><li><a href="https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" rel="noopener noreferrer">https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/</a></li></ul></div>
+</article>
+<article class="finding" id="finding-905bdaaa0ff6de85">
+<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI010</span></div>
+<h3>Credential-like literal in source or configuration</h3>
+<span class="evidence-location">mcp.json:6–6</span>
+<p class="small"><strong>Finding ID:</strong> <code>afb2bdb94696690028650faf</code><br><strong>Confidence:</strong> medium · <strong>Category:</strong> secrets</p>
+<p>A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value.</p>
+<h4>Observed evidence</h4><pre><code>[REDACTED: credential-related source evidence; inspect this location locally]</code></pre>
+<p><strong>Remediation:</strong> If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-798</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
+</article>
+<article class="finding" id="finding-023509c337313312">
+<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI031</span></div>
+<h3>Agent approval or sandbox safeguard explicitly bypassed</h3>
+<span class="evidence-location">mcp.json:7–7</span>
+<p class="small"><strong>Finding ID:</strong> <code>592fbfc9b7dab062dc97906c</code><br><strong>Confidence:</strong> high · <strong>Category:</strong> agent_permissions</p>
+<p>An agent configuration or command explicitly disables approvals or enables unrestricted execution. The impact depends on the process identity, tools, and sandbox.</p>
+<h4>Observed evidence</h4><pre><code>      &quot;autoApprove&quot;: [&quot;*&quot;]</code></pre>
+<p><strong>Remediation:</strong> Use bounded tool permissions and an isolated runtime; require deliberate approval for destructive, external, financial, or credential-bearing actions.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-862</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" rel="noopener noreferrer">https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
+</article>
+<article class="finding" id="finding-972bd4a450d55cd8">
+<div class="badge-line"><span class="pill high">high</span><span class="pill">open</span><span class="rule-label">AI029</span></div>
+<h3>Remote MCP URL uses plaintext HTTP</h3>
+<span class="evidence-location">mcp.json:10–10</span>
+<p class="small"><strong>Finding ID:</strong> <code>d841174f55e032505f8136b9</code><br><strong>Confidence:</strong> high · <strong>Category:</strong> transport_security</p>
+<p>An MCP configuration points to a nonloopback HTTP URL. Credentials, tool requests, and results may be exposed in transit; network-layer protection is not established by this scan.</p>
+<h4>Observed evidence</h4><pre><code>      &quot;url&quot;: &quot;http://mcp.example.invalid/mcp&quot;</code></pre>
+<p><strong>Remediation:</strong> Use HTTPS with certificate verification for remote MCP endpoints. Reserve plaintext HTTP for explicitly controlled local development or a documented protected transport.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-319</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
+</article>
+<article class="finding" id="finding-a258b8b7bd29cac1">
+<div class="badge-line"><span class="pill medium">medium</span><span class="pill">open</span><span class="rule-label">AI021</span></div>
+<h3>Container explicitly runs as root</h3>
+<span class="evidence-location">Dockerfile:2–2</span>
+<p class="small"><strong>Finding ID:</strong> <code>aa7bba175c60406f04c15d29</code><br><strong>Confidence:</strong> high · <strong>Category:</strong> sandboxing</p>
+<p>A Dockerfile explicitly selects root. This increases the impact of agent or tool compromise; later USER instructions or runtime overrides may mitigate it.</p>
+<h4>Observed evidence</h4><pre><code>USER root</code></pre>
+<p><strong>Remediation:</strong> Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-250</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-62e5f603bc805d76">
+<div class="badge-line"><span class="pill medium">medium</span><span class="pill disabled">disabled</span><span class="rule-label">AI018</span></div>
+<h3>MCP package runner resolves an unpinned artifact</h3>
+<span class="evidence-location">mcp.json:4–4</span>
+<p class="small"><strong>Finding ID:</strong> <code>6b77081a826c4c6833edc47f</code><br><strong>Confidence:</strong> high · <strong>Category:</strong> supply_chain</p>
+<p>An MCP launch configuration uses npx, uvx, or a similar ephemeral package runner without an exact package version. The executable artifact can change between launches.</p>
+<h4>Observed evidence</h4><pre><code>      &quot;command&quot;: &quot;npx&quot;,</code></pre>
+<p><strong>Remediation:</strong> Pin an exact audited package version and lock or verify transitive artifacts. Prefer preinstalled verified tools in a controlled environment.</p>
+<p class="note warning"><strong>User decision:</strong> disabled (rule AI018). <strong>User reason:</strong> EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control.<br>This observed pattern is retained for audit and excluded from active findings and the severity gate. Its severity and evidence remain unchanged; this decision does not prove remediation.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-829</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-0ca23a2f487902a4">
+<div class="badge-line"><span class="pill low">low</span><span class="pill justified">justified</span><span class="rule-label">AI024</span></div>
+<h3>Container image is not digest pinned</h3>
+<span class="evidence-location">Dockerfile:1–1</span>
+<p class="small"><strong>Finding ID:</strong> <code>055ed29e5f56926f1827a0b8</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A container base or deployment image uses a mutable reference rather than a content digest. The bytes can change between builds or deployments.</p>
+<h4>Observed evidence</h4><pre><code>FROM python:latest</code></pre>
+<p><strong>Remediation:</strong> Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability-remediation workflows.</p>
+<p class="note warning"><strong>User decision:</strong> justified (rule AI024). <strong>User reason:</strong> EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment.<br>This observed pattern is retained for audit and excluded from active findings and the severity gate. Its severity and evidence remain unchanged; this decision does not prove remediation.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-829</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
 </section>
-
+<section id="review-policy"><p class="eyebrow">Explicit user configuration</p><h2>User review decisions</h2>
+<p class="note warning"><strong>Justified is a user decision, not a validated pass.</strong> Justified and disabled items earn no positive credit and do not count against active totals. Only rule decisions exclude related findings from the severity gate. Control and individual-check decisions affect checklist review only. Scan errors and coverage gaps remain unresolved.</p>
+<div class="table-wrap"><table><thead><tr><th>Scope</th><th>Active</th><th>Justified</th><th>Disabled</th><th>Excluded with mixed check decisions</th><th>Catalog total</th></tr></thead><tbody>
+<tr><td>Rules</td><td>40</td><td>1</td><td>1</td><td>0</td><td>42</td></tr>
+<tr><td>Controls</td><td>65</td><td>0</td><td>1</td><td>0</td><td>66</td></tr>
+<tr><td>Checks</td><td>129</td><td>1</td><td>2</td><td>0</td><td>132</td></tr>
+</tbody></table></div><h3>Configured decisions and reasons</h3>
+<div class="table-wrap"><table><thead><tr><th>Scope</th><th>Identifier</th><th>Decision</th><th>User reason</th></tr></thead><tbody>
+<tr><td>rules</td><td><code>AI018</code></td><td><span class="pill disabled">disabled</span></td><td>EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control.</td></tr>
+<tr><td>rules</td><td><code>AI024</code></td><td><span class="pill justified">justified</span></td><td>EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment.</td></tr>
+<tr><td>controls</td><td><code>GOV-01</code></td><td><span class="pill disabled">disabled</span></td><td>EXAMPLE ONLY: inventory governance is outside this selected engineering review.</td></tr>
+<tr><td>checks</td><td><code>AUTH-01:2</code></td><td><span class="pill justified">justified</span></td><td>EXAMPLE ONLY: owner-reviewed authentication evidence is recorded in the external assessment.</td></tr>
+</tbody></table></div><p class="small"><strong>Review configuration SHA-256:</strong> <code>4dc93595be2eae6cc393531fa91f41465ead3384f77c76fb1caa0bc8833a218b</code></p>
+<p class="small">User dispositions are not validated passes and are excluded from actionable finding and active review counts. Rule dispositions affect their findings; control and check dispositions affect review scope only and never waive static rule findings. Observed evidence and operational coverage gaps remain in the report. Shared static analysis may still collect evidence for disabled rules.</p>
+<details class=""><summary>Complete user review configuration audit</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;assurance&quot;: &quot;User dispositions are not validated passes and are excluded from actionable finding and active review counts. Rule dispositions affect their findings; control and check dispositions affect review scope only and never waive static rule findings. Observed evidence and operational coverage gaps remain in the report. Shared static analysis may still collect evidence for disabled rules.&quot;,
+  &quot;counts&quot;: {
+    &quot;active_checks&quot;: 129,
+    &quot;active_controls&quot;: 65,
+    &quot;active_rules&quot;: 40,
+    &quot;catalog_checks&quot;: 132,
+    &quot;catalog_controls&quot;: 66,
+    &quot;catalog_rules&quot;: 42,
+    &quot;disabled_checks&quot;: 2,
+    &quot;disabled_controls&quot;: 1,
+    &quot;disabled_rules&quot;: 1,
+    &quot;excluded_controls&quot;: 1,
+    &quot;justified_checks&quot;: 1,
+    &quot;justified_controls&quot;: 0,
+    &quot;justified_rules&quot;: 1,
+    &quot;mixed_excluded_controls&quot;: 0
+  },
+  &quot;enabled&quot;: true,
+  &quot;entries&quot;: {
+    &quot;checks&quot;: {
+      &quot;AUTH-01:2&quot;: {
+        &quot;reason&quot;: &quot;EXAMPLE ONLY: owner-reviewed authentication evidence is recorded in the external assessment.&quot;,
+        &quot;status&quot;: &quot;justified&quot;
+      }
+    },
+    &quot;controls&quot;: {
+      &quot;GOV-01&quot;: {
+        &quot;reason&quot;: &quot;EXAMPLE ONLY: inventory governance is outside this selected engineering review.&quot;,
+        &quot;status&quot;: &quot;disabled&quot;
+      }
+    },
+    &quot;rules&quot;: {
+      &quot;AI018&quot;: {
+        &quot;reason&quot;: &quot;EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control.&quot;,
+        &quot;status&quot;: &quot;disabled&quot;
+      },
+      &quot;AI024&quot;: {
+        &quot;reason&quot;: &quot;EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment.&quot;,
+        &quot;status&quot;: &quot;justified&quot;
+      }
+    }
+  },
+  &quot;schema_version&quot;: &quot;1.0&quot;,
+  &quot;sha256&quot;: &quot;4dc93595be2eae6cc393531fa91f41465ead3384f77c76fb1caa0bc8833a218b&quot;
+}</code></pre></div></details>
+</section>
 <section id="coverage"><div class="section-heading"><div><p class="eyebrow">Scope and assurance</p><h2>What this scan could establish</h2></div></div>
 <div class="coverage-grid"><div class="panel"><h3>Coverage requiring attention</h3>
 <p>No traversal, parsing, or resource-limit gaps were recorded inside the selected scope.</p>
 <p class="small">Excluded directories, unsupported languages, deployment configuration, and runtime behavior may remain outside that scope.</p></div>
 <div class="panel"><h3>Unknowns and follow-up validation</h3>
-<ul class="small"><li>Image scope: packaged_source_and_metadata; 1 packaged source files inspected. The container was not started. Compiled application behavior and runtime overrides are unassessed.</li><li>Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.</li><li>Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.</li><li>Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.</li><li>No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope.</li></ul>
+<ul class="small"><li>Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.</li><li>Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.</li><li>Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.</li><li>No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope.</li></ul>
 </div></div>
-<h3 class="spacer">Analysis depth</h3><p class="small">File counts describe inspected inputs; they do not imply complete semantic coverage.</p><div class="table-wrap"><table><thead><tr><th>Profile</th><th>Files</th><th>Analysis scope</th></tr></thead><tbody><tr><td>image_metadata</td><td>3</td><td>Selected image configuration/history/layer security checks; package inventory and file metadata are not application logic or CVE validation.</td></tr><tr><td>python_ast</td><td>1</td><td>Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof.</td></tr></tbody></table></div>
-<p class="small">Source I/O: <strong>32 bytes read</strong>; 32 bytes charged against the budget, including 0 conservatively charged bytes for failed reads. Reads reserve a sentinel byte to detect growth.</p>
-<details class=""><summary>All scanner limitations</summary><div class="details-body"><ul><li>The container was not started. Image configuration can be overridden at deployment; runtime authorization, network policy, mounts, privileges and effective user are not established.</li><li>Packaged supported source/configuration is analyzed directly. Native binaries, bytecode-only applications and stripped/minified artifacts do not receive decompilation or complete application-logic analysis.</li><li>Image dependency inventory is not a CVE assessment. No vulnerability feed, signature trust policy, registry provenance, or malware engine is consulted.</li><li>Build history and retained-layer credentials are image-artifact evidence; removed source-code defects are not reported as live application defects.</li><li>Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.</li><li>Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.</li><li>No dependencies are installed, target code executed, services contacted, or CVE feed queried.</li><li>Default excluded directories and unsupported files remain outside the selected scan scope.</li><li>Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.</li><li>Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data.</li></ul></div></details>
+<h3 class="spacer">Analysis depth</h3><p class="small">File counts describe inspected inputs; they do not imply complete semantic coverage.</p><div class="table-wrap"><table><thead><tr><th>Profile</th><th>Files</th><th>Analysis scope</th></tr></thead><tbody><tr><td>configuration_lexical</td><td>1</td><td>Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved.</td></tr><tr><td>json_structured</td><td>1</td><td>Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved.</td></tr><tr><td>python_ast</td><td>1</td><td>Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof.</td></tr></tbody></table></div>
+<p class="small">Source I/O: <strong>796 bytes read</strong>; 796 bytes charged against the budget, including 0 conservatively charged bytes for failed reads. Reads reserve a sentinel byte to detect growth.</p>
+<details class=""><summary>All scanner limitations</summary><div class="details-body"><ul><li>Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.</li><li>Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.</li><li>No dependencies are installed, target code executed, services contacted, or CVE feed queried.</li><li>Default excluded directories and unsupported files remain outside the selected scan scope.</li><li>Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.</li><li>Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data.</li></ul></div></details>
 <details class=""><summary>Scan errors (0)</summary><div class="details-body"><p>No scan errors recorded.</p></div></details>
 <details class=""><summary>Excluded or skipped paths (0)</summary><div class="details-body"><p>No skipped paths recorded.</p></div></details>
-<details class=""><summary>Source and dependency inventory</summary><div class="details-body"><p>Dependency manifests: <strong>0</strong>; agent/MCP signal files: <strong>0</strong>.</p><p class="small">Dependency manifests are inventoried; they are not checked against a vulnerability database.</p><pre class="audit"><code>{
-  &quot;agent_mcp_signals&quot;: [],
+<details class=""><summary>Source and dependency inventory</summary><div class="details-body"><p>Dependency manifests: <strong>0</strong>; agent/MCP signal files: <strong>1</strong>.</p><p class="small">Dependency manifests are inventoried; they are not checked against a vulnerability database.</p><pre class="audit"><code>{
+  &quot;agent_mcp_signals&quot;: [
+    {
+      &quot;path&quot;: &quot;mcp.json&quot;,
+      &quot;signals&quot;: [
+        &quot;mcpservers&quot;
+      ]
+    }
+  ],
   &quot;dependency_manifests&quot;: [],
   &quot;extensions&quot;: {
+    &quot;(none)&quot;: 1,
+    &quot;.json&quot;: 1,
     &quot;.py&quot;: 1
   }
 }</code></pre></div></details>
 <details class=""><summary>Inspected file manifest and content hashes</summary><div class="details-body"><pre class="audit"><code>[
   {
-    &quot;analysis_profile&quot;: &quot;image_metadata&quot;,
-    &quot;bytes&quot;: 45,
-    &quot;image_context&quot;: &quot;runtime_configuration&quot;,
-    &quot;image_provenance&quot;: {
-      &quot;field&quot;: &quot;config&quot;
-    },
-    &quot;path&quot;: &quot;.image-metadata/config.json&quot;,
-    &quot;sha256&quot;: &quot;a7ec09598e775a19b24d4b74fe34a347f1c75b9ed86a9202f3e973ebc14f49b9&quot;
-  },
-  {
-    &quot;analysis_profile&quot;: &quot;image_metadata&quot;,
-    &quot;bytes&quot;: 62,
-    &quot;image_context&quot;: &quot;runtime_configuration&quot;,
-    &quot;image_provenance&quot;: {
-      &quot;field&quot;: &quot;Env&quot;,
-      &quot;index&quot;: 0,
-      &quot;key&quot;: &quot;SERVICE_API_KEY&quot;
-    },
-    &quot;path&quot;: &quot;.image-metadata/environment/000000.json&quot;,
-    &quot;sha256&quot;: &quot;34911bc31580d6086753787843b7f10880792533b5ad22a0a2fc1830191d4aa3&quot;
-  },
-  {
-    &quot;analysis_profile&quot;: &quot;image_metadata&quot;,
-    &quot;bytes&quot;: 50,
-    &quot;image_context&quot;: &quot;retained_layer&quot;,
-    &quot;image_provenance&quot;: {
-      &quot;layer&quot;: 0,
-      &quot;original_path&quot;: &quot;app/.env&quot;,
-      &quot;present_in_final_filesystem&quot;: false,
-      &quot;sha256&quot;: &quot;df5fb811b2c6ca2b975051446a8ad7ea08b186178638c122c1f51704d2ee67d6&quot;
-    },
-    &quot;model_evidence_exclusion&quot;: &quot;sensitive_file_excluded&quot;,
-    &quot;path&quot;: &quot;.image-metadata/retained-layer/000001.env&quot;,
-    &quot;sha256&quot;: &quot;df5fb811b2c6ca2b975051446a8ad7ea08b186178638c122c1f51704d2ee67d6&quot;
+    &quot;analysis_profile&quot;: &quot;configuration_lexical&quot;,
+    &quot;bytes&quot;: 81,
+    &quot;path&quot;: &quot;Dockerfile&quot;,
+    &quot;sha256&quot;: &quot;596d11f28d436aa9e223c10cbc9eed0421a4fa4f3cd83c1fcb6a045b7c2f170c&quot;
   },
   {
     &quot;analysis_profile&quot;: &quot;python_ast&quot;,
-    &quot;bytes&quot;: 32,
-    &quot;image_context&quot;: &quot;final_filesystem&quot;,
-    &quot;image_provenance&quot;: {
-      &quot;container_path&quot;: &quot;/app/dist/agent.py&quot;,
-      &quot;layer&quot;: 0,
-      &quot;sha256&quot;: &quot;9fe29660ec2c4bb7ecdf4a6f98ceab57b516a9eeb33dd0a5d56388a92243b465&quot;
-    },
-    &quot;path&quot;: &quot;rootfs/app/dist/agent.py&quot;,
-    &quot;sha256&quot;: &quot;9fe29660ec2c4bb7ecdf4a6f98ceab57b516a9eeb33dd0a5d56388a92243b465&quot;
+    &quot;bytes&quot;: 425,
+    &quot;path&quot;: &quot;agent.py&quot;,
+    &quot;sha256&quot;: &quot;3b3621a29f78fb43c3d734039167e034481f667d082ac66d686b2ff26b5703d8&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;json_structured&quot;,
+    &quot;bytes&quot;: 290,
+    &quot;path&quot;: &quot;mcp.json&quot;,
+    &quot;sha256&quot;: &quot;e037bfafd99865f801f5d673efa3b4221fe5790c4bcd8243d3468191280e3897&quot;
   }
 ]</code></pre></div></details>
 <details class=""><summary>Scan configuration and selected rules</summary><div class="details-body"><pre class="audit"><code>{
@@ -229,9 +481,18 @@
       &quot;.git&quot;,
       &quot;.hg&quot;,
       &quot;.mypy_cache&quot;,
+      &quot;.next&quot;,
       &quot;.pytest_cache&quot;,
       &quot;.svn&quot;,
-      &quot;__pycache__&quot;
+      &quot;.tox&quot;,
+      &quot;.venv&quot;,
+      &quot;__pycache__&quot;,
+      &quot;build&quot;,
+      &quot;coverage&quot;,
+      &quot;dist&quot;,
+      &quot;node_modules&quot;,
+      &quot;vendor&quot;,
+      &quot;venv&quot;
     ],
     &quot;exclude&quot;: [],
     &quot;explicit_exclusion_identity_scope&quot;: &quot;Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.&quot;,
@@ -240,7 +501,8 @@
     &quot;max_entries&quot;: 100000,
     &quot;max_file_bytes&quot;: 1000000,
     &quot;max_files&quot;: 20000,
-    &quot;max_total_bytes&quot;: 50000000
+    &quot;max_total_bytes&quot;: 50000000,
+    &quot;review_config_sha256&quot;: &quot;4dc93595be2eae6cc393531fa91f41465ead3384f77c76fb1caa0bc8833a218b&quot;
   },
   &quot;rules_enabled&quot;: [
     &quot;AI001&quot;,
@@ -260,13 +522,11 @@
     &quot;AI015&quot;,
     &quot;AI016&quot;,
     &quot;AI017&quot;,
-    &quot;AI018&quot;,
     &quot;AI019&quot;,
     &quot;AI020&quot;,
     &quot;AI021&quot;,
     &quot;AI022&quot;,
     &quot;AI023&quot;,
-    &quot;AI024&quot;,
     &quot;AI025&quot;,
     &quot;AI026&quot;,
     &quot;AI027&quot;,
@@ -288,116 +548,6 @@
   ]
 }</code></pre></div></details>
 </section>
-<section id="image"><p class="eyebrow">Built-image analysis</p><h2>Image scope and provenance</h2><div class="panel">
-<p><strong>Input:</strong> demo-agent.tar<br><strong>Format:</strong> docker-save · <strong>Platform:</strong> linux/amd64</p>
-<p class="small"><strong>Image config digest:</strong> <code>sha256:4d3b0348c48a9cbf6c97239e9e3b7596cdc0e6f9a0eb02f873b3963ecd1738fd</code></p>
-<p><strong>Analysis scope:</strong> packaged_source_and_metadata<br><strong>Packaged source files inspected:</strong> 1</p>
-<p class="note">The container was not started. Supported packaged code and stored image metadata are inspected offline. Native binary logic is not decompiled, and package inventory is not a CVE scan.</p>
-<p class="small">Paths under <code>rootfs/</code> refer to the final image filesystem. <code>.image-metadata/</code> contains generated evidence from configuration, build history, permissions, and retained layers. Deployment overrides and runtime enforcement require separate validation.</p>
-<p class="small">Container-relative exclusions apply to final packaged files and retained file revisions. Image configuration, build history, OS/package inventory and stored permission review remain independently assessed.</p>
-<details class=""><summary>Image identity, digests, and acquisition</summary><div class="details-body"><pre class="audit"><code>{
-  &quot;acquisition&quot;: null,
-  &quot;identity&quot;: {
-    &quot;archive_sha256&quot;: &quot;4010c0c8f34af0ff9172858af3ba8cab6d0c61b585c2ed81d8a89fc98249e16a&quot;,
-    &quot;config_digest&quot;: &quot;sha256:4d3b0348c48a9cbf6c97239e9e3b7596cdc0e6f9a0eb02f873b3963ecd1738fd&quot;,
-    &quot;diff_ids&quot;: [
-      &quot;sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc&quot;,
-      &quot;sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6&quot;
-    ],
-    &quot;format&quot;: &quot;docker-save&quot;,
-    &quot;layer_digests&quot;: [
-      &quot;sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc&quot;,
-      &quot;sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6&quot;
-    ],
-    &quot;manifest_digest&quot;: &quot;sha256:6919cf0962349fd1809cc6168286b7af680525085f21d93674b0483ddb4e24fd&quot;,
-    &quot;manifest_digest_encoding&quot;: &quot;selected-entry-canonical-json&quot;,
-    &quot;platform&quot;: &quot;linux/amd64&quot;,
-    &quot;repo_tags&quot;: [
-      &quot;fixture:latest&quot;
-    ]
-  },
-  &quot;input_kind&quot;: &quot;archive&quot;
-}</code></pre></div></details>
-<details class=""><summary>Image package, operating-system, permission, and runtime inventory</summary><div class="details-body"><pre class="audit"><code>{
-  &quot;binary_logic_analyzed&quot;: false,
-  &quot;binary_secret_engine_enabled&quot;: false,
-  &quot;identity&quot;: {
-    &quot;archive_sha256&quot;: &quot;4010c0c8f34af0ff9172858af3ba8cab6d0c61b585c2ed81d8a89fc98249e16a&quot;,
-    &quot;config_digest&quot;: &quot;sha256:4d3b0348c48a9cbf6c97239e9e3b7596cdc0e6f9a0eb02f873b3963ecd1738fd&quot;,
-    &quot;diff_ids&quot;: [
-      &quot;sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc&quot;,
-      &quot;sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6&quot;
-    ],
-    &quot;format&quot;: &quot;docker-save&quot;,
-    &quot;layer_digests&quot;: [
-      &quot;sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc&quot;,
-      &quot;sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6&quot;
-    ],
-    &quot;manifest_digest&quot;: &quot;sha256:6919cf0962349fd1809cc6168286b7af680525085f21d93674b0483ddb4e24fd&quot;,
-    &quot;manifest_digest_encoding&quot;: &quot;selected-entry-canonical-json&quot;,
-    &quot;platform&quot;: &quot;linux/amd64&quot;,
-    &quot;repo_tags&quot;: [
-      &quot;fixture:latest&quot;
-    ]
-  },
-  &quot;os_release&quot;: {},
-  &quot;package_inventory_is_cve_scan&quot;: false,
-  &quot;packages&quot;: [],
-  &quot;permission_review_signals&quot;: [],
-  &quot;runtime&quot;: {
-    &quot;command_present&quot;: false,
-    &quot;configured_user&quot;: &quot;1000&quot;,
-    &quot;deployment_user_override_checked&quot;: false,
-    &quot;entrypoint_present&quot;: false,
-    &quot;environment_names&quot;: [
-      &quot;SERVICE_API_KEY&quot;
-    ],
-    &quot;label_names&quot;: [],
-    &quot;user_assessment&quot;: &quot;nonroot_numeric&quot;,
-    &quot;working_directory&quot;: &quot;/app&quot;
-  }
-}</code></pre></div></details>
-<details class=""><summary>Image extraction and assessment coverage</summary><div class="details-body"><pre class="audit"><code>{
-  &quot;assessment_coverage&quot;: {
-    &quot;counters&quot;: {
-      &quot;bytes_charged&quot;: 208,
-      &quot;bytes_read&quot;: 50,
-      &quot;max_metadata_records&quot;: 10000,
-      &quot;metadata_evidence_files&quot;: 3,
-      &quot;metadata_records_considered&quot;: 2,
-      &quot;retained_layer_revisions_checked&quot;: 1
-    },
-    &quot;errors&quot;: [],
-    &quot;limitations&quot;: [
-      &quot;Image metadata and retained layers are assessed offline; the image is never started and binaries are not decompiled.&quot;,
-      &quot;Installed-package metadata is inventory only; no CVE database, vendor advisory, signature, or exploitability lookup is performed.&quot;,
-      &quot;Deleted and overwritten layers are checked for credential exposure only; other historic source patterns are not live-runtime findings.&quot;,
-      &quot;Default image user, stored permissions, and command configuration can be overridden at deployment; runtime isolation and authorization require separate validation.&quot;,
-      &quot;Compiled code, obfuscated data, encrypted secrets, unsupported package databases, and unavailable source cannot receive source-level rule coverage.&quot;
-    ],
-    &quot;skipped&quot;: []
-  },
-  &quot;extraction_coverage&quot;: {
-    &quot;archive_bytes&quot;: 30720,
-    &quot;archive_entries&quot;: 7,
-    &quot;errors&quot;: [],
-    &quot;expanded_archive_bytes&quot;: 30720,
-    &quot;file_revisions&quot;: 2,
-    &quot;final_entries&quot;: 3,
-    &quot;layer_content_bytes&quot;: 82,
-    &quot;layers&quot;: 2,
-    &quot;materialized_bytes&quot;: 32,
-    &quot;skipped&quot;: [],
-    &quot;unpacked_layer_bytes&quot;: 20480
-  },
-  &quot;limits&quot;: {
-    &quot;max_archive_bytes&quot;: 2000000000,
-    &quot;max_layer_entries&quot;: 500000,
-    &quot;max_layers&quot;: 200,
-    &quot;max_unpacked_bytes&quot;: 4000000000
-  }
-}</code></pre></div></details>
-</div></section>
 <section id="advisory"><p class="eyebrow">Separate advisory layer</p><h2>Optional security review</h2><div class="panel">
 <p class="note">Model output is nondeterministic and advisory. It cannot dismiss deterministic findings, change their severity, establish compliance, or change the deterministic CI gate.</p>
 <p><strong>Disabled.</strong> No optional LLM request was made. The deterministic scan and this report run independently.</p>
@@ -405,11 +555,12 @@
 <section id="controls"><div class="section-heading"><div><p class="eyebrow">Complete control checklist</p><h2>Controls and acceptance checks</h2></div><a class="back" href="#top">Back to top</a></div>
 <p>All 66 catalog controls appear below. Expand a control for acceptance checks, source guidance, mapped findings, and any optional analyst review.</p>
 <p class="note">These are project-defined checks mapped to published guidance, not official benchmark scores. <code>no_pattern_detected</code> means only that the mapped detector did not fire. <code>findings_detected</code> requires investigation; it is not an automatic compliance failure.</p>
-<details class="control" id="control-c8fc6e8bbfe42e1e"><summary><span class="control-title"><span class="control-code">GOV-01</span>Inventory every agent, MCP server, tool, and model</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<details class="control" id="control-c8fc6e8bbfe42e1e"><summary><span class="control-title"><span class="control-code">GOV-01</span>Inventory every agent, MCP server, tool, and model</span><span class="pill disabled">disabled</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> Governance · <strong>Validation:</strong> manual</p>
 <p class="note">Not established by this static scan</p>
 <h4>Acceptance checks</h4>
-<ol class="checklist"><li>Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints.</li><li>Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers.</li></ol>
+<ol class="checklist"><li>Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints.<div class="spacer"><span class="pill disabled">disabled</span> <code>GOV-01:1</code><p><strong>User reason:</strong> EXAMPLE ONLY: inventory governance is outside this selected engineering review.</p><p class="small">Excluded from active review totals without positive or negative credit.</p></div></li><li>Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers.<div class="spacer"><span class="pill disabled">disabled</span> <code>GOV-01:2</code><p><strong>User reason:</strong> EXAMPLE ONLY: inventory governance is outside this selected engineering review.</p><p class="small">Excluded from active review totals without positive or negative credit.</p></div></li></ol>
+<p class="small"><strong>Underlying static status:</strong> manual_review_required. The user decision does not change detector evidence.</p>
 
 
 
@@ -486,7 +637,7 @@
 <p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> hybrid</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
-<ol class="checklist"><li>Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries.</li><li>Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation.</li></ol>
+<ol class="checklist"><li>Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries.</li><li>Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation.<div class="spacer"><span class="pill justified">justified</span> <code>AUTH-01:2</code><p><strong>User reason:</strong> EXAMPLE ONLY: owner-reviewed authentication evidence is recorded in the external assessment.</p><p class="small">Excluded from active review totals without positive or negative credit.</p></div></li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI026, AI041</p>
 
 
@@ -544,7 +695,7 @@
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Use short-lived scoped credentials where supported, protect refresh tokens, and validate rotation and revocation.</li><li>Avoid tokens in query strings, model context, source, child-process arguments, and diagnostic output.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI010, AI011, AI030, AI034</p>
-<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-b1a04a9b8cb75eea"><code>9d4be3b23ed7a5edbf22f308</code></a>, <a href="#finding-908179b40eae85ee"><code>e770b87231f7a7060cc1f9cc</code></a></p>
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-905bdaaa0ff6de85"><code>afb2bdb94696690028650faf</code></a></p>
 
 
 
@@ -602,13 +753,13 @@
 <p class="small spacer"><strong>Source mappings:</strong> CSA-AGENT-IAM, NIST-AGENT-IDENTITY-DRAFT</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach" rel="noopener noreferrer">https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach</a></li><li><a href="https://www.nccoe.nist.gov/publications/other/accelerating-adoption-software-and-ai-agent-identity-and-authorization-concept" rel="noopener noreferrer">https://www.nccoe.nist.gov/publications/other/accelerating-adoption-software-and-ai-agent-identity-and-authorization-concept</a></li></ul></div>
 </div></details>
-<details class="control" id="control-7e7c857a2e49eba8"><summary><span class="control-title"><span class="control-code">MCP-01</span>Validate transport exposure and origin</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<details class="control" id="control-7e7c857a2e49eba8"><summary><span class="control-title"><span class="control-code">MCP-01</span>Validate transport exposure and origin</span><span class="pill">findings_detected</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> hybrid</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>For HTTP, reject invalid Origin values and verify local deployments bind only to intended interfaces.</li><li>Use TLS for remote protected endpoints; test DNS rebinding and proxy/header behavior in deployment.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI006, AI007, AI008, AI029</p>
-
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-b0fb0bf3edd91686"><code>07fc5f6fd7699fd0194dc479</code></a>, <a href="#finding-972bd4a450d55cd8"><code>d841174f55e032505f8136b9</code></a></p>
 
 
 
@@ -705,16 +856,16 @@
 <p class="small spacer"><strong>Source mappings:</strong> MCP-ROOTS</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/client/roots" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/client/roots</a></li></ul></div>
 </div></details>
-<details class="control" id="control-9e184aee32fb1724"><summary><span class="control-title"><span class="control-code">MCP-09</span>Constrain local server launch and inherited environment</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<details class="control" id="control-9e184aee32fb1724"><summary><span class="control-title"><span class="control-code">MCP-09</span>Constrain local server launch and inherited environment</span><span class="pill">findings_detected</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> hybrid</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Approve executable and package identity before starting a stdio server; use argument arrays and a minimal environment.</li><li>Restrict proxy process-spawn APIs and child filesystem/network permissions; separate stdout protocol traffic from logs.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI018, AI031</p>
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-023509c337313312"><code>592fbfc9b7dab062dc97906c</code></a></p>
 
 
-
-
+<p class="small"><strong>Disabled finding IDs:</strong> <a href="#finding-62e5f603bc805d76"><code>6b77081a826c4c6833edc47f</code></a></p>
 <p class="small spacer"><strong>Source mappings:</strong> MCP-SECURITY, OWASP-MCP-CS</p>
 <p class="small"><strong>Additional alignment:</strong> OWASP-AISVS-C10</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html" rel="noopener noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html</a></li></ul></div>
@@ -731,13 +882,13 @@
 <p class="small spacer"><strong>Source mappings:</strong> MCP-TRANSPORTS, MCP-HTTP</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/transports" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/transports</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http</a></li></ul></div>
 </div></details>
-<details class="control" id="control-f39da271682c06ce"><summary><span class="control-title"><span class="control-code">AGT-01</span>Enforce action policy outside the model</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<details class="control" id="control-f39da271682c06ce"><summary><span class="control-title"><span class="control-code">AGT-01</span>Enforce action policy outside the model</span><span class="pill">findings_detected</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> Agent behavior and context · <strong>Validation:</strong> hybrid</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Place allow/deny decisions at the execution boundary using trusted policy inputs and constrained tool capabilities.</li><li>Show that an injected instruction cannot disable policy, choose privileged credentials, or bypass approval.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI027, AI031</p>
-
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-023509c337313312"><code>592fbfc9b7dab062dc97906c</code></a></p>
 
 
 
@@ -745,13 +896,13 @@
 <p class="small"><strong>Additional alignment:</strong> CIS-MCP-2026, OWASP-AISVS-C9, AIUC1-Q3-2026</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses</a></li></ul></div>
 </div></details>
-<details class="control" id="control-bc40bfe5f2e0dec4"><summary><span class="control-title"><span class="control-code">AGT-02</span>Bind approval to the action executed</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<details class="control" id="control-bc40bfe5f2e0dec4"><summary><span class="control-title"><span class="control-code">AGT-02</span>Bind approval to the action executed</span><span class="pill">findings_detected</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> Agent behavior and context · <strong>Validation:</strong> dynamic</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Present actual recipient, target, arguments, data disclosure, and consequences for high-impact approval.</li><li>Invalidate approval if arguments or target change; test races, delayed retries, and approval reuse.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI031</p>
-
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-023509c337313312"><code>592fbfc9b7dab062dc97906c</code></a></p>
 
 
 
@@ -829,20 +980,20 @@
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Find shell execution and constructed command strings; use fixed executables, argument arrays, and allowed argument values.</li><li>Test untrusted tool inputs containing shell syntax, option injection, command substitution, and hostile filenames.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI002, AI003, AI012</p>
-<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-048583e918841128"><code>93d63de077ec33adbdb1ce75</code></a></p>
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-193f30b4480af19a"><code>979d192981c1785a2394fe19</code></a>, <a href="#finding-61b51e1ee40425bd"><code>0fa7e450cd583d78646ef397</code></a></p>
 
 
 
 <p class="small spacer"><strong>Source mappings:</strong> OWASP-MCP10, OWASP-OUTPUT2025</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://owasp.org/projects/mcp-top-10" rel="noopener noreferrer">https://owasp.org/projects/mcp-top-10</a></li><li><a href="https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/" rel="noopener noreferrer">https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/</a></li></ul></div>
 </div></details>
-<details class="control" id="control-1bb786edd84bebeb"><summary><span class="control-title"><span class="control-code">EXEC-02</span>Constrain generated-code execution</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<details class="control" id="control-1bb786edd84bebeb"><summary><span class="control-title"><span class="control-code">EXEC-02</span>Constrain generated-code execution</span><span class="pill">findings_detected</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Locate eval, exec, dynamic imports, templates, notebooks, and interpreter tools accepting model or user content.</li><li>Run required code execution in a disposable restricted environment with explicit filesystem, network, CPU, and time limits.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI001, AI013</p>
-
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-af20d1e161ca5c4a"><code>b1b0f0a3f33fe93875fcb58a</code></a></p>
 
 
 
@@ -889,13 +1040,13 @@
 <p class="small spacer"><strong>Source mappings:</strong> MCP-SECURITY</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
 </div></details>
-<details class="control" id="control-15f6680ce355ea47"><summary><span class="control-title"><span class="control-code">EXEC-06</span>Reject unsafe parsing and deserialization</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<details class="control" id="control-15f6680ce355ea47"><summary><span class="control-title"><span class="control-code">EXEC-06</span>Reject unsafe parsing and deserialization</span><span class="pill">findings_detected</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Inspect pickle, unsafe YAML, object deserialization, XML entity expansion, and unconstrained recursive parsers.</li><li>Use data-only formats with byte, nesting, and type limits; test malformed input and expansion attacks.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI004, AI005, AI035</p>
-
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-41a2872c0a4408e8"><code>d2d09fb2875db72f18779bfc</code></a></p>
 
 
 
@@ -921,7 +1072,7 @@
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Inspect code, examples, configuration, notebooks, test fixtures, and generated artifacts for secret-like values.</li><li>Verify actual exposures with the owner, rotate real credentials, and remove them from reachable history and artifacts.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI010, AI011, AI030, AI034</p>
-<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-b1a04a9b8cb75eea"><code>9d4be3b23ed7a5edbf22f308</code></a>, <a href="#finding-908179b40eae85ee"><code>e770b87231f7a7060cc1f9cc</code></a></p>
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-905bdaaa0ff6de85"><code>afb2bdb94696690028650faf</code></a></p>
 
 
 
@@ -995,16 +1146,17 @@
 <p class="small"><strong>Additional alignment:</strong> CSA-CCM, CIS-AGENTS-2026</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/" rel="noopener noreferrer">https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely</a></li></ul></div>
 </div></details>
-<details class="control" id="control-ef0baf6e8902818d"><summary><span class="control-title"><span class="control-code">SUP-01</span>Pin and inventory executable dependencies</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<details class="control" id="control-ef0baf6e8902818d"><summary><span class="control-title"><span class="control-code">SUP-01</span>Pin and inventory executable dependencies</span><span class="pill">findings_exempted</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> Supply chain · <strong>Validation:</strong> static</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Review lockfiles and exact versions or immutable digests for packages, images, MCP servers, models, and plugins.</li><li>Flag runtime installs, floating tags, remote scripts, and dependency sources outside approved registries.</li></ol>
+<p class="small"><strong>Underlying static status:</strong> findings_detected. The user decision does not change detector evidence.</p>
 <p class="small spacer"><strong>Partial static rules:</strong> AI018, AI024, AI025</p>
 
 
-
-
+<p class="small"><strong>Justified finding IDs:</strong> <a href="#finding-0ca23a2f487902a4"><code>055ed29e5f56926f1827a0b8</code></a></p>
+<p class="small"><strong>Disabled finding IDs:</strong> <a href="#finding-62e5f603bc805d76"><code>6b77081a826c4c6833edc47f</code></a></p>
 <p class="small spacer"><strong>Source mappings:</strong> NIST-SSDF</p>
 <p class="small"><strong>Additional alignment:</strong> NIST-SSDF-AI, AIUC1-Q3-2026</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/final</a></li></ul></div>
@@ -1022,15 +1174,16 @@
 <p class="small"><strong>Additional alignment:</strong> CSA-AISMM, CIS-MCP-2026, OPENSSF-BASELINE-202608</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development" rel="noopener noreferrer">https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development</a></li></ul></div>
 </div></details>
-<details class="control" id="control-5aa3257d5693ce20"><summary><span class="control-title"><span class="control-code">SUP-03</span>Verify artifact identity and provenance</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<details class="control" id="control-5aa3257d5693ce20"><summary><span class="control-title"><span class="control-code">SUP-03</span>Verify artifact identity and provenance</span><span class="pill">findings_justified</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> Supply chain · <strong>Validation:</strong> manual</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Verify publisher identity, hashes/signatures, build provenance, and intended origin before enabling artifacts.</li><li>Review model loading and serialization behavior; an integrity hash cannot make an untrusted publisher safe.</li></ol>
+<p class="small"><strong>Underlying static status:</strong> findings_detected. The user decision does not change detector evidence.</p>
 <p class="small spacer"><strong>Partial static rules:</strong> AI019, AI024, AI035</p>
 
 
-
+<p class="small"><strong>Justified finding IDs:</strong> <a href="#finding-0ca23a2f487902a4"><code>055ed29e5f56926f1827a0b8</code></a></p>
 
 <p class="small spacer"><strong>Source mappings:</strong> NSA-DATA, NIST-SSDF</p>
 <p class="small"><strong>Additional alignment:</strong> CSA-AICM, CSA-MAESTRO, NIST-SSDF-AI, OWASP-AISVS-C10, SLSA-12, OPENSSF-MODEL-SIGNING</p>
@@ -1050,13 +1203,13 @@
 <p class="small"><strong>Additional alignment:</strong> NIST-SSDF-AI, CIS-MCP-2026, OPENSSF-BASELINE-202608, SLSA-12</p>
 <div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/final</a></li></ul></div>
 </div></details>
-<details class="control" id="control-488929fd82499efd"><summary><span class="control-title"><span class="control-code">SUP-05</span>Harden runtime isolation and deployment defaults</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<details class="control" id="control-488929fd82499efd"><summary><span class="control-title"><span class="control-code">SUP-05</span>Harden runtime isolation and deployment defaults</span><span class="pill">findings_detected</span></summary><div class="details-body">
 <p class="small"><strong>Category:</strong> Supply chain · <strong>Validation:</strong> hybrid</p>
 <p class="note">Partial static coverage only; absence of a finding is not a pass</p>
 <h4>Acceptance checks</h4>
 <ol class="checklist"><li>Review root/privileged containers, host mounts, Docker sockets, unrestricted egress, debug mode, and public management endpoints.</li><li>Separate agent execution from control-plane credentials and audit storage; test isolation in the deployed environment.</li></ol>
 <p class="small spacer"><strong>Partial static rules:</strong> AI021, AI022, AI023, AI031, AI042</p>
-
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-023509c337313312"><code>592fbfc9b7dab062dc97906c</code></a>, <a href="#finding-a258b8b7bd29cac1"><code>aa7bba175c60406f04c15d29</code></a></p>
 
 
 
@@ -1279,8 +1432,8 @@
   &quot;schema_version&quot;: &quot;1.0&quot;
 }</code></pre></div></details>
 <details class=""><summary>Scanner identity and implementation digest</summary><div class="details-body"><pre class="audit"><code>{
-  &quot;mode&quot;: &quot;deterministic_image&quot;,
-  &quot;scan_id&quot;: &quot;f272cac9d3754141a3915bde2e4cc8c2454a7a4563c74f1ce3f64e8fb0f0112e&quot;,
+  &quot;mode&quot;: &quot;deterministic_static&quot;,
+  &quot;scan_id&quot;: &quot;9dbb2e2c1e9c3eb22f640380c263857392a0227df77c6a4a9d4dc112a71a872b&quot;,
   &quot;schema_version&quot;: &quot;1.0&quot;,
   &quot;tool&quot;: {
     &quot;display_name&quot;: &quot;Invarune by NimeshBuild&quot;,

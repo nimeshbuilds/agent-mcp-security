@@ -2,7 +2,7 @@
 
 AI agent and MCP security report
 
-Scan ID: `16c8feff0b84e23a7beab20ef46e661fd83817ad104314157f6f071faf297d3a`
+Scan ID: `f272cac9d3754141a3915bde2e4cc8c2454a7a4563c74f1ce3f64e8fb0f0112e`
 
 This is static security triage, not certification or proof that a system is secure.
 
@@ -16,7 +16,7 @@ The scanner found 3 open critical/high patterns among 3 open findings\. Confirm 
 |---:|---:|---:|---:|---:|
 | 3 | 3 | 3 | 0 | 0 |
 
-All **66 controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.
+**66 active controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.
 
 **What the scanner found:** Secrets: 2; Tool execution: 1. These are detected pattern categories, not confirmed attack paths.
 

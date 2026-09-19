@@ -1,7 +1,8 @@
 """Deterministic orchestration around an optional, nondeterministic security analyst.
 
 This module never executes repository code or follows model-selected actions.
-All controls remain unvalidated by static triage, so every control is queued.
+Static triage does not validate controls. Every active acceptance check is queued;
+explicit user dispositions stay separate from model advice and validation.
 """
 import copy
 import hashlib
@@ -38,27 +39,66 @@ def validate_limits(*, max_calls=12, batch_size=6, max_files=200,
         raise ValueError("Analyst max_seconds must be greater than zero and at most 3600")
 
 
+def _is_excluded(check):
+    return check.get("status") in {"justified", "disabled"}
+
+
 def _unreviewed(control, reason):
+    dispositions = {item["check_index"]: item for item in control.get("check_dispositions", [])}
+    checks = []
+    for index, check in enumerate(control["checks"], 1):
+        disposition = dispositions.get(index, {})
+        status = disposition.get("status", "active")
+        if status in {"justified", "disabled"}:
+            checks.append({
+                "check_id": disposition.get("check_id", control["id"] + ":" + str(index)),
+                "check_index": index, "check": check, "status": status,
+                "model_supplied": False, "excluded_from_review": True,
+                "reason": redact(disposition.get("reason", "")), "citations": [],
+                "verification_steps": [],
+                "provenance": {"source": "user_review_config", "verified": False,
+                               "scope": disposition.get("scope", "check")},
+            })
+        else:
+            checks.append({
+                "check_index": index, "check": check, "status": "insufficient_evidence",
+                "model_supplied": False, "reason": reason, "citations": [],
+                "verification_steps": ["Collect the required evidence and review this check with its responsible owner."],
+            })
+    excluded = [check for check in checks if _is_excluded(check)]
+    review_status = "not_reviewed"
+    if len(excluded) == len(checks):
+        statuses = {check["status"] for check in excluded}
+        review_status = next(iter(statuses)) if len(statuses) == 1 else "excluded_from_review"
     return {
         "control_id": control["id"], "title": control["title"],
-        "validation": control["validation"], "static_status": control["status"],
-        "review_status": "not_reviewed", "validation_established": False,
+        "validation": control["validation"], "static_status": control.get("static_status", control["status"]),
+        **({"effective_status": control["status"]} if "static_status" in control else {}),
+        "review_status": review_status, "validation_established": False,
         "provenance": dict(PROVENANCE),
-        "check_assessments": [
-            {"check_index": index, "check": check, "status": "insufficient_evidence",
-             "model_supplied": False, "reason": reason, "citations": [],
-             "verification_steps": ["Collect the required evidence and review this check with its responsible owner."]}
-            for index, check in enumerate(control["checks"], 1)
-        ],
+        "check_assessments": checks,
     }
 
 
 def _finish(result):
     assessments = result["control_assessments"]
     coverage = result["coverage"]
-    coverage["reviewed_controls"] = sum(c["review_status"] == "reviewed" for c in assessments)
-    coverage["unreviewed_control_ids"] = [c["control_id"] for c in assessments if c["review_status"] != "reviewed"]
-    coverage["omitted_checks"] = sum(not check["model_supplied"] for c in assessments for check in c["check_assessments"])
+    all_checks = [check for c in assessments for check in c["check_assessments"]]
+    active_checks = [check for check in all_checks if not _is_excluded(check)]
+    active_controls = [c for c in assessments if any(not _is_excluded(check) for check in c["check_assessments"])]
+    coverage.update({
+        "catalog_controls": len(assessments), "catalog_checks": len(all_checks),
+        "total_controls": len(active_controls), "total_checks": len(active_checks),
+        "excluded_controls": len(assessments) - len(active_controls),
+        "excluded_checks": len(all_checks) - len(active_checks),
+        "justified_controls": sum(c["review_status"] == "justified" for c in assessments),
+        "disabled_controls": sum(c["review_status"] == "disabled" for c in assessments),
+        "justified_checks": sum(check["status"] == "justified" for check in all_checks),
+        "disabled_checks": sum(check["status"] == "disabled" for check in all_checks),
+    })
+    coverage["reviewed_controls"] = sum(c["review_status"] == "reviewed" for c in active_controls)
+    coverage["unreviewed_control_ids"] = [c["control_id"] for c in active_controls if c["review_status"] != "reviewed"]
+    coverage["omitted_checks"] = sum(not check["model_supplied"] for check in active_checks)
     coverage["validated_controls"] = 0
     counts = {}
     for control in assessments:
@@ -75,7 +115,7 @@ def unreviewed_analyst(report, reason, *, status="error", max_calls=0):
     reason = redact(reason)
     return _finish({
         "enabled": True, "status": status, "advisory_only": True, "nondeterministic": True,
-        "routing_policy": "Every catalog control: static pattern scans cannot establish control completion.",
+        "routing_policy": "Every active acceptance check: static patterns cannot establish completion; justified and disabled checks are excluded without being marked passed.",
         "control_assessments": [_unreviewed(control, reason) for control in report["controls"]],
         "coverage": {"total_controls": len(report["controls"]),
                      "total_checks": sum(len(c["checks"]) for c in report["controls"]),
@@ -100,8 +140,23 @@ def run_analyst(config, report, root, *, max_calls=12, batch_size=6,
     result = unreviewed_analyst(report, "The bounded analyst review has not assessed this check.",
                                status="incomplete", max_calls=max_calls)
     result["coverage"].update({"batch_size": batch_size, "time_budget_seconds": max_seconds})
+    by_assessment = {item["control_id"]: item for item in result["control_assessments"]}
+    controls = []
+    check_indices = {}
+    for control in report["controls"]:
+        active = [check["check_index"] for check in by_assessment[control["id"]]["check_assessments"]
+                  if not _is_excluded(check)]
+        if active:
+            check_indices[control["id"]] = active
+            controls.append({**control, "checks": [control["checks"][index - 1] for index in active]})
+    if not controls:
+        result["coverage"]["evidence"] = {"collection_status": "not_required", "reason": "No active acceptance checks."}
+        return _finish(result)
     try:
-        bundle = build_evidence(report, root, max_files=max_files, max_bytes=max_bytes, max_chars=max_chars)
+        # Only active check text contributes retrieval terms. User reasons remain
+        # local audit data and never become model instructions or evidence.
+        bundle = build_evidence({**report, "controls": controls}, root,
+                                max_files=max_files, max_bytes=max_bytes, max_chars=max_chars)
     except (OSError, ValueError):
         result["status"] = "error"
         result["errors"].append("Analyst evidence collection failed; deterministic results are preserved.")
@@ -109,7 +164,6 @@ def run_analyst(config, report, root, *, max_calls=12, batch_size=6,
     result["evidence"] = bundle["evidence"]
     result["coverage"]["evidence"] = bundle["coverage"]
     by_evidence = {item["evidence_id"]: item for item in bundle["evidence"]}
-    controls = report["controls"]
     stop_reason = None
     for start in range(0, len(controls), batch_size):
         remaining = max_seconds - (time.monotonic() - started)
@@ -140,6 +194,7 @@ def run_analyst(config, report, root, *, max_calls=12, batch_size=6,
         }
         encoded = json.dumps(payload, sort_keys=True, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
         request = {"batch": len(result["requests"]) + 1, "control_ids": [c["id"] for c in batch],
+                   "check_index_map": {c["id"]: list(check_indices[c["id"]]) for c in batch},
                    "evidence_ids": evidence_ids, "payload_sha256": hashlib.sha256(encoded).hexdigest(),
                    "status": "error"}
         result["requests"].append(request)
@@ -159,21 +214,24 @@ def run_analyst(config, report, root, *, max_calls=12, batch_size=6,
             "controls_submitted", "checks_submitted", "omitted_controls", "omitted_checks") if key in response})
         request["status"] = "completed"
         normalized = {item["control_id"]: item for item in response["control_assessments"]}
-        for offset, control in enumerate(batch, start):
-            assessment = result["control_assessments"][offset]
+        for control in batch:
+            assessment = by_assessment[control["id"]]
             returned = {c["check_index"]: c for c in normalized[control["id"]]["check_assessments"]}
-            for index, old in enumerate(assessment["check_assessments"], 1):
-                if index in returned:
-                    check = copy.deepcopy(returned[index])
+            active_indices = check_indices[control["id"]]
+            for submitted_index, original_index in enumerate(active_indices, 1):
+                old = assessment["check_assessments"][original_index - 1]
+                if submitted_index in returned:
+                    check = copy.deepcopy(returned[submitted_index])
+                    check["check_index"] = original_index
                     check["check"] = old["check"]
                     check.setdefault("model_supplied", True)
-                    assessment["check_assessments"][index - 1] = check
-            count = sum(check["model_supplied"] for check in assessment["check_assessments"])
-            assessment["review_status"] = "reviewed" if count == len(control["checks"]) else "partial" if count else "not_reviewed"
+                    assessment["check_assessments"][original_index - 1] = check
+            count = sum(check["model_supplied"] for check in assessment["check_assessments"] if not _is_excluded(check))
+            assessment["review_status"] = "reviewed" if count == len(active_indices) else "partial" if count else "not_reviewed"
     if stop_reason:
         result["coverage"]["stop_reason"] = stop_reason
         for assessment in result["control_assessments"]:
             for check in assessment["check_assessments"]:
-                if not check["model_supplied"] and assessment["review_status"] == "not_reviewed":
+                if not _is_excluded(check) and not check["model_supplied"] and assessment["review_status"] == "not_reviewed":
                     check["reason"] = stop_reason
     return _finish(result)

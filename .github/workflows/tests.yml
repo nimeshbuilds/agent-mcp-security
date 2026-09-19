@@ -92,6 +92,8 @@ jobs:
                   assert 'Custom JSON gateway configuration:' in result.stdout
                   assert 'Container images without a source checkout:' in result.stdout
                   assert 'compatible legacy alias' in result.stdout
+                  assert 'Review config JSON shape:' in result.stdout
+                  assert '--review-config' in result.stdout
                   outputs.append(result.stdout)
               assert outputs[0] == outputs[1]
               references.append(outputs[0].split('Invarune by NimeshBuild', 1)[1])
@@ -117,10 +119,43 @@ jobs:
           assert artifacts[0] == artifacts[1]
           print('Installed branded and legacy commands emit identical image reports.')
           PY
+      - name: Verify installed review dispositions for source and image inputs
+        working-directory: ${{ runner.temp }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib, subprocess
+          from ai_security_scan.rules import RULES
+          root = pathlib.Path(os.environ['GITHUB_WORKSPACE'])
+          temp = pathlib.Path(os.environ['RUNNER_TEMP'])
+          policy = temp / 'trusted-review.json'
+          policy.write_text(json.dumps({'schema_version': '1.0',
+              'rules': {r['id']: {'status': 'justified', 'reason': 'Installed-package CI fixture only.'} for r in RULES},
+              'controls': {'GOV-01': {'status': 'disabled'}},
+              'checks': {'AUTH-01:2': {'status': 'justified', 'reason': 'External review fixture.'}}}))
+          for name, target, observed in (('source', [str(root / 'examples/vulnerable')], 11),
+                                         ('image', ['--image-archive', str(root / 'examples/images/demo-agent.tar')], 3)):
+              artifacts = []
+              for command in ('invarune', 'ai-security-scan'):
+                  output = temp / ('installed-reviewed-' + name + '-' + command)
+                  process = subprocess.run([command, *target, '--review-config', str(policy), '--output', str(output), '--summary-json'],
+                                           capture_output=True, text=True, check=True)
+                  summary = json.loads(process.stdout)
+                  report = json.loads((output / 'report.json').read_text())
+                  assert summary['summary']['open_findings'] == 0
+                  assert summary['summary']['justified_findings'] == observed
+                  assert summary['coverage']['total_checks'] == 129
+                  assert summary['coverage']['catalog_checks'] == 132
+                  assert report['review_policy']['counts']['active_rules'] == 0
+                  assert all(f['status'] == 'justified' for f in report['findings'])
+                  assert report['assessment']['posture']['code'] == 'configured_exceptions'
+                  artifacts.append({p.name: p.read_bytes() for p in output.glob('report.*')})
+              assert artifacts[0] == artifacts[1]
+          print('Installed source/image exceptions preserve audit evidence, exclude active counts, and match across aliases.')
+          PY
       - name: Validate generated SARIF against the pinned OASIS schema
         run: |
           curl --fail --location --proto '=https' --tlsv1.2 --max-time 30 https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json --output test-output/sarif-schema.json
-          python scripts/validate_sarif.py --schema test-output/sarif-schema.json "$RUNNER_TEMP/installed-scan/report.sarif" "$RUNNER_TEMP/installed-image-scan/report.sarif" examples/reports/vulnerable/report.sarif
+          python scripts/validate_sarif.py --schema test-output/sarif-schema.json "$RUNNER_TEMP/installed-scan/report.sarif" "$RUNNER_TEMP/installed-image-scan/report.sarif" examples/reports/vulnerable/report.sarif "$RUNNER_TEMP/installed-reviewed-source-invarune/report.sarif" "$RUNNER_TEMP/installed-reviewed-image-invarune/report.sarif"
 
   built-image-integration:
     runs-on: ubuntu-latest

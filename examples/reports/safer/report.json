@@ -14,11 +14,24 @@
     "immediate_actions": [],
     "method": "deterministic_guidance",
     "metrics": {
+      "active_checks": 132,
+      "active_rules": 42,
       "affected_files": 0,
+      "checks_total": 132,
       "controls_requiring_validation": 66,
       "controls_total": 66,
       "coverage_gaps": 0,
+      "disabled_checks": 0,
+      "disabled_controls": 0,
+      "disabled_findings": 0,
+      "disabled_rules": 0,
+      "excluded_controls": 0,
       "files_scanned": 2,
+      "justified_checks": 0,
+      "justified_controls": 0,
+      "justified_findings": 0,
+      "justified_rules": 0,
+      "mixed_excluded_controls": 0,
       "open_findings": 0,
       "suppressed_findings": 0,
       "urgent_findings": 0
@@ -58,6 +71,8 @@
       "venv"
     ],
     "exclude": [],
+    "explicit_exclusion_identity_scope": "Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.",
+    "explicit_exclusion_matching": "resolved_paths_and_snapshot_filesystem_identities",
     "generated_outputs_and_judge_config_excluded": true,
     "max_entries": 100000,
     "max_file_bytes": 1000000,
@@ -1914,7 +1929,7 @@
     "enabled": false
   },
   "mode": "deterministic_static",
-  "scan_id": "8a1788927882f30807bdea6bd13abb0c0323a8844ab79737083c528c2341eb0e",
+  "scan_id": "0d8ea6e63689b88318c1a1603d5c307d79ea744969b0df0718ebb6ad568cb8e4",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_triage_only",
@@ -1937,9 +1952,9 @@
   "target": ".",
   "tool": {
     "display_name": "Invarune by NimeshBuild",
-    "implementation_sha256": "52f5de5d1c4f218555941425588330288156155ebab4d98824cac01a30d60143",
+    "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
     "name": "agent-mcp-security-scan",
     "python_version": "3.9.6",
-    "version": "0.6.0"
+    "version": "0.7.0"
   }
 }

@@ -2,7 +2,7 @@
 
 AI agent and MCP security report
 
-Scan ID: `8a1788927882f30807bdea6bd13abb0c0323a8844ab79737083c528c2341eb0e`
+Scan ID: `0d8ea6e63689b88318c1a1603d5c307d79ea744969b0df0718ebb6ad568cb8e4`
 
 This is static security triage, not certification or proof that a system is secure.
 
@@ -16,7 +16,7 @@ The selected static scope completed without a detector match\. This is not a sec
 |---:|---:|---:|---:|---:|
 | 0 | 0 | 0 | 0 | 0 |
 
-All **66 controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.
+**66 active controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.
 
 **Execution:** exit 0; severity threshold high. The exit threshold does not change the review priorities below.
 

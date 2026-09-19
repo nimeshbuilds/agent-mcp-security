@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "rules": {
+    "AI018": {
+      "status": "disabled",
+      "reason": "EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control."
+    },
+    "AI024": {
+      "status": "justified",
+      "reason": "EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment."
+    }
+  },
+  "controls": {
+    "GOV-01": {
+      "status": "disabled",
+      "reason": "EXAMPLE ONLY: inventory governance is outside this selected engineering review."
+    }
+  },
+  "checks": {
+    "AUTH-01:2": {
+      "status": "justified",
+      "reason": "EXAMPLE ONLY: owner-reviewed authentication evidence is recorded in the external assessment."
+    }
+  }
+}

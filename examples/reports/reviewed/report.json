@@ -1089,170 +1089,6 @@
         },
         "context_note": "Source evidence: deployment reachability and active use have not been established.",
         "control_ids": [
-          "MCP-09",
-          "SUP-01"
-        ],
-        "count": 1,
-        "defense_layers": [
-          {
-            "control_ids": [
-              "SUP-01",
-              "SUP-03"
-            ],
-            "how_it_helps": "Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory.",
-            "id": "immutable-install",
-            "residual_limit": "An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained.",
-            "source_ids": [
-              "NIST-SSDF",
-              "OPENSSF-BASELINE-202608"
-            ],
-            "sources": [
-              {
-                "id": "NIST-SSDF",
-                "title": "Secure Software Development Framework (SSDF) Version 1.1",
-                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
-              },
-              {
-                "id": "OPENSSF-BASELINE-202608",
-                "title": "Open Source Project Security Baseline",
-                "url": "https://baseline.openssf.org/versions/2026-08-28"
-              }
-            ],
-            "status": "proposed_not_verified",
-            "title": "Resolve and install reviewed dependency bytes",
-            "verification": "Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it."
-          },
-          {
-            "control_ids": [
-              "SUP-03",
-              "DATA-04"
-            ],
-            "how_it_helps": "Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.",
-            "id": "artifact-verification",
-            "residual_limit": "Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.",
-            "source_ids": [
-              "SLSA-12",
-              "OPENSSF-MODEL-SIGNING"
-            ],
-            "sources": [
-              {
-                "id": "OPENSSF-MODEL-SIGNING",
-                "title": "Launch of Model Signing v1.0",
-                "url": "https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/"
-              },
-              {
-                "id": "SLSA-12",
-                "title": "Supply-chain Levels for Software Artifacts specification",
-                "url": "https://slsa.dev/spec/v1.2/"
-              }
-            ],
-            "status": "proposed_not_verified",
-            "title": "Verify artifact identity before use",
-            "verification": "Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact."
-          },
-          {
-            "control_ids": [
-              "AUTH-05",
-              "AUTH-09"
-            ],
-            "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
-            "id": "secret-boundary",
-            "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
-            "source_ids": [
-              "JOINT-AGENTIC"
-            ],
-            "sources": [
-              {
-                "id": "JOINT-AGENTIC",
-                "title": "Careful adoption of agentic AI services",
-                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
-              }
-            ],
-            "status": "proposed_not_verified",
-            "title": "Limit credentials available to the workload",
-            "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails."
-          }
-        ],
-        "finding_ids": [
-          "6b77081a826c4c6833edc47f"
-        ],
-        "id": "group-964934e5a62a",
-        "image_context": "source",
-        "immediate_action": "Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets.",
-        "locations": [
-          {
-            "end_line": 4,
-            "finding_id": "6b77081a826c4c6833edc47f",
-            "line": 4,
-            "path": "mcp.json"
-          }
-        ],
-        "plausible_impact": "If the package runner resolves a changed or malicious artifact, the next MCP launch could execute different code with the client environment permissions.",
-        "priority": "P2",
-        "rule_id": "AI018",
-        "severity": "medium",
-        "source_ids": [
-          "CISA-SECURE-BY-DESIGN",
-          "JOINT-AGENTIC",
-          "MCP-SECURITY",
-          "NIST-SSDF",
-          "OPENSSF-BASELINE-202608",
-          "OPENSSF-MODEL-SIGNING",
-          "OWASP-MCP-CS",
-          "SLSA-12"
-        ],
-        "sources": [
-          {
-            "id": "CISA-SECURE-BY-DESIGN",
-            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
-            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
-          },
-          {
-            "id": "JOINT-AGENTIC",
-            "title": "Careful adoption of agentic AI services",
-            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
-          },
-          {
-            "id": "MCP-SECURITY",
-            "title": "MCP Security Best Practices",
-            "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
-          },
-          {
-            "id": "NIST-SSDF",
-            "title": "Secure Software Development Framework (SSDF) Version 1.1",
-            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
-          },
-          {
-            "id": "OPENSSF-BASELINE-202608",
-            "title": "Open Source Project Security Baseline",
-            "url": "https://baseline.openssf.org/versions/2026-08-28"
-          },
-          {
-            "id": "OPENSSF-MODEL-SIGNING",
-            "title": "Launch of Model Signing v1.0",
-            "url": "https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/"
-          },
-          {
-            "id": "OWASP-MCP-CS",
-            "title": "MCP Security Cheat Sheet",
-            "url": "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
-          },
-          {
-            "id": "SLSA-12",
-            "title": "Supply-chain Levels for Software Artifacts specification",
-            "url": "https://slsa.dev/spec/v1.2/"
-          }
-        ],
-        "status": "open",
-        "suggested_owner": "MCP integration/build owner",
-        "title": "MCP package runner resolves an unpinned artifact"
-      },
-      {
-        "confidence_counts": {
-          "high": 1
-        },
-        "context_note": "Source evidence: deployment reachability and active use have not been established.",
-        "control_ids": [
           "SUP-05"
         ],
         "count": 1,
@@ -1373,6 +1209,170 @@
       },
       {
         "confidence_counts": {
+          "high": 1
+        },
+        "context_note": "Source evidence: deployment reachability and active use have not been established.",
+        "control_ids": [
+          "MCP-09",
+          "SUP-01"
+        ],
+        "count": 1,
+        "defense_layers": [
+          {
+            "control_ids": [
+              "SUP-01",
+              "SUP-03"
+            ],
+            "how_it_helps": "Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory.",
+            "id": "immutable-install",
+            "residual_limit": "An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained.",
+            "source_ids": [
+              "NIST-SSDF",
+              "OPENSSF-BASELINE-202608"
+            ],
+            "sources": [
+              {
+                "id": "NIST-SSDF",
+                "title": "Secure Software Development Framework (SSDF) Version 1.1",
+                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+              },
+              {
+                "id": "OPENSSF-BASELINE-202608",
+                "title": "Open Source Project Security Baseline",
+                "url": "https://baseline.openssf.org/versions/2026-08-28"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Resolve and install reviewed dependency bytes",
+            "verification": "Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it."
+          },
+          {
+            "control_ids": [
+              "SUP-03",
+              "DATA-04"
+            ],
+            "how_it_helps": "Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.",
+            "id": "artifact-verification",
+            "residual_limit": "Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.",
+            "source_ids": [
+              "SLSA-12",
+              "OPENSSF-MODEL-SIGNING"
+            ],
+            "sources": [
+              {
+                "id": "OPENSSF-MODEL-SIGNING",
+                "title": "Launch of Model Signing v1.0",
+                "url": "https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/"
+              },
+              {
+                "id": "SLSA-12",
+                "title": "Supply-chain Levels for Software Artifacts specification",
+                "url": "https://slsa.dev/spec/v1.2/"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Verify artifact identity before use",
+            "verification": "Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact."
+          },
+          {
+            "control_ids": [
+              "AUTH-05",
+              "AUTH-09"
+            ],
+            "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+            "id": "secret-boundary",
+            "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+            "source_ids": [
+              "JOINT-AGENTIC"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-AGENTIC",
+                "title": "Careful adoption of agentic AI services",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Limit credentials available to the workload",
+            "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails."
+          }
+        ],
+        "finding_ids": [
+          "6b77081a826c4c6833edc47f"
+        ],
+        "id": "group-e166da3e2b8a",
+        "image_context": "source",
+        "immediate_action": "Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets.",
+        "locations": [
+          {
+            "end_line": 4,
+            "finding_id": "6b77081a826c4c6833edc47f",
+            "line": 4,
+            "path": "mcp.json"
+          }
+        ],
+        "plausible_impact": "If the package runner resolves a changed or malicious artifact, the next MCP launch could execute different code with the client environment permissions.",
+        "priority": "Disabled",
+        "rule_id": "AI018",
+        "severity": "medium",
+        "source_ids": [
+          "CISA-SECURE-BY-DESIGN",
+          "JOINT-AGENTIC",
+          "MCP-SECURITY",
+          "NIST-SSDF",
+          "OPENSSF-BASELINE-202608",
+          "OPENSSF-MODEL-SIGNING",
+          "OWASP-MCP-CS",
+          "SLSA-12"
+        ],
+        "sources": [
+          {
+            "id": "CISA-SECURE-BY-DESIGN",
+            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
+            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+          },
+          {
+            "id": "JOINT-AGENTIC",
+            "title": "Careful adoption of agentic AI services",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+          },
+          {
+            "id": "MCP-SECURITY",
+            "title": "MCP Security Best Practices",
+            "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+          },
+          {
+            "id": "NIST-SSDF",
+            "title": "Secure Software Development Framework (SSDF) Version 1.1",
+            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+          },
+          {
+            "id": "OPENSSF-BASELINE-202608",
+            "title": "Open Source Project Security Baseline",
+            "url": "https://baseline.openssf.org/versions/2026-08-28"
+          },
+          {
+            "id": "OPENSSF-MODEL-SIGNING",
+            "title": "Launch of Model Signing v1.0",
+            "url": "https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/"
+          },
+          {
+            "id": "OWASP-MCP-CS",
+            "title": "MCP Security Cheat Sheet",
+            "url": "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
+          },
+          {
+            "id": "SLSA-12",
+            "title": "Supply-chain Levels for Software Artifacts specification",
+            "url": "https://slsa.dev/spec/v1.2/"
+          }
+        ],
+        "status": "disabled",
+        "suggested_owner": "MCP integration/build owner",
+        "title": "MCP package runner resolves an unpinned artifact"
+      },
+      {
+        "confidence_counts": {
           "low": 1
         },
         "context_note": "Source evidence: deployment reachability and active use have not been established.",
@@ -1443,7 +1443,7 @@
         "finding_ids": [
           "055ed29e5f56926f1827a0b8"
         ],
-        "id": "group-0cc3d39352a0",
+        "id": "group-2501ac019de2",
         "image_context": "source",
         "immediate_action": "Identify the approved image digest and enforce it in the effective build or deployment while preserving a reviewed update process.",
         "locations": [
@@ -1455,7 +1455,7 @@
           }
         ],
         "plausible_impact": "If a mutable image tag changes, a rebuild or deployment may consume unreviewed bytes; the scan does not establish that the current image is vulnerable.",
-        "priority": "P3",
+        "priority": "Justified",
         "rule_id": "AI024",
         "severity": "low",
         "source_ids": [
@@ -1498,7 +1498,7 @@
             "url": "https://slsa.dev/spec/v1.2/"
           }
         ],
-        "status": "open",
+        "status": "justified",
         "suggested_owner": "Container/release owner",
         "title": "Container image is not digest pinned"
       }
@@ -2594,170 +2594,6 @@
         },
         "context_note": "Source evidence: deployment reachability and active use have not been established.",
         "control_ids": [
-          "MCP-09",
-          "SUP-01"
-        ],
-        "count": 1,
-        "defense_layers": [
-          {
-            "control_ids": [
-              "SUP-01",
-              "SUP-03"
-            ],
-            "how_it_helps": "Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory.",
-            "id": "immutable-install",
-            "residual_limit": "An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained.",
-            "source_ids": [
-              "NIST-SSDF",
-              "OPENSSF-BASELINE-202608"
-            ],
-            "sources": [
-              {
-                "id": "NIST-SSDF",
-                "title": "Secure Software Development Framework (SSDF) Version 1.1",
-                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
-              },
-              {
-                "id": "OPENSSF-BASELINE-202608",
-                "title": "Open Source Project Security Baseline",
-                "url": "https://baseline.openssf.org/versions/2026-08-28"
-              }
-            ],
-            "status": "proposed_not_verified",
-            "title": "Resolve and install reviewed dependency bytes",
-            "verification": "Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it."
-          },
-          {
-            "control_ids": [
-              "SUP-03",
-              "DATA-04"
-            ],
-            "how_it_helps": "Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.",
-            "id": "artifact-verification",
-            "residual_limit": "Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.",
-            "source_ids": [
-              "SLSA-12",
-              "OPENSSF-MODEL-SIGNING"
-            ],
-            "sources": [
-              {
-                "id": "OPENSSF-MODEL-SIGNING",
-                "title": "Launch of Model Signing v1.0",
-                "url": "https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/"
-              },
-              {
-                "id": "SLSA-12",
-                "title": "Supply-chain Levels for Software Artifacts specification",
-                "url": "https://slsa.dev/spec/v1.2/"
-              }
-            ],
-            "status": "proposed_not_verified",
-            "title": "Verify artifact identity before use",
-            "verification": "Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact."
-          },
-          {
-            "control_ids": [
-              "AUTH-05",
-              "AUTH-09"
-            ],
-            "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
-            "id": "secret-boundary",
-            "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
-            "source_ids": [
-              "JOINT-AGENTIC"
-            ],
-            "sources": [
-              {
-                "id": "JOINT-AGENTIC",
-                "title": "Careful adoption of agentic AI services",
-                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
-              }
-            ],
-            "status": "proposed_not_verified",
-            "title": "Limit credentials available to the workload",
-            "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails."
-          }
-        ],
-        "finding_ids": [
-          "6b77081a826c4c6833edc47f"
-        ],
-        "id": "group-964934e5a62a",
-        "image_context": "source",
-        "immediate_action": "Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets.",
-        "locations": [
-          {
-            "end_line": 4,
-            "finding_id": "6b77081a826c4c6833edc47f",
-            "line": 4,
-            "path": "mcp.json"
-          }
-        ],
-        "plausible_impact": "If the package runner resolves a changed or malicious artifact, the next MCP launch could execute different code with the client environment permissions.",
-        "priority": "P2",
-        "rule_id": "AI018",
-        "severity": "medium",
-        "source_ids": [
-          "CISA-SECURE-BY-DESIGN",
-          "JOINT-AGENTIC",
-          "MCP-SECURITY",
-          "NIST-SSDF",
-          "OPENSSF-BASELINE-202608",
-          "OPENSSF-MODEL-SIGNING",
-          "OWASP-MCP-CS",
-          "SLSA-12"
-        ],
-        "sources": [
-          {
-            "id": "CISA-SECURE-BY-DESIGN",
-            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
-            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
-          },
-          {
-            "id": "JOINT-AGENTIC",
-            "title": "Careful adoption of agentic AI services",
-            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
-          },
-          {
-            "id": "MCP-SECURITY",
-            "title": "MCP Security Best Practices",
-            "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
-          },
-          {
-            "id": "NIST-SSDF",
-            "title": "Secure Software Development Framework (SSDF) Version 1.1",
-            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
-          },
-          {
-            "id": "OPENSSF-BASELINE-202608",
-            "title": "Open Source Project Security Baseline",
-            "url": "https://baseline.openssf.org/versions/2026-08-28"
-          },
-          {
-            "id": "OPENSSF-MODEL-SIGNING",
-            "title": "Launch of Model Signing v1.0",
-            "url": "https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/"
-          },
-          {
-            "id": "OWASP-MCP-CS",
-            "title": "MCP Security Cheat Sheet",
-            "url": "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
-          },
-          {
-            "id": "SLSA-12",
-            "title": "Supply-chain Levels for Software Artifacts specification",
-            "url": "https://slsa.dev/spec/v1.2/"
-          }
-        ],
-        "status": "open",
-        "suggested_owner": "MCP integration/build owner",
-        "title": "MCP package runner resolves an unpinned artifact"
-      },
-      {
-        "confidence_counts": {
-          "high": 1
-        },
-        "context_note": "Source evidence: deployment reachability and active use have not been established.",
-        "control_ids": [
           "SUP-05"
         ],
         "count": 1,
@@ -2875,166 +2711,35 @@
         "status": "open",
         "suggested_owner": "Container/platform owner",
         "title": "Container explicitly runs as root"
-      },
-      {
-        "confidence_counts": {
-          "low": 1
-        },
-        "context_note": "Source evidence: deployment reachability and active use have not been established.",
-        "control_ids": [
-          "SUP-01",
-          "SUP-03"
-        ],
-        "count": 1,
-        "defense_layers": [
-          {
-            "control_ids": [
-              "SUP-03",
-              "DATA-04"
-            ],
-            "how_it_helps": "Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.",
-            "id": "artifact-verification",
-            "residual_limit": "Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.",
-            "source_ids": [
-              "SLSA-12",
-              "OPENSSF-MODEL-SIGNING"
-            ],
-            "sources": [
-              {
-                "id": "OPENSSF-MODEL-SIGNING",
-                "title": "Launch of Model Signing v1.0",
-                "url": "https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/"
-              },
-              {
-                "id": "SLSA-12",
-                "title": "Supply-chain Levels for Software Artifacts specification",
-                "url": "https://slsa.dev/spec/v1.2/"
-              }
-            ],
-            "status": "proposed_not_verified",
-            "title": "Verify artifact identity before use",
-            "verification": "Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact."
-          },
-          {
-            "control_ids": [
-              "SUP-02",
-              "SUP-04",
-              "OPS-05"
-            ],
-            "how_it_helps": "Review known-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process.",
-            "id": "maintenance-loop",
-            "residual_limit": "This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw.",
-            "source_ids": [
-              "NIST-SSDF",
-              "OPENSSF-SCORECARD"
-            ],
-            "sources": [
-              {
-                "id": "NIST-SSDF",
-                "title": "Secure Software Development Framework (SSDF) Version 1.1",
-                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
-              },
-              {
-                "id": "OPENSSF-SCORECARD",
-                "title": "OpenSSF Scorecard",
-                "url": "https://securityscorecards.dev/"
-              }
-            ],
-            "status": "proposed_not_verified",
-            "title": "Keep pinned artifacts maintained",
-            "verification": "Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact."
-          }
-        ],
-        "finding_ids": [
-          "055ed29e5f56926f1827a0b8"
-        ],
-        "id": "group-0cc3d39352a0",
-        "image_context": "source",
-        "immediate_action": "Identify the approved image digest and enforce it in the effective build or deployment while preserving a reviewed update process.",
-        "locations": [
-          {
-            "end_line": 1,
-            "finding_id": "055ed29e5f56926f1827a0b8",
-            "line": 1,
-            "path": "Dockerfile"
-          }
-        ],
-        "plausible_impact": "If a mutable image tag changes, a rebuild or deployment may consume unreviewed bytes; the scan does not establish that the current image is vulnerable.",
-        "priority": "P3",
-        "rule_id": "AI024",
-        "severity": "low",
-        "source_ids": [
-          "CISA-SECURE-BY-DESIGN",
-          "NIST-SSDF",
-          "NSA-DATA",
-          "OPENSSF-MODEL-SIGNING",
-          "OPENSSF-SCORECARD",
-          "SLSA-12"
-        ],
-        "sources": [
-          {
-            "id": "CISA-SECURE-BY-DESIGN",
-            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
-            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
-          },
-          {
-            "id": "NIST-SSDF",
-            "title": "Secure Software Development Framework (SSDF) Version 1.1",
-            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
-          },
-          {
-            "id": "NSA-DATA",
-            "title": "AI Data Security: Best Practices for Securing Data Used to Train & Operate AI Systems (NSA announcement)",
-            "url": "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/"
-          },
-          {
-            "id": "OPENSSF-MODEL-SIGNING",
-            "title": "Launch of Model Signing v1.0",
-            "url": "https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/"
-          },
-          {
-            "id": "OPENSSF-SCORECARD",
-            "title": "OpenSSF Scorecard",
-            "url": "https://securityscorecards.dev/"
-          },
-          {
-            "id": "SLSA-12",
-            "title": "Supply-chain Levels for Software Artifacts specification",
-            "url": "https://slsa.dev/spec/v1.2/"
-          }
-        ],
-        "status": "open",
-        "suggested_owner": "Container/release owner",
-        "title": "Container image is not digest pinned"
       }
     ],
     "method": "deterministic_guidance",
     "metrics": {
-      "active_checks": 132,
-      "active_rules": 42,
+      "active_checks": 129,
+      "active_rules": 40,
       "affected_files": 3,
       "checks_total": 132,
-      "controls_requiring_validation": 66,
+      "controls_requiring_validation": 65,
       "controls_total": 66,
       "coverage_gaps": 0,
-      "disabled_checks": 0,
-      "disabled_controls": 0,
-      "disabled_findings": 0,
-      "disabled_rules": 0,
-      "excluded_controls": 0,
+      "disabled_checks": 2,
+      "disabled_controls": 1,
+      "disabled_findings": 1,
+      "disabled_rules": 1,
+      "excluded_controls": 1,
       "files_scanned": 3,
-      "justified_checks": 0,
+      "justified_checks": 1,
       "justified_controls": 0,
-      "justified_findings": 0,
-      "justified_rules": 0,
+      "justified_findings": 1,
+      "justified_rules": 1,
       "mixed_excluded_controls": 0,
-      "open_findings": 11,
+      "open_findings": 9,
       "suppressed_findings": 0,
       "urgent_findings": 8
     },
     "posture": {
       "code": "urgent_review",
-      "explanation": "The scanner found 8 open critical/high patterns among 11 open findings. Confirm exposure and prioritize the actions below. Detector severity is not proof of exploitability or deployed risk.",
+      "explanation": "The scanner found 8 open critical/high patterns among 9 open findings. Confirm exposure and prioritize the actions below. Detector severity is not proof of exploitability or deployed risk.",
       "title": "Critical/high findings need prompt review"
     },
     "priority_basis": "P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.",
@@ -3048,15 +2753,6 @@
           "AI001",
           "AI002",
           "AI003"
-        ]
-      },
-      {
-        "category": "supply_chain",
-        "name": "Supply chain",
-        "open_findings": 2,
-        "rule_ids": [
-          "AI018",
-          "AI024"
         ]
       },
       {
@@ -3134,7 +2830,8 @@
     "max_entries": 100000,
     "max_file_bytes": 1000000,
     "max_files": 20000,
-    "max_total_bytes": 50000000
+    "max_total_bytes": 50000000,
+    "review_config_sha256": "4dc93595be2eae6cc393531fa91f41465ead3384f77c76fb1caa0bc8833a218b"
   },
   "controls": [
     {
@@ -3147,19 +2844,46 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Governance",
+      "check_dispositions": [
+        {
+          "check_id": "GOV-01:1",
+          "check_index": 1,
+          "id": "GOV-01",
+          "reason": "EXAMPLE ONLY: inventory governance is outside this selected engineering review.",
+          "scope": "control",
+          "status": "disabled"
+        },
+        {
+          "check_id": "GOV-01:2",
+          "check_index": 2,
+          "id": "GOV-01",
+          "reason": "EXAMPLE ONLY: inventory governance is outside this selected engineering review.",
+          "scope": "control",
+          "status": "disabled"
+        }
+      ],
       "checks": [
         "Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints.",
         "Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers."
       ],
+      "disabled_finding_ids": [],
+      "disposition": {
+        "id": "GOV-01",
+        "reason": "EXAMPLE ONLY: inventory governance is outside this selected engineering review.",
+        "scope": "control",
+        "status": "disabled"
+      },
       "finding_ids": [],
       "id": "GOV-01",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-RMF"
       ],
       "sources": [
         "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
       ],
-      "status": "manual_review_required",
+      "static_status": "manual_review_required",
+      "status": "disabled",
       "suppressed_finding_ids": [],
       "title": "Inventory every agent, MCP server, tool, and model",
       "validation": "manual"
@@ -3172,12 +2896,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Governance",
+      "check_dispositions": [
+        {
+          "check_id": "GOV-02:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "GOV-02:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Diagram user, model, memory, tool, server, gateway, and downstream service boundaries with their credentials.",
         "Identify who controls each input and the highest-impact action reachable if that input is malicious."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "GOV-02",
+      "justified_finding_ids": [],
       "source_ids": [
         "MITRE-ATLAS",
         "NIST-AML"
@@ -3186,6 +2926,7 @@
         "https://github.com/mitre-atlas/atlas-data",
         "https://csrc.nist.gov/pubs/ai/100/2/e2025/final"
       ],
+      "static_status": "manual_review_required",
       "status": "manual_review_required",
       "suppressed_finding_ids": [],
       "title": "Model trust boundaries and attack paths",
@@ -3201,12 +2942,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Governance",
+      "check_dispositions": [
+        {
+          "check_id": "GOV-03:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "GOV-03:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Assign an owner to each autonomous action and document permitted purposes, forbidden outcomes, and escalation routes.",
         "Record impact, reversibility, approval requirements, and accepted residual risk before production use."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "GOV-03",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-RMF",
         "JOINT-AGENTIC"
@@ -3215,6 +2972,7 @@
         "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10",
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
       ],
+      "static_status": "manual_review_required",
       "status": "manual_review_required",
       "suppressed_finding_ids": [],
       "title": "Define authorized use and accountable owners",
@@ -3229,12 +2987,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Governance",
+      "check_dispositions": [
+        {
+          "check_id": "GOV-04:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "GOV-04:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Give each control an owner, evidence link, validation date, result, and next review date.",
         "Time-limit exceptions and require a compensating control; distinguish untested behavior from demonstrated failure."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "GOV-04",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-GENAI",
         "NIST-SSDF"
@@ -3243,6 +3017,7 @@
         "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
         "https://csrc.nist.gov/pubs/sp/800/218/final"
       ],
+      "static_status": "manual_review_required",
       "status": "manual_review_required",
       "suppressed_finding_ids": [],
       "title": "Maintain evidence and risk exceptions",
@@ -3256,18 +3031,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Governance",
+      "check_dispositions": [
+        {
+          "check_id": "GOV-05:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "GOV-05:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Review security impact when adding a model, tool, server, data source, skill, or broader permission.",
         "Require deployment evidence for the complete configured system; a model-only score is insufficient."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "GOV-05",
+      "justified_finding_ids": [],
       "source_ids": [
         "NCSC-SECURE-AI"
       ],
       "sources": [
         "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
       ],
+      "static_status": "manual_review_required",
       "status": "manual_review_required",
       "suppressed_finding_ids": [],
       "title": "Reassess changes in autonomy and integrations",
@@ -3278,12 +3070,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Governance",
+      "check_dispositions": [
+        {
+          "check_id": "GOV-06:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "GOV-06:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "For each model, gateway, orchestrator, MCP service, and cloud provider, document which party implements each applicable safeguard and which customer configuration it depends on.",
         "Obtain current supplier evidence for inherited safeguards, identify unowned gaps, and record reassessment triggers in the service review."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "GOV-06",
+      "justified_finding_ids": [],
       "source_ids": [
         "CSA-AICM",
         "CSA-CCM"
@@ -3292,6 +3100,7 @@
         "https://cloudsecurityalliance.org/artifacts/ai-controls-matrix-v1-1",
         "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1"
       ],
+      "static_status": "manual_review_required",
       "status": "manual_review_required",
       "suppressed_finding_ids": [],
       "title": "Assign shared security responsibilities across AI providers",
@@ -3309,18 +3118,37 @@
         "AI041"
       ],
       "category": "Identity and authorization",
+      "check_dispositions": [
+        {
+          "check_id": "AUTH-01:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AUTH-01:2",
+          "check_index": 2,
+          "id": "AUTH-01:2",
+          "reason": "EXAMPLE ONLY: owner-reviewed authentication evidence is recorded in the external assessment.",
+          "scope": "check",
+          "status": "justified"
+        }
+      ],
       "checks": [
         "Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries.",
         "Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AUTH-01",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-AUTH"
       ],
       "sources": [
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Authenticate protected operations on every request",
@@ -3340,12 +3168,28 @@
         "AI027"
       ],
       "category": "Identity and authorization",
+      "check_dispositions": [
+        {
+          "check_id": "AUTH-02:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AUTH-02:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Check user/agent identity, tenant, tool, target object, and requested operation immediately before execution.",
         "Deny by default; test read-only callers against write tools and object identifiers owned by another user."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AUTH-02",
+      "justified_finding_ids": [],
       "source_ids": [
         "JOINT-AGENTIC",
         "MCP-TOOLS"
@@ -3354,6 +3198,7 @@
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services",
         "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Authorize the exact action and target",
@@ -3369,18 +3214,35 @@
         "AI017"
       ],
       "category": "Identity and authorization",
+      "check_dispositions": [
+        {
+          "check_id": "AUTH-03:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AUTH-03:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Verify signature with trusted keys, allowed algorithms, expected issuer/audience, expiry, and required scopes.",
         "Reject unsigned tokens and tokens minted for another service; decoding a JWT alone is not validation."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AUTH-03",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-AUTH-SEC"
       ],
       "sources": [
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Validate access-token cryptography and claims",
@@ -3396,12 +3258,28 @@
         "AI028"
       ],
       "category": "Identity and authorization",
+      "check_dispositions": [
+        {
+          "check_id": "AUTH-04:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AUTH-04:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Use audience-bound MCP credentials and separately authorized downstream credentials; never forward arbitrary caller tokens.",
         "Ensure a proxy cannot use its broader service identity to perform an action the caller cannot authorize."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AUTH-04",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-AUTH",
         "MCP-SECURITY"
@@ -3410,6 +3288,7 @@
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
         "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Prevent token passthrough and confused deputy use",
@@ -3430,14 +3309,30 @@
         "AI034"
       ],
       "category": "Identity and authorization",
+      "check_dispositions": [
+        {
+          "check_id": "AUTH-05:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AUTH-05:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Use short-lived scoped credentials where supported, protect refresh tokens, and validate rotation and revocation.",
         "Avoid tokens in query strings, model context, source, child-process arguments, and diagnostic output."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [
         "afb2bdb94696690028650faf"
       ],
       "id": "AUTH-05",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-AUTH-SEC",
         "JOINT-DEPLOY"
@@ -3446,6 +3341,7 @@
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Constrain credential lifetime and exposure",
@@ -3458,12 +3354,28 @@
         "AI038"
       ],
       "category": "Identity and authorization",
+      "check_dispositions": [
+        {
+          "check_id": "AUTH-06:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AUTH-06:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Test PKCE support and S256, exact registered redirects, transaction binding, and authorization-response issuer validation.",
         "Reject replayed codes, mismatched issuers, unsafe redirect schemes, and unsolicited callback transactions."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AUTH-06",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-AUTH-SEC",
         "MCP-AUTH"
@@ -3472,6 +3384,7 @@
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Bind OAuth flows and validate redirects",
@@ -3482,18 +3395,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Identity and authorization",
+      "check_dispositions": [
+        {
+          "check_id": "AUTH-07:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AUTH-07:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Validate discovered metadata and client metadata URLs before fetching; constrain schemes, destinations, redirects, and response sizes.",
         "Document trust policy for client registration and prevent discovery from reaching internal metadata or privileged network services."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AUTH-07",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-SECURITY"
       ],
       "sources": [
         "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Secure OAuth discovery and registration",
@@ -3510,18 +3440,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Identity and authorization",
+      "check_dispositions": [
+        {
+          "check_id": "AUTH-08:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AUTH-08:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Carry authenticated initiator and delegation identity through multi-agent calls instead of trusting identity fields in text.",
         "Prevent agents from granting themselves privileges; limit delegation scope, depth, lifetime, and downstream audiences."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AUTH-08",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-AGENT-CS"
       ],
       "sources": [
         "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Bind delegation to identity, scope, and expiry",
@@ -3532,12 +3479,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Identity and authorization",
+      "check_dispositions": [
+        {
+          "check_id": "AUTH-09:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AUTH-09:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Enroll agents under an accountable sponsor and approved workload identity; verify identity claims before issuing credentials or granting discovery and execution access.",
         "Test retirement, sponsor departure, redeployment, and identity compromise; remove stale credentials, cached grants, registrations, and downstream access."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AUTH-09",
+      "justified_finding_ids": [],
       "source_ids": [
         "CSA-AGENT-IAM",
         "NIST-AGENT-IDENTITY-DRAFT"
@@ -3546,6 +3509,7 @@
         "https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach",
         "https://www.nccoe.nist.gov/publications/other/accelerating-adoption-software-and-ai-agent-identity-and-authorization-concept"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Manage agent identity enrollment and retirement",
@@ -3563,21 +3527,38 @@
         "AI029"
       ],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-01:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-01:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "For HTTP, reject invalid Origin values and verify local deployments bind only to intended interfaces.",
         "Use TLS for remote protected endpoints; test DNS rebinding and proxy/header behavior in deployment."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [
         "07fc5f6fd7699fd0194dc479",
         "d841174f55e032505f8136b9"
       ],
       "id": "MCP-01",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-HTTP"
       ],
       "sources": [
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Validate transport exposure and origin",
@@ -3592,18 +3573,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-02:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-02:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Apply schemas and semantic bounds before executing every tool; reject unknown properties where appropriate.",
         "Bound sizes and nesting; validate declared structured output and render errors without leaking secrets."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "MCP-02",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-TOOLS"
       ],
       "sources": [
         "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Validate tool arguments and results",
@@ -3616,12 +3614,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-03:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-03:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Inspect descriptions, schemas, resources, icons, and results for instructions that cross tool or user boundaries.",
         "Never let readOnlyHint, destructiveHint, or other server claims replace independent authorization and approval policy."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "MCP-03",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-TOOLS",
         "OWASP-MCP-CS"
@@ -3630,6 +3644,7 @@
         "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
         "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Treat descriptions and annotations as untrusted",
@@ -3642,18 +3657,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-04:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-04:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Bind tool approval to verified server identity and the reviewed tool definition or version.",
         "Revalidate changes after reconnect/list updates; disambiguate collisions across servers without trusting display names."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "MCP-04",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-MCP10"
       ],
       "sources": [
         "https://owasp.org/projects/mcp-top-10"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Detect tool substitution and metadata changes",
@@ -3666,12 +3698,28 @@
         "AI038"
       ],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-05:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-05:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Authorize every state handle against its owner and tenant; enforce expiry, unpredictability, and replay boundaries.",
         "For older sessionful protocol versions, test session hijacking and cross-user resumption; a session ID is not authentication."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "MCP-05",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-TOOLS",
         "MCP-SECURITY"
@@ -3680,6 +3728,7 @@
         "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
         "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Protect state handles and legacy sessions",
@@ -3690,18 +3739,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-06:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-06:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Apply host policy and user control to sampling requests, context sharing, model selection, and associated tool access.",
         "Test whether an untrusted server can induce disclosure from unrelated conversations or recursively consume model budget."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "MCP-06",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-SAMPLING"
       ],
       "sources": [
         "https://modelcontextprotocol.io/specification/2026-07-28/client/sampling"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Constrain sampling and returned model context",
@@ -3712,18 +3778,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-07:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-07:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Keep sensitive credential collection out of form-mode elicitation; validate and visibly identify URL destinations.",
         "Test cancellation, phishing URLs, unsolicited interactions, and replayed completion state against the selected protocol version."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "MCP-07",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-ELICITATION"
       ],
       "sources": [
         "https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Secure elicitation and URL interactions",
@@ -3736,18 +3819,35 @@
         "AI015"
       ],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-08:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-08:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Treat declared roots as scoped information, not an operating-system sandbox or complete authorization mechanism.",
         "Enforce allowed paths at file access and test traversal, symlinks, alternate encodings, and writes outside the workspace."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "MCP-08",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-ROOTS"
       ],
       "sources": [
         "https://modelcontextprotocol.io/specification/2026-07-28/client/roots"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Enforce filesystem isolation independently of roots",
@@ -3763,15 +3863,32 @@
         "AI031"
       ],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-09:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-09:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Approve executable and package identity before starting a stdio server; use argument arrays and a minimal environment.",
         "Restrict proxy process-spawn APIs and child filesystem/network permissions; separate stdout protocol traffic from logs."
       ],
-      "finding_ids": [
-        "592fbfc9b7dab062dc97906c",
+      "disabled_finding_ids": [
         "6b77081a826c4c6833edc47f"
       ],
+      "finding_ids": [
+        "592fbfc9b7dab062dc97906c"
+      ],
       "id": "MCP-09",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-SECURITY",
         "OWASP-MCP-CS"
@@ -3780,6 +3897,7 @@
         "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices",
         "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Constrain local server launch and inherited environment",
@@ -3790,12 +3908,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "MCP protocol and tools",
+      "check_dispositions": [
+        {
+          "check_id": "MCP-10:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "MCP-10:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Record supported revisions and test their capability, metadata, header consistency, stream, and cancellation rules.",
         "Prevent caches and request continuations from crossing authorization contexts; do not apply legacy handshake assumptions universally."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "MCP-10",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-TRANSPORTS",
         "MCP-HTTP"
@@ -3804,6 +3938,7 @@
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports",
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Apply version-aware metadata, caching, and cancellation",
@@ -3821,20 +3956,37 @@
         "AI031"
       ],
       "category": "Agent behavior and context",
+      "check_dispositions": [
+        {
+          "check_id": "AGT-01:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AGT-01:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Place allow/deny decisions at the execution boundary using trusted policy inputs and constrained tool capabilities.",
         "Show that an injected instruction cannot disable policy, choose privileged credentials, or bypass approval."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [
         "592fbfc9b7dab062dc97906c"
       ],
       "id": "AGT-01",
+      "justified_finding_ids": [],
       "source_ids": [
         "ASD-HARNESS"
       ],
       "sources": [
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Enforce action policy outside the model",
@@ -3850,20 +4002,37 @@
         "AI031"
       ],
       "category": "Agent behavior and context",
+      "check_dispositions": [
+        {
+          "check_id": "AGT-02:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AGT-02:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Present actual recipient, target, arguments, data disclosure, and consequences for high-impact approval.",
         "Invalidate approval if arguments or target change; test races, delayed retries, and approval reuse."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [
         "592fbfc9b7dab062dc97906c"
       ],
       "id": "AGT-02",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-AGENT-CS"
       ],
       "sources": [
         "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Bind approval to the action executed",
@@ -3876,18 +4045,35 @@
         "AI032"
       ],
       "category": "Agent behavior and context",
+      "check_dispositions": [
+        {
+          "check_id": "AGT-03:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AGT-03:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Track origin and trust level for web pages, documents, messages, OCR, tool results, and repository instructions.",
         "Test direct and indirect goal hijacking; formatting delimiters and prompt warnings alone are not access controls."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AGT-03",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-LLM2026"
       ],
       "sources": [
         "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Separate untrusted content from authoritative instructions",
@@ -3901,18 +4087,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Agent behavior and context",
+      "check_dispositions": [
+        {
+          "check_id": "AGT-04:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AGT-04:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Enforce document and memory ACLs at retrieval and update time, including vector search metadata filters.",
         "Test poisoned memory persistence, cross-tenant retrieval, provenance loss, deletion, and stale privileged context."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AGT-04",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-AGENTIC"
       ],
       "sources": [
         "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Protect retrieval and persistent memory",
@@ -3926,18 +4129,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Agent behavior and context",
+      "check_dispositions": [
+        {
+          "check_id": "AGT-05:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AGT-05:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Constrain delegated tasks and verify messages against authenticated senders, expected schemas, and allowed transitions.",
         "Test impersonation, conflicting instructions, cascading failure, and privilege growth across handoffs."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AGT-05",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-AGENTIC"
       ],
       "sources": [
         "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Keep objectives and authority bounded across agents",
@@ -3950,12 +4170,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Agent behavior and context",
+      "check_dispositions": [
+        {
+          "check_id": "AGT-06:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AGT-06:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Inventory skill files, prompts, hooks, memory seed files, MCP configuration, and other executable workflow inputs.",
         "Require review for changes that add commands, access, or persistence; external repository text cannot become trusted policy."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AGT-06",
+      "justified_finding_ids": [],
       "source_ids": [
         "MITRE-ATLAS",
         "NCSC-SECURE-AI"
@@ -3964,6 +4200,7 @@
         "https://github.com/mitre-atlas/atlas-data",
         "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Protect agent configuration and skills",
@@ -3974,18 +4211,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Agent behavior and context",
+      "check_dispositions": [
+        {
+          "check_id": "AGT-07:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "AGT-07:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Apply destination and data policies to URLs, searches, tickets, messages, uploads, and telemetry generated by agents.",
         "Use canary data to test encoded leakage and combinations of otherwise permitted tools."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "AGT-07",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-MCP-CS"
       ],
       "sources": [
         "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Prevent sensitive context leaving through legitimate tools",
@@ -4000,15 +4254,31 @@
         "AI012"
       ],
       "category": "Execution and application security",
+      "check_dispositions": [
+        {
+          "check_id": "EXEC-01:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "EXEC-01:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Find shell execution and constructed command strings; use fixed executables, argument arrays, and allowed argument values.",
         "Test untrusted tool inputs containing shell syntax, option injection, command substitution, and hostile filenames."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [
         "979d192981c1785a2394fe19",
         "0fa7e450cd583d78646ef397"
       ],
       "id": "EXEC-01",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-MCP10",
         "OWASP-OUTPUT2025"
@@ -4017,6 +4287,7 @@
         "https://owasp.org/projects/mcp-top-10",
         "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Prevent shell and command injection",
@@ -4033,20 +4304,37 @@
         "AI013"
       ],
       "category": "Execution and application security",
+      "check_dispositions": [
+        {
+          "check_id": "EXEC-02:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "EXEC-02:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Locate eval, exec, dynamic imports, templates, notebooks, and interpreter tools accepting model or user content.",
         "Run required code execution in a disposable restricted environment with explicit filesystem, network, CPU, and time limits."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [
         "b1b0f0a3f33fe93875fcb58a"
       ],
       "id": "EXEC-02",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-AGENT-CS"
       ],
       "sources": [
         "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Constrain generated-code execution",
@@ -4059,18 +4347,35 @@
         "AI036"
       ],
       "category": "Execution and application security",
+      "check_dispositions": [
+        {
+          "check_id": "EXEC-03:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "EXEC-03:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Use bound query parameters and allowed query shapes; inspect SQL, NoSQL, graph, and search-language construction.",
         "Separate read/write database identities and test whether generated queries can escape permitted objects or operations."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "EXEC-03",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-OUTPUT2025"
       ],
       "sources": [
         "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Parameterize database and query operations",
@@ -4085,12 +4390,28 @@
         "AI037"
       ],
       "category": "Execution and application security",
+      "check_dispositions": [
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "EXEC-04:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions.",
         "Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "EXEC-04",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-ROOTS",
         "JOINT-DEPLOY"
@@ -4099,6 +4420,7 @@
         "https://modelcontextprotocol.io/specification/2026-07-28/client/roots",
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Constrain file and archive access",
@@ -4111,18 +4433,35 @@
         "AI014"
       ],
       "category": "Execution and application security",
+      "check_dispositions": [
+        {
+          "check_id": "EXEC-05:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "EXEC-05:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect.",
         "Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "EXEC-05",
+      "justified_finding_ids": [],
       "source_ids": [
         "MCP-SECURITY"
       ],
       "sources": [
         "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Prevent SSRF and unsafe network destinations",
@@ -4137,20 +4476,37 @@
         "AI035"
       ],
       "category": "Execution and application security",
+      "check_dispositions": [
+        {
+          "check_id": "EXEC-06:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "EXEC-06:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Inspect pickle, unsafe YAML, object deserialization, XML entity expansion, and unconstrained recursive parsers.",
         "Use data-only formats with byte, nesting, and type limits; test malformed input and expansion attacks."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [
         "d2d09fb2875db72f18779bfc"
       ],
       "id": "EXEC-06",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-SSDF"
       ],
       "sources": [
         "https://csrc.nist.gov/pubs/sp/800/218/final"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Reject unsafe parsing and deserialization",
@@ -4164,18 +4520,35 @@
         "AI040"
       ],
       "category": "Execution and application security",
+      "check_dispositions": [
+        {
+          "check_id": "EXEC-07:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "EXEC-07:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Use context-specific escaping for HTML/Markdown, avoid unsafe DOM sinks, and validate links and embedded media.",
         "Test active SVG/HTML, malicious URLs, terminal escapes, and spreadsheet formulas in exported reports."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "EXEC-07",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-OUTPUT2025"
       ],
       "sources": [
         "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Render model and tool output safely",
@@ -4193,20 +4566,37 @@
         "AI034"
       ],
       "category": "Data and privacy",
+      "check_dispositions": [
+        {
+          "check_id": "DATA-01:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "DATA-01:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Inspect code, examples, configuration, notebooks, test fixtures, and generated artifacts for secret-like values.",
         "Verify actual exposures with the owner, rotate real credentials, and remove them from reachable history and artifacts."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [
         "afb2bdb94696690028650faf"
       ],
       "id": "DATA-01",
+      "justified_finding_ids": [],
       "source_ids": [
         "JOINT-DEPLOY"
       ],
       "sources": [
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Detect and remove embedded credentials",
@@ -4221,18 +4611,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Data and privacy",
+      "check_dispositions": [
+        {
+          "check_id": "DATA-02:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "DATA-02:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Map which prompts, tool outputs, memory, and code leave the environment and identify the receiving provider/gateway.",
         "Document allowed data classes, processing location, retention, and training use; redact before transmission where required."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "DATA-02",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-GENAI"
       ],
       "sources": [
         "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
       ],
+      "static_status": "manual_review_required",
       "status": "manual_review_required",
       "suppressed_finding_ids": [],
       "title": "Minimize data sent to models and gateways",
@@ -4250,18 +4657,35 @@
         "AI033"
       ],
       "category": "Data and privacy",
+      "check_dispositions": [
+        {
+          "check_id": "DATA-03:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "DATA-03:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Redact secrets and sensitive payloads before logs, traces, exception strings, and dashboards persist them.",
         "Test the failure paths and provider errors as well as success paths; restrict access and export destinations."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "DATA-03",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-MCP10"
       ],
       "sources": [
         "https://owasp.org/projects/mcp-top-10"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Protect logs, traces, and error responses",
@@ -4275,18 +4699,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Data and privacy",
+      "check_dispositions": [
+        {
+          "check_id": "DATA-04:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "DATA-04:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Record source, owner, version, transformation history, and integrity evidence for datasets, retrieval corpora, and memory seeds.",
         "Quarantine unexpected changes and test how poisoned or stale data is detected, removed, and replaced."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "DATA-04",
+      "justified_finding_ids": [],
       "source_ids": [
         "NSA-DATA"
       ],
       "sources": [
         "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/"
       ],
+      "static_status": "manual_review_required",
       "status": "manual_review_required",
       "suppressed_finding_ids": [],
       "title": "Track provenance and integrity of AI data",
@@ -4299,18 +4740,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Data and privacy",
+      "check_dispositions": [
+        {
+          "check_id": "DATA-05:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "DATA-05:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Apply expiry and deletion to prompts, embeddings, caches, memory, tool artifacts, backups, and provider-held data.",
         "Verify deleting a source record removes or invalidates dependent retrieval content and access grants."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "DATA-05",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-GENAI"
       ],
       "sources": [
         "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Enforce retention and deletion across copies",
@@ -4324,12 +4782,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Data and privacy",
+      "check_dispositions": [
+        {
+          "check_id": "DATA-06:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "DATA-06:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Check transport verification, storage access controls, encryption settings, key separation, and backup permissions.",
         "Validate key rotation and denied access using a principal outside the authorized tenant or operational role."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "DATA-06",
+      "justified_finding_ids": [],
       "source_ids": [
         "NSA-DATA",
         "JOINT-DEPLOY"
@@ -4338,6 +4812,7 @@
         "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/",
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Protect stored data and keys",
@@ -4355,22 +4830,40 @@
         "AI025"
       ],
       "category": "Supply chain",
+      "check_dispositions": [
+        {
+          "check_id": "SUP-01:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "SUP-01:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Review lockfiles and exact versions or immutable digests for packages, images, MCP servers, models, and plugins.",
         "Flag runtime installs, floating tags, remote scripts, and dependency sources outside approved registries."
       ],
-      "finding_ids": [
-        "6b77081a826c4c6833edc47f",
+      "disabled_finding_ids": [
+        "6b77081a826c4c6833edc47f"
+      ],
+      "finding_ids": [],
+      "id": "SUP-01",
+      "justified_finding_ids": [
         "055ed29e5f56926f1827a0b8"
       ],
-      "id": "SUP-01",
       "source_ids": [
         "NIST-SSDF"
       ],
       "sources": [
         "https://csrc.nist.gov/pubs/sp/800/218/final"
       ],
-      "status": "findings_detected",
+      "static_status": "findings_detected",
+      "status": "findings_exempted",
       "suppressed_finding_ids": [],
       "title": "Pin and inventory executable dependencies",
       "validation": "static"
@@ -4384,18 +4877,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Supply chain",
+      "check_dispositions": [
+        {
+          "check_id": "SUP-02:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "SUP-02:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Run appropriate package/container advisory tools against resolved dependencies and save database date and tool version.",
         "Triage reachability, fix availability, support status, and transitive dependencies; source pattern scans do not establish CVE coverage."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "SUP-02",
+      "justified_finding_ids": [],
       "source_ids": [
         "NCSC-SECURE-AI"
       ],
       "sources": [
         "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
       ],
+      "static_status": "manual_review_required",
       "status": "manual_review_required",
       "suppressed_finding_ids": [],
       "title": "Check vulnerability and maintenance exposure",
@@ -4417,14 +4927,30 @@
         "AI035"
       ],
       "category": "Supply chain",
+      "check_dispositions": [
+        {
+          "check_id": "SUP-03:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "SUP-03:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Verify publisher identity, hashes/signatures, build provenance, and intended origin before enabling artifacts.",
         "Review model loading and serialization behavior; an integrity hash cannot make an untrusted publisher safe."
       ],
-      "finding_ids": [
+      "disabled_finding_ids": [],
+      "finding_ids": [],
+      "id": "SUP-03",
+      "justified_finding_ids": [
         "055ed29e5f56926f1827a0b8"
       ],
-      "id": "SUP-03",
       "source_ids": [
         "NSA-DATA",
         "NIST-SSDF"
@@ -4433,7 +4959,8 @@
         "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/",
         "https://csrc.nist.gov/pubs/sp/800/218/final"
       ],
-      "status": "findings_detected",
+      "static_status": "findings_detected",
+      "status": "findings_justified",
       "suppressed_finding_ids": [],
       "title": "Verify artifact identity and provenance",
       "validation": "manual"
@@ -4450,18 +4977,35 @@
         "AI020"
       ],
       "category": "Supply chain",
+      "check_dispositions": [
+        {
+          "check_id": "SUP-04:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "SUP-04:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Restrict CI credentials and workflow permissions; review actions, build scripts, and release provenance.",
         "Prevent untrusted contributions from executing with deployment secrets or changing approved agent policies."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "SUP-04",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-SSDF"
       ],
       "sources": [
         "https://csrc.nist.gov/pubs/sp/800/218/final"
       ],
+      "static_status": "no_pattern_detected",
       "status": "no_pattern_detected",
       "suppressed_finding_ids": [],
       "title": "Protect build, release, and configuration changes",
@@ -4481,21 +5025,38 @@
         "AI042"
       ],
       "category": "Supply chain",
+      "check_dispositions": [
+        {
+          "check_id": "SUP-05:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "SUP-05:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Review root/privileged containers, host mounts, Docker sockets, unrestricted egress, debug mode, and public management endpoints.",
         "Separate agent execution from control-plane credentials and audit storage; test isolation in the deployed environment."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [
         "592fbfc9b7dab062dc97906c",
         "aa7bba175c60406f04c15d29"
       ],
       "id": "SUP-05",
+      "justified_finding_ids": [],
       "source_ids": [
         "JOINT-DEPLOY"
       ],
       "sources": [
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
       ],
+      "static_status": "findings_detected",
       "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Harden runtime isolation and deployment defaults",
@@ -4506,18 +5067,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Supply chain",
+      "check_dispositions": [
+        {
+          "check_id": "SUP-06:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "SUP-06:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "When training or fine-tuning, isolate development, evaluation, and production identities, data access, registries, and release permissions.",
         "Protect datasets, weights, adapters, and configuration separately; monitor modifications and demonstrate that an untrusted training job cannot replace an approved production artifact."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "SUP-06",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-SSDF-AI"
       ],
       "sources": [
         "https://csrc.nist.gov/pubs/sp/800/218/a/final"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Separate and protect model development environments",
@@ -4534,18 +5112,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Operations and resilience",
+      "check_dispositions": [
+        {
+          "check_id": "OPS-01:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "OPS-01:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Record initiating identity, delegated identity, tool/server/version, approved arguments, decision, outcome, and correlation identifiers.",
         "Protect log integrity and clock consistency; ensure agents cannot erase their own action history."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "OPS-01",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-MCP10"
       ],
       "sources": [
         "https://owasp.org/projects/mcp-top-10"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Produce attributable audit events",
@@ -4560,18 +5155,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Operations and resilience",
+      "check_dispositions": [
+        {
+          "check_id": "OPS-02:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "OPS-02:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Set server-enforced limits for iterations, tokens, tool calls, recursion, parallelism, bytes, cost, and elapsed time.",
         "Exercise stuck loops and amplification paths; verify limits apply across retries and child agents."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "OPS-02",
+      "justified_finding_ids": [],
       "source_ids": [
         "ASD-HARNESS"
       ],
       "sources": [
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
       ],
+      "static_status": "review_required",
       "status": "review_required",
       "suppressed_finding_ids": [],
       "title": "Bound work, spending, and concurrency",
@@ -4585,18 +5197,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Operations and resilience",
+      "check_dispositions": [
+        {
+          "check_id": "OPS-03:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "OPS-03:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Provide a tested stop mechanism that revokes work, credentials, queued actions, and child tasks.",
         "Measure stop latency and verify cancelled or disconnected requests cannot later commit prohibited side effects."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "OPS-03",
+      "justified_finding_ids": [],
       "source_ids": [
         "JOINT-AGENTIC"
       ],
       "sources": [
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Make cancellation and shutdown effective",
@@ -4607,18 +5236,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Operations and resilience",
+      "check_dispositions": [
+        {
+          "check_id": "OPS-04:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "OPS-04:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Deny or escalate when policy, identity, or approval checks fail; prevent fallback paths from widening privilege.",
         "Test outages, partial failures, timeouts, retries, idempotency, and recovery of transactions with external effects."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "OPS-04",
+      "justified_finding_ids": [],
       "source_ids": [
         "ASD-HARNESS"
       ],
       "sources": [
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Fail safely and prevent duplicate side effects",
@@ -4632,18 +5278,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Operations and resilience",
+      "check_dispositions": [
+        {
+          "check_id": "OPS-05:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "OPS-05:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Alert on unusual tool use, new destinations, scope growth, repeated denials, cost spikes, and unexpected state changes.",
         "Validate alerts with seeded events and test rollback of models, prompts, tools, policies, and poisoned memory."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "OPS-05",
+      "justified_finding_ids": [],
       "source_ids": [
         "NCSC-SECURE-AI"
       ],
       "sources": [
         "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Monitor behavior and support rollback",
@@ -4659,18 +5322,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Operations and resilience",
+      "check_dispositions": [
+        {
+          "check_id": "OPS-06:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "OPS-06:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Maintain procedures to isolate agents, revoke credentials, preserve evidence, notify owners, and recover trusted state.",
         "Exercise an AI-specific incident and define approved vulnerability/intelligence-sharing channels without exposing sensitive evidence."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "OPS-06",
+      "justified_finding_ids": [],
       "source_ids": [
         "CISA-JCDC"
       ],
       "sources": [
         "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
       ],
+      "static_status": "manual_review_required",
       "status": "manual_review_required",
       "suppressed_finding_ids": [],
       "title": "Practice incident response and disclosure",
@@ -4683,12 +5363,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Security validation",
+      "check_dispositions": [
+        {
+          "check_id": "TEST-01:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "TEST-01:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Run paired benign and adversarial workflows with representative tools and attacker-controlled external content.",
         "Record attacker success, authorized task success, blocked benign actions, and the observed unauthorized side effect."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "TEST-01",
+      "justified_finding_ids": [],
       "source_ids": [
         "BENCH-AGENTDOJO",
         "BENCH-INJECAGENT"
@@ -4697,6 +5393,7 @@
         "https://github.com/ethz-spylab/agentdojo",
         "https://github.com/uiuc-kang-lab/InjecAgent"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Measure prompt-injection security and useful task completion",
@@ -4709,18 +5406,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Security validation",
+      "check_dispositions": [
+        {
+          "check_id": "TEST-02:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "TEST-02:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Vary payload wording, placement, modality, attacker knowledge, and attempts; rerun after changing defenses.",
         "Report per-scenario outcomes, sample counts, attack budget, uncertainty, and model/harness versions instead of only an average."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "TEST-02",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-HIJACK-EVAL"
       ],
       "sources": [
         "https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Test adaptively and repeat scenarios",
@@ -4733,12 +5447,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Security validation",
+      "check_dispositions": [
+        {
+          "check_id": "TEST-03:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "TEST-03:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "In an isolated test environment, exercise invalid tokens, wrong audiences, origin abuse, malicious servers, and protocol fuzzing.",
         "Adapt scenarios to the deployed MCP revision and transports; preserve request/response evidence with secrets removed."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "TEST-03",
+      "justified_finding_ids": [],
       "source_ids": [
         "BENCH-MCPSECBENCH",
         "MCP-AUTH"
@@ -4747,6 +5477,7 @@
         "https://github.com/AIS2Lab/MCPSecBench",
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Exercise MCP authentication and protocol abuse",
@@ -4757,18 +5488,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Security validation",
+      "check_dispositions": [
+        {
+          "check_id": "TEST-04:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "TEST-04:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Create two principals and attempt cross-access to objects, memory, caches, handles, subscriptions, and execution results.",
         "Repeat after reconnect, delegation, failed authentication, concurrent requests, and privilege revocation."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "TEST-04",
+      "justified_finding_ids": [],
       "source_ids": [
         "BENCH-ASB"
       ],
       "sources": [
         "https://github.com/agiresearch/ASB"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Verify cross-tenant and cross-agent isolation",
@@ -4781,18 +5529,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Security validation",
+      "check_dispositions": [
+        {
+          "check_id": "TEST-05:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "TEST-05:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Use explicit forbidden-action canaries to verify enforcement survives hostile content, tool substitution, and delayed execution.",
         "Confirm paths through retries, fallback models, alternate tools, and child agents enforce the same boundary."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "TEST-05",
+      "justified_finding_ids": [],
       "source_ids": [
         "OWASP-AGENT-CS"
       ],
       "sources": [
         "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Test approval, policy, and sandbox bypass",
@@ -4807,12 +5572,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Security validation",
+      "check_dispositions": [
+        {
+          "check_id": "TEST-06:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "TEST-06:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Run language-aware SAST, dependency review, secret scanning, and authorized integration tests for exposed services.",
         "Exercise reachable injection, XSS, SSRF, path traversal, deserialization, and access-control risks with safe fixtures."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "TEST-06",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-SSDF",
         "OWASP-OUTPUT2025"
@@ -4821,6 +5602,7 @@
         "https://csrc.nist.gov/pubs/sp/800/218/final",
         "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Verify conventional application security",
@@ -4831,18 +5613,35 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Security validation",
+      "check_dispositions": [
+        {
+          "check_id": "TEST-07:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "TEST-07:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Simulate oversized messages, slow peers, streaming floods, repeated errors, runaway agents, and unavailable dependencies.",
         "Verify quotas, shutdown, telemetry, and alerts work together without leaking payloads or losing attribution."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "TEST-07",
+      "justified_finding_ids": [],
       "source_ids": [
         "ASD-HARNESS"
       ],
       "sources": [
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Validate resource exhaustion and observability",
@@ -4853,12 +5652,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Security validation",
+      "check_dispositions": [
+        {
+          "check_id": "TEST-08:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "TEST-08:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Treat repository text and model verdicts as untrusted; test prompt injection, fabricated locations, invalid JSON, and timeouts.",
         "Compare against labeled cases, retain deterministic results, document model variability, and never equate a judge approval with control validation."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "TEST-08",
+      "justified_finding_ids": [],
       "source_ids": [
         "NIST-HIJACK-EVAL",
         "NIST-GENAI"
@@ -4867,6 +5682,7 @@
         "https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations",
         "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Evaluate the optional security judge itself",
@@ -4877,12 +5693,28 @@
       "assurance": "Not established by this static scan",
       "automated_rule_ids": [],
       "category": "Security validation",
+      "check_dispositions": [
+        {
+          "check_id": "TEST-09:1",
+          "check_index": 1,
+          "reason": "",
+          "status": "active"
+        },
+        {
+          "check_id": "TEST-09:2",
+          "check_index": 2,
+          "reason": "",
+          "status": "active"
+        }
+      ],
       "checks": [
         "Where applicable, assess suspicious triggers, model extraction, and disclosure of private training examples under an explicit attacker access and query budget.",
         "Retest acquired or retrained models and adapters before release; document measured failures, model identity, coverage limits, and accepted residual risk."
       ],
+      "disabled_finding_ids": [],
       "finding_ids": [],
       "id": "TEST-09",
+      "justified_finding_ids": [],
       "source_ids": [
         "CSA-MAESTRO",
         "NIST-SSDF-AI"
@@ -4891,6 +5723,7 @@
         "https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro",
         "https://csrc.nist.gov/pubs/sp/800/218/a/final"
       ],
+      "static_status": "runtime_validation_required",
       "status": "runtime_validation_required",
       "suppressed_finding_ids": [],
       "title": "Evaluate model-layer attacks for hosted or customized models",
@@ -4929,6 +5762,9 @@
       "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.",
       "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."
     ],
+    "rules_disabled": [
+      "AI018"
+    ],
     "rules_enabled": [
       "AI001",
       "AI002",
@@ -4947,13 +5783,11 @@
       "AI015",
       "AI016",
       "AI017",
-      "AI018",
       "AI019",
       "AI020",
       "AI021",
       "AI022",
       "AI023",
-      "AI024",
       "AI025",
       "AI026",
       "AI027",
@@ -4972,6 +5806,9 @@
       "AI040",
       "AI041",
       "AI042"
+    ],
+    "rules_justified": [
+      "AI024"
     ],
     "skipped": [],
     "unmatched_baseline_ids": []
@@ -5213,11 +6050,18 @@
         "CWE-829"
       ],
       "description": "An MCP launch configuration uses npx, uvx, or a similar ephemeral package runner without an exact package version. The executable artifact can change between launches.",
+      "disposition": {
+        "id": "AI018",
+        "reason": "EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control.",
+        "scope": "rule",
+        "status": "disabled"
+      },
       "end_line": 4,
       "evidence": "      \"command\": \"npx\",",
       "finding_id": "6b77081a826c4c6833edc47f",
       "id": "6b77081a826c4c6833edc47f",
       "line": 4,
+      "original_status": "open",
       "path": "mcp.json",
       "references": [
         "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices",
@@ -5226,7 +6070,7 @@
       "remediation": "Pin an exact audited package version and lock or verify transitive artifacts. Prefer preinstalled verified tools in a controlled environment.",
       "rule_id": "AI018",
       "severity": "medium",
-      "status": "open",
+      "status": "disabled",
       "title": "MCP package runner resolves an unpinned artifact"
     },
     {
@@ -5236,11 +6080,18 @@
         "CWE-829"
       ],
       "description": "A container base or deployment image uses a mutable reference rather than a content digest. The bytes can change between builds or deployments.",
+      "disposition": {
+        "id": "AI024",
+        "reason": "EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment.",
+        "scope": "rule",
+        "status": "justified"
+      },
       "end_line": 1,
       "evidence": "FROM python:latest",
       "finding_id": "055ed29e5f56926f1827a0b8",
       "id": "055ed29e5f56926f1827a0b8",
       "line": 1,
+      "original_status": "open",
       "path": "Dockerfile",
       "references": [
         "https://www.cisa.gov/resources-tools/resources/secure-by-design"
@@ -5248,7 +6099,7 @@
       "remediation": "Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability-remediation workflows.",
       "rule_id": "AI024",
       "severity": "low",
-      "status": "open",
+      "status": "justified",
       "title": "Container image is not digest pinned"
     }
   ],
@@ -5272,23 +6123,71 @@
     "enabled": false
   },
   "mode": "deterministic_static",
-  "scan_id": "fc2265dbbd82b4a20d7034a69f91ea644f15836cefa7d660776e9235558e09af",
+  "review_policy": {
+    "assurance": "User dispositions are not validated passes and are excluded from actionable finding and active review counts. Rule dispositions affect their findings; control and check dispositions affect review scope only and never waive static rule findings. Observed evidence and operational coverage gaps remain in the report. Shared static analysis may still collect evidence for disabled rules.",
+    "counts": {
+      "active_checks": 129,
+      "active_controls": 65,
+      "active_rules": 40,
+      "catalog_checks": 132,
+      "catalog_controls": 66,
+      "catalog_rules": 42,
+      "disabled_checks": 2,
+      "disabled_controls": 1,
+      "disabled_rules": 1,
+      "excluded_controls": 1,
+      "justified_checks": 1,
+      "justified_controls": 0,
+      "justified_rules": 1,
+      "mixed_excluded_controls": 0
+    },
+    "enabled": true,
+    "entries": {
+      "checks": {
+        "AUTH-01:2": {
+          "reason": "EXAMPLE ONLY: owner-reviewed authentication evidence is recorded in the external assessment.",
+          "status": "justified"
+        }
+      },
+      "controls": {
+        "GOV-01": {
+          "reason": "EXAMPLE ONLY: inventory governance is outside this selected engineering review.",
+          "status": "disabled"
+        }
+      },
+      "rules": {
+        "AI018": {
+          "reason": "EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control.",
+          "status": "disabled"
+        },
+        "AI024": {
+          "reason": "EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment.",
+          "status": "justified"
+        }
+      }
+    },
+    "schema_version": "1.0",
+    "sha256": "4dc93595be2eae6cc393531fa91f41465ead3384f77c76fb1caa0bc8833a218b"
+  },
+  "scan_id": "9dbb2e2c1e9c3eb22f640380c263857392a0227df77c6a4a9d4dc112a71a872b",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_triage_only",
     "bytes_charged": 796,
     "bytes_read": 796,
     "coverage_gaps": 0,
+    "disabled_findings": 1,
     "failed_read_bytes_charged": 0,
     "files_scanned": 3,
-    "open_findings": 11,
+    "justified_findings": 1,
+    "open_findings": 9,
     "scan_complete_within_selected_scope": true,
     "severity_counts": {
       "critical": 0,
       "high": 8,
       "info": 0,
-      "low": 1,
-      "medium": 2
+      "low": 0,
+      "medium": 1
     },
     "suppressed_findings": 0
   },

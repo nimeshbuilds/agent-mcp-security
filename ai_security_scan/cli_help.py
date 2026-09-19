@@ -64,7 +64,7 @@ Exclusions, budgets, and reproducibility:
   container root, without the report's rootfs/ prefix; they also exclude retained
   file revisions. Image config, build history, OS/package inventory and permission
   review remain independently assessed. Exclusions are visible in coverage.
-  Scan/output, baseline, baseline-output and judge-config paths inside a source
+  Scan/output, baseline, baseline-output, review-config and judge-config paths inside a source
   target are automatically excluded. Keep redirected stdout outside the target.
   Source/image byte, file, entry and layer limits must be positive integers.
   Hitting a limit returns exit 2 with explicit gaps or an acquisition error.
@@ -136,6 +136,9 @@ Reports, output modes, and Exit codes:
   diagnostics on stderr. --quiet and --summary-json cannot be combined.
   Summary fields include status, tool, scan_id, summary, assessment, scope, coverage,
   optional_review, execution, exit_code and reports; image scans also include image.
+  With --review-config, review_policy records every user disposition and active,
+  justified, disabled and catalog counts. Coverage total_controls/total_checks use
+  active denominators; catalog_controls/catalog_checks retain the full inventory.
   Operational errors emit status=operational_error with --summary-json when possible.
   Argument syntax/combination errors use stderr and exit 2, without a JSON document.
   A completed summary may still contain findings and exit 1.
@@ -161,9 +164,43 @@ Reviewed baselines:
   Each entry needs a unique ID and nonempty reason. An exception is a review
   decision, not proof of safety. The model cannot create accepted exceptions.
 
+User review dispositions:
+  --review-config PATH loads an explicitly selected, trusted UTF-8 JSON file.
+  No policy is auto-discovered in the target or its parent directories. The same
+  policy works for source directories, image references and image archives.
+  Review config JSON shape:
+    {"schema_version":"1.0",
+     "rules":{"AI003":{"status":"justified","reason":"Reviewed deployment-specific exception; track evidence with the owner."}},
+     "controls":{"GOV-01":{"status":"disabled","reason":"Outside this selected review scope."}},
+     "checks":{"AUTH-01:2":{"status":"justified","reason":"Owner-reviewed evidence is recorded in the external assessment."}}}
+  rules, controls and checks are optional maps keyed by exact catalog IDs.
+  Check IDs are CONTROL:INDEX with a one-based index; --list-controls prints them.
+  The only statuses are justified and disabled. justified requires a nonblank
+  reason; disabled permits an optional reason (a default reason is recorded).
+  Each reason is limited to 8000 characters and the file to 1,000,000 bytes. Unknown fields,
+  unknown IDs, duplicate JSON keys, invalid types/Unicode, and overlapping whole
+  control plus child-check entries fail with exit 2 before scanning/model calls.
+  Rule dispositions apply to every matching finding, including image metadata,
+  and take precedence over baseline suppression. Evidence, original status and
+  baseline reason remain in the audit. Shared analysis still runs; disabled means
+  excluded from assessment and gating, not skipped file parsing or evidence erasure.
+  Control/check dispositions exclude only the named checklist review items; they
+  cannot waive mapped rule findings. Configure rules explicitly for that purpose.
+  justified and disabled never mean pass: neither contributes to active finding
+  counts, severity gates, checklist denominators or optional analyst omissions.
+  The scanner has no numerical security score. Catalog totals and excluded-item
+  counts remain visible separately. Remaining active checks still need validation.
+  The analyst receives only active checklist items and cannot create dispositions.
+  Rule disposition alone does not exempt a mapped control from analyst review.
+  Reasons are redacted best-effort in reports; the canonical policy hash affects
+  scan_id. Keep sensitive values out of reasons. Protect this trusted policy in CI.
+  Configured exceptions never waive parse/read/budget gaps, invalid input or an
+  optional model failure. All still exit 2. Use --baseline for individual finding
+  ID exceptions; its existing status remains suppressed. Exit 0 is not a pass.
+
 Catalog inspection:
   --list-rules prints the rule array with severity, remediation, CWE and sources.
-  --list-controls prints all controls, acceptance checks, rule mappings and sources.
+  --list-controls prints all controls, acceptance checks, check IDs, rule mappings and sources.
   --explain-rule ID prints one rule, mapped controls and interpretation limits.
   These three commands are mutually exclusive and reject target/image inputs,
   --quiet and --summary-json. Unknown rule IDs are errors. No reports are written.
@@ -172,7 +209,7 @@ Optional security analyst and data disclosure:
   No LLM call occurs without --judge-config PATH. Use a trusted UTF-8 JSON file
   outside untrusted target repositories; it controls the recipient and requested
   environment variables. Config files are limited to 256 KiB and 64 nesting levels.
-  --judge-mode full (default) triages findings, then reviews every catalog control,
+  --judge-mode full (default) triages findings, then reviews every active catalog check,
   including those without findings. It sends bounded redacted source excerpts even
   when --judge-include-source is absent. --judge-mode findings sends finding triage
   only; --judge-include-source adds neighboring source to that stage.
@@ -182,7 +219,8 @@ Optional security analyst and data disclosure:
   report order. Omitted findings/answers stay visible; static findings remain intact.
   Full control calls have separate --analyst-* budgets, plus the one triage call.
   Smaller batches may require more calls: allow ceil(control_count / batch_size).
-  --analyst-max-calls 0 leaves controls unreviewed and returns exit 2 in full mode.
+  --analyst-max-calls 0 leaves active controls unreviewed and returns exit 2 in full
+  mode when active checks remain. Fully exempt controls need no analyst calls.
   Zero evidence-file/byte/character budgets send no control-review source excerpts;
   --judge-include-source can still send triage context independently. Missing source
   remains an evidence limitation, not a security pass. Analyst flags affect full mode.
@@ -261,6 +299,9 @@ Custom JSON gateway configuration:
    "response_path":"result.outputs.0.text"}
 
 Examples:
+  # Explicit reviewed exceptions; all evidence and user reasons remain auditable.
+  invarune ./repository --review-config ./trusted-review.json --output ./reports
+  invarune --image-archive ./agent-image.tar --review-config ./trusted-review.json
   # Offline source scan; output includes every control and explicit gaps.
   invarune ./repository --output ./reports
   # Docker local image; no source checkout, pull, or container start.
