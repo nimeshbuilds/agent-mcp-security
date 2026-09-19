@@ -3,6 +3,7 @@ import copy
 import contextlib
 import io
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -26,6 +27,67 @@ def judgment(ident='c1', verdict='likely_true_positive'):
 
 
 class AdjudicationTests(unittest.TestCase):
+    def test_confined_fallback_accepts_equivalent_root_spellings(self):
+        # Windows runner temp and checkout directories may be on different
+        # drives; a relative-root fixture must share the checkout's drive.
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            args, record, source = self.fixture(Path(directory))
+            (source / 'nested').mkdir()
+            spellings = (source, source / 'nested' / '..',
+                         Path(os.path.relpath(source, Path.cwd())))
+            with patch('ai_security_scan.fs.os.supports_dir_fd', set()):
+                evidence = [A.source_excerpt(root, record, 2, 2) for root in spellings]
+            self.assertTrue(all(item == evidence[0] for item in evidence))
+            self.assertEqual(evidence[0]['source_file_sha256'], record['sha256'])
+            self.assertEqual(evidence[0]['lines'][1], {'line': 2, 'text': '    return eval(value)'})
+
+    def test_confined_fallback_keeps_digest_size_and_relative_path_checks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            args, record, source = self.fixture(Path(directory))
+            with patch('ai_security_scan.fs.os.supports_dir_fd', set()):
+                for changed in ({'sha256': '0' * 64}, {'bytes': record['bytes'] + 1}):
+                    with self.subTest(changed=changed), self.assertRaisesRegex(ValueError, 'pinned source manifest'):
+                        A.source_excerpt(source, {**record, **changed}, 2, 2)
+                with self.assertRaisesRegex(OSError, 'read limit'):
+                    A.source_excerpt(source, {**record, 'bytes': record['bytes'] - 1}, 2, 2)
+                with self.assertRaisesRegex(ValueError, 'byte bound'):
+                    A.source_excerpt(source, record, 2, 2, max_file_bytes=record['bytes'] - 1)
+                for unsafe in ('../outside.py', '/outside.py', 'C:\\outside.py', ''):
+                    with self.subTest(path=unsafe), self.assertRaises((ValueError, OSError)):
+                        A.source_excerpt(source, {**record, 'path': unsafe}, 2, 2)
+
+    def test_confined_fallback_rejects_root_nested_and_file_symlinks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            args, record, source = self.fixture(root)
+            outside = root / 'outside'; outside.mkdir()
+            (outside / 'agent.py').write_bytes((source / 'agent.py').read_bytes())
+            root_link = root / 'source-link'
+            try:
+                root_link.symlink_to(source, target_is_directory=True)
+                (source / 'nested-link').symlink_to(outside, target_is_directory=True)
+                (source / 'file-link.py').symlink_to(outside / 'agent.py')
+            except OSError:
+                self.skipTest('Symlink creation is unavailable on this platform')
+            with patch('ai_security_scan.fs.os.supports_dir_fd', set()):
+                with self.assertRaisesRegex(ValueError, 'real directory'):
+                    A.source_excerpt(root_link, record, 2, 2)
+                for relative in ('nested-link/agent.py', 'file-link.py'):
+                    with self.subTest(path=relative), self.assertRaisesRegex(OSError, 'symbolic link'):
+                        A.source_excerpt(source, {**record, 'path': relative}, 2, 2)
+
+    def test_root_resolution_loop_remains_an_explicit_sanitized_evidence_error(self):
+        with tempfile.TemporaryDirectory() as directory:
+            args, _, _ = self.fixture(Path(directory))
+            with patch.object(Path, 'resolve', side_effect=RuntimeError('Loop at /private/source')):
+                batches, private, audit = A.prepare(args)
+            self.assertEqual(batches, [])
+            self.assertEqual(len(private), 3)
+            self.assertEqual(audit['prepared_observations'], 0)
+            self.assertEqual(len(audit['evidence_errors']), 3)
+            self.assertEqual({item['error_kind'] for item in audit['evidence_errors']}, {'ValueError'})
+            self.assertNotIn('/private/source', json.dumps(audit))
+
     def test_unicode_separators_do_not_invent_physical_source_lines(self):
         for separator in ("\u2028", "\u2029", "\x85", "\x0b", "\x0c"):
             for newline in ("\n", "\r\n", "\r"):

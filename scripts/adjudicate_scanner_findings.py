@@ -124,6 +124,14 @@ def source_excerpt(root, record, start, end, context_lines=12, max_lines=100, ma
     root = Path(root)
     if root.is_symlink() or not root.is_dir():
         raise ValueError("Selected source root is not a real directory")
+    # Match the production evidence reader: reject a supplied root symlink
+    # before canonicalizing trusted root aliases (Windows short paths, relative
+    # paths, or macOS /var). The fallback compares resolved child ancestry.
+    # Keep untrusted relative paths unresolved so read_confined rejects links.
+    try:
+        root = root.resolve(strict=True)
+    except RuntimeError:
+        raise ValueError("Selected source root could not be resolved") from None
     identity = root.stat()
     raw, _ = read_confined(root, record["path"], record["bytes"], (identity.st_dev, identity.st_ino))
     if len(raw) != record["bytes"] or sha(raw) != record["sha256"]:

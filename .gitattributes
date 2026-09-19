@@ -1,3 +1,6 @@
+# Keep hashed benchmark evidence and reproducible reports byte-identical on
+# Windows as well as Unix. Binary artifacts retain their exact stored bytes.
+* text=auto eol=lf
 *.pdf binary
 *.png binary
 # Markdown hard breaks and final paragraph separators are intentional.
