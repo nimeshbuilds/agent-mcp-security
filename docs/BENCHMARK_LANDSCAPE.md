@@ -2,7 +2,7 @@
 
 **Research snapshot: 2026-09-19.** This expands [the research basis](RESEARCH.md). It is a curated security landscape, not a claim to include every benchmark published. Government guidance, threat catalogs, verification standards, configuration benchmarks, and behavioral experiments answer different questions. The [Invarune control catalog](SECURITY_CHECKLIST.md) is an independent engineering checklist; references and suggested mappings do not establish conformance, certification, or completed benchmark runs.
 
-Machine-readable records, including scope, version, limitations, and selected control mappings, are in [additional_sources_benchmarks.json](../ai_security_scan/data/additional_sources_benchmarks.json). The existing government, NIST, MCP, and OWASP sources remain in the main research document; CSA is covered in the companion CSA research.
+Machine-readable source records, including scope, version and limitations, are in [sources.json](../ai_security_scan/data/sources.json); selected control mappings are in [controls.json](../ai_security_scan/data/controls.json). The existing government, NIST, MCP, and OWASP sources remain in the main research document; CSA is covered in the companion CSA research.
 
 ## Standards and frameworks worth adding to the review
 
