@@ -41,3 +41,7 @@ The PDF keeps the original engineering checks distinct from external requirement
 - `tests/`: offline/mocked tests and local HTTP integration tests.
 
 Generated scratch data, render QA sheets, runtime logs, credentials, and private configuration are excluded. No external publication PDFs or benchmark datasets are redistributed.
+
+## Operational PDF and editable reports (v0.9.0)
+
+Install the optional PDF extra and use `--pdf` on a source/image scan to generate `report.pdf` alongside HTML, Markdown, JSON and SARIF. Each operational format supports explicit `--review-report` import on a fresh selected target. The controlbook and comparative benchmark PDF are explanatory publications and do not carry scan-specific editable capsules. See [review workflow](REVIEW_WORKFLOW.md) for field limits and edit/save instructions.

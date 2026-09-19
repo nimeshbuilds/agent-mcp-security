@@ -1,3 +1,5 @@
-# Optional validation tools only; the scanner has no third-party dependencies.
+# Optional validation tools; deterministic scanning needs no third-party packages.
 coverage==7.16.1
 jsonschema==4.26.0
+reportlab==4.5.1
+pypdf==6.19.0

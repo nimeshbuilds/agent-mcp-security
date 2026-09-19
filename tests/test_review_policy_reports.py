@@ -14,7 +14,7 @@ from ai_security_scan.report_html import html_report
 from ai_security_scan.review_policy import apply_review_config
 from ai_security_scan.scanner import scan
 from tests.image_fixtures import docker_archive
-from tests.test_report_html import Document
+from tests.test_report_html import Document, assert_trusted_script_boundary
 
 
 class ReviewPolicyReportTests(unittest.TestCase):
@@ -148,12 +148,14 @@ class ReviewPolicyReportTests(unittest.TestCase):
         md = markdown(report)
         self.assertNotIn(payload, page)
         self.assertNotIn('<img src=', md)
-        self.assertNotIn('[link](javascript:run)', md)
+        # The reusable JSON capsule is code-fenced data; its text is not a link.
+        prose = md.split('<!-- INVARUNE_REVIEW_BEGIN -->', 1)[0]
+        self.assertNotIn('[link](javascript:run)', prose)
         self.assertIn('\\| table', md)
         doc = Document(page)
         self.assertIn(payload, " ".join(doc.text))
         self.assertNotIn("img", [tag for tag, _ in doc.tags])
-        self.assertNotIn("script", [tag for tag, _ in doc.tags])
+        assert_trusted_script_boundary(self, page)
         for _, attrs in doc.tags:
             self.assertFalse(any(name.startswith("on") for name in attrs))
             self.assertNotEqual(attrs.get("href"), "javascript:run")

@@ -30,7 +30,7 @@ Long options require their complete spelling. Abbreviations such as `--judge-con
 
 ## Complete offline help
 
-Version 0.8.0 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, review dispositions, every judge configuration field, native/custom gateway JSON examples, and CLI examples including official login and model selection. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
+Version 0.9.0 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, review dispositions, editable five-format report import, optional PDF export, every judge configuration field, native/custom gateway JSON examples, and CLI examples including official login and model selection. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
 
 ```sh
 python3 scan.py --help
@@ -93,14 +93,15 @@ Glob matching is case-sensitive against relative paths; this is not a `.gitignor
 
 | Argument | Default | Meaning |
 | --- | --- | --- |
-| `--output PATH` | `scan-report` | Directory for `report.html`, `report.json`, `report.md`, and `report.sarif`. |
+| `--output PATH` | `scan-report` | Directory for `report.html`, `report.json`, `report.md`, and `report.sarif`, plus `report.pdf` when requested. |
+| `--pdf` | Disabled | Add a fillable PDF with charts, clickable contents and review fields; requires the optional `pdf` extra. Default formats stay dependency-free. |
 | `--fail-on LEVEL` | `high` | Gate on open findings at or above `critical`, `high`, `medium`, `low`, or `info`. `none` disables this severity gate only. |
 | `--quiet` | Disabled | Suppress scan progress and human summaries. Operational and optional review errors remain on stderr. |
 | `--summary-json` | Disabled | Emit one JSON summary on stdout instead of the human summary. Diagnostics remain on stderr. |
 
 `--quiet` and `--summary-json` are mutually exclusive. Both keep the same findings, report artifacts, baseline handling, and exit gate as the default human output. Default deterministic runs with identical files, configuration, runtime, and scanner implementation are reproducible; enabling a model does not make model responses reproducible.
 
-Open `report.html` locally for the complete branded report. It contains its styling and logo, uses no scripts or external fonts/images, and works without a web server or internet connection. Markdown offers a portable equivalent, while JSON exposes the assessment for downstream automation. SARIF retains deterministic findings for compatible code-review tools.
+Open `report.html` locally for the complete branded report. It contains its styling, logo and a fixed CSP-hashed local script for saving review edits, with no external scripts/fonts/images or network requests. Reading and navigation work without the script; the Download reviewed HTML button needs it to preserve live form values. Markdown offers a portable equivalent, while JSON exposes the assessment for downstream automation. SARIF retains deterministic findings plus the editable review capsule.
 
 HTML and Markdown start with the scan outcome, immediate concerns, affected files, accepted baseline risks, and coverage limitations. Repeated findings are grouped by rule, status, and image evidence context, with each location preserved. Critical findings receive review priority P0, high P1, medium P2, and low/info P3; these labels are ordering guidance, not deadlines or a numerical security rating. The action plan includes suggested ownership, direct remediation, and additional defense layers, each with expected benefit, verification work, residual limits, and source mappings.
 
@@ -127,6 +128,8 @@ invarune ./repository --output ./reports --summary-json > ./summary.json
 `summary.json` in the example is outside the target. Redirecting stdout into the source tree can change the scanned input; keep external summary captures outside the target or explicitly exclude them.
 
 ## User review dispositions
+
+`--review-report PATH` is mutually exclusive with `--review-config` and imports explicitly authorized user fields from HTML, Markdown, JSON, SARIF or a fillable scan PDF. A fresh source/image target is required. No target, model, credential, executable or registry pull is replayed from the report. Unchanged bindings can carry granular finding/check exceptions forward; stale decisions and explicit runtime/human follow-ups return exit 2. Use a new output directory. All fields, formats, bounds and examples are in the [review workflow](REVIEW_WORKFLOW.md) and offline `--help`.
 
 `--review-config PATH` selects a trusted JSON file with `justified` or `disabled` entries keyed by rule ID, control ID, or individual `CONTROL:INDEX` check ID. It is optional and never auto-discovered. Justification requires a nonblank reason. Excluded items retain their evidence and user reason but contribute neither a pass nor a failure to active counts. Rule dispositions affect the finding gate; control/check dispositions affect the checklist and optional analyst queue only. Shared static analysis still collects evidence and reports parse/resource gaps.
 

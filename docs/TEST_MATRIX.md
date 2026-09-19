@@ -1,6 +1,6 @@
 # Scenario test matrix
 
-This matrix records concrete scanner and controller behavior tested for version **0.8.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. The **588-test automated suite** passed on Python 3.9.6 and 3.12.14 with no failures, errors or skips. It uses synthetic secrets, repository fixtures, mocked provider responses, real bounded subprocesses and loopback HTTP/HTTPS. The automated suite never executes the target application or calls a live model. Separate empirical public-project, competitor and official CLI-provider checks are recorded below and in [implementation validation](VALIDATION.md).
+This matrix records concrete scanner and controller behavior tested for version **0.9.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. The prior v0.8.0 suite had 588 passing tests. The expanded v0.9.0 run and dependency-specific skips are recorded in [implementation validation](VALIDATION.md). It uses synthetic secrets, repository fixtures, mocked provider responses, real bounded subprocesses and loopback HTTP/HTTPS. The automated suite never executes the target application or calls a live model. Separate empirical public-project, competitor and official CLI-provider checks are recorded below and in [implementation validation](VALIDATION.md).
 
 ## Reproducible scenario coverage
 
@@ -127,10 +127,22 @@ Eight pinned public repositories were scanned offline, and the installed Codex C
 
 ## Executive reports and mitigation guidance
 
-`test_report_assessment.py` verifies severity ordering, repeated locations, category counts, open versus accepted findings, source/image coverage gaps, current versus historical image evidence, every rule's sourced guidance, and assessment independence from model verdicts and exit thresholds. `test_report_html.py` checks summary-local review status, all finding/control evidence, valid internal navigation, escaping of malicious source/model/exception text, URL rejection, script-free CSP, and lone-surrogate text. Existing CLI and gateway tests verify all four outputs, redaction, policy parity, package data, and repeatability. Suggested defense layers remain unverified and never reduce finding severity.
+`test_report_assessment.py` verifies severity ordering, repeated locations, category counts, open versus accepted findings, source/image coverage gaps, current versus historical image evidence, every rule's sourced guidance, and assessment independence from model verdicts and exit thresholds. `test_report_html.py` checks summary-local review status, all finding/control evidence, valid internal navigation, escaping of malicious source/model/exception text, URL rejection, a CSP allowing only the fixed, hash-authorized local review editor, and lone-surrogate text. Existing CLI and gateway tests verify all four outputs, redaction, policy parity, package data, and repeatability. Suggested defense layers remain unverified and never reduce finding severity.
 
 ## Explicit user dispositions
 
 Justified and disabled findings/checks retain their evidence and reason but never count as passes. Tests distinguish rule findings-gate exceptions from control/check review-scope exceptions. The all-exempt case requires zero control calls and produces zero active-check omissions; requested triage or operational failure still returns exit 2. The six new gateway cases verify that a response for compact index 1 is restored to original `AUTH-01:2`, without sending the exempt first check or either private user reason.
 
 Independent review also reproduced and fixed config/report filename collisions and trusted-config source disclosure through case aliases. Filesystem identity checks exclude explicit trusted-file hardlinks as well. Case-sensitive filesystems skip the case-alias-only cases; the portable hardlink and ordinary-path cases still run. These checks assume a stable filesystem during the scan and are not a general defense against a hostile actor modifying the host concurrently.
+
+## Editable report and fresh-scan coverage (v0.9.0)
+
+| Area | Tested behavior | Evidence |
+|---|---|---|
+| Bound review capsules | Five input formats; strict fields/decisions/dates, source/image/catalog/version/scope changes, stale decisions, absent items, no arbitrary pass or command/config replay | `test_review_workspace.py` |
+| Granular decisions | Individual findings and checks, active denominators, kept reasons/reviewer/evidence, runtime/human follow-up exit 2, no automatic note transmission to model | `test_review_roundtrip_cli.py` |
+| HTML editor | Actual local editor JavaScript under a Node DOM harness, saved HTML/JSON through the real importer, field validation, escaped data, fixed script hash and no external connections | `test_report_review_editor.py`, `tests/fixtures/review_editor_dom.cjs` |
+| PDF forms | Canonical/widget/appearance consistency, attachments, repeatable exports, supported text, invalid/missing fields, bounded parsing, malformed/flattened documents | `test_report_pdf.py` |
+| Failure preservation | Oversized capsules and optional PDF dependency/render failures preserve all static findings in four portable reports and return exit 2 | `test_review_roundtrip_cli.py` |
+
+PDF tests use the optional extra; the ordinary Python matrix exercises the dependency-free path and skips PDF-dependent tests explicitly. The package/coverage job installs pinned PDF libraries and exercises those tests. These checks do not establish compatibility with every PDF editor or browser.

@@ -2,7 +2,9 @@
 
 Start with `report.html` for a navigable, branded review or `report.md` for a text-first review. Both start with an executive assessment and retain the finding evidence, full control checklist, and coverage details. `report.json` preserves the structured evidence and assessment; `report.sarif` retains static findings for CI consumers.
 
-The HTML file is self-contained: it needs no server, account, model, JavaScript, CDN, font download, or internet connection. Its expandable sections and internal links use native browser behavior. External source links are opened only when you choose them. Print styles expand finding and control details for browser printing. Reports can contain sensitive paths and redacted source fragments; redaction is best-effort.
+The HTML file is self-contained: it needs no server, account, model, CDN, font download or internet connection. Its expandable sections and internal links use native browser behavior. A fixed CSP-hashed local JavaScript helper saves review fields through Download reviewed HTML; reading works without JavaScript. External source links open only when you choose them. Print styles expand finding and control details for printing, but a printed/flattened artifact is not the editable review input. Reports can contain sensitive paths and redacted source fragments; redaction is best-effort.
+
+Version 0.9 adds catalog/observation charts, methods and missed-scenario explanations, effective configuration and review fields. `--pdf` creates a fillable PDF with clickable contents and the same scan review data. HTML, Markdown, JSON, SARIF and this scan PDF can be passed to `--review-report` with a fresh code/image target. [See the complete review and rescan workflow](REVIEW_WORKFLOW.md).
 
 ## The opening assessment
 
@@ -61,13 +63,13 @@ Suggested layers never lower recorded severity, suppress findings, close control
 
 With `--review-config`, the opening summary distinguishes **justified** and **disabled** findings and checks from active items. Both are excluded from the active denominator and the findings gate where applicable. Neither counts as a pass. Original evidence, severity, baseline reasons and user rationale remain available for audit. The report has no numerical security score to inflate or penalize.
 
-Whole-control and individual-check exceptions exclude checklist items only; related static findings stay open unless their rule has an explicit exception. The user-policy audit shows every configured entry, including rules with no matches. The full catalog remains visible separately from active counts. An all-exempt scan is labeled as configured exceptions rather than no patterns detected. Errors and coverage gaps retain precedence.
+Whole-control and individual-check exceptions exclude checklist items only; related static findings stay open unless their rule or that individual finding has an explicit exception. The user-policy audit shows every configured entry, including rules with no matches. The full catalog remains visible separately from active counts. An all-exempt scan is labeled as configured exceptions rather than no patterns detected. Errors and coverage gaps retain precedence.
 
 The optional analyst does not assess exempt checklist items or count them as missing answers. Responses for active subsets are mapped back to the original check IDs; the request receipt records the mapping. SARIF retains excepted findings as externally accepted suppressions with a distinct user-disposition property and rationale. See [review configuration](REVIEW_CONFIGURATION.md).
 
 ## Optional analyst and deterministic reporting
 
-The entire overview and mitigation catalog work with the model disabled. The `assessment` field is derived from static findings, scope, and bundled guidance. It does not depend on the selected failure threshold, model verdict, or optional review completion. The report records the guidance catalog version and SHA-256 plus the source registry SHA-256 separately from the evidence scan ID.
+The entire overview and mitigation catalog work with the model disabled. The `assessment` field is derived from static findings, scope, explicit user review/import states, export diagnostics and bundled guidance. It does not depend on the selected failure threshold, model verdict, or optional review completion. The report records the guidance catalog version and SHA-256 plus the source registry SHA-256 separately from the evidence scan ID.
 
 If enabled, the model's finding triage and control review appear in explicitly advisory sections. The executive area shows optional-review completion separately. An answered check does not mean it passed, and a completed review can still require runtime or human evidence. A failed or partial review leaves the static findings intact and retains the existing exit-code-2 behavior.
 

@@ -45,6 +45,7 @@ def parser():
     scope.add_argument("--max-entries", type=int, default=100_000, help="Maximum traversed file/directory entries")
     output = p.add_argument_group("Reports and CI output")
     output.add_argument("--output", default="scan-report", help="Directory for report.html, report.json, report.md and report.sarif; creates parents and replaces existing report files")
+    output.add_argument("--pdf", action="store_true", help="Also write a branded fillable report.pdf with charts, clickable navigation and review fields; requires the optional pdf extra. The default four formats need no extra packages")
     display = output.add_mutually_exclusive_group()
     display.add_argument("--quiet", action="store_true", help="Suppress scan progress and human summaries; errors remain on stderr")
     display.add_argument("--summary-json", action="store_true", help="Write one JSON summary to stdout; diagnostics remain on stderr")
@@ -54,7 +55,9 @@ def parser():
     baseline.add_argument("--write-baseline", metavar="PATH", help="Write a baseline candidate; does not suppress this scan")
     baseline.add_argument("--baseline-reason", metavar="TEXT", help="Required nonempty justification for --write-baseline; quote multiword reasons")
     policy = p.add_argument_group("User review dispositions (disabled by default)")
-    policy.add_argument("--review-config", metavar="PATH", help="Explicit trusted JSON rule/control/check exceptions; justified or disabled items are retained for audit and excluded from active counts. Schema and precedence below")
+    review_source = policy.add_mutually_exclusive_group()
+    review_source.add_argument("--review-config", metavar="PATH", help="Explicit trusted JSON rule/control/check exceptions; justified or disabled items are retained for audit and excluded from active counts. Schema and precedence below")
+    review_source.add_argument("--review-report", metavar="PATH", help="Import user-edited review fields from a current-format HTML, Markdown, JSON, SARIF or fillable PDF report and rescan an explicit source/image target. Changed evidence requires re-review; no automatic model, command or target replay")
     judge = p.add_argument_group("Optional advisory LLM review (disabled by default)")
     judge_source = judge.add_mutually_exclusive_group()
     judge_source.add_argument("--judge-config", metavar="PATH", help="Trusted JSON API/gateway or CLI config; opt in to model calls and bounded redacted evidence disclosure. Fields and examples below")
@@ -120,12 +123,14 @@ def _json_summary(report, target, report_paths):
                          "control_status_counts": dict(sorted(Counter(control["status"] for control in controls).items()))},
             "optional_review": {"judge": judge_summary, "analyst": analyst_summary},
             **({"review_policy": policy} if policy else {}),
+            **({"review_import": report["review_import"]} if report.get("review_import") else {}),
             "execution": report["execution"], "exit_code": report["execution"]["exit_code"], "reports": report_paths,
             **({"image": report["image"]} if "image" in report else {})}
 
 
 def judge_payload(report, root, include_source=False, max_findings=100):
-    selected = [f for f in report["findings"] if f["status"] == "open"][:max_findings]
+    selected = [{key: value for key, value in f.items() if key != "human_review"}
+                for f in report["findings"] if f["status"] == "open"][:max_findings]
     payload = {"scan_id": report["scan_id"], "summary": report["summary"], "limitations": report["coverage"]["limitations"], "findings": selected, "omitted_open_findings": report["summary"]["open_findings"] - len(selected), "source_context_included": include_source}
     if include_source:
         from .evidence import image_evidence_context, model_evidence_exclusion
@@ -169,6 +174,8 @@ def main(argv=None):
     if not math.isfinite(args.login_timeout) or not 1 <= args.login_timeout <= 900:
         p.error("--login-timeout must be finite and between 1 and 900 seconds")
     if args.login:
+        if args.pdf or args.review_report or args.review_config:
+            p.error("--login does not accept PDF or review-report/config options")
         if args.target or args.image or args.image_archive or args.judge_cli or args.judge_config or args.list_rules or args.list_controls or args.explain_rule:
             p.error("--login is a standalone command; omit scan input and judge selection")
         if args.quiet or args.summary_json or args.judge_model or args.judge_timeout is not None:
@@ -187,6 +194,8 @@ def main(argv=None):
         return 0
     catalog_mode = args.list_rules or args.list_controls or args.explain_rule is not None
     image_mode = args.image is not None or args.image_archive is not None
+    if catalog_mode and (args.pdf or args.review_report):
+        p.error("--pdf and --review-report apply to scans, not catalog inspection")
     if catalog_mode and (args.target or image_mode):
         p.error("catalog inspection does not accept a target directory or image")
     if catalog_mode and (args.quiet or args.summary_json):
@@ -244,18 +253,32 @@ def main(argv=None):
     if not image_mode and output.resolve() == target.resolve():
         p.error("--output must be separate from the repository root")
     exclusions = [output.absolute()]
-    for name in (args.baseline, args.write_baseline, args.judge_config, args.review_config, args.judge_cli_home):
+    for name in (args.baseline, args.write_baseline, args.judge_config, args.review_config, args.review_report, args.judge_cli_home):
         if name:
             exclusions.append(Path(name).expanduser().absolute())
     report_paths = {}
     resources = ExitStack()
     try:
         review_config = None
+        review_workspace = None
+        if args.review_report:
+            from .review_workspace import apply_review_workspace, load_review_report
+            review_path = Path(args.review_report).expanduser()
+            destinations = [output / name for name in ("report.html", "report.json", "report.md", "report.sarif", "report.pdf")]
+            if args.write_baseline:
+                destinations.append(Path(args.write_baseline).expanduser())
+            try:
+                for path in destinations:
+                    if review_path.resolve() == path.resolve() or (path.exists() and review_path.samefile(path)):
+                        raise ValueError("--review-report must not be overwritten by a report or --write-baseline destination; choose a new --output directory")
+            except RuntimeError as exc:
+                raise ValueError("Review report and output paths must not contain symbolic-link loops") from exc
+            review_workspace = load_review_report(review_path)
         if args.review_config:
             from .review_policy import apply_review_config, load_review_config
             review_path = Path(args.review_config).expanduser()
             review_config = load_review_config(review_path)
-            destinations = [output / name for name in ("report.html", "report.json", "report.md", "report.sarif")]
+            destinations = [output / name for name in ("report.html", "report.json", "report.md", "report.sarif", "report.pdf")]
             if args.write_baseline:
                 destinations.append(Path(args.write_baseline).expanduser())
             try:
@@ -277,7 +300,21 @@ def main(argv=None):
             report = scan(target, **scan_options)
         if review_config is not None:
             report = apply_review_config(report, review_config)
+        if review_workspace is not None:
+            from .review_workspace import ReviewWorkspaceLimitError
+            try:
+                report = apply_review_workspace(report, review_workspace)
+            except ReviewWorkspaceLimitError as exc:
+                report["review_import"] = {"enabled": True, "status": "incomplete", "incomplete": True,
+                    "error": str(exc), "source_sha256": getattr(review_workspace, "source_sha256", None),
+                    "origin_scan_id": review_workspace["origin"]["scan_id"],
+                    "unapplied_decisions": redact_object([item for item in review_workspace["items"] if item["decision"]]),
+                    "counts": {"applied": 0, "stale": 0, "not_redetected": 0, "out_of_scope": 0, "unresolved": 0,
+                               "imported_items": len(review_workspace["items"]),
+                               "decisions": sum(bool(item["decision"]) for item in review_workspace["items"])},
+                    "assurance": "Fresh evidence exceeds editable-report limits. No imported decision was applied; full static findings are retained."}
         report["analyst"] = {"enabled": False}
+        effective_transport = {}
         if judge_enabled:
             from .judge import JudgeError, JudgeAuthenticationError, load_config, review, validate_analyst_config
             from .analyst import run_analyst, unreviewed_analyst
@@ -298,9 +335,10 @@ def main(argv=None):
                            ("cli_home", args.judge_cli_home)) if value is not None}})
                 if args.judge_mode == "full":
                     config = validate_analyst_config(config)
+                effective_transport = redact_object({key: config[key] for key in (
+                    "provider", "model", "timeout_seconds", "max_request_bytes", "max_response_bytes", "max_output_tokens") if key in config})
                 interactive_login = config["provider"].endswith("_cli") and args.judge_login == "auto" and not (args.quiet or args.summary_json) and sys.stdin.isatty() and sys.stderr.isatty()
                 login_attempted = False
-
                 def authenticate():
                     nonlocal login_attempted
                     if not interactive_login or login_attempted:
@@ -340,11 +378,37 @@ def main(argv=None):
         gate_triggered = args.fail_on != "none" and any(f["status"] == "open" and SEVERITIES.index(f["severity"]) <= SEVERITIES.index(args.fail_on) for f in report["findings"])
         incomplete = (not report["summary"]["scan_complete_within_selected_scope"]
                       or report["judge"].get("status") == "error"
-                      or report["analyst"].get("status") in {"error", "incomplete"})
+                      or report["analyst"].get("status") in {"error", "incomplete"}
+                      or report.get("review_import", {}).get("incomplete", False))
+        report["run_configuration"] = {
+            "schema_version": "1.0",
+            "reporting": {"formats": ["html", "markdown", "json", "sarif"] + (["pdf"] if args.pdf else []), "failure_threshold": args.fail_on},
+            "optional_review": {"enabled": judge_enabled, "mode": args.judge_mode,
+                "provider": report.get("judge", {}).get("provider"), "findings_limit": args.judge_max_findings,
+                "include_finding_source": args.judge_include_source, "analyst_limits": analyst_limits,
+                "cli_login": args.judge_login, "effective_transport": effective_transport,
+                "cli_timeout_seconds": (args.judge_timeout if args.judge_timeout is not None else 60) if args.judge_cli else None,
+                "transport_replay": "Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay."},
+            "review_inputs": {"review_config": bool(args.review_config), "review_report": bool(args.review_report), "baseline": bool(args.baseline)},
+            **({"image_acquisition": {"runtime": args.image_runtime, "pull_requested": args.pull,
+                "platform": args.image_platform, "timeout_seconds": args.image_timeout}} if image_mode else {}),
+        }
         report["execution"] = {"failure_threshold": args.fail_on, "finding_gate_triggered": bool(gate_triggered), "exit_code": 2 if incomplete else 1 if gate_triggered else 0}
         report = write_reports(report, output)
         report_paths = {kind: str(output.resolve() / name) for kind, name in
                         (("html", "report.html"), ("json", "report.json"), ("markdown", "report.md"), ("sarif", "report.sarif"))}
+        if args.pdf:
+            try:
+                from .report_pdf import render_pdf
+                render_pdf(report, output.resolve() / "report.pdf")
+                report_paths["pdf"] = str(output.resolve() / "report.pdf")
+            except (ImportError, OSError, ValueError) as exc:
+                message = ("PDF export needs the optional dependencies; install this checkout with pip install '.[pdf]'."
+                           if isinstance(exc, ImportError) else redact(str(exc)))
+                report["export_errors"] = [{"format": "pdf", "error": message}]
+                report["execution"]["exit_code"] = 2
+                report = write_reports(report, output)
+                print("PDF export error: " + message + "; the four portable reports are retained.", file=sys.stderr)
         if args.write_baseline:
             path = Path(args.write_baseline).expanduser()
             if path.is_symlink():
@@ -363,6 +427,10 @@ def main(argv=None):
         print("Scan incomplete: " + str(report["summary"]["coverage_gaps"]) + " coverage gaps; see report.json for details.", file=sys.stderr)
     if report["analyst"].get("status") in {"error", "incomplete"}:
         print("Optional control analyst review is incomplete; see report.json for coverage and error details.", file=sys.stderr)
+    if report.get("review_import", {}).get("incomplete"):
+        print("Imported review needs follow-up: changed evidence or unresolved runtime/human validation remains; see the review audit.", file=sys.stderr)
+    if report.get("review_workspace_unavailable"):
+        print("Editable review unavailable: " + report["review_workspace_unavailable"]["reason"] + "; full static reports retained.", file=sys.stderr)
     if args.summary_json:
         print(json.dumps(_json_summary(report, target, report_paths), sort_keys=True))
         return report["execution"]["exit_code"]
@@ -375,7 +443,7 @@ def main(argv=None):
         print(f"User dispositions: {summary['justified_findings']} justified and {summary['disabled_findings']} disabled findings; {counts['active_rules']} active rules; {counts['active_checks']} active checks, {counts['justified_checks']} justified, {counts['disabled_checks']} disabled. Excluded items are not passes.")
     if report.get("image"):
         print(f"Image scope: {summary['image_analysis_scope']}; {summary['packaged_source_files_inspected']} packaged source files inspected. Binary logic and package CVEs were not analyzed.")
-    print("Reports: " + str(output.resolve() / "report.html") + " (also Markdown, JSON and SARIF)")
+    print("Reports: " + str(output.resolve() / "report.html") + " (also Markdown, JSON and SARIF" + (", PDF" if "pdf" in report_paths else "") + ")")
     if report["analyst"].get("enabled"):
         coverage = report["analyst"]["coverage"]
         print(f"Advisory analyst: {report['analyst']['status']}; {coverage['reviewed_controls']}/{coverage['total_controls']} controls reviewed; {coverage['omitted_checks']} unanswered checks. Code review does not establish runtime validation.")

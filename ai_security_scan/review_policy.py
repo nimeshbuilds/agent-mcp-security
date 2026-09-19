@@ -49,6 +49,18 @@ def _valid_text(value):
     return all(ord(character) >= 32 or character in "\n\r\t" for character in value)
 
 
+def _validate_disposition(item):
+    if not isinstance(item, dict) or set(item) - {"status", "reason"}:
+        raise ValueError("Every review disposition must contain only status and optional reason")
+    status = item.get("status")
+    if not isinstance(status, str) or status not in {"disabled", "justified"}:
+        raise ValueError("Review disposition status must be disabled or justified")
+    reason = item.get("reason", DEFAULT_DISABLED_REASON if status == "disabled" else None)
+    if not _valid_text(reason) or not reason.strip() or len(reason) > MAX_REASON_CHARS:
+        raise ValueError("Review dispositions require a nonblank Unicode reason of at most 8000 characters; only disabled may omit it")
+    return {"status": status, "reason": reason}
+
+
 def validate_review_config(value):
     """Return a canonical, independently owned policy; reject ambiguous input."""
     if not isinstance(value, dict) or set(value) - {"schema_version", "rules", "controls", "checks"}:
@@ -73,16 +85,7 @@ def validate_review_config(value):
         if any(not _valid_text(identifier) or identifier not in known[scope] for identifier in entries):
             raise ValueError("Review configuration contains an unknown {} identifier".format(scope))
         for identifier in sorted(entries):
-            item = entries[identifier]
-            if not isinstance(item, dict) or set(item) - {"status", "reason"}:
-                raise ValueError("Every review disposition must contain only status and optional reason")
-            status = item.get("status")
-            if not isinstance(status, str) or status not in {"disabled", "justified"}:
-                raise ValueError("Review disposition status must be disabled or justified")
-            reason = item.get("reason", DEFAULT_DISABLED_REASON if status == "disabled" else None)
-            if not _valid_text(reason) or not reason.strip() or len(reason) > MAX_REASON_CHARS:
-                raise ValueError("Review dispositions require a nonblank Unicode reason of at most 8000 characters; only disabled may omit it")
-            normalized[identifier] = {"status": status, "reason": reason}
+            normalized[identifier] = _validate_disposition(entries[identifier])
         result[scope] = normalized
     if any(identifier.rsplit(":", 1)[0] in result["controls"] for identifier in result["checks"]):
         raise ValueError("A review configuration cannot specify both a whole control and its individual checks")
@@ -138,7 +141,7 @@ def _mapped_status(control, groups):
     return "review_required"
 
 
-def apply_review_config(report, policy):
+def apply_review_config(report, policy, *, finding_dispositions=None):
     """Return a copy with explicit exclusions; never discard findings or gaps.
 
     Rule exceptions take precedence over a matching legacy finding baseline but
@@ -146,10 +149,21 @@ def apply_review_config(report, policy):
     exceptions never affect the findings gate. Applying the same policy twice is
     idempotent; to replace a policy, apply it to the original static report.
     """
-    if policy is None:
+    if finding_dispositions is not None and not isinstance(finding_dispositions, dict):
+        raise ValueError("Finding dispositions must be an object keyed by fresh finding IDs")
+    if policy is None and not finding_dispositions:
         return copy.deepcopy(report)
-    policy = validate_review_config(policy)
-    digest = _digest(policy)
+    policy = validate_review_config(policy or {"schema_version": "1.0"})
+    finding_dispositions = finding_dispositions or {}
+    known_findings = {finding["id"] for finding in report.get("findings", [])}
+    if not isinstance(finding_dispositions, dict) or any(identifier not in known_findings for identifier in finding_dispositions):
+        raise ValueError("Finding dispositions must name findings in the fresh static report")
+    normalized_findings = {}
+    for identifier, item in sorted(finding_dispositions.items()):
+        # Reuse the exact disposition validation without extending the existing
+        # public JSON review-config schema or accepting arbitrary finding IDs.
+        normalized_findings[identifier] = _validate_disposition(item)
+    digest = _digest({"policy": policy, "findings": normalized_findings}) if normalized_findings else _digest(policy)
     existing = report.get("review_policy")
     if existing:
         if existing.get("sha256") == digest:
@@ -160,11 +174,12 @@ def apply_review_config(report, policy):
     result.pop("assessment", None)
     findings = result.get("findings", [])
     for finding in findings:
-        item = policy["rules"].get(finding["rule_id"])
+        specific = normalized_findings.get(finding["id"])
+        item = specific or policy["rules"].get(finding["rule_id"])
         if item:
             finding["original_status"] = finding["status"]
             finding["status"] = item["status"]
-            finding["disposition"] = _disposition(item, "rule", finding["rule_id"])
+            finding["disposition"] = _disposition(item, "finding" if specific else "rule", finding["id"] if specific else finding["rule_id"])
 
     rule_ids = sorted(rule["id"] for rule in RULES)
     controls = result.get("controls", [])
@@ -223,8 +238,12 @@ def apply_review_config(report, policy):
     entries = {scope: {identifier: {"status": item["status"], "reason": redact(item["reason"])}
                        for identifier, item in policy[scope].items()}
                for scope in ("rules", "controls", "checks")}
+    if normalized_findings:
+        entries["findings"] = {identifier: {"status": item["status"], "reason": redact(item["reason"])}
+                               for identifier, item in normalized_findings.items()}
+    assurance = ASSURANCE.replace("Rule dispositions affect their findings;", "Rule and individual finding dispositions affect their findings;") if normalized_findings else ASSURANCE
     result["review_policy"] = {"enabled": True, "schema_version": "1.0", "sha256": digest,
-                               "entries": entries, "counts": counts, "assurance": ASSURANCE}
+                               "entries": entries, "counts": counts, "assurance": assurance}
     result["configuration"]["review_config_sha256"] = digest
     result["scan_id"] = _digest({"static_scan_id": report["scan_id"], "review_config_sha256": digest})
     return result

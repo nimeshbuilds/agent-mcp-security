@@ -2,7 +2,7 @@
 
 **NimeshBuild · Evidence for agent security**
 
-Get your first report, then add image scanning, optional AI review or accepted exceptions. These examples target **Invarune 0.8.0**. Deterministic scans need **Python 3.9+**, with no Python packages, API keys or model subscription.
+Get your first report, then add image scanning, optional AI review or accepted exceptions. These examples target **Invarune 0.9.0**. Deterministic scans need **Python 3.9+**, with no Python packages, API keys or model subscription. PDF export/import uses optional Python packages.
 
 ## 1. Get your first report
 
@@ -60,6 +60,7 @@ Expect **3 findings, 0 coverage gaps and exit 1**. Image scans never start a con
 | `report.md` | Portable text to review or share. |
 | `report.json` | Structured findings, controls, coverage and audit details. |
 | `report.sarif` | Deterministic findings for compatible code-review and CI systems. |
+| `report.pdf` (with `--pdf`) | Charts, clickable contents and fillable review fields. Install the PDF extra first. |
 
 Review immediate concerns first, then **coverage gaps**, file/line evidence and controls needing human or runtime verification. Proposed defenses are not assumed to be deployed. Use separate output directories to retain earlier runs: each run replaces its report files.
 
@@ -67,7 +68,7 @@ Review immediate concerns first, then **coverage gaps**, file/line evidence and 
 |---|---|
 | `0` | Selected scope completed; no open finding reached the threshold. This is not a security certification. |
 | `1` | Findings reached the threshold: **high or critical by default**. |
-| `2` | Invalid input, operational failure, incomplete scan, or failed/incomplete requested AI review. Inspect diagnostics and any report produced. |
+| `2` | Invalid input, operational failure, incomplete scan, report export failure, stale/pending imported review, or failed/incomplete requested AI review. Inspect diagnostics and any report produced. |
 
 For CI, gate medium and higher findings and emit a JSON summary while saving all reports:
 
@@ -138,7 +139,31 @@ Expect **9 open, 1 justified and 1 disabled finding**, with exit 1 because other
 
 **Justified** and **disabled** items remain visible and contribute neither a pass nor a failure to active counts. Checklist exceptions do not automatically waive mapped rule findings. Policies never load automatically from target code, and exceptions cannot hide scan errors. [Schema and precedence](REVIEW_CONFIGURATION.md).
 
-## 6. Install the shorter command, optionally
+## 6. Review a report, then scan again
+
+Every new operational report carries the same review fields. In HTML, enter a decision, reason and reviewer, then click **Download reviewed HTML**. JSON, Markdown and SARIF expose the same fields in their review capsule. Use `needs_runtime_validation` when deployment testing is still required; use `justified` only to record your accepted exception.
+
+```sh
+python3 scan.py examples/vulnerable --review-report ./reviewed-report.html --output ./scan-report/final
+```
+
+For a fillable PDF, install the extra in a virtual environment and generate it:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install '.[pdf]'
+.venv/bin/python scan.py examples/vulnerable --pdf --output ./scan-report/pdf-review
+```
+
+Fill and save `report.pdf` in an AcroForm-compatible editor. Preserve its fields and attachments; do not print or flatten it. Then run:
+
+```sh
+.venv/bin/python scan.py examples/vulnerable --review-report ./reviewed-report.pdf --pdf --output ./scan-report/final-pdf
+```
+
+Always select the fresh source/image target explicitly and use a new output directory. Matching decisions are applied individually; changed evidence leaves decisions unapplied. A justification is recorded as **justified**, never as a verified pass. Explicit pending runtime/human decisions return exit 2. Model review stays off unless you enable it again. [Field definitions, format limits and complete workflow](REVIEW_WORKFLOW.md).
+
+## 7. Install the shorter command, optionally
 
 Direct script usage needs no installation. To use `invarune` from another directory, install this checkout in a virtual environment.
 

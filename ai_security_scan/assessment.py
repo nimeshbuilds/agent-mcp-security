@@ -90,9 +90,17 @@ def build_assessment(report):
     summary = report["summary"]
     complete = bool(summary["scan_complete_within_selected_scope"])
     gaps = summary["coverage_gaps"]
+    imported_review = report.get("review_import", {})
+    review_counts = imported_review.get("counts", {})
     if not complete or gaps:
         posture = {"code": "incomplete_scope", "title": "Incomplete scan - close the coverage gaps",
                    "explanation": f"The selected static scope was not fully inspected. There are {len(open_findings)} open findings, including {urgent} critical/high findings. Resolve reported gaps and review existing evidence before relying on this result."}
+    elif imported_review.get("incomplete"):
+        posture = {"code": "review_followup_required", "title": "Reviewed report needs further validation",
+                   "explanation": f"The fresh scan found {len(open_findings)} open findings, including {urgent} critical/high patterns. Imported review has {review_counts.get('stale', 0)} stale decisions, {review_counts.get('out_of_scope', 0)} items without comparable coverage and {review_counts.get('unresolved', 0)} explicit runtime/human follow-ups. These are not accepted passes; resolve them before treating the requested review as complete."}
+    elif report.get("review_workspace_unavailable") or report.get("export_errors"):
+        posture = {"code": "report_export_incomplete", "title": "Scan evidence retained; requested report work incomplete",
+                   "explanation": f"The static scan retained {len(open_findings)} open findings, including {urgent} critical/high patterns. An editable review capsule or requested PDF could not be exported. Inspect the report diagnostics and use a supported bounded report before relying on the review workflow."}
     elif urgent:
         posture = {"code": "urgent_review", "title": "Critical/high findings need prompt review",
                    "explanation": f"The scanner found {urgent} open critical/high patterns among {len(open_findings)} open findings. Confirm exposure and prioritize the actions below. Detector severity is not proof of exploitability or deployed risk."}

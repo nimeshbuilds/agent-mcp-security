@@ -64,7 +64,7 @@ Exclusions, budgets, and reproducibility:
   container root, without the report's rootfs/ prefix; they also exclude retained
   file revisions. Image config, build history, OS/package inventory and permission
   review remain independently assessed. Exclusions are visible in coverage.
-  Scan/output, baseline, baseline-output, review-config and judge-config paths inside a source
+  Scan/output, baseline, baseline-output, review-config, review-report and judge-config paths inside a source
   target are automatically excluded. Keep redirected stdout outside the target.
   Source/image byte, file, entry and layer limits must be positive integers.
   Hitting a limit returns exit 2 with explicit gaps or an acquisition error.
@@ -115,6 +115,12 @@ Reports, output modes, and Exit codes:
   Every scan that produces reports writes report.html, report.json, report.md and
   report.sarif to --output. Open report.html locally for the branded report; it is
   self-contained, works offline, and needs no external scripts, fonts or images.
+  One fixed CSP-hashed local script saves HTML review edits; source/model text is
+  never executed. Use Download reviewed HTML, not browser Save As, to save edits.
+  --pdf additionally writes a fillable report.pdf with charts, clickable contents
+  and the same review fields. Install optional dependencies with pip install '.[pdf]'.
+  Default HTML/JSON/Markdown/SARIF output needs no additional Python packages.
+  Missing/failed PDF support returns exit 2 while preserving the four other reports.
   HTML and Markdown begin with an executive summary: detected findings, immediate
   concerns, affected locations, accepted baseline risks, and coverage limitations.
   Findings are grouped by rule, status and image context. Priorities P0/P1/P2/P3
@@ -147,11 +153,48 @@ Exit codes:
   0  Selected scan scope completed below the configured open-finding threshold.
   1  Open deterministic findings meet --fail-on (default high).
   2  Invalid input, operational failure, incomplete scan, or incomplete requested
-     analyst review/judge error. Incompleteness takes precedence over findings.
+     analyst review/judge error, stale/pending imported review, or PDF export error.
+     Incompleteness takes precedence over findings.
   Severity order: critical > high > medium > low > info.
   --fail-on none disables only the severity gate; errors/gaps still exit 2.
   Zero findings, no_pattern_detected, findings_suppressed or exit 0 do not establish
   security, exploitability, compliance or complete application/control coverage.
+
+Editable report review and fresh scans:
+  --review-report PATH accepts current-format HTML, Markdown, JSON, SARIF or a
+  fillable scan PDF. A fresh explicit TARGET, --image or --image-archive is required.
+  This option is mutually exclusive with --review-config. It never executes report
+  commands, follows evidence URLs, restores credentials or enables model review.
+  Add --judge-cli/--judge-config separately if a new advisory review is desired.
+  Reports carry a versioned review_workspace capsule with stable finding/check/gap
+  identifiers, immutable bindings, origin/settings hashes and editable user fields.
+  HTML: edit the form and use Download reviewed HTML. PDF: save the form fields in
+  a compatible PDF editor; do not flatten or print to PDF. JSON: edit review_workspace.
+  SARIF: edit runs[0].properties.invarune_review. Markdown: edit the fenced JSON
+  between INVARUNE_REVIEW_BEGIN and INVARUNE_REVIEW_END markers.
+  Editable fields: decision, reason, reviewer, reviewed_at, evidence_ref. Decisions:
+  empty, justified, disabled, note, needs_runtime_validation, needs_human_review.
+  All nonempty decisions require a reason; justified/disabled require a reviewer.
+  Limits: reason 8000 chars, reviewer 200, reviewed_at 64, evidence_ref 2000.
+  reviewed_at is optional ISO date/timestamp metadata; it does not enforce expiry.
+  A blank decision must have blank accompanying fields; use note to save comments.
+  Input reports are bounded to 50000000 bytes; review capsules to 4000000 bytes
+  and 10000 items. Imports reject ambiguous/duplicate metadata and unknown schemas.
+  PDF export/import additionally supports at most 2000 review items and portable
+  Western-text AcroForms. Use JSON/Markdown/HTML/SARIF for other Unicode review text
+  or unsupported PDF-editor appearances. PDF fields must remain editable and intact.
+  Only matching fresh source/configuration/scanner bindings carry a decision forward.
+  A finding exception applies to that finding, not every match of its rule.
+  Justified/disabled states retain evidence and earn no pass/fail credit in active
+  counts. Checks do not waive mapped findings; scan gaps cannot be exempted.
+  Changed/out-of-scope decisions remain unapplied in the audit. Explicit pending
+  runtime/human validation and stale imports make the requested review incomplete
+  and return 2, even with --fail-on none. Not redetected never means proven fixed.
+  Keep original and reviewed reports outside the source target; use a new --output
+  directory. The importer prevents overwriting its input, including through aliases.
+  Digests bind review context; they are not signatures or proof of reviewer identity.
+  Only import files whose user decisions you authorize. Unedited or older reports
+  without a review capsule do not supply accepted exceptions; regenerate old reports.
 
 Reviewed baselines:
   --write-baseline PATH requires a nonempty --baseline-reason TEXT and writes all
@@ -373,6 +416,10 @@ Custom JSON gateway configuration:
    "response_path":"result.outputs.0.text"}
 
 Examples:
+  # Fillable fifth report and explicit reviewed-report round trip.
+  invarune ./repository --pdf --output ./initial-report
+  invarune ./repository --review-report ./reviewed-report.html --pdf --output ./final-report
+  invarune --image-archive ./agent-image.tar --review-report ./reviewed-report.pdf --output ./final-image-report
   # Explicit reviewed exceptions; all evidence and user reasons remain auditable.
   invarune ./repository --review-config ./trusted-review.json --output ./reports
   invarune --image-archive ./agent-image.tar --review-config ./trusted-review.json

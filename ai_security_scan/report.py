@@ -40,13 +40,13 @@ def review_policy_markdown(report):
         return []
     counts = policy.get("counts", {})
     lines = ["## User review decisions", "",
-             "`justified` records the user's rationale; `disabled` excludes a check from active assessment. Neither state means pass, earns positive credit, or counts against active totals. Observed evidence remains available. Only rule decisions exclude related findings from the severity gate; control and individual-check decisions affect checklist review only. Scan errors and coverage gaps remain unresolved.", "",
+             "`justified` records the user's rationale; `disabled` excludes a check from active assessment. Neither state means pass, earns positive credit, or counts against active totals. Observed evidence remains available. Rule decisions and imported individual-finding decisions exclude related findings from the severity gate; control and individual-check decisions affect checklist review only. Scan errors and coverage gaps remain unresolved.", "",
              "| Scope | Active | Justified | Disabled | Excluded with mixed check decisions | Catalog total |",
              "|---|---:|---:|---:|---:|---:|"]
     for scope in ("rules", "controls", "checks"):
         lines.append(f"| {scope.capitalize()} | {counts.get('active_' + scope, 0)} | {counts.get('justified_' + scope, 0)} | {counts.get('disabled_' + scope, 0)} | {counts.get('mixed_excluded_controls', 0) if scope == 'controls' else 0} | {counts.get('catalog_' + scope, 0)} |")
     lines += ["", "### Configured decisions and reasons", "", "| Scope | Identifier | Decision | User reason |", "|---|---|---|---|"]
-    for scope in ("rules", "controls", "checks"):
+    for scope in ("rules", "controls", "checks", "findings"):
         for identifier, entry in sorted(policy.get("entries", {}).get(scope, {}).items()):
             lines.append(f"| {scope} | {md(identifier)} | {md(entry['status'])} | {md(entry.get('reason') or 'No reason supplied.')} |")
     lines += ["", "Review configuration SHA-256: `" + md(policy.get("sha256", "")) + "`.", "",
@@ -116,12 +116,70 @@ def executive_markdown(report, assessment):
     return lines
 
 
+def methodology_markdown(report):
+    from .methodology import build_methodology
+    method = report.get("methodology") or build_methodology(report)
+    catalog = method["catalog"]
+    lines = ["## Methods, configuration and blind spots", "", md(method["purpose"]), "",
+             "| Catalog measure | Count |", "|---|---:|",
+             f"| Deterministic rules | {catalog['rules']} |",
+             f"| Controls with partial static mapping | {catalog['statically_mapped_controls']} |",
+             f"| Controls without static mapping | {catalog['controls_without_static_mapping']} |",
+             f"| Catalog acceptance checks | {catalog['checks']} |", "", md(method["interpretation"]), "",
+             "### How the layers operate", ""]
+    lines += [str(index) + ". " + md(step) for index, step in enumerate(method["workflow"], 1)]
+    lines += ["", "### What each layer can and cannot establish", ""]
+    for area in method["areas"]:
+        lines += ["#### " + md(area["area"]), "", "**Deterministic:** " + md(area["deterministic"]), "",
+                  "**Optional model review:** " + md(area["optional_review"]), "",
+                  "**Can miss or misclassify:** " + md(area["can_miss_or_misclassify"]), "",
+                  "**Runtime/human evidence:** " + md(area["runtime_or_human_validation"]), ""]
+    lines += ["### Recorded scan configuration", "",
+              "These are settings and limits, not proof of completed coverage. Current CLI flags select a fresh scan; imported reports do not execute commands, select targets, restore credentials or enable model review.", "",
+              codeblock(json.dumps({"source_and_packaged_file_scope": report.get("configuration", {}),
+                                   "invocation": report.get("run_configuration", {}),
+                                   "image_limits": report.get("image", {}).get("limits", {})}, indent=2, sort_keys=True, ensure_ascii=True)), ""]
+    if report.get("export_errors"):
+        lines += ["**Report export incomplete:**", "", codeblock(json.dumps(report["export_errors"], indent=2)), ""]
+    return lines
+
+
+def workspace_markdown(report):
+    from .review_workspace import build_workspace
+    if report.get("review_workspace_unavailable"):
+        return ["## Editable review and fresh scan", "", "**Editable review unavailable:** " +
+                md(report["review_workspace_unavailable"]["reason"]), "",
+                "The complete static findings are retained. Narrow the explicitly selected scan scope to create a bounded editable report. No partial review capsule is exported.", ""]
+    workspace = report.get("review_workspace") or build_workspace(report)
+    raw = json.dumps(workspace, indent=2, sort_keys=True, ensure_ascii=True).replace("<", "\\u003c").replace(">", "\\u003e")
+    # Encode Markdown link delimiters only inside JSON strings. Structural array
+    # brackets remain intact and decoding preserves the exact evidence subjects.
+    raw = re.sub(r'"(?:\\.|[^"\\])*"',
+                 lambda match: match.group().replace("[", "\\u005b").replace("]", "\\u005d"), raw)
+    fence = "`" * max(3, max((len(m.group()) + 1 for m in re.finditer(r"`+", raw)), default=3))
+    lines = ["## Editable review and fresh scan", "",
+             "Edit only decision, reason, reviewer, reviewed_at and evidence_ref in the JSON block below. Keep IDs, bindings, subjects and origin unchanged. Save this Markdown file and pass it to a fresh scan with --review-report. JSON and SARIF expose the same editable fields; HTML provides a Download reviewed HTML button and optional PDF provides fillable fields.", "",
+             "Allowed decisions: empty (no decision), justified, disabled, note, needs_runtime_validation, needs_human_review. Nonempty decisions need a reason; justified/disabled decisions also need a reviewer. Evidence references are plain text, never fetched or executed. Gap records cannot waive scan failures.", "",
+             "Justifications are user exceptions, not validated passes. They are excluded from active counts without positive or negative credit. Evidence changes leave decisions unapplied and visible for re-review. Explicit pending runtime/human validation remains incomplete. A finding not detected on a fresh complete scan is not proof that a vulnerability was fixed.", "",
+             "Example: invarune /explicit/path/to/repository --review-report ./reviewed-report.md --output ./new-report", ""]
+    if report.get("review_import"):
+        lines += ["### Imported review audit", "", codeblock(json.dumps(report["review_import"], indent=2, sort_keys=True, ensure_ascii=True)), ""]
+    lines += ["### Review fields", "", "<!-- INVARUNE_REVIEW_BEGIN -->", fence + "json", raw,
+              fence, "<!-- INVARUNE_REVIEW_END -->", ""]
+    return lines
+
+
 def markdown(report):
     summary = report["summary"]
     assessment = report.get("assessment") or build_assessment(report)
     lines = ["# " + md(report["tool"].get("display_name", DISPLAY_NAME)), "", "AI agent and MCP security report", "", f"Scan ID: `{report['scan_id']}`", "", "This is static security triage, not certification or proof that a system is secure.", ""]
+    lines += ["## Contents", "", "- [Summary and immediate concerns](#executive-assessment)",
+              "- [Methods, configuration and blind spots](#methods-configuration-and-blind-spots)",
+              "- [Editable review and fresh scan](#editable-review-and-fresh-scan)",
+              "- [Scan details](#scan-details)", ""]
     lines += executive_markdown(report, assessment)
     lines += review_policy_markdown(report)
+    lines += methodology_markdown(report)
     lines += ["## Scan details", "", f"Scanned **{summary['files_scanned']} files**; **{summary['open_findings']} open findings**, **{summary['suppressed_findings']} suppressed findings**, and **{summary['coverage_gaps']} coverage gaps**.", "", "| Critical | High | Medium | Low | Info |", "|---:|---:|---:|---:|---:|"]
     lines.append("| " + " | ".join(str(summary["severity_counts"][s]) for s in ("critical", "high", "medium", "low", "info")) + " |")
     if "bytes_charged" in summary:
@@ -245,6 +303,7 @@ def markdown(report):
         lines += ["", "Request receipts (payload hashes and model identifiers):", "",
                   codeblock(json.dumps(analyst["requests"], indent=2, sort_keys=True, ensure_ascii=True)), "",
                   "The JSON report includes redacted evidence excerpts, original file hashes, complete per-check assessments, and deterministic provenance."]
+    lines += workspace_markdown(report)
     return "\n".join(lines) + "\n"
 
 
@@ -275,8 +334,14 @@ def sarif(report):
     notifications = [{"level": "warning", "message": {"text": e["path"] + ": " + e["error"]}} for e in report["coverage"]["errors"]]
     notifications += [{"level": "warning", "message": {"text": s["path"] + ": " + s["reason"]}} for s in report["coverage"]["skipped"] if s["coverage_gap"]]
     run = {"tool": {"driver": {"name": report["tool"]["name"], "fullName": report["tool"].get("display_name", DISPLAY_NAME), "version": report["tool"]["version"], "rules": descriptors}}, "invocations": [{"executionSuccessful": report["summary"]["scan_complete_within_selected_scope"], "toolExecutionNotifications": notifications}], "results": results}
+    from .review_workspace import build_workspace
+    run["properties"] = ({"invarune_review_unavailable": report["review_workspace_unavailable"]}
+                         if report.get("review_workspace_unavailable") else
+                         {"invarune_review": report.get("review_workspace") or build_workspace(report)})
     if report.get("review_policy", {}).get("enabled"):
-        run["properties"] = {"userReviewPolicy": report["review_policy"]}
+        run["properties"]["userReviewPolicy"] = report["review_policy"]
+    if report.get("review_import"):
+        run["properties"]["invarune_review_import"] = report["review_import"]
     return {"$schema": "https://json.schemastore.org/sarif-2.1.0.json", "version": "2.1.0", "runs": [run]}
 
 
@@ -303,7 +368,18 @@ def write_reports(report, output):
     if output.is_symlink():
         raise ValueError("Report directory must not be a symbolic link")
     output = output.resolve()
-    report = {**report, "assessment": build_assessment(report)}
+    from .methodology import build_methodology
+    from .review_workspace import build_workspace, ReviewWorkspaceLimitError, MAX_ITEMS, MAX_WORKSPACE_BYTES
+    report = {**report, "methodology": build_methodology(report)}
+    try:
+        report["review_workspace"] = build_workspace(report)
+        report.pop("review_workspace_unavailable", None)
+    except ReviewWorkspaceLimitError as exc:
+        report.pop("review_workspace", None)
+        report["review_workspace_unavailable"] = {"reason": str(exc), "max_items": MAX_ITEMS,
+                                                   "max_workspace_bytes": MAX_WORKSPACE_BYTES}
+        report["execution"] = {**report.get("execution", {"failure_threshold": "none"}), "exit_code": 2}
+    report["assessment"] = build_assessment(report)
     from .report_html import html_report
     atomic_write(output / "report.json", json.dumps(report, indent=2, sort_keys=True, ensure_ascii=True) + "\n")
     atomic_write(output / "report.md", markdown(report))

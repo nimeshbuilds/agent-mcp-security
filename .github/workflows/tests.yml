@@ -94,12 +94,17 @@ jobs:
                   assert 'compatible legacy alias' in result.stdout
                   assert 'Review config JSON shape:' in result.stdout
                   assert '--review-config' in result.stdout
+                  assert '--review-report' in result.stdout
+                  assert '--pdf' in result.stdout
                   outputs.append(result.stdout)
               assert outputs[0] == outputs[1]
               references.append(outputs[0].split('Invarune by NimeshBuild', 1)[1])
           assert references[0] == references[1]
           print('Both installed commands include the same complete offline reference.')
           PY
+      - name: Verify all five installed report review formats on source and image fixtures
+        working-directory: ${{ runner.temp }}
+        run: python "$GITHUB_WORKSPACE/scripts/validate_report_review.py" --command invarune --output "$RUNNER_TEMP/installed-report-review"
       - name: Exercise installed image scanner without a container runtime
         working-directory: ${{ runner.temp }}
         run: |

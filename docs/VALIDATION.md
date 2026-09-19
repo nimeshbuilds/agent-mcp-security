@@ -2,9 +2,23 @@
 
 Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This document records scanner implementation checks, not a security certification or a behavioral benchmark score.
 
-## Automated tests
+## Current v0.9.0 results
 
-For version **0.8.0**, **588 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Many methods contain multiple scenario cases. Run them with:
+**661 tests passed on Python 3.12.14**, with no failures, errors or skips. Python 3.9.6 ran the same 661 methods successfully with **23 explicit skips** because optional PDF dependencies were absent. The full run used ReportLab **4.5.1** and pypdf **6.19.0**; the 23-method PDF module also passed with bundled lower-bound ReportLab **4.4.9** and pypdf **6.10.0**.
+
+Version 0.9.0 adds 73 test methods around editable review capsules, HTML editing, AcroForms and fresh CLI imports. The tests cover stale evidence/configuration/catalog/version, granular exceptions, active denominators, explicit runtime/human follow-up, strict fields/dates, tampering, missing/ambiguous PDF values, hidden appearance text, Unicode re-export, large capsules, preserved static reports, and optional dependency failures. Independent review found and fixed several of these boundary defects before release.
+
+The actual local HTML editor JavaScript was exercised under a Node DOM harness and its saved output passed the Python importer. Browser automation could not open the local artifact in this environment, so no actual-browser compatibility result is claimed. PDF editing was exercised using real pypdf AcroForm updates; not every PDF viewer/editor was tested.
+
+Coverage measured **6,184/6,573 statements (94.08%)** and **2,806/3,154 branches (88.97%)**, or **92.42% combined**, without excluded paths. These are parent-process implementation coverage metrics, not detector accuracy or a security score. Subprocess CLI behavior is verified separately.
+
+The built v0.9.0 wheel was installed and invoked outside the checkout. A reproducible harness performed **12 real CLI scans**: two initial source/image scans plus ten fresh scans importing all five report formats. Every final scan applied one finding justification and one check justification, preserved evidence/severity and kept model review disabled. All produced HTML, Markdown, JSON, SARIF and PDF. Nineteen newly generated/published SARIF files passed the pinned official OASIS schema check. The [published workflow examples and receipt](../examples/reports/review-workflow/README.md) record these results. Run `python3 scripts/validate_report_review.py --command /path/to/invarune --output /new/empty/directory` to reproduce.
+
+The four ordinary fixture reports and self-scan were regenerated and repeated byte-identically in HTML/Markdown/JSON/SARIF. The current 109-assertion accuracy evaluation retains **52 TP, 50 TN, 2 FP and 5 FN**; no detection rule changed in this release. Public-project/competitor/provider measurements below remain explicitly historical v0.8.0 runs.
+
+## Established regression coverage and historical v0.8.0 evidence
+
+For the historical version **0.8.0**, **588 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Many methods contain multiple scenario cases. Run them with:
 
 ```sh
 python3 -m unittest discover -s tests -v
@@ -22,7 +36,7 @@ Independent review reproduced and fixed conflicting excluded-control counters, s
 
 Four brand-compatibility tests verify pre-brand source/image finding IDs and accepted baselines, stable machine identities, additive report branding, and equivalent CLI help/version behavior. Installed `invarune` and `ai-security-scan` commands produced byte-identical HTML, Markdown, JSON, and SARIF on both source and image targets with matching exit codes.
 
-Twenty-one executive-report tests verify the priority ordering, repeated finding locations, category counts, accepted exceptions, source/image completeness, historical image provenance, all 42 rules' sourced mitigation recipes, and independence from model verdicts and exit thresholds. HTML tests verify complete evidence/control content, valid internal links, hostile source/model/exception text escaping, unsafe reference URL rejection across Python versions, a script-free restrictive content policy, surrogate text, and visible optional-review failures inside the executive summary. The mitigation layers remain proposed and unverified.
+Twenty-one executive-report tests verify the priority ordering, repeated finding locations, category counts, accepted exceptions, source/image completeness, historical image provenance, all 42 rules' sourced mitigation recipes, and independence from model verdicts and exit thresholds. HTML tests verify complete evidence/control content, valid internal links, hostile source/model/exception text escaping, unsafe reference URL rejection across Python versions, a restrictive content policy (v0.9.0 permits only the fixed local review editor by script hash), surrogate text, and visible optional-review failures inside the executive summary. The mitigation layers remain proposed and unverified.
 
 Four catalog-integrity tests also verify every control source, thematic alignment, scanner rule, and technical-reference URL against the expanded 75-source registry.
 
@@ -46,7 +60,7 @@ Local runtime tests use controlled subprocesses because Docker and Podman are no
 
 ## Rule accuracy evaluation
 
-The project-authored corpus has **109 labeled rule-presence assertions**. Version 0.8.0 on corpus **1.1.0** reports **52 true positives, 50 true negatives, 2 false positives and 5 false negatives**: **96.30% precision and 91.23% recall** on these selected labels. All **101 supported regression cases match**; 7 of the 8 challenge cases remain mismatched. The matched runtime-placeholder case is not evidence that deployment permissions are safe. This source-pattern corpus does not measure container-image detector accuracy.
+The project-authored corpus has **109 labeled rule-presence assertions**. Versions 0.8.0 and 0.9.0 on corpus **1.1.0** report **52 true positives, 50 true negatives, 2 false positives and 5 false negatives**: **96.30% precision and 91.23% recall** on these selected labels. All **101 supported regression cases match**; 7 of the 8 challenge cases remain mismatched. The matched runtime-placeholder case is not evidence that deployment permissions are safe. This source-pattern corpus does not measure container-image detector accuracy.
 
 Corpus 1.1.0 changes exactly one positive fixture: AI011 now contains a nonfunctional synthetic 64-character encoded body after its PEM header, matching the refined material-detection rule. All labels and other cases are unchanged. The original **1.0.0 bytes** are preserved. Running version 0.8.0 against them produces **51 TP, 50 TN, 2 FP and 6 FN**, including the intentional marker-only AI011 mismatch: **96.23% precision and 89.47% recall**. The unchanged version 0.2.1 baseline applies to corpus 1.0.0 and records 44 TP, 45 TN, 7 FP and 13 FN. Results from 1.1.0 must not be represented as a same-byte comparison with that baseline.
 
@@ -72,7 +86,7 @@ Actual provider checks used installed versions Codex 0.154.0, Claude Code 2.1.21
 
 ## Coverage and distribution checks
 
-Coverage.py **7.16.1** on Python 3.12.14 measured **5,092 / 5,409 statements (94.1394%)** and **2,355 / 2,640 branches (89.2045%)**. Combined coverage was **92.520810%**, with **317 missing lines, 285 missing branches and no exclusions**. This configuration measures the parent test process; separately exercised subprocess entry points are not included in its counters. Uncovered paths remain visible in the coverage report. This is execution coverage, not a security assurance score.
+For historical v0.8.0, Coverage.py **7.16.1** on Python 3.12.14 measured **5,092 / 5,409 statements (94.1394%)** and **2,355 / 2,640 branches (89.2045%)**. Combined coverage was **92.520810%**, with **317 missing lines, 285 missing branches and no exclusions**. This configuration measures the parent test process; separately exercised subprocess entry points are not included in its counters. Uncovered paths remain visible in the coverage report. This is execution coverage, not a security assurance score.
 
 The version 0.8.0 wheel was built, installed without application dependencies into an isolated environment, and invoked from outside the checkout. The installed CLI scanned the shipped image archive without a container runtime, loaded the 66-control packaged catalog, and produced HTML, Markdown, JSON and SARIF with three expected findings, zero gaps and exit 1. The installed `-h` and `--help` output was identical and included the complete source/image/gateway reference without relying on repository Markdown files. Both installed command names also applied a trusted policy to source and image targets: all observed findings became justified, active finding counts fell to zero, 129 active checks remained from the 132-check catalog, and all four report bytes matched between aliases. All four inline validation programs from the package/schema CI job also passed against the installed wheel. This guards against source-tree imports hiding packaging errors.
 
@@ -89,7 +103,7 @@ CI now includes Linux Python 3.9/3.12/3.14, macOS Python 3.12, Windows Python 3.
 | `examples/vulnerable` | 3 | 11 | 0 | 1 with default high threshold |
 | Vulnerable fixture with example review policy | 3 | 9 (plus 1 justified, 1 disabled) | 0 | 1: remaining high findings still gate |
 | `examples/safer` | 2 | 0 | 0 | 0 |
-| Scanner package itself | 24 | 0 | 0 | 0 with findings gate disabled |
+| Scanner package itself | 27 | 0 | 0 | 0 with findings gate disabled |
 | Shipped image archive | 4 (1 source + 3 generated evidence) | 3 | 0 | 1 with default high threshold |
 
 The vulnerable fixture produces 8 high, 2 medium, and 1 low finding. It demonstrates dynamic execution, shell use, unsafe deserialization, disabled TLS, an embedded demo credential, a remote plaintext MCP endpoint, wildcard automatic approvals, an unpinned server package, and container configuration risks. It is never executed by the scan.
@@ -104,7 +118,7 @@ All five targets were scanned twice with identical settings. **HTML, Markdown, J
 - [Safer fixture report](../examples/reports/safer/report.md)
 - [Image fixture report](../examples/reports/image/report.md)
 
-The refreshed fixture repeatability and coverage summary are recorded locally in `test-output/validation-v080.json`, with detailed counters in `test-output/coverage-v080.json` (generated artifacts excluded from version control). The separately validated controlbook artifact has its own [PDF validation record](PDF_VALIDATION.md).
+The refreshed fixture repeatability and coverage summary are recorded locally in `test-output/validation-v090.json`, with detailed counters in `test-output/coverage-v090.json` (generated artifacts excluded from version control). The separately validated controlbook artifact has its own [PDF validation record](PDF_VALIDATION.md).
 
 ## Boundaries of this validation
 

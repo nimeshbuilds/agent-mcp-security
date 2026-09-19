@@ -7,6 +7,8 @@
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
 - **[Quick start: get your first report](docs/QUICKSTART.md)**
+- [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
+- [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
 - [Built image scanning: Docker, Podman and OCI archives](docs/IMAGE_SCANNING.md)
 - [Complete CLI reference](docs/CLI.md)
 - [Justified and disabled checks: review configuration](docs/REVIEW_CONFIGURATION.md)
@@ -21,7 +23,7 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 
 ## The Invarune controlbook
 
-[Download the branded PDF](output/pdf/invarune-security-controlbook.pdf): **65 pages**, all **66 controls**, **132 acceptance checks**, **75 primary-source references**, **9 executable research benchmarks**, the **42-rule automation index**, and the controlled analyst workflow. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
+[Download the branded PDF](output/pdf/invarune-security-controlbook.pdf): **71 pages**, all **66 controls**, **132 acceptance checks**, **75 primary-source references**, **9 executable research benchmarks**, the **42-rule automation index**, and the controlled analyst workflow. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
 
 <p align="center"><a href="output/pdf/invarune-security-controlbook.pdf"><img src="docs/assets/controlbook-cover.png" alt="Invarune AI Agent and MCP Security Controlbook cover" width="380"></a></p>
 
@@ -67,6 +69,17 @@ Generated files:
 | `report.md` | Portable executive summary and action plan followed by findings, file/line evidence, severity, confidence, remediation, all 66 controls, and coverage gaps |
 | `report.json` | The same deterministic assessment in structured form, plus stable finding IDs, file hashes, control mappings, suppressions, and optional per-check analyst assessments, evidence excerpts, and request receipts |
 | `report.sarif` | SARIF 2.1.0 findings for compatible code-review and CI consumers; runtime/manual checklist details remain in Markdown/JSON |
+| `report.pdf` (with `--pdf`) | Branded fillable scan report with charts, clickable contents, coverage explanations and user review fields; requires the optional `pdf` extra |
+
+Every new report contains editable review data. Fill the HTML or PDF form, or edit the designated JSON fields in Markdown/JSON/SARIF, then pass the saved file to a fresh scan. User justifications stay distinct from validated passes; changed evidence and pending runtime validation remain explicit.
+
+```sh
+python3 -m pip install '.[pdf]'
+invarune /path/to/repo --pdf --output ./initial-report
+invarune /path/to/repo --review-report ./reviewed-report.html --pdf --output ./final-report
+```
+
+Use the HTML **Download reviewed HTML** button to preserve form edits. Keep reports outside the source target and select the fresh code/image input explicitly. [Complete five-format review workflow](docs/REVIEW_WORKFLOW.md).
 
 The report starts with what was found and what needs attention first. It groups repeated findings by rule, status, and image context, and distinguishes open concerns from accepted baseline exceptions. Critical/high findings lead the action plan; proposed layers such as isolation, scoped authorization, egress restrictions, approval checks, and monitoring include verification work and remaining limitations. A proposed layer is never treated as already deployed or used to lower the detected severity. The summary and action plan are generated without a model; optional advisory review remains separate. See the [report guide](docs/REPORTS.md) for interpretation and mitigation verification.
 

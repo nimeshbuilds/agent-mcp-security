@@ -11,7 +11,9 @@ import sys
 
 from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image
+from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image, Flowable
+from reportlab.platypus.tableofcontents import TableOfContents
+from reportlab.pdfgen import canvas as pdfcanvas
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -33,7 +35,42 @@ def read(relative):
 
 
 def p(text, kind="body"):
-    return Paragraph(html.escape(clean(text)), STYLE[kind])
+    paragraph = Paragraph(html.escape(clean(text)), STYLE[kind])
+    if kind == "heading":
+        paragraph.bookmark = "section-" + hashlib.sha256(text.encode()).hexdigest()[:12]
+    return paragraph
+
+
+class NavigationDocument(BaseDocTemplate):
+    def afterFlowable(self, flowable):
+        if hasattr(flowable, "bookmark"):
+            self.canv.bookmarkPage(flowable.bookmark)
+            self.canv.addOutlineEntry(flowable.getPlainText(), flowable.bookmark, level=0)
+            self.notify("TOCEntry", (0, flowable.getPlainText(), self.page, flowable.bookmark))
+
+
+class CountChart(Flowable):
+    def __init__(self, rows, caption):
+        Flowable.__init__(self)
+        self.rows, self.caption = rows, caption
+        self.width, self.height = 507, 30 + 23 * len(rows)
+
+    def draw(self):
+        maximum = max([number for _, number in self.rows] + [1])
+        for index, (label, number) in enumerate(self.rows):
+            y = self.height - 17 - 23 * index
+            self.canv.setFont(FONT, 8.2)
+            self.canv.setFillColor(NAVY)
+            self.canv.drawString(0, y, clean(label))
+            self.canv.setFillColor(LIGHT)
+            self.canv.rect(165, y - 3, 298, 12, fill=1, stroke=0)
+            self.canv.setFillColor(TEAL)
+            self.canv.rect(165, y - 3, 298 * number / maximum, 12, fill=1, stroke=0)
+            self.canv.setFillColor(NAVY)
+            self.canv.drawRightString(500, y, str(number))
+        self.canv.setFont(FONT, 7)
+        self.canv.setFillColor(GREY)
+        self.canv.drawString(0, 0, self.caption)
 
 
 def link(label, url, kind="small"):
@@ -77,16 +114,20 @@ def main():
     total = sum(r["summary"]["open_findings"] for r in receipts.values())
     gaps = sum(r["summary"]["coverage_gaps"] for r in receipts.values())
     version = next(iter(versions))
+    toc = TableOfContents()
+    toc.levelStyles = [ParagraphStyle("contents", fontName=FONT, fontSize=11, leading=24, textColor=TEAL)]
     story = [Spacer(1, 26), Image(str(ROOT / "docs/assets/brand/invarune-mark.png"), width=76, height=76, hAlign="LEFT"),
              Spacer(1, 20), p("Security scanning, tested.", "heading"),
              p("Real agent and MCP projects. Reproducible results. Explicit limits.", "sub"),
-             p("Invarune " + version + " | Comparative research report | 19 September 2026", "small"), Spacer(1, 18),
+             p("Benchmark execution: Invarune " + version + " | 19 September 2026", "small"),
+             p("Navigation and review-workflow edition updated for Invarune 0.9.0. The pinned benchmark measurements remain the recorded 0.8.0 runs.", "small"), Spacer(1, 18),
              table([["PUBLIC PROJECTS", "INVARUNE PATTERNS", "COVERAGE GAPS"], [str(len(receipts)), str(total), str(gaps)]], [169, 169, 169]),
              Spacer(1, 19), p("What this evaluation establishes", "sub"),
              p("We actually ran Invarune, Semgrep CE, Bandit and Gitleaks against the same selected source bytes from eight public projects at pinned commits. Cisco MCP Scanner ran a separate offline YARA test on 14 literal tool descriptions. No target application or MCP server was executed."),
              p("The real-project counts are a review workload, not confirmed vulnerabilities or precision/recall estimates. Manual inspection found false positives and deployment-dependent capabilities. Coverage failures stay visible."),
              p("A separate ten-case development fixture comparison exercises five shared API-level patterns with positive and negative examples. It is intentionally small and cannot identify a universal winner."),
              link("Repository, detailed reports and reproduction scripts", REPO), PageBreak(),
+             p("Contents", "sub"), p("Click a contents entry or use the PDF bookmarks. Counts describe observed work and coverage, not percent secure or scanner superiority."), toc, PageBreak(),
              p("01 / Observed findings", "heading"),
              p("The same source export was offered to every tool. Supported languages, enabled rules and definitions of a finding differ. A larger or smaller count is not a quality ranking.")]
     rows = [["Project", "Invarune", "Semgrep", "Bandit", "Gitleaks"]]
@@ -104,6 +145,16 @@ def main():
               p("First-party implementation and package/runtime configuration were selected before results were inspected. Tests, docs, examples, vendored/generated directories and non-code assets were excluded uniformly. Each receipt records exact file hashes, options, elapsed time, tool exit status and analysis scope. Timings are single-host observations, not a controlled performance benchmark."),
               link("Pinned corpus, project scope and licenses", REPO + "/tree/main/benchmarks/real-world"),
               link("Full per-project reports: HTML, Markdown, JSON and SARIF", REPO + "/tree/main/examples/reports/real-world"), PageBreak(),
+              p("Measured coverage", "heading"),
+              p("Coverage failures were retained rather than reclassifying incomplete scans as clean. Four projects have at least one gap. Source template files and large bounded-analysis cases remain in the frozen scope."),
+              CountChart([(project["id"], receipts[project["id"]]["summary"]["coverage_gaps"]) for project in manifest["projects"]], "Recorded Invarune gaps; counts are not an accuracy or risk score."), Spacer(1, 17)]
+    profiles = {}
+    for receipt in receipts.values():
+        for name, profile in receipt.get("analysis_profiles", {}).items():
+            profiles[name] = profiles.get(name, 0) + profile["files"]
+    story += [p("Files by assigned analysis profile", "sub"),
+              CountChart(sorted(profiles.items()), "Profile assignment does not mean complete analysis; the reported gaps still apply."),
+              p("Go/C# and other generic-text inputs do not receive Invarune's Python local-flow analysis. Tool coverage is not interchangeable even when the exported input bytes match.", "small"), PageBreak(),
               p("02 / What each tool tested", "heading")]
     story.append(table([["Tool / version", "Executed scope", "Interpretation"],
         ["Invarune " + version, "42 source/configuration rules; control mapping and coverage evidence", "Selected static signals. Whole-program behavior and runtime controls remain open."],
@@ -142,6 +193,19 @@ def main():
               p("Optional model review", "sub"),
               p("Deterministic scanning remains the default. Optional API/gateway or official CLI review adds advisory assessments only. Invarune selects Astra, Opus and Grok Build defaults, validates IDs and exact evidence quotes, and keeps model advice separate from findings and CI gates. Interactive login happens through the official CLI and resumes within the scan."),
               link("Dated live CLI validation receipts and limitations", REPO + "/blob/main/docs/CLI_PROVIDER_RESEARCH.md"), PageBreak(),
+              p("Configuration and review workflow", "heading"),
+              p("This workflow documents current Invarune 0.9.0 behavior. It does not change or rerun the dated 0.8.0 benchmark measurements.", "small"),
+              table([["Step", "Explicit choice and evidence boundary"],
+                     ["Choose target", "Source directory or built-image reference/archive. No target application or container is started."],
+                     ["Bound the scan", "Set limits and exclusions; retain parser, unsupported-input and work-budget gaps."],
+                     ["Choose optional review", "Use an API/custom gateway or official Codex/Claude/Grok CLI only when enabled. Set finding/check/evidence/call/time budgets; omissions remain explicit."],
+                     ["Record human decisions", "Edit report review fields with decision, reason, reviewer, date and supporting evidence reference. Justified/disabled are exceptions, not passes."],
+                     ["Rescan and import", "Use --review-report with a fresh explicit source/image target. Verify origin and evidence bindings; preserve stale decisions for audit."],
+                     ["Resolve remaining work", "Runtime/human-validation requests remain outstanding. Coverage gaps cannot be waived. Failed PDF field/appearance validation falls back to editable JSON, not a clean result."]], [125, 382]),
+              Spacer(1, 14), p("Repeatable patterns are only one layer", "sub"),
+              p("Static checks can miss cross-file flow, reflection, generated code and deployment overrides. Optional model review can add context but can also omit or misinterpret evidence. Neither layer validates deployed OAuth, tenant boundaries, real egress, sandbox escapes or adaptive prompt injection without a separate authorized runtime experiment."),
+              link("Method coverage, configured limits and review import CLI", REPO + "/blob/main/docs/CLI.md"),
+              link("Source-linked controlbook and human/runtime validation requirements", REPO + "/blob/main/output/pdf/invarune-security-controlbook.pdf"), PageBreak(),
               p("05 / Reproduce and inspect", "heading"),
               p("Every project is pinned to a full commit in the manifest. The exporter reads Git blobs without checking out or executing target scripts; it verifies the exported file manifest before scans. Reruns reject modified or unexpected files. Detailed source licenses and exclusions accompany each project.")]
     for project in manifest["projects"]:
@@ -158,9 +222,10 @@ def main():
               p("This report is published in the existing NimeshBuild repository. It does not certify the scanned projects, establish an exploit, claim endorsement by a vendor or standards body, or assert universal scanner/model superiority.", "small")]
     output = ROOT / "output/pdf/invarune-benchmark-report.pdf"
     output.parent.mkdir(parents=True, exist_ok=True)
-    document = SimpleDocTemplate(str(output), pagesize=(595.276, 841.89), topMargin=70, bottomMargin=50,
+    document = NavigationDocument(str(output), pagesize=(595.276, 841.89), topMargin=70, bottomMargin=50,
         leftMargin=44, rightMargin=44, title="Invarune | Real-world scanner benchmark report", author="NimeshBuild")
-    document.build(story, onFirstPage=frame, onLaterPages=frame)
+    document.addPageTemplates(PageTemplate(id="report", frames=[Frame(44, 50, 507, 722, leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)], onPage=frame))
+    document.multiBuild(story, canvasmaker=lambda *args, **kwargs: pdfcanvas.Canvas(*args, **{**kwargs, "invariant": 1}))
     print(output)
 
 

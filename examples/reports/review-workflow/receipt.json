@@ -1,0 +1,561 @@
+{
+  "initial_scans": 2,
+  "model_calls": 0,
+  "records": [
+    {
+      "final_exit": 1,
+      "final_scan_id": "3aee3f5aad12ec331e99499fa4662eb21877841e2075c652fdc44c401e4306d4",
+      "initial_exit": 1,
+      "initial_scan_id": "30b207d5b14b0ab9ac85d3a22cd28dcef884cfa9f9bdcdac93bb4326b9351884",
+      "report_sha256": {
+        "source/final-html/report.html": "d3e1719648c38b2731a64ccc8bea5919700f0fc3216e1e96a5875729d00e0b24",
+        "source/final-html/report.json": "b9ac20a5f0da706d32a76c6c2bed912c5d02bf6ad39dd8875834674d67d24926",
+        "source/final-html/report.md": "d50e9cf724291e75a509d21e223a4f5daeef7fe5b36e30d743da9cb94cc67728",
+        "source/final-html/report.pdf": "8b48e4208d55288013b9f8717af156f1134cd216f6803f00bec2279c23bce1f2",
+        "source/final-html/report.sarif": "5874a80ea263550bd87cafabe5278dc608a2a3a3db1203c764865978ccf12c71"
+      },
+      "review_artifact": "source/reviewed.html",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 143,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "html",
+      "review_sha256": "5a61d8e46efad450ee54b4a5c8a5ae8b6c93fb9227d522176ff3f655fa62f213",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 796,
+        "bytes_read": 796,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 3,
+        "justified_findings": 1,
+        "open_findings": 10,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 7,
+          "info": 0,
+          "low": 1,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "target": "source",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    },
+    {
+      "final_exit": 1,
+      "final_scan_id": "3aee3f5aad12ec331e99499fa4662eb21877841e2075c652fdc44c401e4306d4",
+      "initial_exit": 1,
+      "initial_scan_id": "30b207d5b14b0ab9ac85d3a22cd28dcef884cfa9f9bdcdac93bb4326b9351884",
+      "report_sha256": {
+        "source/final-md/report.html": "ad67d6390cb5d374a63ba5078ebba1e6e881edfd48940e113d9f6136086d62e5",
+        "source/final-md/report.json": "a31988ef1865363b69a4d3dffb107183c2135b7b9ff5dfe50869538959ba564c",
+        "source/final-md/report.md": "496416a6753f3b9cbd05c59555153f8c9c2b7f20f6f2b30e420b01424ad252fa",
+        "source/final-md/report.pdf": "28d94850a674db80d6e1cfbb84dba73c050981cfe2029d8d072fc830df4c53ab",
+        "source/final-md/report.sarif": "5918125aa5a8203e0cbb6671da4cc1253ac06de5944c938101844f34d26c2546"
+      },
+      "review_artifact": "source/reviewed.md",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 143,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "md",
+      "review_sha256": "b14d28b06df8e3853eb652b99772ba65d55b596377023369bdd57106cdbac06a",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 796,
+        "bytes_read": 796,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 3,
+        "justified_findings": 1,
+        "open_findings": 10,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 7,
+          "info": 0,
+          "low": 1,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "target": "source",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    },
+    {
+      "final_exit": 1,
+      "final_scan_id": "3aee3f5aad12ec331e99499fa4662eb21877841e2075c652fdc44c401e4306d4",
+      "initial_exit": 1,
+      "initial_scan_id": "30b207d5b14b0ab9ac85d3a22cd28dcef884cfa9f9bdcdac93bb4326b9351884",
+      "report_sha256": {
+        "source/final-json/report.html": "51633039fff597e46d22854de65520decc804e3aa681699180be8567a2459e44",
+        "source/final-json/report.json": "82e42c15d1f5ad8f7ff1015a96745a0efbeb57aef0fcbcab76a15f42cf3c79db",
+        "source/final-json/report.md": "e986c4f3474a18165c2d7d41e6a70477dfa859c6c178bbf336f3f19868c27226",
+        "source/final-json/report.pdf": "68b4b1bf98d07593ffdc7851a19eab7082fbf26c95be0f6747f67b949f1317cb",
+        "source/final-json/report.sarif": "9a63721fabe175af64699b5459dfdb5cc1dc1c5ec60ab789e45f40ff10e31531"
+      },
+      "review_artifact": "source/reviewed.json",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 143,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "json",
+      "review_sha256": "6be2341734ba759370c1c7dba0a4c6f3b2beb04c5b56e0122a29abab6058db67",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 796,
+        "bytes_read": 796,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 3,
+        "justified_findings": 1,
+        "open_findings": 10,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 7,
+          "info": 0,
+          "low": 1,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "target": "source",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    },
+    {
+      "final_exit": 1,
+      "final_scan_id": "3aee3f5aad12ec331e99499fa4662eb21877841e2075c652fdc44c401e4306d4",
+      "initial_exit": 1,
+      "initial_scan_id": "30b207d5b14b0ab9ac85d3a22cd28dcef884cfa9f9bdcdac93bb4326b9351884",
+      "report_sha256": {
+        "source/final-sarif/report.html": "e989b525f9d85afdb272b3901f9bbf892fc83f3875e70936f1c888a8aac4beea",
+        "source/final-sarif/report.json": "11c582baab1194a03f14ab72e6ae23a0595bbbb107ebdb7d0efd05b795b21011",
+        "source/final-sarif/report.md": "9f9142e76dc9b11bd7efac6eb67af6722d9b12ef4bec90e287fcbc3741a4eb08",
+        "source/final-sarif/report.pdf": "07e43927c08056019e3c854e959bf391478900c06788231ac847e599666f8939",
+        "source/final-sarif/report.sarif": "2af2136a294e9a970b58eb21ffcdbe9acf37aa0e3fd5d79af2001e8cee45ebd5"
+      },
+      "review_artifact": "source/reviewed.sarif",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 143,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "sarif",
+      "review_sha256": "46c58c856b0585b88248b651d4a1cc197d4ba157bc601975dad98ad47b03bf19",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 796,
+        "bytes_read": 796,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 3,
+        "justified_findings": 1,
+        "open_findings": 10,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 7,
+          "info": 0,
+          "low": 1,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "target": "source",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    },
+    {
+      "final_exit": 1,
+      "final_scan_id": "3aee3f5aad12ec331e99499fa4662eb21877841e2075c652fdc44c401e4306d4",
+      "initial_exit": 1,
+      "initial_scan_id": "30b207d5b14b0ab9ac85d3a22cd28dcef884cfa9f9bdcdac93bb4326b9351884",
+      "report_sha256": {
+        "source/final-pdf/report.html": "4f8b4a4ba365670ef00f09c54b4883e18f1c31f9025f2bbe7316a8ed8974f690",
+        "source/final-pdf/report.json": "8362b5ce9524267b5f6dd775d53152fb73f9a73aef0a557f498186e4e03c3080",
+        "source/final-pdf/report.md": "6bbcfbac625b232592436a6f7083355c6d88c52f6aa7dbda6366263626e1dae6",
+        "source/final-pdf/report.pdf": "4a5e8353220064529e7f90428c45a1e6bc5d4dc0070f7e8a90954b9b5b5020d0",
+        "source/final-pdf/report.sarif": "8e6c46010baf16e407f25bf77cab013ad91c53845a0a843cd81929cdd2bfb3de"
+      },
+      "review_artifact": "source/reviewed.pdf",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 143,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "pdf",
+      "review_sha256": "e0271c845ceabf47c64b14c804425b9b458a6ac5714ad5826559341145115e41",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 796,
+        "bytes_read": 796,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 3,
+        "justified_findings": 1,
+        "open_findings": 10,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 7,
+          "info": 0,
+          "low": 1,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "target": "source",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    },
+    {
+      "final_exit": 1,
+      "final_scan_id": "132ec4100b6921eafdcd154c2511b0d0587559b3d90ca78ab73f8f81b37788e9",
+      "initial_exit": 1,
+      "initial_scan_id": "92a660d0c9ccf3680d3d0f44667c8777ec48ee5e7a27a2a5324e764d466ecbdd",
+      "report_sha256": {
+        "image/final-html/report.html": "d2239f96255cc1d7b7739e9cb430ee37b2da8990f7171473308b17b940634950",
+        "image/final-html/report.json": "0e46685aa6bf3db6053401c71490ea6a51c67adf1927efe9e56236e5cc5bed83",
+        "image/final-html/report.md": "558c45e59f278bee9d7673f4cadead8afef75ecc828f0695691991bdcb621ada",
+        "image/final-html/report.pdf": "b08d2c3af1d64ae2eff79ffe00dd4fc2986661c1aaf741ca298e02db239d6e1d",
+        "image/final-html/report.sarif": "f85dcc025e359a944311a2266534c8466ea4ccca04f675cff29a2a9f3296778a"
+      },
+      "review_artifact": "image/reviewed.html",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 135,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "html",
+      "review_sha256": "d089cb4da0eef96f71276306ba80cdd62abb020735612624cefba89cba5b6f07",
+      "summary": {
+        "assessment": "static_image_triage_only",
+        "bytes_charged": 32,
+        "bytes_read": 32,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 4,
+        "image_analysis_scope": "packaged_source_and_metadata",
+        "justified_findings": 1,
+        "metadata_evidence_bytes": 157,
+        "open_findings": 2,
+        "packaged_files_inspected": 1,
+        "packaged_source_files_inspected": 1,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 2,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "target": "image",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    },
+    {
+      "final_exit": 1,
+      "final_scan_id": "132ec4100b6921eafdcd154c2511b0d0587559b3d90ca78ab73f8f81b37788e9",
+      "initial_exit": 1,
+      "initial_scan_id": "92a660d0c9ccf3680d3d0f44667c8777ec48ee5e7a27a2a5324e764d466ecbdd",
+      "report_sha256": {
+        "image/final-md/report.html": "67e4af493442af0eb66eb8194578cf1529c912e6c1ad7dc21ae5cdcebd933170",
+        "image/final-md/report.json": "9dfb4869bc0e765a7fbd4d56592eed94ebd709231ceb2408eba3889c3b4b2c8d",
+        "image/final-md/report.md": "93627a573e75f5a0f162eb2f422d1d8d7e26b2ae8574d76d413e8250bb749520",
+        "image/final-md/report.pdf": "93261df1f0b4ed8f7f9b4ec4a5e3f10dac706b03270cffa28855f33f26fb8a22",
+        "image/final-md/report.sarif": "be32341e930b6f51db57ad08b0d1f28892843f1f0c0dc400f5eea968707c61f4"
+      },
+      "review_artifact": "image/reviewed.md",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 135,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "md",
+      "review_sha256": "3b22e3e63a342a8e85d9234aa7a2636de7b3657920e573ebffb7be0dce8763be",
+      "summary": {
+        "assessment": "static_image_triage_only",
+        "bytes_charged": 32,
+        "bytes_read": 32,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 4,
+        "image_analysis_scope": "packaged_source_and_metadata",
+        "justified_findings": 1,
+        "metadata_evidence_bytes": 157,
+        "open_findings": 2,
+        "packaged_files_inspected": 1,
+        "packaged_source_files_inspected": 1,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 2,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "target": "image",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    },
+    {
+      "final_exit": 1,
+      "final_scan_id": "132ec4100b6921eafdcd154c2511b0d0587559b3d90ca78ab73f8f81b37788e9",
+      "initial_exit": 1,
+      "initial_scan_id": "92a660d0c9ccf3680d3d0f44667c8777ec48ee5e7a27a2a5324e764d466ecbdd",
+      "report_sha256": {
+        "image/final-json/report.html": "c595d6eb29fe4d2386f06597589e18169f9651d71424f0a32211acafc1cee24f",
+        "image/final-json/report.json": "39d8444a0d70503179752f2135dd67c9dccacc07e658d1d683633c4f12ce7d37",
+        "image/final-json/report.md": "6b6c0ccca1dc2738707b8be0c2dd1fa7643f570bd02067fec06b86d053003655",
+        "image/final-json/report.pdf": "5d1ce55a46961c48075de927ce53c771e2f0735cf1fc9902987a4ab874d3b3b6",
+        "image/final-json/report.sarif": "a378e9323d74e7e09dde1cc12918948d4b700429985f5e9e95450d2211cb01b4"
+      },
+      "review_artifact": "image/reviewed.json",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 135,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "json",
+      "review_sha256": "c5cde4281eb6458091067a00c35f5f85c728fc2f807b27edc411812d11800b21",
+      "summary": {
+        "assessment": "static_image_triage_only",
+        "bytes_charged": 32,
+        "bytes_read": 32,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 4,
+        "image_analysis_scope": "packaged_source_and_metadata",
+        "justified_findings": 1,
+        "metadata_evidence_bytes": 157,
+        "open_findings": 2,
+        "packaged_files_inspected": 1,
+        "packaged_source_files_inspected": 1,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 2,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "target": "image",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    },
+    {
+      "final_exit": 1,
+      "final_scan_id": "132ec4100b6921eafdcd154c2511b0d0587559b3d90ca78ab73f8f81b37788e9",
+      "initial_exit": 1,
+      "initial_scan_id": "92a660d0c9ccf3680d3d0f44667c8777ec48ee5e7a27a2a5324e764d466ecbdd",
+      "report_sha256": {
+        "image/final-sarif/report.html": "ae555c85446523c3ad023a5aafa248069c38736edf400724b06a6d10abfb0ca2",
+        "image/final-sarif/report.json": "99fc8b375fa173c0fe148e8d57de3982e9fcc79734ce4a3dc16026530879fd36",
+        "image/final-sarif/report.md": "d2e18d0e438a3e077b4dd37948edcd8ad6afdbf8206e29e100ec1a9766eff8e5",
+        "image/final-sarif/report.pdf": "2b9988e16ffb8172181ecd1fb0e02d542137255c8a17246845ca8855eaf92140",
+        "image/final-sarif/report.sarif": "6a7340c4b938c8d321da02cc77ed906cc78f3c366e947006e8a6840c55ce9d37"
+      },
+      "review_artifact": "image/reviewed.sarif",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 135,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "sarif",
+      "review_sha256": "831f09a50016cb27932978d55be12ee28c4387346d5c854429eaac7bedc6590d",
+      "summary": {
+        "assessment": "static_image_triage_only",
+        "bytes_charged": 32,
+        "bytes_read": 32,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 4,
+        "image_analysis_scope": "packaged_source_and_metadata",
+        "justified_findings": 1,
+        "metadata_evidence_bytes": 157,
+        "open_findings": 2,
+        "packaged_files_inspected": 1,
+        "packaged_source_files_inspected": 1,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 2,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "target": "image",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    },
+    {
+      "final_exit": 1,
+      "final_scan_id": "132ec4100b6921eafdcd154c2511b0d0587559b3d90ca78ab73f8f81b37788e9",
+      "initial_exit": 1,
+      "initial_scan_id": "92a660d0c9ccf3680d3d0f44667c8777ec48ee5e7a27a2a5324e764d466ecbdd",
+      "report_sha256": {
+        "image/final-pdf/report.html": "8bc22b8366c472d0633c3f1b17d12e89411307df7638372615be9c52882596d5",
+        "image/final-pdf/report.json": "bf6a7e1c1acd17f7a76c66a844cab0f6cc1e59e09021195b582633ea928894a8",
+        "image/final-pdf/report.md": "9ce0d1c8570ec612bcd170bb9b1752965218dbbe511275e0e2c143c1357bc0fe",
+        "image/final-pdf/report.pdf": "ba696a39557476d8b64e0af1f65b2bcf22208374dc1a6ca4825db64819cc0099",
+        "image/final-pdf/report.sarif": "4e0128bb8fd0615a8092222c907f7a6c664e8d0544d194dc79c44cfe950e3841"
+      },
+      "review_artifact": "image/reviewed.pdf",
+      "review_counts": {
+        "applied": 2,
+        "decisions": 2,
+        "imported_items": 135,
+        "not_redetected": 0,
+        "out_of_scope": 0,
+        "stale": 0,
+        "unresolved": 0
+      },
+      "review_format": "pdf",
+      "review_sha256": "fc2593be408df47406d4cec31938f9775e396cbf75211e39e98788f20c36e8aa",
+      "summary": {
+        "assessment": "static_image_triage_only",
+        "bytes_charged": 32,
+        "bytes_read": 32,
+        "coverage_gaps": 0,
+        "disabled_findings": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 4,
+        "image_analysis_scope": "packaged_source_and_metadata",
+        "justified_findings": 1,
+        "metadata_evidence_bytes": 157,
+        "open_findings": 2,
+        "packaged_files_inspected": 1,
+        "packaged_source_files_inspected": 1,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 2,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "target": "image",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.9.0"
+      }
+    }
+  ],
+  "reviewed_scans": 10,
+  "scenario": "actual CLI five-format review roundtrip",
+  "schema_version": "1.0",
+  "scope": "Shipped inert source and image fixtures; test exceptions do not establish control effectiveness.",
+  "target_execution": false
+}

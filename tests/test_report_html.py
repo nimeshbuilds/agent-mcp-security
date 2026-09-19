@@ -1,5 +1,7 @@
 """The offline HTML report treats every repository/model string as untrusted."""
+import base64
 import copy
+import hashlib
 from html.parser import HTMLParser
 import json
 from pathlib import Path
@@ -9,7 +11,7 @@ from urllib.parse import urlsplit
 
 from ai_security_scan.analyst import unreviewed_analyst
 from ai_security_scan.assessment import build_assessment
-from ai_security_scan.report_html import html_report
+from ai_security_scan.report_html import _REVIEW_SCRIPT, html_report
 from ai_security_scan.scanner import scan
 
 
@@ -21,11 +23,16 @@ class Document(HTMLParser):
         self.sections = {}
         self.section_order = []
         self.section_stack = []
+        self.scripts = []
+        self.current_script = None
         self.feed(content)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         self.tags.append((tag, attrs))
+        if tag == "script":
+            self.current_script = {"attrs": attrs, "text": ""}
+            self.scripts.append(self.current_script)
         if tag == "section":
             identifier = attrs.get("id")
             self.section_stack.append(identifier)
@@ -38,13 +45,32 @@ class Document(HTMLParser):
 
     def handle_data(self, data):
         self.text.append(data)
+        if self.current_script is not None:
+            self.current_script["text"] += data
         for identifier in self.section_stack:
             if identifier:
                 self.sections[identifier].append(data)
 
     def handle_endtag(self, tag):
+        if tag == "script":
+            self.current_script = None
         if tag == "section" and self.section_stack:
             self.section_stack.pop()
+
+
+def assert_trusted_script_boundary(test, page):
+    doc = Document(page)
+    test.assertEqual(len(doc.scripts), 2)
+    capsules = [item for item in doc.scripts if item["attrs"].get("id") == "invarune-review"]
+    test.assertEqual(len(capsules), 1)
+    test.assertEqual(capsules[0]["attrs"], {"type": "application/json", "id": "invarune-review"})
+    test.assertNotIn("<", capsules[0]["text"])
+    test.assertEqual(json.loads(capsules[0]["text"])["kind"], "invarune_review")
+    scripts = [item for item in doc.scripts if item["attrs"].get("id") == "invarune-review-editor"]
+    test.assertEqual(len(scripts), 1)
+    test.assertEqual(scripts[0]["attrs"], {"id": "invarune-review-editor"})
+    test.assertEqual(scripts[0]["text"], _REVIEW_SCRIPT)
+    return doc
 
 
 class HtmlReportTests(unittest.TestCase):
@@ -81,14 +107,16 @@ class HtmlReportTests(unittest.TestCase):
     def test_html_is_standalone_and_uses_restrictive_content_security_policy(self):
         page = html_report(self.report)
         doc = Document(page)
-        self.assertNotIn("script", [tag for tag, _ in doc.tags])
+        assert_trusted_script_boundary(self, page)
         policies = [attrs.get("content", "") for tag, attrs in doc.tags
                     if tag == "meta" and attrs.get("http-equiv", "").lower() == "content-security-policy"]
         self.assertEqual(len(policies), 1)
         self.assertIn("default-src 'none'", policies[0])
-        # Absence of a script directive inherits the already-checked default.
-        script_directives = [part.strip() for part in policies[0].split(";") if part.strip().startswith("script-src")]
-        self.assertTrue(all(part.endswith("'none'") for part in script_directives))
+        digest = base64.b64encode(hashlib.sha256(_REVIEW_SCRIPT.encode()).digest()).decode("ascii")
+        script_directives = [part.strip() for part in policies[0].split(";") if part.strip().startswith("script-src ")]
+        self.assertEqual(script_directives, ["script-src 'sha256-" + digest + "'"])
+        self.assertIn("script-src-attr 'none'", policies[0])
+        self.assertIn("connect-src 'none'", policies[0])
         self.assertIn("base-uri 'none'", policies[0])
         self.assertIn("form-action 'none'", policies[0])
         for tag, attrs in doc.tags:
@@ -131,7 +159,7 @@ class HtmlReportTests(unittest.TestCase):
         page = html_report(report)
         self.assertNotIn(payload, page)
         doc = Document(page)
-        self.assertNotIn("script", [tag for tag, _ in doc.tags])
+        assert_trusted_script_boundary(self, page)
         self.assertNotIn("img", [tag for tag, _ in doc.tags])
         self.assertIn(payload, " ".join(doc.text))
         for _, attrs in doc.tags:
