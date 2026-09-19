@@ -1,6 +1,6 @@
 # Scenario test matrix
 
-This matrix records concrete scanner and controller behavior tested for version **0.4.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
+This matrix records concrete scanner and controller behavior tested for version **0.4.1**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
 
 ## Reproducible scenario coverage
 
@@ -14,6 +14,7 @@ All filenames below are under `tests/` unless another path is given.
 | JavaScript lexical boundaries | 26 methods / 174 explicit subcases: quoted/regex/comment examples, fake imports, aliases, shadowing, multiline calls, templates, function bodies, escaping, configuration properties and logging labels | `test_javascript_accuracy.py` |
 | Configuration accuracy | Real/mapped loopback, deceptive DNS prefixes, whitespace, package-selector forms, every additional distribution, exact versions, JSON container context, image digest length, ambiguous/nonfinite JSON | `test_configuration_accuracy.py` |
 | CLI usability and analysis depth | Grouped help/defaults, no abbreviated flags, quiet/JSON output, rule explanations, invalid combinations, artifact/gate equivalence, per-file language analysis profiles | `test_cli_usability.py`, `test_analysis_profiles.py` |
+| Complete offline CLI help | Every public option/default/choice, live inventories, parsable command examples and accepted gateway/baseline JSON; identical -h/--help with no scan/runtime/network side effects; script/module/installed entry points | `test_cli_usability.py`, `package-and-schema` CI job |
 | Image archives | Docker-save/OCI, gzip, multi-platform selection, digest/size/DiffID verification, whiteouts/opq order, replacements, retained revisions, links, hostile paths/collisions, special/sparse/PAX entries, decompression/truncation and resource bounds | `test_image_archive.py` |
 | Image assessment | Default/named users, null fields, env/labels/history secrets, command bypasses, retained credentials, history-vs-runtime provenance, OS/package/permission inventory, binary scope and record budgets | `test_image_assessment.py` |
 | Image runtime acquisition | Real controlled subprocesses, Docker/Podman argument contracts, explicit pulls, no execution, stream caps, pressure/deadlines, atomic cleanup, errors without diagnostic secrets | `test_image_runtime.py` |

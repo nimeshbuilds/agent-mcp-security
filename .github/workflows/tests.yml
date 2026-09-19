@@ -58,6 +58,21 @@ jobs:
       - name: Exercise installed CLI from outside the source checkout
         working-directory: ${{ runner.temp }}
         run: ai-security-scan "$GITHUB_WORKSPACE/examples/safer" --output "$RUNNER_TEMP/installed-scan"
+      - name: Verify comprehensive help ships in the installed package
+        working-directory: ${{ runner.temp }}
+        run: |
+          python - <<'PY'
+          import subprocess
+          outputs = []
+          for flag in ('-h', '--help'):
+              result = subprocess.run(['ai-security-scan', flag], capture_output=True, text=True, check=True)
+              assert not result.stderr
+              assert 'Custom JSON gateway configuration:' in result.stdout
+              assert 'Container images without a source checkout:' in result.stdout
+              outputs.append(result.stdout)
+          assert outputs[0] == outputs[1]
+          print('Installed -h/--help include the full offline reference.')
+          PY
       - name: Exercise installed image scanner without a container runtime
         working-directory: ${{ runner.temp }}
         run: |

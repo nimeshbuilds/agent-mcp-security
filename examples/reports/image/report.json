@@ -2110,7 +2110,7 @@
     "enabled": false
   },
   "mode": "deterministic_image",
-  "scan_id": "aea908e2e5d9e13ea820005332b7f3c42c5d300c4b100fbbf933f40a626c8d97",
+  "scan_id": "591c1baf5f1159a71fa4ff47736ff11e24e73e5e531b60631383b99604fd468c",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_image_triage_only",
@@ -2136,9 +2136,9 @@
   },
   "target": "container-image",
   "tool": {
-    "implementation_sha256": "689a9507f0639d83b5f51efbbea3b6fb0b88e5efda77b269ed71e7ff27d2d5e6",
+    "implementation_sha256": "a2050f0a81ee2aa04b1e32e7e31b932361fd6d423fdac96105c3c59f29d4ea2c",
     "name": "agent-mcp-security-scan",
     "python_version": "3.9.6",
-    "version": "0.4.0"
+    "version": "0.4.1"
   }
 }

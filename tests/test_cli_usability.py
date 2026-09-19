@@ -1,16 +1,18 @@
 """Public CLI output contracts, catalog traceability, and CI integration."""
 
 import contextlib
+import argparse
 import io
 import json
 from pathlib import Path
+import shlex
 import subprocess
 import sys
 import tempfile
 import unittest
 from unittest import mock
 
-from ai_security_scan.cli import main
+from ai_security_scan.cli import main, parser
 from ai_security_scan.judge import JudgeError
 from ai_security_scan.rules import RULES
 from ai_security_scan.scanner import load_controls
@@ -54,6 +56,84 @@ class CliUsabilityTests(unittest.TestCase):
                      "1000000", "50000000", "static", "--summary-json", "--quiet", "--explain-rule",
                      "does not establish security or compliance", "Incompleteness takes precedence"):
             self.assertIn(text.lower(), stdout.lower())
+
+    def test_help_documents_every_registered_option_and_live_inventory(self):
+        from ai_security_scan.judge import ALIASES, DEFAULT_ENDPOINTS, PROVIDERS
+        from ai_security_scan.scanner import EXCLUDED_DIRS, EXTENSIONS, MANIFESTS
+        from ai_security_scan.image_scan import IMAGE_EXCLUDED_DIRS
+        command = parser()
+        help_text = command.format_help()
+        option_reference = " ".join(help_text.split("Invocation and mode selection:")[0].split())
+        for action in command._actions:
+            with self.subTest(option=action.dest):
+                self.assertTrue(action.help and action.help != argparse.SUPPRESS)
+                for flag in action.option_strings:
+                    self.assertIn(flag, option_reference)
+                if action.choices:
+                    for choice in action.choices:
+                        self.assertIn(str(choice), option_reference)
+                if action.default is not None and action.default != argparse.SUPPRESS:
+                    self.assertIn("(default: " + str(action.default) + ")", option_reference)
+        for inventory in (EXTENSIONS, MANIFESTS, EXCLUDED_DIRS, IMAGE_EXCLUDED_DIRS, PROVIDERS):
+            for value in inventory:
+                self.assertIn(value, help_text)
+        for alias, provider in ALIASES.items():
+            self.assertIn(alias + " -> " + provider, help_text)
+        for endpoint in DEFAULT_ENDPOINTS.values():
+            self.assertIn(endpoint, help_text)
+
+    def test_help_command_examples_parse_and_judge_json_examples_validate(self):
+        from ai_security_scan.analyst import validate_limits
+        from ai_security_scan.judge import load_config
+        help_text = parser().format_help()
+        examples = [shlex.split(line.strip())[1:] for line in help_text.split("Examples:\n", 1)[1].splitlines()
+                    if line.strip().startswith("ai-security-scan ")]
+        self.assertGreaterEqual(len(examples), 20)
+        for arguments in examples:
+            with self.subTest(arguments=arguments):
+                args = parser().parse_args(arguments)
+                catalog = args.list_rules or args.list_controls or args.explain_rule
+                self.assertEqual(sum(bool(value) for value in (args.target, args.image, args.image_archive)), 0 if catalog else 1)
+                self.assertFalse(args.judge_include_source and not args.judge_config)
+                self.assertFalse(args.pull and not args.image)
+                validate_limits(max_calls=args.analyst_max_calls, batch_size=args.analyst_batch_size,
+                                max_files=args.analyst_max_files, max_bytes=args.analyst_max_bytes,
+                                max_chars=args.analyst_max_chars, max_seconds=args.analyst_time_budget)
+        for heading, provider in (("OpenAI-compatible gateway configuration:", "openai_chat"),
+                                  ("Custom JSON gateway configuration:", "custom")):
+            value, _ = json.JSONDecoder().raw_decode(help_text.split(heading, 1)[1].lstrip())
+            self.config.write_text(json.dumps(value), encoding="utf-8")
+            loaded = load_config(self.config)
+            self.assertEqual(loaded["provider"], provider)
+            self.assertEqual(loaded["endpoint"], value["endpoint"])
+        baseline, _ = json.JSONDecoder().raw_decode(help_text.split("Baseline JSON shape:", 1)[1].lstrip())
+        self.config.write_text(json.dumps(baseline), encoding="utf-8")
+        from ai_security_scan.scanner import load_baseline
+        self.assertEqual(load_baseline(self.config), {"FINDING_ID": "Reviewed exception"})
+
+    def test_short_and_long_help_are_identical_and_have_no_external_side_effects(self):
+        with mock.patch("ai_security_scan.cli.scan", side_effect=AssertionError("Help must not scan")), \
+             mock.patch("ai_security_scan.judge.load_config", side_effect=AssertionError("Help must not load judge config")), \
+             mock.patch("ai_security_scan.image_runtime.export_image", side_effect=AssertionError("Help must not export")), \
+             mock.patch("ai_security_scan.image_archive.materialize_image", side_effect=AssertionError("Help must not unpack")), \
+             mock.patch("subprocess.Popen", side_effect=AssertionError("Help must not spawn")), \
+             mock.patch("urllib.request.OpenerDirector.open", side_effect=AssertionError("Help must not use network")):
+            outputs = []
+            for option in ("-h", "--help"):
+                code, stdout, stderr = self.invoke("--image", "unavailable:fixture", "--judge-config", "missing.json", option, scan=False)
+                self.assertEqual((code, stderr), (0, ""))
+                outputs.append(stdout)
+            self.assertEqual(outputs[0], outputs[1])
+            self.assertFalse(self.output.exists())
+        project = Path(__file__).resolve().parents[1]
+        for entry, directory in (([str(project / "scan.py")], self.base), (["-m", "ai_security_scan"], project)):
+            for option in ("-h", "--help"):
+                result = subprocess.run([sys.executable, *entry, option], cwd=directory,
+                                        capture_output=True, text=True, timeout=15)
+                self.assertEqual((result.returncode, result.stderr), (0, ""))
+                self.assertIn("Custom JSON gateway configuration:", result.stdout)
+                self.assertIn("Container images without a source checkout:", result.stdout)
+        self.assertFalse((self.base / "scan-report").exists())
 
     def test_abbreviations_are_rejected_without_scanning(self):
         with mock.patch("ai_security_scan.cli.scan", side_effect=AssertionError("Must not scan")):

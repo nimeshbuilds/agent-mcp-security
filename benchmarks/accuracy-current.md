@@ -2,7 +2,7 @@
 
 Synthetic, project-authored rule-presence fixtures. These are not production accuracy estimates or proof of security. Challenge cases are included in overall metrics even when the regression gate passes.
 
-Scanner: **0\.4\.0** · Corpus: `00149f8a8c56fbf96b9c8b2c1ac2fd402982f6987f079b34b9c56b9932cba019`
+Scanner: **0\.4\.1** · Corpus: `00149f8a8c56fbf96b9c8b2c1ac2fd402982f6987f079b34b9c56b9932cba019`
 
 Project\-authored synthetic cases; not an independent industry benchmark or production prevalence sample\. Expected labels were authored from API behavior, not inferred from scanner output\.
 

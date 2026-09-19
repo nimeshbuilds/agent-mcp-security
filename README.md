@@ -32,8 +32,11 @@ The expanded landscape includes CSA AICM/CCM and MAESTRO, CIS agent/MCP companio
 Requires Python **3.9+**. No packages or API credentials are needed for a static scan. Run from this project's directory:
 
 ```sh
+python3 scan.py --help
 python3 scan.py /absolute/path/to/agent-or-mcp-repo --output ./scan-report
 ```
+
+`-h` / `--help` includes the complete offline feature reference: every flag/default/range, source and image behavior, exclusions, baselines, reports, optional analyst budgets, all judge JSON fields, gateway configurations, and twenty command examples. The same reference ships in the installed CLI.
 
 To invoke it from any directory, use the absolute path to `scan.py`. You can also install the CLI using `python3 -m pip install .` and run `ai-security-scan`, or use `python3 -m ai_security_scan` from this directory. Installation may need build tooling; direct script execution needs only Python's standard library.
 

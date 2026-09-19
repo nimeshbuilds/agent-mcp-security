@@ -8,6 +8,7 @@ from contextlib import ExitStack
 from pathlib import Path
 
 from . import __version__
+from .cli_help import DESCRIPTION, complete_reference
 from .fs import read_confined
 from .report import atomic_write, write_reports
 from .scanner import SEVERITIES, load_baseline, load_controls, scan
@@ -20,76 +21,55 @@ class HelpFormatter(argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescript
 
 def parser():
     p = argparse.ArgumentParser(
-        description="Read-only AI agent and MCP source or container-image security scan.\n"
-                    "Source/archive scans are offline unless --judge-config is provided. Image references use the selected runtime; --pull explicitly fetches an image.\n"
-                    "Static findings are review signals; a clean scan does not establish security or compliance.",
-        allow_abbrev=False, formatter_class=HelpFormatter,
-        epilog="""Examples:
-  ai-security-scan ./repository --output ./reports
-  ai-security-scan --image my-agent:latest --output ./image-report
-  ai-security-scan --image-archive ./agent-image.tar --output ./image-report
-  ai-security-scan ./repository --summary-json --fail-on medium
-  ai-security-scan ./repository --quiet --exclude 'tests/*'
-  ai-security-scan --explain-rule AI002
-  ai-security-scan ./repository --judge-config ./trusted-judge.json
-  ai-security-scan ./repository --write-baseline ./accepted.json --baseline-reason 'Reviewed exception'
-
-Exit codes:
-  0  Selected scan scope completed and the configured finding gate did not trigger.
-  1  Open deterministic findings meet the configured severity threshold.
-  2  Invalid input, operational failure, incomplete scan, or incomplete optional review.
-     Incompleteness takes precedence over the finding gate, including --fail-on none.
-
-Every completed scan writes report.json, report.md, and report.sarif.
-An accepted baseline records review decisions; it does not establish that findings are safe.
-Optional LLM judgments remain advisory and cannot suppress deterministic findings.
-""")
-    p.add_argument("target", nargs="?", help="Repository directory to inspect")
+        description=DESCRIPTION, epilog=complete_reference(), add_help=False,
+        allow_abbrev=False, formatter_class=HelpFormatter)
+    p.add_argument("-h", "--help", action="help", help="Print this complete offline feature, configuration and example reference, then exit")
+    p.add_argument("target", nargs="?", help="Repository directory; choose this OR --image OR --image-archive; omit for help/version/catalog commands")
     images = p.add_argument_group("Container image input (never starts the container)")
     image_input = images.add_mutually_exclusive_group()
     image_input.add_argument("--image", metavar="REFERENCE", help="Inspect a local Docker/Podman image reference without the source checkout")
-    image_input.add_argument("--image-archive", metavar="PATH", help="Inspect an exported Docker-save or OCI image archive without a container runtime")
+    image_input.add_argument("--image-archive", metavar="PATH", help="Inspect a Docker-save/OCI tar or tar.gz archive of a Linux image without a container runtime")
     images.add_argument("--image-runtime", choices=("docker", "podman"), default="docker", help="Runtime used only for --image export and optional pull")
     images.add_argument("--pull", action="store_true", help="Explicitly fetch --image before inspection; never implied by a missing image")
     images.add_argument("--image-platform", metavar="OS/ARCH[/VARIANT]", help="Select a platform; ambiguous multi-platform archives require a selection")
-    images.add_argument("--image-max-archive-bytes", type=int, default=2_000_000_000, help="Maximum archive/export bytes")
-    images.add_argument("--image-max-unpacked-bytes", type=int, default=4_000_000_000, help="Maximum expanded image data charged by the archive reader")
-    images.add_argument("--image-max-entries", type=int, default=500_000, help="Maximum archive/layer entries")
-    images.add_argument("--image-max-layers", type=int, default=200, help="Maximum selected image layers")
-    images.add_argument("--image-timeout", type=float, default=300, help="Shared runtime pull/export deadline in seconds")
+    images.add_argument("--image-max-archive-bytes", type=int, default=2_000_000_000, help="Positive integer archive/export byte limit, also bounding expanded outer-archive data")
+    images.add_argument("--image-max-unpacked-bytes", type=int, default=4_000_000_000, help="Positive integer expanded-layer byte budget; separately bounds final materialized bytes")
+    images.add_argument("--image-max-entries", type=int, default=500_000, help="Positive integer cap on archive/layer headers and implicit-directory expansion")
+    images.add_argument("--image-max-layers", type=int, default=200, help="Positive integer maximum selected image layers")
+    images.add_argument("--image-timeout", type=float, default=300, help="Shared runtime pull/export deadline in seconds, finite and >0; not an archive-analysis timeout")
     scope = p.add_argument_group("Scan scope and resource limits")
-    scope.add_argument("--exclude", action="append", default=[], metavar="GLOB", help="Additional relative-path exclusion; repeatable")
+    scope.add_argument("--exclude", action="append", default=[], metavar="GLOB", help="Repeatable case-sensitive relative-path exclusion; quote globs. Image paths are relative to container root")
     scope.add_argument("--max-file-bytes", type=int, default=1_000_000, help="Maximum bytes in one source file; larger files create a coverage gap")
     scope.add_argument("--max-total-bytes", type=int, default=50_000_000, help="Total file-read budget, including rejected/failed reads and growth detection")
     scope.add_argument("--max-files", type=int, default=20_000, help="Maximum source/configuration files to scan")
     scope.add_argument("--max-entries", type=int, default=100_000, help="Maximum traversed file/directory entries")
     output = p.add_argument_group("Reports and CI output")
-    output.add_argument("--output", default="scan-report", help="Directory for JSON, Markdown, and SARIF reports")
+    output.add_argument("--output", default="scan-report", help="Directory for report.json, report.md and report.sarif; creates parents and replaces existing report files")
     display = output.add_mutually_exclusive_group()
     display.add_argument("--quiet", action="store_true", help="Suppress scan progress and human summaries; errors remain on stderr")
     display.add_argument("--summary-json", action="store_true", help="Write one JSON summary to stdout; diagnostics remain on stderr")
     output.add_argument("--fail-on", choices=SEVERITIES + ("none",), default="high", help="Fail on open findings at or above this severity; none disables only this gate")
     baseline = p.add_argument_group("Reviewed finding baselines")
-    baseline.add_argument("--baseline", help="Explicitly accepted finding IDs with justification")
+    baseline.add_argument("--baseline", metavar="PATH", help="Load reviewed JSON finding IDs and nonempty reasons; matched findings remain in reports as suppressed")
     baseline.add_argument("--write-baseline", metavar="PATH", help="Write a baseline candidate; does not suppress this scan")
-    baseline.add_argument("--baseline-reason", help="Required justification for --write-baseline")
+    baseline.add_argument("--baseline-reason", metavar="TEXT", help="Required nonempty justification for --write-baseline; quote multiword reasons")
     judge = p.add_argument_group("Optional advisory LLM review (disabled by default)")
-    judge.add_argument("--judge-config", help="Opt in to sending a bounded, redacted assessment payload to this configured LLM endpoint")
-    judge.add_argument("--judge-mode", choices=("full", "findings"), default="full", help="Full control analyst plus finding triage, or finding triage only")
+    judge.add_argument("--judge-config", metavar="PATH", help="Trusted JSON config; opt in to model calls and bounded redacted evidence disclosure. Protocols, fields and examples below")
+    judge.add_argument("--judge-mode", choices=("full", "findings"), default="full", help="full: finding triage plus every control, including zero-finding scans; findings: one finding-triage request only")
     judge.add_argument("--judge-include-source", action="store_true", help="Add neighboring source to finding triage; full analyst separately sends bounded source excerpts")
     judge.add_argument("--judge-max-findings", type=int, default=100, help="Maximum open findings sent to finding triage (1-500)")
-    judge.add_argument("--analyst-max-calls", type=int, default=12, help="Control analyst request budget (0-100); finding triage uses one additional request")
+    judge.add_argument("--analyst-max-calls", type=int, default=12, help="Full control-review request budget (integer 0-100); triage uses one additional request. Zero leaves controls unreviewed")
     judge.add_argument("--analyst-batch-size", type=int, default=6, help="Controls per analyst request (1-20)")
-    judge.add_argument("--analyst-max-files", type=int, default=200, help="Maximum scanned files to read for analyst evidence")
-    judge.add_argument("--analyst-max-bytes", type=int, default=2_000_000, help="Maximum source bytes to read for analyst evidence")
-    judge.add_argument("--analyst-max-chars", type=int, default=120_000, help="Maximum redacted source characters retained for analyst evidence")
-    judge.add_argument("--analyst-time-budget", type=float, default=180, help="Control analyst scheduling/time budget in seconds; not a hard process deadline")
+    judge.add_argument("--analyst-max-files", type=int, default=200, help="Full analyst evidence file budget (integer 0-20000); zero sends no source excerpts")
+    judge.add_argument("--analyst-max-bytes", type=int, default=2_000_000, help="Full analyst evidence read-byte budget (integer 0-50000000); zero sends no source excerpts")
+    judge.add_argument("--analyst-max-chars", type=int, default=120_000, help="Retained redacted source-character budget (integer 0-1000000); zero sends no excerpts but may still read files")
+    judge.add_argument("--analyst-time-budget", type=float, default=180, help="Full analyst scheduling/time budget in seconds, finite >0 and <=3600; not a hard process deadline")
     catalog = p.add_argument_group("Catalog inspection (no scan or network)")
     mode = catalog.add_mutually_exclusive_group()
     mode.add_argument("--list-rules", action="store_true", help="Print all deterministic rule metadata as JSON")
     mode.add_argument("--list-controls", action="store_true", help="Print all control checks, rule mappings, and sources as JSON")
     mode.add_argument("--explain-rule", metavar="ID", help="Print one rule's metadata, mapped controls, and interpretation as JSON")
-    p.add_argument("--version", action="version", version=__version__)
+    p.add_argument("--version", action="version", version=__version__, help="Print scanner version and exit without scanning or model calls")
     return p
 
 

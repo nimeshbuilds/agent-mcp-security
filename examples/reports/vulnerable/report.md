@@ -1,6 +1,6 @@
 # AI agent and MCP security scan
 
-Scan ID: `ef6ad533426bad1f23e85ab694bcb04500528ba388111fe14c315a347f468c6f`
+Scan ID: `3942585bf3f0b6c3592780da89b145958defba6ece4d6eb15ba25fd9387bd4ad`
 
 This is static security triage, not certification or proof that a system is secure.
 

@@ -1,7 +1,3 @@
-# Container-image input added in 0.4.0
-
-Use `--image REFERENCE` for local Docker/Podman images, or `--image-archive PATH` for exported Docker-save/OCI tar files. Neither needs a source directory. See the [image guide](IMAGE_SCANNING.md) for all image flags, explicit pulls, platform selection, archive/extraction budgets, and binary-only coverage semantics. Existing options below apply to source and image scans; image exclusions are relative to the container filesystem root. The image is never started.
-
 # Command-line reference
 
 `ai-security-scan` performs bounded, read-only source/image triage and writes Markdown, JSON, and SARIF reports. Deterministic source-directory and image-archive scans need no model, credentials, network, or third-party Python package. Image references use the selected container runtime; registry pulls require `--pull`. The optional model analyst is enabled only with `--judge-config`.
@@ -28,11 +24,52 @@ Use the absolute path to `scan.py` when invoking the script from another working
 
 Long options require their complete spelling. Abbreviations such as `--judge-conf` are rejected to avoid selecting an unintended option.
 
+## Complete offline help
+
+Version 0.4.1 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, every judge configuration field, native/custom gateway JSON examples, and twenty CLI examples. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
+
+```sh
+python3 scan.py --help
+python3 -m ai_security_scan -h
+ai-security-scan --help
+
+# Save the complete reference for review or offline distribution.
+ai-security-scan --help > cli-help.txt
+```
+
+Help exits 0 without scanning, unpacking images, starting runtime processes, loading a judge configuration, or contacting endpoints. `--version` prints the scanner version and exits. Tests check that every registered public option is documented, adapter/format inventories match implementation constants, example commands parse, and the displayed judge/baseline JSON is accepted by the actual loaders.
+
+## Container-image input
+
+Choose exactly one positional source directory, `--image REFERENCE`, or `--image-archive PATH`. Image mode inspects built **Linux** images without a source checkout and never starts a container. Hosts may be Linux, macOS, or Windows.
+
+| Argument | Default | Meaning |
+| --- | --- | --- |
+| `--image REFERENCE` | None | Save and inspect an existing local image through the selected runtime. No implicit pull. |
+| `--image-archive PATH` | None | Inspect a Docker-save or OCI-layout tar archive, optionally gzip-compressed; no runtime needed. |
+| `--image-runtime docker\|podman` | `docker` | Runtime executable/store used by `--image`. |
+| `--pull` | Disabled | Explicitly fetch the image before saving; requires `--image`. |
+| `--image-platform OS/ARCH[/VARIANT]` | None | Select one platform; required when the archive would otherwise be ambiguous. |
+| `--image-max-archive-bytes N` | `2000000000` | Export/archive and outer-archive expansion budget. Positive integer. |
+| `--image-max-unpacked-bytes N` | `4000000000` | Cumulative expanded-layer data; separately bounds final materialized bytes. Positive integer. |
+| `--image-max-entries N` | `500000` | Archive/layer headers and implicit-directory expansion. Positive integer. |
+| `--image-max-layers N` | `200` | Maximum selected image layers. Positive integer. |
+| `--image-timeout SECONDS` | `300` | Shared pull/export deadline; finite and greater than zero. Not an archive-analysis timeout. |
+
+```sh
+ai-security-scan --image my-agent:latest --output ./image-report
+ai-security-scan --image my-mcp-server:latest --image-runtime podman
+ai-security-scan --image ghcr.io/example/agent:1.2.3 --pull --image-platform linux/amd64
+ai-security-scan --image-archive ./agent-image.tar --output ./image-report
+```
+
+Image exclusions are relative to the container filesystem root and apply to final packaged files and retained file revisions. Configuration/history/inventory/permission assessment remains separate. Binary-only images receive metadata checks; compiled logic, CVEs, signature trust and runtime deployment behavior are unassessed. See the [image guide](IMAGE_SCANNING.md) for archive compatibility, platform/runtime requirements, per-phase budgets, disk sizing, provenance, and binary-only scope reporting.
+
 ## Scan scope and limits
 
 | Argument | Default | Meaning |
 | --- | --- | --- |
-| `target` | Required for a scan | Repository directory to inspect. No target is accepted with a catalog inspection command. |
+| `target` | Required for source scans | Repository directory; omit with image inputs or help/version/catalog commands. |
 | `--exclude GLOB` | None | Additional relative-path exclusion; repeat to add patterns. Quote patterns so the shell does not expand them. |
 | `--max-file-bytes N` | `1000000` | Maximum bytes in a single source file. Larger files are skipped with a coverage gap. |
 | `--max-total-bytes N` | `50000000` | Total file-read budget. Rejected reads count toward it; failed reads are charged conservatively. Growth detection reserves one sentinel byte. |
@@ -89,7 +126,8 @@ ai-security-scan ./repository --output ./reports --summary-json > ./summary.json
 | `status` | `completed` or `incomplete`. A completed scan can still have findings and exit 1. |
 | `tool`, `scan_id` | Scanner/runtime identity, implementation hash, and deterministic scan identifier copied from the report. |
 | `summary` | The report's exact deterministic counts: open/suppressed findings, severity counts, scanned files, read/charged bytes, coverage gaps, and selected-scope completion. |
-| `scope` | Resolved target path and exact scan configuration, including exclusions and resource limits. |
+| `scope` | Resolved source target path, or displayed image reference/archive basename, and exact scan configuration. |
+| `image` | Present for image inputs: identity, acquisition, inventories, per-phase counters, analysis scope and explicit binary/CVE limits. |
 | `coverage` | Errors, skipped files/reasons, enabled rules, unmatched baseline IDs, limitations, control/check totals, statically mapped control count, and control status counts. |
 | `optional_review.judge` | Whether finding triage was enabled, its status/mode, submission counts, and error if present. |
 | `optional_review.analyst` | Whether full control review was enabled, its status, and detailed control/check/evidence/request coverage if present. |
