@@ -250,7 +250,32 @@ def _action(group, finding_ids, control_ids):
     return "\n".join(parts)
 
 
-def _finding(finding, review_item=None):
+def _recommended_actions(actions):
+    if not actions:
+        return ""
+    return ('<div class="panel"><h4>Model-proposed fix guidance (unverified)</h4><p><strong>Agent/MCP relevance:</strong> '
+            + _escape(actions["agent_mcp_relevance"]) + '</p><p><strong>When this applies:</strong> '
+            + _escape(actions["applicability"]) + '</p>' + _list(actions["steps"], ordered=True)
+            + '<p><strong>How to verify</strong></p>' + _list(actions["verification"]) + '</div>')
+
+
+def _remediation(advice):
+    if not advice:
+        return ""
+    parts = ['<h4>Fix plan and agent/MCP relevance</h4><p>' + _escape(advice["summary"]) + '</p>',
+             '<p><strong>Why this matters for agents/MCP:</strong> ' + _escape(advice["agent_mcp_relevance"]) + '</p>',
+             '<p class="note">' + _escape(advice["scope_note"]) + '</p><p><strong>Confirm applicability</strong></p>',
+             _list(advice["applicability"]), '<ol>']
+    for step in advice["steps"]:
+        parts += ['<li><strong>' + _escape(step["title"]) + '</strong><p>' + _escape(step["action"])
+                  + '</p><p class="small"><strong>Verify:</strong> ' + _escape(step["verification"]) + '</p></li>']
+    parts += ['</ol><p><strong>Remaining validation</strong></p>', _list(advice["residual_risk"]),
+              '<p class="small">Related controls: ' + _escape(", ".join(advice["control_ids"])) + '</p>',
+              _sources(advice["sources"], "Fix guidance sources")]
+    return "\n".join(parts)
+
+
+def _finding(finding, review_item=None, remediation=None, advisory=None):
     identifier = finding.get("id", finding.get("finding_id", ""))
     parts = ['<article class="finding" id="' + _anchor("finding", identifier) + '">',
              '<div class="badge-line">' + _pill(finding.get("severity", "info"), True)
@@ -263,6 +288,10 @@ def _finding(finding, review_item=None):
              '<p>' + _escape(finding.get("description", "")) + '</p>',
              '<h4>Observed evidence</h4><pre><code>' + _escape(finding.get("evidence", "")) + '</code></pre>',
              '<p><strong>Remediation:</strong> ' + _escape(finding.get("remediation", "")) + '</p>']
+    parts.append(_remediation(remediation))
+    if advisory:
+        parts += ['<h4>Optional finding review</h4><p>' + _escape(advisory.get("verdict", "needs_review"))
+                  + ': ' + _escape(advisory.get("reason", "")) + '</p>', _recommended_actions(advisory.get("recommended_actions"))]
     if finding.get("suppression_reason"):
         parts.append('<p class="note warning"><strong>Suppression reason:</strong> ' + _escape(finding["suppression_reason"]) + ' A baseline records an accepted exception; it does not remediate this finding.</p>')
     if finding.get("disposition"):
@@ -287,6 +316,7 @@ def _advisory_check(check):
     parts = ['<div class="analyst-check"><h4>Check ' + _escape(check.get("check_index", "?")) + ": "
              + _escape(check.get("status", "insufficient_evidence")) + '</h4>',
              '<p>' + _escape(check.get("reason", "No assessment reason was provided.")) + '</p>']
+    parts.append(_recommended_actions(check.get("recommended_actions")))
     if check.get("status") in ("justified", "disabled"):
         parts.append('<p class="check-note">User decision; excluded from optional review and active check totals.</p>')
     elif not check.get("model_supplied", False):
@@ -411,8 +441,14 @@ def _advisory(report):
              '<p class="note">Model output is nondeterministic and advisory. It cannot dismiss deterministic findings, change their severity, establish compliance, or change the deterministic CI gate.</p>']
     if not judge.get("enabled") and not analyst.get("enabled"):
         parts.append('<p><strong>Disabled.</strong> No optional LLM request was made. The deterministic scan and this report run independently.</p>')
+    if (judge.get("enabled") or analyst.get("enabled")) and report.get("advice_coverage"):
+        parts.append(_details("Fix guidance coverage and omissions", _json(report["advice_coverage"]), opened=True))
     if judge.get("enabled"):
         parts += ['<h3>Finding judge</h3><p class="small">Status and request metadata below are advisory. Source strings and returned advice are rendered as text.</p>', _details("Finding judge result and request audit", _json(judge))]
+        actions = {entry["concern_index"]: entry["recommended_actions"] for entry in judge.get("additional_concern_actions", [])}
+        for index, concern in enumerate(judge.get("additional_concerns", []), 1):
+            parts += ['<h4>Additional model concern ' + str(index) + ' (unverified)</h4><p>' + _escape(concern) + '</p>',
+                      _recommended_actions(actions.get(index))]
     elif analyst.get("enabled"):
         parts.append('<p class="small"><strong>Finding judge:</strong> disabled.</p>')
     if analyst.get("enabled"):
@@ -835,6 +871,10 @@ def html_report(report):
                      + _escape(report["review_workspace_unavailable"].get("reason", "Review export limit reached."))
                      + ' Static scan evidence is retained. <a href="#review-workspace">See the export limit and next steps</a>.</p>')
     parts.append(_advisory_summary(report))
+    if report.get("advice_coverage"):
+        advice = report["advice_coverage"]
+        parts.append('<p class="note"><strong>Actionable fix guidance:</strong> ' + str(advice["static_fix_plans"]) + '/' + str(advice["static_findings"])
+                     + ' observed findings have a deterministic fix plan, verification steps and agent/MCP context. Proposed changes still require validation.</p>')
     parts.append(_visual_summary(report, assessment))
     if assessment.get("themes"):
         parts.append('<h3 class="spacer">What the scanner found</h3><p class="small">Detected categories describe observed patterns, not confirmed attack paths.</p><div class="badge-line">')
@@ -861,7 +901,9 @@ def html_report(report):
     parts += ['</section><section id="findings"><div class="section-heading"><div><p class="eyebrow">Scanner observations</p><h2>Complete finding evidence</h2></div><a class="back" href="#top">Back to top</a></div>',
               '<p class="small">All ' + _escape(len(findings)) + ' findings are retained with locations, stable IDs, confidence, remediation, and references. Suppressed, justified, and disabled findings remain visible as distinct exceptions.</p>']
     if findings:
-        parts.extend(_finding(finding, review_items.get("finding:" + finding.get("id", finding.get("finding_id", "")))) for finding in findings)
+        advice = {item.get("finding_id"): item for item in report.get("judge", {}).get("assessments", [])}
+        parts.extend(_finding(finding, review_items.get("finding:" + finding.get("id", finding.get("finding_id", ""))),
+                              report.get("remediation", {}).get(finding.get("id")), advice.get(finding.get("id"))) for finding in findings)
     else:
         parts.append('<p class="empty">No configured risk patterns were detected in the selected files.</p>')
     parts += ['</section>', _review_policy(report), _method_and_configuration(report, assessment), _coverage(report, assessment, review_items)]

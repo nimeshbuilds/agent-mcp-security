@@ -2,7 +2,7 @@
 
 Synthetic, project-authored rule-presence fixtures. These are not production accuracy estimates or proof of security. Challenge cases are included in overall metrics even when the regression gate passes.
 
-Scanner: **0\.9\.0** · Corpus version: **1\.1\.0** · SHA-256: `aa4e3b2a95fdf5d5ea09721c0316c72a654d90d58281be5caab249d87510dff8`
+Scanner: **0\.10\.0** · Corpus version: **1\.2\.0** · SHA-256: `eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3`
 
 Project\-authored synthetic cases; not an independent industry benchmark or production prevalence sample\. Expected labels were authored from API behavior, not inferred from scanner output\.
 
@@ -10,8 +10,8 @@ One explicitly labeled rule\-presence assertion per case, not confirmed vulnerab
 
 | Suite | TP | TN | FP | FN | Precision | Recall |
 |---|---:|---:|---:|---:|---:|---:|
-| Overall | 52 | 50 | 2 | 5 | 96.30% | 91.23% |
-| regression | 52 | 49 | 0 | 0 | 100.00% | 100.00% |
+| Overall | 55 | 51 | 2 | 5 | 96.49% | 91.67% |
+| regression | 55 | 50 | 0 | 0 | 100.00% | 100.00% |
 | challenge | 0 | 1 | 2 | 5 | 0.00% | 0.00% |
 
 ## Mismatches and analysis errors

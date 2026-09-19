@@ -1,0 +1,31 @@
+{
+  "attempted": false,
+  "batch_id": "batch-008",
+  "case_ids": [
+    "case-62c791d0429303175642",
+    "case-666bfd0ea8668e18238e",
+    "case-667d165e0d6e9dec0c0d",
+    "case-6817d5e78eb51828d289",
+    "case-6866e5e1d8372aee368e",
+    "case-6db8dea16176368f2f94",
+    "case-6f07d31eae7cf16fc29a",
+    "case-6ff980646eda9a6aa959"
+  ],
+  "elapsed_seconds": 0,
+  "evidence_sha256": [
+    "de68315e720ff7a4a59a9ead429678625d01713228ca6887f83fa90d9e5e9c62",
+    "5e7a8794c3fca71ab04b240d07ef63cf7b1749d7e7027bb5614d7988fb1d86fd",
+    "9bd98c74f8457151fbd4baed888914c407bd7648784ca9198355981132ea5f29",
+    "2383f19cdaf276a2d642e09e66d982ab64d5cab95b0ba4af56b5de7dc4a18605",
+    "8e96f4b8da0653718ffc6db8aa8c21cfac4a7435d3f6367b7236611450d10e9f",
+    "74942383652a9f73451cbf468f82d534b0b104fd792841dbf0d20e679dd16b07",
+    "5828cbabd9bd0d6b493876c02a0de983e503791ca7cd21702886b08b21eb3271",
+    "9cd1c11d75d1313066d9dee7396b9612cb2645eed41713c80b6b07b992e1511a"
+  ],
+  "mode": "live_claude",
+  "payload_bytes": 17523,
+  "payload_sha256": "529adb6ff7fba5717c879e2f2cab1d3b327d0d9b768ac2ef08bd9dc9f52a91f4",
+  "reason": "An earlier call reported missing authentication; no retry or login was attempted.",
+  "started_at_utc": "2026-09-19T22:54:19Z",
+  "status": "not_attempted_authentication"
+}

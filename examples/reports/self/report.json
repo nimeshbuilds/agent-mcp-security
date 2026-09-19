@@ -1,0 +1,4049 @@
+{
+  "advice_coverage": {
+    "additional_concern_fix_plans": 0,
+    "additional_concerns": 0,
+    "finding_assessment_slots": 0,
+    "finding_assessments": 0,
+    "finding_fix_plans": 0,
+    "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+    "model_check_assessments": 0,
+    "model_check_fix_plans": 0,
+    "omitted_finding_assessments": 0,
+    "static_findings": 0,
+    "static_fix_plans": 0
+  },
+  "analyst": {
+    "enabled": false
+  },
+  "assessment": {
+    "coverage_attention": [],
+    "finding_groups": [],
+    "guidance": {
+      "catalog_version": "1.0.0",
+      "reviewed_at": "2026-09-19",
+      "sha256": "dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1",
+      "source_registry_sha256": "cb7d62fe5f3b856a424ddc3b7afa986563a48b5ec2104423055a91fe290d5142"
+    },
+    "immediate_actions": [],
+    "method": "deterministic_guidance",
+    "metrics": {
+      "active_checks": 132,
+      "active_rules": 42,
+      "affected_files": 0,
+      "checks_total": 132,
+      "controls_requiring_validation": 66,
+      "controls_total": 66,
+      "coverage_gaps": 0,
+      "disabled_checks": 0,
+      "disabled_controls": 0,
+      "disabled_findings": 0,
+      "disabled_rules": 0,
+      "excluded_controls": 0,
+      "files_scanned": 29,
+      "justified_checks": 0,
+      "justified_controls": 0,
+      "justified_findings": 0,
+      "justified_rules": 0,
+      "mixed_excluded_controls": 0,
+      "open_findings": 0,
+      "suppressed_findings": 0,
+      "urgent_findings": 0
+    },
+    "posture": {
+      "code": "no_patterns_detected",
+      "explanation": "The selected static scope completed without a detector match. This is not a security pass. Review the unassessed boundaries and validate the controls below.",
+      "title": "No configured risk patterns detected"
+    },
+    "priority_basis": "P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.",
+    "schema_version": "1.0",
+    "themes": [],
+    "unknowns": [
+      "Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.",
+      "Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.",
+      "Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.",
+      "No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope."
+    ]
+  },
+  "configuration": {
+    "default_excluded_directories": [
+      ".cache",
+      ".git",
+      ".hg",
+      ".mypy_cache",
+      ".next",
+      ".pytest_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      "__pycache__",
+      "build",
+      "coverage",
+      "dist",
+      "node_modules",
+      "vendor",
+      "venv"
+    ],
+    "exclude": [],
+    "explicit_exclusion_identity_scope": "Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.",
+    "explicit_exclusion_matching": "resolved_paths_and_snapshot_filesystem_identities",
+    "generated_outputs_and_judge_config_excluded": true,
+    "max_entries": 100000,
+    "max_file_bytes": 1000000,
+    "max_files": 20000,
+    "max_total_bytes": 50000000
+  },
+  "controls": [
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-AISMM",
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints.",
+        "Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers."
+      ],
+      "finding_ids": [],
+      "id": "GOV-01",
+      "source_ids": [
+        "NIST-RMF"
+      ],
+      "sources": [
+        "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Inventory every agent, MCP server, tool, and model",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-MAESTRO",
+        "MITRE-ATLAS-202609"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Diagram user, model, memory, tool, server, gateway, and downstream service boundaries with their credentials.",
+        "Identify who controls each input and the highest-impact action reachable if that input is malicious."
+      ],
+      "finding_ids": [],
+      "id": "GOV-02",
+      "source_ids": [
+        "MITRE-ATLAS",
+        "NIST-AML"
+      ],
+      "sources": [
+        "https://github.com/mitre-atlas/atlas-data",
+        "https://csrc.nist.gov/pubs/ai/100/2/e2025/final"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Model trust boundaries and attack paths",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-SCOPING",
+        "CSA-AISMM",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Assign an owner to each autonomous action and document permitted purposes, forbidden outcomes, and escalation routes.",
+        "Record impact, reversibility, approval requirements, and accepted residual risk before production use."
+      ],
+      "finding_ids": [],
+      "id": "GOV-03",
+      "source_ids": [
+        "NIST-RMF",
+        "JOINT-AGENTIC"
+      ],
+      "sources": [
+        "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10",
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Define authorized use and accountable owners",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-AISMM",
+        "NIST-SSDF-AI"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Give each control an owner, evidence link, validation date, result, and next review date.",
+        "Time-limit exceptions and require a compensating control; distinguish untested behavior from demonstrated failure."
+      ],
+      "finding_ids": [],
+      "id": "GOV-04",
+      "source_ids": [
+        "NIST-GENAI",
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Maintain evidence and risk exceptions",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-SCOPING"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Review security impact when adding a model, tool, server, data source, skill, or broader permission.",
+        "Require deployment evidence for the complete configured system; a model-only score is insufficient."
+      ],
+      "finding_ids": [],
+      "id": "GOV-05",
+      "source_ids": [
+        "NCSC-SECURE-AI"
+      ],
+      "sources": [
+        "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Reassess changes in autonomy and integrations",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "For each model, gateway, orchestrator, MCP service, and cloud provider, document which party implements each applicable safeguard and which customer configuration it depends on.",
+        "Obtain current supplier evidence for inherited safeguards, identify unowned gaps, and record reassessment triggers in the service review."
+      ],
+      "finding_ids": [],
+      "id": "GOV-06",
+      "source_ids": [
+        "CSA-AICM",
+        "CSA-CCM"
+      ],
+      "sources": [
+        "https://cloudsecurityalliance.org/artifacts/ai-controls-matrix-v1-1",
+        "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Assign shared security responsibilities across AI providers",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AGENT-IAM",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI026",
+        "AI041"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries.",
+        "Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-01",
+      "source_ids": [
+        "MCP-AUTH"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Authenticate protected operations on every request",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-AGENT-IAM",
+        "CSA-SCOPING",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI027"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Check user/agent identity, tenant, tool, target object, and requested operation immediately before execution.",
+        "Deny by default; test read-only callers against write tools and object identifiers owned by another user."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-02",
+      "source_ids": [
+        "JOINT-AGENTIC",
+        "MCP-TOOLS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services",
+        "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Authorize the exact action and target",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI017"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Verify signature with trusted keys, allowed algorithms, expected issuer/audience, expiry, and required scopes.",
+        "Reject unsigned tokens and tokens minted for another service; decoding a JWT alone is not validation."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-03",
+      "source_ids": [
+        "MCP-AUTH-SEC"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Validate access-token cryptography and claims",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI028"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Use audience-bound MCP credentials and separately authorized downstream credentials; never forward arbitrary caller tokens.",
+        "Ensure a proxy cannot use its broader service identity to perform an action the caller cannot authorize."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-04",
+      "source_ids": [
+        "MCP-AUTH",
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Prevent token passthrough and confused deputy use",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AGENT-IAM",
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI010",
+        "AI011",
+        "AI030",
+        "AI034"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Use short-lived scoped credentials where supported, protect refresh tokens, and validate rotation and revocation.",
+        "Avoid tokens in query strings, model context, source, child-process arguments, and diagnostic output."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-05",
+      "source_ids": [
+        "MCP-AUTH-SEC",
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Constrain credential lifetime and exposure",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI038"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Test PKCE support and S256, exact registered redirects, transaction binding, and authorization-response issuer validation.",
+        "Reject replayed codes, mismatched issuers, unsafe redirect schemes, and unsolicited callback transactions."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-06",
+      "source_ids": [
+        "MCP-AUTH-SEC",
+        "MCP-AUTH"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Bind OAuth flows and validate redirects",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Identity and authorization",
+      "checks": [
+        "Validate discovered metadata and client metadata URLs before fetching; constrain schemes, destinations, redirects, and response sizes.",
+        "Document trust policy for client registration and prevent discovery from reaching internal metadata or privileged network services."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-07",
+      "source_ids": [
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Secure OAuth discovery and registration",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AGENT-IAM",
+        "NIST-AGENT-IDENTITY-DRAFT",
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Identity and authorization",
+      "checks": [
+        "Carry authenticated initiator and delegation identity through multi-agent calls instead of trusting identity fields in text.",
+        "Prevent agents from granting themselves privileges; limit delegation scope, depth, lifetime, and downstream audiences."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-08",
+      "source_ids": [
+        "OWASP-AGENT-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Bind delegation to identity, scope, and expiry",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Identity and authorization",
+      "checks": [
+        "Enroll agents under an accountable sponsor and approved workload identity; verify identity claims before issuing credentials or granting discovery and execution access.",
+        "Test retirement, sponsor departure, redeployment, and identity compromise; remove stale credentials, cached grants, registrations, and downstream access."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-09",
+      "source_ids": [
+        "CSA-AGENT-IAM",
+        "NIST-AGENT-IDENTITY-DRAFT"
+      ],
+      "sources": [
+        "https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach",
+        "https://www.nccoe.nist.gov/publications/other/accelerating-adoption-software-and-ai-agent-identity-and-authorization-concept"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Manage agent identity enrollment and retirement",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI006",
+        "AI007",
+        "AI008",
+        "AI029"
+      ],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "For HTTP, reject invalid Origin values and verify local deployments bind only to intended interfaces.",
+        "Use TLS for remote protected endpoints; test DNS rebinding and proxy/header behavior in deployment."
+      ],
+      "finding_ids": [],
+      "id": "MCP-01",
+      "source_ids": [
+        "MCP-HTTP"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Validate transport exposure and origin",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Apply schemas and semantic bounds before executing every tool; reject unknown properties where appropriate.",
+        "Bound sizes and nesting; validate declared structured output and render errors without leaking secrets."
+      ],
+      "finding_ids": [],
+      "id": "MCP-02",
+      "source_ids": [
+        "MCP-TOOLS"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Validate tool arguments and results",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Inspect descriptions, schemas, resources, icons, and results for instructions that cross tool or user boundaries.",
+        "Never let readOnlyHint, destructiveHint, or other server claims replace independent authorization and approval policy."
+      ],
+      "finding_ids": [],
+      "id": "MCP-03",
+      "source_ids": [
+        "MCP-TOOLS",
+        "OWASP-MCP-CS"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Treat descriptions and annotations as untrusted",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Bind tool approval to verified server identity and the reviewed tool definition or version.",
+        "Revalidate changes after reconnect/list updates; disambiguate collisions across servers without trusting display names."
+      ],
+      "finding_ids": [],
+      "id": "MCP-04",
+      "source_ids": [
+        "OWASP-MCP10"
+      ],
+      "sources": [
+        "https://owasp.org/projects/mcp-top-10"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Detect tool substitution and metadata changes",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI038"
+      ],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Authorize every state handle against its owner and tenant; enforce expiry, unpredictability, and replay boundaries.",
+        "For older sessionful protocol versions, test session hijacking and cross-user resumption; a session ID is not authentication."
+      ],
+      "finding_ids": [],
+      "id": "MCP-05",
+      "source_ids": [
+        "MCP-TOOLS",
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Protect state handles and legacy sessions",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Apply host policy and user control to sampling requests, context sharing, model selection, and associated tool access.",
+        "Test whether an untrusted server can induce disclosure from unrelated conversations or recursively consume model budget."
+      ],
+      "finding_ids": [],
+      "id": "MCP-06",
+      "source_ids": [
+        "MCP-SAMPLING"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/client/sampling"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Constrain sampling and returned model context",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Keep sensitive credential collection out of form-mode elicitation; validate and visibly identify URL destinations.",
+        "Test cancellation, phishing URLs, unsolicited interactions, and replayed completion state against the selected protocol version."
+      ],
+      "finding_ids": [],
+      "id": "MCP-07",
+      "source_ids": [
+        "MCP-ELICITATION"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Secure elicitation and URL interactions",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI015"
+      ],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Treat declared roots as scoped information, not an operating-system sandbox or complete authorization mechanism.",
+        "Enforce allowed paths at file access and test traversal, symlinks, alternate encodings, and writes outside the workspace."
+      ],
+      "finding_ids": [],
+      "id": "MCP-08",
+      "source_ids": [
+        "MCP-ROOTS"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/client/roots"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Enforce filesystem isolation independently of roots",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI018",
+        "AI031"
+      ],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Approve executable and package identity before starting a stdio server; use argument arrays and a minimal environment.",
+        "Restrict proxy process-spawn APIs and child filesystem/network permissions; separate stdout protocol traffic from logs."
+      ],
+      "finding_ids": [],
+      "id": "MCP-09",
+      "source_ids": [
+        "MCP-SECURITY",
+        "OWASP-MCP-CS"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices",
+        "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Constrain local server launch and inherited environment",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Record supported revisions and test their capability, metadata, header consistency, stream, and cancellation rules.",
+        "Prevent caches and request continuations from crossing authorization contexts; do not apply legacy handshake assumptions universally."
+      ],
+      "finding_ids": [],
+      "id": "MCP-10",
+      "source_ids": [
+        "MCP-TRANSPORTS",
+        "MCP-HTTP"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports",
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Apply version-aware metadata, caching, and cancellation",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI027",
+        "AI031"
+      ],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Place allow/deny decisions at the execution boundary using trusted policy inputs and constrained tool capabilities.",
+        "Show that an injected instruction cannot disable policy, choose privileged credentials, or bypass approval."
+      ],
+      "finding_ids": [],
+      "id": "AGT-01",
+      "source_ids": [
+        "ASD-HARNESS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Enforce action policy outside the model",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-SCOPING",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI031"
+      ],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Present actual recipient, target, arguments, data disclosure, and consequences for high-impact approval.",
+        "Invalidate approval if arguments or target change; test races, delayed retries, and approval reuse."
+      ],
+      "finding_ids": [],
+      "id": "AGT-02",
+      "source_ids": [
+        "OWASP-AGENT-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Bind approval to the action executed",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI032"
+      ],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Track origin and trust level for web pages, documents, messages, OCR, tool results, and repository instructions.",
+        "Test direct and indirect goal hijacking; formatting delimiters and prompt warnings alone are not access controls."
+      ],
+      "finding_ids": [],
+      "id": "AGT-03",
+      "source_ids": [
+        "OWASP-LLM2026"
+      ],
+      "sources": [
+        "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Separate untrusted content from authoritative instructions",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-MAESTRO",
+        "CIS-AGENTS-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Enforce document and memory ACLs at retrieval and update time, including vector search metadata filters.",
+        "Test poisoned memory persistence, cross-tenant retrieval, provenance loss, deletion, and stale privileged context."
+      ],
+      "finding_ids": [],
+      "id": "AGT-04",
+      "source_ids": [
+        "OWASP-AGENTIC"
+      ],
+      "sources": [
+        "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Protect retrieval and persistent memory",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-MAESTRO",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Constrain delegated tasks and verify messages against authenticated senders, expected schemas, and allowed transitions.",
+        "Test impersonation, conflicting instructions, cascading failure, and privilege growth across handoffs."
+      ],
+      "finding_ids": [],
+      "id": "AGT-05",
+      "source_ids": [
+        "OWASP-AGENTIC"
+      ],
+      "sources": [
+        "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Keep objectives and authority bounded across agents",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Inventory skill files, prompts, hooks, memory seed files, MCP configuration, and other executable workflow inputs.",
+        "Require review for changes that add commands, access, or persistence; external repository text cannot become trusted policy."
+      ],
+      "finding_ids": [],
+      "id": "AGT-06",
+      "source_ids": [
+        "MITRE-ATLAS",
+        "NCSC-SECURE-AI"
+      ],
+      "sources": [
+        "https://github.com/mitre-atlas/atlas-data",
+        "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Protect agent configuration and skills",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Apply destination and data policies to URLs, searches, tickets, messages, uploads, and telemetry generated by agents.",
+        "Use canary data to test encoded leakage and combinations of otherwise permitted tools."
+      ],
+      "finding_ids": [],
+      "id": "AGT-07",
+      "source_ids": [
+        "OWASP-MCP-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Prevent sensitive context leaving through legitimate tools",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI002",
+        "AI003",
+        "AI012"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Find shell execution and constructed command strings; use fixed executables, argument arrays, and allowed argument values.",
+        "Test untrusted tool inputs containing shell syntax, option injection, command substitution, and hostile filenames."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-01",
+      "source_ids": [
+        "OWASP-MCP10",
+        "OWASP-OUTPUT2025"
+      ],
+      "sources": [
+        "https://owasp.org/projects/mcp-top-10",
+        "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Prevent shell and command injection",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C9",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI001",
+        "AI013"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Locate eval, exec, dynamic imports, templates, notebooks, and interpreter tools accepting model or user content.",
+        "Run required code execution in a disposable restricted environment with explicit filesystem, network, CPU, and time limits."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-02",
+      "source_ids": [
+        "OWASP-AGENT-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Constrain generated-code execution",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI036"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Use bound query parameters and allowed query shapes; inspect SQL, NoSQL, graph, and search-language construction.",
+        "Separate read/write database identities and test whether generated queries can escape permitted objects or operations."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-03",
+      "source_ids": [
+        "OWASP-OUTPUT2025"
+      ],
+      "sources": [
+        "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Parameterize database and query operations",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI015",
+        "AI016",
+        "AI037"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions.",
+        "Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-04",
+      "source_ids": [
+        "MCP-ROOTS",
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/client/roots",
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Constrain file and archive access",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI014"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect.",
+        "Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-05",
+      "source_ids": [
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Prevent SSRF and unsafe network destinations",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI004",
+        "AI005",
+        "AI035"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Inspect pickle, unsafe YAML, object deserialization, XML entity expansion, and unconstrained recursive parsers.",
+        "Use data-only formats with byte, nesting, and type limits; test malformed input and expansion attacks."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-06",
+      "source_ids": [
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Reject unsafe parsing and deserialization",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI039",
+        "AI040"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Use context-specific escaping for HTML/Markdown, avoid unsafe DOM sinks, and validate links and embedded media.",
+        "Test active SVG/HTML, malicious URLs, terminal escapes, and spreadsheet formulas in exported reports."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-07",
+      "source_ids": [
+        "OWASP-OUTPUT2025"
+      ],
+      "sources": [
+        "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Render model and tool output safely",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI010",
+        "AI011",
+        "AI030",
+        "AI034"
+      ],
+      "category": "Data and privacy",
+      "checks": [
+        "Inspect code, examples, configuration, notebooks, test fixtures, and generated artifacts for secret-like values.",
+        "Verify actual exposures with the owner, rotate real credentials, and remove them from reachable history and artifacts."
+      ],
+      "finding_ids": [],
+      "id": "DATA-01",
+      "source_ids": [
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Detect and remove embedded credentials",
+      "validation": "static"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CIS-AGENTS-2026",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Data and privacy",
+      "checks": [
+        "Map which prompts, tool outputs, memory, and code leave the environment and identify the receiving provider/gateway.",
+        "Document allowed data classes, processing location, retention, and training use; redact before transmission where required."
+      ],
+      "finding_ids": [],
+      "id": "DATA-02",
+      "source_ids": [
+        "NIST-GENAI"
+      ],
+      "sources": [
+        "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Minimize data sent to models and gateways",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI009",
+        "AI033"
+      ],
+      "category": "Data and privacy",
+      "checks": [
+        "Redact secrets and sensitive payloads before logs, traces, exception strings, and dashboards persist them.",
+        "Test the failure paths and provider errors as well as success paths; restrict access and export destinations."
+      ],
+      "finding_ids": [],
+      "id": "DATA-03",
+      "source_ids": [
+        "OWASP-MCP10"
+      ],
+      "sources": [
+        "https://owasp.org/projects/mcp-top-10"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Protect logs, traces, and error responses",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "NIST-SSDF-AI"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Data and privacy",
+      "checks": [
+        "Record source, owner, version, transformation history, and integrity evidence for datasets, retrieval corpora, and memory seeds.",
+        "Quarantine unexpected changes and test how poisoned or stale data is detected, removed, and replaced."
+      ],
+      "finding_ids": [],
+      "id": "DATA-04",
+      "source_ids": [
+        "NSA-DATA"
+      ],
+      "sources": [
+        "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Track provenance and integrity of AI data",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-AGENTS-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Data and privacy",
+      "checks": [
+        "Apply expiry and deletion to prompts, embeddings, caches, memory, tool artifacts, backups, and provider-held data.",
+        "Verify deleting a source record removes or invalidates dependent retrieval content and access grants."
+      ],
+      "finding_ids": [],
+      "id": "DATA-05",
+      "source_ids": [
+        "NIST-GENAI"
+      ],
+      "sources": [
+        "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Enforce retention and deletion across copies",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-CCM",
+        "CIS-AGENTS-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Data and privacy",
+      "checks": [
+        "Check transport verification, storage access controls, encryption settings, key separation, and backup permissions.",
+        "Validate key rotation and denied access using a principal outside the authorized tenant or operational role."
+      ],
+      "finding_ids": [],
+      "id": "DATA-06",
+      "source_ids": [
+        "NSA-DATA",
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/",
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Protect stored data and keys",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "NIST-SSDF-AI",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI018",
+        "AI024",
+        "AI025"
+      ],
+      "category": "Supply chain",
+      "checks": [
+        "Review lockfiles and exact versions or immutable digests for packages, images, MCP servers, models, and plugins.",
+        "Flag runtime installs, floating tags, remote scripts, and dependency sources outside approved registries."
+      ],
+      "finding_ids": [],
+      "id": "SUP-01",
+      "source_ids": [
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Pin and inventory executable dependencies",
+      "validation": "static"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AISMM",
+        "CIS-MCP-2026",
+        "OPENSSF-BASELINE-202608"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Supply chain",
+      "checks": [
+        "Run appropriate package/container advisory tools against resolved dependencies and save database date and tool version.",
+        "Triage reachability, fix availability, support status, and transitive dependencies; source pattern scans do not establish CVE coverage."
+      ],
+      "finding_ids": [],
+      "id": "SUP-02",
+      "source_ids": [
+        "NCSC-SECURE-AI"
+      ],
+      "sources": [
+        "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Check vulnerability and maintenance exposure",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-MAESTRO",
+        "NIST-SSDF-AI",
+        "OWASP-AISVS-C10",
+        "SLSA-12",
+        "OPENSSF-MODEL-SIGNING"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI019",
+        "AI024",
+        "AI035"
+      ],
+      "category": "Supply chain",
+      "checks": [
+        "Verify publisher identity, hashes/signatures, build provenance, and intended origin before enabling artifacts.",
+        "Review model loading and serialization behavior; an integrity hash cannot make an untrusted publisher safe."
+      ],
+      "finding_ids": [],
+      "id": "SUP-03",
+      "source_ids": [
+        "NSA-DATA",
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/",
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Verify artifact identity and provenance",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "NIST-SSDF-AI",
+        "CIS-MCP-2026",
+        "OPENSSF-BASELINE-202608",
+        "SLSA-12"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI020"
+      ],
+      "category": "Supply chain",
+      "checks": [
+        "Restrict CI credentials and workflow permissions; review actions, build scripts, and release provenance.",
+        "Prevent untrusted contributions from executing with deployment secrets or changing approved agent policies."
+      ],
+      "finding_ids": [],
+      "id": "SUP-04",
+      "source_ids": [
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Protect build, release, and configuration changes",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-CCM",
+        "CSA-MAESTRO"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI021",
+        "AI022",
+        "AI023",
+        "AI031",
+        "AI042"
+      ],
+      "category": "Supply chain",
+      "checks": [
+        "Review root/privileged containers, host mounts, Docker sockets, unrestricted egress, debug mode, and public management endpoints.",
+        "Separate agent execution from control-plane credentials and audit storage; test isolation in the deployed environment."
+      ],
+      "finding_ids": [],
+      "id": "SUP-05",
+      "source_ids": [
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Harden runtime isolation and deployment defaults",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Supply chain",
+      "checks": [
+        "When training or fine-tuning, isolate development, evaluation, and production identities, data access, registries, and release permissions.",
+        "Protect datasets, weights, adapters, and configuration separately; monitor modifications and demonstrate that an untrusted training job cannot replace an approved production artifact."
+      ],
+      "finding_ids": [],
+      "id": "SUP-06",
+      "source_ids": [
+        "NIST-SSDF-AI"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/a/final"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Separate and protect model development environments",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-CCM",
+        "CSA-AGENT-IAM",
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Record initiating identity, delegated identity, tool/server/version, approved arguments, decision, outcome, and correlation identifiers.",
+        "Protect log integrity and clock consistency; ensure agents cannot erase their own action history."
+      ],
+      "finding_ids": [],
+      "id": "OPS-01",
+      "source_ids": [
+        "OWASP-MCP10"
+      ],
+      "sources": [
+        "https://owasp.org/projects/mcp-top-10"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Produce attributable audit events",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-SCOPING",
+        "OWASP-AISVS-C9",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Set server-enforced limits for iterations, tokens, tool calls, recursion, parallelism, bytes, cost, and elapsed time.",
+        "Exercise stuck loops and amplification paths; verify limits apply across retries and child agents."
+      ],
+      "finding_ids": [],
+      "id": "OPS-02",
+      "source_ids": [
+        "ASD-HARNESS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Bound work, spending, and concurrency",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AGENT-IAM",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Provide a tested stop mechanism that revokes work, credentials, queued actions, and child tasks.",
+        "Measure stop latency and verify cancelled or disconnected requests cannot later commit prohibited side effects."
+      ],
+      "finding_ids": [],
+      "id": "OPS-03",
+      "source_ids": [
+        "JOINT-AGENTIC"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Make cancellation and shutdown effective",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Deny or escalate when policy, identity, or approval checks fail; prevent fallback paths from widening privilege.",
+        "Test outages, partial failures, timeouts, retries, idempotency, and recovery of transactions with external effects."
+      ],
+      "finding_ids": [],
+      "id": "OPS-04",
+      "source_ids": [
+        "ASD-HARNESS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Fail safely and prevent duplicate side effects",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-CCM",
+        "CSA-AISMM"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Alert on unusual tool use, new destinations, scope growth, repeated denials, cost spikes, and unexpected state changes.",
+        "Validate alerts with seeded events and test rollback of models, prompts, tools, policies, and poisoned memory."
+      ],
+      "finding_ids": [],
+      "id": "OPS-05",
+      "source_ids": [
+        "NCSC-SECURE-AI"
+      ],
+      "sources": [
+        "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Monitor behavior and support rollback",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-CCM",
+        "CSA-AISMM",
+        "OPENSSF-BASELINE-202608"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Maintain procedures to isolate agents, revoke credentials, preserve evidence, notify owners, and recover trusted state.",
+        "Exercise an AI-specific incident and define approved vulnerability/intelligence-sharing channels without exposing sensitive evidence."
+      ],
+      "finding_ids": [],
+      "id": "OPS-06",
+      "source_ids": [
+        "CISA-JCDC"
+      ],
+      "sources": [
+        "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Practice incident response and disclosure",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "MITRE-ATLAS-202609"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Run paired benign and adversarial workflows with representative tools and attacker-controlled external content.",
+        "Record attacker success, authorized task success, blocked benign actions, and the observed unauthorized side effect."
+      ],
+      "finding_ids": [],
+      "id": "TEST-01",
+      "source_ids": [
+        "BENCH-AGENTDOJO",
+        "BENCH-INJECAGENT"
+      ],
+      "sources": [
+        "https://github.com/ethz-spylab/agentdojo",
+        "https://github.com/uiuc-kang-lab/InjecAgent"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Measure prompt-injection security and useful task completion",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "MITRE-ATLAS-202609"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Vary payload wording, placement, modality, attacker knowledge, and attempts; rerun after changing defenses.",
+        "Report per-scenario outcomes, sample counts, attack budget, uncertainty, and model/harness versions instead of only an average."
+      ],
+      "finding_ids": [],
+      "id": "TEST-02",
+      "source_ids": [
+        "NIST-HIJACK-EVAL"
+      ],
+      "sources": [
+        "https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Test adaptively and repeat scenarios",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "In an isolated test environment, exercise invalid tokens, wrong audiences, origin abuse, malicious servers, and protocol fuzzing.",
+        "Adapt scenarios to the deployed MCP revision and transports; preserve request/response evidence with secrets removed."
+      ],
+      "finding_ids": [],
+      "id": "TEST-03",
+      "source_ids": [
+        "BENCH-MCPSECBENCH",
+        "MCP-AUTH"
+      ],
+      "sources": [
+        "https://github.com/AIS2Lab/MCPSecBench",
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Exercise MCP authentication and protocol abuse",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Create two principals and attempt cross-access to objects, memory, caches, handles, subscriptions, and execution results.",
+        "Repeat after reconnect, delegation, failed authentication, concurrent requests, and privilege revocation."
+      ],
+      "finding_ids": [],
+      "id": "TEST-04",
+      "source_ids": [
+        "BENCH-ASB"
+      ],
+      "sources": [
+        "https://github.com/agiresearch/ASB"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Verify cross-tenant and cross-agent isolation",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Use explicit forbidden-action canaries to verify enforcement survives hostile content, tool substitution, and delayed execution.",
+        "Confirm paths through retries, fallback models, alternate tools, and child agents enforce the same boundary."
+      ],
+      "finding_ids": [],
+      "id": "TEST-05",
+      "source_ids": [
+        "OWASP-AGENT-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Test approval, policy, and sandbox bypass",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "NIST-SSDF-AI",
+        "CIS-MCP-2026",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Run language-aware SAST, dependency review, secret scanning, and authorized integration tests for exposed services.",
+        "Exercise reachable injection, XSS, SSRF, path traversal, deserialization, and access-control risks with safe fixtures."
+      ],
+      "finding_ids": [],
+      "id": "TEST-06",
+      "source_ids": [
+        "NIST-SSDF",
+        "OWASP-OUTPUT2025"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/final",
+        "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Verify conventional application security",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Simulate oversized messages, slow peers, streaming floods, repeated errors, runaway agents, and unavailable dependencies.",
+        "Verify quotas, shutdown, telemetry, and alerts work together without leaking payloads or losing attribution."
+      ],
+      "finding_ids": [],
+      "id": "TEST-07",
+      "source_ids": [
+        "ASD-HARNESS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Validate resource exhaustion and observability",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Treat repository text and model verdicts as untrusted; test prompt injection, fabricated locations, invalid JSON, and timeouts.",
+        "Compare against labeled cases, retain deterministic results, document model variability, and never equate a judge approval with control validation."
+      ],
+      "finding_ids": [],
+      "id": "TEST-08",
+      "source_ids": [
+        "NIST-HIJACK-EVAL",
+        "NIST-GENAI"
+      ],
+      "sources": [
+        "https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations",
+        "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Evaluate the optional security judge itself",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Where applicable, assess suspicious triggers, model extraction, and disclosure of private training examples under an explicit attacker access and query budget.",
+        "Retest acquired or retrained models and adapters before release; document measured failures, model identity, coverage limits, and accepted residual risk."
+      ],
+      "finding_ids": [],
+      "id": "TEST-09",
+      "source_ids": [
+        "CSA-MAESTRO",
+        "NIST-SSDF-AI"
+      ],
+      "sources": [
+        "https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro",
+        "https://csrc.nist.gov/pubs/sp/800/218/a/final"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Evaluate model-layer attacks for hosted or customized models",
+      "validation": "dynamic"
+    }
+  ],
+  "coverage": {
+    "analysis_profiles": {
+      "configuration_lexical": {
+        "files": 0,
+        "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+      },
+      "generic_text": {
+        "files": 0,
+        "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
+      },
+      "javascript_lexical": {
+        "files": 0,
+        "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+      },
+      "json_structured": {
+        "files": 4,
+        "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+      },
+      "python_ast": {
+        "files": 25,
+        "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+      }
+    },
+    "errors": [],
+    "limitations": [
+      "Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.",
+      "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.",
+      "No dependencies are installed, target code executed, services contacted, or CVE feed queried.",
+      "Default excluded directories and unsupported files remain outside the selected scan scope.",
+      "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.",
+      "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."
+    ],
+    "rules_enabled": [
+      "AI001",
+      "AI002",
+      "AI003",
+      "AI004",
+      "AI005",
+      "AI006",
+      "AI007",
+      "AI008",
+      "AI009",
+      "AI010",
+      "AI011",
+      "AI012",
+      "AI013",
+      "AI014",
+      "AI015",
+      "AI016",
+      "AI017",
+      "AI018",
+      "AI019",
+      "AI020",
+      "AI021",
+      "AI022",
+      "AI023",
+      "AI024",
+      "AI025",
+      "AI026",
+      "AI027",
+      "AI028",
+      "AI029",
+      "AI030",
+      "AI031",
+      "AI032",
+      "AI033",
+      "AI034",
+      "AI035",
+      "AI036",
+      "AI037",
+      "AI038",
+      "AI039",
+      "AI040",
+      "AI041",
+      "AI042"
+    ],
+    "skipped": [
+      {
+        "coverage_gap": false,
+        "path": "__pycache__",
+        "reason": "default_excluded_directory"
+      }
+    ],
+    "unmatched_baseline_ids": []
+  },
+  "execution": {
+    "exit_code": 0,
+    "failure_threshold": "none",
+    "finding_gate_triggered": false
+  },
+  "files": [
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 140,
+      "path": "__init__.py",
+      "sha256": "575b1f35193c168a0bf5743aaf4d7fd5c1cafe896b9289da55576a0f3a66a964"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 48,
+      "path": "__main__.py",
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 14602,
+      "path": "analyst.py",
+      "sha256": "8477c39ca1230c7d6e1102b72086aac43d2134ba09cac2b39215f782b0034753"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 88975,
+      "path": "analyzer.py",
+      "sha256": "b6163f73a2f348d8a2bc4c2d7221c0f600de864fd5df575906347be2c824e4d3"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 13140,
+      "path": "assessment.py",
+      "sha256": "08cd5e260c9c0d44c908ea7d52aaf3ff35b931f2c04d0c0893a86b2ddc8cf210"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 36405,
+      "path": "cli.py",
+      "sha256": "35939c0004647faf46f3d5d4c58a4b8f4f95b6e57f69922f96d7be6e814b6475"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 34265,
+      "path": "cli_help.py",
+      "sha256": "4d6da8727bcdc4b8d90d1cb4803d8c61c9093bdf87fb6351f005221f102b4e75"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 30853,
+      "path": "cli_judge.py",
+      "sha256": "e1a6d06d47975eb8a4a59b1c1ca9bf0eb19a86b84de40d95f9e00a60f5ed7235"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 25695,
+      "path": "evidence.py",
+      "sha256": "d90146eb7b7211a7323d211371e8386cb4ccc2d5745f760844ae4be73bf3b0f0"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 2049,
+      "path": "fs.py",
+      "sha256": "c8fbe653ed06fefd472e12e514c12cbd387cd6123ca7824fa50c7b3da543254f"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 34306,
+      "path": "image_archive.py",
+      "sha256": "188a3c76f89653061a2c1b0e0b080ac72b8dca1da79b12c25fab95152b34775e"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 25683,
+      "path": "image_assessment.py",
+      "sha256": "2110612cba6c0dad151167835c2efc54e8383105856b2c9ff722d090493ad3c8"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 10446,
+      "path": "image_runtime.py",
+      "sha256": "fe9d794c0d8be6ed13ff86f73ba116dbb14e678c8446f79f9e1983d7a66029e3"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 12116,
+      "path": "image_scan.py",
+      "sha256": "cdd2dfe507c3ab6891ad45b4b8f8e9b503358ad2aa5f95699356b75861597c7a"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 47936,
+      "path": "judge.py",
+      "sha256": "dc8e8d69f936b66814288577f4fa0d0750c86babd0ee3e902fc8bda18df426d9"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 6485,
+      "path": "methodology.py",
+      "sha256": "fa8443a90b982ab75e1c4a128a086f4fd49eb6125f8675bdca06ad35cd5ec343"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 4291,
+      "path": "remediation.py",
+      "sha256": "f743305ef26ecdae2350d2b6f67c91633abe40d928ff79fa125252c5f0da3815"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 37818,
+      "path": "report.py",
+      "sha256": "13aa7b50e3b75a2394da091b0f55bd3af59541d6e325b069d0bd3b894398031b"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 90293,
+      "path": "report_html.py",
+      "sha256": "92aa9b1e16519f8b78af6072ebb60d483e934c1833dea051c582244798101d79"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 47894,
+      "path": "report_pdf.py",
+      "sha256": "0871ec2e87a6747c702f45dfa529084af1c75b5807d87d555c2d4170e6dde658"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 13307,
+      "path": "review_policy.py",
+      "sha256": "a32084449d8e642d16296228b43ce681f4728f1943c14193a3df10568e09c6a5"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 25851,
+      "path": "review_workspace.py",
+      "sha256": "87d3f7e27366cc4f1890e71b2cf8a5fc5911c078ad9d2ea18e2839171ba05b21"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 19423,
+      "path": "rules.py",
+      "sha256": "f17f80dabc834516a0294c3dd04d0febd61ec96e54e020e9093be9d7b73a991d"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 18266,
+      "path": "scanner.py",
+      "sha256": "94ae88f61c50b43c760b2905d304b2237d485c46bfc11864246b51f99b7267f1"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 1916,
+      "path": "security.py",
+      "sha256": "30e3589790b0c7c539632f1d3932c30ac569137787425bcf6eaf3a26751e4ed3"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 49228,
+      "path": "data/controls.json",
+      "sha256": "ecf1007f0280021e35a1544043eae58978038511589ca22df9653a3417988b00"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 99649,
+      "path": "data/mitigations.json",
+      "sha256": "dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 106237,
+      "path": "data/remediations.json",
+      "sha256": "6ea5b70b817f35b68352ce9b7b443b1c01139ba7b94ee2631f5db5ef7521b96e"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 61424,
+      "path": "data/sources.json",
+      "sha256": "cb7d62fe5f3b856a424ddc3b7afa986563a48b5ec2104423055a91fe290d5142"
+    }
+  ],
+  "findings": [],
+  "inventory": {
+    "agent_mcp_signals": [
+      {
+        "path": "analyzer.py",
+        "signals": [
+          "mcpservers"
+        ]
+      },
+      {
+        "path": "cli_judge.py",
+        "signals": [
+          "mcpservers"
+        ]
+      },
+      {
+        "path": "evidence.py",
+        "signals": [
+          "fastmcp",
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "rules.py",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "scanner.py",
+        "signals": [
+          "fastmcp",
+          "modelcontextprotocol",
+          "mcpservers",
+          "langchain",
+          "langgraph",
+          "crewai",
+          "autogen",
+          "agentsdk",
+          "agents.run"
+        ]
+      },
+      {
+        "path": "data/controls.json",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "data/remediations.json",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "data/sources.json",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      }
+    ],
+    "dependency_manifests": [],
+    "extensions": {
+      ".json": 4,
+      ".py": 25
+    }
+  },
+  "judge": {
+    "enabled": false
+  },
+  "methodology": {
+    "areas": [
+      {
+        "area": "Execution and data flow",
+        "can_miss_or_misclassify": "Cross-file flows, dynamic imports, wrappers, reflection, generated code, unsupported languages and runtime values can hide a risk. A dangerous API can also be intentional and correctly constrained.",
+        "deterministic": "Python AST checks with bounded local aliases/values; JavaScript/TypeScript tokens and balanced calls identify selected eval, shell, deserialization, SQL and template patterns.",
+        "optional_review": "A model can explain a retrieved call path, question whether input is trusted and identify contextual concerns the pattern rules do not encode.",
+        "runtime_or_human_validation": "Exercise actual entry points with authorized negative tests; verify input provenance, execution privileges and sandbox boundaries."
+      },
+      {
+        "area": "MCP identity, authorization and tools",
+        "can_miss_or_misclassify": "Configuration may differ from deployment. External gateways, identity providers, token audience checks and tenant boundaries may be absent from retrieved evidence.",
+        "deterministic": "Selected configuration/code signals flag insecure transport, explicit authentication bypass, token passthrough, broad tool grants and unpinned server launch packages.",
+        "optional_review": "A model can review supplied authorization logic, tool descriptions and trust-boundary evidence for missing assumptions or inconsistent checks.",
+        "runtime_or_human_validation": "Test expired/wrong-audience tokens, cross-tenant access, per-tool authorization, consent binding and the deployed MCP transport."
+      },
+      {
+        "area": "Prompt injection, retrieval and memory",
+        "can_miss_or_misclassify": "Adaptive attacks, multi-turn interactions and tool chains depend on runtime behavior. Retrieval can omit the relevant code; a model can overlook an attack or be influenced by hostile evidence.",
+        "deterministic": "Selected patterns identify external content placed in privileged model messages and explicit approval/sandbox bypass. This is not an attack simulation.",
+        "optional_review": "A model can reason about untrusted-content handling, persistent memory, tool-output influence and missing approval boundaries in the supplied excerpts.",
+        "runtime_or_human_validation": "Run isolated adversarial agent/MCP evaluations with attack-success and legitimate-task measurements, plus human review of consequential actions."
+      },
+      {
+        "area": "Secrets and data handling",
+        "can_miss_or_misclassify": "Encoded, split or runtime-fetched credentials can be missed; labels/test values can resemble secrets. Neither layer establishes whether a credential is live or redaction is complete.",
+        "deterministic": "Selected literal credentials, plausible private-key material, credential-bearing URLs, logging patterns and browser credential exposure are flagged and redacted best-effort.",
+        "optional_review": "A model can identify sensitive data flows and retention concerns when the supplied evidence explains their context.",
+        "runtime_or_human_validation": "Verify secret stores, credential rotation, logging/retention policy, egress destinations and actual data-access permissions."
+      },
+      {
+        "area": "Built images and supply chain",
+        "can_miss_or_misclassify": "Compiled logic, live deployment overrides, signature trust and dependency CVEs are not assessed. Package inventory and archive consistency do not establish safety or publisher identity.",
+        "deterministic": "Image archives are reconstructed without starting containers; supported packaged source, metadata, retained credentials, stored permissions and package inventories are inspected.",
+        "optional_review": "A model can interpret supplied image/source evidence, flag missing deployment context and propose verification work.",
+        "runtime_or_human_validation": "Use vulnerability/advisory analysis, provenance/signature verification and deployment testing alongside the static image assessment."
+      },
+      {
+        "area": "Operations and control effectiveness",
+        "can_miss_or_misclassify": "A valid citation proves that a quote exists, not that the model's interpretation is correct. Policies, external services, incident procedures and production outcomes may be unavailable.",
+        "deterministic": "The catalog retains governance, monitoring, recovery, approval and isolation checks even where no deterministic rule maps to them.",
+        "optional_review": "Full review queues every active acceptance check and can identify evidence gaps or propose runtime/human validation; it can cite exact submitted source text.",
+        "runtime_or_human_validation": "Record owner-reviewed evidence, operational exercises and runtime results. A written justification remains an accepted exception, never an automatically validated pass."
+      }
+    ],
+    "catalog": {
+      "checks": 132,
+      "controls": 66,
+      "controls_without_static_mapping": 40,
+      "rules": 42,
+      "statically_mapped_controls": 26
+    },
+    "interpretation": "Mapping counts describe available checks, not percent secure, detection accuracy or validated control effectiveness.",
+    "purpose": "Find repeatable security patterns and organize the remaining assurance work for agents, MCP servers and built images.",
+    "rule_inventory": [
+      {
+        "category": "tool_execution",
+        "id": "AI001",
+        "severity": "high",
+        "title": "Dynamic Python code execution"
+      },
+      {
+        "category": "tool_execution",
+        "id": "AI002",
+        "severity": "high",
+        "title": "Dynamic command executed through a shell"
+      },
+      {
+        "category": "tool_execution",
+        "id": "AI003",
+        "severity": "high",
+        "title": "Dynamic os shell command"
+      },
+      {
+        "category": "deserialization",
+        "id": "AI004",
+        "severity": "high",
+        "title": "Unsafe YAML object construction"
+      },
+      {
+        "category": "deserialization",
+        "id": "AI005",
+        "severity": "high",
+        "title": "Executable deserialization requires trusted inputs"
+      },
+      {
+        "category": "transport_security",
+        "id": "AI006",
+        "severity": "high",
+        "title": "TLS certificate verification disabled"
+      },
+      {
+        "category": "network_exposure",
+        "id": "AI007",
+        "severity": "medium",
+        "title": "Wildcard cross-origin access"
+      },
+      {
+        "category": "network_exposure",
+        "id": "AI008",
+        "severity": "low",
+        "title": "Service binds to all network interfaces"
+      },
+      {
+        "category": "configuration",
+        "id": "AI009",
+        "severity": "medium",
+        "title": "Application debug mode enabled"
+      },
+      {
+        "category": "secrets",
+        "id": "AI010",
+        "severity": "high",
+        "title": "Credential-like literal in source or configuration"
+      },
+      {
+        "category": "secrets",
+        "id": "AI011",
+        "severity": "critical",
+        "title": "Private key material in repository"
+      },
+      {
+        "category": "tool_execution",
+        "id": "AI012",
+        "severity": "high",
+        "title": "Dynamic JavaScript shell execution"
+      },
+      {
+        "category": "tool_execution",
+        "id": "AI013",
+        "severity": "high",
+        "title": "Dynamic JavaScript code execution"
+      },
+      {
+        "category": "ssrf",
+        "id": "AI014",
+        "severity": "medium",
+        "title": "Externally influenced outbound request"
+      },
+      {
+        "category": "filesystem",
+        "id": "AI015",
+        "severity": "medium",
+        "title": "Externally influenced filesystem path"
+      },
+      {
+        "category": "filesystem",
+        "id": "AI016",
+        "severity": "medium",
+        "title": "Race-prone temporary filename creation"
+      },
+      {
+        "category": "authentication",
+        "id": "AI017",
+        "severity": "high",
+        "title": "JWT verification explicitly bypassed"
+      },
+      {
+        "category": "supply_chain",
+        "id": "AI018",
+        "severity": "medium",
+        "title": "MCP package runner resolves an unpinned artifact"
+      },
+      {
+        "category": "supply_chain",
+        "id": "AI019",
+        "severity": "high",
+        "title": "Remote download piped directly to a shell"
+      },
+      {
+        "category": "supply_chain",
+        "id": "AI020",
+        "severity": "medium",
+        "title": "GitHub Action reference is not pinned to a commit"
+      },
+      {
+        "category": "sandboxing",
+        "id": "AI021",
+        "severity": "medium",
+        "title": "Container explicitly runs as root"
+      },
+      {
+        "category": "sandboxing",
+        "id": "AI022",
+        "severity": "high",
+        "title": "Privileged container or privilege escalation enabled"
+      },
+      {
+        "category": "sandboxing",
+        "id": "AI023",
+        "severity": "high",
+        "title": "Container runtime socket exposed"
+      },
+      {
+        "category": "supply_chain",
+        "id": "AI024",
+        "severity": "low",
+        "title": "Container image is not digest pinned"
+      },
+      {
+        "category": "supply_chain",
+        "id": "AI025",
+        "severity": "low",
+        "title": "Direct dependency is not exactly pinned"
+      },
+      {
+        "category": "authentication",
+        "id": "AI026",
+        "severity": "high",
+        "title": "Authentication explicitly disabled"
+      },
+      {
+        "category": "authorization",
+        "id": "AI027",
+        "severity": "high",
+        "title": "Wildcard tool or permission authorization"
+      },
+      {
+        "category": "authentication",
+        "id": "AI028",
+        "severity": "high",
+        "title": "MCP token passthrough enabled"
+      },
+      {
+        "category": "transport_security",
+        "id": "AI029",
+        "severity": "high",
+        "title": "Remote MCP URL uses plaintext HTTP"
+      },
+      {
+        "category": "secrets",
+        "id": "AI030",
+        "severity": "medium",
+        "title": "Browser-side API credential access explicitly enabled"
+      },
+      {
+        "category": "agent_permissions",
+        "id": "AI031",
+        "severity": "high",
+        "title": "Agent approval or sandbox safeguard explicitly bypassed"
+      },
+      {
+        "category": "prompt_injection",
+        "id": "AI032",
+        "severity": "medium",
+        "title": "External data inserted into privileged LLM instructions"
+      },
+      {
+        "category": "data_protection",
+        "id": "AI033",
+        "severity": "medium",
+        "title": "Potential secret included in logging call"
+      },
+      {
+        "category": "data_protection",
+        "id": "AI034",
+        "severity": "high",
+        "title": "Credential-like value embedded in URL query"
+      },
+      {
+        "category": "model_supply_chain",
+        "id": "AI035",
+        "severity": "high",
+        "title": "Unsafe model checkpoint deserialization"
+      },
+      {
+        "category": "tool_execution",
+        "id": "AI036",
+        "severity": "high",
+        "title": "SQL query constructed with interpolation"
+      },
+      {
+        "category": "filesystem",
+        "id": "AI037",
+        "severity": "medium",
+        "title": "Archive extraction without an explicit safe filter"
+      },
+      {
+        "category": "authentication",
+        "id": "AI038",
+        "severity": "medium",
+        "title": "Cryptographically weak randomness used for a security value"
+      },
+      {
+        "category": "tool_execution",
+        "id": "AI039",
+        "severity": "high",
+        "title": "Server-Side Template rendered from a dynamic template"
+      },
+      {
+        "category": "output_handling",
+        "id": "AI040",
+        "severity": "medium",
+        "title": "Unsafe HTML rendering boundary"
+      },
+      {
+        "category": "authentication",
+        "id": "AI041",
+        "severity": "high",
+        "title": "MCP inspector authorization explicitly disabled"
+      },
+      {
+        "category": "sandboxing",
+        "id": "AI042",
+        "severity": "high",
+        "title": "Container uses host namespaces"
+      }
+    ],
+    "schema_version": "1.0",
+    "workflow": [
+      "Choose an explicit code/image target and scan configuration; no target code or container is started.",
+      "Collect bounded deterministic evidence, record hashes, rule matches, exclusions and coverage gaps.",
+      "When explicitly enabled, select bounded evidence for finding triage and every active control check; findings-only mode narrows this step.",
+      "Run advisory model requests under fixed limits; validate response schemas, known identifiers and exact evidence quotes. The model cannot select files or execute tools through the review controller.",
+      "Retain unsupported claims and runtime/human requirements; record user review decisions separately from model advice.",
+      "Import an explicitly selected reviewed report with a fresh target scan; revalidate evidence bindings, retain stale decisions for audit and recompute the result."
+    ]
+  },
+  "mode": "deterministic_static",
+  "remediation": {},
+  "review_workspace": {
+    "items": [
+      {
+        "binding_sha256": "22097516760bfc5b30b35c36a47b0a6a3330d4ff5ad9bd0a55eded42f88302e8",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-01:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-01:1 Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints."
+      },
+      {
+        "binding_sha256": "18512a65f04a4b980c04bc85b9dfae9624c2fefcd307494d57b4c2c87dcd055a",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-01:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-01:2 Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers."
+      },
+      {
+        "binding_sha256": "f62386c2db65096ae159e0ab98818c08474a4d989b052cf3675eb4aaed55cf65",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-02:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-02:1 Diagram user, model, memory, tool, server, gateway, and downstream service boundaries with their credentials."
+      },
+      {
+        "binding_sha256": "af0338d74a385cc14ae4b76f004ff71fd5b9dac0012861cc994817472fab3891",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-02:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-02:2 Identify who controls each input and the highest-impact action reachable if that input is malicious."
+      },
+      {
+        "binding_sha256": "deef4f6e94729cd52acc1af0b077de0812e26e31b084d0e7cc7515ccf2633f31",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-03:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-03:1 Assign an owner to each autonomous action and document permitted purposes, forbidden outcomes, and escalation routes."
+      },
+      {
+        "binding_sha256": "0a4675f67f22929fa2ca02a5abc3fc0bffd165a435f5cdfcb1236561974810d2",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-03:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-03:2 Record impact, reversibility, approval requirements, and accepted residual risk before production use."
+      },
+      {
+        "binding_sha256": "07d84dc26db9a94326340fa4499ff1894609e90bb42dd6e7c418de3ec2e61231",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-04:1 Give each control an owner, evidence link, validation date, result, and next review date."
+      },
+      {
+        "binding_sha256": "8f12153541998e045095ff1b6998cae1bca7c1dcdcbaf373ad5e383190f4cc3e",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-04:2 Time-limit exceptions and require a compensating control; distinguish untested behavior from demonstrated failure."
+      },
+      {
+        "binding_sha256": "64f644b45402cc67c32c0429a6ad2482cae693878ce54ce274a8cb5c08bb3fd4",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-05:1 Review security impact when adding a model, tool, server, data source, skill, or broader permission."
+      },
+      {
+        "binding_sha256": "289269f0a630172371956589b537c5aea560f576e0c200a2a04848e1049d7828",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-05:2 Require deployment evidence for the complete configured system; a model-only score is insufficient."
+      },
+      {
+        "binding_sha256": "b6fce3c735d21dbe18f46b239cae1e20bd8470da05b0538a9f2018642ad22b10",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-06:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-06:1 For each model, gateway, orchestrator, MCP service, and cloud provider, document which party implements each applicable safeguard and which customer configuration it depends on."
+      },
+      {
+        "binding_sha256": "4847e90db235cbf2d20a495b74431f0f88a0da7ecbb233893540de2076248690",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:GOV-06:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "GOV-06:2 Obtain current supplier evidence for inherited safeguards, identify unowned gaps, and record reassessment triggers in the service review."
+      },
+      {
+        "binding_sha256": "6df6469a0c8c02f71111fc20cc092e873cddbe6aee1db4e8f08a246639af61fa",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-01:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-01:1 Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries."
+      },
+      {
+        "binding_sha256": "3f8462987a8b65e6ca3dadd1edd7551d2d1df8c4f1c5aee683076a2e9ec15baf",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-01:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-01:2 Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation."
+      },
+      {
+        "binding_sha256": "54d1f7e3f0bce4f0051a97b36ffc4dd72710cf465a4c1020d4e6b3b80ffc90ef",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-02:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-02:1 Check user/agent identity, tenant, tool, target object, and requested operation immediately before execution."
+      },
+      {
+        "binding_sha256": "f629207281ce63013a3397b4623d35be5dad3ad472420e286adc6a977d68b3e4",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-02:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-02:2 Deny by default; test read-only callers against write tools and object identifiers owned by another user."
+      },
+      {
+        "binding_sha256": "c98ea7fb21d0b2577cc4a31086a3638cecf389bad06649d6da3db5c98e887ce0",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-03:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-03:1 Verify signature with trusted keys, allowed algorithms, expected issuer/audience, expiry, and required scopes."
+      },
+      {
+        "binding_sha256": "6592ef79092d2090b69837536f530f8e9d8732807064118e0e866f36f814a11a",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-03:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-03:2 Reject unsigned tokens and tokens minted for another service; decoding a JWT alone is not validation."
+      },
+      {
+        "binding_sha256": "0b27a2f86b03c8cef2310363c95720c51eac3d382aaec1bd02398eb11437ac0d",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-04:1 Use audience-bound MCP credentials and separately authorized downstream credentials; never forward arbitrary caller tokens."
+      },
+      {
+        "binding_sha256": "4f872ca4ee6bf2a87889a11fee3d65ea30f7220040cc96b249877846b4c892a5",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-04:2 Ensure a proxy cannot use its broader service identity to perform an action the caller cannot authorize."
+      },
+      {
+        "binding_sha256": "aaa8a2222844572a812e4d7840eea4712b0b1695a642120de42cc6bead2a9aa7",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-05:1 Use short-lived scoped credentials where supported, protect refresh tokens, and validate rotation and revocation."
+      },
+      {
+        "binding_sha256": "d39a67af6652cdced038b1dd65c93e8a18c1ca9ab08cab8984acb3e282d49fc0",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-05:2 Avoid tokens in query strings, model context, source, child-process arguments, and diagnostic output."
+      },
+      {
+        "binding_sha256": "2422afaf09ecb46ebc3e60e818ffb50bd498c95cea884e48ba5bd4d2add94952",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-06:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-06:1 Test PKCE support and S256, exact registered redirects, transaction binding, and authorization-response issuer validation."
+      },
+      {
+        "binding_sha256": "4adec95cb3ec8e772c99149e316b24769f87e9c825fd137ecbf61a27152bc30a",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-06:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-06:2 Reject replayed codes, mismatched issuers, unsafe redirect schemes, and unsolicited callback transactions."
+      },
+      {
+        "binding_sha256": "b62e3acd59f9b4331e0060f6ab038a599e9138615319136fd1a5384856f385e5",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-07:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-07:1 Validate discovered metadata and client metadata URLs before fetching; constrain schemes, destinations, redirects, and response sizes."
+      },
+      {
+        "binding_sha256": "fb1cac9c617d7f4a9e57e4713247764fe9abb52b51532f7d4282908d18f46475",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-07:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-07:2 Document trust policy for client registration and prevent discovery from reaching internal metadata or privileged network services."
+      },
+      {
+        "binding_sha256": "75cea7524b6c975b16ff853bb9c24f90c679ad2f72a1c74edf91a671cd51660f",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-08:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-08:1 Carry authenticated initiator and delegation identity through multi-agent calls instead of trusting identity fields in text."
+      },
+      {
+        "binding_sha256": "1ae2663be180885bbd731bccee6a365f4ed0f5c4eaae42098e37aeda52c48691",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-08:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-08:2 Prevent agents from granting themselves privileges; limit delegation scope, depth, lifetime, and downstream audiences."
+      },
+      {
+        "binding_sha256": "9f08cdf365495862c7aec8f115ce4b3ca9b81ae13f7723a06cb7d9a25343e16e",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-09:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-09:1 Enroll agents under an accountable sponsor and approved workload identity; verify identity claims before issuing credentials or granting discovery and execution access."
+      },
+      {
+        "binding_sha256": "b51b864cef824554378bf52fcffd5464a1702e4b2e32db74fb07b1268016c4cc",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AUTH-09:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AUTH-09:2 Test retirement, sponsor departure, redeployment, and identity compromise; remove stale credentials, cached grants, registrations, and downstream access."
+      },
+      {
+        "binding_sha256": "e25f394615f1957bd04b6698d77732a2892896e7a5f40c93b5efe26b02e10045",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-01:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-01:1 For HTTP, reject invalid Origin values and verify local deployments bind only to intended interfaces."
+      },
+      {
+        "binding_sha256": "645044e3d29b65b5366ee10a69d5247413bb055420d52d6286391690081ed2f7",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-01:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-01:2 Use TLS for remote protected endpoints; test DNS rebinding and proxy/header behavior in deployment."
+      },
+      {
+        "binding_sha256": "ce73109941cfea51bacfae4362ac74c0a6820f0cca72bb643d29f46e65340662",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-02:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-02:1 Apply schemas and semantic bounds before executing every tool; reject unknown properties where appropriate."
+      },
+      {
+        "binding_sha256": "b81fa343252a776e00270d983dd019de975b3469824b3a1ec13c156af3fee865",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-02:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-02:2 Bound sizes and nesting; validate declared structured output and render errors without leaking secrets."
+      },
+      {
+        "binding_sha256": "f3074b12d0d97b5d9faf32aa47be622b5c75abde8ea3fd3733d6c99d9a2f7aa9",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-03:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-03:1 Inspect descriptions, schemas, resources, icons, and results for instructions that cross tool or user boundaries."
+      },
+      {
+        "binding_sha256": "ccb3c191600c1f3e61d9a4b7ca1e08a83c1317482966c27fed5342568958fd7d",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-03:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-03:2 Never let readOnlyHint, destructiveHint, or other server claims replace independent authorization and approval policy."
+      },
+      {
+        "binding_sha256": "5f545ded59a36dcde7a92b851444f42c25c340823f7c4fc469d2569e3e1d8a78",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-04:1 Bind tool approval to verified server identity and the reviewed tool definition or version."
+      },
+      {
+        "binding_sha256": "0e81f523e15ea0d4a7849cf93ee5ae513739a3dd030749d6613175fc9d87f85e",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-04:2 Revalidate changes after reconnect/list updates; disambiguate collisions across servers without trusting display names."
+      },
+      {
+        "binding_sha256": "d2542fb551d4d5ace732fd907b5f14e7c0575219e615df0208811253b6c9965e",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-05:1 Authorize every state handle against its owner and tenant; enforce expiry, unpredictability, and replay boundaries."
+      },
+      {
+        "binding_sha256": "4b0216195f22de6e19005dc1ed13935e79272b56396e70c0c8e20909d933df2c",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-05:2 For older sessionful protocol versions, test session hijacking and cross-user resumption; a session ID is not authentication."
+      },
+      {
+        "binding_sha256": "f0696151a977f6a652a2d5e3a0cb0aa9179114180aea2a73d09467cf2fd64686",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-06:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-06:1 Apply host policy and user control to sampling requests, context sharing, model selection, and associated tool access."
+      },
+      {
+        "binding_sha256": "0e32bef3fee05848603b6d7f28c592b729b2396c85358a8eb0eb9d673c520b1c",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-06:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-06:2 Test whether an untrusted server can induce disclosure from unrelated conversations or recursively consume model budget."
+      },
+      {
+        "binding_sha256": "4a1781deef40e31679c474bcd9e672b4590f2a6bfb777811ad4023c9607296e1",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-07:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-07:1 Keep sensitive credential collection out of form-mode elicitation; validate and visibly identify URL destinations."
+      },
+      {
+        "binding_sha256": "bab76f9c7e6fc2c1ba26982bbd415f906b9f30104583c6f0a14ce1460c80e614",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-07:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-07:2 Test cancellation, phishing URLs, unsolicited interactions, and replayed completion state against the selected protocol version."
+      },
+      {
+        "binding_sha256": "e6fb43343046438d85a1b33e948b4a40723f2bf05fcacf0f36578b948ea76762",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-08:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-08:1 Treat declared roots as scoped information, not an operating-system sandbox or complete authorization mechanism."
+      },
+      {
+        "binding_sha256": "c3290f2a0318e5261b52d41037fb449f78dc982b7199a5c4a406b9b16c5044ec",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-08:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-08:2 Enforce allowed paths at file access and test traversal, symlinks, alternate encodings, and writes outside the workspace."
+      },
+      {
+        "binding_sha256": "89e13a0354f8a0e93a1dd7e8b5d29efe79eb86d06b7a6582e9370f11829d723c",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-09:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-09:1 Approve executable and package identity before starting a stdio server; use argument arrays and a minimal environment."
+      },
+      {
+        "binding_sha256": "b59e5dbd8e75dc5c641f23c1135f0ee68931f4e913060b98312137ef7dbdedef",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-09:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-09:2 Restrict proxy process-spawn APIs and child filesystem/network permissions; separate stdout protocol traffic from logs."
+      },
+      {
+        "binding_sha256": "37d25d1111594ec62ef1f5923b79071521a31924d5d3f2b396da6bc2c44d33b4",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-10:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-10:1 Record supported revisions and test their capability, metadata, header consistency, stream, and cancellation rules."
+      },
+      {
+        "binding_sha256": "44c2f2bddcc7c0a1a12f2580d2af338fb9e43c8424b0ca3062b30cad45a7a445",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:MCP-10:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "MCP-10:2 Prevent caches and request continuations from crossing authorization contexts; do not apply legacy handshake assumptions universally."
+      },
+      {
+        "binding_sha256": "394c921b400cb2eb28f21436f981d1e1c736edcc0b618af74884556f27f9941b",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-01:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-01:1 Place allow/deny decisions at the execution boundary using trusted policy inputs and constrained tool capabilities."
+      },
+      {
+        "binding_sha256": "11572a14c7ed6f93c4c28cb329687b1bd1d13be91ffe8484a07344df30b1b85f",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-01:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-01:2 Show that an injected instruction cannot disable policy, choose privileged credentials, or bypass approval."
+      },
+      {
+        "binding_sha256": "56049d18dd50f867572754651a7b46feb351f8be9ff08d2c1a0ff89712afa9e2",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-02:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-02:1 Present actual recipient, target, arguments, data disclosure, and consequences for high-impact approval."
+      },
+      {
+        "binding_sha256": "4cb404cbcd4895b4a0d7cf1d1a6bd1de390dda637a37ec6d710e193777b66170",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-02:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-02:2 Invalidate approval if arguments or target change; test races, delayed retries, and approval reuse."
+      },
+      {
+        "binding_sha256": "62d3e05d2634299a4d6fa4c5c8aff5865c93b2f00de0dbc4e034cf5fdc8a5a2d",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-03:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-03:1 Track origin and trust level for web pages, documents, messages, OCR, tool results, and repository instructions."
+      },
+      {
+        "binding_sha256": "e4f8964f563cabc56e91dfd1cfa9e90441ad38497896480027dff344c9930ba1",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-03:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-03:2 Test direct and indirect goal hijacking; formatting delimiters and prompt warnings alone are not access controls."
+      },
+      {
+        "binding_sha256": "85c69b2e53c5d900ed860158616ed721bcdb0f8521e8d2310dabc5cb84261407",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-04:1 Enforce document and memory ACLs at retrieval and update time, including vector search metadata filters."
+      },
+      {
+        "binding_sha256": "16ca1915b7ebbc35aadb70ea6a33a8edbfa5ce4899cedcd379d381adfa8ff259",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-04:2 Test poisoned memory persistence, cross-tenant retrieval, provenance loss, deletion, and stale privileged context."
+      },
+      {
+        "binding_sha256": "91f6802834a8ca85479e875b7a7feb1e276d531883f891aebd416eaeb6fd82d8",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-05:1 Constrain delegated tasks and verify messages against authenticated senders, expected schemas, and allowed transitions."
+      },
+      {
+        "binding_sha256": "b749e585dce0a0ef03299b9b3e7231b333b1b196d14036374f5c024bf042d24f",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-05:2 Test impersonation, conflicting instructions, cascading failure, and privilege growth across handoffs."
+      },
+      {
+        "binding_sha256": "8f82fedd35e2ef002980c28202950f56881113a5ffb2efc68d2c47f1c31eca99",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-06:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-06:1 Inventory skill files, prompts, hooks, memory seed files, MCP configuration, and other executable workflow inputs."
+      },
+      {
+        "binding_sha256": "6667e97d671db9cc9100ce053050d79f415ff2b515c8a423c4ab1a8575fcbea5",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-06:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-06:2 Require review for changes that add commands, access, or persistence; external repository text cannot become trusted policy."
+      },
+      {
+        "binding_sha256": "83b407671a5cba7db511aa2a0a41a7c7018c99719f99e8d7205d70ab3a410f10",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-07:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-07:1 Apply destination and data policies to URLs, searches, tickets, messages, uploads, and telemetry generated by agents."
+      },
+      {
+        "binding_sha256": "f430e7c05130b6c1172206cb3af50434f7c7cc2d54e7ba6dfd9da11801a774ec",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:AGT-07:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "AGT-07:2 Use canary data to test encoded leakage and combinations of otherwise permitted tools."
+      },
+      {
+        "binding_sha256": "b9885df7d614722846e9dd6527fa82b17d04136dc4474dfdb7b5f71678460043",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-01:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-01:1 Find shell execution and constructed command strings; use fixed executables, argument arrays, and allowed argument values."
+      },
+      {
+        "binding_sha256": "83a1c496afa418eeb9148812bc32d7b38b2f4630e2afb0dcb663f71a5e366eb0",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-01:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-01:2 Test untrusted tool inputs containing shell syntax, option injection, command substitution, and hostile filenames."
+      },
+      {
+        "binding_sha256": "f13c3e647a871ebdadafacc2056e7f334f2be3a8373166c2691908e77957c54e",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-02:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-02:1 Locate eval, exec, dynamic imports, templates, notebooks, and interpreter tools accepting model or user content."
+      },
+      {
+        "binding_sha256": "59cb034b8982bb455f38fb71ce6fd0abb1a6c5c0f124f1f9bde90a00e2b074b4",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-02:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-02:2 Run required code execution in a disposable restricted environment with explicit filesystem, network, CPU, and time limits."
+      },
+      {
+        "binding_sha256": "aafaf73becbf625b24737b1f18b5918219647fa0ec617d70328b26873becf758",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-03:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-03:1 Use bound query parameters and allowed query shapes; inspect SQL, NoSQL, graph, and search-language construction."
+      },
+      {
+        "binding_sha256": "5fccf22d3571fdb3b30acba1c5f19716c50628ddc5231924907bfeb252027872",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-03:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-03:2 Separate read/write database identities and test whether generated queries can escape permitted objects or operations."
+      },
+      {
+        "binding_sha256": "ac55b811c5e7f7f082f6cebf132082c23d19e52a40349216659189e38f60369a",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-04:1 Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions."
+      },
+      {
+        "binding_sha256": "738e4203a6f98e76fdddaf0250753fb1094cee5f32908e2dfda11dd280bee618",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-04:2 Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads."
+      },
+      {
+        "binding_sha256": "1292cca284a79060a3c02b81e23fd99b2ab7016db3914526c0c9fa13a444035b",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-05:1 Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect."
+      },
+      {
+        "binding_sha256": "08b2b7eafd2b00c54dd093423afccac5ce5d0d27e14091e3124245c7d7a4474f",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-05:2 Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."
+      },
+      {
+        "binding_sha256": "68fba4b068f535756de5fc9e107ae3674061022155fef8dada3bb8a57c983fb5",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-06:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-06:1 Inspect pickle, unsafe YAML, object deserialization, XML entity expansion, and unconstrained recursive parsers."
+      },
+      {
+        "binding_sha256": "c3017680130631d3410344dcc6ab1ee32afa3598d59ddf0094cb62973816c846",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-06:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-06:2 Use data-only formats with byte, nesting, and type limits; test malformed input and expansion attacks."
+      },
+      {
+        "binding_sha256": "3a244e6a32418e696082582b6b0bd8e6843054e91350983b6d1df45666d1dff9",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-07:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-07:1 Use context-specific escaping for HTML/Markdown, avoid unsafe DOM sinks, and validate links and embedded media."
+      },
+      {
+        "binding_sha256": "13ed4ef0e733f1dc37094bf036facf132a9a1de0b9e6a2fef670f6c4bf261401",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-07:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-07:2 Test active SVG/HTML, malicious URLs, terminal escapes, and spreadsheet formulas in exported reports."
+      },
+      {
+        "binding_sha256": "13938a13fcf94f494da504e4c9d11559009a686108c764caa205d6a2d140a957",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-01:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-01:1 Inspect code, examples, configuration, notebooks, test fixtures, and generated artifacts for secret-like values."
+      },
+      {
+        "binding_sha256": "54cce3b983023598fa3344d3f692b4ee4c94f5c4c0470bfe69de543803629c3f",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-01:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-01:2 Verify actual exposures with the owner, rotate real credentials, and remove them from reachable history and artifacts."
+      },
+      {
+        "binding_sha256": "15604914937eec05b08e6175fd3065a0824a0c600eee8972d858d6c2bf0ab67b",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-02:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-02:1 Map which prompts, tool outputs, memory, and code leave the environment and identify the receiving provider/gateway."
+      },
+      {
+        "binding_sha256": "1b5ac330ec10c72a3d9f9dfef0fd1ca0164e57e6e9d6a688d73b3f7f1bd741cf",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-02:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-02:2 Document allowed data classes, processing location, retention, and training use; redact before transmission where required."
+      },
+      {
+        "binding_sha256": "2325422274904614b370154ca8b4c64135b3c1d34fb87749b85b24241ca40820",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-03:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-03:1 Redact secrets and sensitive payloads before logs, traces, exception strings, and dashboards persist them."
+      },
+      {
+        "binding_sha256": "772a6ee57fcaeb76e7e4579f67edd3c058ae9fa137f63173642f58dbd94fec6b",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-03:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-03:2 Test the failure paths and provider errors as well as success paths; restrict access and export destinations."
+      },
+      {
+        "binding_sha256": "e4dd284bbede983c152b18e722c8ea3f75393ec1dc416297e77f2fcf238cce58",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-04:1 Record source, owner, version, transformation history, and integrity evidence for datasets, retrieval corpora, and memory seeds."
+      },
+      {
+        "binding_sha256": "faee17b42dce83eabf2c896d62e1e8e4dab0746c00f708c7a5c03cf75e27e46e",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-04:2 Quarantine unexpected changes and test how poisoned or stale data is detected, removed, and replaced."
+      },
+      {
+        "binding_sha256": "2536d1988eb3feab11ecc56dff915fd7d72e1391370e4954f401b68d480a4637",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-05:1 Apply expiry and deletion to prompts, embeddings, caches, memory, tool artifacts, backups, and provider-held data."
+      },
+      {
+        "binding_sha256": "f215784fe8228eb623016b357c9343b1d65f46127fbd2c82bd86d5222af34926",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-05:2 Verify deleting a source record removes or invalidates dependent retrieval content and access grants."
+      },
+      {
+        "binding_sha256": "b798590db5713b18f483369869b7638ceb07cc789d0fedd81ef255d0b29d8186",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-06:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-06:1 Check transport verification, storage access controls, encryption settings, key separation, and backup permissions."
+      },
+      {
+        "binding_sha256": "2e93e49ee870385ace89f91805308fb9fea850272239826d314d35c1790b87bb",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:DATA-06:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "DATA-06:2 Validate key rotation and denied access using a principal outside the authorized tenant or operational role."
+      },
+      {
+        "binding_sha256": "a5c71ec72c96881dcb3129a1c0819bc5f4b87f20551f38b08b35edde5bfa20da",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-01:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-01:1 Review lockfiles and exact versions or immutable digests for packages, images, MCP servers, models, and plugins."
+      },
+      {
+        "binding_sha256": "2ea1057e78bddc01589e870b1bb66fbafce024698cb18a62f3edb87845c75e90",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-01:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-01:2 Flag runtime installs, floating tags, remote scripts, and dependency sources outside approved registries."
+      },
+      {
+        "binding_sha256": "1f6ebf56ac7aa0e4ec08a00e9868d08bda368df366afbcd7da3aa67157bf37be",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-02:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-02:1 Run appropriate package/container advisory tools against resolved dependencies and save database date and tool version."
+      },
+      {
+        "binding_sha256": "8f8ff9ca4eea3c1c4c2ad6021f2bbadeb2410b4e19213132bfb9488b96972673",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-02:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-02:2 Triage reachability, fix availability, support status, and transitive dependencies; source pattern scans do not establish CVE coverage."
+      },
+      {
+        "binding_sha256": "4dc337e3fa012c0e63fa70f3bddacfd7db7a2abd1eadcc71f60142e96713732c",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-03:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-03:1 Verify publisher identity, hashes/signatures, build provenance, and intended origin before enabling artifacts."
+      },
+      {
+        "binding_sha256": "921121bdcfa5146804fc67b73c022014304c299306218a7925069cec89f2ec97",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-03:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-03:2 Review model loading and serialization behavior; an integrity hash cannot make an untrusted publisher safe."
+      },
+      {
+        "binding_sha256": "c221e3f87c735f23919168ec2a6ad1bcd3306e2b91e0ec6a9cf32d7ae6f82fd6",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-04:1 Restrict CI credentials and workflow permissions; review actions, build scripts, and release provenance."
+      },
+      {
+        "binding_sha256": "d4de620745647ea8686c928c7728cc9774638e1998ebc184ae98ecb38adefa37",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-04:2 Prevent untrusted contributions from executing with deployment secrets or changing approved agent policies."
+      },
+      {
+        "binding_sha256": "c6dcbc9701dfe3c8d0a9b042bfdf8db4904beb49473d17c5702586307d72e8e1",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-05:1 Review root/privileged containers, host mounts, Docker sockets, unrestricted egress, debug mode, and public management endpoints."
+      },
+      {
+        "binding_sha256": "461709b846d79def6e661272720ebe0be199e82eca85404fecc359ff15eee33b",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-05:2 Separate agent execution from control-plane credentials and audit storage; test isolation in the deployed environment."
+      },
+      {
+        "binding_sha256": "c9f3213d5e44082f5d1c31ada138729e0908b7dc482e78f401d5c79a1d9369d8",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-06:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-06:1 When training or fine-tuning, isolate development, evaluation, and production identities, data access, registries, and release permissions."
+      },
+      {
+        "binding_sha256": "d5ebf4034fbf5d68f583f4b875a443939979590798687b76363a3539e4674adb",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:SUP-06:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "SUP-06:2 Protect datasets, weights, adapters, and configuration separately; monitor modifications and demonstrate that an untrusted training job cannot replace an approved production artifact."
+      },
+      {
+        "binding_sha256": "1dc064c45553f342d02378079c48b2b4f693be65eef4ca7099b1d1a92bd5656f",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-01:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-01:1 Record initiating identity, delegated identity, tool/server/version, approved arguments, decision, outcome, and correlation identifiers."
+      },
+      {
+        "binding_sha256": "832837e7fe6981ca7d73a6bcac72a292b0529b0e2b7ebc4103ae638b70ec61c4",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-01:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-01:2 Protect log integrity and clock consistency; ensure agents cannot erase their own action history."
+      },
+      {
+        "binding_sha256": "966c63a78a5bc2586f7442db4695937fcbc02cfd3bccc9161bc19f19de6c9246",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-02:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-02:1 Set server-enforced limits for iterations, tokens, tool calls, recursion, parallelism, bytes, cost, and elapsed time."
+      },
+      {
+        "binding_sha256": "c097e06586d3cff3598457a4e1d9ed395aae2c528e0fea2bc2e1ab5b2f679d13",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-02:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-02:2 Exercise stuck loops and amplification paths; verify limits apply across retries and child agents."
+      },
+      {
+        "binding_sha256": "16027d5103b8d0b3a828b5d0f7706ea92a282f9e1c5136cbba17352518c0690e",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-03:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-03:1 Provide a tested stop mechanism that revokes work, credentials, queued actions, and child tasks."
+      },
+      {
+        "binding_sha256": "f123c8f61a04d71efe5188b970f69e9253409f85c84788df7b1d3031591b4e1a",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-03:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-03:2 Measure stop latency and verify cancelled or disconnected requests cannot later commit prohibited side effects."
+      },
+      {
+        "binding_sha256": "65b0820e3e10e677efbd96b81d2a12ea932f609865a43ac931deb5563e8633cd",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-04:1 Deny or escalate when policy, identity, or approval checks fail; prevent fallback paths from widening privilege."
+      },
+      {
+        "binding_sha256": "7245bfe0d0d3657d38807e175762c7c2589426503c651ccc2688f34cd7b87b49",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-04:2 Test outages, partial failures, timeouts, retries, idempotency, and recovery of transactions with external effects."
+      },
+      {
+        "binding_sha256": "27a82f336d7dd9609c585ec5792053f0b851c7ba378c62f476620e86ecce92ef",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-05:1 Alert on unusual tool use, new destinations, scope growth, repeated denials, cost spikes, and unexpected state changes."
+      },
+      {
+        "binding_sha256": "6c1281206dbef65d2a3ab03fa02788810d16fd7edeb9fa0716b92d76905a885a",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-05:2 Validate alerts with seeded events and test rollback of models, prompts, tools, policies, and poisoned memory."
+      },
+      {
+        "binding_sha256": "75ced74effc2475fa5aab594e9f69227141e04d5198244ec16fda0861d680d3d",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-06:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-06:1 Maintain procedures to isolate agents, revoke credentials, preserve evidence, notify owners, and recover trusted state."
+      },
+      {
+        "binding_sha256": "febeeb13bfb7179887183f2c36cae46f6491f5ab17e16b607e47075582f9227f",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:OPS-06:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "OPS-06:2 Exercise an AI-specific incident and define approved vulnerability/intelligence-sharing channels without exposing sensitive evidence."
+      },
+      {
+        "binding_sha256": "e0abf1bf9514c54846f1b0e2eee653eb8d947dadbaf9950eb227da60b6fd42c9",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-01:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-01:1 Run paired benign and adversarial workflows with representative tools and attacker-controlled external content."
+      },
+      {
+        "binding_sha256": "f72af9b46b7dde8ccc79bbd38f2ef7cfeef33f5ae479a66b670f4868682d59b8",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-01:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-01:2 Record attacker success, authorized task success, blocked benign actions, and the observed unauthorized side effect."
+      },
+      {
+        "binding_sha256": "87c4ba65b5ea66ae4af93eb9744b782f1ff88d7c9f8201cac694f25e4130973b",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-02:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-02:1 Vary payload wording, placement, modality, attacker knowledge, and attempts; rerun after changing defenses."
+      },
+      {
+        "binding_sha256": "fb555924f368d35d0b48e99da1c468817baed0ad1dda4bfa4d1888bde142379d",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-02:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-02:2 Report per-scenario outcomes, sample counts, attack budget, uncertainty, and model/harness versions instead of only an average."
+      },
+      {
+        "binding_sha256": "fcf6ed46b97b4504023d23e7ce0e2b560710b35193d3b2cb96fa827b787a9922",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-03:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-03:1 In an isolated test environment, exercise invalid tokens, wrong audiences, origin abuse, malicious servers, and protocol fuzzing."
+      },
+      {
+        "binding_sha256": "17b58714e8423b96b263b9085ca821f398741ad2efdb152a5833658c10a185e8",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-03:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-03:2 Adapt scenarios to the deployed MCP revision and transports; preserve request/response evidence with secrets removed."
+      },
+      {
+        "binding_sha256": "00e10f223bd38a62ba393797aa78b4e2d45909d7d409d7695e780068e0bb2e85",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-04:1 Create two principals and attempt cross-access to objects, memory, caches, handles, subscriptions, and execution results."
+      },
+      {
+        "binding_sha256": "64fad5c4d60dab7fa26fbb0fb7d8ea5d0c119c5714bc47d65c5f07bfa27350c5",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-04:2 Repeat after reconnect, delegation, failed authentication, concurrent requests, and privilege revocation."
+      },
+      {
+        "binding_sha256": "4547f55b0086d4b18f6e80a3182f797bed52836ab52f570d51ec9f4561c1701f",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-05:1 Use explicit forbidden-action canaries to verify enforcement survives hostile content, tool substitution, and delayed execution."
+      },
+      {
+        "binding_sha256": "3fb9b6ac2685ecb95c0d04cf638a0c2d701896a52ba540f80a9a1210bd02e6fb",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-05:2 Confirm paths through retries, fallback models, alternate tools, and child agents enforce the same boundary."
+      },
+      {
+        "binding_sha256": "e66b5bbc4ca0a7ad8eedc5181fdc7f62db593960bbac7c545033e5f44d6d75a8",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-06:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-06:1 Run language-aware SAST, dependency review, secret scanning, and authorized integration tests for exposed services."
+      },
+      {
+        "binding_sha256": "f2cf4d458ad40d2a16d417a085a3612201ebbd6e3f524aa18621f658b539c8b1",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-06:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-06:2 Exercise reachable injection, XSS, SSRF, path traversal, deserialization, and access-control risks with safe fixtures."
+      },
+      {
+        "binding_sha256": "f97ae8cae218c2ff29d5d5ea2126b5a0d0dee9a53da55e4aedcf83c53a2a29af",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-07:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-07:1 Simulate oversized messages, slow peers, streaming floods, repeated errors, runaway agents, and unavailable dependencies."
+      },
+      {
+        "binding_sha256": "99791ba108b424268b28b719efb1e8d0cef6e7212f9448494b54e9b756cbf9d5",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-07:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-07:2 Verify quotas, shutdown, telemetry, and alerts work together without leaking payloads or losing attribution."
+      },
+      {
+        "binding_sha256": "472e295e338a089db99a211c239fbc090c4de90aaab6d226cc77d2996571b128",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-08:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-08:1 Treat repository text and model verdicts as untrusted; test prompt injection, fabricated locations, invalid JSON, and timeouts."
+      },
+      {
+        "binding_sha256": "2358c552beaa354c30bdf9a3144bb030f6df3c8d45d1bd3b0a213321070127a0",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-08:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-08:2 Compare against labeled cases, retain deterministic results, document model variability, and never equate a judge approval with control validation."
+      },
+      {
+        "binding_sha256": "151eea4c3a986ccbd4c54838f86b3e905fd3ee40899ee2d888154167eae211f0",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-09:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-09:1 Where applicable, assess suspicious triggers, model extraction, and disclosure of private training examples under an explicit attacker access and query budget."
+      },
+      {
+        "binding_sha256": "8ad88f51cc03ac551efe67a3cf0469721bb9ad9fc0237d38c07b7f7d9bf76619",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:TEST-09:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "TEST-09:2 Retest acquired or retrained models and adapters before release; document measured failures, model identity, coverage limits, and accepted residual risk."
+      }
+    ],
+    "kind": "invarune_review",
+    "origin": {
+      "catalog_sha256": "9c105536952accf2198facf75f7d36cf6488ba5f89de4b85c686ae380fc2114d",
+      "configuration": {
+        "default_excluded_directories": [
+          ".cache",
+          ".git",
+          ".hg",
+          ".mypy_cache",
+          ".next",
+          ".pytest_cache",
+          ".svn",
+          ".tox",
+          ".venv",
+          "__pycache__",
+          "build",
+          "coverage",
+          "dist",
+          "node_modules",
+          "vendor",
+          "venv"
+        ],
+        "exclude": [],
+        "generated_outputs_and_judge_config_excluded": true,
+        "max_entries": 100000,
+        "max_file_bytes": 1000000,
+        "max_files": 20000,
+        "max_total_bytes": 50000000
+      },
+      "evidence_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "image_limits": {},
+      "manifest_sha256": "17dba9a02c38c3e885e387d6d1c1b04da4c4803ec5e9d6da0fc91e4442e465d0",
+      "scan_id": "5c777737cc505385ed35b5a56c3b9e3ec6ae4c42a305689c8422964bc62ecfcc",
+      "scope_sha256": "4e01c10d5d5388f1f301cc1f81742dd37a375e51af210210aac226ee08ee3bbc",
+      "target": {
+        "description": "Selected source directory; paths are relative.",
+        "kind": "source",
+        "platform": ""
+      },
+      "tool": {
+        "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+        "name": "agent-mcp-security-scan",
+        "version": "0.10.0"
+      }
+    },
+    "schema_version": "1.0"
+  },
+  "run_configuration": {
+    "optional_review": {
+      "analyst_limits": {
+        "batch_size": 6,
+        "max_bytes": 2000000,
+        "max_calls": 12,
+        "max_chars": 120000,
+        "max_files": 200,
+        "max_seconds": 180
+      },
+      "cli_login": "auto",
+      "cli_timeout_seconds": null,
+      "effective_transport": {},
+      "enabled": false,
+      "findings_limit": 100,
+      "include_finding_source": false,
+      "mode": "full",
+      "provider": null,
+      "transport_replay": "Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay."
+    },
+    "reporting": {
+      "failure_threshold": "none",
+      "formats": [
+        "html",
+        "markdown",
+        "json",
+        "sarif"
+      ]
+    },
+    "review_inputs": {
+      "baseline": false,
+      "review_config": false,
+      "review_report": false
+    },
+    "schema_version": "1.0"
+  },
+  "scan_id": "5c777737cc505385ed35b5a56c3b9e3ec6ae4c42a305689c8422964bc62ecfcc",
+  "schema_version": "1.0",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 958741,
+    "bytes_read": 958741,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 29,
+    "open_findings": 0,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 0,
+      "medium": 0
+    },
+    "suppressed_findings": 0
+  },
+  "target": ".",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.10.0"
+  }
+}

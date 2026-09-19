@@ -1,0 +1,693 @@
+{
+  "case_count": 10,
+  "excluded_tools": {
+    "cisco-mcp-scanner": "MCP metadata YARA analysis has a different scope.",
+    "gitleaks": "Secret detection has a different scope; no artificial true negatives awarded.",
+    "snyk-agent-scan": "Not executed; different runtime/cloud scope and no configured API credential."
+  },
+  "external_run_receipts": [
+    {
+      "command": [
+        "semgrep",
+        "scan",
+        "--config",
+        "{semgrep_rules}",
+        "--metrics=off",
+        "--disable-version-check",
+        "--disable-nosem",
+        "--no-git-ignore",
+        "--no-rewrite-rule-ids",
+        "--json",
+        "--quiet",
+        "--jobs",
+        "2",
+        "--timeout",
+        "10",
+        "--max-target-bytes",
+        "20000000",
+        "--output",
+        "{raw_output}/semgrep.json",
+        "{source}"
+      ],
+      "errors": [],
+      "files_reported_scanned": 10,
+      "finding_count": 5,
+      "findings": [
+        {
+          "end_line": 1,
+          "line": 1,
+          "path": "ai001-risk/worker.py",
+          "rule_id": "python.lang.security.audit.eval-detected.eval-detected",
+          "severity": "WARNING"
+        },
+        {
+          "end_line": 2,
+          "line": 2,
+          "path": "ai002-risk/worker.py",
+          "rule_id": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+          "severity": "ERROR"
+        },
+        {
+          "end_line": 2,
+          "line": 2,
+          "path": "ai004-risk/worker.py",
+          "rule_id": "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load",
+          "severity": "ERROR"
+        },
+        {
+          "end_line": 2,
+          "line": 2,
+          "path": "ai005-risk/worker.py",
+          "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+          "severity": "WARNING"
+        },
+        {
+          "end_line": 2,
+          "line": 2,
+          "path": "ai006-risk/worker.py",
+          "rule_id": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
+          "severity": "ERROR"
+        }
+      ],
+      "output_parse_error": null,
+      "process_exit_code": 0,
+      "raw_report_sha256": "dcfc7971269fd6949b1d7a0dffa6aa8e1a13c708cf1faba8dcc5cb8a7cdccb8b",
+      "rule_counts": {
+        "python.lang.security.audit.eval-detected.eval-detected": 1,
+        "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true": 1,
+        "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load": 1,
+        "python.lang.security.deserialization.pickle.avoid-pickle": 1,
+        "python.requests.security.disabled-cert-validation.disabled-cert-validation": 1
+      },
+      "severity_counts": {
+        "ERROR": 3,
+        "WARNING": 2
+      },
+      "started_at_utc": "2026-09-19T22:56:02Z",
+      "status": "completed_with_findings",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed_out": false,
+      "tool": "semgrep",
+      "wall_seconds": 2.169676
+    },
+    {
+      "command": [
+        "bandit",
+        "-r",
+        "{source}",
+        "-c",
+        "{support}/bandit.yaml",
+        "--ignore-nosec",
+        "-f",
+        "json",
+        "-o",
+        "{raw_output}/bandit.json",
+        "-q"
+      ],
+      "errors": [],
+      "files_reported_scanned": 10,
+      "finding_count": 12,
+      "findings": [
+        {
+          "confidence": "HIGH",
+          "end_line": 1,
+          "line": 1,
+          "path": "ai001-risk/worker.py",
+          "rule_id": "B307",
+          "severity": "MEDIUM"
+        },
+        {
+          "confidence": "HIGH",
+          "end_line": 1,
+          "line": 1,
+          "path": "ai002-comparison/worker.py",
+          "rule_id": "B404",
+          "severity": "LOW"
+        },
+        {
+          "confidence": "HIGH",
+          "end_line": 2,
+          "line": 2,
+          "path": "ai002-comparison/worker.py",
+          "rule_id": "B603",
+          "severity": "LOW"
+        },
+        {
+          "confidence": "HIGH",
+          "end_line": 2,
+          "line": 2,
+          "path": "ai002-comparison/worker.py",
+          "rule_id": "B607",
+          "severity": "LOW"
+        },
+        {
+          "confidence": "HIGH",
+          "end_line": 1,
+          "line": 1,
+          "path": "ai002-risk/worker.py",
+          "rule_id": "B404",
+          "severity": "LOW"
+        },
+        {
+          "confidence": "HIGH",
+          "end_line": 2,
+          "line": 2,
+          "path": "ai002-risk/worker.py",
+          "rule_id": "B602",
+          "severity": "HIGH"
+        },
+        {
+          "confidence": "HIGH",
+          "end_line": 2,
+          "line": 2,
+          "path": "ai004-risk/worker.py",
+          "rule_id": "B506",
+          "severity": "MEDIUM"
+        },
+        {
+          "confidence": "HIGH",
+          "end_line": 1,
+          "line": 1,
+          "path": "ai005-risk/worker.py",
+          "rule_id": "B403",
+          "severity": "LOW"
+        },
+        {
+          "confidence": "HIGH",
+          "end_line": 2,
+          "line": 2,
+          "path": "ai005-risk/worker.py",
+          "rule_id": "B301",
+          "severity": "MEDIUM"
+        },
+        {
+          "confidence": "LOW",
+          "end_line": 2,
+          "line": 2,
+          "path": "ai006-comparison/worker.py",
+          "rule_id": "B113",
+          "severity": "MEDIUM"
+        },
+        {
+          "confidence": "LOW",
+          "end_line": 2,
+          "line": 2,
+          "path": "ai006-risk/worker.py",
+          "rule_id": "B113",
+          "severity": "MEDIUM"
+        },
+        {
+          "confidence": "HIGH",
+          "end_line": 2,
+          "line": 2,
+          "path": "ai006-risk/worker.py",
+          "rule_id": "B501",
+          "severity": "HIGH"
+        }
+      ],
+      "output_parse_error": null,
+      "process_exit_code": 1,
+      "raw_report_sha256": "9469f0e06064430268a2887678c42e0d88115c88bd260ffdbb51dcb0f0f29f5a",
+      "rule_counts": {
+        "B113": 2,
+        "B301": 1,
+        "B307": 1,
+        "B403": 1,
+        "B404": 2,
+        "B501": 1,
+        "B506": 1,
+        "B602": 1,
+        "B603": 1,
+        "B607": 1
+      },
+      "severity_counts": {
+        "HIGH": 2,
+        "LOW": 5,
+        "MEDIUM": 5
+      },
+      "started_at_utc": "2026-09-19T22:56:04Z",
+      "status": "completed_with_findings",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed_out": false,
+      "tool": "bandit",
+      "wall_seconds": 0.072097
+    }
+  ],
+  "invarune_version": "0.10.0",
+  "metric_unit": "Matched API-pattern presence assertion. Other findings are unscored; labels do not establish exploitability.",
+  "parent_corpus_sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3",
+  "provenance": "Existing project-authored synthetic development fixtures; not independent, held-out, or a production accuracy estimate.",
+  "results": {
+    "bandit": {
+      "cases": [
+        {
+          "case_id": "ai001-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI001",
+          "mapped_rule_ids": [
+            "B307"
+          ],
+          "observed_rule_ids": [
+            "B307"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai001-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI001",
+          "mapped_rule_ids": [
+            "B307"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai002-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI002",
+          "mapped_rule_ids": [
+            "B602"
+          ],
+          "observed_rule_ids": [
+            "B404",
+            "B602"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai002-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI002",
+          "mapped_rule_ids": [
+            "B602"
+          ],
+          "observed_rule_ids": [
+            "B404",
+            "B603",
+            "B607"
+          ],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai004-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI004",
+          "mapped_rule_ids": [
+            "B506"
+          ],
+          "observed_rule_ids": [
+            "B506"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai004-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI004",
+          "mapped_rule_ids": [
+            "B506"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai005-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI005",
+          "mapped_rule_ids": [
+            "B301"
+          ],
+          "observed_rule_ids": [
+            "B301",
+            "B403"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai005-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI005",
+          "mapped_rule_ids": [
+            "B301"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai006-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI006",
+          "mapped_rule_ids": [
+            "B501"
+          ],
+          "observed_rule_ids": [
+            "B113",
+            "B501"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai006-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI006",
+          "mapped_rule_ids": [
+            "B501"
+          ],
+          "observed_rule_ids": [
+            "B113"
+          ],
+          "outcome": "true_negative"
+        }
+      ],
+      "counts": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "scored_assertions": 10,
+        "true_negative": 5,
+        "true_positive": 5,
+        "unsupported": 0
+      }
+    },
+    "invarune": {
+      "cases": [
+        {
+          "case_id": "ai001-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI001",
+          "mapped_rule_ids": [
+            "AI001"
+          ],
+          "observed_rule_ids": [
+            "AI001"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai001-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI001",
+          "mapped_rule_ids": [
+            "AI001"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai002-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI002",
+          "mapped_rule_ids": [
+            "AI002"
+          ],
+          "observed_rule_ids": [
+            "AI002"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai002-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI002",
+          "mapped_rule_ids": [
+            "AI002"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai004-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI004",
+          "mapped_rule_ids": [
+            "AI004"
+          ],
+          "observed_rule_ids": [
+            "AI004"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai004-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI004",
+          "mapped_rule_ids": [
+            "AI004"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai005-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI005",
+          "mapped_rule_ids": [
+            "AI005"
+          ],
+          "observed_rule_ids": [
+            "AI005"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai005-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI005",
+          "mapped_rule_ids": [
+            "AI005"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai006-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI006",
+          "mapped_rule_ids": [
+            "AI006"
+          ],
+          "observed_rule_ids": [
+            "AI006"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai006-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI006",
+          "mapped_rule_ids": [
+            "AI006"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        }
+      ],
+      "counts": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "scored_assertions": 10,
+        "true_negative": 5,
+        "true_positive": 5,
+        "unsupported": 0
+      }
+    },
+    "semgrep": {
+      "cases": [
+        {
+          "case_id": "ai001-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI001",
+          "mapped_rule_ids": [
+            "python.lang.security.audit.eval-detected.eval-detected"
+          ],
+          "observed_rule_ids": [
+            "python.lang.security.audit.eval-detected.eval-detected"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai001-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI001",
+          "mapped_rule_ids": [
+            "python.lang.security.audit.eval-detected.eval-detected"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai002-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI002",
+          "mapped_rule_ids": [
+            "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+          ],
+          "observed_rule_ids": [
+            "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai002-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI002",
+          "mapped_rule_ids": [
+            "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai004-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI004",
+          "mapped_rule_ids": [
+            "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load"
+          ],
+          "observed_rule_ids": [
+            "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai004-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI004",
+          "mapped_rule_ids": [
+            "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai005-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI005",
+          "mapped_rule_ids": [
+            "python.lang.security.deserialization.pickle.avoid-pickle"
+          ],
+          "observed_rule_ids": [
+            "python.lang.security.deserialization.pickle.avoid-pickle"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai005-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI005",
+          "mapped_rule_ids": [
+            "python.lang.security.deserialization.pickle.avoid-pickle"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        },
+        {
+          "case_id": "ai006-risk",
+          "detected": true,
+          "expected": true,
+          "invarune_rule_id": "AI006",
+          "mapped_rule_ids": [
+            "python.requests.security.disabled-cert-validation.disabled-cert-validation"
+          ],
+          "observed_rule_ids": [
+            "python.requests.security.disabled-cert-validation.disabled-cert-validation"
+          ],
+          "outcome": "true_positive"
+        },
+        {
+          "case_id": "ai006-comparison",
+          "detected": false,
+          "expected": false,
+          "invarune_rule_id": "AI006",
+          "mapped_rule_ids": [
+            "python.requests.security.disabled-cert-validation.disabled-cert-validation"
+          ],
+          "observed_rule_ids": [],
+          "outcome": "true_negative"
+        }
+      ],
+      "counts": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "scored_assertions": 10,
+        "true_negative": 5,
+        "true_positive": 5,
+        "unsupported": 0
+      }
+    }
+  },
+  "rule_mapping": {
+    "AI001": {
+      "bandit": [
+        "B307"
+      ],
+      "semgrep": [
+        "python.lang.security.audit.eval-detected.eval-detected"
+      ]
+    },
+    "AI002": {
+      "bandit": [
+        "B602"
+      ],
+      "semgrep": [
+        "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+      ]
+    },
+    "AI004": {
+      "bandit": [
+        "B506"
+      ],
+      "semgrep": [
+        "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load"
+      ]
+    },
+    "AI005": {
+      "bandit": [
+        "B301"
+      ],
+      "semgrep": [
+        "python.lang.security.deserialization.pickle.avoid-pickle"
+      ]
+    },
+    "AI006": {
+      "bandit": [
+        "B501"
+      ],
+      "semgrep": [
+        "python.requests.security.disabled-cert-validation.disabled-cert-validation"
+      ]
+    }
+  },
+  "schema_version": "1.0",
+  "selection": "Every existing assertion for AI001, AI002, AI004, AI005, AI006. Selected by comparable API-level rule semantics before execution."
+}

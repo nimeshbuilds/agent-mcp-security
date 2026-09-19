@@ -1,0 +1,538 @@
+{
+  "runs": [
+    {
+      "coverage_gaps": 0,
+      "errors": [],
+      "files_reported_scanned": 86,
+      "finding_count": 61,
+      "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+      "process_exit_code": 0,
+      "project_id": "mcp-reference",
+      "raw_report_sha256": "f6a02e1d44403f7a0d82d764ec51853bd400db27d4516f5ceeb1f19e583b59dc",
+      "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+      "status": "completed",
+      "tool": "invarune",
+      "version": "0.10.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 86,
+      "finding_count": 0,
+      "process_exit_code": 0,
+      "project_id": "mcp-reference",
+      "raw_report_sha256": "8ac63b613f0081f71ade296e0ff1739ab7eb441263600ea38cfe91788b61394d",
+      "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+      "status": "completed_no_findings",
+      "tool": "semgrep",
+      "version": "1.177.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 9,
+      "finding_count": 0,
+      "process_exit_code": 0,
+      "project_id": "mcp-reference",
+      "raw_report_sha256": "a053bb7a827ebbd7fe4bbd953df7fb3f41766c56bce77531bface21b409f3fa1",
+      "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+      "status": "completed_no_findings",
+      "tool": "bandit",
+      "version": "1.9.4"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": null,
+      "finding_count": 0,
+      "process_exit_code": 0,
+      "project_id": "mcp-reference",
+      "raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+      "status": "completed_no_findings",
+      "tool": "gitleaks",
+      "version": "8.30.1"
+    },
+    {
+      "coverage_gaps": 0,
+      "errors": [],
+      "files_reported_scanned": 156,
+      "finding_count": 15,
+      "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+      "process_exit_code": 0,
+      "project_id": "github-mcp",
+      "raw_report_sha256": "04cbb83153082d5b980aabdf77682e3e442842bd3f34c2dd0a7de7a36cb85e66",
+      "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+      "status": "completed",
+      "tool": "invarune",
+      "version": "0.10.0"
+    },
+    {
+      "errors": [
+        {
+          "level": "warn",
+          "path": "pkg/github/pullrequests.go",
+          "type": "PartialParsing"
+        }
+      ],
+      "files_reported_scanned": 163,
+      "finding_count": 1,
+      "process_exit_code": 0,
+      "project_id": "github-mcp",
+      "raw_report_sha256": "16adad3c55d8cb1ebd2e10868187e4d4639e263bccfb35aafbe69985a8b3a63a",
+      "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+      "status": "completed_with_analysis_errors",
+      "tool": "semgrep",
+      "version": "1.177.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 0,
+      "finding_count": null,
+      "process_exit_code": 0,
+      "project_id": "github-mcp",
+      "raw_report_sha256": "49a306b55df97e0cf8e84b48b548138b57cdb394c97b3953c3f15cc2e57d2064",
+      "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+      "status": "unsupported_no_python_files",
+      "tool": "bandit",
+      "version": "1.9.4"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": null,
+      "finding_count": 0,
+      "process_exit_code": 0,
+      "project_id": "github-mcp",
+      "raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+      "status": "completed_no_findings",
+      "tool": "gitleaks",
+      "version": "8.30.1"
+    },
+    {
+      "coverage_gaps": 0,
+      "errors": [],
+      "files_reported_scanned": 759,
+      "finding_count": 13,
+      "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+      "process_exit_code": 1,
+      "project_id": "autogen",
+      "raw_report_sha256": "d92ccfff1f699835b395a337417022651e2c82a7ee07e24bf3ae657c5cad9751",
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "status": "completed",
+      "tool": "invarune",
+      "version": "0.10.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 786,
+      "finding_count": 6,
+      "process_exit_code": 0,
+      "project_id": "autogen",
+      "raw_report_sha256": "c3f00c73de4431a543530162bddcf23aac6e9a398a61def3caa7f1ed4c0edaf7",
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "status": "completed_with_findings",
+      "tool": "semgrep",
+      "version": "1.177.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 321,
+      "finding_count": 183,
+      "process_exit_code": 1,
+      "project_id": "autogen",
+      "raw_report_sha256": "84920f5f0c4a413ccac6b6f1344313b6646dd3020b5d67ed8b01a1ffb36357f5",
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "status": "completed_with_findings",
+      "tool": "bandit",
+      "version": "1.9.4"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": null,
+      "finding_count": 0,
+      "process_exit_code": 0,
+      "project_id": "autogen",
+      "raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "status": "completed_no_findings",
+      "tool": "gitleaks",
+      "version": "8.30.1"
+    },
+    {
+      "coverage_gaps": 10,
+      "errors": [
+        {
+          "error": "Python syntax could not be parsed at line 7: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/crew/crew.py"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 7: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/crew/main.py"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 8: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/flow/main.py"
+        },
+        {
+          "error": "JSON could not be parsed at line 5: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/agent.jsonc"
+        },
+        {
+          "error": "JSON could not be parsed at line 2: Extra data; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/agent_settings.jsonc"
+        },
+        {
+          "error": "JSON could not be parsed at line 3: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/crew.jsonc"
+        },
+        {
+          "error": "JSON could not be parsed at line 3: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/task.jsonc"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 1: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/__init__.py"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 4: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/tool.py"
+        },
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "lib/crewai/src/crewai/flow/runtime/__init__.py"
+        }
+      ],
+      "files_reported_scanned": 967,
+      "finding_count": 28,
+      "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+      "process_exit_code": 2,
+      "project_id": "crewai",
+      "raw_report_sha256": "a9385836d79d78ba1b987517d423457bd64fed6da8f49e4f4f1f1577f29b29f4",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "status": "completed_with_analysis_gaps",
+      "tool": "invarune",
+      "version": "0.10.0"
+    },
+    {
+      "errors": [
+        {
+          "level": "warn",
+          "path": "lib/cli/src/crewai_cli/templates/crew/crew.py",
+          "type": "PartialParsing"
+        },
+        {
+          "level": "warn",
+          "path": "lib/cli/src/crewai_cli/templates/crew/main.py",
+          "type": "PartialParsing"
+        },
+        {
+          "level": "warn",
+          "path": "lib/cli/src/crewai_cli/templates/flow/main.py",
+          "type": "PartialParsing"
+        },
+        {
+          "level": "warn",
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/__init__.py",
+          "type": "PartialParsing"
+        },
+        {
+          "level": "warn",
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/tool.py",
+          "type": "PartialParsing"
+        }
+      ],
+      "files_reported_scanned": 968,
+      "finding_count": 8,
+      "process_exit_code": 0,
+      "project_id": "crewai",
+      "raw_report_sha256": "6af2e806e6e2fe74d20d7e6e4d7305e5b5a93e436ea07d899937c4d5509f2811",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "status": "completed_with_analysis_errors",
+      "tool": "semgrep",
+      "version": "1.177.0"
+    },
+    {
+      "errors": [
+        {
+          "path": "lib/cli/src/crewai_cli/templates/crew/crew.py",
+          "type": "syntax error while parsing AST from file"
+        },
+        {
+          "path": "lib/cli/src/crewai_cli/templates/crew/main.py",
+          "type": "syntax error while parsing AST from file"
+        },
+        {
+          "path": "lib/cli/src/crewai_cli/templates/flow/main.py",
+          "type": "syntax error while parsing AST from file"
+        },
+        {
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/__init__.py",
+          "type": "syntax error while parsing AST from file"
+        },
+        {
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/tool.py",
+          "type": "syntax error while parsing AST from file"
+        }
+      ],
+      "files_reported_scanned": 926,
+      "finding_count": 232,
+      "process_exit_code": 1,
+      "project_id": "crewai",
+      "raw_report_sha256": "92bfd7324d78f0c68baf71a55ced1a5a7a202f7977d342c3e20299d55f5ad4a6",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "status": "completed_with_analysis_errors",
+      "tool": "bandit",
+      "version": "1.9.4"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": null,
+      "finding_count": 0,
+      "process_exit_code": 0,
+      "project_id": "crewai",
+      "raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "status": "completed_no_findings",
+      "tool": "gitleaks",
+      "version": "8.30.1"
+    },
+    {
+      "coverage_gaps": 1,
+      "errors": [
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "libs/langgraph/langgraph/pregel/main.py"
+        }
+      ],
+      "files_reported_scanned": 211,
+      "finding_count": 23,
+      "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+      "process_exit_code": 2,
+      "project_id": "langgraph",
+      "raw_report_sha256": "58aa0fb5403ab8630366821d98994b804e870409be14d5ed594ffbca7fddbb58",
+      "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+      "status": "completed_with_analysis_gaps",
+      "tool": "invarune",
+      "version": "0.10.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 211,
+      "finding_count": 8,
+      "process_exit_code": 0,
+      "project_id": "langgraph",
+      "raw_report_sha256": "5b8127a41391028197cc777081e3e51856208d1af98c9641d36cad24ac7eb153",
+      "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+      "status": "completed_with_findings",
+      "tool": "semgrep",
+      "version": "1.177.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 183,
+      "finding_count": 84,
+      "process_exit_code": 1,
+      "project_id": "langgraph",
+      "raw_report_sha256": "052254419f46f908f7adfb199deca48c46abcbf018c6ec5c61395c6e19236bb3",
+      "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+      "status": "completed_with_findings",
+      "tool": "bandit",
+      "version": "1.9.4"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": null,
+      "finding_count": 1,
+      "process_exit_code": 1,
+      "project_id": "langgraph",
+      "raw_report_sha256": "7146267ff88714457cfbcf65e0487b680ecc27b2a7e0df57c3c9926f5ff249c5",
+      "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+      "status": "completed_with_findings",
+      "tool": "gitleaks",
+      "version": "8.30.1"
+    },
+    {
+      "coverage_gaps": 2,
+      "errors": [
+        {
+          "error": "JSON could not be parsed at line 33: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "tsconfig.json"
+        }
+      ],
+      "files_reported_scanned": 1233,
+      "finding_count": 9,
+      "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+      "process_exit_code": 2,
+      "project_id": "openhands",
+      "raw_report_sha256": "f916b7b43bf92a8bd7c694ef69c1b32bc5d20e6c02f5e5c34454e53f19560f41",
+      "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+      "status": "completed_with_analysis_gaps",
+      "tool": "invarune",
+      "version": "0.10.0"
+    },
+    {
+      "errors": [
+        {
+          "level": "warn",
+          "path": "src/components/features/plugins/plugin-spec-identity.ts",
+          "type": "PartialParsing"
+        }
+      ],
+      "files_reported_scanned": 1237,
+      "finding_count": 0,
+      "process_exit_code": 0,
+      "project_id": "openhands",
+      "raw_report_sha256": "744e61fb2b2c5bda5dd0f50357c032255f66f17ba479cad9c1671123fb1ffbd3",
+      "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+      "status": "completed_with_analysis_errors",
+      "tool": "semgrep",
+      "version": "1.177.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 0,
+      "finding_count": null,
+      "process_exit_code": 0,
+      "project_id": "openhands",
+      "raw_report_sha256": "4206e3445744cbc476605f991276089a3dcee03690baecb82f2916ceeb11730b",
+      "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+      "status": "unsupported_no_python_files",
+      "tool": "bandit",
+      "version": "1.9.4"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": null,
+      "finding_count": 1,
+      "process_exit_code": 1,
+      "project_id": "openhands",
+      "raw_report_sha256": "f619e3a82d036ac4176ed5480b63b1299383e33a607ff524a428c8bd959600b0",
+      "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+      "status": "completed_with_findings",
+      "tool": "gitleaks",
+      "version": "8.30.1"
+    },
+    {
+      "coverage_gaps": 2,
+      "errors": [
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "pydantic_ai_slim/pydantic_ai/models/anthropic.py"
+        },
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "pydantic_ai_slim/pydantic_ai/models/openai.py"
+        }
+      ],
+      "files_reported_scanned": 386,
+      "finding_count": 0,
+      "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+      "process_exit_code": 2,
+      "project_id": "pydantic-ai",
+      "raw_report_sha256": "c5e22e15403bb2d7dc5dfa9d5984ec263585e835cb197cfacba80511642baa8d",
+      "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+      "status": "completed_with_analysis_gaps",
+      "tool": "invarune",
+      "version": "0.10.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 386,
+      "finding_count": 2,
+      "process_exit_code": 0,
+      "project_id": "pydantic-ai",
+      "raw_report_sha256": "580d77e608738a9d848c7bc4a60078b8bc076f752bbd6b0bd1e4c612ea2a14c7",
+      "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+      "status": "completed_with_findings",
+      "tool": "semgrep",
+      "version": "1.177.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 380,
+      "finding_count": 344,
+      "process_exit_code": 1,
+      "project_id": "pydantic-ai",
+      "raw_report_sha256": "b6d90d52392ed56c6b72c03c51e0b87a64c4bba7fca877cba10515ef479ab1b5",
+      "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+      "status": "completed_with_findings",
+      "tool": "bandit",
+      "version": "1.9.4"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": null,
+      "finding_count": 0,
+      "process_exit_code": 0,
+      "project_id": "pydantic-ai",
+      "raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+      "status": "completed_no_findings",
+      "tool": "gitleaks",
+      "version": "8.30.1"
+    },
+    {
+      "coverage_gaps": 0,
+      "errors": [],
+      "files_reported_scanned": 283,
+      "finding_count": 0,
+      "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+      "process_exit_code": 0,
+      "project_id": "fastmcp",
+      "raw_report_sha256": "bc64cc02f741ce3c179db2deda9a41fc8fe71ee1833c0b3118e2e8ea83d27c03",
+      "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+      "status": "completed",
+      "tool": "invarune",
+      "version": "0.10.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 283,
+      "finding_count": 2,
+      "process_exit_code": 0,
+      "project_id": "fastmcp",
+      "raw_report_sha256": "727dc669e31196a12a956930880ab335099373c7e28a936b29c68fb3cfd26303",
+      "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+      "status": "completed_with_findings",
+      "tool": "semgrep",
+      "version": "1.177.0"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": 277,
+      "finding_count": 95,
+      "process_exit_code": 1,
+      "project_id": "fastmcp",
+      "raw_report_sha256": "906a20454f797e8852a9567e1189faeb3bc254991a4d866c3ae291b6fd5619c6",
+      "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+      "status": "completed_with_findings",
+      "tool": "bandit",
+      "version": "1.9.4"
+    },
+    {
+      "errors": [],
+      "files_reported_scanned": null,
+      "finding_count": 1,
+      "process_exit_code": 1,
+      "project_id": "fastmcp",
+      "raw_report_sha256": "5a129895b5808f9e00f12f65fe49292eefafcb3d0088cef1864dd3b7c7d43df8",
+      "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+      "status": "completed_with_findings",
+      "tool": "gitleaks",
+      "version": "8.30.1"
+    }
+  ],
+  "schema_version": "1.0"
+}

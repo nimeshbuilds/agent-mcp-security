@@ -1,0 +1,590 @@
+{
+  "bandit:B101": {
+    "family": "assert_statement",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "An assert statement exists; whether it is an authorization/input-validation boundary lost under Python optimization requires context.",
+    "rule_message": "Assert statement"
+  },
+  "bandit:B102": {
+    "family": "dynamic_code_execution",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Dynamic eval/exec-style execution at the same source location; reachability and trust boundaries remain unverified.",
+    "review_predicate": "Dynamic content reaches eval/exec or equivalent; identify the content source and whether trust/authorization boundaries permit attacker control.",
+    "rule_message": "Dynamic code execution"
+  },
+  "bandit:B103": {
+    "family": "permissive_file_mode",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A permission mode grants broad access; assess sensitivity, filesystem location and effective ownership.",
+    "rule_message": "Permissive file mode"
+  },
+  "bandit:B104": {
+    "family": "wildcard_listener",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A service listens on all interfaces; intended exposure, network policy and authentication determine risk.",
+    "rule_message": "Wildcard listener"
+  },
+  "bandit:B105": {
+    "family": "credential_literal",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Credential-like literal patterns. Scanners use different secret definitions; no live credential validity is inferred.",
+    "review_predicate": "A literal resembles a credential assignment/argument/token; verify its actual role, excluding placeholders, error labels, public identifiers and examples.",
+    "rule_message": "Credential literal"
+  },
+  "bandit:B106": {
+    "family": "credential_literal",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Credential-like literal patterns. Scanners use different secret definitions; no live credential validity is inferred.",
+    "review_predicate": "A literal resembles a credential assignment/argument/token; verify its actual role, excluding placeholders, error labels, public identifiers and examples.",
+    "rule_message": "Credential literal"
+  },
+  "bandit:B107": {
+    "family": "credential_literal",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Credential-like literal patterns. Scanners use different secret definitions; no live credential validity is inferred.",
+    "review_predicate": "A literal resembles a credential assignment/argument/token; verify its actual role, excluding placeholders, error labels, public identifiers and examples.",
+    "rule_message": "Credential literal"
+  },
+  "bandit:B108": {
+    "family": "temporary_directory_literal",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A hard-coded shared temporary location is used; evaluate ownership, creation flags and namespace isolation.",
+    "rule_message": "Temporary directory literal"
+  },
+  "bandit:B110": {
+    "family": "exception_pass",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "An exception handler contains pass; whether suppressed failure violates a security boundary requires context.",
+    "rule_message": "Exception pass"
+  },
+  "bandit:B112": {
+    "family": "exception_continue",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "An exception handler continues iteration; whether ignored failures cause a security issue requires context.",
+    "rule_message": "Exception continue"
+  },
+  "bandit:B113": {
+    "family": "request_timeout_missing",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A network call lacks an explicit timeout; assess bounded defaults and denial-of-service exposure.",
+    "rule_message": "Request timeout missing"
+  },
+  "bandit:B202": {
+    "family": "archive_extraction",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Archive extraction call at the same location; safe-filter inference differs by rule.",
+    "review_predicate": "An archive extraction API is called; assess member traversal/link handling, filters and archive trust.",
+    "rule_message": "Archive extraction"
+  },
+  "bandit:B301": {
+    "family": "pickle_family_api",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Pickle/dill-style API surface; Semgrep may flag serialization as well as deserialization. Same location does not establish identical risk semantics.",
+    "review_predicate": "A pickle-family API is invoked; identify whether it serializes or deserializes and whether deserialized bytes cross a trust boundary.",
+    "rule_message": "Pickle family api"
+  },
+  "bandit:B307": {
+    "family": "dynamic_code_execution",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Dynamic eval/exec-style execution at the same source location; reachability and trust boundaries remain unverified.",
+    "review_predicate": "Dynamic content reaches eval/exec or equivalent; identify the content source and whether trust/authorization boundaries permit attacker control.",
+    "rule_message": "Dynamic code execution"
+  },
+  "bandit:B310": {
+    "family": "dynamic_outbound_url",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Dynamic outbound URL/input surface, including urllib schemes. Dataflow confidence and allowed schemes differ across rules.",
+    "review_predicate": "An outbound URL is nonliteral; assess attacker influence, permitted schemes/hosts and egress controls.",
+    "rule_message": "Dynamic outbound url"
+  },
+  "bandit:B311": {
+    "family": "security_randomness",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Non-cryptographic randomness observation. Some rules warn about every call while others require a security-value context.",
+    "review_predicate": "A non-cryptographic random API is used; determine whether output must be unpredictable or is only sampling/jitter/test data.",
+    "rule_message": "Security randomness"
+  },
+  "bandit:B314": {
+    "family": "xml_parser_api",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "An XML parser API is used; entity behavior, runtime safeguards and document provenance determine vulnerability applicability.",
+    "rule_message": "Xml parser api"
+  },
+  "bandit:B324": {
+    "family": "weak_hash_algorithm",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "SHA-1 or another flagged hash is used; distinguish non-security identifiers/checksums from authentication, integrity or collision-resistance requirements.",
+    "rule_message": "Weak hash algorithm"
+  },
+  "bandit:B403": {
+    "family": "pickle_import",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A pickle-related module is imported; import presence alone does not establish untrusted deserialization.",
+    "rule_message": "Pickle import"
+  },
+  "bandit:B404": {
+    "family": "subprocess_import",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "The subprocess module is imported; import presence alone does not establish a dangerous call or exploitable path.",
+    "rule_message": "Subprocess import"
+  },
+  "bandit:B405": {
+    "family": "xml_parser_import",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A potentially unsafe XML module is imported; determine whether it is used to parse untrusted documents.",
+    "rule_message": "Xml parser import"
+  },
+  "bandit:B413": {
+    "family": "cryptography_import",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A flagged cryptography module is imported; review actual supported APIs and cryptographic use before concluding weakness.",
+    "rule_message": "Cryptography import"
+  },
+  "bandit:B501": {
+    "family": "tls_verification_disabled",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Tls verification disabled"
+  },
+  "bandit:B506": {
+    "family": "yaml_object_deserialization",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Yaml object deserialization"
+  },
+  "bandit:B602": {
+    "family": "shell_execution",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Shell-enabled execution surface at the same location. Calls without a shell/imports are separate families.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Shell execution"
+  },
+  "bandit:B603": {
+    "family": "subprocess_without_shell",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A subprocess call runs without shell=True; check executable selection and arguments. This is not itself proof of shell injection.",
+    "rule_message": "Subprocess without shell"
+  },
+  "bandit:B606": {
+    "family": "process_execution_without_shell",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A process-spawning API runs without a shell; executable and argument provenance determine risk.",
+    "rule_message": "Process execution without shell"
+  },
+  "bandit:B607": {
+    "family": "partial_executable_path",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A command uses an executable name without an absolute path; evaluate PATH control and the execution environment.",
+    "rule_message": "Partial executable path"
+  },
+  "bandit:B608": {
+    "family": "sql_construction",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "SQL construction/interpolation surface. Parameter binding and identifier provenance require independent review.",
+    "review_predicate": "A SQL string is constructed with interpolation/concatenation; inspect identifiers and values separately, binding and helper behavior.",
+    "rule_message": "Sql construction"
+  },
+  "bandit:B701": {
+    "family": "template_autoescape_disabled",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Template autoescape is disabled/omitted; evaluate output content type and attacker-controlled data.",
+    "rule_message": "Template autoescape disabled"
+  },
+  "gitleaks:generic-api-key": {
+    "family": "credential_literal",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Credential-like literal patterns. Scanners use different secret definitions; no live credential validity is inferred.",
+    "review_predicate": "A literal resembles a credential assignment/argument/token; verify its actual role, excluding placeholders, error labels, public identifiers and examples.",
+    "rule_message": "Credential literal"
+  },
+  "gitleaks:jwt": {
+    "family": "credential_literal",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Credential-like literal patterns. Scanners use different secret definitions; no live credential validity is inferred.",
+    "review_predicate": "A literal resembles a credential assignment/argument/token; verify its actual role, excluding placeholders, error labels, public identifiers and examples.",
+    "rule_message": "Credential literal"
+  },
+  "invarune:AI001": {
+    "family": "dynamic_code_execution",
+    "message_origin": "Invarune rule title",
+    "rationale": "Dynamic eval/exec-style execution at the same source location; reachability and trust boundaries remain unverified.",
+    "review_predicate": "Dynamic content reaches eval/exec or equivalent; identify the content source and whether trust/authorization boundaries permit attacker control.",
+    "rule_message": "Dynamic Python code execution"
+  },
+  "invarune:AI002": {
+    "family": "shell_execution",
+    "message_origin": "Invarune rule title",
+    "rationale": "Shell-enabled execution surface at the same location. Calls without a shell/imports are separate families.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Dynamic command executed through a shell"
+  },
+  "invarune:AI003": {
+    "family": "shell_execution",
+    "message_origin": "Invarune rule title",
+    "rationale": "Shell-enabled execution surface at the same location. Calls without a shell/imports are separate families.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Dynamic os shell command"
+  },
+  "invarune:AI004": {
+    "family": "yaml_object_deserialization",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Unsafe YAML object construction"
+  },
+  "invarune:AI005": {
+    "family": "pickle_family_api",
+    "message_origin": "Invarune rule title",
+    "rationale": "Pickle/dill-style API surface; Semgrep may flag serialization as well as deserialization. Same location does not establish identical risk semantics.",
+    "review_predicate": "A pickle-family API is invoked; identify whether it serializes or deserializes and whether deserialized bytes cross a trust boundary.",
+    "rule_message": "Executable deserialization requires trusted inputs"
+  },
+  "invarune:AI006": {
+    "family": "tls_verification_disabled",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "TLS certificate verification disabled"
+  },
+  "invarune:AI007": {
+    "family": "wildcard_cors",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "An origin policy allows any origin; actual authentication, credentials mode and intended endpoint exposure determine risk.",
+    "rule_message": "Wildcard cross-origin access"
+  },
+  "invarune:AI008": {
+    "family": "wildcard_listener",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A service listens on all interfaces; intended exposure, network policy and authentication determine risk.",
+    "rule_message": "Service binds to all network interfaces"
+  },
+  "invarune:AI009": {
+    "family": "debug_enabled",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Debug behavior is enabled; evaluate reachable runtime configuration and exposed debugging features.",
+    "rule_message": "Application debug mode enabled"
+  },
+  "invarune:AI010": {
+    "family": "credential_literal",
+    "message_origin": "Invarune rule title",
+    "rationale": "Credential-like literal patterns. Scanners use different secret definitions; no live credential validity is inferred.",
+    "review_predicate": "A literal resembles a credential assignment/argument/token; verify its actual role, excluding placeholders, error labels, public identifiers and examples.",
+    "rule_message": "Credential-like literal in source or configuration"
+  },
+  "invarune:AI011": {
+    "family": "private_key_material",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Private key material in repository"
+  },
+  "invarune:AI012": {
+    "family": "shell_execution",
+    "message_origin": "Invarune rule title",
+    "rationale": "Shell-enabled execution surface at the same location. Calls without a shell/imports are separate families.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Dynamic JavaScript shell execution"
+  },
+  "invarune:AI013": {
+    "family": "dynamic_code_execution",
+    "message_origin": "Invarune rule title",
+    "rationale": "Dynamic eval/exec-style execution at the same source location; reachability and trust boundaries remain unverified.",
+    "review_predicate": "Dynamic content reaches eval/exec or equivalent; identify the content source and whether trust/authorization boundaries permit attacker control.",
+    "rule_message": "Dynamic JavaScript code execution"
+  },
+  "invarune:AI014": {
+    "family": "dynamic_outbound_url",
+    "message_origin": "Invarune rule title",
+    "rationale": "Dynamic outbound URL/input surface, including urllib schemes. Dataflow confidence and allowed schemes differ across rules.",
+    "review_predicate": "An outbound URL is nonliteral; assess attacker influence, permitted schemes/hosts and egress controls.",
+    "rule_message": "Externally influenced outbound request"
+  },
+  "invarune:AI015": {
+    "family": "filesystem_path_input",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Externally influenced filesystem path"
+  },
+  "invarune:AI016": {
+    "family": "insecure_temporary_name",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Race-prone temporary filename creation"
+  },
+  "invarune:AI017": {
+    "family": "jwt_signature_bypass",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "JWT verification is explicitly bypassed; determine whether decoded data is subsequently trusted or independently verified.",
+    "rule_message": "JWT verification explicitly bypassed"
+  },
+  "invarune:AI018": {
+    "family": "unpinned_package_runner",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "MCP package runner resolves an unpinned artifact"
+  },
+  "invarune:AI019": {
+    "family": "download_to_shell",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Remote download piped directly to a shell"
+  },
+  "invarune:AI020": {
+    "family": "unpinned_ci_action",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "GitHub Action reference is not pinned to a commit"
+  },
+  "invarune:AI021": {
+    "family": "container_root_user",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Container explicitly runs as root"
+  },
+  "invarune:AI022": {
+    "family": "privileged_container",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Privileged container or privilege escalation enabled"
+  },
+  "invarune:AI023": {
+    "family": "container_socket",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Container runtime socket exposed"
+  },
+  "invarune:AI024": {
+    "family": "unpinned_container_image",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "An image reference lacks a content digest; inspect release/build resolution and provenance. This is a reproducibility policy signal.",
+    "rule_message": "Container image is not digest pinned"
+  },
+  "invarune:AI025": {
+    "family": "dependency_version_range",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A direct dependency declares a non-exact version; frozen lockfiles and verified install behavior may mitigate the policy concern.",
+    "rule_message": "Direct dependency is not exactly pinned"
+  },
+  "invarune:AI026": {
+    "family": "authentication_disabled",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Authentication explicitly disabled"
+  },
+  "invarune:AI027": {
+    "family": "wildcard_permission",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Wildcard tool or permission authorization"
+  },
+  "invarune:AI028": {
+    "family": "mcp_token_passthrough",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "MCP token passthrough enabled"
+  },
+  "invarune:AI029": {
+    "family": "plaintext_mcp_transport",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Remote MCP URL uses plaintext HTTP"
+  },
+  "invarune:AI030": {
+    "family": "browser_credentials",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Browser-side API credential access explicitly enabled"
+  },
+  "invarune:AI031": {
+    "family": "agent_safeguard_bypass",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Agent approval or sandbox safeguard explicitly bypassed"
+  },
+  "invarune:AI032": {
+    "family": "privileged_prompt_input",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "External data inserted into privileged LLM instructions"
+  },
+  "invarune:AI033": {
+    "family": "secret_logging",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "A logged value has a credential-related role/name; verify the actual emitted value and redaction behavior.",
+    "rule_message": "Potential secret included in logging call"
+  },
+  "invarune:AI034": {
+    "family": "credential_url_query",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Credential-like value embedded in URL query"
+  },
+  "invarune:AI035": {
+    "family": "model_checkpoint_deserialization",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Unsafe model checkpoint deserialization"
+  },
+  "invarune:AI036": {
+    "family": "sql_construction",
+    "message_origin": "Invarune rule title",
+    "rationale": "SQL construction/interpolation surface. Parameter binding and identifier provenance require independent review.",
+    "review_predicate": "A SQL string is constructed with interpolation/concatenation; inspect identifiers and values separately, binding and helper behavior.",
+    "rule_message": "SQL query constructed with interpolation"
+  },
+  "invarune:AI037": {
+    "family": "archive_extraction",
+    "message_origin": "Invarune rule title",
+    "rationale": "Archive extraction call at the same location; safe-filter inference differs by rule.",
+    "review_predicate": "An archive extraction API is called; assess member traversal/link handling, filters and archive trust.",
+    "rule_message": "Archive extraction without an explicit safe filter"
+  },
+  "invarune:AI038": {
+    "family": "security_randomness",
+    "message_origin": "Invarune rule title",
+    "rationale": "Non-cryptographic randomness observation. Some rules warn about every call while others require a security-value context.",
+    "review_predicate": "A non-cryptographic random API is used; determine whether output must be unpredictable or is only sampling/jitter/test data.",
+    "rule_message": "Cryptographically weak randomness used for a security value"
+  },
+  "invarune:AI039": {
+    "family": "template_rendering",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Template source is constructed dynamically; distinguish template syntax control from ordinary bound template values.",
+    "rule_message": "Server-Side Template rendered from a dynamic template"
+  },
+  "invarune:AI040": {
+    "family": "unsafe_html_rendering",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "An unsafe HTML rendering interface is used; establish input provenance and effective sanitization before concluding XSS.",
+    "rule_message": "Unsafe HTML rendering boundary"
+  },
+  "invarune:AI041": {
+    "family": "authentication_disabled",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "MCP inspector authorization explicitly disabled"
+  },
+  "invarune:AI042": {
+    "family": "host_namespace",
+    "message_origin": "Invarune rule title",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Container uses host namespaces"
+  },
+  "semgrep:go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1": {
+    "family": "weak_hash_algorithm",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "SHA-1 or another flagged hash is used; distinguish non-security identifiers/checksums from authentication, integrity or collision-resistance requirements.",
+    "rule_message": "Weak hash algorithm"
+  },
+  "semgrep:python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected": {
+    "family": "dynamic_outbound_url",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Dynamic outbound URL/input surface, including urllib schemes. Dataflow confidence and allowed schemes differ across rules.",
+    "review_predicate": "An outbound URL is nonliteral; assess attacker influence, permitted schemes/hosts and egress controls.",
+    "rule_message": "Dynamic outbound url"
+  },
+  "semgrep:python.lang.security.audit.eval-detected.eval-detected": {
+    "family": "dynamic_code_execution",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Dynamic eval/exec-style execution at the same source location; reachability and trust boundaries remain unverified.",
+    "review_predicate": "Dynamic content reaches eval/exec or equivalent; identify the content source and whether trust/authorization boundaries permit attacker control.",
+    "rule_message": "Dynamic code execution"
+  },
+  "semgrep:python.lang.security.audit.exec-detected.exec-detected": {
+    "family": "dynamic_code_execution",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Dynamic eval/exec-style execution at the same source location; reachability and trust boundaries remain unverified.",
+    "review_predicate": "Dynamic content reaches eval/exec or equivalent; identify the content source and whether trust/authorization boundaries permit attacker control.",
+    "rule_message": "Dynamic code execution"
+  },
+  "semgrep:python.lang.security.audit.subprocess-shell-true.subprocess-shell-true": {
+    "family": "shell_execution",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Shell-enabled execution surface at the same location. Calls without a shell/imports are separate families.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Shell execution"
+  },
+  "semgrep:python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load": {
+    "family": "yaml_object_deserialization",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Yaml object deserialization"
+  },
+  "semgrep:python.lang.security.deserialization.pickle.avoid-pickle": {
+    "family": "pickle_family_api",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "Pickle/dill-style API surface; Semgrep may flag serialization as well as deserialization. Same location does not establish identical risk semantics.",
+    "review_predicate": "A pickle-family API is invoked; identify whether it serializes or deserializes and whether deserialized bytes cross a trust boundary.",
+    "rule_message": "Pickle family api"
+  },
+  "semgrep:python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1": {
+    "family": "weak_hash_algorithm",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "SHA-1 or another flagged hash is used; distinguish non-security identifiers/checksums from authentication, integrity or collision-resistance requirements.",
+    "rule_message": "Weak hash algorithm"
+  },
+  "semgrep:python.lang.security.use-defused-xml.use-defused-xml": {
+    "family": "xml_parser_api",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "An XML parser API is used; entity behavior, runtime safeguards and document provenance determine vulnerability applicability.",
+    "rule_message": "Xml parser api"
+  },
+  "semgrep:python.requests.security.disabled-cert-validation.disabled-cert-validation": {
+    "family": "tls_verification_disabled",
+    "message_origin": "Benchmark-authored brief family label; original rule is identified separately",
+    "rationale": "A narrowly named API/configuration surface; imports and differently scoped operations are kept separate.",
+    "review_predicate": "Review the named API/configuration predicate, input trust and deployed safeguards; the pattern itself does not establish exploitation.",
+    "rule_message": "Tls verification disabled"
+  }
+}

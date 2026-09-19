@@ -2,7 +2,23 @@
 
 Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This document records scanner implementation checks, not a security certification or a behavioral benchmark score.
 
-## Current v0.9.0 results
+## Current v0.10.0 results
+
+The release adds all-rule concrete remediation guidance, structured optional model fix advice, a corrected Inspector environment-value detector, fresh competitor comparisons and an executable quickstart validator. **736 tests passed** on Python 3.12.14; Python 3.9.6 passed with 25 explicit optional-PDF skips. Final coverage was 94.36% of statements and 89.46% of branches (92.77% combined). Measurements and artifact hashes are recorded in [v0.10 validation evidence](../benchmarks/validation-v010/README.md).
+
+The [quickstart receipt](../benchmarks/quickstart-v010/README.md) records **31 actual steps** in a fresh clone and virtual environment, including both installed CLI aliases, source/image scans, justified/disabled exceptions, two actual PDF editing/import/final-export workflows and **72 loopback requests across six API protocols**. The Windows CI job also runs the narrower install/source/image path, with its skips explicit. These loopback servers do not establish live vendor compatibility.
+
+Every one of the **42 rules** has three concrete action/verification pairs, conditional AI-agent/MCP relevance, applicability caveats, residual risks and primary references. Tests exercise real detector positives for all 42, all five source/image evidence contexts, immutable findings and exception states, malformed model advice, missing guidance, exact model-answer denominators, escaped rendering and static SARIF independence. PDF cover and executive summary tests verify that failed optional work is immediately visible.
+
+The [fresh comparison](../benchmarks/comparison-v010/README.md) publishes all scanner observations and conservative finding-by-finding overlap across eight pinned projects. The shared ten-case pattern fixture was actually rerun; each of Invarune, Semgrep and Bandit matched five positive and five negative labels. This is not production precision or recall. Source corroboration, model review, unknowns and confirmed fixture labels remain separate.
+
+An actual v0.10 **Codex finding review** produced structured actions for two selected findings and three additional concerns. A separate actual **control review** produced one grounded check answer with concrete actions and an exact source citation, through analyst protocol 1.1.0. This establishes the recorded transport/schema path, not correctness of model judgment. Nine findings were outside the finding-review cap. [Reports](../examples/reports/cli-codex-v010/README.md), [grounded control-stage receipt](../benchmarks/validation-v010/control-provider/codex_cli.json).
+
+An actual **Claude-enabled full scan** failed authentication after its official browser sign-in had timed out. Zero Claude model answers were received; all 11 static findings and 132 unreviewed checks remain visible, with exit 2. The browser's existing signed-in account still requires authorization for the official Claude Code connection. This is an incomplete requested review, not a successful Claude benchmark. [Actual report and reproduction](../examples/reports/cli-claude-v010/README.md).
+
+Five deterministic targets were rescanned twice with matching four-format bytes. The same-runtime static evidence, remediation and SARIF match both the successful limited Codex run and failed Claude run. The latest installed wheel also passed twelve real source/image scans importing all five report formats; these did not call a model. [Fixture and live-provider receipts](../benchmarks/validation-v010/).
+
+## Historical v0.9.0 results
 
 **661 tests passed on Python 3.12.14**, with no failures, errors or skips. Python 3.9.6 ran the same 661 methods successfully with **23 explicit skips** because optional PDF dependencies were absent. The full run used ReportLab **4.5.1** and pypdf **6.19.0**; the 23-method PDF module also passed with bundled lower-bound ReportLab **4.4.9** and pypdf **6.10.0**.
 
@@ -60,11 +76,13 @@ Local runtime tests use controlled subprocesses because Docker and Podman are no
 
 ## Rule accuracy evaluation
 
-The project-authored corpus has **109 labeled rule-presence assertions**. Versions 0.8.0 and 0.9.0 on corpus **1.1.0** report **52 true positives, 50 true negatives, 2 false positives and 5 false negatives**: **96.30% precision and 91.23% recall** on these selected labels. All **101 supported regression cases match**; 7 of the 8 challenge cases remain mismatched. The matched runtime-placeholder case is not evidence that deployment permissions are safe. This source-pattern corpus does not measure container-image detector accuracy.
+The current project-authored corpus **1.2.0** has **113 labeled rule-presence assertions**. Version **0.10.0** reports **55 TP, 51 TN, 2 FP and 5 FN**: **96.49% precision and 91.67% recall** on these selected labels. All **105 regression cases** match, while seven of eight challenge cases remain mismatched. This revision corrects the previous AI041 `false` string label and adds four cases; it is not a same-byte accuracy gain. [Label correction](../benchmarks/AI041_LABEL_CORRECTION.md).
+
+Historical versions 0.8.0 and 0.9.0 on corpus **1.1.0** reported **52 true positives, 50 true negatives, 2 false positives and 5 false negatives**: **96.30% precision and 91.23% recall** on these selected labels. All **101 supported regression cases match**; 7 of the 8 challenge cases remain mismatched. The matched runtime-placeholder case is not evidence that deployment permissions are safe. This source-pattern corpus does not measure container-image detector accuracy.
 
 Corpus 1.1.0 changes exactly one positive fixture: AI011 now contains a nonfunctional synthetic 64-character encoded body after its PEM header, matching the refined material-detection rule. All labels and other cases are unchanged. The original **1.0.0 bytes** are preserved. Running version 0.8.0 against them produces **51 TP, 50 TN, 2 FP and 6 FN**, including the intentional marker-only AI011 mismatch: **96.23% precision and 89.47% recall**. The unchanged version 0.2.1 baseline applies to corpus 1.0.0 and records 44 TP, 45 TN, 7 FP and 13 FN. Results from 1.1.0 must not be represented as a same-byte comparison with that baseline.
 
-These development-visible source-pattern cases are **not** production accuracy estimates or a held-out benchmark. Every mismatch and corpus digest is published. See [methodology and version distinction](RULE_ACCURACY.md), [current 1.1.0 results](../benchmarks/accuracy-current.md), [current scanner on original 1.0.0 bytes](../benchmarks/accuracy-original-corpus.md), and [the unchanged historical baseline](../benchmarks/accuracy-v021.json).
+These development-visible source-pattern cases are **not** production accuracy estimates or a held-out benchmark. Every mismatch and corpus digest is published. See [methodology and version distinction](RULE_ACCURACY.md), [current 1.2.0 results](../benchmarks/accuracy-current.md), [current scanner on original 1.0.0 bytes, including the incorrect historical AI041 label](../benchmarks/accuracy-original-corpus.md), and [the unchanged historical baseline](../benchmarks/accuracy-v021.json).
 
 Whole-rule removal tests deliberately disable all 42 detectors one at a time and confirm the corpus catches each loss. A false-alarm injection verifies precision and failure-gate handling. These do not constitute exhaustive branch/operator mutation testing. Additional Python/JS/configuration regressions exercise scope, branch, literal, token, whitespace, alias and parser variations. Python findings were identical across four hash-seed settings.
 
@@ -103,7 +121,7 @@ CI now includes Linux Python 3.9/3.12/3.14, macOS Python 3.12, Windows Python 3.
 | `examples/vulnerable` | 3 | 11 | 0 | 1 with default high threshold |
 | Vulnerable fixture with example review policy | 3 | 9 (plus 1 justified, 1 disabled) | 0 | 1: remaining high findings still gate |
 | `examples/safer` | 2 | 0 | 0 | 0 |
-| Scanner package itself | 27 | 0 | 0 | 0 with findings gate disabled |
+| Scanner package itself | 29 | 0 | 0 | 0 with findings gate disabled |
 | Shipped image archive | 4 (1 source + 3 generated evidence) | 3 | 0 | 1 with default high threshold |
 
 The vulnerable fixture produces 8 high, 2 medium, and 1 low finding. It demonstrates dynamic execution, shell use, unsafe deserialization, disabled TLS, an embedded demo credential, a remote plaintext MCP endpoint, wildcard automatic approvals, an unpinned server package, and container configuration risks. It is never executed by the scan.
@@ -118,7 +136,7 @@ All five targets were scanned twice with identical settings. **HTML, Markdown, J
 - [Safer fixture report](../examples/reports/safer/report.md)
 - [Image fixture report](../examples/reports/image/report.md)
 
-The refreshed fixture repeatability and coverage summary are recorded locally in `test-output/validation-v090.json`, with detailed counters in `test-output/coverage-v090.json` (generated artifacts excluded from version control). The separately validated controlbook artifact has its own [PDF validation record](PDF_VALIDATION.md).
+Historical v0.9 fixture repeatability and coverage counters remain in local `test-output/validation-v090.json` and `test-output/coverage-v090.json`. Current v0.10 receipts are published in [validation-v010](../benchmarks/validation-v010/). The separately validated controlbook artifact has its own [PDF validation record](PDF_VALIDATION.md).
 
 ## Boundaries of this validation
 

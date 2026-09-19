@@ -30,6 +30,48 @@ def codeblock(value):
     return f"{fence}text\n{text}\n{fence}"
 
 
+def recommended_actions_markdown(actions):
+    if not actions:
+        return []
+    lines = ["**Model-proposed fix guidance (unverified):**", "",
+             "**Agent/MCP relevance:** " + md(actions["agent_mcp_relevance"]), "",
+             "**When this applies:** " + md(actions["applicability"]), ""]
+    lines += [str(index) + ". " + md(step) for index, step in enumerate(actions["steps"], 1)]
+    lines += ["", "**How to verify:**", ""]
+    lines += ["- " + md(step) for step in actions["verification"]]
+    return lines + [""]
+
+
+def remediation_markdown(advice):
+    if not advice:
+        return []
+    lines = ["#### Fix plan and agent/MCP relevance", "", md(advice["summary"]), "",
+             "**Why this matters for agents/MCP:** " + md(advice["agent_mcp_relevance"]), "",
+             md(advice["scope_note"]), "", "**Confirm applicability:**", ""]
+    lines += ["- " + md(item) for item in advice["applicability"]]
+    lines += ["", "| Step | Concrete change | Verify it |", "|---|---|---|"]
+    for index, step in enumerate(advice["steps"], 1):
+        lines.append("| " + md(str(index) + ". " + step["title"]) + " | " + md(step["action"]) + " | " + md(step["verification"]) + " |")
+    lines += ["", "**Remaining validation:**", ""] + ["- " + md(item) for item in advice["residual_risk"]]
+    lines += ["", "Related controls: " + ", ".join(md(item) for item in advice["control_ids"]), "",
+              "Fix guidance sources: " + "; ".join("[" + md(item["id"]) + "](" + quote(item["url"], safe=':/#?=&%') + ")" for item in advice["sources"]), ""]
+    return lines
+
+
+def advice_coverage(report):
+    judge, analyst = report.get("judge", {}), report.get("analyst", {})
+    findings = judge.get("assessments", [])
+    checks = [check for control in analyst.get("control_assessments", [])
+              for check in control.get("check_assessments", []) if check.get("model_supplied")]
+    omitted = judge.get("omitted_assessments", 0)
+    return {"static_findings": len(report["findings"]), "static_fix_plans": len(report.get("remediation", {})),
+            "finding_assessment_slots": len(findings), "omitted_finding_assessments": omitted,
+            "finding_assessments": len(findings) - omitted, "finding_fix_plans": sum(bool(item.get("recommended_actions")) for item in findings),
+            "additional_concerns": len(judge.get("additional_concerns", [])), "additional_concern_fix_plans": len(judge.get("additional_concern_actions", [])),
+            "model_check_assessments": len(checks), "model_check_fix_plans": sum(bool(item.get("recommended_actions")) for item in checks),
+            "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available."}
+
+
 def finding_anchor(identifier):
     return "finding-" + hashlib.sha256(_unicode_text(identifier).encode("utf-8")).hexdigest()[:16]
 
@@ -64,6 +106,9 @@ def executive_markdown(report, assessment):
     if report.get("review_policy", {}).get("enabled"):
         lines += [f"**User review decisions:** {metrics['active_rules']} active rules; {metrics['active_checks']} active acceptance checks. Separately recorded: {metrics['justified_rules']} justified / {metrics['disabled_rules']} disabled rules; {metrics['justified_checks']} justified / {metrics['disabled_checks']} disabled checks; {metrics['justified_findings']} justified / {metrics['disabled_findings']} disabled observed findings.", "",
                   "Justified and disabled items are excluded from active totals without positive or negative credit. These are user decisions, not validated control passes. The complete reasons appear in **User review decisions** below.", ""]
+    if report.get("advice_coverage"):
+        advice = report["advice_coverage"]
+        lines += [f"**Fix guidance:** {advice['static_fix_plans']}/{advice['static_findings']} observed findings have a deterministic fix plan and agent/MCP context. Model fix plans: {advice['finding_fix_plans']}/{advice['finding_assessments']} finding assessments and {advice['model_check_fix_plans']}/{advice['model_check_assessments']} answered checks. These are proposed changes requiring verification.", ""]
     if assessment["themes"]:
         lines += ["**What the scanner found:** " + "; ".join(f"{md(theme['name'])}: {theme['open_findings']}" for theme in assessment["themes"]) + ". These are detected pattern categories, not confirmed attack paths.", ""]
     if metrics["suppressed_findings"]:
@@ -218,6 +263,11 @@ def markdown(report):
     for f in report["findings"]:
         lines += [f'<a id="{finding_anchor(f["id"])}"></a>', ""]
         lines += [f"### {md(f['rule_id'])} — {md(f['title'])}", "", f"**{md(f['severity'].upper())}** · Confidence: {md(f['confidence'])} · Status: {md(f['status'])}", "", f"Location: {md(f['path'])}:{f['line']}–{f.get('end_line', f['line'])} · Finding ID: `{f['id']}`", "", md(f["description"]), "", codeblock(f.get("evidence", "")), "", "**Remediation:** " + md(f["remediation"]), ""]
+        lines += remediation_markdown(report.get("remediation", {}).get(f["id"]))
+        for advisory in report.get("judge", {}).get("assessments", []):
+            if advisory.get("finding_id") == f["id"]:
+                lines += ["**Optional finding review:** " + md(advisory["verdict"]) + ". " + md(advisory["reason"]), ""]
+                lines += recommended_actions_markdown(advisory.get("recommended_actions"))
         if f.get("suppression_reason"):
             lines += ["**Suppression reason:** " + md(f["suppression_reason"]), ""]
         if f.get("disposition"):
@@ -259,6 +309,7 @@ def markdown(report):
             for check in assessment["check_assessments"]:
                 lines += [f"**Check {check['check_index']}: {md(check['status'])}**", "",
                           md(check["reason"]), ""]
+                lines += recommended_actions_markdown(check.get("recommended_actions"))
                 if check["status"] in ("justified", "disabled"):
                     lines += ["User decision; excluded from optional review and active check totals.", ""]
                 elif not check.get("model_supplied", False):
@@ -294,6 +345,10 @@ def markdown(report):
         lines.append("Disabled. No LLM request was made.")
     else:
         lines += ["Advisory, non-deterministic output. It cannot dismiss deterministic findings, establish compliance, or change the deterministic CI gate.", "", codeblock(json.dumps(judge, indent=2, sort_keys=True, ensure_ascii=True))]
+        concern_actions = {item["concern_index"]: item["recommended_actions"] for item in judge.get("additional_concern_actions", [])}
+        for index, concern in enumerate(judge.get("additional_concerns", []), 1):
+            lines += ["### Additional model concern " + str(index) + " (unverified)", "", md(concern), ""]
+            lines += recommended_actions_markdown(concern_actions.get(index))
     if analyst.get("enabled"):
         lines += ["", "## Analyst evidence and request audit", "",
                   "Only bounded excerpts were submitted. Missing evidence may reflect collection limits, exclusions, or retrieval misses. A verified quote establishes its presence in an excerpt, not the truth of the model's interpretation. Verification steps are proposals and have not been executed.", "",
@@ -321,6 +376,11 @@ def sarif(report):
         except UnicodeError:
             path_bytes = _unicode_text(f["path"]).encode("utf-8")
         item = {"ruleId": f["rule_id"], "ruleIndex": rule_index[f["rule_id"]], "level": "error" if f["severity"] in ("critical", "high") else "warning" if f["severity"] == "medium" else "note", "message": {"text": f["description"] + " Remediation: " + f["remediation"]}, "locations": [{"physicalLocation": {"artifactLocation": {"uri": quote_from_bytes(path_bytes, safe="/")}, "region": {"startLine": max(1, f["line"]), "endLine": max(f["line"], f.get("end_line", f["line"]))}}}], "partialFingerprints": {"agentMcpScan/v1": f["id"]}, "properties": {"severity": f["severity"], "confidence": f["confidence"], "status": f["status"]}}
+        advice = report.get("remediation", {}).get(f["id"])
+        if advice:
+            item["properties"]["agentMcpRemediation"] = advice
+            item["message"]["text"] += " Agent/MCP relevance: " + advice["agent_mcp_relevance"] + " Fix steps: " + " ".join(
+                str(index) + ". " + step["action"] + " Verify: " + step["verification"] for index, step in enumerate(advice["steps"], 1))
         if f["status"] == "suppressed":
             item["suppressions"] = [{"kind": "external", "status": "accepted", "justification": f["suppression_reason"]}]
         elif f["status"] in ("justified", "disabled"):
@@ -369,8 +429,10 @@ def write_reports(report, output):
         raise ValueError("Report directory must not be a symbolic link")
     output = output.resolve()
     from .methodology import build_methodology
+    from .remediation import build_remediation
     from .review_workspace import build_workspace, ReviewWorkspaceLimitError, MAX_ITEMS, MAX_WORKSPACE_BYTES
-    report = {**report, "methodology": build_methodology(report)}
+    report = {**report, "methodology": build_methodology(report), "remediation": build_remediation(report)}
+    report["advice_coverage"] = advice_coverage(report)
     try:
         report["review_workspace"] = build_workspace(report)
         report.pop("review_workspace_unavailable", None)

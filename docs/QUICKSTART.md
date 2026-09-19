@@ -2,7 +2,7 @@
 
 **NimeshBuild · Evidence for agent security**
 
-Get your first report, then add image scanning, optional AI review or accepted exceptions. These examples target **Invarune 0.9.0**. Deterministic scans need **Python 3.9+**, with no Python packages, API keys or model subscription. PDF export/import uses optional Python packages.
+Get your first report, then add image scanning, optional AI review or accepted exceptions. These examples target **Invarune 0.10.0**. Deterministic scans need **Python 3.9+**, with no Python packages, API keys or model subscription. PDF export/import uses optional Python packages.
 
 ## 1. Get your first report
 
@@ -147,7 +147,9 @@ Every new operational report carries the same review fields. In HTML, enter a de
 python3 scan.py examples/vulnerable --review-report ./reviewed-report.html --output ./scan-report/final
 ```
 
-For a fillable PDF, install the extra in a virtual environment and generate it:
+For a fillable PDF, install the extra in a virtual environment and generate it. Run from the checkout. Create `.venv` only if you have not already created it for this project; choose another environment name if that path belongs to something else.
+
+macOS/Linux:
 
 ```sh
 python3 -m venv .venv
@@ -155,17 +157,29 @@ python3 -m venv .venv
 .venv/bin/python scan.py examples/vulnerable --pdf --output ./scan-report/pdf-review
 ```
 
-Fill and save `report.pdf` in an AcroForm-compatible editor. Preserve its fields and attachments; do not print or flatten it. Then run:
+Windows PowerShell:
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install '.[pdf]'
+.\.venv\Scripts\python.exe scan.py examples/vulnerable --pdf --output ./scan-report/pdf-review
+```
+
+The vulnerable fixture intentionally returns exit 1. Fill `scan-report/pdf-review/report.pdf` in an AcroForm-compatible editor and save a separate copy as `reviewed-report.pdf` in the checkout. Preserve its fields and attachments; do not print or flatten it. Then run the command for your platform:
 
 ```sh
 .venv/bin/python scan.py examples/vulnerable --review-report ./reviewed-report.pdf --pdf --output ./scan-report/final-pdf
+```
+
+```powershell
+.\.venv\Scripts\python.exe scan.py examples/vulnerable --review-report ./reviewed-report.pdf --pdf --output ./scan-report/final-pdf
 ```
 
 Always select the fresh source/image target explicitly and use a new output directory. Matching decisions are applied individually; changed evidence leaves decisions unapplied. A justification is recorded as **justified**, never as a verified pass. Explicit pending runtime/human decisions return exit 2. Model review stays off unless you enable it again. [Field definitions, format limits and complete workflow](REVIEW_WORKFLOW.md).
 
 ## 7. Install the shorter command, optionally
 
-Direct script usage needs no installation. To use `invarune` from another directory, install this checkout in a virtual environment.
+Direct script usage needs no installation. To use `invarune` from another directory, install this checkout in a virtual environment. If you installed the PDF extra above, the command is already installed: skip environment creation and installation here. Otherwise, create a new environment or reuse this project's existing `.venv`.
 
 macOS/Linux:
 
@@ -185,6 +199,18 @@ py -3 -m venv .venv
 ```
 
 Installation may download build tooling. With the environment active, replace `python3 scan.py` above with `invarune`. Otherwise, use the installed executable's absolute path, or give Python the absolute path to this checkout's `scan.py`.
+
+## Reproduce the quickstart validation
+
+The [executed quickstart receipt](../benchmarks/quickstart-v010/README.md) records command exits, fixture counts, package versions, and exact source-file hashes. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It checks actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
+
+```sh
+python3 scripts/validate_quickstart.py --output test-output/quickstart
+```
+
+On Windows use `py -3` in place of `python3`. Git and Python 3.9+ must be available; installation can download build/PDF packages. The script deletes its temporary clone and environment after the run, and retains the receipt at the selected output directory. Use `--skip-pdf` or `--skip-gateway` to record explicitly narrower coverage. Each invocation replaces only `receipt.json` and `README.md` in that output directory.
+
+Fixture success validates these workflows. It does not measure production detection accuracy, perform a real provider login, test a live model, or establish behavior on a platform absent from the receipt. See [detector accuracy and known mismatches](RULE_ACCURACY.md) and [actual CLI provider validation](CLI_PROVIDER_RESEARCH.md) for those separate results.
 
 ## Help and next steps
 

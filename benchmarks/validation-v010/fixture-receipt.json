@@ -1,0 +1,302 @@
+{
+  "runs": [
+    {
+      "advice_coverage": {
+        "additional_concern_fix_plans": 0,
+        "additional_concerns": 0,
+        "finding_assessment_slots": 0,
+        "finding_assessments": 0,
+        "finding_fix_plans": 0,
+        "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+        "model_check_assessments": 0,
+        "model_check_fix_plans": 0,
+        "omitted_finding_assessments": 0,
+        "static_findings": 11,
+        "static_fix_plans": 11
+      },
+      "case": "vulnerable",
+      "command": [
+        "python",
+        "scan.py",
+        "examples/vulnerable",
+        "--output",
+        "<OUTPUT>",
+        "--summary-json"
+      ],
+      "exit_code": 1,
+      "paired_byte_identical": true,
+      "report_sha256": {
+        "report.html": "b107cdae12e0f17e731bdc4066910432d627f9de5c6971bae075a284e85245e8",
+        "report.json": "8d059050fb6ff4ee6a5541bd196d7859b639e3adb79ce56f88636598f3060a9f",
+        "report.md": "88046dc6cba31c05631b6e887d4bf65db6d306ba9d84e43822d53779cb888640",
+        "report.sarif": "98a419811a7571f76ea4ac7a70e04e47fbb76a5619edb976d9a4ee16102dfcad"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 796,
+        "bytes_read": 796,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 3,
+        "open_findings": 11,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 8,
+          "info": 0,
+          "low": 1,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.10.0"
+      }
+    },
+    {
+      "advice_coverage": {
+        "additional_concern_fix_plans": 0,
+        "additional_concerns": 0,
+        "finding_assessment_slots": 0,
+        "finding_assessments": 0,
+        "finding_fix_plans": 0,
+        "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+        "model_check_assessments": 0,
+        "model_check_fix_plans": 0,
+        "omitted_finding_assessments": 0,
+        "static_findings": 0,
+        "static_fix_plans": 0
+      },
+      "case": "safer",
+      "command": [
+        "python",
+        "scan.py",
+        "examples/safer",
+        "--output",
+        "<OUTPUT>",
+        "--summary-json"
+      ],
+      "exit_code": 0,
+      "paired_byte_identical": true,
+      "report_sha256": {
+        "report.html": "f9eb622c9052f981ed43b3d1fcc358eee02d977c6b0064dc5eefd218501849f3",
+        "report.json": "6891c5abd827fc44c0f5cdca93a379a166e3295e42e2047fac39d62a55ef0864",
+        "report.md": "bf213d327472af6f302175f284126e8f829cc7f5cd321dd630dfb3484d83fe1a",
+        "report.sarif": "c9e56f69c06d98634623bfff7d5fa4a81d969262620bdcbe485610f5390df72c"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 607,
+        "bytes_read": 607,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 2,
+        "open_findings": 0,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.10.0"
+      }
+    },
+    {
+      "advice_coverage": {
+        "additional_concern_fix_plans": 0,
+        "additional_concerns": 0,
+        "finding_assessment_slots": 0,
+        "finding_assessments": 0,
+        "finding_fix_plans": 0,
+        "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+        "model_check_assessments": 0,
+        "model_check_fix_plans": 0,
+        "omitted_finding_assessments": 0,
+        "static_findings": 11,
+        "static_fix_plans": 11
+      },
+      "case": "reviewed",
+      "command": [
+        "python",
+        "scan.py",
+        "examples/vulnerable",
+        "--review-config",
+        "examples/review-config.json",
+        "--output",
+        "<OUTPUT>",
+        "--summary-json"
+      ],
+      "exit_code": 1,
+      "paired_byte_identical": true,
+      "report_sha256": {
+        "report.html": "c65d13470b60c808229d10109ad0af6199a8c26210099a1320b64d67bf749b4a",
+        "report.json": "06803e2709ea23df7572909a16822aba45bac1af829395311f268075ba5691e1",
+        "report.md": "3c0a42254269c1409b85a9c7aed58937540ec364968628217313f002a58968a3",
+        "report.sarif": "5b22291d553cdc99709ea97c201409950b027f4efb06869918840f157ff320e9"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 796,
+        "bytes_read": 796,
+        "coverage_gaps": 0,
+        "disabled_findings": 1,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 3,
+        "justified_findings": 1,
+        "open_findings": 9,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 8,
+          "info": 0,
+          "low": 0,
+          "medium": 1
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.10.0"
+      }
+    },
+    {
+      "advice_coverage": {
+        "additional_concern_fix_plans": 0,
+        "additional_concerns": 0,
+        "finding_assessment_slots": 0,
+        "finding_assessments": 0,
+        "finding_fix_plans": 0,
+        "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+        "model_check_assessments": 0,
+        "model_check_fix_plans": 0,
+        "omitted_finding_assessments": 0,
+        "static_findings": 3,
+        "static_fix_plans": 3
+      },
+      "case": "image",
+      "command": [
+        "python",
+        "scan.py",
+        "--image-archive",
+        "examples/images/demo-agent.tar",
+        "--output",
+        "<OUTPUT>",
+        "--summary-json"
+      ],
+      "exit_code": 1,
+      "paired_byte_identical": true,
+      "report_sha256": {
+        "report.html": "f295683623817493cfd7284f76531a1c0cea317ad5affd7aa72b44fd7acf3e14",
+        "report.json": "3fe6b316022bb54c90724b3589f5cfa0139b897c8036e55dd920682dac47c728",
+        "report.md": "a58bc20175b0640da8231b48d8170e9c201a6c6225b5508bd1184e90c683f962",
+        "report.sarif": "d796422c0cb0bedcd3854b75df31f79d55f1d563ff5ad4986057148248b7b584"
+      },
+      "summary": {
+        "assessment": "static_image_triage_only",
+        "bytes_charged": 32,
+        "bytes_read": 32,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 4,
+        "image_analysis_scope": "packaged_source_and_metadata",
+        "metadata_evidence_bytes": 157,
+        "open_findings": 3,
+        "packaged_files_inspected": 1,
+        "packaged_source_files_inspected": 1,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 3,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.10.0"
+      }
+    },
+    {
+      "advice_coverage": {
+        "additional_concern_fix_plans": 0,
+        "additional_concerns": 0,
+        "finding_assessment_slots": 0,
+        "finding_assessments": 0,
+        "finding_fix_plans": 0,
+        "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+        "model_check_assessments": 0,
+        "model_check_fix_plans": 0,
+        "omitted_finding_assessments": 0,
+        "static_findings": 0,
+        "static_fix_plans": 0
+      },
+      "case": "self",
+      "command": [
+        "python",
+        "scan.py",
+        "ai_security_scan",
+        "--fail-on",
+        "none",
+        "--output",
+        "<OUTPUT>",
+        "--summary-json"
+      ],
+      "exit_code": 0,
+      "paired_byte_identical": true,
+      "report_sha256": {
+        "report.html": "0c46ec316bfa2632db26ffdf2574ef1014a1be735fa4ae7f128be0460eae257a",
+        "report.json": "79efcb9614d980e81ffd3fcffeb68bb2cd2def17cea16165f1d5f242edbac5ca",
+        "report.md": "d16d65494112b807f3fe6accf52a2459eb5c5c91e8c6f030d11fa53423882147",
+        "report.sarif": "1d6fef57b9c9a78951b94847ab26de3252123807cc7b861411c9e092086a6b09"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 958741,
+        "bytes_read": 958741,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 29,
+        "open_findings": 0,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.10.0"
+      }
+    }
+  ],
+  "schema_version": "1.0",
+  "validation_date": "2026-09-19"
+}

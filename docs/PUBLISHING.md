@@ -45,3 +45,7 @@ Generated scratch data, render QA sheets, runtime logs, credentials, and private
 ## Operational PDF and editable reports (v0.9.0)
 
 Install the optional PDF extra and use `--pdf` on a source/image scan to generate `report.pdf` alongside HTML, Markdown, JSON and SARIF. Each operational format supports explicit `--review-report` import on a fresh selected target. The controlbook and comparative benchmark PDF are explanatory publications and do not carry scan-specific editable capsules. See [review workflow](REVIEW_WORKFLOW.md) for field limits and edit/save instructions.
+
+## Finding-by-finding comparison (0.10)
+
+Validate its frozen/current ledger and review bindings with `python3 scripts/build_finding_comparison_report.py --validate-only`. Generate the branded PDF with `python3 scripts/build_finding_comparison_report.py --output output/pdf/invarune-finding-comparison-v010.pdf` using the authoring ReportLab environment. This never scans a target or invokes a model. The current comparison preserves the failed Claude attempt and explicitly unknown TP rate. Render and visually inspect all pages after edits; [the current QA receipt](../benchmarks/validation-v010/pdf-receipt.json) is tied to exact artifact hashes.

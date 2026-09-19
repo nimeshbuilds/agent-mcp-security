@@ -1,0 +1,1662 @@
+{
+  "schema_version": "1.0",
+  "catalog_version": "1.0.0",
+  "reviewed_at": "2026-09-19",
+  "interpretation": "Project-authored remediation plans, causally mapped to agent/MCP use and supported by primary engineering guidance. Proposed changes and verification scenarios are not automatic patches, completed tests, proof of exploitability, or official benchmark conformance. Applicability and runtime evidence must be checked for the affected deployment.",
+  "references": [
+    {
+      "id": "REM-PY-AST",
+      "title": "Python ast.literal_eval security and resource limits",
+      "url": "https://docs.python.org/3/library/ast.html#ast.literal_eval",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-PY-SUBPROCESS",
+      "title": "Python subprocess: security considerations",
+      "url": "https://docs.python.org/3/library/subprocess.html#security-considerations",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-REQUESTS-TLS",
+      "title": "Requests: SSL certificate verification",
+      "url": "https://requests.readthedocs.io/en/latest/user/advanced/#ssl-cert-verification",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-PYJWT",
+      "title": "PyJWT: decode and claim validation",
+      "url": "https://pyjwt.readthedocs.io/en/stable/api.html#jwt.decode",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-FLASK-DEBUG",
+      "title": "Flask: debugging application errors",
+      "url": "https://flask.palletsprojects.com/en/stable/debugging/",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-UV-TOOLS",
+      "title": "uv: tool versions and environments",
+      "url": "https://docs.astral.sh/uv/concepts/tools/",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-NPM-EXEC",
+      "title": "npm exec: package selection and execution",
+      "url": "https://docs.npmjs.com/cli/v11/commands/npm-exec/",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-PIP-INTEGRITY",
+      "title": "pip: secure installations and hash checking",
+      "url": "https://pip.pypa.io/en/stable/topics/secure-installs/",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-DOCKER-BUILD",
+      "title": "Docker: pin base image versions",
+      "url": "https://docs.docker.com/build/building/best-practices/#pin-base-image-versions",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-DOCKER-SECURITY",
+      "title": "Docker Engine security and daemon access",
+      "url": "https://docs.docker.com/engine/security/",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-K8S-PODS",
+      "title": "Kubernetes Pod Security Standards",
+      "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-PY-TEMPFILE",
+      "title": "Python tempfile: atomic creation and mktemp deprecation",
+      "url": "https://docs.python.org/3/library/tempfile.html",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-PY-SECRETS",
+      "title": "Python secrets: security tokens",
+      "url": "https://docs.python.org/3/library/secrets.html",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-PY-SQLITE",
+      "title": "Python sqlite3: parameter substitution",
+      "url": "https://docs.python.org/3/library/sqlite3.html#sqlite3-placeholders",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-JINJA",
+      "title": "Jinja: sandbox limits and resource restrictions",
+      "url": "https://jinja.palletsprojects.com/en/stable/sandbox/",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-DOMPURIFY",
+      "title": "DOMPurify: HTML sanitization and integration caveats",
+      "url": "https://github.com/cure53/DOMPurify",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    },
+    {
+      "id": "REM-INSPECTOR-ENV",
+      "title": "MCP Inspector: environment variables and authentication",
+      "url": "https://github.com/modelcontextprotocol/inspector/blob/main/docs/environment-variables.md",
+      "accessed": "2026-09-19",
+      "relationship": "Primary API or platform documentation supporting the indicated implementation steps; applicability and verification scenarios are authored by Invarune."
+    }
+  ],
+  "rules": [
+    {
+      "rule_id": "AI001",
+      "summary": "Replace dynamic Python evaluation with a bounded operation interface.",
+      "agent_mcp_relevance": "An agent can convert a prompt or MCP tool result into an eval/exec argument. If that value reaches this call, model influence becomes Python execution with the tool process identity.",
+      "applicability": [
+        "Trace the expression from its producer to this exact call; a nonliteral expression alone does not establish external control or an active agent path.",
+        "Trusted fixed startup code and deliberately isolated code-execution services need different treatment; document which boundary applies."
+      ],
+      "steps": [
+        {
+          "title": "Remove the interpreter boundary",
+          "action": "Replace eval/exec with a dictionary of fixed callable operations and validate a small JSON argument schema before selecting a callable. Do not permit callers to name arbitrary modules, attributes or Python expressions.",
+          "verification": "Send unsupported operation names and extra arguments through the same tool entry point; verify rejection before any callable executes."
+        },
+        {
+          "title": "Choose a bounded data parser",
+          "action": "For data, prefer JSON plus explicit type, length and nesting limits. Use ast.literal_eval only when Python literals are genuinely required, with independent input and resource bounds; it is not a general untrusted-input sandbox.",
+          "verification": "Exercise malformed, oversized and deeply nested values in an isolated test and confirm bounded failure without evaluating names or calls."
+        },
+        {
+          "title": "Isolate required generated execution",
+          "action": "If code execution is the product feature, route it to a disposable worker with a separate identity, scoped workspace, no ambient credentials, bounded CPU/memory/time and denied-by-default egress.",
+          "verification": "Attempt a forbidden workspace read, network request and long-running task in a test worker; retain denials and verify cleanup."
+        }
+      ],
+      "residual_risk": [
+        "A permitted operation may still violate tenant or business policy; authorize target resources outside the model.",
+        "Rescanning can confirm removal of a recognized expression, not sandbox strength or absence of alternate execution paths."
+      ],
+      "control_ids": [
+        "EXEC-02"
+      ],
+      "source_ids": [
+        "REM-PY-AST",
+        "OWASP-AGENT-CS",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI002",
+      "summary": "Remove shell parsing and constrain the actual executable and its arguments.",
+      "agent_mcp_relevance": "An agent or MCP tool often translates model-selected operations into subprocess commands. Untrusted arguments embedded in a shell string can turn one permitted tool action into additional commands.",
+      "applicability": [
+        "Determine whether each dynamic component can be influenced by user, retrieval, model or tool content.",
+        "shell=False is insufficient when the selected program is itself sh, bash, cmd, PowerShell or another interpreter receiving generated code."
+      ],
+      "steps": [
+        {
+          "title": "Use a fixed process invocation",
+          "action": "Replace shell=True and shell-specific helpers with subprocess.run using an argument list, shell=False, a fixed executable path and an explicit timeout. Replace pipelines with separate bounded calls or native library operations.",
+          "verification": "Submit spaces, quotes and shell metacharacters as data to a harmless test executable; assert the expected argument vector and that no additional process starts."
+        },
+        {
+          "title": "Validate argument meaning",
+          "action": "Allowlist flags and resource identifiers, reject caller-selected executables, and use an end-of-options delimiter only where the chosen utility supports it. Do not treat shlex.split or shell quoting as authorization.",
+          "verification": "Test leading-dash filenames, unexpected flags and an interpreter executable; verify policy blocks them before process creation."
+        },
+        {
+          "title": "Constrain process authority",
+          "action": "Set a permitted working directory and minimal environment, bound output and runtime, and apply a separate low-privilege execution identity where required. Review Windows batch-file behavior on the actual platform.",
+          "verification": "Run denial tests for forbidden files, inherited credentials and excessive output on each deployed operating system."
+        }
+      ],
+      "residual_risk": [
+        "Argument arrays prevent shell parsing but cannot prevent dangerous valid options or harmful allowed operations.",
+        "Process timeouts do not by themselves establish descendant-process cleanup or OS isolation."
+      ],
+      "control_ids": [
+        "EXEC-01"
+      ],
+      "source_ids": [
+        "REM-PY-SUBPROCESS",
+        "OWASP-AGENT-CS"
+      ]
+    },
+    {
+      "rule_id": "AI003",
+      "summary": "Replace os.system/os.popen with a fixed executable and validated argument list.",
+      "agent_mcp_relevance": "An MCP command tool may interpolate planner output into os.system or os.popen. Those APIs introduce a shell boundary that can expand attacker-controlled syntax into the server account privileges.",
+      "applicability": [
+        "Inspect the command construction and upstream validation at the reported call; this rule does not prove an attacker can supply the value.",
+        "If the operation is file copying, listing or parsing, a dedicated library API often removes the shell requirement entirely."
+      ],
+      "steps": [
+        {
+          "title": "Remove os shell APIs",
+          "action": "Replace the operation with a native library call or subprocess.run([fixed_executable, validated_argument], shell=False, timeout=...). Split intentional pipelines into explicit stages with bounded output.",
+          "verification": "Use a harmless fixture containing shell metacharacters and assert it is processed as one argument or rejected, without a second command."
+        },
+        {
+          "title": "Restrict operations before execution",
+          "action": "Bind the tool name to a fixed executable and authorized workspace; validate flags and resource ownership independently of the prompt and of shell escaping.",
+          "verification": "Call the server directly with an unauthorized path, extra option and different executable; verify rejection even without the agent planner."
+        },
+        {
+          "title": "Close inherited authority",
+          "action": "Supply a minimal environment, avoid carrying gateway/cloud credentials into the child, and enforce cancellation plus output limits.",
+          "verification": "Inspect the test child environment and attempt an overlong operation; confirm sensitive variables are absent and the process is stopped."
+        }
+      ],
+      "residual_risk": [
+        "A correctly formed command can still modify the wrong tenant resource; policy enforcement and runtime identity remain necessary."
+      ],
+      "control_ids": [
+        "EXEC-01"
+      ],
+      "source_ids": [
+        "REM-PY-SUBPROCESS",
+        "MCP-TOOLS"
+      ]
+    },
+    {
+      "rule_id": "AI004",
+      "summary": "Use safe YAML construction and separately validate the resulting data.",
+      "agent_mcp_relevance": "Agents and MCP servers often read tool manifests, workflows or uploaded configuration as YAML. An executable loader can convert attacker-influenced configuration into Python objects before tool authorization runs.",
+      "applicability": [
+        "Confirm the installed PyYAML version, resolved Loader and any custom constructors; a yaml.load spelling alone does not describe every loader.",
+        "A local administrator-owned configuration may have a different producer trust boundary from uploaded or retrieved YAML."
+      ],
+      "steps": [
+        {
+          "title": "Select a nonexecutable loader",
+          "action": "Replace unsafe_load or unsafe yaml.load with yaml.safe_load, or use SafeLoader/CSafeLoader explicitly where supported. Audit registered constructors and remove any that instantiate application objects or execute code.",
+          "verification": "Load a benign fixture with a Python-object tag and assert rejection; retain a normal mapping/list fixture that still parses."
+        },
+        {
+          "title": "Enforce the accepted schema",
+          "action": "After parsing, require expected primitive types, keys and collection limits before using values to select tools, files or permissions. Reject unknown security-sensitive fields.",
+          "verification": "Exercise unexpected types, extra permission keys and duplicated/conflicting configuration values according to the chosen loader policy."
+        },
+        {
+          "title": "Bound parser work",
+          "action": "Set document byte, nesting and processing limits at the input boundary; process hostile YAML in a restricted worker if the library cannot enforce the necessary budgets.",
+          "verification": "Test oversized and alias-heavy fixtures under a measured time/memory limit and confirm a controlled error."
+        }
+      ],
+      "residual_risk": [
+        "SafeLoader does not authenticate configuration authors, authorize described tools or guarantee denial-of-service resistance."
+      ],
+      "control_ids": [
+        "EXEC-06"
+      ],
+      "source_ids": [
+        "TECH-PYYAML",
+        "MCP-TOOLS"
+      ]
+    },
+    {
+      "rule_id": "AI005",
+      "summary": "Replace executable object deserialization or tightly authenticate its producer.",
+      "agent_mcp_relevance": "A cached agent state, plugin artifact or MCP-uploaded file may reach pickle-compatible loading. Deserialization can execute producer-selected code before downstream data validation.",
+      "applicability": [
+        "Identify the producer and every write path to the artifact, including shared caches, object stores and task workspaces.",
+        "The finding identifies a dangerous loader; it does not show that its input is attacker controlled."
+      ],
+      "steps": [
+        {
+          "title": "Migrate to data-only serialization",
+          "action": "Replace pickle, dill, joblib or equivalent object loading with JSON or another nonexecutable format plus a versioned schema. Reconstruct only explicitly supported application types.",
+          "verification": "Roundtrip required benign state and reject unexpected type markers, fields and oversized collections without importing producer-selected code."
+        },
+        {
+          "title": "Control unavoidable legacy artifacts",
+          "action": "If compatibility requires executable deserialization, authenticate the exact bytes against a producer/key or registry digest established independently of the artifact location. Restrict cache and artifact writers.",
+          "verification": "Alter one byte and change the producer identity in test artifacts; verify rejection before the deserializer is called."
+        },
+        {
+          "title": "Quarantine conversion",
+          "action": "Convert legacy artifacts in a disposable credential-free worker with resource and network limits, then export validated data to the main service.",
+          "verification": "Verify conversion cannot read main-service secrets or contact forbidden destinations and that failed conversions publish no partial trusted state."
+        }
+      ],
+      "residual_risk": [
+        "A valid signature identifies a producer; it does not make a compromised or malicious producer safe.",
+        "Schema validation after pickle loading is too late to prevent execution during loading."
+      ],
+      "control_ids": [
+        "EXEC-06"
+      ],
+      "source_ids": [
+        "TECH-PYTHON-SECURITY",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI006",
+      "summary": "Restore certificate and hostname verification, including custom gateways.",
+      "agent_mcp_relevance": "The affected connection can carry model credentials, prompts, MCP tool requests or retrieved evidence. Disabling TLS verification lets a reachable intermediary impersonate that peer and influence both data and agent decisions.",
+      "applicability": [
+        "Confirm which client and effective session settings apply; the detected literal does not prove this connection is used in production.",
+        "A private gateway CA is a trust-distribution requirement, not a reason to disable peer verification."
+      ],
+      "steps": [
+        {
+          "title": "Restore authenticated TLS",
+          "action": "Remove verify=False, CERT_NONE and hostname-check bypasses. Use the client default trust store or supply an approved CA bundle through its supported verification setting.",
+          "verification": "Against a test endpoint, reject an untrusted certificate and wrong hostname while accepting the intended certificate chain."
+        },
+        {
+          "title": "Provision gateway trust explicitly",
+          "action": "Distribute the private CA through the runtime trust configuration, verify the configured gateway hostname, and document CA rotation. Keep credentials out of URL query strings and diagnostics.",
+          "verification": "Exercise certificate renewal and CA rollover in a staging environment; confirm the client never retries with verification disabled."
+        },
+        {
+          "title": "Inspect effective runtime overrides",
+          "action": "Check environment variables, shared HTTP sessions, proxies and image/deployment configuration for remaining bypasses on model and MCP clients.",
+          "verification": "Run the actual deployment client through the intended proxy/gateway and retain handshake results plus redacted configuration evidence."
+        }
+      ],
+      "residual_risk": [
+        "Valid TLS authenticates the endpoint name, not the endpoint operator trustworthiness or its data-retention practices."
+      ],
+      "control_ids": [
+        "MCP-01"
+      ],
+      "source_ids": [
+        "REM-REQUESTS-TLS",
+        "MCP-SECURITY"
+      ]
+    },
+    {
+      "rule_id": "AI007",
+      "summary": "Replace wildcard browser origins and enforce MCP Origin checks at the server.",
+      "agent_mcp_relevance": "A browser can reach some local or remote MCP HTTP services. A broad cross-origin policy may expose tool responses or weaken the browser-facing boundary around operations running with the user credentials.",
+      "applicability": [
+        "CORS primarily controls browser response access; it is not authentication and does not prevent every state-changing request.",
+        "Check the effective framework behavior, credentials mode and transport. A public credential-free resource may intentionally allow broad reads."
+      ],
+      "steps": [
+        {
+          "title": "Specify exact allowed origins",
+          "action": "Replace wildcard or reflected-origin rules with an explicit scheme/host/port allowlist for the legitimate UI. Avoid broad subdomain matches and do not combine wildcard origins with credentialed access.",
+          "verification": "Send trusted and untrusted Origin headers and inspect both preflight and actual responses; verify a disallowed origin does not receive credentialed response access."
+        },
+        {
+          "title": "Validate MCP transport origins",
+          "action": "For an HTTP MCP endpoint, validate an Origin header when present and reject invalid origins before processing tool requests. Treat absent Origin according to client/transport requirements rather than assuming it authenticates the caller.",
+          "verification": "Send a direct POST with an untrusted Origin and verify denial before a harmless tool side effect; separately test supported nonbrowser clients."
+        },
+        {
+          "title": "Enforce independent access control",
+          "action": "Require the appropriate authentication and per-tool/resource authorization and constrain local listeners or ingress. Do not rely on CORS to protect anonymous mutations.",
+          "verification": "Attempt the same unauthorized operation through a nonbrowser HTTP client with no Origin; confirm authentication and authorization still deny it."
+        }
+      ],
+      "residual_risk": [
+        "Allowed origins can be compromised; tenant isolation, CSRF protections where applicable and tool authorization remain separate checks."
+      ],
+      "control_ids": [
+        "MCP-01"
+      ],
+      "source_ids": [
+        "MCP-HTTP",
+        "MCP-SECURITY"
+      ]
+    },
+    {
+      "rule_id": "AI008",
+      "summary": "Match the listener address to the intended local or remote trust boundary.",
+      "agent_mcp_relevance": "A broadly bound agent dashboard or MCP HTTP server may expose its tool authority to additional networks. The bind literal does not establish whether firewalls, published ports or authentication actually permit access.",
+      "applicability": [
+        "Confirm the effective listener inside its network namespace and whether a proxy, container port publication or tunnel exposes it.",
+        "Wildcard binding may be intentional for a protected remote service; loopback inside a container is not the host loopback."
+      ],
+      "steps": [
+        {
+          "title": "Restrict local-only listeners",
+          "action": "For a local service, bind explicitly to the required loopback address and avoid wildcard container port publishing or unreviewed tunnels. Check both IPv4 and IPv6 listener behavior.",
+          "verification": "Inspect actual sockets and attempt a connection from an unauthorized network namespace or host; confirm the local service is unreachable there."
+        },
+        {
+          "title": "Protect intentional remote service ingress",
+          "action": "For a remote MCP service, expose only approved ingress with TLS, authentication, origin handling and per-tool/resource authorization. Scope firewall rules to necessary clients.",
+          "verification": "Verify authorized use still succeeds and anonymous or out-of-scope requests fail through the same deployed ingress path."
+        },
+        {
+          "title": "Review deployment overrides",
+          "action": "Inspect effective launch arguments, service definitions, sidecars and network policies instead of relying only on the source default.",
+          "verification": "Compare the running listener and published-port configuration against the approved deployment record after rollout."
+        }
+      ],
+      "residual_risk": [
+        "Loopback reduces network reachability but does not defend against every malicious local process or browser-origin attack."
+      ],
+      "control_ids": [
+        "MCP-01"
+      ],
+      "source_ids": [
+        "MCP-HTTP",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI009",
+      "summary": "Disable deployed debug behavior without losing protected diagnostics.",
+      "agent_mcp_relevance": "An agent API or MCP server may handle secrets, prompts and privileged tools. A reachable development debugger or verbose exception page can reveal that state and, in some frameworks, permit code execution.",
+      "applicability": [
+        "Resolve the framework and final deployment settings; debug behavior varies and a test-only setting is not evidence of public exposure.",
+        "A framework debug flag, log level and interactive debugger are different controls and may require separate settings."
+      ],
+      "steps": [
+        {
+          "title": "Disable runtime debug and debugger switches",
+          "action": "Set the production server/framework debug option to false, remove development-server launch flags, and use the supported production server configuration.",
+          "verification": "Start the deployed configuration in staging and trigger a controlled exception; verify there is no interactive debugger or detailed client traceback."
+        },
+        {
+          "title": "Separate user errors from protected logs",
+          "action": "Return a minimal error identifier and safe message. Keep detailed server diagnostics in access-controlled logs with credential/prompt redaction.",
+          "verification": "Use a synthetic secret marker in a failing request and confirm it is absent from the HTTP/MCP error and unauthorized log views."
+        },
+        {
+          "title": "Prevent accidental re-enablement",
+          "action": "Remove debug overrides from environment files, image defaults and orchestration manifests; require an explicit separate development profile.",
+          "verification": "Inspect effective deployment settings and validate the production startup fails or alerts if the development profile is selected."
+        }
+      ],
+      "residual_risk": [
+        "Disabling debug does not remove injection defects or secrets already emitted to clients and logs."
+      ],
+      "control_ids": [
+        "DATA-03"
+      ],
+      "source_ids": [
+        "REM-FLASK-DEBUG",
+        "CISA-SECURE-BY-DESIGN"
+      ]
+    },
+    {
+      "rule_id": "AI010",
+      "summary": "Classify the detected credential, rotate real exposure and remove embedded values.",
+      "agent_mcp_relevance": "A hardcoded model, gateway or downstream-tool key can grant access outside the intended agent session and tenant. Repository or image readers may obtain the credential independently of the agent approval path.",
+      "applicability": [
+        "Determine whether the value is a real credential, a nonsecret identifier or deliberate test data without copying the value into tickets or model prompts.",
+        "The detector does not validate the credential with its provider and does not establish prior misuse."
+      ],
+      "steps": [
+        {
+          "title": "Revoke or rotate confirmed live credentials",
+          "action": "Identify the credential owner and permissions using secret-safe metadata. Revoke or rotate real exposed credentials with a staged application update and review provider audit records.",
+          "verification": "Verify the old credential is rejected and the replacement has only required model/tool scopes; retain redacted rotation evidence."
+        },
+        {
+          "title": "Remove literals from delivery artifacts",
+          "action": "Replace the literal with a secret-manager lookup or runtime injection. Remove it from tracked files, distributed image layers and relevant build artifacts; coordinate any history rewrite with repository owners.",
+          "verification": "Rescan the source and every retained image layer, and check logs/build artifacts for the old credential through a protected secret-scanning workflow."
+        },
+        {
+          "title": "Limit future credential reach",
+          "action": "Use separate per-service or per-tenant credentials where supported and restrict which tool workers receive them. Exclude local secret files from version control and build contexts.",
+          "verification": "Run a tool that does not need the credential and verify it cannot read it; confirm clean builds do not embed injected build secrets."
+        }
+      ],
+      "residual_risk": [
+        "Deleting source text does not invalidate a copied credential; rotation and access review remain necessary.",
+        "Environment injection can still expose secrets through process inheritance or diagnostics."
+      ],
+      "control_ids": [
+        "AUTH-05",
+        "DATA-01"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "MCP-SECURITY"
+      ]
+    },
+    {
+      "rule_id": "AI011",
+      "summary": "Treat plausible private-key exposure as a key-management incident until classified.",
+      "agent_mcp_relevance": "A signing or TLS key used by an agent gateway or MCP identity can let another party impersonate a service or forge trusted artifacts. A repository/image copy can outlive the file currently deployed.",
+      "applicability": [
+        "Confirm whether the material is a usable private key and whether it belongs to any active trust relationship; test fixtures may be deliberate.",
+        "Do not upload the key to a model, online validator or public issue to check it."
+      ],
+      "steps": [
+        {
+          "title": "Identify and retire affected trust",
+          "action": "Use a protected local process to identify key fingerprints and owners. If a live key was exposed, rotate it and revoke affected certificates or signing trust as supported.",
+          "verification": "Verify consumers reject the old certificate or signing identity according to the trust update; record fingerprints rather than key bytes."
+        },
+        {
+          "title": "Rebuild without key material",
+          "action": "Move private operations to a managed key store or protected runtime-mounted secret. Remove the key from source, build context, retained layers and distributed artifacts; coordinate history cleanup.",
+          "verification": "Inspect rebuilt image layers and repository artifacts using secret-safe scanning, and confirm the application can use the replacement without reading a bundled key."
+        },
+        {
+          "title": "Assess use and scope",
+          "action": "Review access logs, signature/certificate use and permissions for the exposed identity. Give replacement keys only the required purpose and limit which tool workers can request private operations.",
+          "verification": "Test an unauthorized signing or decrypt operation through the agent/tool interface and confirm it is denied."
+        }
+      ],
+      "residual_risk": [
+        "Key deletion does not revoke trust in signatures or certificates already issued; incident handling depends on the key purpose and consumers."
+      ],
+      "control_ids": [
+        "AUTH-05",
+        "DATA-01"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI012",
+      "summary": "Use Node process APIs without a shell and constrain command semantics.",
+      "agent_mcp_relevance": "An agent or MCP tool can pass model-selected text to child_process.exec or a shell-enabled spawn. Shell parsing can grant extra command execution under the server account.",
+      "applicability": [
+        "Trace every dynamic command component; the lexical finding does not prove the value is untrusted.",
+        "execFile/spawn still require argument policy; selecting an interpreter with generated code reintroduces execution authority."
+      ],
+      "steps": [
+        {
+          "title": "Replace shell-string execution",
+          "action": "Use child_process.execFile or spawn with a fixed executable and an argument array, leaving shell disabled. Replace shell pipelines with explicit APIs or controlled process connections.",
+          "verification": "Use a harmless test executable and verify metacharacters and spaces remain data and no extra child is created."
+        },
+        {
+          "title": "Validate tool-level arguments",
+          "action": "Allowlist permissible options and resource paths, reject arbitrary executable selection, and use an end-of-options marker only if the utility supports it.",
+          "verification": "Test leading-dash values, extra flags, cross-tenant resources and an interpreter command through direct tool calls."
+        },
+        {
+          "title": "Bound the child runtime",
+          "action": "Set a controlled cwd/environment and enforce timeout, cancellation and output limits for the chosen Node API. Avoid sending cloud/model credentials to unrelated subprocesses.",
+          "verification": "Exercise excessive stdout, a hanging child and cancellation on the deployed OS; confirm bounded memory and cleanup."
+        }
+      ],
+      "residual_risk": [
+        "No-shell execution does not authorize valid dangerous options or eliminate vulnerabilities in the invoked program."
+      ],
+      "control_ids": [
+        "EXEC-01"
+      ],
+      "source_ids": [
+        "TECH-NODE-PROCESS",
+        "OWASP-AGENT-CS"
+      ]
+    },
+    {
+      "rule_id": "AI013",
+      "summary": "Keep generated JavaScript as data instead of passing it to an evaluator.",
+      "agent_mcp_relevance": "If planner output or tool results reach eval or a Function constructor, agent-controlled text can execute with the host application privileges rather than merely describe an operation.",
+      "applicability": [
+        "Confirm the expression producer and actual call reachability; this is not proof of an exploitable code path.",
+        "Intentionally executing user-authored code requires a separate constrained service, not a same-process parser replacement."
+      ],
+      "steps": [
+        {
+          "title": "Replace eval/Function dispatch",
+          "action": "Use JSON.parse plus a fixed schema and an allowlisted function table. Select only explicit operation names; do not resolve arbitrary global or object-property chains.",
+          "verification": "Provide a function-like string and an unknown operation in normal tool arguments; verify rejection without evaluation."
+        },
+        {
+          "title": "Validate authority as well as shape",
+          "action": "Bind accepted arguments to the authenticated caller and authorized resources before invoking a handler. Keep authorization outside model instructions.",
+          "verification": "Call a permitted operation on another tenant resource and confirm server-side denial even with syntactically valid JSON."
+        },
+        {
+          "title": "Separate intentional execution",
+          "action": "Run unavoidable generated code in a disposable low-privilege worker with restricted filesystem/network access and resource budgets. Do not treat a JavaScript context alone as a security boundary.",
+          "verification": "Test forbidden resource access and resource exhaustion against the actual worker isolation layer, then confirm teardown."
+        }
+      ],
+      "residual_risk": [
+        "Data schemas do not constrain all harmful sequences of otherwise permitted operations; workflow policy still matters."
+      ],
+      "control_ids": [
+        "EXEC-02"
+      ],
+      "source_ids": [
+        "OWASP-AGENT-CS",
+        "MCP-TOOLS"
+      ]
+    },
+    {
+      "rule_id": "AI014",
+      "summary": "Constrain outbound destinations at parsing, resolution and connection time.",
+      "agent_mcp_relevance": "A fetch/search/browser MCP tool can turn a model-selected URL into a request from a privileged network location. An attacker may use retrieved instructions or tool arguments to target internal services or metadata.",
+      "applicability": [
+        "Confirm whether upstream destination validation and an egress proxy already govern this exact request path.",
+        "Some internal destinations may be intentional; document specific services and identities instead of treating all private addresses as uniformly permitted."
+      ],
+      "steps": [
+        {
+          "title": "Reduce the URL selection surface",
+          "action": "Prefer server-defined destination identifiers or exact approved HTTPS origins. Parse URLs structurally; reject unexpected schemes, embedded credentials, ambiguous host forms and unnecessary ports.",
+          "verification": "Test a disallowed scheme, userinfo, hostname-suffix confusion and unexpected port, and confirm rejection before DNS or network access."
+        },
+        {
+          "title": "Bind checks to the actual connection",
+          "action": "Resolve and validate all candidate addresses, including IPv6 and mapped forms. Block loopback, metadata, link-local and other prohibited ranges; prevent DNS rebinding between validation and connection. Disable redirects or revalidate every hop.",
+          "verification": "In a controlled resolver/proxy test, change an allowed name to a prohibited address and redirect an allowed URL to an internal target; verify no prohibited connection is made."
+        },
+        {
+          "title": "Enforce egress outside the model",
+          "action": "Use a network policy or egress proxy with the same approved destinations and restrict response bytes, timeouts and content handling. Do not forward sensitive authorization headers to a changed origin.",
+          "verification": "Observe connection logs for denial tests and verify a slow or oversized response is terminated and cross-origin redirects receive no original credentials."
+        }
+      ],
+      "residual_risk": [
+        "A permitted remote service can still return prompt injection or sensitive content; treat its response as untrusted tool data.",
+        "String allowlists alone do not establish the address used by the network stack."
+      ],
+      "control_ids": [
+        "EXEC-05"
+      ],
+      "source_ids": [
+        "MCP-SECURITY",
+        "OWASP-MCP-CS"
+      ]
+    },
+    {
+      "rule_id": "AI015",
+      "summary": "Confine filesystem operations to authorized resources with race-aware handling.",
+      "agent_mcp_relevance": "Agent and MCP file tools can translate model-selected names into reads, writes or deletions. Without confinement, a prompt or tool result may reach server credentials, another tenant workspace or executable files.",
+      "applicability": [
+        "Trace validation and path resolution at the exact operation; the detector does not prove traversal is possible.",
+        "MCP roots advertise workspace boundaries but do not enforce the server operating-system permissions."
+      ],
+      "steps": [
+        {
+          "title": "Define server-owned roots and permissions",
+          "action": "Map caller-visible resource identifiers to server-controlled per-tenant roots; reject absolute, drive/UNC and traversal forms that the operation does not need. Use path-component checks, not string-prefix comparisons.",
+          "verification": "Test parent traversal, sibling-prefix directories, absolute paths and cross-tenant identifiers; confirm the resolved target remains within the authorized root."
+        },
+        {
+          "title": "Prevent symlink and check/use races",
+          "action": "For reads and writes, use directory-descriptor-relative or platform-equivalent no-follow operations where feasible. Resolve existing ancestors of new files and avoid re-opening a checked path through an attacker-writable directory.",
+          "verification": "Swap a path component to a symlink during a controlled test and confirm it cannot redirect the operation outside the root."
+        },
+        {
+          "title": "Limit runtime filesystem authority",
+          "action": "Give each worker access only to its required workspace and avoid sensitive host mounts. Require separate authorization for destructive operations and bound file size/count.",
+          "verification": "From the real worker identity, attempt forbidden file reads and writes and a disallowed deletion; retain OS and application denial evidence."
+        }
+      ],
+      "residual_risk": [
+        "Canonicalization at one instant cannot guarantee safety if an attacker can mutate the path before use.",
+        "A path within the root may still name another caller-owned resource; tenant authorization remains necessary."
+      ],
+      "control_ids": [
+        "EXEC-04",
+        "MCP-08"
+      ],
+      "source_ids": [
+        "MCP-ROOTS",
+        "MCP-TOOLS"
+      ]
+    },
+    {
+      "rule_id": "AI016",
+      "summary": "Create temporary resources atomically and retain the created handle.",
+      "agent_mcp_relevance": "An agent or MCP worker may stage sensitive tool inputs or outputs in temporary files. A name-only reservation lets another local process substitute a file or symlink before the worker opens it.",
+      "applicability": [
+        "Confirm whether the temporary directory is writable by other identities and whether a later open follows a separately generated name.",
+        "The pattern is a local race concern; it does not establish an external attack path."
+      ],
+      "steps": [
+        {
+          "title": "Replace mktemp",
+          "action": "Use TemporaryFile, NamedTemporaryFile, TemporaryDirectory or mkstemp, which create the resource rather than only suggesting a pathname. Keep the returned handle when possible.",
+          "verification": "Run concurrent temporary-file creation and verify unique resources exist immediately with no separate name-then-open step."
+        },
+        {
+          "title": "Control ownership and reopening",
+          "action": "Use a private directory and restrictive permissions. If another program must open the path, define the required lifecycle and platform behavior explicitly rather than deleting and recreating the file.",
+          "verification": "Attempt access from a separate test identity and verify denial; test the actual Windows/POSIX reopen behavior used by the integration."
+        },
+        {
+          "title": "Clean up sensitive intermediates",
+          "action": "Use context managers or finally cleanup paths, bound temporary storage and avoid placing credentials in predictable names or logs.",
+          "verification": "Force success, error and cancellation paths and confirm temporary files are removed or retained only under a documented protected recovery policy."
+        }
+      ],
+      "residual_risk": [
+        "Atomic creation does not prevent the owning process from leaking contents or exceeding storage budgets."
+      ],
+      "control_ids": [
+        "EXEC-04"
+      ],
+      "source_ids": [
+        "REM-PY-TEMPFILE"
+      ]
+    },
+    {
+      "rule_id": "AI017",
+      "summary": "Validate JWT authenticity, required claims and resource authorization before use.",
+      "agent_mcp_relevance": "MCP or agent gateways may use token claims to select tools, users and tenants. An unverified token can let caller-controlled claims impersonate authority across those boundaries.",
+      "applicability": [
+        "Unverified decoding may be legitimate for diagnostics only if its result never authorizes actions or selects trusted state.",
+        "Confirm the expected issuer, key source, token type and audience for this service; do not copy a client-supplied algorithm or key URL into verifier policy."
+      ],
+      "steps": [
+        {
+          "title": "Restore signature verification",
+          "action": "Remove verify_signature=False and none from accepted signing algorithms. Configure a fixed algorithm allowlist and trusted key source appropriate to the issuer; reject incompatible key/algorithm combinations.",
+          "verification": "Reject an unsigned token, altered payload/signature and unexpected algorithm before the tool handler runs."
+        },
+        {
+          "title": "Require and validate claims",
+          "action": "Pass the expected issuer and audience to the verifier and validate expiry/not-before with an explicit clock-skew policy. In PyJWT, require mandatory claims such as exp, iss and aud as well as enabling their value checks; a missing claim must not silently bypass a check.",
+          "verification": "Test missing exp/iss/aud, wrong issuer/audience, expired and not-yet-valid tokens, and key rotation using a trusted test issuer."
+        },
+        {
+          "title": "Authorize each resource and operation",
+          "action": "After token verification, enforce the required tool scope and tenant/resource ownership on each request. Do not use a session identifier or decoded JWT alone as permission.",
+          "verification": "Use a correctly signed token with insufficient scope or another tenant identifier and confirm denial on a direct MCP/tool call."
+        }
+      ],
+      "residual_risk": [
+        "A valid token can be stolen or overprivileged; transport protection, short lifetimes and revocation/rotation behavior still require runtime validation."
+      ],
+      "control_ids": [
+        "AUTH-03"
+      ],
+      "source_ids": [
+        "REM-PYJWT",
+        "MCP-AUTH"
+      ]
+    },
+    {
+      "rule_id": "AI018",
+      "summary": "Pin MCP launch artifacts and make the effective installation reproducible.",
+      "agent_mcp_relevance": "An MCP client often launches a package with its local user permissions and injected credentials. Unpinned npx/uvx resolution can replace the tool implementation between launches without a reviewed configuration change.",
+      "applicability": [
+        "Inspect the actual package runner, registry and cache/lock behavior; a project lockfile may not govern an independent ephemeral runner.",
+        "An exact version reduces movement but does not prove package integrity or constrain all transitive dependencies."
+      ],
+      "steps": [
+        {
+          "title": "Pin the selected package",
+          "action": "For npm execution specify an exact package version, including scope where applicable; for uvx use an exact package version or explicit --from package==version. Keep the chosen package identity distinct from its executable name.",
+          "verification": "Start from a clean controlled cache and record the resolved package/version; verify the MCP launch command selects that exact artifact."
+        },
+        {
+          "title": "Verify the complete runtime artifact",
+          "action": "Prefer a preinstalled tool built from a reviewed lockfile or verified artifact, with an approved registry and integrity data for dependencies. Audit additional --with packages and executable-search paths.",
+          "verification": "Compare fresh installations in controlled environments and investigate any dependency/artifact digest differences."
+        },
+        {
+          "title": "Limit launch credentials and updates",
+          "action": "Run the server with only task-required credentials and workspace permissions. Propose version updates through review, provenance checks and regression tests rather than enabling automatic latest resolution.",
+          "verification": "Verify the launched process identity/environment and exercise a required tool after a reviewed update without expanding its permissions."
+        }
+      ],
+      "residual_risk": [
+        "Package cache isolation is not an operating-system sandbox; a pinned compromised package still executes with its granted authority."
+      ],
+      "control_ids": [
+        "MCP-09",
+        "SUP-01"
+      ],
+      "source_ids": [
+        "REM-UV-TOOLS",
+        "REM-NPM-EXEC",
+        "MCP-SECURITY"
+      ]
+    },
+    {
+      "rule_id": "AI019",
+      "summary": "Separate downloading, integrity verification and script execution.",
+      "agent_mcp_relevance": "A tool bootstrap or agent image build that pipes downloaded text into a shell lets the remote response choose commands under the build/runtime identity, potentially reaching deployment credentials.",
+      "applicability": [
+        "Determine whether this command runs during build, startup or a user-authorized maintenance step, and identify the remote producer.",
+        "HTTPS alone does not establish that changing script bytes are the approved release."
+      ],
+      "steps": [
+        {
+          "title": "Download an identified artifact",
+          "action": "Replace the direct curl/wget-to-shell pipeline with a separate fetch of a specific release into a controlled temporary location. Prefer a reviewed package or image when available.",
+          "verification": "Confirm a failed or partial download cannot enter the execution step and that redirects cannot silently change the approved source."
+        },
+        {
+          "title": "Verify before executing",
+          "action": "Check a digest or signature against a trust value/key obtained independently of the downloaded artifact channel. Fail closed on mismatch and review the script or release provenance.",
+          "verification": "Alter a test download and use an unapproved signature/key; verify the execution stage is never reached."
+        },
+        {
+          "title": "Reduce installation authority",
+          "action": "Run installation in a disposable build stage or dedicated identity with only required privileges. Avoid exposing production keys and copy only required verified outputs into the runtime image.",
+          "verification": "Inspect retained build layers and logs for secrets and verify the installed program identity/digest in the final runtime."
+        }
+      ],
+      "residual_risk": [
+        "Integrity verification cannot establish safety if both the artifact and its trust reference come from the same compromised source."
+      ],
+      "control_ids": [
+        "SUP-03"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI020",
+      "summary": "Pin remote GitHub Actions to reviewed full commit SHAs.",
+      "agent_mcp_relevance": "Agent/MCP build and release workflows may possess signing, registry or deployment credentials. A mutable Action reference allows workflow code to change without a repository workflow edit.",
+      "applicability": [
+        "This finding concerns remote action references; local actions and reusable workflow syntax require their own provenance review.",
+        "Confirm the SHA belongs to the intended upstream repository and reviewed release; a full SHA is an integrity reference, not a safety judgment."
+      ],
+      "steps": [
+        {
+          "title": "Replace mutable references",
+          "action": "Change remote uses references from tags/branches to the reviewed full 40-character commit SHA. Retain the release version in a comment for maintainers.",
+          "verification": "Inspect the resolved workflow and verify each remote action resolves to the expected repository commit, including transitive actions where applicable."
+        },
+        {
+          "title": "Keep updates reviewable",
+          "action": "Use dependency automation to propose new SHAs, review upstream changes and run the agent/MCP test suite before merging.",
+          "verification": "Test an update PR in the intended restricted context and verify the pin changes only after review."
+        },
+        {
+          "title": "Constrain workflow credentials",
+          "action": "Set GITHUB_TOKEN permissions to the minimum, avoid privileged execution of untrusted pull-request code and scope deployment secrets to protected jobs/environments.",
+          "verification": "Exercise a fork/untrusted PR workflow and confirm it cannot read release secrets or publish artifacts."
+        }
+      ],
+      "residual_risk": [
+        "Pinned Action code and its downloaded dependencies may still be malicious or vulnerable; token scope and provenance remain separate controls."
+      ],
+      "control_ids": [
+        "SUP-04"
+      ],
+      "source_ids": [
+        "TECH-GITHUB-ACTIONS"
+      ]
+    },
+    {
+      "rule_id": "AI021",
+      "summary": "Use a dedicated nonroot runtime identity and verify effective permissions.",
+      "agent_mcp_relevance": "An injected or overbroad agent/MCP tool action inherits the container process identity. Root can increase access to mounted data and the impact of an isolation failure, although container root is not automatically host root.",
+      "applicability": [
+        "The finding concerns an explicit image/build default; deployment runAsUser, rootless runtimes and user namespaces may alter its effect.",
+        "Review the final selected build stage and actual running UID rather than assuming every build-stage root command runs in production."
+      ],
+      "steps": [
+        {
+          "title": "Set the runtime user",
+          "action": "Create a dedicated service account during build and select it with USER in the final runtime stage. In Kubernetes, configure runAsNonRoot and an appropriate numeric runAsUser where required.",
+          "verification": "Inspect the built image user and the running process UID under the actual deployment; test startup fails rather than silently switching to root."
+        },
+        {
+          "title": "Provision only required writable paths",
+          "action": "Set ownership for explicit runtime/cache/workspace directories, avoid broad chmod permissions, and use a read-only root filesystem where compatible.",
+          "verification": "Run normal tool operations and verify they work only in approved writable directories; confirm system and other-tenant paths are denied."
+        },
+        {
+          "title": "Remove adjacent privilege paths",
+          "action": "Drop unnecessary capabilities, disable privilege escalation and avoid host mounts/runtime sockets. Ensure an entrypoint does not restore privilege.",
+          "verification": "Inspect effective capabilities, mounts and deployment overrides and perform denied-access tests as the worker identity."
+        }
+      ],
+      "residual_risk": [
+        "Nonroot execution reduces authority but does not establish tenant isolation or eliminate kernel/runtime escapes."
+      ],
+      "control_ids": [
+        "SUP-05"
+      ],
+      "source_ids": [
+        "REM-K8S-PODS",
+        "REM-DOCKER-SECURITY"
+      ]
+    },
+    {
+      "rule_id": "AI022",
+      "summary": "Disable privileged execution and replace broad privileges with narrow services.",
+      "agent_mcp_relevance": "Agent-selected tool actions in a privileged container can reach host-facing capabilities beyond the intended task. This can turn a tool compromise into a wider infrastructure incident.",
+      "applicability": [
+        "Determine which device or capability the workload actually requires; some infrastructure agents intentionally need host access and should be separated from general agent tools.",
+        "Interpret the setting for the deployed operating system/runtime; a source manifest does not prove it is the effective workload configuration."
+      ],
+      "steps": [
+        {
+          "title": "Remove explicit privilege escalation",
+          "action": "Set privileged: false and, for applicable Kubernetes Linux containers, allowPrivilegeEscalation: false. Remove equivalent runtime privileged flags from launch configuration.",
+          "verification": "Inspect the actual deployed container settings, not only a template, and confirm a prohibited privilege transition fails."
+        },
+        {
+          "title": "Grant only required operations",
+          "action": "Drop capabilities by default and add back only individually justified capabilities/devices. Move unavoidable host operations into a separate authenticated broker with a fixed operation schema.",
+          "verification": "Attempt an operation outside the broker allowlist and verify it is rejected; demonstrate the application works without blanket privilege."
+        },
+        {
+          "title": "Enforce deployment policy",
+          "action": "Apply the appropriate restricted admission/security policy and keep host mounts, runtime sockets and unrestricted execution out of the agent worker.",
+          "verification": "Submit a privileged test workload to the deployment pipeline and verify policy rejects it; record the approved exception path for infrastructure-only workloads."
+        }
+      ],
+      "residual_risk": [
+        "Capability restrictions depend on the effective kernel/runtime and mounts; a nonprivileged label alone is not proof of containment."
+      ],
+      "control_ids": [
+        "SUP-05"
+      ],
+      "source_ids": [
+        "REM-K8S-PODS",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI023",
+      "summary": "Remove runtime socket access from the general agent tool process.",
+      "agent_mcp_relevance": "A model-influenced tool with Docker/containerd API access can control workloads and potentially host-mounted files. A socket mount bypasses many restrictions otherwise applied to the agent container.",
+      "applicability": [
+        "Establish the socket endpoint, API permissions and any authenticated proxy; a path string alone does not prove writable runtime control.",
+        "Mounting a Unix socket read-only does not reliably make the API operations read-only."
+      ],
+      "steps": [
+        {
+          "title": "Remove socket exposure",
+          "action": "Delete Docker/containerd socket mounts and unrestricted runtime endpoint variables from the agent container. Avoid granting its service identity membership in a runtime-admin group.",
+          "verification": "Inspect effective mounts, environment and group membership; verify the worker cannot connect to the runtime API."
+        },
+        {
+          "title": "Broker required container tasks",
+          "action": "If the product must launch jobs, use a separate service with fixed images, constrained mounts/resources and caller-bound job ownership instead of arbitrary runtime API forwarding.",
+          "verification": "Request a host mount, privileged job and another tenant job deletion through the broker; verify each is denied."
+        },
+        {
+          "title": "Isolate control-plane credentials",
+          "action": "Keep broker credentials outside model/tool context, authenticate every broker request and audit approved lifecycle operations.",
+          "verification": "Attempt a direct unauthenticated or forged request and verify denial; inspect audit records without exposing socket or broker credentials."
+        }
+      ],
+      "residual_risk": [
+        "A proxy must enforce operation semantics and object ownership; filtering HTTP verbs alone does not establish safe Docker/containerd access."
+      ],
+      "control_ids": [
+        "SUP-05"
+      ],
+      "source_ids": [
+        "REM-DOCKER-SECURITY",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI024",
+      "summary": "Pin the approved image content digest and maintain a reviewed update process.",
+      "agent_mcp_relevance": "Agent/MCP deployments may execute a different tool stack when a mutable image tag moves. That changes the code holding credentials and enforcing tool policy without a matching application source change.",
+      "applicability": [
+        "Inspect the image selected by the actual build/deployment and platform; tags may already be constrained by external admission policy.",
+        "Digest pinning controls content identity, not whether the pinned content is safe or current."
+      ],
+      "steps": [
+        {
+          "title": "Record and pin the intended digest",
+          "action": "Replace mutable base/deployment references with the approved registry image@sha256 digest, retaining a human-readable version where useful. Record the intended platform or multi-platform index.",
+          "verification": "Resolve the approved reference through the build/deployment system and verify the running image digest matches the recorded artifact/platform."
+        },
+        {
+          "title": "Review provenance and contents",
+          "action": "Associate the digest with build provenance, an SBOM and a separate vulnerability scan; verify the publisher and build process before approving it.",
+          "verification": "Trace the selected digest to the expected build and verify the SBOM and vulnerability results apply to that exact artifact."
+        },
+        {
+          "title": "Update pins deliberately",
+          "action": "Use automation to propose digest updates, rebuild and run agent/MCP regression and policy checks, then roll out the reviewed artifact.",
+          "verification": "Exercise rollback to a previously approved digest and confirm updates do not silently widen runtime permissions."
+        }
+      ],
+      "residual_risk": [
+        "A digest can preserve a vulnerable version indefinitely if updates are neglected; this scanner does not perform a CVE feed lookup."
+      ],
+      "control_ids": [
+        "SUP-01",
+        "SUP-03"
+      ],
+      "source_ids": [
+        "REM-DOCKER-BUILD",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI025",
+      "summary": "Make the effective dependency installation reproducible and reviewed.",
+      "agent_mcp_relevance": "Agent SDKs, MCP libraries and tool dependencies execute inside the application trust boundary. Uncontrolled dependency changes can alter prompt handling, authentication or tool behavior with the same source revision.",
+      "applicability": [
+        "A version range in a package manifest may be intentionally constrained by a committed lockfile used in the actual build.",
+        "Exact direct pins alone do not freeze transitive dependencies, build tooling or package artifacts."
+      ],
+      "steps": [
+        {
+          "title": "Identify the real resolver input",
+          "action": "Inspect the installation command, supported lockfile and package indexes. Use the ecosystem frozen/locked installation mode; for Python pip, exact requirements with verified hashes can constrain the complete set.",
+          "verification": "Install from an empty controlled cache using the production build command and verify it does not rewrite the lockfile or resolve unexpected versions."
+        },
+        {
+          "title": "Verify artifact integrity and origin",
+          "action": "Record integrity information for transitive packages as supported by the toolchain and restrict package sources. Review build hooks and package-name confusion risks.",
+          "verification": "Change an expected artifact/hash in a test mirror and verify installation fails before package code is used."
+        },
+        {
+          "title": "Review updates and known vulnerabilities",
+          "action": "Automate proposed dependency updates and run separate dependency-vulnerability and agent/MCP integration tests against the resulting lock.",
+          "verification": "Verify an update changes only the reviewed dependency set and retain results for the exact installed versions."
+        }
+      ],
+      "residual_risk": [
+        "A locked malicious package remains malicious, and a reproducible install is not evidence of absence of known vulnerabilities."
+      ],
+      "control_ids": [
+        "SUP-01"
+      ],
+      "source_ids": [
+        "REM-PIP-INTEGRITY",
+        "CISA-SECURE-BY-DESIGN"
+      ]
+    },
+    {
+      "rule_id": "AI026",
+      "summary": "Apply authentication to the actual transport and enforce resource permissions.",
+      "agent_mcp_relevance": "A reachable MCP or agent service with disabled authentication can expose its tool authority to callers outside the intended user session. Direct local stdio instead relies on a process/OS boundary that must be assessed separately.",
+      "applicability": [
+        "MCP authorization is optional at the protocol level; determine whether the resources are protected and whether the transport is HTTP, direct stdio or a proxy bridge.",
+        "A gateway provides protection only if direct backend access and forged identity headers are prevented."
+      ],
+      "steps": [
+        {
+          "title": "Establish the protected boundary",
+          "action": "For protected remote HTTP resources, remove authentication bypasses and configure the supported issuer/token validation or trusted gateway integration. Reject unauthenticated calls before tool execution.",
+          "verification": "Try missing/invalid credentials through ingress and direct backend routes; verify neither route can invoke a protected tool."
+        },
+        {
+          "title": "Authorize every tool and resource",
+          "action": "Bind the authenticated identity to tenant ownership, required tool scopes and sensitive-action policy. Trust forwarded identity only from an authenticated restricted proxy path.",
+          "verification": "Use a valid identity with the wrong scope or tenant and forged proxy headers; verify denial without a side effect."
+        },
+        {
+          "title": "Validate claimed local-only operation",
+          "action": "For direct stdio, protect launch configuration and inherited credentials with OS permissions and a minimal process identity. If bridged to HTTP, authenticate the bridge and restrict allowed child commands.",
+          "verification": "Verify an untrusted local user cannot alter launch configuration or read credentials, and inventory listeners/bridges to confirm the documented transport boundary."
+        }
+      ],
+      "residual_risk": [
+        "Authentication establishes an identity, not permission for every tool action; protected resource policy still needs runtime tests."
+      ],
+      "control_ids": [
+        "AUTH-01"
+      ],
+      "source_ids": [
+        "MCP-AUTH",
+        "MCP-SECURITY"
+      ]
+    },
+    {
+      "rule_id": "AI027",
+      "summary": "Replace wildcard authority with named tools and resource-bound policies.",
+      "agent_mcp_relevance": "An agent with all-tools or wildcard permissions can turn a misinterpreted task or injected instruction into unrelated actions. Model-side tool selection does not limit a direct client calling the same server.",
+      "applicability": [
+        "Inspect the permission field semantics, inherited policies and task requirements; a wildcard in a nonauthorization context may be unrelated.",
+        "Some administrative tools intentionally have broad scope; isolate those identities and record why the normal agent cannot use them."
+      ],
+      "steps": [
+        {
+          "title": "Define the smallest task capability set",
+          "action": "Replace wildcard grants with named tool operations and allowed resource scopes, separating read, write, delete and external-send capabilities. Deny unspecified operations.",
+          "verification": "Attempt an unlisted tool and an extra privileged operation; verify default denial while required task operations still work."
+        },
+        {
+          "title": "Enforce policy at the execution boundary",
+          "action": "Authorize the authenticated caller, tenant, resource identifier and operation on every server call, including nested/delegated agent requests. Do not trust the planner allowlist as the sole control.",
+          "verification": "Call the server directly and through a delegated workflow with a cross-tenant identifier; confirm the same policy rejects both."
+        },
+        {
+          "title": "Bind approvals to sensitive effects",
+          "action": "Require explicit approval for the operations that need it, bound to concrete arguments, destination, scope and validity period. Revalidate if arguments change after approval.",
+          "verification": "Approve a harmless test action, alter its target/amount/path, and verify the earlier approval cannot authorize the changed effect."
+        }
+      ],
+      "residual_risk": [
+        "Narrow capabilities can still combine into harmful workflows; test sequences and delegated authority as well as single calls."
+      ],
+      "control_ids": [
+        "AGT-01",
+        "AUTH-02"
+      ],
+      "source_ids": [
+        "MCP-TOOLS",
+        "OWASP-AGENT-CS"
+      ]
+    },
+    {
+      "rule_id": "AI028",
+      "summary": "Separate inbound MCP tokens from downstream API credentials.",
+      "agent_mcp_relevance": "A server that forwards a caller token to another service can act as a confused intermediary, bypassing audience, consent and scope boundaries between the MCP resource and downstream tools.",
+      "applicability": [
+        "Trace token direction and intended audience at the exact forwarding setting; generic proxy configuration does not prove forbidden passthrough.",
+        "Do not repair this by rewriting token claims or simply forwarding the same bearer under another header."
+      ],
+      "steps": [
+        {
+          "title": "Validate the MCP resource token",
+          "action": "Require incoming tokens to be issued for this MCP resource and validate their issuer, signature or supported introspection result, expiry and required scopes.",
+          "verification": "Present a valid token meant only for the downstream API and verify the MCP endpoint rejects it."
+        },
+        {
+          "title": "Obtain separate downstream authority",
+          "action": "Use an approved downstream authorization flow or supported token exchange with the proper audience, scope and user consent. Keep downstream credentials scoped to the required operation.",
+          "verification": "Observe a test downstream call and verify it uses the intended audience-bound credential rather than the inbound MCP bearer."
+        },
+        {
+          "title": "Prevent credential leakage across hops",
+          "action": "Remove unconditional Authorization forwarding and redact token values from logs/errors. Restrict credential handling to the trusted connector, including redirects and retries.",
+          "verification": "Route a test request through a changed-origin redirect or retry and verify no inbound token appears in downstream requests or logs."
+        }
+      ],
+      "residual_risk": [
+        "Separate credentials can still be overprivileged or assigned to the wrong user; consent and tenant binding remain necessary."
+      ],
+      "control_ids": [
+        "AUTH-04"
+      ],
+      "source_ids": [
+        "MCP-AUTH",
+        "MCP-SECURITY"
+      ]
+    },
+    {
+      "rule_id": "AI029",
+      "summary": "Use verified HTTPS for remote MCP endpoints and inspect every transport hop.",
+      "agent_mcp_relevance": "Remote MCP requests can contain access tokens, task context and tool output. Plain HTTP exposes those bytes and allows modification by parties able to observe or influence the network path.",
+      "applicability": [
+        "Confirm that the address is actually remote and identify TLS termination, tunnels and any plaintext backend hop.",
+        "Controlled loopback development and documented protected transport have different exposure; a URL alone cannot prove the effective network protections."
+      ],
+      "steps": [
+        {
+          "title": "Configure an HTTPS endpoint",
+          "action": "Replace the nonloopback HTTP MCP URL with the approved HTTPS service URL and require certificate/hostname verification. Provision a private CA when needed.",
+          "verification": "Use the actual MCP client to reject a wrong-host or untrusted certificate and accept the approved endpoint."
+        },
+        {
+          "title": "Check proxy-to-backend protection",
+          "action": "Inspect all hops after TLS termination and restrict any plaintext backend segment to an explicitly controlled boundary, or use TLS/mTLS between components.",
+          "verification": "Verify the deployment path, listeners and policy prevent an unauthorized peer from observing or reaching the backend segment."
+        },
+        {
+          "title": "Remove insecure fallback and redirects",
+          "action": "Ensure client retries and redirects cannot downgrade to HTTP or send credentials to another origin. Update environment/configuration overrides alongside the launch manifest.",
+          "verification": "Make the secure test endpoint fail or redirect to HTTP and confirm the client does not transmit an authenticated plaintext request."
+        }
+      ],
+      "residual_risk": [
+        "TLS does not validate tool results or protect secrets deliberately sent to an untrusted MCP server."
+      ],
+      "control_ids": [
+        "MCP-01"
+      ],
+      "source_ids": [
+        "MCP-HTTP",
+        "MCP-AUTH",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI030",
+      "summary": "Keep durable API credentials out of browser-delivered agent applications.",
+      "agent_mcp_relevance": "A browser-facing agent may expose model or tool credentials through a bundled SDK configuration. Any page user or compromised script could then call the API outside the intended agent task and server authorization.",
+      "applicability": [
+        "The SDK browser-enablement flag is a review signal; establish whether the client receives a durable key or a token explicitly designed for browser use.",
+        "Public client identifiers are not secrets; assess the credential actual lifetime, privileges and issuer requirements."
+      ],
+      "steps": [
+        {
+          "title": "Move privileged API calls to a trusted service",
+          "action": "Remove durable API keys from frontend code/build variables and route protected model/tool requests through a server endpoint authenticated to the application user.",
+          "verification": "Inspect a production bundle and browser network payloads using synthetic markers and verify no durable privileged credential is delivered."
+        },
+        {
+          "title": "Constrain the server or temporary client token",
+          "action": "Authorize tenant/resource access and enforce usage limits at the server. If the provider supports browser-specific ephemeral tokens, mint narrowly scoped short-lived tokens through an authenticated service.",
+          "verification": "Attempt cross-tenant access, replay after expiry and a privileged operation outside the temporary token scope; confirm rejection."
+        },
+        {
+          "title": "Rotate previous client exposure",
+          "action": "If a real key reached published bundles, rotate it and invalidate relevant caches/artifacts without assuming bundle removal invalidates copied keys.",
+          "verification": "Verify the old key no longer works and historical public artifacts no longer expose a usable credential."
+        }
+      ],
+      "residual_risk": [
+        "Ephemeral tokens remain bearer credentials during their validity; browser XSS, token scope and usage abuse still need testing."
+      ],
+      "control_ids": [
+        "AUTH-05",
+        "DATA-01"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "OWASP-AGENT-CS"
+      ]
+    },
+    {
+      "rule_id": "AI031",
+      "summary": "Restore task-bound execution permissions and meaningful approval boundaries.",
+      "agent_mcp_relevance": "Disabling agent approval or sandbox safeguards lets model-driven actions inherit the full process authority. Prompt injection or a mistaken plan can then modify files, send data or invoke credentials without the intended review boundary.",
+      "applicability": [
+        "Confirm the exact agent/runtime setting and the environment it affects; dedicated controlled evaluation environments may intentionally bypass prompts.",
+        "Approval dialogs alone do not create OS isolation, and a sandbox alone does not establish user consent for external effects."
+      ],
+      "steps": [
+        {
+          "title": "Replace unrestricted mode with explicit permissions",
+          "action": "Remove bypass flags and configure the agent runtime permitted tools, workspace roots and network destinations for the task. Keep privileged administration in a separate identity/session.",
+          "verification": "Attempt a tool outside the task allowlist and a workspace/egress escape; verify the enforcement layer denies it without relying on model compliance."
+        },
+        {
+          "title": "Bind approvals to concrete actions",
+          "action": "Require deliberate approval for relevant destructive, external, credential-bearing or financial effects, displaying target and material arguments. Expire approvals and recheck changed arguments.",
+          "verification": "Test a denied action, replayed approval and target substitution after approval; verify no unapproved side effect occurs."
+        },
+        {
+          "title": "Enforce isolation independently",
+          "action": "Run tool workers with limited OS credentials, mounts, resource budgets and network rights. Propagate reduced authority to subagents and connectors.",
+          "verification": "Launch a delegated task and confirm it cannot acquire broader permissions, read host secrets or exceed the configured runtime budget."
+        }
+      ],
+      "residual_risk": [
+        "Users may approve misleading actions and allowed operations may be composed harmfully; adversarial workflow tests and audit trails remain needed."
+      ],
+      "control_ids": [
+        "AGT-01",
+        "AGT-02",
+        "MCP-09",
+        "SUP-05"
+      ],
+      "source_ids": [
+        "OWASP-AGENT-CS",
+        "MCP-TOOLS"
+      ]
+    },
+    {
+      "rule_id": "AI032",
+      "summary": "Keep untrusted content out of privileged instruction roles and enforce tool policy separately.",
+      "agent_mcp_relevance": "External text inserted into a system/developer message is promoted into the same channel as trusted agent policy. A retrieved document or tool response may then steer planning and sensitive tool arguments.",
+      "applicability": [
+        "Trace whether the interpolated value is actually external, configuration-owned or a deliberately trusted instruction; this local pattern does not prove a successful prompt injection.",
+        "Moving content to a lower-trust message reduces instruction confusion but does not guarantee the model will ignore adversarial content."
+      ],
+      "steps": [
+        {
+          "title": "Separate instruction construction from data",
+          "action": "Keep system/developer templates fixed and application-owned. Put user, retrieval and tool text in the appropriate data/user/tool channel, preserving source labels and a clear distinction between instructions and quoted content.",
+          "verification": "Inject instruction-like text into a retrieved fixture and verify the message assembly never places it in a privileged role."
+        },
+        {
+          "title": "Validate decisions outside the model",
+          "action": "Enforce allowed tools, argument schemas, tenant ownership, destinations and sensitive-action approval at the execution boundary regardless of the model output.",
+          "verification": "Use adversarial external content that asks for an unauthorized tool or data export; confirm server-side policy blocks the effect even if the model requests it."
+        },
+        {
+          "title": "Test realistic indirect injection paths",
+          "action": "Run a separate bounded adversarial evaluation across documents, memory and MCP results, including source spoofing and multi-step attempts. Record model/version, prompts, outcomes and observed effects.",
+          "verification": "Verify both legitimate task completion and absence of forbidden side effects using an instrumented test harness; do not grade solely from a model claim of refusal."
+        }
+      ],
+      "residual_risk": [
+        "Delimiters, provenance labels and system prompts are not complete injection defenses; model behavior and workflow composition require ongoing tests."
+      ],
+      "control_ids": [
+        "AGT-03"
+      ],
+      "source_ids": [
+        "OWASP-AGENT-CS",
+        "OWASP-LLM2026",
+        "MCP-TOOLS"
+      ]
+    },
+    {
+      "rule_id": "AI033",
+      "summary": "Remove credential values from logging before formatting or export.",
+      "agent_mcp_relevance": "Agent traces and MCP logs commonly cross observability vendors, support systems and retention tiers. Logging a credential widens who can use the underlying model or tool authority beyond its intended worker.",
+      "applicability": [
+        "A credential-named variable may hold a nonsecret identifier; classify the value and its logging path without disclosing it.",
+        "Check structured logs, exception serialization, tracing spans and downstream collectors as well as the source logging call."
+      ],
+      "steps": [
+        {
+          "title": "Log identifiers and outcomes instead",
+          "action": "Replace logged secret variables with request IDs, credential fingerprints suitable for the system, or nonsecret status. Redact at the source before string formatting and serialization.",
+          "verification": "Run success/error paths with a synthetic credential marker and confirm it is absent from local logs, structured fields and exported traces."
+        },
+        {
+          "title": "Contain confirmed historical exposure",
+          "action": "Rotate actual exposed credentials and locate affected log copies, dashboards and exports. Restrict access and apply the applicable retention/deletion policy.",
+          "verification": "Verify the old credential is invalid and unauthorized users cannot query affected log records; retain incident evidence in a protected form."
+        },
+        {
+          "title": "Prevent regressions across the pipeline",
+          "action": "Add secret-safe logging helpers and tests for request headers, nested dictionaries and exception objects; avoid logging entire model/client configurations.",
+          "verification": "Exercise nested credential fields and failures in the deployed collector path and confirm redaction happens before external transmission."
+        }
+      ],
+      "residual_risk": [
+        "Pattern-based redaction can miss novel secrets or encoded values; minimize collected content and permissions rather than relying on masking alone."
+      ],
+      "control_ids": [
+        "DATA-03"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI034",
+      "summary": "Remove reusable credentials from URLs and address prior URL exposure.",
+      "agent_mcp_relevance": "Agent and MCP connectors often record request URLs in traces, tool results or browser history. A credential in the query string can be copied to systems that were never authorized to use the downstream service.",
+      "applicability": [
+        "Determine whether the value is a reusable secret, a nonsecret placeholder or an intentional short-lived signed URL.",
+        "Signed URLs are still credentials; their intended distribution, scope and lifetime must be explicitly controlled."
+      ],
+      "steps": [
+        {
+          "title": "Use the protocol authentication channel",
+          "action": "For supported bearer APIs, move the credential to the Authorization header or approved client authentication mechanism. For MCP protected requests, use the specified bearer header rather than a URL query token.",
+          "verification": "Capture a synthetic test request and confirm the URL is credential-free while authentication still succeeds; verify headers are redacted from logs."
+        },
+        {
+          "title": "Limit unavoidable signed URLs",
+          "action": "When signed URLs are part of the API design, restrict operation/resource and lifetime, avoid exposing them in model context unnecessarily, and suppress them from logs/referrers as applicable.",
+          "verification": "Test an expired URL and a resource/operation substitution and verify the service rejects both."
+        },
+        {
+          "title": "Rotate and clean confirmed leaks",
+          "action": "Invalidate reusable exposed tokens or signed resources where supported, replace affected configuration and handle retained logs/history/artifacts under the incident policy.",
+          "verification": "Verify the old credential or revoked URL fails and search protected logs with a synthetic marker to confirm the corrected path avoids persistence."
+        }
+      ],
+      "residual_risk": [
+        "Moving a token to a header does not stop logging middleware from capturing it; endpoint trust and header redaction still matter."
+      ],
+      "control_ids": [
+        "AUTH-05",
+        "DATA-01"
+      ],
+      "source_ids": [
+        "MCP-AUTH",
+        "CISA-SECURE-BY-DESIGN"
+      ]
+    },
+    {
+      "rule_id": "AI035",
+      "summary": "Use restricted model loading and authenticate checkpoint provenance.",
+      "agent_mcp_relevance": "Model loaders may run in agent infrastructure with access to prompts, datasets and deployment credentials. A malicious executable checkpoint can run producer-controlled code when loaded, before inference or tool policy applies.",
+      "applicability": [
+        "Check the installed framework version, file format and actual loader arguments; restricted-loading defaults vary.",
+        "A weights_only=False flag may serve a trusted legacy model, but the producer and artifact write paths still need explicit trust."
+      ],
+      "steps": [
+        {
+          "title": "Use a restricted data path",
+          "action": "Prefer a supported data-only tensor format or torch.load(..., weights_only=True) for compatible state dictionaries. Do not automatically retry with unsafe loading when restricted loading rejects an artifact.",
+          "verification": "Load a legitimate supported state dictionary and a benign unsupported-global fixture; verify the latter fails without an unsafe fallback."
+        },
+        {
+          "title": "Verify model and conversion provenance",
+          "action": "Bind the artifact digest to an approved producer/release and restrict who can replace cached weights. Review any allowlisted classes or safe globals individually.",
+          "verification": "Alter model bytes or use an unapproved producer and verify rejection before loading; confirm cache permissions prevent unauthorized replacement."
+        },
+        {
+          "title": "Isolate required legacy conversion",
+          "action": "Perform unavoidable unsafe conversion in a disposable credential-free worker with resource/network bounds, exporting only validated data to inference.",
+          "verification": "Verify the conversion worker cannot read serving credentials or reach restricted networks and that rejected conversions publish nothing."
+        }
+      ],
+      "residual_risk": [
+        "Restricted weights-only loading does not guarantee protection against denial of service or every memory-safety issue; use supported patched frameworks and runtime isolation.",
+        "A safe file format does not prove the model behavior, training data or output is trustworthy."
+      ],
+      "control_ids": [
+        "EXEC-06",
+        "SUP-03"
+      ],
+      "source_ids": [
+        "TECH-PYTORCH-SERIAL",
+        "JOINT-DEPLOY"
+      ]
+    },
+    {
+      "rule_id": "AI036",
+      "summary": "Bind SQL values and authorize the allowed query operation and tenant scope.",
+      "agent_mcp_relevance": "A database MCP tool may interpolate model-selected filters or generated SQL. If external text changes SQL structure, the tool can access or modify data beyond the intended user request and tenant.",
+      "applicability": [
+        "Determine whether interpolation contributes values, identifiers or fixed trusted fragments; this rule does not prove attacker-controlled SQL.",
+        "Parameter binding handles values, not arbitrary table names, operators or complete model-generated query programs."
+      ],
+      "steps": [
+        {
+          "title": "Parameterize data values",
+          "action": "Replace f-strings, format/percent substitution and concatenated values with the database driver parameter API. For sqlite3 use placeholders and a separate parameter sequence; use the deployed driver placeholder syntax elsewhere.",
+          "verification": "Query for a literal containing SQL-like punctuation and confirm it remains one value with the expected result set and no additional statement."
+        },
+        {
+          "title": "Constrain query structure",
+          "action": "Select identifiers, sort directions and operations from explicit server-owned allowlists. If a tool supports generated SQL, use a deliberately restricted query service and database permissions rather than assuming parameterization can sanitize the whole query.",
+          "verification": "Reject an unapproved table, write operation and multi-statement request while preserving required read queries."
+        },
+        {
+          "title": "Enforce tenant and database authority",
+          "action": "Bind the caller to row/resource scope independently of model-provided filters and use a minimally privileged database account with query time/row limits.",
+          "verification": "Use a valid caller with another tenant key and an expensive query; verify data isolation and resource-limit enforcement at the actual database boundary."
+        }
+      ],
+      "residual_risk": [
+        "A parameterized query can still expose every row if authorization predicates are missing; validate the business and tenant constraints separately."
+      ],
+      "control_ids": [
+        "EXEC-03"
+      ],
+      "source_ids": [
+        "REM-PY-SQLITE",
+        "MCP-TOOLS"
+      ]
+    },
+    {
+      "rule_id": "AI037",
+      "summary": "Extract archives through an explicit restricted policy with resource limits.",
+      "agent_mcp_relevance": "Agents may unpack repository snapshots, uploaded datasets or MCP tool artifacts. Archive member paths and links can otherwise overwrite files used by the agent or expose material outside its workspace.",
+      "applicability": [
+        "Inspect the deployed Python version and extraction-filter support. Python 3.14 defaults differ from older runtimes; absence of an explicit filter is not proof the runtime uses an unsafe default.",
+        "An archive from a trusted producer still requires resource limits and a controlled destination."
+      ],
+      "steps": [
+        {
+          "title": "Select an explicit safe extraction filter",
+          "action": "Use filter=\"data\" on supported tarfile runtimes and reject the operation or use a vetted equivalent when the required filtering capability is unavailable. Avoid falling back to fully_trusted for external archives.",
+          "verification": "Test absolute paths, parent traversal and escaping symlink/hardlink fixtures; verify no file is created outside the extraction directory."
+        },
+        {
+          "title": "Bound archive contents and expansion",
+          "action": "Validate allowed member types, member count, total expanded bytes, per-file bytes and processing time. Consider duplicate names and overwrite policy; do not assume the data filter prevents resource exhaustion.",
+          "verification": "Exercise oversized sparse/expanded files, many members and duplicate paths and confirm bounded failure without overwriting trusted content."
+        },
+        {
+          "title": "Extract into an isolated staging directory",
+          "action": "Use a new private destination with no sensitive files, validate required outputs, then publish only approved files. Clean partial output after extraction errors.",
+          "verification": "Force an error midway through extraction and verify no partial output becomes active agent code or trusted data."
+        }
+      ],
+      "residual_risk": [
+        "A data filter limits selected filesystem hazards, not all malicious content or denial-of-service cases; archives can still contain unsafe code or prompt injection."
+      ],
+      "control_ids": [
+        "EXEC-04"
+      ],
+      "source_ids": [
+        "TECH-PYTHON-TAR"
+      ]
+    },
+    {
+      "rule_id": "AI038",
+      "summary": "Use a cryptographic generator for values that protect access or replay.",
+      "agent_mcp_relevance": "Predictable agent session IDs, MCP access tokens or approval nonces may let another caller guess authority or replay an action. A general-purpose random generator does not provide that security guarantee.",
+      "applicability": [
+        "Establish whether the named value actually protects access, uniqueness or replay; simulation randomness and cosmetic identifiers may not need cryptographic unpredictability.",
+        "The assignment name alone does not prove the generated value is used as a credential."
+      ],
+      "steps": [
+        {
+          "title": "Replace the general-purpose generator",
+          "action": "Use secrets.token_urlsafe, token_hex or token_bytes for Python security tokens, selecting an explicit entropy size appropriate to the token profile; use the platform cryptographic API in other languages.",
+          "verification": "Verify the security-token path invokes the cryptographic generator and that deterministic random seeds do not control issued tokens."
+        },
+        {
+          "title": "Constrain token lifetime and use",
+          "action": "Store and validate tokens through the intended authentication protocol, expire them and make action-approval/replay nonces single-use when required. Use a suitable constant-time comparison where comparing secret tokens directly.",
+          "verification": "Test expired, reused and altered tokens and verify denial before an agent/MCP action."
+        },
+        {
+          "title": "Protect issuance and storage",
+          "action": "Bind tokens to the appropriate user, tenant, purpose and operation; avoid logs and model prompts containing live tokens and rate-limit guess attempts.",
+          "verification": "Try using a token for another tenant/purpose and confirm rejection; inspect test logs for synthetic token markers."
+        }
+      ],
+      "residual_risk": [
+        "Cryptographic randomness does not replace authentication, token scoping, secure transport or protection against token theft."
+      ],
+      "control_ids": [
+        "AUTH-06",
+        "MCP-05"
+      ],
+      "source_ids": [
+        "REM-PY-SECRETS",
+        "MCP-AUTH"
+      ]
+    },
+    {
+      "rule_id": "AI039",
+      "summary": "Keep template source trusted and pass external values only as data.",
+      "agent_mcp_relevance": "An agent or MCP tool may render generated reports, emails or pages. If model/user content becomes server-side template source, template expressions can access server objects or operations under the tool identity.",
+      "applicability": [
+        "Trace the template-source argument separately from ordinary template data; trusted application-owned templates are a different case.",
+        "HTML autoescaping protects selected output contexts; it does not make attacker-controlled template source safe to evaluate."
+      ],
+      "steps": [
+        {
+          "title": "Select a fixed trusted template",
+          "action": "Load reviewed template files or select from a server-owned template allowlist. Pass model/user/tool text as data values rather than concatenating it into template source.",
+          "verification": "Supply template-expression syntax as a data value and verify it is rendered as data and cannot call template helpers or access unexpected attributes."
+        },
+        {
+          "title": "Minimize template context",
+          "action": "Expose only required primitive data and safe presentation helpers; do not provide credentials, request internals or objects with privileged methods. Apply the correct output escaping.",
+          "verification": "Render with a minimal test context and verify missing privileged objects cannot be accessed and output-sensitive characters are handled for the target format."
+        },
+        {
+          "title": "Isolate intentional template authoring",
+          "action": "If users genuinely author templates, use the framework supported sandbox with a restricted context plus separate CPU/memory/time limits and worker identity. Treat sandbox errors as rejection.",
+          "verification": "Test expensive loops, disallowed attribute/call access and malformed templates in the actual restricted worker; verify bounded failure."
+        }
+      ],
+      "residual_risk": [
+        "A template sandbox is not an unlimited resource boundary and cannot secure unsafe helpers deliberately exposed to it."
+      ],
+      "control_ids": [
+        "EXEC-07"
+      ],
+      "source_ids": [
+        "REM-JINJA",
+        "MCP-TOOLS"
+      ]
+    },
+    {
+      "rule_id": "AI040",
+      "summary": "Render agent/tool output as text or apply a maintained HTML sanitization policy.",
+      "agent_mcp_relevance": "Agent messages and MCP results may contain attacker-origin content. Passing that output to innerHTML, dangerouslySetInnerHTML or a similar raw sink can execute browser markup with access to the application session.",
+      "applicability": [
+        "Confirm whether a maintained sanitizer already processes the exact value and whether later transformations can reintroduce markup.",
+        "Some applications intentionally support rich HTML; a raw sink alone does not prove exploitable XSS."
+      ],
+      "steps": [
+        {
+          "title": "Use a text-safe rendering API",
+          "action": "Replace the raw-HTML sink with textContent or the framework default escaped text binding when formatting is unnecessary. Keep URL and attribute handling appropriate to their specific context.",
+          "verification": "Render script tags, event-handler attributes and HTML-looking tool output and verify they appear as text without executing."
+        },
+        {
+          "title": "Sanitize required rich content",
+          "action": "Where HTML is necessary, apply a maintained sanitizer such as DOMPurify with a narrow tag/attribute/URL policy immediately before the sink. Avoid mutating sanitized HTML through unsafe downstream transformations.",
+          "verification": "Test script/event attributes, dangerous URL schemes and SVG/MathML edge cases relevant to the chosen policy in the actual rendering environment."
+        },
+        {
+          "title": "Add independent browser controls",
+          "action": "Deploy a restrictive Content Security Policy and appropriate frame/session controls, and keep the sanitizer and DOM implementation patched. Do not use CSP as a substitute for correct rendering.",
+          "verification": "Verify representative injected markup cannot execute in the deployed page and legitimate formatting still works; inspect policy violations and sanitizer regression results."
+        }
+      ],
+      "residual_risk": [
+        "HTML sanitization does not validate the truth or authorization of generated instructions, links or actions; agent UI still needs explicit action policy."
+      ],
+      "control_ids": [
+        "EXEC-07"
+      ],
+      "source_ids": [
+        "REM-DOMPURIFY",
+        "OWASP-OUTPUT2025"
+      ]
+    },
+    {
+      "rule_id": "AI041",
+      "summary": "Unset the Inspector authentication bypass and restrict its development boundary.",
+      "agent_mcp_relevance": "MCP Inspector can reach connected servers and their tool permissions. A reachable unauthenticated inspector can expose that authority outside the intended developer session.",
+      "applicability": [
+        "Verify the installed Inspector version and actual environment. Current documentation treats any nonempty DANGEROUSLY_OMIT_AUTH value, including false or 0, as a bypass.",
+        "An inspector is a development tool; an apparent loopback listener does not rule out tunnels, container port publication or hostile local/browser clients."
+      ],
+      "steps": [
+        {
+          "title": "Remove the bypass variable",
+          "action": "Unset DANGEROUSLY_OMIT_AUTH from the effective process environment and launch configuration. Do not set it to the string false or 0. Retain the supported Inspector token mechanism.",
+          "verification": "Test unset/empty and nonempty values in the installed version; verify the deployed configuration rejects missing or invalid authentication tokens."
+        },
+        {
+          "title": "Constrain token and origin settings",
+          "action": "Use the supported MCP_INSPECTOR_API_TOKEN setting if supplying a token; account for deprecated MCP_PROXY_AUTH_TOKEN only when the installed version requires it. Restrict ALLOWED_ORIGINS to the approved local UI and protect token-bearing launch output.",
+          "verification": "Verify the authorized local client works and a present untrusted Origin is rejected; confirm logs/shared URLs do not expose usable Inspector credentials."
+        },
+        {
+          "title": "Restrict exposure and lifecycle",
+          "action": "Keep inspector/proxy listeners and published ports within the approved development boundary, remove unneeded tunnels and stop the inspector when finished. Do not share a high-privilege production tool identity for casual testing.",
+          "verification": "Attempt connection through unauthorized network paths and direct proxy routes; verify denial and confirm the process is stopped after the test session."
+        }
+      ],
+      "residual_risk": [
+        "Inspector authentication does not reduce the authority of a connected MCP server or make its tool results trustworthy."
+      ],
+      "control_ids": [
+        "AUTH-01"
+      ],
+      "source_ids": [
+        "REM-INSPECTOR-ENV",
+        "MCP-SECURITY"
+      ]
+    },
+    {
+      "rule_id": "AI042",
+      "summary": "Restore container namespace separation for agent and MCP tool workers.",
+      "agent_mcp_relevance": "Host PID or network namespace sharing lets an agent or MCP tool observe or interact with host-level processes or services beyond its isolated workload. Model-influenced actions may then reach assets outside the intended task sandbox.",
+      "applicability": [
+        "Determine whether the effective setting shares PID, network or both namespaces and what the process identity can actually access.",
+        "Specialized infrastructure workloads may require host access; separate them from general-purpose agent execution and document the narrowed capability."
+      ],
+      "steps": [
+        {
+          "title": "Remove host namespace settings",
+          "action": "Disable hostPID/hostNetwork or equivalent pid: host/network_mode: host configuration for ordinary tool workers. Use the default isolated namespaces and explicit service connections.",
+          "verification": "Inspect running namespace identities and sockets/process visibility; verify the worker no longer shares the host namespace."
+        },
+        {
+          "title": "Expose only required service paths",
+          "action": "Replace host networking with approved service endpoints and scoped ingress/egress policies. For required process inspection, use a separate broker exposing limited data/operations.",
+          "verification": "Attempt access to a host-local service or unrelated host process from the worker and verify denial while required service calls still work."
+        },
+        {
+          "title": "Enforce the deployment boundary",
+          "action": "Apply admission/security policy to reject accidental host namespace sharing and audit accompanying capabilities, mounts and runtime-socket access.",
+          "verification": "Submit a host-namespace test configuration and verify rejection; review any approved infrastructure exception independently of the agent tool policy."
+        }
+      ],
+      "residual_risk": [
+        "Namespace separation does not eliminate kernel escapes or excessive permissions on deliberately shared resources."
+      ],
+      "control_ids": [
+        "SUP-05"
+      ],
+      "source_ids": [
+        "REM-K8S-PODS",
+        "REM-DOCKER-SECURITY"
+      ]
+    }
+  ]
+}

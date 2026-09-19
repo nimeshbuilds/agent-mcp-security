@@ -48,6 +48,26 @@ For credential-like literals, the first task is to establish whether the value i
 
 The bundled [mitigation catalog](../ai_security_scan/data/mitigations.json) covers every static rule. [Guidance sources and limitations](MITIGATION_SOURCES.md) record the basis for the recommendations. These are project-authored engineering recommendations informed by the cited publications, not verbatim external control requirements or an official crosswalk.
 
+## Per-finding fix plans and agent/MCP relevance
+
+Every observed finding receives a deterministic plan from the separate [remediation catalog](../ai_security_scan/data/remediations.json). Its 42 entries contain 126 concrete change-and-verification pairs. This guidance runs without an LLM, including for suppressed, justified and disabled findings retained for audit; displaying a plan does not reopen an exception or count it as an active concern.
+
+Each plan records:
+
+- The relevant agent or MCP trust boundary and the conditions needed for the advice to apply.
+- Specific APIs, configuration settings or ownership changes, with a verification scenario for each proposed step.
+- Residual risks, mapped controls and primary engineering references.
+- The finding location and a scope note distinguishing source, packaged files, image defaults, retained layers and build history.
+- Catalog schema/version and SHA-256 provenance.
+
+For example, replacing a shell string with an argument array also requires a fixed executable and allowed options; a valid JWT still needs the right audience, required claims and resource permissions. Deleting a credential from a later container layer does not remove it from earlier distributed layers. The plan states these limits rather than claiming a single syntax change proves security.
+
+Agent/MCP relevance is a conditional explanation. A generic Python, JavaScript, database or container pattern does not prove that the affected code is reachable from an agent, that input is attacker controlled, or that a deployed safeguard is absent. Inspect callers, effective configuration, identities and tenant boundaries before applying the proposed change. The scanner does not execute the verification scenarios or automatically edit the target.
+
+HTML, Markdown and the optional PDF show the plan with the finding. JSON stores it in `remediation`, keyed by finding ID. SARIF stores only the deterministic plan in each result's `properties.agentMcpRemediation` and includes action/verification text in the result message. Model-proposed guidance is excluded from SARIF; changing model advice does not change static finding IDs, severities or the finding gate.
+
+Optional finding and control reviews may add a separate **Model-proposed fix guidance (unverified)** block containing relevance, applicability, concrete steps and verification. Additional model concerns can have their own proposed actions, but remain unverified concerns. The `advice_coverage` record distinguishes static plans from model-supplied plans for findings, answered checks and additional concerns. A model answer and a model fix plan are different outputs: older responses may supply an assessment without action guidance. Missing guidance is not fabricated, and completion of a review does not establish that a fix exists or was tested. See [the finding judge](JUDGE.md) and [control analyst](ANALYST.md) for the exact schema and bounds.
+
 ## Evidence needed before claiming lower residual risk
 
 Every suggested layer starts as `proposed_not_verified`. Invarune does not infer that it is deployed because similar code or a setting appears elsewhere. To accept a reduced risk, the reviewer should record:
@@ -78,3 +98,5 @@ If enabled, the model's finding triage and control review appear in explicitly a
 ## Output and compatibility
 
 Version 0.6.0 adds `report.html` and the additive `assessment` JSON object. All four files are emitted by default; no new opt-in flag is needed. Existing commands, finding IDs, baseline semantics, and severity gates remain compatible. Deterministic output requires the same input, scanner/runtime, guidance catalog, settings, and filesystem availability. Optional model output remains outside that reproducibility guarantee.
+
+The additive `remediation` and `advice_coverage` fields retain the earlier short `findings[].remediation` text and existing finding schema. `write_reports()` builds the current catalog guidance when writing reports. Guidance, including a model's proposed API replacement, is not imported as an approval or a patch by `--review-report`; only the documented human review fields participate in that workflow.

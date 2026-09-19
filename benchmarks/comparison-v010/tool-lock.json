@@ -1,0 +1,46 @@
+{
+  "bandit": {
+    "package": "bandit",
+    "ruleset": "All packaged default plugins; no severity/confidence threshold; ignore inline nosec",
+    "source": "https://pypi.org/project/bandit/1.9.4/",
+    "version": "1.9.4"
+  },
+  "cisco-mcp-scanner": {
+    "package": "cisco-ai-mcp-scanner",
+    "ruleset": "Packaged YARA only; other analyzers disabled",
+    "source": "https://pypi.org/project/cisco-ai-mcp-scanner/4.8.4/",
+    "version": "4.8.4"
+  },
+  "gitleaks": {
+    "archive": "gitleaks_8.30.1_darwin_arm64.tar.gz",
+    "archive_sha256": "b40ab0ae55c505963e365f271a8d3846efbc170aa17f2607f13df610a9aeb6a5",
+    "binary_sha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+    "checksum_url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_checksums.txt",
+    "checksum_verified": true,
+    "ruleset": "Packaged defaults via explicit useDefault=true; ignore allow comments and external ignore lists; 100% redaction",
+    "source": "https://github.com/gitleaks/gitleaks/releases/tag/v8.30.1",
+    "version": "8.30.1"
+  },
+  "retrieved_at_utc": "2026-09-19",
+  "schema_version": "1.0",
+  "semgrep": {
+    "package": "semgrep",
+    "ruleset": {
+      "license_url": "https://semgrep.dev/legal/rules-license/",
+      "name": "p/security-audit",
+      "redistributed": false,
+      "rule_count": 225,
+      "sha256": "b109a039df712f30c6d3e25e1e8358053fd0f1c91b92d0e8d2871cd141fe602f",
+      "size_bytes": 473625,
+      "url": "https://semgrep.dev/c/p/security-audit"
+    },
+    "source": "https://pypi.org/project/semgrep/1.177.0/",
+    "version": "1.177.0"
+  },
+  "snyk-agent-scan": {
+    "reason": "Source-tree comparison not supported; normal MCP scan starts configured servers and sends metadata to Snyk analysis API requiring a token.",
+    "researched_version": "0.6.3",
+    "source": "https://github.com/snyk/agent-scan/releases/tag/v0.6.3",
+    "status": "not_executed"
+  }
+}

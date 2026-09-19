@@ -1,0 +1,56 @@
+{
+  "coverage": {
+    "covered_branches": 2929,
+    "covered_lines": 6426,
+    "excluded_lines": 0,
+    "missing_branches": 345,
+    "missing_lines": 384,
+    "num_branches": 3274,
+    "num_partial_branches": 323,
+    "num_statements": 6810,
+    "percent_branches_covered": 89.46243127672572,
+    "percent_branches_covered_display": "89",
+    "percent_covered": 92.77072590241967,
+    "percent_covered_display": "93",
+    "percent_statements_covered": 94.36123348017621,
+    "percent_statements_covered_display": "94"
+  },
+  "coverage_scope": "Parent unit-test process; subprocess entry points separately exercised, not included in counters. Execution coverage is not security accuracy.",
+  "date": "2026-09-19",
+  "installed_report_review": {
+    "fresh_five_format_scans": 10,
+    "initial_source_image_scans": 2,
+    "report_receipt_sha256": "acc12f9513512d3e8b820ece28e0d26b1531d3002d9cf2545ec1c0b7e26473cc"
+  },
+  "pdf_dependency_tests": {
+    "lower_bound_pdf_module_tests": 24,
+    "lower_bound_pypdf": "6.10.0",
+    "lower_bound_reportlab": "4.4.9",
+    "pypdf": "6.19.0",
+    "reportlab": "4.5.1"
+  },
+  "sarif": {
+    "schema": "OASIS SARIF 2.1.0 Errata 01",
+    "schema_sha256": "c3b4bb2d6093897483348925aaa73af03b3e3f4bd4ca38cef26dcb4212a2682e",
+    "validated_artifacts": 27
+  },
+  "schema_version": "1.0",
+  "unit_tests": {
+    "python_3_12_14": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "4d86d3a391d433038bb8ab56a3bf10ee0dcac73ce07862219b4b87cd8ae5e98d",
+      "run": 736,
+      "skipped": 0
+    },
+    "python_3_9_6": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "01d03ec690b5dfe9695e97e52346926fb2c74803e96d2c33c2a372054a34adc8",
+      "run": 736,
+      "skip_reason": "Optional PDF dependencies absent",
+      "skipped": 25
+    }
+  },
+  "version": "0.10.0"
+}

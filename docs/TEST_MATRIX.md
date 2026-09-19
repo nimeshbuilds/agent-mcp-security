@@ -1,6 +1,6 @@
 # Scenario test matrix
 
-This matrix records concrete scanner and controller behavior tested for version **0.9.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. The prior v0.8.0 suite had 588 passing tests. The expanded v0.9.0 run and dependency-specific skips are recorded in [implementation validation](VALIDATION.md). It uses synthetic secrets, repository fixtures, mocked provider responses, real bounded subprocesses and loopback HTTP/HTTPS. The automated suite never executes the target application or calls a live model. Separate empirical public-project, competitor and official CLI-provider checks are recorded below and in [implementation validation](VALIDATION.md).
+This matrix records concrete scanner and controller behavior tested for version **0.10.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. The prior v0.8.0 suite had 588 passing tests. Historical v0.9 and current v0.10 runs and dependency-specific skips are recorded in [implementation validation](VALIDATION.md). It uses synthetic secrets, repository fixtures, mocked provider responses, real bounded subprocesses and loopback HTTP/HTTPS. The automated suite never executes the target application or calls a live model. Separate empirical public-project, competitor and official CLI-provider checks are recorded below and in [implementation validation](VALIDATION.md).
 
 ## Reproducible scenario coverage
 
@@ -9,7 +9,7 @@ All filenames below are under `tests/` unless another path is given.
 | Area | Scenarios exercised | Evidence |
 | --- | --- | --- |
 | All 42 static rules | A detecting example and a corresponding non-triggering or safer alternative for every rule ID; aliases, multiline calls, local source tracking, fixed/dynamic execution, pinned/mutable dependencies | `test_rules.py`, `test_security_boundaries.py` |
-| Labeled accuracy and detector mutations | 109 labeled assertions, all 42 rules with positive/negative labels, each whole-rule removal caught, false-alarm injection, visible challenge failures, metric denominators and gates; corpus 1.1.0 and unchanged original 1.0.0 observations retained separately | `test_accuracy_corpus.py`, `benchmarks/static_accuracy.json`, `benchmarks/static_accuracy-v100.json`, `benchmarks/accuracy-original-corpus.json` |
+| Labeled accuracy and detector mutations | 113 labeled assertions, all 42 rules with positive/negative labels, each whole-rule removal caught, false-alarm injection, visible challenge failures, metric denominators and gates; corpus 1.2.0 with explicit AI041 label correction; unchanged 1.1.0 and 1.0.0 bytes/results retained separately | `test_accuracy_corpus.py`, `benchmarks/static_accuracy.json`, `benchmarks/static_accuracy-v100.json`, `benchmarks/accuracy-original-corpus.json` |
 | Python semantic boundaries | 32 regression methods for aliases, rebinding, scope, fixed/dynamic values, keyword sinks, branches, exceptions, loop zero iterations, mutable data, unsafe loader origins and explicit analysis work limits | `test_python_accuracy.py` |
 | JavaScript lexical boundaries | 26 methods / 174 explicit subcases: quoted/regex/comment examples, fake imports, aliases, shadowing, multiline calls, templates, function bodies, escaping, configuration properties and logging labels | `test_javascript_accuracy.py` |
 | Configuration accuracy | Real/mapped loopback, deceptive DNS prefixes, whitespace, package-selector forms, every additional distribution, exact versions, JSON container context, image digest length, ambiguous/nonfinite JSON | `test_configuration_accuracy.py` |
@@ -51,7 +51,7 @@ All filenames below are under `tests/` unless another path is given.
 
 The HTTP counts describe those specific test files; other tests add local requests. Fixture responses exercise controller decisions and error paths. They do not measure a real LLM's judgment quality or prompt-injection resistance.
 
-The historical version 0.3.0 accuracy improvements were measured on corpus 1.0.0. The current corpus 1.1.0 changes only the synthetic AI011 positive body to match refined key-material semantics. Current results on both byte sets are published, including the intentional mismatch against the unchanged original marker-only positive. [The accuracy methodology](RULE_ACCURACY.md) records versions, digests and all remaining mismatches. Passing regression tests does not erase known challenge failures.
+The historical version 0.3.0 accuracy improvements were measured on corpus 1.0.0. Historical corpus 1.1.0 changed the synthetic AI011 positive body. Current corpus 1.2.0 also corrects the AI041 nonempty-string label and adds four cases. Current results on both byte sets are published, including the intentional mismatch against the unchanged original marker-only positive. [The accuracy methodology](RULE_ACCURACY.md) records versions, digests and all remaining mismatches. Passing regression tests does not erase known challenge failures.
 
 ## Defects found and fixed
 
@@ -146,3 +146,16 @@ Independent review also reproduced and fixed config/report filename collisions a
 | Failure preservation | Oversized capsules and optional PDF dependency/render failures preserve all static findings in four portable reports and return exit 2 | `test_review_roundtrip_cli.py` |
 
 PDF tests use the optional extra; the ordinary Python matrix exercises the dependency-free path and skips PDF-dependent tests explicitly. The package/coverage job installs pinned PDF libraries and exercises those tests. These checks do not establish compatibility with every PDF editor or browser.
+
+## Remediation, comparative findings and quickstart (v0.10.0)
+
+| Boundary | Concrete checks | Evidence |
+|---|---|---|
+| Per-finding engineering advice | All 42 real detector positives, 126 action/verification pairs, five evidence contexts, per-rule engineering requirements, no finding/state mutation, no model-text control over catalog selection | `test_remediation.py` |
+| Optional advice schema and rendering | Bounded exact fields, malformed/oversized content, known-secret redaction, missing legacy advice, synthesized omission counts, additional-concern indices, grounded check status preservation, HTML/MD/PDF text, static SARIF independence | `test_recommended_actions.py` |
+| Inspector bypass semantics | Nonempty string values including false/0/no, empty/unset counterexamples, supported Python/JS/config/image paths and inert documentation strings | `test_inspector_auth_values.py`, `AI041_LABEL_CORRECTION.md` |
+| Comparison accounting | Exact source spans and family matching, cross-file/project separation, ambiguous edges, exhaustive unmatched accounting, stable IDs, frozen outcome-independent selection | `test_scanner_comparison.py` |
+| Blinded review harness | Source manifests/confinement, redaction, exact bounded quotes, unknown/duplicate/missing/invalid answers, explicit uncertainty denominators, dry-run isolation, authentication fail-stop and CLI capability restrictions | `test_benchmark_adjudication.py` |
+| Quickstart | Fresh clone/venv/install, both aliases, expected exits, source/image/config scans, PDF edit/import/final exports, six loopback protocols; receipt privacy on Windows and POSIX | `scripts/validate_quickstart.py`, `test_quickstart_validation.py`, `benchmarks/quickstart-v010/` |
+
+The source audit is agent-assisted and development-visible. Neither it nor a model-generated likely-TP label establishes independent vulnerability ground truth. Live account-dependent failures remain failures. All deterministic scans remain usable without an optional judge.

@@ -303,7 +303,7 @@ class AdditionalSafeRuleCounterexamples(unittest.TestCase):
             ("AI034", "config.json", '{"url": "https://example.com/mcp?resource=public"}'),
             ("AI039", "agent.py", "from flask import render_template\nrender_template('safe.html', value=user_input)"),
             ("AI040", "agent.js", "element.textContent = toolOutput;"),
-            ("AI041", "mcp.json", '{"DANGEROUSLY_OMIT_AUTH": "false"}'),
+            ("AI041", "mcp.json", '{"DANGEROUSLY_OMIT_AUTH": ""}'),
             ("AI042", "compose.yaml", "network_mode: bridge\nhostPID: false\nhostNetwork: false"),
         ]
         for rule_id, path, source in cases:

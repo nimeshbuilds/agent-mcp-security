@@ -1,0 +1,2406 @@
+{
+  "cap_locations": 120,
+  "covered_strata": 101,
+  "input_ledger_sha256": "9be24fd2da5023346c8120d1a4cf0bb157d39421e5ebf28cf5896bd6f5850f6c",
+  "input_observation_count": 1117,
+  "locations": [
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "unpinned_container_image"
+      ],
+      "line_end": 1,
+      "line_start": 1,
+      "location_id": "loc-e32b68c20113976a47f72a54",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-54e2f679ee42810f13da6c1a"
+      ],
+      "path": "python/packages/agbench/src/agbench/res/Dockerfile",
+      "project_id": "autogen",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "dynamic_code_execution"
+      ],
+      "line_end": 159,
+      "line_start": 159,
+      "location_id": "loc-cceebe24f4db77c864e5bf6e",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-6fd61774b95443d31a0c52bf",
+        "obs-a0eea4251d112d520ab05559",
+        "obs-bedd4960c3d1a36946ec2bb3"
+      ],
+      "path": "python/packages/autogen-core/src/autogen_core/tools/_function_tool.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit",
+        "invarune",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "dynamic_code_execution"
+      ],
+      "line_end": 171,
+      "line_start": 171,
+      "location_id": "loc-fe3f409783f369a3071cde55",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-a141934ee7626eca5bc2baf3",
+        "obs-b2796b42eeb8fc0d2aee0b71",
+        "obs-fe547577ed886a91cd33da3f"
+      ],
+      "path": "python/packages/autogen-core/src/autogen_core/tools/_function_tool.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit",
+        "invarune",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "weak_hash_algorithm"
+      ],
+      "line_end": 137,
+      "line_start": 137,
+      "location_id": "loc-fa03ba1f95312c50a1dc3346",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-b558d8d1b0e8e217974997d7"
+      ],
+      "path": "python/packages/autogen-core/src/autogen_core/utils/_json_to_pydantic.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 469,
+      "line_start": 469,
+      "location_id": "loc-3799187cc8a9b9e966cb4333",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-5d8b302e86a32e967624caf9"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/agents/web_surfer/_multimodal_web_surfer.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "security_randomness"
+      ],
+      "line_end": 92,
+      "line_start": 92,
+      "location_id": "loc-5b1a0184a17af41f7ef7517e",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-f5343c585eb2404e5177c3be"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/agents/web_surfer/_set_of_mark.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 57,
+      "line_start": 57,
+      "location_id": "loc-07367946ddd1e6f101199930",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-266c0f44391eea95188d613d"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/agents/web_surfer/playwright_controller.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_pass"
+      ],
+      "line_end": 551,
+      "line_start": 550,
+      "location_id": "loc-b4ae81293cdb1924d0810f61",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-fa9c594dc2e19b8a4f38af92"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/agents/web_surfer/playwright_controller.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 192,
+      "line_start": 192,
+      "location_id": "loc-03bb76d7485503dbc94ab070",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-82ff7d0a4f630df0f1db6dea"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/code_executors/docker_jupyter/_docker_jupyter.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "permissive_file_mode"
+      ],
+      "line_end": 328,
+      "line_start": 328,
+      "location_id": "loc-fa09e08509cd29830ed3774d",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-8b9576b65bb88c5f17ea3642"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/code_executors/docker_jupyter/_jupyter_server.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 82,
+      "line_start": 82,
+      "location_id": "loc-1e02c3433aba5fcf3858f167",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-2f81af7022a056475a108a00",
+        "obs-8df234b76575f0ce3cd9e6b9",
+        "obs-af037693ccbb476066a1e50a"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_memory_bank.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit",
+        "invarune",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 114,
+      "line_start": 114,
+      "location_id": "loc-0cbcd3fb0d4720220a299739",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-6fbb3b0a1975249a424dfea9"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_memory_bank.py",
+      "project_id": "autogen",
+      "tools": [
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "pickle_import"
+      ],
+      "line_end": 2,
+      "line_start": 2,
+      "location_id": "loc-47905490ab6ea7682bc6e936",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-c72df7de6a3e1c846f376937"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_string_similarity_map.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 48,
+      "line_start": 48,
+      "location_id": "loc-b6be2eeb1c57504ae79ccdf1",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-27a67e6c7586a2ae5ea86028",
+        "obs-63f6a75df32c615b424f7c00",
+        "obs-8c87028c58b5dd4fc68cca07"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_string_similarity_map.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit",
+        "invarune",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 73,
+      "line_start": 73,
+      "location_id": "loc-bd446dc334b1f979bdc560d6",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-99226b17a380e562fdd4e61f"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_string_similarity_map.py",
+      "project_id": "autogen",
+      "tools": [
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 189,
+      "line_start": 189,
+      "location_id": "loc-098cfadbc98e4ffe61b16a13",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-f2752903227e10f7ba28851d"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/memory/mem0/_mem0.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 270,
+      "line_start": 270,
+      "location_id": "loc-5ce978ad4b787b84de686fdd",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-8e3496f1a2261a8098260f61"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/models/openai/_message_transform.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 179,
+      "line_start": 179,
+      "location_id": "loc-efad18a7645338c46c508c04",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-e50b009ca6ade97896a4f355"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/tools/mcp/_workbench.py",
+      "project_id": "autogen",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 413,
+      "line_start": 411,
+      "location_id": "loc-28c73ea85f6ce73dd8ea0065",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-3760167a4c00886dc0d2169f"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/tools/mcp/_workbench.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "subprocess_import"
+      ],
+      "line_end": 3,
+      "line_start": 3,
+      "location_id": "loc-7ff04d2f5af3c6fbfbee7d21",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-e209b8980de8293ba6a2c459"
+      ],
+      "path": "python/packages/autogen-studio/autogenstudio/lite/studio.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "partial_executable_path",
+        "subprocess_without_shell"
+      ],
+      "line_end": 236,
+      "line_start": 236,
+      "location_id": "loc-e7cb0e4990e83c1be383c752",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-31d8d576e62e91695bed28da",
+        "obs-cb68aac4d22881ecf569d0a8"
+      ],
+      "path": "python/packages/autogen-studio/autogenstudio/lite/studio.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "sql_construction"
+      ],
+      "line_end": 149,
+      "line_start": 149,
+      "location_id": "loc-a53232ca68c850ffef04ec4f",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-7b9e8c1d730aa3c83748e6b9"
+      ],
+      "path": "python/packages/autogen-studio/autogenstudio/validation/validation_service.py",
+      "project_id": "autogen",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "debug_enabled"
+      ],
+      "line_end": 60,
+      "line_start": 60,
+      "location_id": "loc-e03459344e82e6463ec43dfe",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-e70f4a637f40ea622fd74ead"
+      ],
+      "path": "python/packages/autogen-studio/autogenstudio/web/app.py",
+      "project_id": "autogen",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "secret_logging"
+      ],
+      "line_end": 101,
+      "line_start": 101,
+      "location_id": "loc-2ec7aef511c6fce6d813da25",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-07bbba345e8ffc4bd889cc64"
+      ],
+      "path": "python/packages/autogen-studio/autogenstudio/web/auth/manager.py",
+      "project_id": "autogen",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "dependency_version_range"
+      ],
+      "line_end": 1,
+      "line_start": 1,
+      "location_id": "loc-01628ec02a807b33c4404d04",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-c86c09e8c3c9e66ab1c4e378"
+      ],
+      "path": "python/packages/autogen-studio/requirements.txt",
+      "project_id": "autogen",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_pass"
+      ],
+      "line_end": 1080,
+      "line_start": 1079,
+      "location_id": "loc-4df6b3147cd624f446b3615e",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-4f23fb059c40ee6654acef42"
+      ],
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 105,
+      "line_start": 92,
+      "location_id": "loc-42cea3dff747044ccc3fcf8c",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-fed18e8e5cba56beebbf5100"
+      ],
+      "path": "lib/cli/src/crewai_cli/deploy/validate.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "partial_executable_path",
+        "subprocess_without_shell"
+      ],
+      "line_end": 132,
+      "line_start": 126,
+      "location_id": "loc-9126955e696d8c875aa7811e",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-0e8a849d22c417fe1e522e71",
+        "obs-69c1512222003b2f66df6d1e"
+      ],
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 116,
+      "line_start": 116,
+      "location_id": "loc-c48e1839ec474434f27fff27",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-b37bc5134aff56606ee8b183"
+      ],
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "jwt_signature_bypass"
+      ],
+      "line_end": 36,
+      "line_start": 34,
+      "location_id": "loc-b2b21b744f320e7cb5e29353",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-1c7676d54fc01693af03d92e"
+      ],
+      "path": "lib/crewai-core/src/crewai_core/auth/utils.py",
+      "project_id": "crewai",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "dynamic_outbound_url"
+      ],
+      "line_end": 127,
+      "line_start": 125,
+      "location_id": "loc-1fa7c8e8b4bf3eb2ec1e0939",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-05132509830d85724718c599",
+        "obs-edd1497cd85a1273729d0e22"
+      ],
+      "path": "lib/crewai-core/src/crewai_core/version.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "sql_construction"
+      ],
+      "line_end": 217,
+      "line_start": 217,
+      "location_id": "loc-b9ce4b7d305a4ff88fd08ae6",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-a7a08dc637854df925539e04"
+      ],
+      "path": "lib/crewai-files/src/crewai_files/cache/cleanup.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "xml_parser_api",
+        "xml_parser_import"
+      ],
+      "line_end": 2,
+      "line_start": 2,
+      "location_id": "loc-b1145449e0c2855fedbbeb35",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-6a69daff0131603595686bdf",
+        "obs-e609f26ac4a1bb4abb7470eb"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/rag/loaders/xml_loader.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "xml_parser_api",
+        "xml_parser_import"
+      ],
+      "line_end": 9,
+      "line_start": 9,
+      "location_id": "loc-fe0ced63ed67711d495d9c36",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-24e79c015edc3ced865b2898",
+        "obs-3031250433a8a3c44c95c219"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "dynamic_outbound_url"
+      ],
+      "line_end": 87,
+      "line_start": 85,
+      "location_id": "loc-e317120fdf3f75a1435ca893",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-3bddbb60b44db98946e54bf2",
+        "obs-9b9108c5282b65a3e7d8237b"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "xml_parser_api"
+      ],
+      "line_end": 95,
+      "line_start": 95,
+      "location_id": "loc-b2c452fb412e56b4f3c4f29c",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-9da5d5cd79a76da2ef999d2b"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "dynamic_outbound_url"
+      ],
+      "line_end": 164,
+      "line_start": 164,
+      "location_id": "loc-2ef2bf57e658beb283f41e6a",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-745e41e31c9029ee1553e75c",
+        "obs-7943a918f71e859decccc21c"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "temporary_directory_literal"
+      ],
+      "line_end": 353,
+      "line_start": 353,
+      "location_id": "loc-28164ac3237dce389d75e929",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-637e4194efe16bfe0bab255b"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/daytona_sandbox_tool/daytona_file_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "subprocess_import"
+      ],
+      "line_end": 100,
+      "line_start": 100,
+      "location_id": "loc-54253ad4ae4e52ff7812989e",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-cd95035db493c958ddfa383a"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/exa_tools/exa_search_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "request_timeout_missing"
+      ],
+      "line_end": 56,
+      "line_start": 52,
+      "location_id": "loc-2cf3e587f4cafb7dd3f6d48b",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-7460dacb56cc2803e8f4b396"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/generate_crewai_automation_tool/generate_crewai_automation_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "security_randomness"
+      ],
+      "line_end": 20,
+      "line_start": 20,
+      "location_id": "loc-f28b898d6e6ecb55176f654c",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-ce167b3aa4cd868c08fbd236"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/patronus_eval_tool/example.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "sql_construction"
+      ],
+      "line_end": 309,
+      "line_start": 309,
+      "location_id": "loc-f75d60fb93382fe3f1b0152c",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-8f3c6bd37e6b8472f1464f38"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/singlestore_search_tool/singlestore_search_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "partial_executable_path",
+        "subprocess_without_shell"
+      ],
+      "line_end": 116,
+      "line_start": 116,
+      "location_id": "loc-81631f9eb7e6d59608571059",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-002ff74b89175cce1b74a72f",
+        "obs-e0b2ee8a915cec18f49d9dde"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_research_tool/tavily_research_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "partial_executable_path",
+        "subprocess_without_shell"
+      ],
+      "line_end": 139,
+      "line_start": 139,
+      "location_id": "loc-f3847d4e87ac88bd7a947121",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-24adc96b33b40f83c1c07226",
+        "obs-5de94c071979fd8e5fae7e80"
+      ],
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_search_tool/tavily_search_tool.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_pass"
+      ],
+      "line_end": 346,
+      "line_start": 345,
+      "location_id": "loc-2b4694d68bc709dbfdf589f1",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-5e9cccbc1e3f9179bf32fbdc"
+      ],
+      "path": "lib/crewai/src/crewai/agents/planner_observer.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_continue"
+      ],
+      "line_end": 307,
+      "line_start": 306,
+      "location_id": "loc-a00344d1685e429d6f26eb1b",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-b74ed844ab7b91b4f6cd6c62"
+      ],
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_pass"
+      ],
+      "line_end": 349,
+      "line_start": 348,
+      "location_id": "loc-3586e4b42e72f5f7664d5b55",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-26652d2b6b928e967793f48a"
+      ],
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "dynamic_code_execution"
+      ],
+      "line_end": 309,
+      "line_start": 309,
+      "location_id": "loc-2c8eda2c600e07669d1417fd",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-7e181661e3f1b20351fb7623",
+        "obs-99459ada0894679bc171817f",
+        "obs-d2f6e220182280ed859e2c24"
+      ],
+      "path": "lib/crewai/src/crewai/flow/runtime/_actions.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit",
+        "invarune",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "template_autoescape_disabled"
+      ],
+      "line_end": 48,
+      "line_start": 43,
+      "location_id": "loc-ae38ea6c575bbdb39f8f8b55",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-d5685cf85a908249f6b65263"
+      ],
+      "path": "lib/crewai/src/crewai/flow/skill.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "unsafe_html_rendering"
+      ],
+      "line_end": 2449,
+      "line_start": 2449,
+      "location_id": "loc-59a624dffe2dd644d950a458",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-371f930a99632085f749bc13"
+      ],
+      "path": "lib/crewai/src/crewai/flow/visualization/assets/interactive.js",
+      "project_id": "crewai",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "sql_construction"
+      ],
+      "line_end": 160,
+      "line_start": 160,
+      "location_id": "loc-a9904e404f4eb3fe2ac77983",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-702be20a45dd429d3c33564a"
+      ],
+      "path": "lib/crewai/src/crewai/memory/storage/kickoff_task_outputs_storage.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 63,
+      "line_start": 63,
+      "location_id": "loc-4dcb5e4025541a9d82ef3ad9",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-47bf7ae427bc4238ea1e723e"
+      ],
+      "path": "lib/crewai/src/crewai/rag/chromadb/config.py",
+      "project_id": "crewai",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "archive_extraction"
+      ],
+      "line_end": 209,
+      "line_start": 209,
+      "location_id": "loc-3e4e7779f99f9170d668d730",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-092bcf680eb05e81447c1975"
+      ],
+      "path": "lib/crewai/src/crewai/skills/cache.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "pickle_import"
+      ],
+      "line_end": 4,
+      "line_start": 4,
+      "location_id": "loc-353dfdc05b74379dbc556792",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-3d9014928afa4fc2a29433f0"
+      ],
+      "path": "lib/crewai/src/crewai/utilities/file_handler.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 152,
+      "line_start": 152,
+      "location_id": "loc-8e1736209e8cdc50890228d4",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-cbe8b84e3179c49aa117acf9"
+      ],
+      "path": "lib/crewai/src/crewai/utilities/file_handler.py",
+      "project_id": "crewai",
+      "tools": [
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 166,
+      "line_start": 166,
+      "location_id": "loc-f3f3c814ca9b26a452e0370d",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-81166d0350adf66e74367477",
+        "obs-d458ba104cf579bcda4fe144",
+        "obs-ef98ec42537a4249fe5e1b9f"
+      ],
+      "path": "lib/crewai/src/crewai/utilities/file_handler.py",
+      "project_id": "crewai",
+      "tools": [
+        "bandit",
+        "invarune",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 106,
+      "line_start": 103,
+      "location_id": "loc-2811de168bef88bc2a334b27",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-631ecd937ce8a8a3171f2554"
+      ],
+      "path": "fastmcp_slim/fastmcp/cli/cimd.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "partial_executable_path",
+        "subprocess_without_shell"
+      ],
+      "line_end": 72,
+      "line_start": 59,
+      "location_id": "loc-a1856de8a43514443e37dce7",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-99b076da11461d402f530d6f",
+        "obs-ee74f321e09726993ebe3620"
+      ],
+      "path": "fastmcp_slim/fastmcp/cli/deploy/state.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "subprocess_import"
+      ],
+      "line_end": 4,
+      "line_start": 4,
+      "location_id": "loc-ec314533c14a9d7cd22c2e26",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-6df00a387242e13d54ed2966"
+      ],
+      "path": "fastmcp_slim/fastmcp/cli/install/claude_code.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "process_execution_without_shell"
+      ],
+      "line_end": 195,
+      "line_start": 195,
+      "location_id": "loc-2244349c7801fa04df3cb09d",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-3645c4406b79a6d8ecd96f50"
+      ],
+      "path": "fastmcp_slim/fastmcp/cli/install/shared.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 917,
+      "line_start": 915,
+      "location_id": "loc-9eac106f803d609a39a85556",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-efee7b1a00bf96ad33d79b36"
+      ],
+      "path": "fastmcp_slim/fastmcp/server/auth/auth.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_pass"
+      ],
+      "line_end": 277,
+      "line_start": 275,
+      "location_id": "loc-e32bcee3945790490b9fcf8d",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-a83dfc30af3051e3e8fa9dc8"
+      ],
+      "path": "fastmcp_slim/fastmcp/server/auth/handlers/authorize.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_continue"
+      ],
+      "line_end": 357,
+      "line_start": 356,
+      "location_id": "loc-3b6006bf51dc14054f8ca944",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-9fc3f1b0fab96ef19da5baf8"
+      ],
+      "path": "fastmcp_slim/fastmcp/server/auth/providers/descope.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 245,
+      "line_start": 245,
+      "location_id": "loc-aa1c2666cf76560229e762ff",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-be342960cf98e3b44b7acdcf"
+      ],
+      "path": "fastmcp_slim/fastmcp/server/auth/providers/google.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "gitleaks"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "weak_hash_algorithm"
+      ],
+      "line_end": 136,
+      "line_start": 136,
+      "location_id": "loc-410de27eb32ed526d58d197b",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-021a0e71bc2302512a6e3ccf",
+        "obs-3aa25d2a85bbd66ec592cb29"
+      ],
+      "path": "fastmcp_slim/fastmcp/server/providers/filesystem_discovery.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "weak_hash_algorithm"
+      ],
+      "line_end": 236,
+      "line_start": 236,
+      "location_id": "loc-ed48fbd16355e6c6b7c64e15",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-a362890685885e51ee85928b",
+        "obs-d04fc64104eb3bb5c513a1c2"
+      ],
+      "path": "fastmcp_slim/fastmcp/server/providers/filesystem_discovery.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "yaml_object_deserialization"
+      ],
+      "line_end": 105,
+      "line_start": 105,
+      "location_id": "loc-62965f7eec83ae23107a8688",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-b89b79839f69ca6969a2f900"
+      ],
+      "path": "fastmcp_slim/fastmcp/server/providers/skills/_common.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 1692,
+      "line_start": 1692,
+      "location_id": "loc-9633f5d1ad135d82b3b47ccd",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-e8fa97760c6fb680b66f7601"
+      ],
+      "path": "fastmcp_slim/fastmcp/server/server.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "wildcard_listener"
+      ],
+      "line_end": 47,
+      "line_start": 47,
+      "location_id": "loc-38597f0b449608858fdcb7f6",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-8cd69d8b8a3ef22e1c6928b8"
+      ],
+      "path": "fastmcp_slim/fastmcp/utilities/mcp_server_config/v1/mcp_server_config.py",
+      "project_id": "fastmcp",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "weak_hash_algorithm"
+      ],
+      "line_end": 228,
+      "line_start": 228,
+      "location_id": "loc-6f03d826a90bffc00e9eeee4",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-6315f051be0fdb719db5079b"
+      ],
+      "path": "pkg/github/repositories_helper.go",
+      "project_id": "github-mcp",
+      "tools": [
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "dependency_version_range"
+      ],
+      "line_end": 23,
+      "line_start": 23,
+      "location_id": "loc-a011095badb3ec8b05fffd5d",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-3458005aa664de8b6ca9050c"
+      ],
+      "path": "ui/package.json",
+      "project_id": "github-mcp",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "sql_construction"
+      ],
+      "line_end": 113,
+      "line_start": 84,
+      "location_id": "loc-882dbc07e1a967c9e1b068bb",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-97a3c35abafeb43c66e04ce4"
+      ],
+      "path": "libs/checkpoint-postgres/langgraph/checkpoint/postgres/shallow.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "sql_construction"
+      ],
+      "line_end": 243,
+      "line_start": 243,
+      "location_id": "loc-d28f49ebd2323a9fb32c90a0",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-09546c3198342d166d316a44",
+        "obs-4ddb4c81e24f598c3004c606"
+      ],
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/aio.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit",
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "security_randomness"
+      ],
+      "line_end": 644,
+      "line_start": 644,
+      "location_id": "loc-df4a228da897e59ed31d2e29",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-a11cbf6116c5e3b65987a03e"
+      ],
+      "path": "libs/checkpoint-sqlite/langgraph/checkpoint/sqlite/__init__.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 680,
+      "line_start": 680,
+      "location_id": "loc-06f058ca134788aa5aa1cf81",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-ad38a61d076a50fb47cc43f8"
+      ],
+      "path": "libs/checkpoint/langgraph/checkpoint/memory/__init__.py",
+      "project_id": "langgraph",
+      "tools": [
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "cryptography_import"
+      ],
+      "line_end": 44,
+      "line_start": 44,
+      "location_id": "loc-93ee7a3e5e7a06a628222cc5",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-7db13b839ea95146c3b95d81"
+      ],
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/encrypted.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 72,
+      "line_start": 72,
+      "location_id": "loc-7bef09ae49e8b896f45e212b",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-c68db3738065bd08e08d14d9"
+      ],
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/encrypted.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 270,
+      "line_start": 270,
+      "location_id": "loc-4af34ddb0dd7e40de652e042",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-ae0c35c0c581967cdb50a56f"
+      ],
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/jsonplus.py",
+      "project_id": "langgraph",
+      "tools": [
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 288,
+      "line_start": 288,
+      "location_id": "loc-782efcb35bcfdeee3e256b2f",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-27ec4fefe614760939428e2a",
+        "obs-659f911073e228706189e98e",
+        "obs-69462511f170662b8c792c81"
+      ],
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/jsonplus.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit",
+        "invarune",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 315,
+      "line_start": 315,
+      "location_id": "loc-2cadc5b96cf5e71fab770ead",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-29e12080a24f5b233011f094"
+      ],
+      "path": "libs/checkpoint/langgraph/store/base/embed.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "dynamic_outbound_url"
+      ],
+      "line_end": 81,
+      "line_start": 81,
+      "location_id": "loc-896a7b4a0b6912d913ced68c",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-006733f36c70b4c47c47d393",
+        "obs-661ca1c8dc1f70d34f131667"
+      ],
+      "path": "libs/cli/langgraph_cli/analytics.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 5,
+      "line_start": 5,
+      "location_id": "loc-27a82ed36e3c282b6a326a99",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-e173692debf2e9c9a7712872",
+        "obs-fbf5c99722322e3ed2a1ea08"
+      ],
+      "path": "libs/cli/langgraph_cli/constants.py",
+      "project_id": "langgraph",
+      "tools": [
+        "gitleaks",
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "dynamic_outbound_url"
+      ],
+      "line_end": 880,
+      "line_start": 880,
+      "location_id": "loc-a88126a21c0327d74f696a03",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-c1a2a0df33db91685df5f6a1",
+        "obs-feb439e8b3d52b64fbe3f0e1"
+      ],
+      "path": "libs/cli/langgraph_cli/deploy.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "subprocess_import"
+      ],
+      "line_end": 67,
+      "line_start": 67,
+      "location_id": "loc-22377ed96e97f25286f99493",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-ca866f451235f9f071066733"
+      ],
+      "path": "libs/cli/langgraph_cli/docker.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "partial_executable_path",
+        "subprocess_without_shell"
+      ],
+      "line_end": 73,
+      "line_start": 69,
+      "location_id": "loc-a6f5b0073bcbaed0ad72c80b",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-4af030a0e6c91921c94ae711",
+        "obs-d8de8e779bd1844980cad329"
+      ],
+      "path": "libs/cli/langgraph_cli/docker.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": false,
+      "families": [
+        "dynamic_outbound_url"
+      ],
+      "line_end": 104,
+      "line_start": 104,
+      "location_id": "loc-bd1715ecbd0e293f34b77b42",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-2c71ffb419ad5d0753593ee8",
+        "obs-bd1747dfd1fabc7cbf9259d9"
+      ],
+      "path": "libs/cli/langgraph_cli/templates.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "temporary_directory_literal"
+      ],
+      "line_end": 936,
+      "line_start": 936,
+      "location_id": "loc-f2b24094a71fd555b9dbdd9f",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-602c99459a84b2da518e1f1c"
+      ],
+      "path": "libs/cli/langgraph_cli/uv_lock.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "pickle_import"
+      ],
+      "line_end": 28,
+      "line_start": 28,
+      "location_id": "loc-0182995ea42c430ab5d8ff05",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-21dc8e2f6bb03574d8993926"
+      ],
+      "path": "libs/langgraph/langgraph/_internal/_cache.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "pickle_family_api"
+      ],
+      "line_end": 31,
+      "line_start": 31,
+      "location_id": "loc-971df8e2e4fb85eae7ebe6d0",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-0d8d4af83b8da1d396fbcfaa"
+      ],
+      "path": "libs/langgraph/langgraph/_internal/_cache.py",
+      "project_id": "langgraph",
+      "tools": [
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "weak_hash_algorithm"
+      ],
+      "line_end": 1398,
+      "line_start": 1398,
+      "location_id": "loc-e2e097baa8464666ca71242a",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-bdc1503059c66ddaf98f20d4"
+      ],
+      "path": "libs/langgraph/langgraph/pregel/_algo.py",
+      "project_id": "langgraph",
+      "tools": [
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_pass"
+      ],
+      "line_end": 599,
+      "line_start": 598,
+      "location_id": "loc-f69c6b3314d3305e90d601b5",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-0d1f54b223864a9c56406946"
+      ],
+      "path": "libs/sdk-py/langgraph_sdk/_sync/stream.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_continue"
+      ],
+      "line_end": 215,
+      "line_start": 214,
+      "location_id": "loc-8f13ae95ae6821b4d38a8f2e",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-32a2088f915019afb6fe276d"
+      ],
+      "path": "libs/sdk-py/langgraph_sdk/stream/sync_controller.py",
+      "project_id": "langgraph",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "unpinned_container_image"
+      ],
+      "line_end": 1,
+      "line_start": 1,
+      "location_id": "loc-34869a1d9a240d5d7b9d4416",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-fe3d2e805fb94e3cf1ae6360"
+      ],
+      "path": "src/everything/Dockerfile",
+      "project_id": "mcp-reference",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "unpinned_container_image"
+      ],
+      "line_end": 10,
+      "line_start": 9,
+      "location_id": "loc-e952b501ea81d6060285566a",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-4fc8e5f51d0476d9098bd1c8"
+      ],
+      "path": "src/everything/Dockerfile",
+      "project_id": "mcp-reference",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "wildcard_cors"
+      ],
+      "line_end": 12,
+      "line_start": 12,
+      "location_id": "loc-481375043625181f1f9c3e97",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-67316f6246581253dc1d5bbe"
+      ],
+      "path": "src/everything/transports/sse.ts",
+      "project_id": "mcp-reference",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "dependency_version_range"
+      ],
+      "line_end": 28,
+      "line_start": 28,
+      "location_id": "loc-82c088ce8e87714fde1e1fbe",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-53016403e1d57f5dd4457ee3"
+      ],
+      "path": "src/filesystem/package.json",
+      "project_id": "mcp-reference",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "unpinned_container_image"
+      ],
+      "line_end": 12,
+      "line_start": 11,
+      "location_id": "loc-bf53107cb74cac684642e59f",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-23423a55a8ee490ab0566a11"
+      ],
+      "path": "src/memory/Dockerfile",
+      "project_id": "mcp-reference",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "unpinned_container_image"
+      ],
+      "line_end": 12,
+      "line_start": 11,
+      "location_id": "loc-f7b797cc77c318da57572fe6",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-a5c0abc42d2b89662cd1443e"
+      ],
+      "path": "src/sequentialthinking/Dockerfile",
+      "project_id": "mcp-reference",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 42,
+      "line_start": 42,
+      "location_id": "loc-ed6ea403081a6c0d5cdac53f",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-ab1abbdc34c711202b854521"
+      ],
+      "path": "config/defaults.json",
+      "project_id": "openhands",
+      "tools": [
+        "gitleaks"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "unpinned_container_image"
+      ],
+      "line_end": 28,
+      "line_start": 28,
+      "location_id": "loc-7a65fbbc8c65b7e3d8a9bea6",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-cf2475a04d5644932ce6ca9d"
+      ],
+      "path": "docker/Dockerfile",
+      "project_id": "openhands",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "unsafe_html_rendering"
+      ],
+      "line_end": 6,
+      "line_start": 6,
+      "location_id": "loc-5dc54ebbd16bfa542a18eb25",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-b84aca086ad3f71c7519b8d0"
+      ],
+      "path": "src/components/features/chat/mono-component.tsx",
+      "project_id": "openhands",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 34,
+      "line_start": 33,
+      "location_id": "loc-e09b401346edb498c78272ca",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-23b29aaefb11a30298bce6b0"
+      ],
+      "path": "src/hooks/query/use-backends-health.ts",
+      "project_id": "openhands",
+      "tools": [
+        "invarune"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 1245,
+      "line_start": 1245,
+      "location_id": "loc-f94601e2a4bc84d9151af396",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-2857d939b6ab8d141b7337b1"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/_agent_graph.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 184,
+      "line_start": 184,
+      "location_id": "loc-17cf5422ffdb783c273a78a6",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-f7e80441f533d0f786c6b9c6"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/agent/abstract.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 191,
+      "line_start": 191,
+      "location_id": "loc-16ab3a70cf5fa80b833eef4c",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-a081e24f2f6a14d89e6c0380"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_agent.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 368,
+      "line_start": 368,
+      "location_id": "loc-c2d03161a9d5c80777f7bd26",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-7bd594ba4dbfed436bd1af2f"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_durability.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 249,
+      "line_start": 249,
+      "location_id": "loc-f0d4ff7f38c17d0ce255d766",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-14513c1558a448b9555ac8e2"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_model.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "xml_parser_api",
+        "xml_parser_import"
+      ],
+      "line_end": 10,
+      "line_start": 10,
+      "location_id": "loc-d86f8d9381b6ba53b6e85b70",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-2b3c5106fea754eb6f6e1442",
+        "obs-fe0436fbf31d96211477f82a"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/format_prompt.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit",
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "weak_hash_algorithm"
+      ],
+      "line_end": 242,
+      "line_start": 242,
+      "location_id": "loc-cbfcd2e4224b482344b766a4",
+      "mandatory_semgrep_or_gitleaks": true,
+      "observation_ids": [
+        "obs-90731b92be00693091944721"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/messages.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "semgrep"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 1265,
+      "line_start": 1265,
+      "location_id": "loc-fa22159edc5312e36e3811e3",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-f0f524e3d0b3c2826ca8a500"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/models/bedrock.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 164,
+      "line_start": 164,
+      "location_id": "loc-16a18737095c75263707cdab",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-59eb73619d2b9da52c5d566a"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/models/function.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 1140,
+      "line_start": 1140,
+      "location_id": "loc-f03a82f0d8d9c7897ff58902",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-735e35cc69c63f5a0aeed88d"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/models/openai.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 319,
+      "line_start": 319,
+      "location_id": "loc-1b536fa70607d397a7e4449d",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-f88d200855ae831bd9e2d943"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/models/test.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 95,
+      "line_start": 95,
+      "location_id": "loc-46f915bdab466a01a93ca45c",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-23fd39cb400b20a094272f53"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/providers/mistral.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "credential_literal"
+      ],
+      "line_end": 392,
+      "line_start": 390,
+      "location_id": "loc-61a271079b0391fc2e3f2c48",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-2d036dbc14ac2d224a55832d"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/providers/openai_codex.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "security_randomness"
+      ],
+      "line_end": 64,
+      "line_start": 64,
+      "location_id": "loc-b8b8f88854a06d4bca6eee19",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-b1f602f40fa72c2aca91f0ce"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/_utils.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 827,
+      "line_start": 827,
+      "location_id": "loc-b6c6af800956003d145bc08c",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-6c6a18f689ba9d2d0fe95dd1"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/tool_manager.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 98,
+      "line_start": 98,
+      "location_id": "loc-68583bb832da871694d8256f",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-8b149ebc3bd9c613255a70aa"
+      ],
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/combined.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "exception_pass"
+      ],
+      "line_end": 292,
+      "line_start": 291,
+      "location_id": "loc-f29cfed9dd0055906cb131f1",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-053a4c231fa6cd999f446c87"
+      ],
+      "path": "pydantic_evals/pydantic_evals/_online.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    },
+    {
+      "contains_no_family_match_observation": true,
+      "families": [
+        "assert_statement"
+      ],
+      "line_end": 1009,
+      "line_start": 1007,
+      "location_id": "loc-41d56a1b38d876f5d15a77a7",
+      "mandatory_semgrep_or_gitleaks": false,
+      "observation_ids": [
+        "obs-7de71146b509b458752d3ea8"
+      ],
+      "path": "pydantic_graph/pydantic_graph/graph_builder.py",
+      "project_id": "pydantic-ai",
+      "tools": [
+        "bandit"
+      ]
+    }
+  ],
+  "sampling_limitations": "Purposive stratified diagnostic selection, not a random prevalence sample; no population precision estimate without a different sampling design. TP/FP labels are intentionally absent.",
+  "schema_version": "1.0",
+  "selected_counts_by_tool": {
+    "bandit": 95,
+    "gitleaks": 3,
+    "invarune": 28,
+    "semgrep": 27
+  },
+  "selected_locations": 120,
+  "selected_observation_ids": [
+    "obs-002ff74b89175cce1b74a72f",
+    "obs-006733f36c70b4c47c47d393",
+    "obs-021a0e71bc2302512a6e3ccf",
+    "obs-05132509830d85724718c599",
+    "obs-053a4c231fa6cd999f446c87",
+    "obs-07bbba345e8ffc4bd889cc64",
+    "obs-092bcf680eb05e81447c1975",
+    "obs-09546c3198342d166d316a44",
+    "obs-0d1f54b223864a9c56406946",
+    "obs-0d8d4af83b8da1d396fbcfaa",
+    "obs-0e8a849d22c417fe1e522e71",
+    "obs-14513c1558a448b9555ac8e2",
+    "obs-1c7676d54fc01693af03d92e",
+    "obs-21dc8e2f6bb03574d8993926",
+    "obs-23423a55a8ee490ab0566a11",
+    "obs-23b29aaefb11a30298bce6b0",
+    "obs-23fd39cb400b20a094272f53",
+    "obs-24adc96b33b40f83c1c07226",
+    "obs-24e79c015edc3ced865b2898",
+    "obs-26652d2b6b928e967793f48a",
+    "obs-266c0f44391eea95188d613d",
+    "obs-27a67e6c7586a2ae5ea86028",
+    "obs-27ec4fefe614760939428e2a",
+    "obs-2857d939b6ab8d141b7337b1",
+    "obs-29e12080a24f5b233011f094",
+    "obs-2b3c5106fea754eb6f6e1442",
+    "obs-2c71ffb419ad5d0753593ee8",
+    "obs-2d036dbc14ac2d224a55832d",
+    "obs-2f81af7022a056475a108a00",
+    "obs-3031250433a8a3c44c95c219",
+    "obs-31d8d576e62e91695bed28da",
+    "obs-32a2088f915019afb6fe276d",
+    "obs-3458005aa664de8b6ca9050c",
+    "obs-3645c4406b79a6d8ecd96f50",
+    "obs-371f930a99632085f749bc13",
+    "obs-3760167a4c00886dc0d2169f",
+    "obs-3aa25d2a85bbd66ec592cb29",
+    "obs-3bddbb60b44db98946e54bf2",
+    "obs-3d9014928afa4fc2a29433f0",
+    "obs-47bf7ae427bc4238ea1e723e",
+    "obs-4af030a0e6c91921c94ae711",
+    "obs-4ddb4c81e24f598c3004c606",
+    "obs-4f23fb059c40ee6654acef42",
+    "obs-4fc8e5f51d0476d9098bd1c8",
+    "obs-53016403e1d57f5dd4457ee3",
+    "obs-54e2f679ee42810f13da6c1a",
+    "obs-59eb73619d2b9da52c5d566a",
+    "obs-5d8b302e86a32e967624caf9",
+    "obs-5de94c071979fd8e5fae7e80",
+    "obs-5e9cccbc1e3f9179bf32fbdc",
+    "obs-602c99459a84b2da518e1f1c",
+    "obs-6315f051be0fdb719db5079b",
+    "obs-631ecd937ce8a8a3171f2554",
+    "obs-637e4194efe16bfe0bab255b",
+    "obs-63f6a75df32c615b424f7c00",
+    "obs-659f911073e228706189e98e",
+    "obs-661ca1c8dc1f70d34f131667",
+    "obs-67316f6246581253dc1d5bbe",
+    "obs-69462511f170662b8c792c81",
+    "obs-69c1512222003b2f66df6d1e",
+    "obs-6a69daff0131603595686bdf",
+    "obs-6c6a18f689ba9d2d0fe95dd1",
+    "obs-6df00a387242e13d54ed2966",
+    "obs-6fbb3b0a1975249a424dfea9",
+    "obs-6fd61774b95443d31a0c52bf",
+    "obs-702be20a45dd429d3c33564a",
+    "obs-735e35cc69c63f5a0aeed88d",
+    "obs-745e41e31c9029ee1553e75c",
+    "obs-7460dacb56cc2803e8f4b396",
+    "obs-7943a918f71e859decccc21c",
+    "obs-7b9e8c1d730aa3c83748e6b9",
+    "obs-7bd594ba4dbfed436bd1af2f",
+    "obs-7db13b839ea95146c3b95d81",
+    "obs-7de71146b509b458752d3ea8",
+    "obs-7e181661e3f1b20351fb7623",
+    "obs-81166d0350adf66e74367477",
+    "obs-82ff7d0a4f630df0f1db6dea",
+    "obs-8b149ebc3bd9c613255a70aa",
+    "obs-8b9576b65bb88c5f17ea3642",
+    "obs-8c87028c58b5dd4fc68cca07",
+    "obs-8cd69d8b8a3ef22e1c6928b8",
+    "obs-8df234b76575f0ce3cd9e6b9",
+    "obs-8e3496f1a2261a8098260f61",
+    "obs-8f3c6bd37e6b8472f1464f38",
+    "obs-90731b92be00693091944721",
+    "obs-97a3c35abafeb43c66e04ce4",
+    "obs-99226b17a380e562fdd4e61f",
+    "obs-99459ada0894679bc171817f",
+    "obs-99b076da11461d402f530d6f",
+    "obs-9b9108c5282b65a3e7d8237b",
+    "obs-9da5d5cd79a76da2ef999d2b",
+    "obs-9fc3f1b0fab96ef19da5baf8",
+    "obs-a081e24f2f6a14d89e6c0380",
+    "obs-a0eea4251d112d520ab05559",
+    "obs-a11cbf6116c5e3b65987a03e",
+    "obs-a141934ee7626eca5bc2baf3",
+    "obs-a362890685885e51ee85928b",
+    "obs-a5c0abc42d2b89662cd1443e",
+    "obs-a7a08dc637854df925539e04",
+    "obs-a83dfc30af3051e3e8fa9dc8",
+    "obs-ab1abbdc34c711202b854521",
+    "obs-ad38a61d076a50fb47cc43f8",
+    "obs-ae0c35c0c581967cdb50a56f",
+    "obs-af037693ccbb476066a1e50a",
+    "obs-b1f602f40fa72c2aca91f0ce",
+    "obs-b2796b42eeb8fc0d2aee0b71",
+    "obs-b37bc5134aff56606ee8b183",
+    "obs-b558d8d1b0e8e217974997d7",
+    "obs-b74ed844ab7b91b4f6cd6c62",
+    "obs-b84aca086ad3f71c7519b8d0",
+    "obs-b89b79839f69ca6969a2f900",
+    "obs-bd1747dfd1fabc7cbf9259d9",
+    "obs-bdc1503059c66ddaf98f20d4",
+    "obs-be342960cf98e3b44b7acdcf",
+    "obs-bedd4960c3d1a36946ec2bb3",
+    "obs-c1a2a0df33db91685df5f6a1",
+    "obs-c68db3738065bd08e08d14d9",
+    "obs-c72df7de6a3e1c846f376937",
+    "obs-c86c09e8c3c9e66ab1c4e378",
+    "obs-ca866f451235f9f071066733",
+    "obs-cb68aac4d22881ecf569d0a8",
+    "obs-cbe8b84e3179c49aa117acf9",
+    "obs-cd95035db493c958ddfa383a",
+    "obs-ce167b3aa4cd868c08fbd236",
+    "obs-cf2475a04d5644932ce6ca9d",
+    "obs-d04fc64104eb3bb5c513a1c2",
+    "obs-d2f6e220182280ed859e2c24",
+    "obs-d458ba104cf579bcda4fe144",
+    "obs-d5685cf85a908249f6b65263",
+    "obs-d8de8e779bd1844980cad329",
+    "obs-e0b2ee8a915cec18f49d9dde",
+    "obs-e173692debf2e9c9a7712872",
+    "obs-e209b8980de8293ba6a2c459",
+    "obs-e50b009ca6ade97896a4f355",
+    "obs-e609f26ac4a1bb4abb7470eb",
+    "obs-e70f4a637f40ea622fd74ead",
+    "obs-e8fa97760c6fb680b66f7601",
+    "obs-edd1497cd85a1273729d0e22",
+    "obs-ee74f321e09726993ebe3620",
+    "obs-ef98ec42537a4249fe5e1b9f",
+    "obs-efee7b1a00bf96ad33d79b36",
+    "obs-f0f524e3d0b3c2826ca8a500",
+    "obs-f2752903227e10f7ba28851d",
+    "obs-f5343c585eb2404e5177c3be",
+    "obs-f7e80441f533d0f786c6b9c6",
+    "obs-f88d200855ae831bd9e2d943",
+    "obs-fa9c594dc2e19b8a4f38af92",
+    "obs-fbf5c99722322e3ed2a1ea08",
+    "obs-fe0436fbf31d96211477f82a",
+    "obs-fe3d2e805fb94e3cf1ae6360",
+    "obs-fe547577ed886a91cd33da3f",
+    "obs-feb439e8b3d52b64fbe3f0e1",
+    "obs-fed18e8e5cba56beebbf5100"
+  ],
+  "selected_observations": 153,
+  "selection_id": "comparison-v010-adjudication-2026-09-19-v1",
+  "selection_status": "Frozen before any model adjudication outputs were read",
+  "strategy": "All Semgrep and Gitleaks observations mandatory; deterministic greedy coverage of every observed tool/project/family stratum; no-family-match example per tool; hash-ranked fill to 120 exact source spans.",
+  "total_observed_strata": 101
+}

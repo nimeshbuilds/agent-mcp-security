@@ -2,7 +2,7 @@
 
 AI agent and MCP security report
 
-Scan ID: `8a7d04a9e883c1952d572087aa9acfd5e126eefb5c505666fc07a8e5efa2853f`
+Scan ID: `5461e56ac53940be9396f6fc2a84a567c0cab3ccf5268b081567fa6b925d6e6d`
 
 This is static security triage, not certification or proof that a system is secure.
 
@@ -28,6 +28,8 @@ The scanner found 8 open critical/high patterns among 9 open findings\. Confirm 
 **User review decisions:** 40 active rules; 129 active acceptance checks. Separately recorded: 1 justified / 1 disabled rules; 1 justified / 2 disabled checks; 1 justified / 1 disabled observed findings.
 
 Justified and disabled items are excluded from active totals without positive or negative credit. These are user decisions, not validated control passes. The complete reasons appear in **User review decisions** below.
+
+**Fix guidance:** 11/11 observed findings have a deterministic fix plan and agent/MCP context. Model fix plans: 0/0 finding assessments and 0/0 answered checks. These are proposed changes requiring verification.
 
 **What the scanner found:** Tool execution: 3; Transport security: 2; Agent permissions: 1; Deserialization: 1; Sandboxing: 1; Secrets: 1. These are detected pattern categories, not confirmed attack paths.
 
@@ -546,6 +548,34 @@ A subprocess call enables a shell, invokes a shell\-specific API, or passes a dy
 
 **Remediation:** Pass an argument list with shell=False, allowlist executable names and options, and enforce working\-directory and resource restrictions\.
 
+#### Fix plan and agent/MCP relevance
+
+Remove shell parsing and constrain the actual executable and its arguments\.
+
+**Why this matters for agents/MCP:** An agent or MCP tool often translates model\-selected operations into subprocess commands\. Untrusted arguments embedded in a shell string can turn one permitted tool action into additional commands\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Determine whether each dynamic component can be influenced by user, retrieval, model or tool content\.
+- shell=False is insufficient when the selected program is itself sh, bash, cmd, PowerShell or another interpreter receiving generated code\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Use a fixed process invocation | Replace shell=True and shell\-specific helpers with subprocess\.run using an argument list, shell=False, a fixed executable path and an explicit timeout\. Replace pipelines with separate bounded calls or native library operations\. | Submit spaces, quotes and shell metacharacters as data to a harmless test executable; assert the expected argument vector and that no additional process starts\. |
+| 2\. Validate argument meaning | Allowlist flags and resource identifiers, reject caller\-selected executables, and use an end\-of\-options delimiter only where the chosen utility supports it\. Do not treat shlex\.split or shell quoting as authorization\. | Test leading\-dash filenames, unexpected flags and an interpreter executable; verify policy blocks them before process creation\. |
+| 3\. Constrain process authority | Set a permitted working directory and minimal environment, bound output and runtime, and apply a separate low\-privilege execution identity where required\. Review Windows batch\-file behavior on the actual platform\. | Run denial tests for forbidden files, inherited credentials and excessive output on each deployed operating system\. |
+
+**Remaining validation:**
+
+- Argument arrays prevent shell parsing but cannot prevent dangerous valid options or harmful allowed operations\.
+- Process timeouts do not by themselves establish descendant\-process cleanup or OS isolation\.
+
+Related controls: EXEC\-01
+
+Fix guidance sources: [REM\-PY\-SUBPROCESS](https://docs.python.org/3/library/subprocess.html#security-considerations); [OWASP\-AGENT\-CS](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html)
+
 Weakness mappings: CWE\-78
 
 - [Reference](https://docs.python.org/3/library/security_warnings.html)
@@ -566,6 +596,33 @@ os\.system or os\.popen executes a dynamically constructed command through the s
 ```
 
 **Remediation:** Use subprocess with a fixed executable and argument list, shell=False, and explicit allowed options\.
+
+#### Fix plan and agent/MCP relevance
+
+Replace os\.system/os\.popen with a fixed executable and validated argument list\.
+
+**Why this matters for agents/MCP:** An MCP command tool may interpolate planner output into os\.system or os\.popen\. Those APIs introduce a shell boundary that can expand attacker\-controlled syntax into the server account privileges\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Inspect the command construction and upstream validation at the reported call; this rule does not prove an attacker can supply the value\.
+- If the operation is file copying, listing or parsing, a dedicated library API often removes the shell requirement entirely\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Remove os shell APIs | Replace the operation with a native library call or subprocess\.run\(\[fixed\_executable, validated\_argument\], shell=False, timeout=\.\.\.\)\. Split intentional pipelines into explicit stages with bounded output\. | Use a harmless fixture containing shell metacharacters and assert it is processed as one argument or rejected, without a second command\. |
+| 2\. Restrict operations before execution | Bind the tool name to a fixed executable and authorized workspace; validate flags and resource ownership independently of the prompt and of shell escaping\. | Call the server directly with an unauthorized path, extra option and different executable; verify rejection even without the agent planner\. |
+| 3\. Close inherited authority | Supply a minimal environment, avoid carrying gateway/cloud credentials into the child, and enforce cancellation plus output limits\. | Inspect the test child environment and attempt an overlong operation; confirm sensitive variables are absent and the process is stopped\. |
+
+**Remaining validation:**
+
+- A correctly formed command can still modify the wrong tenant resource; policy enforcement and runtime identity remain necessary\.
+
+Related controls: EXEC\-01
+
+Fix guidance sources: [REM\-PY\-SUBPROCESS](https://docs.python.org/3/library/subprocess.html#security-considerations); [MCP\-TOOLS](https://modelcontextprotocol.io/specification/2026-07-28/server/tools)
 
 Weakness mappings: CWE\-78
 
@@ -588,6 +645,33 @@ Certificate verification is explicitly disabled\. A network intermediary may imp
 
 **Remediation:** Enable certificate verification and install the correct CA bundle; use a trusted private CA for custom gateways\.
 
+#### Fix plan and agent/MCP relevance
+
+Restore certificate and hostname verification, including custom gateways\.
+
+**Why this matters for agents/MCP:** The affected connection can carry model credentials, prompts, MCP tool requests or retrieved evidence\. Disabling TLS verification lets a reachable intermediary impersonate that peer and influence both data and agent decisions\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Confirm which client and effective session settings apply; the detected literal does not prove this connection is used in production\.
+- A private gateway CA is a trust\-distribution requirement, not a reason to disable peer verification\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Restore authenticated TLS | Remove verify=False, CERT\_NONE and hostname\-check bypasses\. Use the client default trust store or supply an approved CA bundle through its supported verification setting\. | Against a test endpoint, reject an untrusted certificate and wrong hostname while accepting the intended certificate chain\. |
+| 2\. Provision gateway trust explicitly | Distribute the private CA through the runtime trust configuration, verify the configured gateway hostname, and document CA rotation\. Keep credentials out of URL query strings and diagnostics\. | Exercise certificate renewal and CA rollover in a staging environment; confirm the client never retries with verification disabled\. |
+| 3\. Inspect effective runtime overrides | Check environment variables, shared HTTP sessions, proxies and image/deployment configuration for remaining bypasses on model and MCP clients\. | Run the actual deployment client through the intended proxy/gateway and retain handshake results plus redacted configuration evidence\. |
+
+**Remaining validation:**
+
+- Valid TLS authenticates the endpoint name, not the endpoint operator trustworthiness or its data\-retention practices\.
+
+Related controls: MCP\-01
+
+Fix guidance sources: [REM\-REQUESTS\-TLS](https://requests.readthedocs.io/en/latest/user/advanced/#ssl-cert-verification); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
+
 Weakness mappings: CWE\-295
 
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
@@ -609,6 +693,34 @@ Pickle\-compatible deserialization can execute code\. This finding identifies a 
 
 **Remediation:** Use a nonexecutable serialization format with schema validation\. If compatibility requires pickle, accept only authenticated artifacts from a strictly controlled producer\.
 
+#### Fix plan and agent/MCP relevance
+
+Replace executable object deserialization or tightly authenticate its producer\.
+
+**Why this matters for agents/MCP:** A cached agent state, plugin artifact or MCP\-uploaded file may reach pickle\-compatible loading\. Deserialization can execute producer\-selected code before downstream data validation\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Identify the producer and every write path to the artifact, including shared caches, object stores and task workspaces\.
+- The finding identifies a dangerous loader; it does not show that its input is attacker controlled\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Migrate to data\-only serialization | Replace pickle, dill, joblib or equivalent object loading with JSON or another nonexecutable format plus a versioned schema\. Reconstruct only explicitly supported application types\. | Roundtrip required benign state and reject unexpected type markers, fields and oversized collections without importing producer\-selected code\. |
+| 2\. Control unavoidable legacy artifacts | If compatibility requires executable deserialization, authenticate the exact bytes against a producer/key or registry digest established independently of the artifact location\. Restrict cache and artifact writers\. | Alter one byte and change the producer identity in test artifacts; verify rejection before the deserializer is called\. |
+| 3\. Quarantine conversion | Convert legacy artifacts in a disposable credential\-free worker with resource and network limits, then export validated data to the main service\. | Verify conversion cannot read main\-service secrets or contact forbidden destinations and that failed conversions publish no partial trusted state\. |
+
+**Remaining validation:**
+
+- A valid signature identifies a producer; it does not make a compromised or malicious producer safe\.
+- Schema validation after pickle loading is too late to prevent execution during loading\.
+
+Related controls: EXEC\-06
+
+Fix guidance sources: [TECH\-PYTHON\-SECURITY](https://docs.python.org/3/library/security_warnings.html); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely)
+
 Weakness mappings: CWE\-502
 
 - [Reference](https://docs.python.org/3/library/security_warnings.html)
@@ -628,6 +740,34 @@ eval or exec receives a nonliteral expression\. If agent, user, or tool content 
 ```
 
 **Remediation:** Replace dynamic execution with an allowlisted operation dispatcher; use ast\.literal\_eval only for bounded literal parsing\. Isolate unavoidable execution with no ambient credentials and strict resource limits\.
+
+#### Fix plan and agent/MCP relevance
+
+Replace dynamic Python evaluation with a bounded operation interface\.
+
+**Why this matters for agents/MCP:** An agent can convert a prompt or MCP tool result into an eval/exec argument\. If that value reaches this call, model influence becomes Python execution with the tool process identity\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Trace the expression from its producer to this exact call; a nonliteral expression alone does not establish external control or an active agent path\.
+- Trusted fixed startup code and deliberately isolated code\-execution services need different treatment; document which boundary applies\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Remove the interpreter boundary | Replace eval/exec with a dictionary of fixed callable operations and validate a small JSON argument schema before selecting a callable\. Do not permit callers to name arbitrary modules, attributes or Python expressions\. | Send unsupported operation names and extra arguments through the same tool entry point; verify rejection before any callable executes\. |
+| 2\. Choose a bounded data parser | For data, prefer JSON plus explicit type, length and nesting limits\. Use ast\.literal\_eval only when Python literals are genuinely required, with independent input and resource bounds; it is not a general untrusted\-input sandbox\. | Exercise malformed, oversized and deeply nested values in an isolated test and confirm bounded failure without evaluating names or calls\. |
+| 3\. Isolate required generated execution | If code execution is the product feature, route it to a disposable worker with a separate identity, scoped workspace, no ambient credentials, bounded CPU/memory/time and denied\-by\-default egress\. | Attempt a forbidden workspace read, network request and long\-running task in a test worker; retain denials and verify cleanup\. |
+
+**Remaining validation:**
+
+- A permitted operation may still violate tenant or business policy; authorize target resources outside the model\.
+- Rescanning can confirm removal of a recognized expression, not sandbox strength or absence of alternate execution paths\.
+
+Related controls: EXEC\-02
+
+Fix guidance sources: [REM\-PY\-AST](https://docs.python.org/3/library/ast.html#ast.literal_eval); [OWASP\-AGENT\-CS](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely)
 
 Weakness mappings: CWE\-95
 
@@ -650,6 +790,34 @@ A credential\-named field contains a nonplaceholder literal\. It may be a real s
 
 **Remediation:** If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege\.
 
+#### Fix plan and agent/MCP relevance
+
+Classify the detected credential, rotate real exposure and remove embedded values\.
+
+**Why this matters for agents/MCP:** A hardcoded model, gateway or downstream\-tool key can grant access outside the intended agent session and tenant\. Repository or image readers may obtain the credential independently of the agent approval path\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Determine whether the value is a real credential, a nonsecret identifier or deliberate test data without copying the value into tickets or model prompts\.
+- The detector does not validate the credential with its provider and does not establish prior misuse\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Revoke or rotate confirmed live credentials | Identify the credential owner and permissions using secret\-safe metadata\. Revoke or rotate real exposed credentials with a staged application update and review provider audit records\. | Verify the old credential is rejected and the replacement has only required model/tool scopes; retain redacted rotation evidence\. |
+| 2\. Remove literals from delivery artifacts | Replace the literal with a secret\-manager lookup or runtime injection\. Remove it from tracked files, distributed image layers and relevant build artifacts; coordinate any history rewrite with repository owners\. | Rescan the source and every retained image layer, and check logs/build artifacts for the old credential through a protected secret\-scanning workflow\. |
+| 3\. Limit future credential reach | Use separate per\-service or per\-tenant credentials where supported and restrict which tool workers receive them\. Exclude local secret files from version control and build contexts\. | Run a tool that does not need the credential and verify it cannot read it; confirm clean builds do not embed injected build secrets\. |
+
+**Remaining validation:**
+
+- Deleting source text does not invalidate a copied credential; rotation and access review remain necessary\.
+- Environment injection can still expose secrets through process inheritance or diagnostics\.
+
+Related controls: AUTH\-05, DATA\-01
+
+Fix guidance sources: [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
+
 Weakness mappings: CWE\-798
 
 - [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
@@ -670,6 +838,33 @@ An agent configuration or command explicitly disables approvals or enables unres
 ```
 
 **Remediation:** Use bounded tool permissions and an isolated runtime; require deliberate approval for destructive, external, financial, or credential\-bearing actions\.
+
+#### Fix plan and agent/MCP relevance
+
+Restore task\-bound execution permissions and meaningful approval boundaries\.
+
+**Why this matters for agents/MCP:** Disabling agent approval or sandbox safeguards lets model\-driven actions inherit the full process authority\. Prompt injection or a mistaken plan can then modify files, send data or invoke credentials without the intended review boundary\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Confirm the exact agent/runtime setting and the environment it affects; dedicated controlled evaluation environments may intentionally bypass prompts\.
+- Approval dialogs alone do not create OS isolation, and a sandbox alone does not establish user consent for external effects\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Replace unrestricted mode with explicit permissions | Remove bypass flags and configure the agent runtime permitted tools, workspace roots and network destinations for the task\. Keep privileged administration in a separate identity/session\. | Attempt a tool outside the task allowlist and a workspace/egress escape; verify the enforcement layer denies it without relying on model compliance\. |
+| 2\. Bind approvals to concrete actions | Require deliberate approval for relevant destructive, external, credential\-bearing or financial effects, displaying target and material arguments\. Expire approvals and recheck changed arguments\. | Test a denied action, replayed approval and target substitution after approval; verify no unapproved side effect occurs\. |
+| 3\. Enforce isolation independently | Run tool workers with limited OS credentials, mounts, resource budgets and network rights\. Propagate reduced authority to subagents and connectors\. | Launch a delegated task and confirm it cannot acquire broader permissions, read host secrets or exceed the configured runtime budget\. |
+
+**Remaining validation:**
+
+- Users may approve misleading actions and allowed operations may be composed harmfully; adversarial workflow tests and audit trails remain needed\.
+
+Related controls: AGT\-01, AGT\-02, MCP\-09, SUP\-05
+
+Fix guidance sources: [OWASP\-AGENT\-CS](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html); [MCP\-TOOLS](https://modelcontextprotocol.io/specification/2026-07-28/server/tools)
 
 Weakness mappings: CWE\-862
 
@@ -692,6 +887,33 @@ An MCP configuration points to a nonloopback HTTP URL\. Credentials, tool reques
 
 **Remediation:** Use HTTPS with certificate verification for remote MCP endpoints\. Reserve plaintext HTTP for explicitly controlled local development or a documented protected transport\.
 
+#### Fix plan and agent/MCP relevance
+
+Use verified HTTPS for remote MCP endpoints and inspect every transport hop\.
+
+**Why this matters for agents/MCP:** Remote MCP requests can contain access tokens, task context and tool output\. Plain HTTP exposes those bytes and allows modification by parties able to observe or influence the network path\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Confirm that the address is actually remote and identify TLS termination, tunnels and any plaintext backend hop\.
+- Controlled loopback development and documented protected transport have different exposure; a URL alone cannot prove the effective network protections\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Configure an HTTPS endpoint | Replace the nonloopback HTTP MCP URL with the approved HTTPS service URL and require certificate/hostname verification\. Provision a private CA when needed\. | Use the actual MCP client to reject a wrong\-host or untrusted certificate and accept the approved endpoint\. |
+| 2\. Check proxy\-to\-backend protection | Inspect all hops after TLS termination and restrict any plaintext backend segment to an explicitly controlled boundary, or use TLS/mTLS between components\. | Verify the deployment path, listeners and policy prevent an unauthorized peer from observing or reaching the backend segment\. |
+| 3\. Remove insecure fallback and redirects | Ensure client retries and redirects cannot downgrade to HTTP or send credentials to another origin\. Update environment/configuration overrides alongside the launch manifest\. | Make the secure test endpoint fail or redirect to HTTP and confirm the client does not transmit an authenticated plaintext request\. |
+
+**Remaining validation:**
+
+- TLS does not validate tool results or protect secrets deliberately sent to an untrusted MCP server\.
+
+Related controls: MCP\-01
+
+Fix guidance sources: [MCP\-HTTP](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http); [MCP\-AUTH](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely)
+
 Weakness mappings: CWE\-319
 
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
@@ -713,6 +935,33 @@ COPY . /app
 
 **Remediation:** Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context\.
 
+#### Fix plan and agent/MCP relevance
+
+Use a dedicated nonroot runtime identity and verify effective permissions\.
+
+**Why this matters for agents/MCP:** An injected or overbroad agent/MCP tool action inherits the container process identity\. Root can increase access to mounted data and the impact of an isolation failure, although container root is not automatically host root\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- The finding concerns an explicit image/build default; deployment runAsUser, rootless runtimes and user namespaces may alter its effect\.
+- Review the final selected build stage and actual running UID rather than assuming every build\-stage root command runs in production\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Set the runtime user | Create a dedicated service account during build and select it with USER in the final runtime stage\. In Kubernetes, configure runAsNonRoot and an appropriate numeric runAsUser where required\. | Inspect the built image user and the running process UID under the actual deployment; test startup fails rather than silently switching to root\. |
+| 2\. Provision only required writable paths | Set ownership for explicit runtime/cache/workspace directories, avoid broad chmod permissions, and use a read\-only root filesystem where compatible\. | Run normal tool operations and verify they work only in approved writable directories; confirm system and other\-tenant paths are denied\. |
+| 3\. Remove adjacent privilege paths | Drop unnecessary capabilities, disable privilege escalation and avoid host mounts/runtime sockets\. Ensure an entrypoint does not restore privilege\. | Inspect effective capabilities, mounts and deployment overrides and perform denied\-access tests as the worker identity\. |
+
+**Remaining validation:**
+
+- Nonroot execution reduces authority but does not establish tenant isolation or eliminate kernel/runtime escapes\.
+
+Related controls: SUP\-05
+
+Fix guidance sources: [REM\-K8S\-PODS](https://kubernetes.io/docs/concepts/security/pod-security-standards/); [REM\-DOCKER\-SECURITY](https://docs.docker.com/engine/security/)
+
 Weakness mappings: CWE\-250
 
 - [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
@@ -732,6 +981,33 @@ An MCP launch configuration uses npx, uvx, or a similar ephemeral package runner
 ```
 
 **Remediation:** Pin an exact audited package version and lock or verify transitive artifacts\. Prefer preinstalled verified tools in a controlled environment\.
+
+#### Fix plan and agent/MCP relevance
+
+Pin MCP launch artifacts and make the effective installation reproducible\.
+
+**Why this matters for agents/MCP:** An MCP client often launches a package with its local user permissions and injected credentials\. Unpinned npx/uvx resolution can replace the tool implementation between launches without a reviewed configuration change\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Inspect the actual package runner, registry and cache/lock behavior; a project lockfile may not govern an independent ephemeral runner\.
+- An exact version reduces movement but does not prove package integrity or constrain all transitive dependencies\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Pin the selected package | For npm execution specify an exact package version, including scope where applicable; for uvx use an exact package version or explicit \-\-from package==version\. Keep the chosen package identity distinct from its executable name\. | Start from a clean controlled cache and record the resolved package/version; verify the MCP launch command selects that exact artifact\. |
+| 2\. Verify the complete runtime artifact | Prefer a preinstalled tool built from a reviewed lockfile or verified artifact, with an approved registry and integrity data for dependencies\. Audit additional \-\-with packages and executable\-search paths\. | Compare fresh installations in controlled environments and investigate any dependency/artifact digest differences\. |
+| 3\. Limit launch credentials and updates | Run the server with only task\-required credentials and workspace permissions\. Propose version updates through review, provenance checks and regression tests rather than enabling automatic latest resolution\. | Verify the launched process identity/environment and exercise a required tool after a reviewed update without expanding its permissions\. |
+
+**Remaining validation:**
+
+- Package cache isolation is not an operating\-system sandbox; a pinned compromised package still executes with its granted authority\.
+
+Related controls: MCP\-09, SUP\-01
+
+Fix guidance sources: [REM\-UV\-TOOLS](https://docs.astral.sh/uv/concepts/tools/); [REM\-NPM\-EXEC](https://docs.npmjs.com/cli/v11/commands/npm-exec/); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
 
 **User decision:** disabled (rule AI018). **Reason:** EXAMPLE ONLY: package pinning is assessed by the separate release pipeline control\.
 
@@ -757,6 +1033,33 @@ FROM python:latest
 ```
 
 **Remediation:** Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability\-remediation workflows\.
+
+#### Fix plan and agent/MCP relevance
+
+Pin the approved image content digest and maintain a reviewed update process\.
+
+**Why this matters for agents/MCP:** Agent/MCP deployments may execute a different tool stack when a mutable image tag moves\. That changes the code holding credentials and enforcing tool policy without a matching application source change\.
+
+Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan\. The scan does not establish that this code is on an active agent or MCP request path\.
+
+**Confirm applicability:**
+
+- Inspect the image selected by the actual build/deployment and platform; tags may already be constrained by external admission policy\.
+- Digest pinning controls content identity, not whether the pinned content is safe or current\.
+
+| Step | Concrete change | Verify it |
+|---|---|---|
+| 1\. Record and pin the intended digest | Replace mutable base/deployment references with the approved registry image@sha256 digest, retaining a human\-readable version where useful\. Record the intended platform or multi\-platform index\. | Resolve the approved reference through the build/deployment system and verify the running image digest matches the recorded artifact/platform\. |
+| 2\. Review provenance and contents | Associate the digest with build provenance, an SBOM and a separate vulnerability scan; verify the publisher and build process before approving it\. | Trace the selected digest to the expected build and verify the SBOM and vulnerability results apply to that exact artifact\. |
+| 3\. Update pins deliberately | Use automation to propose digest updates, rebuild and run agent/MCP regression and policy checks, then roll out the reviewed artifact\. | Exercise rollback to a previously approved digest and confirm updates do not silently widen runtime permissions\. |
+
+**Remaining validation:**
+
+- A digest can preserve a vulnerable version indefinitely if updates are neglected; this scanner does not perform a CVE feed lookup\.
+
+Related controls: SUP\-01, SUP\-03
+
+Fix guidance sources: [REM\-DOCKER\-BUILD](https://docs.docker.com/build/building/best-practices/#pin-base-image-versions); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely)
 
 **User decision:** justified (rule AI024). **Reason:** EXAMPLE ONLY: the owner reviewed the deployed image identity and recorded the exception in the release assessment\.
 
@@ -1583,7 +1886,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
 {
   "items": [
     {
-      "binding_sha256": "27773d89a46b65e9641fec94b2f774439316eb1e2a72ee0a43990d4dd85ea213",
+      "binding_sha256": "18f1fa5798453e2d846e3bdff8d0bc73e207e6a48155c7b9b99c4f17a2158e6f",
       "decision": "",
       "evidence_ref": "",
       "id": "finding:979d192981c1785a2394fe19",
@@ -1594,7 +1897,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI002 Dynamic command executed through a shell \u2014 agent.py:9"
     },
     {
-      "binding_sha256": "2675419f39b2ce5cab37dd11da0600ef6d5edf652c6207fc4d7d4cf2f0765a6d",
+      "binding_sha256": "9640699000a7ba1eac1ba86126456f6201c7c03853b23d5f3454718cc55f0c71",
       "decision": "",
       "evidence_ref": "",
       "id": "finding:0fa7e450cd583d78646ef397",
@@ -1605,7 +1908,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI003 Dynamic os shell command \u2014 agent.py:10"
     },
     {
-      "binding_sha256": "586fe34091e0168ab26769438bc6fc5cbd9ced23112ba3420fdae957a79ac64f",
+      "binding_sha256": "04afd8d9ed3908ec13dfab9c00854dd10405e1bcddc5de253ec71ac538d0322b",
       "decision": "",
       "evidence_ref": "",
       "id": "finding:07fc5f6fd7699fd0194dc479",
@@ -1616,7 +1919,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI006 TLS certificate verification disabled \u2014 agent.py:11"
     },
     {
-      "binding_sha256": "f68a720f121f92b2838e037eea6a4f09ad2fe9a4a225b8a80d572bf8e0552229",
+      "binding_sha256": "18fa4a5c4cb2cb5b4d1c8cdee11aa13d0cebdd1af1c2281f98e47a42aaa348c7",
       "decision": "",
       "evidence_ref": "",
       "id": "finding:d2d09fb2875db72f18779bfc",
@@ -1627,7 +1930,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI005 Executable deserialization requires trusted inputs \u2014 agent.py:12"
     },
     {
-      "binding_sha256": "c96fa8cb643a27da7c8cdddf5c892896d5b08268b4118e485ecdd633b54bea99",
+      "binding_sha256": "f42fa2af2e0f69ddaee4e29866720fe7b117f85fe0c26c393cc1f0424427ea75",
       "decision": "",
       "evidence_ref": "",
       "id": "finding:b1b0f0a3f33fe93875fcb58a",
@@ -1638,7 +1941,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI001 Dynamic Python code execution \u2014 agent.py:16"
     },
     {
-      "binding_sha256": "dabdb736f3d6815b982eeacc75e98c53320b22840b3a696e8b2a354d537a0993",
+      "binding_sha256": "4c93b01e8e290a4802d5ff969d089ac0676489544c36e6e07f1ffe8dc0fb2926",
       "decision": "",
       "evidence_ref": "",
       "id": "finding:afb2bdb94696690028650faf",
@@ -1649,7 +1952,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI010 Credential-like literal in source or configuration \u2014 mcp.json:6"
     },
     {
-      "binding_sha256": "1ec9d3989ddff79d71c4d731cbc35e33ea99212e251fbfb2d733cd948bfd6c2e",
+      "binding_sha256": "cedc07f0c0134c2c7f693002f85413e02442332ea2ef06faaeacbe6ee1c75ca4",
       "decision": "",
       "evidence_ref": "",
       "id": "finding:592fbfc9b7dab062dc97906c",
@@ -1660,7 +1963,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI031 Agent approval or sandbox safeguard explicitly bypassed \u2014 mcp.json:7"
     },
     {
-      "binding_sha256": "c9d6f72864ebcfd443c63a65b21e6424bda7147f0d984819bb21a351e5738841",
+      "binding_sha256": "8e063824dd5daac130db1685bff47b0a1d48982eb5b67cb19038dfab681cda53",
       "decision": "",
       "evidence_ref": "",
       "id": "finding:d841174f55e032505f8136b9",
@@ -1671,7 +1974,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI029 Remote MCP URL uses plaintext HTTP \u2014 mcp.json:10"
     },
     {
-      "binding_sha256": "87ba49d5b7f358d988d6227891b1eea94c831ae2bb9cdae20b4fe51e2a97fe38",
+      "binding_sha256": "66cae5bbd131da660808a9864a08a69684d51e1f109c97fff33dd97b3359eab4",
       "decision": "",
       "evidence_ref": "",
       "id": "finding:20771a324af20de316ec34f9",
@@ -1682,7 +1985,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI021 Container explicitly runs as root \u2014 Dockerfile:2"
     },
     {
-      "binding_sha256": "0d084a38b6b3114ff50bf741cff357b1f12327d931fe63e8517eae3defa80a63",
+      "binding_sha256": "ee0dc14ec4ab14eb2fdd60b08cf19c11a75fe807e9b85d74b7b1fca4fe95f46a",
       "decision": "disabled",
       "evidence_ref": "",
       "id": "finding:6b77081a826c4c6833edc47f",
@@ -1693,7 +1996,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI018 MCP package runner resolves an unpinned artifact \u2014 mcp.json:4"
     },
     {
-      "binding_sha256": "d6aa2fcd1da8f0395ddf746c9c8a69e11af6890b3d5437337fac5f15e4500be2",
+      "binding_sha256": "a51f7ee8cd57f60aef6d8e524ae704a619518dec510c2f45ca50d3377c933541",
       "decision": "justified",
       "evidence_ref": "",
       "id": "finding:055ed29e5f56926f1827a0b8",
@@ -1704,7 +2007,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AI024 Container image is not digest pinned \u2014 Dockerfile:1"
     },
     {
-      "binding_sha256": "44633a08ec4cc1979bd1ba1b366c8a2ca42c950fc2ded0a32a2a94729bbd6df2",
+      "binding_sha256": "f6a3643abe18f47815dc145dc3917bf0bb204902e7fc9cc8213202377a1d3ba8",
       "decision": "disabled",
       "evidence_ref": "",
       "id": "check:GOV-01:1",
@@ -1715,7 +2018,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-01:1 Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints."
     },
     {
-      "binding_sha256": "75f8726f331fa515fbef38127dfaaf784f54cfbd1c30dff1275ead2b25e990bd",
+      "binding_sha256": "e317796f9a2732b8a09bde89a34756a049ab502f85f448a57d0c5dab2bdf247c",
       "decision": "disabled",
       "evidence_ref": "",
       "id": "check:GOV-01:2",
@@ -1726,7 +2029,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-01:2 Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers."
     },
     {
-      "binding_sha256": "b75843ed0dfacb0777032f43d4bd78dfca7b73be245c55a42dfb1c85d8fd7cc3",
+      "binding_sha256": "2367479e150bf143cf926ff76493cf93435e894002ef8452e6a106b695602882",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-02:1",
@@ -1737,7 +2040,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-02:1 Diagram user, model, memory, tool, server, gateway, and downstream service boundaries with their credentials."
     },
     {
-      "binding_sha256": "3197526f39f2704a451bf94e0654a45d849cfddd1c5af6a4c93f1868e24bceab",
+      "binding_sha256": "368eda76c844b2a7ddf54dbe9712e7e7087750af8b455081197e42bcaa21108a",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-02:2",
@@ -1748,7 +2051,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-02:2 Identify who controls each input and the highest-impact action reachable if that input is malicious."
     },
     {
-      "binding_sha256": "be27ecfed4547df8133a242a2752c819f79c90f45740dd36ce9adc72c4da6ec8",
+      "binding_sha256": "2aec6915d58be768b0980cf93bedb38270244354517ace014278cda3b3589e2a",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-03:1",
@@ -1759,7 +2062,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-03:1 Assign an owner to each autonomous action and document permitted purposes, forbidden outcomes, and escalation routes."
     },
     {
-      "binding_sha256": "567af5e90d5de86a111dd5e53fa4e11dd3c9b20a539755d52f5c5baea7af8b27",
+      "binding_sha256": "100894c8d384dd0531c1cf8ed98f7029a459d03204ceaacac4a7a22f63bd90c8",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-03:2",
@@ -1770,7 +2073,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-03:2 Record impact, reversibility, approval requirements, and accepted residual risk before production use."
     },
     {
-      "binding_sha256": "8b593d71babd0c1bc5ebf5cb17dc221e89350dad2e565526081dbc556b89bd7e",
+      "binding_sha256": "d584f2beeaa1bdf34364513877910ea9f522e7dee038b59ec95124b42d00fb83",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-04:1",
@@ -1781,7 +2084,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-04:1 Give each control an owner, evidence link, validation date, result, and next review date."
     },
     {
-      "binding_sha256": "160d9e2eb980eb08f39475e4cd2c363536f52c7d9f8b2be835cfded63c6ad4da",
+      "binding_sha256": "2ac2ac0903ae3df4fdc28b6b792a6818146f111e5e2555e629010c42f99a7e75",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-04:2",
@@ -1792,7 +2095,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-04:2 Time-limit exceptions and require a compensating control; distinguish untested behavior from demonstrated failure."
     },
     {
-      "binding_sha256": "2a308b7f87ce8e2c517631743ac8c0a8859fc49b47ca3192c2355c2f001316a5",
+      "binding_sha256": "2949aab9292fb7c1f8c3a896b63acbabe0921adcaac6112b1ff84eb2a25aa264",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-05:1",
@@ -1803,7 +2106,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-05:1 Review security impact when adding a model, tool, server, data source, skill, or broader permission."
     },
     {
-      "binding_sha256": "98ab6b21d366cf70a334491cb914b9778d7b063ad95cbb998e258d307e5ace6a",
+      "binding_sha256": "55602f834be85e4104f4471a2d7fa2a85e7210184a68589ed985ef1baf07da6e",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-05:2",
@@ -1814,7 +2117,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-05:2 Require deployment evidence for the complete configured system; a model-only score is insufficient."
     },
     {
-      "binding_sha256": "0577b3b621422027202f848f270b3459de9e9ed8bfb56f3f46ece93c760fa19d",
+      "binding_sha256": "a5ec1c39571f45768527a04452838d794697f045a0176f93830a16e989e2d3d6",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-06:1",
@@ -1825,7 +2128,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-06:1 For each model, gateway, orchestrator, MCP service, and cloud provider, document which party implements each applicable safeguard and which customer configuration it depends on."
     },
     {
-      "binding_sha256": "85fca2bb61781bcc0e2e03e89e5c52f4f0f922974c4811abdf20be3a4d481d93",
+      "binding_sha256": "fe28567530ea13443345edd2f4419f8eff71a34a4040989328853d694c2fcf57",
       "decision": "",
       "evidence_ref": "",
       "id": "check:GOV-06:2",
@@ -1836,7 +2139,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "GOV-06:2 Obtain current supplier evidence for inherited safeguards, identify unowned gaps, and record reassessment triggers in the service review."
     },
     {
-      "binding_sha256": "2414d475dea63be40b6dee1eeccb2bb8fa31467af2e716d2e1b900cd40d63fc2",
+      "binding_sha256": "37b381f2c510e6f9fe38557a0401b6603af2e8a491c46decf933f8367141297c",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-01:1",
@@ -1847,7 +2150,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-01:1 Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries."
     },
     {
-      "binding_sha256": "d8c330c0549115b7c329d9d889373a5a543998bb610f57ee1387ea6c8110129f",
+      "binding_sha256": "cb20a2499b59244f9146e062e76c66b99e91c39e3b212d4511968ccb634b213b",
       "decision": "justified",
       "evidence_ref": "",
       "id": "check:AUTH-01:2",
@@ -1858,7 +2161,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-01:2 Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation."
     },
     {
-      "binding_sha256": "12021b97fb299b7c4256e55512a76debee227c18d5975aaafea89d5cb1ec6049",
+      "binding_sha256": "9d99907518e6c60decea4bfa85fc8e1bf467d2692e8f5bbe8cef12fe4715df91",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-02:1",
@@ -1869,7 +2172,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-02:1 Check user/agent identity, tenant, tool, target object, and requested operation immediately before execution."
     },
     {
-      "binding_sha256": "8acc7499f261b0ca7897cb4724eacc0100857a3058eb9c9273a59c97a3a89f07",
+      "binding_sha256": "623d05a2113dfbac538e1a6e013a8689fd16bfb4a75fe1ff95675cdadc34d993",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-02:2",
@@ -1880,7 +2183,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-02:2 Deny by default; test read-only callers against write tools and object identifiers owned by another user."
     },
     {
-      "binding_sha256": "c4816da586ca1452002d80246522c5d5a2ae0f0643eda15df08e9383ed48d167",
+      "binding_sha256": "652b96d6140a7bbb74c94c35ee584c8cb7205ceaada8fc241c65231e373f3558",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-03:1",
@@ -1891,7 +2194,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-03:1 Verify signature with trusted keys, allowed algorithms, expected issuer/audience, expiry, and required scopes."
     },
     {
-      "binding_sha256": "494eab3bc606c38badb0295182ed83c90e369ab8bc3bd052435fde3a72b93fd9",
+      "binding_sha256": "cad3d4ad10d448dcefa72ec25148133c98b70798af41572d89fa7d732bd86c04",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-03:2",
@@ -1902,7 +2205,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-03:2 Reject unsigned tokens and tokens minted for another service; decoding a JWT alone is not validation."
     },
     {
-      "binding_sha256": "89d5b451f1aa2b8ea999b8e14f16a9b48fa38fc7bff1600252379d9fb88c6965",
+      "binding_sha256": "7a7b860554831cfdd36a80a5cb4a0bfedf7419063dd24e8505ad39cf42eea4bb",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-04:1",
@@ -1913,7 +2216,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-04:1 Use audience-bound MCP credentials and separately authorized downstream credentials; never forward arbitrary caller tokens."
     },
     {
-      "binding_sha256": "55a7c95b2cd64691cf81625419199385d621900783f1a9b5eb09b54d2914f2b7",
+      "binding_sha256": "2f2681b054fbc34a3859557c774bab666193bf41e3ab3f2cd27215b0ca1d8c3f",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-04:2",
@@ -1924,7 +2227,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-04:2 Ensure a proxy cannot use its broader service identity to perform an action the caller cannot authorize."
     },
     {
-      "binding_sha256": "4f8d6bc0371ffd59277c8f3907eb24fff2e500fdf1032942dd3b28cb1b5591b8",
+      "binding_sha256": "1826ff3c1c17ad48d38d62be48ad77bf6afc8308e0b6e5258915fc2b931451dd",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-05:1",
@@ -1935,7 +2238,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-05:1 Use short-lived scoped credentials where supported, protect refresh tokens, and validate rotation and revocation."
     },
     {
-      "binding_sha256": "caee791123b60bd54c7bd5f867580232bec22dff334487367c76d50e7d8ee420",
+      "binding_sha256": "fd3d49ae577178ca1b76f7b6238e8702bb91ee5e5c0d65cd2d2cb9fde3ef6472",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-05:2",
@@ -1946,7 +2249,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-05:2 Avoid tokens in query strings, model context, source, child-process arguments, and diagnostic output."
     },
     {
-      "binding_sha256": "151fa5c3856fbae1eb5441ccd5b734d0c2554c2185955cafdf3cd60824c6bd30",
+      "binding_sha256": "dca1356faad6c33ca8dbf2947c76aa9c38222c959f4e36eb69bddbb82226d956",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-06:1",
@@ -1957,7 +2260,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-06:1 Test PKCE support and S256, exact registered redirects, transaction binding, and authorization-response issuer validation."
     },
     {
-      "binding_sha256": "2f4da16ebd7f451ca518ba245bcc0ba213ccc56ba4b12b6ec5a380cda5e623d7",
+      "binding_sha256": "4e37848dcade64261d548b1fe96ad4e69ef7f6a44da4e5cd5c53349cefe1d4d0",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-06:2",
@@ -1968,7 +2271,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-06:2 Reject replayed codes, mismatched issuers, unsafe redirect schemes, and unsolicited callback transactions."
     },
     {
-      "binding_sha256": "0ebc38da5cd543f1581d291a463da6b045df630f1e38958bb35876c4d30fe3f3",
+      "binding_sha256": "96c56570e7e9b12e4701c4211a566beb43ad7a060c0f70eba573ab90219e9365",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-07:1",
@@ -1979,7 +2282,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-07:1 Validate discovered metadata and client metadata URLs before fetching; constrain schemes, destinations, redirects, and response sizes."
     },
     {
-      "binding_sha256": "311f100c1a5d8f32302ef530dd1135ce4cfcc7e80d61965e4251bd833ec813d5",
+      "binding_sha256": "1d6c85d22dc8d43080c098fa5e1229ed7109717f580d5fd2c7d0a29e8f72e6c1",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-07:2",
@@ -1990,7 +2293,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-07:2 Document trust policy for client registration and prevent discovery from reaching internal metadata or privileged network services."
     },
     {
-      "binding_sha256": "0d25bab637dab83e3ccc0a4210d1a5500447a9750d4d0120374583789a9b5393",
+      "binding_sha256": "5286651654bcb7da4f5dc0749431d7915cd6730bac459ab750ee7f0bbf43bfcb",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-08:1",
@@ -2001,7 +2304,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-08:1 Carry authenticated initiator and delegation identity through multi-agent calls instead of trusting identity fields in text."
     },
     {
-      "binding_sha256": "286ca2d04c0e35d4c93f0e802003317df775973d979f6bd4c35fd6bcb4cc2716",
+      "binding_sha256": "be8c89bde29ce229329dd72a3aafb1a1b81cc6d7c8e92ad4843076c974d5e82f",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-08:2",
@@ -2012,7 +2315,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-08:2 Prevent agents from granting themselves privileges; limit delegation scope, depth, lifetime, and downstream audiences."
     },
     {
-      "binding_sha256": "083a1c152ac145e5bd97638bed69b01a609b3cdaf3340d26148c1537063f27e5",
+      "binding_sha256": "0dfaf5ae2360297d1460bb6a10d93daf39694ad2c361d8bd3353954c12f75c76",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-09:1",
@@ -2023,7 +2326,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-09:1 Enroll agents under an accountable sponsor and approved workload identity; verify identity claims before issuing credentials or granting discovery and execution access."
     },
     {
-      "binding_sha256": "a66b7a10f368bab08549b1d8e2bc33d09b350a4a37f75679dd916586f47da8d3",
+      "binding_sha256": "d5563f4fba77cd33dc97abbc56dfa6d39237c7fe40983c27d607531ecf04e0be",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AUTH-09:2",
@@ -2034,7 +2337,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AUTH-09:2 Test retirement, sponsor departure, redeployment, and identity compromise; remove stale credentials, cached grants, registrations, and downstream access."
     },
     {
-      "binding_sha256": "ddde370e8134892e6b905af4e515125bb03e520243f1822de02a6691ce74ae10",
+      "binding_sha256": "ef96ebcf96dc5c293d24ca080fa101d43f199f04e40f45babd5e0607c89dd5a3",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-01:1",
@@ -2045,7 +2348,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-01:1 For HTTP, reject invalid Origin values and verify local deployments bind only to intended interfaces."
     },
     {
-      "binding_sha256": "4c062c6588db9d2a0adde8693ebc5a63e7d42cd16cac1218880e158283fd00c0",
+      "binding_sha256": "6784a4a99641de2d83cf8f52e1e112043dbf74652a586af30a6048738a4319db",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-01:2",
@@ -2056,7 +2359,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-01:2 Use TLS for remote protected endpoints; test DNS rebinding and proxy/header behavior in deployment."
     },
     {
-      "binding_sha256": "2da576478baaa722f2f35cd028ff4bbe1980c88740d634bdf6ad3f076c41237c",
+      "binding_sha256": "592ae83cd25affd6bea7c13b407e5f87b96fc6ca9a21241820cbc33703780825",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-02:1",
@@ -2067,7 +2370,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-02:1 Apply schemas and semantic bounds before executing every tool; reject unknown properties where appropriate."
     },
     {
-      "binding_sha256": "103ce5993b6e0f330616885480479d541ecab6f8a7dd79a7980ef486a0a9f1b8",
+      "binding_sha256": "91351da7a9860ce4afa0cb58dd77a1317e3fb884559d2ad69a67d9e8929049f7",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-02:2",
@@ -2078,7 +2381,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-02:2 Bound sizes and nesting; validate declared structured output and render errors without leaking secrets."
     },
     {
-      "binding_sha256": "7ddfffdc83805867c9e82a654d79962fd11f69598c8c18b5f54366df4665b3ad",
+      "binding_sha256": "62eae80afd3678e88e958ac8eedc37664655c6683f61d88c9d5ccb4da0294dce",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-03:1",
@@ -2089,7 +2392,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-03:1 Inspect descriptions, schemas, resources, icons, and results for instructions that cross tool or user boundaries."
     },
     {
-      "binding_sha256": "6fcd0113a96032aa24ca2a45bd614f0612c4d89fc80ee1653ba5b7ec4333cdf9",
+      "binding_sha256": "7ead0870bfe726739d543dc0f6509be2061f13d4685c3de8da38bb53567e2cde",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-03:2",
@@ -2100,7 +2403,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-03:2 Never let readOnlyHint, destructiveHint, or other server claims replace independent authorization and approval policy."
     },
     {
-      "binding_sha256": "40fa5b998b812b7691064f07a63fe462b14ba0501de0c9651fc50377d1ce5ee0",
+      "binding_sha256": "78a5192f21bd5b085a907d81de2c1c0cd4ba008dd5bd8bdcf11fca431a9d7385",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-04:1",
@@ -2111,7 +2414,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-04:1 Bind tool approval to verified server identity and the reviewed tool definition or version."
     },
     {
-      "binding_sha256": "2ada649e0f9e229391ec82cbbd7dc4fa742bbccd650cb5f6d7fb68bb8acc7fbf",
+      "binding_sha256": "9c51d5cf62949410a1d25828e0931150458ebafb94d343ecacfe8af1610099cd",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-04:2",
@@ -2122,7 +2425,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-04:2 Revalidate changes after reconnect/list updates; disambiguate collisions across servers without trusting display names."
     },
     {
-      "binding_sha256": "1296118f2bb72649683d9d4543287f7845df2e155218ad5dc7bc8101d923d18e",
+      "binding_sha256": "80259690c226c9459a54f636e2f276bd5d210f45e401dc7ad086920f34c8a242",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-05:1",
@@ -2133,7 +2436,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-05:1 Authorize every state handle against its owner and tenant; enforce expiry, unpredictability, and replay boundaries."
     },
     {
-      "binding_sha256": "c0266a504913cb600bdc59a981e9f2ce15b6bc6a33736c35bff08f860c68a0f4",
+      "binding_sha256": "45706d29e94d0cbecebf6f11d208a45a929662314e3043a6ed286435c390a38e",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-05:2",
@@ -2144,7 +2447,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-05:2 For older sessionful protocol versions, test session hijacking and cross-user resumption; a session ID is not authentication."
     },
     {
-      "binding_sha256": "1985dbc104822627274113a1b899073a3757b043df891591dfa8b4e789d3969e",
+      "binding_sha256": "c11dc0037a25b0452eadb396751cfdc0a13afacfc0218bf8d8860c3f9afd8584",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-06:1",
@@ -2155,7 +2458,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-06:1 Apply host policy and user control to sampling requests, context sharing, model selection, and associated tool access."
     },
     {
-      "binding_sha256": "26c0114f8882d0dc4119b77b94a8a857c5e60c50df079b2897283e0cf6a069c2",
+      "binding_sha256": "7612e172be148792402abbda7216ffbce564b6ae2fb4d3625012699e6ebcc33d",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-06:2",
@@ -2166,7 +2469,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-06:2 Test whether an untrusted server can induce disclosure from unrelated conversations or recursively consume model budget."
     },
     {
-      "binding_sha256": "0eaa23874f195d528cae1dab0deb21dcdb6a8d1ac37b10707b48c093173b6db7",
+      "binding_sha256": "ff464c2cf9ee54d05e3065bf52711ea424e13c8890725badcf844beb7304376d",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-07:1",
@@ -2177,7 +2480,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-07:1 Keep sensitive credential collection out of form-mode elicitation; validate and visibly identify URL destinations."
     },
     {
-      "binding_sha256": "b17566f581a2e1ebee1a2f26967efdc3f5a3b349ed15f85cff7002d486523fce",
+      "binding_sha256": "040f5118b0b968c408716e566022d5f667088d68e24cbcf7fb3f9ae3cf451e8c",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-07:2",
@@ -2188,7 +2491,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-07:2 Test cancellation, phishing URLs, unsolicited interactions, and replayed completion state against the selected protocol version."
     },
     {
-      "binding_sha256": "0796cbfb9be38fde5b4bc52c8720247431d30a701369cc6e50ffecb0040efe51",
+      "binding_sha256": "778dda4abfc68a54f32674d21f6242b8e17fd7633a9769e3a24de6af75423099",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-08:1",
@@ -2199,7 +2502,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-08:1 Treat declared roots as scoped information, not an operating-system sandbox or complete authorization mechanism."
     },
     {
-      "binding_sha256": "71f8b438441c786617cabd2948623e9d69e0ddc185a6714533db01b8e174ca73",
+      "binding_sha256": "05fb9f7d546d1607048bc3edab06e0aa663137618efe36f3401f75786ee12a38",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-08:2",
@@ -2210,7 +2513,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-08:2 Enforce allowed paths at file access and test traversal, symlinks, alternate encodings, and writes outside the workspace."
     },
     {
-      "binding_sha256": "ed4440f75215debfcbe1044f73ce34bbd0d5cdd26c6efaf4fefc0cd0e2bcec5d",
+      "binding_sha256": "08063e21075108cd959ed4b6da576d071f2b0ac8542c176c27f6998bfe04dd51",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-09:1",
@@ -2221,7 +2524,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-09:1 Approve executable and package identity before starting a stdio server; use argument arrays and a minimal environment."
     },
     {
-      "binding_sha256": "70887d8f58eec6cf9697043880123efb2b0faac2b38b347b0c69c218daf88de7",
+      "binding_sha256": "f3e7d79b25122c853eb241bdb9ccf758fc1b86a5caa3b9028dde5cea7a7f13f9",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-09:2",
@@ -2232,7 +2535,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-09:2 Restrict proxy process-spawn APIs and child filesystem/network permissions; separate stdout protocol traffic from logs."
     },
     {
-      "binding_sha256": "c8f1c36fa8df26b4b89d42b19a714669a599a844107d8b35281788cb2e04d6e8",
+      "binding_sha256": "f2e96e76caafd7a7bf96167fa285814fb0a9d5df29231107232e3fabb7c3216b",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-10:1",
@@ -2243,7 +2546,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-10:1 Record supported revisions and test their capability, metadata, header consistency, stream, and cancellation rules."
     },
     {
-      "binding_sha256": "fa47938c8a1c69e0252c0809aa18af0ed2d5ded471d2b72f399a3548b8bf50da",
+      "binding_sha256": "7b452d521f9ee0f7e1293078b8594af1d1c6ca77975defd561771da9dda45b45",
       "decision": "",
       "evidence_ref": "",
       "id": "check:MCP-10:2",
@@ -2254,7 +2557,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "MCP-10:2 Prevent caches and request continuations from crossing authorization contexts; do not apply legacy handshake assumptions universally."
     },
     {
-      "binding_sha256": "4732d4211678a253909c263357d41abd865ec41a04410c45dbdc82a6de5b9575",
+      "binding_sha256": "fdd7f279674b5f55810fd01fbfbc96072e1fc6c3f7fae464b5fe0ac9a4392622",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-01:1",
@@ -2265,7 +2568,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-01:1 Place allow/deny decisions at the execution boundary using trusted policy inputs and constrained tool capabilities."
     },
     {
-      "binding_sha256": "7e6aa88f66c6955c3404928578dd46ebd1efbb2f462be7978782f20e4eaa1f66",
+      "binding_sha256": "0b0ec5dde2c7a8625c86b02f57a9c5f59f75da3f9987d91510616284446d6d4e",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-01:2",
@@ -2276,7 +2579,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-01:2 Show that an injected instruction cannot disable policy, choose privileged credentials, or bypass approval."
     },
     {
-      "binding_sha256": "bc745884f07088c692fca03781b9ccc0b5b8ecb3afb568109a7a1596efa84d77",
+      "binding_sha256": "50c0fba9f81e66a5211942df8bcc09ca22e06bf55877f7c1070f005c989d21c3",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-02:1",
@@ -2287,7 +2590,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-02:1 Present actual recipient, target, arguments, data disclosure, and consequences for high-impact approval."
     },
     {
-      "binding_sha256": "3dc5fe50eb99e786892c33fa00d0b7e4461874bec9b10e0d9768554a7bdeecb7",
+      "binding_sha256": "a033289bf0decaa47d3cf02dd423685f55011d698a08c5d7dea90d1bbeecf4cb",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-02:2",
@@ -2298,7 +2601,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-02:2 Invalidate approval if arguments or target change; test races, delayed retries, and approval reuse."
     },
     {
-      "binding_sha256": "c7d224678be65030f5eabd3381490df995c209081d55dc8faa363070fb6a2304",
+      "binding_sha256": "3694aae1d2c1a53d78df03733dbe73139445ae4e28e6c29131d29b8ebee3888f",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-03:1",
@@ -2309,7 +2612,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-03:1 Track origin and trust level for web pages, documents, messages, OCR, tool results, and repository instructions."
     },
     {
-      "binding_sha256": "a444f0e5d06010a8166e07d0d04b7318e6a2b1d2de848144f6ac51889bd4cf65",
+      "binding_sha256": "aa328d7ce19c1c7bf1e21a7986023e44ddb2264e97dc47f2610949e4ea65cc49",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-03:2",
@@ -2320,7 +2623,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-03:2 Test direct and indirect goal hijacking; formatting delimiters and prompt warnings alone are not access controls."
     },
     {
-      "binding_sha256": "28b9592612298bfb99d9fa95300d30993efc318606b17752e3e36f31b4d3f7e0",
+      "binding_sha256": "d9a65b0964b4a4b2520418a945349ec7826ba333b201fa0479c55582eef75864",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-04:1",
@@ -2331,7 +2634,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-04:1 Enforce document and memory ACLs at retrieval and update time, including vector search metadata filters."
     },
     {
-      "binding_sha256": "0375f59f17326db90bed75ee9f798a2c7471f40c46cb14db014a141fe6d7c289",
+      "binding_sha256": "6d8292e9ae63443a27cb272554ed789857435676667705dc72f2ac253a9a5dd3",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-04:2",
@@ -2342,7 +2645,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-04:2 Test poisoned memory persistence, cross-tenant retrieval, provenance loss, deletion, and stale privileged context."
     },
     {
-      "binding_sha256": "10a7379e0893cea7397418a4fa16670158abacb866c316dc8a963daf4f355233",
+      "binding_sha256": "c9694e0f44191da1fc971c978826d6965acd1f559d787b504cdb2983e6a41871",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-05:1",
@@ -2353,7 +2656,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-05:1 Constrain delegated tasks and verify messages against authenticated senders, expected schemas, and allowed transitions."
     },
     {
-      "binding_sha256": "d694b1f3c1370c893d15d292fa6891c8494ab469224d1bffbf8e62a8d038a56a",
+      "binding_sha256": "36fc882a773a28de1736889c3fa8e13f83ee0705fabe8151511c5f1ef3d7e161",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-05:2",
@@ -2364,7 +2667,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-05:2 Test impersonation, conflicting instructions, cascading failure, and privilege growth across handoffs."
     },
     {
-      "binding_sha256": "429faa12a851d7a1b36fedc5cebf6f87a6afb3b22387feb1ef9ff042b9b50998",
+      "binding_sha256": "459c725f7c341d1cc4f07544e0666b06e31a41ae0a5cbb52303b2494fc681382",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-06:1",
@@ -2375,7 +2678,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-06:1 Inventory skill files, prompts, hooks, memory seed files, MCP configuration, and other executable workflow inputs."
     },
     {
-      "binding_sha256": "dbb6dd39de2c829ecd670947f9db022d6ad1115ef89bd1ad6533f5458de84da8",
+      "binding_sha256": "da2872a59d34ab7462d72e77a2e5c7ee9d3ffd593442dee72cc65044c5d44898",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-06:2",
@@ -2386,7 +2689,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-06:2 Require review for changes that add commands, access, or persistence; external repository text cannot become trusted policy."
     },
     {
-      "binding_sha256": "5b3d7229c2193b15f52a22fe9ec59207ec2a8b1642298064a72d3ab37c5e334a",
+      "binding_sha256": "7ccd26e6d6e78edfdc5c3fc004f9f9e2bc52e9dc8769ccb4b7acf882debd8086",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-07:1",
@@ -2397,7 +2700,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-07:1 Apply destination and data policies to URLs, searches, tickets, messages, uploads, and telemetry generated by agents."
     },
     {
-      "binding_sha256": "6c5f0e80e7380970d3472de357cd7b8f6cae54416a47d8c1b836e9b6100ce70c",
+      "binding_sha256": "5280e9deb7cbd42e68849631ca600b0b7918c020ae54d9c53bee784f4c8463ca",
       "decision": "",
       "evidence_ref": "",
       "id": "check:AGT-07:2",
@@ -2408,7 +2711,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "AGT-07:2 Use canary data to test encoded leakage and combinations of otherwise permitted tools."
     },
     {
-      "binding_sha256": "0594464e355ca6be1b30508428eb88428e74e30c02e8f5cde5803e1f68c74ada",
+      "binding_sha256": "748252c7c5de84fcc342f7fcf6abc3cf17630f576ca218d5a71fb5b28e66e44a",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-01:1",
@@ -2419,7 +2722,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-01:1 Find shell execution and constructed command strings; use fixed executables, argument arrays, and allowed argument values."
     },
     {
-      "binding_sha256": "fb31ad5ebf3f506d81ded7c3abc410ab0cdc554248aec430374059633c4a5973",
+      "binding_sha256": "bcc19b097b6e4795b9d87fb01fa66b066adb808c3b5245ec2afcad90ab9bc413",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-01:2",
@@ -2430,7 +2733,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-01:2 Test untrusted tool inputs containing shell syntax, option injection, command substitution, and hostile filenames."
     },
     {
-      "binding_sha256": "eade4871b35062e966f58e9980bb21260d49513486c72257f62c590328353ca0",
+      "binding_sha256": "e708b0fa1c1ee6c7886cc324fe2f9f44ebececb80adc06790c04ffb80895a341",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-02:1",
@@ -2441,7 +2744,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-02:1 Locate eval, exec, dynamic imports, templates, notebooks, and interpreter tools accepting model or user content."
     },
     {
-      "binding_sha256": "95b20ba717af77676220391c5e931dd50d3bcdc99c1d322918f90191e76c7a53",
+      "binding_sha256": "bdedacd9af717506e4c066cd61850a6bf0290a6e7cb5428ab012a119bc9c3db7",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-02:2",
@@ -2452,7 +2755,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-02:2 Run required code execution in a disposable restricted environment with explicit filesystem, network, CPU, and time limits."
     },
     {
-      "binding_sha256": "6c16c59b54660024b506bbf0110272f4b5f86b21f791145d502b4ed489a03dbd",
+      "binding_sha256": "6f43fc7f5288013383d9ba8986c2cb49222256f3d3b29a457336d1f390a396ad",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-03:1",
@@ -2463,7 +2766,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-03:1 Use bound query parameters and allowed query shapes; inspect SQL, NoSQL, graph, and search-language construction."
     },
     {
-      "binding_sha256": "de09b942269c76daa42c63c69705a47e007e292d1b59c726f392216c705f1813",
+      "binding_sha256": "e93e59031043d939c04abc8ec71070baa9c219a25a4538d4dd9d857a433c2063",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-03:2",
@@ -2474,7 +2777,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-03:2 Separate read/write database identities and test whether generated queries can escape permitted objects or operations."
     },
     {
-      "binding_sha256": "7f05cdf56403096bc51e024bf64e76db51eea5213658104c512c6189b8b100cb",
+      "binding_sha256": "c254897b606e90a4ab81813578fd3581d73f98862a2f0b50fbf37ae33dfbada9",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-04:1",
@@ -2485,7 +2788,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-04:1 Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions."
     },
     {
-      "binding_sha256": "07d288cce74dfaf62280cb0222ae12258c60cf277ead45c232df82e04102f245",
+      "binding_sha256": "f9821d26e1be5a7d479b0e9b9fe0d2d6392ee18bc4ae0238647d96a2b6d9cd36",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-04:2",
@@ -2496,7 +2799,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-04:2 Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads."
     },
     {
-      "binding_sha256": "fd4c0b9329366fb165aaf2a8b32d130afdf9e7d714b91ce013fd0e4df733c64e",
+      "binding_sha256": "a7d440b28567e5f3ae7ce0f4d2c89cc428cf5a5e75d4525d666aac4f9d5c4bea",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-05:1",
@@ -2507,7 +2810,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-05:1 Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect."
     },
     {
-      "binding_sha256": "2c18754eaa6b71c8473d42cd8419c9d99ba50e7cb47425b2bcabb6101f480ea7",
+      "binding_sha256": "46bbfaed7947f05f8dc9089d3362aee1ea514f3f8909e940ffd10dccbadf2bf2",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-05:2",
@@ -2518,7 +2821,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-05:2 Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."
     },
     {
-      "binding_sha256": "540de215cb2d61ae0bd883a2ff83b214611bdbe608b05cbd1746a9afa0f3bbce",
+      "binding_sha256": "5e4bae567a6502af0818497f8e75844c06a2c40f63f9c1134d81c4702e883966",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-06:1",
@@ -2529,7 +2832,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-06:1 Inspect pickle, unsafe YAML, object deserialization, XML entity expansion, and unconstrained recursive parsers."
     },
     {
-      "binding_sha256": "bcc95153e5d3089fff95c4d8651887b1ae4d7b484f7f5213fa2cd08683b7693d",
+      "binding_sha256": "3a4afd7e92bf09ae2c52df9a12fb2ebaf2d29a993af4744c3dc13a6986e5606a",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-06:2",
@@ -2540,7 +2843,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-06:2 Use data-only formats with byte, nesting, and type limits; test malformed input and expansion attacks."
     },
     {
-      "binding_sha256": "f1a4080945e4cc81fa69773cccde0a2a34f182803fc30aeb10fc875292db2d2a",
+      "binding_sha256": "3aa65b09c03449a7e33c9b43e4c8f93c2f3649c6a0fe3477d322c17464726d33",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-07:1",
@@ -2551,7 +2854,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-07:1 Use context-specific escaping for HTML/Markdown, avoid unsafe DOM sinks, and validate links and embedded media."
     },
     {
-      "binding_sha256": "2120d7ed824733450bc931982074dfae9fc5732973597cae8d27c991290fd26c",
+      "binding_sha256": "018358808b7c3b30bb22f14d3650f7c244258143c5f042897663a60f7d35179f",
       "decision": "",
       "evidence_ref": "",
       "id": "check:EXEC-07:2",
@@ -2562,7 +2865,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "EXEC-07:2 Test active SVG/HTML, malicious URLs, terminal escapes, and spreadsheet formulas in exported reports."
     },
     {
-      "binding_sha256": "cb5963706d5883c636a5ea7b1401e7b20d1a9bc7826f5b966e375d6e6b282b71",
+      "binding_sha256": "06ca4af74dd55d15717fd32b73793ea4eba83889f8193010dcc86d4e6384ae87",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-01:1",
@@ -2573,7 +2876,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-01:1 Inspect code, examples, configuration, notebooks, test fixtures, and generated artifacts for secret-like values."
     },
     {
-      "binding_sha256": "f79a577ce1f3c12b216b1caf4064583c5abd82a2fd22cca5ca32cb1f306f9968",
+      "binding_sha256": "50b747cee4c9bcf4eb046e2c0bece3335d757dc82c61374e5d5e5356cc1558f1",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-01:2",
@@ -2584,7 +2887,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-01:2 Verify actual exposures with the owner, rotate real credentials, and remove them from reachable history and artifacts."
     },
     {
-      "binding_sha256": "6456d7d10dc0f0db2e78a34a398bebc303f3e1754d6c619c6e105c29a126b725",
+      "binding_sha256": "0b83b380d7936dc0c9a84f2f5f0f2112a2ab282f7a33a026884aff14abcbb8f4",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-02:1",
@@ -2595,7 +2898,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-02:1 Map which prompts, tool outputs, memory, and code leave the environment and identify the receiving provider/gateway."
     },
     {
-      "binding_sha256": "2ad720afd98431432dc6961c20f905867c8e49a0f2383c58c7c8f4481570f6d6",
+      "binding_sha256": "1c827af6950f896a43f2e4d657d3d55ed8e81171ec7ceb7ec5f5ae7c63455b22",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-02:2",
@@ -2606,7 +2909,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-02:2 Document allowed data classes, processing location, retention, and training use; redact before transmission where required."
     },
     {
-      "binding_sha256": "b20a605a196abc0399b64505bd957f955b7817c31bd7efc9a406a1f334ed88b4",
+      "binding_sha256": "f9ad33c1610f40288e134c47684ec0652884abbff6114a1367b3e77c908a06ab",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-03:1",
@@ -2617,7 +2920,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-03:1 Redact secrets and sensitive payloads before logs, traces, exception strings, and dashboards persist them."
     },
     {
-      "binding_sha256": "0f6eb089e0badb7e1673786490372058d1d8c664aed9f8fd39df59f3b139f345",
+      "binding_sha256": "7b15c09b541fd9132e0dd0b565fcc814686efb2c2a89ebb75cd5b8eb9074ae2c",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-03:2",
@@ -2628,7 +2931,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-03:2 Test the failure paths and provider errors as well as success paths; restrict access and export destinations."
     },
     {
-      "binding_sha256": "2bef65878c15baae37bda42431addf61c1ff3e1015af275843fcf43b041aaa85",
+      "binding_sha256": "6810b0bda52aae3c7de919c64065c95f86eddc8526c6f996dc4a0d2e5e957ad9",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-04:1",
@@ -2639,7 +2942,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-04:1 Record source, owner, version, transformation history, and integrity evidence for datasets, retrieval corpora, and memory seeds."
     },
     {
-      "binding_sha256": "20040bb0cd558bbcde074e4153952522c3c24d7bee65b87c9574a8b1698c36c9",
+      "binding_sha256": "b0184b827f1297616c18573afd97cf9fdba0e29373c07cff3971ac9ddb0815e0",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-04:2",
@@ -2650,7 +2953,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-04:2 Quarantine unexpected changes and test how poisoned or stale data is detected, removed, and replaced."
     },
     {
-      "binding_sha256": "a4f06c5405c2d777118d8cfccb83d329cfbd36bbe8acf9f5bad59bf780581847",
+      "binding_sha256": "63a6cccc1b8e75442f7c49ab080b32ca926b3c9aba61e109156201d3a72e9b7b",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-05:1",
@@ -2661,7 +2964,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-05:1 Apply expiry and deletion to prompts, embeddings, caches, memory, tool artifacts, backups, and provider-held data."
     },
     {
-      "binding_sha256": "3a77e358954ed29ea102643643733bbc4e3eb4d50d0c117b094f742b3605d40a",
+      "binding_sha256": "b42da36760680be315b0512e8ec82c590706628c8da9f6428047af388a2070d7",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-05:2",
@@ -2672,7 +2975,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-05:2 Verify deleting a source record removes or invalidates dependent retrieval content and access grants."
     },
     {
-      "binding_sha256": "f7fe68a7560a3c128caf9d6f658b1b838142a9ea2fda3079e38a1328e2cd50e9",
+      "binding_sha256": "fa363630ba43c44dceb65b509c2e7068d130766566461a0f5137f4dfcec3e459",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-06:1",
@@ -2683,7 +2986,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-06:1 Check transport verification, storage access controls, encryption settings, key separation, and backup permissions."
     },
     {
-      "binding_sha256": "bf85c358a63e71df91fcd3284502bbf7e07b6af5e69f1f3bf12411199381db98",
+      "binding_sha256": "f6c505f3b6e994aa0da8bb1e24af30f40cf12398823e37d2dda9c7cdd48115a6",
       "decision": "",
       "evidence_ref": "",
       "id": "check:DATA-06:2",
@@ -2694,7 +2997,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "DATA-06:2 Validate key rotation and denied access using a principal outside the authorized tenant or operational role."
     },
     {
-      "binding_sha256": "ef15edbba549aec81314935fb61ab8c353ae7a88d3449b3f79c9e69beebd3fb0",
+      "binding_sha256": "ae3614c84482a4caf8d121758cccfecbce85cd4f36c6fa18a1ec8a13eb4c1041",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-01:1",
@@ -2705,7 +3008,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-01:1 Review lockfiles and exact versions or immutable digests for packages, images, MCP servers, models, and plugins."
     },
     {
-      "binding_sha256": "a5ce26648950cc21b5623e2a14463e49aa8a75be03a65f576a561618fa8c0ef0",
+      "binding_sha256": "07ec72c8407fca29a62a67c9ca5e37bf2c7ebd36e7aa587288b87a414fc1ebb9",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-01:2",
@@ -2716,7 +3019,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-01:2 Flag runtime installs, floating tags, remote scripts, and dependency sources outside approved registries."
     },
     {
-      "binding_sha256": "e6886c0ee6c974e523f61afcf96f6aec0c6428a1d0b81f57cd58205268ac7134",
+      "binding_sha256": "03ac7d319f696a434e04289b93383016cff90dd915903bb9f3f9e324cb899595",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-02:1",
@@ -2727,7 +3030,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-02:1 Run appropriate package/container advisory tools against resolved dependencies and save database date and tool version."
     },
     {
-      "binding_sha256": "cf04470aba76d62ac0f7b0dd4d912771f202ce2dfbccaabb0cdfcaa5bdeac45e",
+      "binding_sha256": "e2f32d838f4c530915380e7a0207ef3c36aa681775bfef581c4c19bd8038d25d",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-02:2",
@@ -2738,7 +3041,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-02:2 Triage reachability, fix availability, support status, and transitive dependencies; source pattern scans do not establish CVE coverage."
     },
     {
-      "binding_sha256": "cbae4a923ca017fd0a64945a2aaf13b589d03c61639fbbe8e5ba7696a5cc03b4",
+      "binding_sha256": "1b79229a537075f83e0da26a11fe1d08b2359b4ae4ae6e0378fd684b9b3d4b52",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-03:1",
@@ -2749,7 +3052,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-03:1 Verify publisher identity, hashes/signatures, build provenance, and intended origin before enabling artifacts."
     },
     {
-      "binding_sha256": "2da788da234616249994d1ce7cffba753d0a1c7a11ddb77bb2ccbf30f3339548",
+      "binding_sha256": "f00b36235b3209b14d0fd701ff1a8c46de02ad0124b7bb52a2c55acb531c2d72",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-03:2",
@@ -2760,7 +3063,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-03:2 Review model loading and serialization behavior; an integrity hash cannot make an untrusted publisher safe."
     },
     {
-      "binding_sha256": "b9c32510b04d74b494fdda20550c33310a64583b9ffc0c31c822964714f068a6",
+      "binding_sha256": "c0b01e58a0a30319956be6ae1dbb2faa7dcf03d2bec6400bd519fdb6d95a63a6",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-04:1",
@@ -2771,7 +3074,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-04:1 Restrict CI credentials and workflow permissions; review actions, build scripts, and release provenance."
     },
     {
-      "binding_sha256": "5f62187c40c989d4e4b971c1d382032abe99258bb22799f4da423c0e767c9f7c",
+      "binding_sha256": "d10805f1729e1255cb0b9809c20a3abc99d76a1854f0f0f0f0198e475ce5813c",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-04:2",
@@ -2782,7 +3085,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-04:2 Prevent untrusted contributions from executing with deployment secrets or changing approved agent policies."
     },
     {
-      "binding_sha256": "45ec530d8f30a7bec4e08a68075b2f2c1992e6cf3bc7496ba17a6074560c2240",
+      "binding_sha256": "93aaa21160aabf0569b1c0100fdad14a2fe4e57bd48e0e9324371af23120c810",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-05:1",
@@ -2793,7 +3096,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-05:1 Review root/privileged containers, host mounts, Docker sockets, unrestricted egress, debug mode, and public management endpoints."
     },
     {
-      "binding_sha256": "36af5f6b3a5ab2cae674e4035791f5b8d4128b677d71a710607fc78790cae4fc",
+      "binding_sha256": "e20deb392512e4e56cf47a3ea75e6533faf2c6bb0391e9c87d79f83db19cd298",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-05:2",
@@ -2804,7 +3107,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-05:2 Separate agent execution from control-plane credentials and audit storage; test isolation in the deployed environment."
     },
     {
-      "binding_sha256": "8249aecbd15c947ba5973fa2ac64054c6b51505176b751872ebcdd4487759e21",
+      "binding_sha256": "57801b39893ee7b3f425f00b9385768e4e1d3be1d57d5367fac1c5ca4e214580",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-06:1",
@@ -2815,7 +3118,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-06:1 When training or fine-tuning, isolate development, evaluation, and production identities, data access, registries, and release permissions."
     },
     {
-      "binding_sha256": "691197dedd1e13fa7c9c06e6051f72b4ec1faa690d9c5c621558bd53a3db5b02",
+      "binding_sha256": "fe4b9fcfff5d1b2f8491386fc9c1dc1c7ec4204234291a1e1d0c2efe63736533",
       "decision": "",
       "evidence_ref": "",
       "id": "check:SUP-06:2",
@@ -2826,7 +3129,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "SUP-06:2 Protect datasets, weights, adapters, and configuration separately; monitor modifications and demonstrate that an untrusted training job cannot replace an approved production artifact."
     },
     {
-      "binding_sha256": "41cb9ee2a4d79fcf2cb75b454c08ef8e8e28756b054fabc9c1f93426461d8f0b",
+      "binding_sha256": "8129f9f52de1eb06c616d98e03f1c0a0f1a053d3841ef7845b8413e47a2c13b8",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-01:1",
@@ -2837,7 +3140,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-01:1 Record initiating identity, delegated identity, tool/server/version, approved arguments, decision, outcome, and correlation identifiers."
     },
     {
-      "binding_sha256": "b87f139beab6530792905738073b2d3da070713046a1542070f926b56aaa1843",
+      "binding_sha256": "929facc50148a0f7041468e419a582764e9e4a355efb9a3a816056bfb96404eb",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-01:2",
@@ -2848,7 +3151,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-01:2 Protect log integrity and clock consistency; ensure agents cannot erase their own action history."
     },
     {
-      "binding_sha256": "ce9e4386eca2d0302c9b1ad13cfc773787b50719ebe391b2da2e35708ddf2c3f",
+      "binding_sha256": "122760eb99465a59c26b029c5f12675f384ec9bf0887f1b4b6ebd3aa91b98639",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-02:1",
@@ -2859,7 +3162,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-02:1 Set server-enforced limits for iterations, tokens, tool calls, recursion, parallelism, bytes, cost, and elapsed time."
     },
     {
-      "binding_sha256": "2bcc89ce855a177494253561de5759e29a1d85b8d8f93090239ae5c5f9502aba",
+      "binding_sha256": "58951162858aee96ddb14d88109ed77f5967ff7cc620ded6afcf28c0d16b0ab2",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-02:2",
@@ -2870,7 +3173,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-02:2 Exercise stuck loops and amplification paths; verify limits apply across retries and child agents."
     },
     {
-      "binding_sha256": "461db73455b383192eb60f338675d88fd7b1dec42bf6fc304294cf2f5a930fc7",
+      "binding_sha256": "ad2c8d5b4a126859024c6f6d70cfba1843584aa1cdd88c8e482e17d2d1336b75",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-03:1",
@@ -2881,7 +3184,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-03:1 Provide a tested stop mechanism that revokes work, credentials, queued actions, and child tasks."
     },
     {
-      "binding_sha256": "5d4c873dc8b857fec016cf8aa12b932cc6848b2bd5739e5ed4fab1c975f1c6ab",
+      "binding_sha256": "c4b6ed77ff59d06aaec1d8fd7f4349b5eff6be7b9abd04cec263ef099ce3d1da",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-03:2",
@@ -2892,7 +3195,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-03:2 Measure stop latency and verify cancelled or disconnected requests cannot later commit prohibited side effects."
     },
     {
-      "binding_sha256": "02c219cf6ba9bba4669fe9a8d86ad4e7ab37ded27f670c8a8cae94c11d8cf7e0",
+      "binding_sha256": "d884152659d9b3a496ac2c544f09f2cb368dd50b9837c9ea1a2b1d69ff0ed0e5",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-04:1",
@@ -2903,7 +3206,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-04:1 Deny or escalate when policy, identity, or approval checks fail; prevent fallback paths from widening privilege."
     },
     {
-      "binding_sha256": "f4e46e38dc91fb444482f63f677895ac2ec87c689d38af3239ec25f9a14f605a",
+      "binding_sha256": "10ceb58552bde6238796266f956ce58e45fe795410a91a449b4084d164a27514",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-04:2",
@@ -2914,7 +3217,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-04:2 Test outages, partial failures, timeouts, retries, idempotency, and recovery of transactions with external effects."
     },
     {
-      "binding_sha256": "0a8fd5ab407c01a8e9303a542a3f990ad613da0c0bd4d106d7a67115becbcfdb",
+      "binding_sha256": "8796ed55d368dad33fd86e93b33b99eb7672bf12680536700f571fdbf9e15ea8",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-05:1",
@@ -2925,7 +3228,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-05:1 Alert on unusual tool use, new destinations, scope growth, repeated denials, cost spikes, and unexpected state changes."
     },
     {
-      "binding_sha256": "f8f3338d02746ff2711ef0edd37de5fea5151a7f88117cbbe54aabc3f596af77",
+      "binding_sha256": "7e53026b9ea410f4cdf10690bd578dae60fed4895793f7f1a7ee1d531e2a8147",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-05:2",
@@ -2936,7 +3239,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-05:2 Validate alerts with seeded events and test rollback of models, prompts, tools, policies, and poisoned memory."
     },
     {
-      "binding_sha256": "ee2ab67536b418c5026b8be07e00e7e2b016787a1905716bcccf6a1b631780a1",
+      "binding_sha256": "d742f8d7abeec21d740eb71d69f7530b97ce4f9581eec93bd6e263cbc2a793ee",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-06:1",
@@ -2947,7 +3250,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-06:1 Maintain procedures to isolate agents, revoke credentials, preserve evidence, notify owners, and recover trusted state."
     },
     {
-      "binding_sha256": "05f60c6c721f24d02c003751aabba34b5f05133e8dc42ec6b61aadf62499f34a",
+      "binding_sha256": "e24b985cdc28276fbe86ff4acfe584847257ce5617d9c0644b9399cc81a3512c",
       "decision": "",
       "evidence_ref": "",
       "id": "check:OPS-06:2",
@@ -2958,7 +3261,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "OPS-06:2 Exercise an AI-specific incident and define approved vulnerability/intelligence-sharing channels without exposing sensitive evidence."
     },
     {
-      "binding_sha256": "08373e9ed4cca24eb61b24a8ee64be2b121d1f39914e7ef5872c42caebc309f8",
+      "binding_sha256": "aa18ec98a71cfe795661cb69d7121b9a377755bf524832518a4b51e7b219933d",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-01:1",
@@ -2969,7 +3272,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-01:1 Run paired benign and adversarial workflows with representative tools and attacker-controlled external content."
     },
     {
-      "binding_sha256": "c4ca39edc2eb412d84046f7ce625be1ac20bea66d79a6ea8e9cf4d246edbc25b",
+      "binding_sha256": "68e86b429c5f071aafe3eac565f4ee8214b527affb79f61b6ad4e6ebd882f9f1",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-01:2",
@@ -2980,7 +3283,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-01:2 Record attacker success, authorized task success, blocked benign actions, and the observed unauthorized side effect."
     },
     {
-      "binding_sha256": "cc66b4dd6fa810a757f892fc9eabb91babb11df2aa7ee0823d96e085a6bd6f49",
+      "binding_sha256": "bf764da8d89e32342a635819f05d34ec395dcac89451c4eebcc0d276a415b1f5",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-02:1",
@@ -2991,7 +3294,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-02:1 Vary payload wording, placement, modality, attacker knowledge, and attempts; rerun after changing defenses."
     },
     {
-      "binding_sha256": "d5f3abbb58d55f2437aa3cdcc626e49e53652aac6d9470052f6d1de8e11a10a5",
+      "binding_sha256": "92f390a0b0e770e7409fb747164149dfb0627faff7a6802456983990b6c61e08",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-02:2",
@@ -3002,7 +3305,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-02:2 Report per-scenario outcomes, sample counts, attack budget, uncertainty, and model/harness versions instead of only an average."
     },
     {
-      "binding_sha256": "085bdf01f848d625ab4ab3c098662c3219783199da1f4206ac5620dc1bd58050",
+      "binding_sha256": "4b3be909731e83ab58581ed721c03edf85d2ee36075af7da699f4f40ba6e73b2",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-03:1",
@@ -3013,7 +3316,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-03:1 In an isolated test environment, exercise invalid tokens, wrong audiences, origin abuse, malicious servers, and protocol fuzzing."
     },
     {
-      "binding_sha256": "6feddc95a77a8f9e527acca04b32502ccea558f2f918924fa1b1ad91c2a0842e",
+      "binding_sha256": "09d1848c75a291dcc5607679169b18a4421f6999e0c991bfa33cbf5f0a8c4a25",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-03:2",
@@ -3024,7 +3327,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-03:2 Adapt scenarios to the deployed MCP revision and transports; preserve request/response evidence with secrets removed."
     },
     {
-      "binding_sha256": "7aa3213c327856c335fafd368726535fa8f3c85d1d8392044fefca088f5a6b36",
+      "binding_sha256": "450e2d885c172fe7a6f2296e850a665df0e147e34b0494940ea7d3a1661afe83",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-04:1",
@@ -3035,7 +3338,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-04:1 Create two principals and attempt cross-access to objects, memory, caches, handles, subscriptions, and execution results."
     },
     {
-      "binding_sha256": "ad659c510a18efa402909db087b73c1d139841b0052a684b9d1c06c3f459e51b",
+      "binding_sha256": "26efe2261b1f172310b8015317e2e5a37e41691f39e21875469365f7f663310a",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-04:2",
@@ -3046,7 +3349,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-04:2 Repeat after reconnect, delegation, failed authentication, concurrent requests, and privilege revocation."
     },
     {
-      "binding_sha256": "79b98c83be35d4c25bd518cc866306034f6a29fc0694b433f69d16e06628eda6",
+      "binding_sha256": "4580b4a3978ca37059ad506ea98e5591a3aeb18e16a0196816aaa0b3dfc74e17",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-05:1",
@@ -3057,7 +3360,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-05:1 Use explicit forbidden-action canaries to verify enforcement survives hostile content, tool substitution, and delayed execution."
     },
     {
-      "binding_sha256": "ba43dce43564cb3fdc85868323f698fd5531e4928c22492dd7b649342d290321",
+      "binding_sha256": "0fd65d2e620dd143417cdc499f34148719480cc349b215fd07e2f7aa66ec7c50",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-05:2",
@@ -3068,7 +3371,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-05:2 Confirm paths through retries, fallback models, alternate tools, and child agents enforce the same boundary."
     },
     {
-      "binding_sha256": "1b79cff1d7e05fc480c4a16e9a3b53f69405ac0bdeab53251bf7ee485fc3def3",
+      "binding_sha256": "691dd8e8b071e292fab096b610cdd9a1d42f115af4918521e40dcaccefe6b044",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-06:1",
@@ -3079,7 +3382,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-06:1 Run language-aware SAST, dependency review, secret scanning, and authorized integration tests for exposed services."
     },
     {
-      "binding_sha256": "e3bd3d4f6bd80cfe065c55b881a03caeb5b7cafb9ed1646cdd7a1f3c374362d1",
+      "binding_sha256": "fa5139b80aa204928eeb4483db7e0c19d943f1140583aef2d8917016dd280c12",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-06:2",
@@ -3090,7 +3393,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-06:2 Exercise reachable injection, XSS, SSRF, path traversal, deserialization, and access-control risks with safe fixtures."
     },
     {
-      "binding_sha256": "90d1838cc54a0fe5b66f8ff2421ea5a07a7aa56aaaaf63320efbbf83f9506569",
+      "binding_sha256": "b05f93cbe1797a75b32c733f6d827bffab42a8a02475fa04a11155fd24a1053b",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-07:1",
@@ -3101,7 +3404,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-07:1 Simulate oversized messages, slow peers, streaming floods, repeated errors, runaway agents, and unavailable dependencies."
     },
     {
-      "binding_sha256": "4203310080f7880fdc69ad0cdd641617c279f8158d5d75671b6fb6ee337a6095",
+      "binding_sha256": "9a340d9997faaf3639260fb081320b7112e12c09c8cb5c93dcdb40f5f3d1052a",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-07:2",
@@ -3112,7 +3415,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-07:2 Verify quotas, shutdown, telemetry, and alerts work together without leaking payloads or losing attribution."
     },
     {
-      "binding_sha256": "a35b4b19c909e94047c657198b948fe42879d8d5a3f07e0d8488ca2539629760",
+      "binding_sha256": "630e7762b29377c89dd7cf19ef63489378c89b103489785930f3408f935047d0",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-08:1",
@@ -3123,7 +3426,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-08:1 Treat repository text and model verdicts as untrusted; test prompt injection, fabricated locations, invalid JSON, and timeouts."
     },
     {
-      "binding_sha256": "cdfc5ebee1b9be68a5bf27a67724d661fc7b4b6f24dea9ee9f5e4a5a6a694add",
+      "binding_sha256": "a14660a8dab7b5d918d6d632c04a25cf5d947a3a6d3cbffb0dda5600e11ac68a",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-08:2",
@@ -3134,7 +3437,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-08:2 Compare against labeled cases, retain deterministic results, document model variability, and never equate a judge approval with control validation."
     },
     {
-      "binding_sha256": "35777ee99a28a617e3839a8ec0a16e80fac4b3bd6e1d7e36dc5be4bb9d869ab8",
+      "binding_sha256": "4353cd7a7563d21919b165d7e06c0c83b9bcb795fd2cde8a29cd8392a050d946",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-09:1",
@@ -3145,7 +3448,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "subject": "TEST-09:1 Where applicable, assess suspicious triggers, model extraction, and disclosure of private training examples under an explicit attacker access and query budget."
     },
     {
-      "binding_sha256": "ab42ff151c1addbb8583482da1192a329816213a6a634007bafa36d2b7ec69e3",
+      "binding_sha256": "7f4480ff912210f658e5df351610cb8e3b941eb86f375ddeb1a26aacad484d25",
       "decision": "",
       "evidence_ref": "",
       "id": "check:TEST-09:2",
@@ -3188,7 +3491,7 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
     "evidence_sha256": "06b8a5dc3bf9eb896f0c7fa003611ed70edfc92f1c5f6c43676f8efd67c0ccd0",
     "image_limits": {},
     "manifest_sha256": "408f19361fd5303c4d0346b18befdc6b7219a39c396e272d43d37b5602114277",
-    "scan_id": "8a7d04a9e883c1952d572087aa9acfd5e126eefb5c505666fc07a8e5efa2853f",
+    "scan_id": "5461e56ac53940be9396f6fc2a84a567c0cab3ccf5268b081567fa6b925d6e6d",
     "scope_sha256": "4e01c10d5d5388f1f301cc1f81742dd37a375e51af210210aac226ee08ee3bbc",
     "target": {
       "description": "Selected source directory; paths are relative.",
@@ -3196,9 +3499,9 @@ Example: invarune /explicit/path/to/repository --review-report ./reviewed-report
       "platform": ""
     },
     "tool": {
-      "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+      "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
       "name": "agent-mcp-security-scan",
-      "version": "0.9.0"
+      "version": "0.10.0"
     }
   },
   "schema_version": "1.0"

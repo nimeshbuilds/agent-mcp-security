@@ -393,14 +393,18 @@ def _schema(stage):
     def obj(properties):
         return {"type": "object", "properties": properties, "required": list(properties), "additionalProperties": False}
     string = {"type": "string"}
+    actions = obj({"agent_mcp_relevance": string, "applicability": string,
+                   "steps": {"type": "array", "items": string}, "verification": {"type": "array", "items": string}})
     if stage == "findings":
         return obj({"assessments": {"type": "array", "items": obj({
             "finding_id": string, "verdict": {"type": "string", "enum": ["likely_true_positive", "likely_false_positive", "needs_review"]},
-            "reason": string})}, "additional_concerns": {"type": "array", "items": string}})
+            "reason": string, "recommended_actions": actions})},
+            "additional_concerns": {"type": "array", "items": string},
+            "additional_concern_actions": {"type": "array", "items": obj({"concern_index": {"type": "integer"}, "recommended_actions": actions})}})
     check = obj({"check_index": {"type": "integer"}, "status": {"type": "string", "enum": [
         "supported_by_code", "potential_gap", "needs_runtime_validation", "needs_human_review", "insufficient_evidence", "not_applicable_proposed"]},
         "reason": string, "citations": {"type": "array", "items": obj({"evidence_id": string, "quote": string})},
-        "verification_steps": {"type": "array", "items": string}})
+        "verification_steps": {"type": "array", "items": string}, "recommended_actions": actions})
     return obj({"control_assessments": {"type": "array", "items": obj({"control_id": string,
                 "check_assessments": {"type": "array", "items": check}})}})
 

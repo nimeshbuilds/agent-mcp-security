@@ -1,0 +1,17 @@
+{
+  "attempted": false,
+  "batch_id": "batch-020",
+  "case_ids": [
+    "case-fe4948a232d221a95e95"
+  ],
+  "elapsed_seconds": 0,
+  "evidence_sha256": [
+    "c9d8b05c5a6365e97b9e8314488f7bd7614a4fa4346d50c5452980dc9d2cd0f1"
+  ],
+  "mode": "live_claude",
+  "payload_bytes": 2068,
+  "payload_sha256": "1567208e21a398691ac82f3fa5b407408161d4cf301533c5af14e3348128bf17",
+  "reason": "An earlier call reported missing authentication; no retry or login was attempted.",
+  "started_at_utc": "2026-09-19T22:54:19Z",
+  "status": "not_attempted_authentication"
+}

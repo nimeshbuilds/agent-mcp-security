@@ -1,5 +1,7 @@
 # Invarune: real project scans and scanner comparison
 
+For the newer v0.10 work, see the [fresh finding-by-finding comparison](../benchmarks/comparison-v010/README.md), exhaustive observation ledger, frozen review selection and versioned scan receipts. Shared/tool-only matches are not vulnerability labels. The material below preserves the earlier experiment and its scope.
+
 ![Invarune by NimeshBuild](assets/brand/invarune-logo-light.svg)
 
 **Research edition · 19 September 2026** · [Download the branded benchmark PDF](../output/pdf/invarune-benchmark-report.pdf)

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "name": "NimeshBuild bounded static rule accuracy corpus",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "provenance": "Project-authored synthetic cases; not an independent industry benchmark or production prevalence sample. Expected labels were authored from API behavior, not inferred from scanner output.",
   "metric_unit": "One explicitly labeled rule-presence assertion per case, not confirmed vulnerabilities. Other rule findings are recorded but are not scored without labels.",
   "cases": [
@@ -821,9 +821,49 @@
       "path": "mcp.json",
       "source": "{\"DANGEROUSLY_OMIT_AUTH\":\"false\"}",
       "expect": {
+        "AI041": true
+      },
+      "rationale": "Corrected ground truth: MCP Inspector treats every nonempty DANGEROUSLY_OMIT_AUTH environment string as an authorization bypass, including the string false. See official Inspector environment-variable documentation."
+    },
+    {
+      "id": "ai041-empty",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"DANGEROUSLY_OMIT_AUTH\":\"\"}",
+      "expect": {
         "AI041": false
       },
-      "rationale": "Explicit inspector authorization bypass."
+      "rationale": "An empty Inspector bypass environment string does not disable authentication."
+    },
+    {
+      "id": "ai041-unset",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"mcpServers\":{\"agent\":{\"command\":\"python\",\"args\":[\"server.py\"],\"env\":{}}}}",
+      "expect": {
+        "AI041": false
+      },
+      "rationale": "Omitting the Inspector bypass environment variable does not disable authentication."
+    },
+    {
+      "id": "ai041-zero-string",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"DANGEROUSLY_OMIT_AUTH\":\"0\"}",
+      "expect": {
+        "AI041": true
+      },
+      "rationale": "The nonempty string 0 still disables MCP Inspector authentication."
+    },
+    {
+      "id": "ai041-nonempty-string",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"DANGEROUSLY_OMIT_AUTH\":\"no\"}",
+      "expect": {
+        "AI041": true
+      },
+      "rationale": "Any nonempty Inspector bypass environment string disables authentication; a Boolean-looking word is not a safe off value."
     },
     {
       "id": "ai042-risk",
@@ -1096,5 +1136,6 @@
       "rationale": "The source does not establish runtime TOOL_PERMISSIONS. Do not invent a wildcard finding. A matched label says nothing about the deployed value; runtime evidence remains required."
     }
   ],
-  "changes_from_1_0_0": "AI011 positive case now includes a synthetic 64-character encoded body, following the documented rule refinement from header-only to plausible private-key material. Existing assertion labels and all other cases are unchanged. The prior corpus is retained in static_accuracy-v100.json; cross-version metrics are not the same corpus."
+  "changes_from_1_0_0": "AI011 positive case now includes a synthetic 64-character encoded body, following the documented rule refinement from header-only to plausible private-key material. Existing assertion labels and all other cases are unchanged. The prior corpus is retained in static_accuracy-v100.json; cross-version metrics are not the same corpus.",
+  "changes_from_1_1_0": "Corrected the AI041 ai041-comparison label for the unchanged string false from absent to present: any nonempty MCP Inspector DANGEROUSLY_OMIT_AUTH value bypasses authorization. Added empty/unset negative fixtures and 0/no string positive fixtures. This is changed ground truth and expanded coverage, not an accuracy improvement on identical corpus bytes. The exact prior 1.1.0 bytes are retained in static_accuracy-v110.json (SHA-256 aa4e3b2a95fdf5d5ea09721c0316c72a654d90d58281be5caab249d87510dff8). Primary source: https://github.com/modelcontextprotocol/inspector/blob/main/docs/environment-variables.md"
 }

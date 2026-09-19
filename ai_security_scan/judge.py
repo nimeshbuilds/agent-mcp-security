@@ -17,7 +17,7 @@ import time
 from urllib import error, parse, request
 
 
-ADAPTER_VERSION = "1.1.0"
+ADAPTER_VERSION = "1.2.0"
 CONFIG_LIMIT = 256 * 1024
 HTTP_PROVIDERS = {"openai_chat", "openai_responses", "anthropic", "gemini", "ollama", "custom"}
 CLI_PROVIDERS = {"codex_cli", "claude_cli", "grok_cli"}
@@ -45,13 +45,26 @@ Assess only finding IDs supplied in the payload. Judge findings in context and
 state uncertainty. Never treat a missing control as proof that it is absent.
 Return ONLY one JSON object with this structure:
 {"assessments":[{"finding_id":"EXACT INPUT ID","verdict":"needs_review",
-"reason":"Concise evidence-based explanation and a useful verification step"}],
-"additional_concerns":["Unverified concern and the evidence needed to check it"]}
+"reason":"Concise evidence-based explanation and a useful verification step",
+"recommended_actions":{"agent_mcp_relevance":"Specific agent/tool/MCP trust boundary, or explain that applicability is unestablished",
+"applicability":"Conditions required for this recommendation to apply",
+"steps":["Concrete proposed code/configuration change, naming the API or setting"],
+"verification":["How an owner can verify the change without assuming it was tested"]}}],
+"additional_concerns":["Unverified concern and the evidence needed to check it"],
+"additional_concern_actions":[{"concern_index":1,"recommended_actions":{
+"agent_mcp_relevance":"Applicable agent or MCP risk, with uncertainty",
+"applicability":"Required preconditions","steps":["Specific proposed correction"],
+"verification":["Required validation"]}}]}
 Allowed verdicts: likely_true_positive, likely_false_positive, needs_review.
 Do not invent finding IDs. Additional concerns are unverified advice, not new
-confirmed findings. No Markdown, HTML, links, or executable instructions.
+confirmed findings. Give recommended_actions for every supplied assessment and
+each additional concern. Each text field is at most 1200 characters; steps and
+verification contain 1 to 5 strings, at most 1000 characters each. Number concerns
+from 1 in array order. If no fix is supported, explain what evidence is required
+before changing code. Name concrete APIs/settings and preserve expected behavior.
+Never claim a proposed change was executed or validated. No Markdown or HTML.
 """
-ANALYST_PROTOCOL_VERSION = "1.0.0"
+ANALYST_PROTOCOL_VERSION = "1.1.0"
 CONTROL_STATUSES = {"supported_by_code", "potential_gap", "needs_runtime_validation",
                     "needs_human_review", "insufficient_evidence", "not_applicable_proposed"}
 GROUNDED_STATUSES = {"supported_by_code", "potential_gap", "not_applicable_proposed"}
@@ -84,7 +97,11 @@ Return ONLY this strict JSON object, with no Markdown or additional fields:
 "reason":"Evidence-based explanation and limits of the review",
 "citations":[{"evidence_id":"EXACT INPUT EVIDENCE ID",
 "quote":"Exact nonempty substring from that evidence's text"}],
-"verification_steps":["Evidence or authorized runtime/manual verification needed"]}]}]}
+"verification_steps":["Evidence or authorized runtime/manual verification needed"],
+"recommended_actions":{"agent_mcp_relevance":"Agent/MCP trust boundary or applicability uncertainty",
+"applicability":"Preconditions for changing this code or deployment",
+"steps":["Concrete proposed API/configuration change or prerequisite evidence"],
+"verification":["How an owner verifies the proposal"]}}]}]}
 Allowed status values: supported_by_code, potential_gap,
 needs_runtime_validation, needs_human_review, insufficient_evidence,
 not_applicable_proposed. check_index is the ONE-BASED index in the control's
@@ -96,6 +113,10 @@ evidence text EXACTLY; never invent a quote, path, line number, or evidence ID.
 Do not output paths or line numbers: the deterministic validator derives them.
 At most 3 citations per check; quote length at most 500 characters; reason at
 most 2000 characters; 1 to 5 verification steps of at most 500 characters each.
+Provide recommended_actions for every check. Its two text fields are at most
+1200 characters each; steps and verification each contain 1 to 5 strings of at
+most 1000 characters. Name concrete APIs/settings when supported. A supported
+control may need no code change: say so and identify the validation to retain.
 All assessments remain nondeterministic, advisory, and subject to human review.
 """
 
@@ -444,6 +465,21 @@ def _safe_text(value, secrets, limit=4000):
     return value[:limit]
 
 
+def _recommended_actions(value, secrets):
+    """Validate optional fix advice without treating it as evidence or a patch."""
+    required = {"agent_mcp_relevance", "applicability", "steps", "verification"}
+    if not isinstance(value, dict) or set(value) != required:
+        raise JudgeError("Recommended actions have missing or unexpected fields.")
+    result = {}
+    for key in ("agent_mcp_relevance", "applicability"):
+        result[key] = _analyst_text(value[key], secrets, 1200)
+    for key in ("steps", "verification"):
+        if not isinstance(value[key], list) or not 1 <= len(value[key]) <= 5:
+            raise JudgeError("Recommended actions require one to five steps and verification items.")
+        result[key] = [_analyst_text(item, secrets, 1000) for item in value[key]]
+    return result
+
+
 def _normalize(output, finding_ids, secrets):
     if isinstance(output, str):
         text = output.strip()
@@ -469,6 +505,8 @@ def _normalize(output, finding_ids, secrets):
         if not isinstance(verdict, str) or verdict not in VERDICTS or not isinstance(reason, str) or not reason.strip():
             raise JudgeError("Judge returned an invalid verdict or explanation.")
         assessments[finding_id] = {"finding_id": finding_id, "verdict": verdict, "reason": _safe_text(reason, secrets)}
+        if "recommended_actions" in item:
+            assessments[finding_id]["recommended_actions"] = _recommended_actions(item["recommended_actions"], secrets)
     omitted = len(finding_ids) - len(assessments)
     for finding_id in finding_ids:
         assessments.setdefault(finding_id, {"finding_id": finding_id, "verdict": "needs_review", "reason": "The judge did not assess this finding."})
@@ -477,8 +515,23 @@ def _normalize(output, finding_ids, secrets):
         if not isinstance(item, str):
             raise JudgeError("Judge additional_concerns must contain only strings.")
         concerns.append(_safe_text(item, secrets))
-    return {"assessments": [assessments[key] for key in finding_ids], "additional_concerns": concerns,
-            "omitted_assessments": omitted}
+    result = {"assessments": [assessments[key] for key in finding_ids], "additional_concerns": concerns,
+              "omitted_assessments": omitted}
+    if "additional_concern_actions" in output:
+        entries = output["additional_concern_actions"]
+        if not isinstance(entries, list) or len(entries) > len(concerns):
+            raise JudgeError("Additional concern actions must reference supplied concerns.")
+        normalized, seen = [], set()
+        for entry in entries:
+            if not isinstance(entry, dict) or set(entry) != {"concern_index", "recommended_actions"}:
+                raise JudgeError("Additional concern action has invalid fields.")
+            index = entry["concern_index"]
+            if isinstance(index, bool) or not isinstance(index, int) or not 1 <= index <= len(concerns) or index in seen:
+                raise JudgeError("Additional concern action has an unknown or duplicate index.")
+            seen.add(index)
+            normalized.append({"concern_index": index, "recommended_actions": _recommended_actions(entry["recommended_actions"], secrets)})
+        result["additional_concern_actions"] = sorted(normalized, key=lambda entry: entry["concern_index"])
+    return result
 
 
 def _cli_output(config, payload, instructions, stage):
@@ -690,7 +743,8 @@ def _normalize_controls(output, controls, evidence, secrets):
             raise JudgeError("Security analyst returned an invalid acceptance check array.")
         normalized = {}
         for check in checks:
-            _analyst_object(check, {"check_index", "status", "reason", "citations", "verification_steps"})
+            required = {"check_index", "status", "reason", "citations", "verification_steps"}
+            _analyst_object(check, required | ({"recommended_actions"} if isinstance(check, dict) and "recommended_actions" in check else set()))
             index, status = check["check_index"], check["status"]
             if isinstance(index, bool) or not isinstance(index, int) or not 1 <= index <= len(control["checks"]) or index in normalized:
                 raise JudgeError("Security analyst returned an unknown or duplicate acceptance check index.")
@@ -706,6 +760,8 @@ def _normalize_controls(output, controls, evidence, secrets):
                 raise JudgeError("Security analyst conclusion requires a grounded evidence citation.")
             result = {"check_index": index, "status": status, "reason": reason, "model_supplied": True,
                       "citations": citations, "verification_steps": steps}
+            if "recommended_actions" in check:
+                result["recommended_actions"] = _recommended_actions(check["recommended_actions"], secrets)
             if status == "supported_by_code" and control["validation"] in {"manual", "dynamic"}:
                 destination = "needs_human_review" if control["validation"] == "manual" else "needs_runtime_validation"
                 explanation = ("Deterministic validator: source evidence cannot establish completion of a "

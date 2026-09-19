@@ -1,0 +1,77 @@
+{
+  "date": "2026-09-19",
+  "interpretation": "Actual transport observations on inert source fixtures. Model advice is unverified and is not an accuracy benchmark. Claude authentication failed; no Claude model answers were received.",
+  "runs": [
+    {
+      "advice_coverage": {
+        "additional_concern_fix_plans": 3,
+        "additional_concerns": 3,
+        "finding_assessment_slots": 2,
+        "finding_assessments": 2,
+        "finding_fix_plans": 2,
+        "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+        "model_check_assessments": 0,
+        "model_check_fix_plans": 0,
+        "omitted_finding_assessments": 0,
+        "static_findings": 11,
+        "static_fix_plans": 11
+      },
+      "artifacts": {
+        "report.html": "a6d7aca7d1ce8b36ade0044984824a38c84ac5fc14e21cd36d30b2d86b14d629",
+        "report.json": "10456c253a0fc6b858e09b096ce29444c061c7451c9e99079c96e6acd9b3df35",
+        "report.md": "b23b7e0cdb6438bad4fb4ed7f0b53623740435862a7c20ad33031c3683ee8b18",
+        "report.sarif": "98a419811a7571f76ea4ac7a70e04e47fbb76a5619edb976d9a4ee16102dfcad"
+      },
+      "example": "cli-codex-v010",
+      "exit_code": 1,
+      "judge_status": "completed",
+      "model_verdicts": [
+        "likely_true_positive",
+        "likely_true_positive"
+      ],
+      "static_evidence_and_sarif_unchanged": true,
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.10.0"
+      }
+    },
+    {
+      "advice_coverage": {
+        "additional_concern_fix_plans": 0,
+        "additional_concerns": 0,
+        "finding_assessment_slots": 0,
+        "finding_assessments": 0,
+        "finding_fix_plans": 0,
+        "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+        "model_check_assessments": 0,
+        "model_check_fix_plans": 0,
+        "omitted_finding_assessments": 0,
+        "static_findings": 11,
+        "static_fix_plans": 11
+      },
+      "artifacts": {
+        "report.html": "3efc8949fbb21812d2b5b6d04252d17e4592ff44feda842fde4cdd6de33feb6b",
+        "report.json": "6cf08f607b6068113cad4f23553bc98e411ff9238d4d344cad3d43c38f0dff99",
+        "report.md": "f1e1947ec2bd3bbef0ea4c17f50cfd0b9a61ffdd37bb4287c81f01c4e1495b62",
+        "report.pdf": "af4f08394d4108d992a3f78e808bc40557289ca120681829c11b875efa9c7877",
+        "report.sarif": "98a419811a7571f76ea4ac7a70e04e47fbb76a5619edb976d9a4ee16102dfcad"
+      },
+      "example": "cli-claude-v010",
+      "exit_code": 2,
+      "judge_status": "error",
+      "model_verdicts": [],
+      "static_evidence_and_sarif_unchanged": true,
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.10.0"
+      }
+    }
+  ],
+  "schema_version": "1.0"
+}

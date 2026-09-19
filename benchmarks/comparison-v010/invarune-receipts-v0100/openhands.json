@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "project": "openhands",
+  "repository": "https://github.com/OpenHands/OpenHands",
+  "revision": "a07364828c8f202e7745c6bce3dcef3915ae7ac1",
+  "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+  "license": {
+    "summary": "MIT",
+    "path": "LICENSE",
+    "url": "https://github.com/OpenHands/OpenHands/blob/a07364828c8f202e7745c6bce3dcef3915ae7ac1/LICENSE"
+  },
+  "source_files": 1237,
+  "source_bytes": 7520534,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "tmp/real-world-src/openhands",
+    "--output",
+    "tmp/comparison-v010/invarune-v0100/openhands",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.10.0"
+  },
+  "scan_id": "e272c60e2532fc753323999f75853e9fae986281c61b8924b74cc75362b409ec",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 7487391,
+    "bytes_read": 7487391,
+    "coverage_gaps": 2,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 1233,
+    "open_findings": 9,
+    "scan_complete_within_selected_scope": false,
+    "severity_counts": {
+      "critical": 0,
+      "high": 2,
+      "info": 0,
+      "low": 4,
+      "medium": 3
+    },
+    "suppressed_findings": 0
+  },
+  "rule_counts": {
+    "AI010": 2,
+    "AI024": 4,
+    "AI040": 3
+  },
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 9,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 1,
+      "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 1215,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 8,
+      "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 0,
+      "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+    }
+  },
+  "execution": {
+    "exit_code": 2,
+    "failure_threshold": "high",
+    "finding_gate_triggered": true
+  },
+  "repeated_runs": [
+    {
+      "run": 1,
+      "started_at_utc": "2026-09-19T22:50:15.344169+00:00",
+      "elapsed_seconds": 2.155096,
+      "exit_code": 2,
+      "stderr": "Scan incomplete: 2 coverage gaps; see report.json for details.\n",
+      "report_sha256": {
+        "report.html": "39e4f1109769ffa7de6c28b950b166ea6823e466dfa0a26dabcb1c6658622f68",
+        "report.json": "f916b7b43bf92a8bd7c694ef69c1b32bc5d20e6c02f5e5c34454e53f19560f41",
+        "report.md": "60edaa85859abf544f22266fd285275148b560a246ffb52a9d020e01530e4850",
+        "report.sarif": "b8f81849dbd4b895bde8b275ca7e5d2423c234823908ee509fd86d9babfbd2a7"
+      }
+    },
+    {
+      "run": 2,
+      "started_at_utc": "2026-09-19T22:50:17.501302+00:00",
+      "elapsed_seconds": 2.199496,
+      "exit_code": 2,
+      "stderr": "Scan incomplete: 2 coverage gaps; see report.json for details.\n",
+      "report_sha256": {
+        "report.html": "39e4f1109769ffa7de6c28b950b166ea6823e466dfa0a26dabcb1c6658622f68",
+        "report.json": "f916b7b43bf92a8bd7c694ef69c1b32bc5d20e6c02f5e5c34454e53f19560f41",
+        "report.md": "60edaa85859abf544f22266fd285275148b560a246ffb52a9d020e01530e4850",
+        "report.sarif": "b8f81849dbd4b895bde8b275ca7e5d2423c234823908ee509fd86d9babfbd2a7"
+      }
+    }
+  ],
+  "byte_identical_reports": true,
+  "target_code_executed": false,
+  "optional_judge_enabled": false
+}

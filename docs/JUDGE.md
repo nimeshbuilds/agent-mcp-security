@@ -2,7 +2,7 @@
 
 The deterministic scanner works offline and does not need a model. Enable the optional judge explicitly with `--judge-config /path/to/trusted-judge.json` or `--judge-cli codex|claude|grok`. The judge adds advisory assessments; it cannot delete baseline findings, change their severity, or override the deterministic scan result. It is nondeterministic even if a provider accepts temperature zero or a seed.
 
-In version 0.2, the default configured mode is **full**: one finding-triage request followed by a bounded security analyst review of **all 66 controls and 132 checks**, including checks without findings. This sends redacted source excerpts selected deterministically from the scanned manifest, even when the static scan is clean. The [security analyst guide](ANALYST.md) describes routing, exact-quote validation, the control-output schema, request budgets, evidence limits, and explicit unresolved outcomes. All protocols below work for both stages.
+The default configured mode is **full**: one finding-triage request followed by a bounded security analyst review of active checks from the **66-control, 132-check catalog**, including checks without findings. Explicit user exceptions remove checks from the active review denominator. This sends redacted source excerpts selected deterministically from the scanned manifest, even when the static scan is clean. The [security analyst guide](ANALYST.md) describes routing, exact-quote validation, the control-output schema, request budgets, evidence limits, and explicit unresolved outcomes. All protocols below work for both stages.
 
 Use `--judge-mode findings` for the previous one-request scope: minimized findings, redacted evidence, and scan metadata. `--judge-include-source` adds bounded neighboring source excerpts to finding triage only; full analyst evidence is independent of that flag. Redaction reduces accidental disclosure; it cannot guarantee that all proprietary information or unusual secret formats are removed. Choose an endpoint approved for the data you send. Repository instructions are untrusted review material. The prompt states that boundary, but prompting alone cannot eliminate prompt injection; separate static findings, fixed evidence retrieval, strict output validation, and no tool dispatch are the enforcement boundaries.
 
@@ -202,14 +202,43 @@ The finding-triage model output is shown below. Full mode uses a separate strict
     {
       "finding_id": "EXACT_SCANNER_FINDING_ID",
       "verdict": "needs_review",
-      "reason": "Explain the evidence and what must be verified."
+      "reason": "Explain the evidence and what must be verified.",
+      "recommended_actions": {
+        "agent_mcp_relevance": "If model-selected arguments reach this shell call, they can change the tool's executed command.",
+        "applicability": "Confirm the input producer and the permissions of the process executing this call.",
+        "steps": [
+          "Use a fixed executable and argument array with shell=False, and allowlist the options the tool permits."
+        ],
+        "verification": [
+          "In a test environment, verify metacharacters stay literal and an unauthorized executable or option is rejected."
+        ]
+      }
     }
   ],
-  "additional_concerns": ["Unverified concern requiring further evidence."]
+  "additional_concerns": ["The supplied evidence does not establish deployment-level tool approvals."],
+  "additional_concern_actions": [
+    {
+      "concern_index": 1,
+      "recommended_actions": {
+        "agent_mcp_relevance": "Sensitive tool actions may require an approval bound to the actual destination and arguments.",
+        "applicability": "First obtain the effective deployment policy; absence from the excerpts does not establish a missing safeguard.",
+        "steps": ["Review the deployed approval policy and identify the operations requiring explicit consent."],
+        "verification": ["Use an authorized test to confirm denied actions and changed arguments cannot reuse a prior approval."]
+      }
+    }
+  ]
 }
 ```
 
 Allowed verdicts are `likely_true_positive`, `likely_false_positive`, and `needs_review`. Finding IDs must match those submitted. Unknown or duplicate IDs, invalid verdicts, malformed JSON, obvious truncation, and invalid extraction paths fail the judge. Missing assessments become explicit `needs_review` entries with an omission count. Additional concerns remain unverified advice and are not inserted as deterministic findings. Reasons and concerns are capped at 4000 characters, and there can be at most 100 concerns.
+
+Current prompts and official CLI response schemas request `recommended_actions` for every assessment and additional concern. This object has exactly four fields: nonempty `agent_mcp_relevance` and `applicability` strings of at most 1,200 characters each, plus `steps` and `verification`, each an array of one to five nonempty strings of at most 1,000 characters. Unexpected keys, wrong types, empty arrays and oversized fields fail validation. Known adapter credentials are redacted from all action fields. `concern_index` is a unique one-based integer referring to an existing `additional_concerns` entry; booleans, duplicates and out-of-range indexes are rejected.
+
+Action guidance should name a concrete API or setting only when the evidence supports it, preserve required behavior and say which agent/MCP boundary is relevant. When applicability is uncertain, it should identify the evidence needed before changing code. These fields are untrusted prose, not commands, patches, validated citations or permission grants. The scanner does not run them or follow their URLs. A generic risk pattern is not proof of an active agent call path or an absent deployment safeguard.
+
+For compatibility, the response normalizer still accepts older assessments without `recommended_actions` and responses without `additional_concern_actions`. It retains the assessment and reports the missing plan through `advice_coverage`; it does not invent model advice. Absence of action guidance alone does not fail an otherwise accepted review. A provided but malformed action object does fail. Finding omissions and control-check omissions retain their separate existing semantics. Longer detailed answers may require a larger provider output budget or smaller analyst batches; byte/token limits are still enforced and no truncated response is silently accepted.
+
+Every static finding also has an independent [catalog fix plan](REPORTS.md#per-finding-fix-plans-and-agentmcp-relevance), including when the judge is disabled, fails or omits advice. Model guidance is labeled separately in HTML, Markdown, JSON and PDF. SARIF includes the static catalog guidance only. Neither kind of plan changes finding severity or establishes that a repair was performed.
 
 The returned object also records `status`, `provider`, configured `model`, optional provider-reported model, `adapter_version`, `advisory_only`, `nondeterministic`, `findings_submitted`, and `omitted_assessments`. Reports must escape model text as untrusted text. Output links are not retrieved, commands are not run, and tool calls are not dispatched. Model advice must not be used as an authorization decision.
 

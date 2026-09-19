@@ -1,6 +1,7 @@
 """Measure rule accuracy, and verify deliberate detector mutations are caught."""
 import contextlib
 import copy
+import hashlib
 import importlib.util
 import io
 import json
@@ -22,6 +23,20 @@ class AccuracyCorpusTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.corpus, cls.digest = accuracy.load_corpus(PROJECT / 'benchmarks/static_accuracy.json')
+
+    def test_inspector_label_correction_preserves_exact_previous_corpus(self):
+        archived = (PROJECT / 'benchmarks/static_accuracy-v110.json').read_bytes()
+        self.assertEqual(hashlib.sha256(archived).hexdigest(),
+                         'aa4e3b2a95fdf5d5ea09721c0316c72a654d90d58281be5caab249d87510dff8')
+        previous = {case['id']: case for case in json.loads(archived)['cases']}
+        current = {case['id']: case for case in self.corpus['cases']}
+        self.assertEqual(previous['ai041-comparison']['source'], current['ai041-comparison']['source'])
+        self.assertFalse(previous['ai041-comparison']['expect']['AI041'])
+        self.assertTrue(current['ai041-comparison']['expect']['AI041'])
+        self.assertFalse(current['ai041-empty']['expect']['AI041'])
+        self.assertFalse(current['ai041-unset']['expect']['AI041'])
+        self.assertTrue(current['ai041-zero-string']['expect']['AI041'])
+        self.assertTrue(current['ai041-nonempty-string']['expect']['AI041'])
 
     def test_supported_cases_and_every_rule_have_both_labels(self):
         report = accuracy.evaluate(self.corpus, self.digest)

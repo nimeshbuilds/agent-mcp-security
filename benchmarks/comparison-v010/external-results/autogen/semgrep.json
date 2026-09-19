@@ -1,0 +1,88 @@
+{
+  "command": [
+    "semgrep",
+    "scan",
+    "--config",
+    "{semgrep_rules}",
+    "--metrics=off",
+    "--disable-version-check",
+    "--disable-nosem",
+    "--no-git-ignore",
+    "--no-rewrite-rule-ids",
+    "--json",
+    "--quiet",
+    "--jobs",
+    "2",
+    "--timeout",
+    "10",
+    "--max-target-bytes",
+    "20000000",
+    "--output",
+    "{raw_output}/semgrep.json",
+    "{source}"
+  ],
+  "errors": [],
+  "files_reported_scanned": 786,
+  "finding_count": 6,
+  "findings": [
+    {
+      "end_line": 159,
+      "line": 159,
+      "path": "python/packages/autogen-core/src/autogen_core/tools/_function_tool.py",
+      "rule_id": "python.lang.security.audit.exec-detected.exec-detected",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 171,
+      "line": 171,
+      "path": "python/packages/autogen-core/src/autogen_core/tools/_function_tool.py",
+      "rule_id": "python.lang.security.audit.exec-detected.exec-detected",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 82,
+      "line": 82,
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_memory_bank.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 114,
+      "line": 114,
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_memory_bank.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 48,
+      "line": 48,
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_string_similarity_map.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 73,
+      "line": 73,
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_string_similarity_map.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 0,
+  "raw_report_sha256": "c3f00c73de4431a543530162bddcf23aac6e9a398a61def3caa7f1ed4c0edaf7",
+  "rule_counts": {
+    "python.lang.security.audit.exec-detected.exec-detected": 2,
+    "python.lang.security.deserialization.pickle.avoid-pickle": 4
+  },
+  "severity_counts": {
+    "WARNING": 6
+  },
+  "started_at_utc": "2026-09-19T22:25:30Z",
+  "status": "completed_with_findings",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "semgrep",
+  "wall_seconds": 5.204092
+}

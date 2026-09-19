@@ -1,0 +1,291 @@
+#!/usr/bin/env python3
+"""Exercise the documented quick start in a fresh clone and virtual environment.
+
+This validates inert shipped fixtures, installed commands, PDF review roundtrips,
+and loopback HTTP adapters. It never calls a real model, logs in, starts a target
+container, or executes fixture source. Installing build/PDF packages may use the
+configured Python package index. A sanitized receipt records every assertion.
+"""
+import argparse
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import platform
+import shutil
+import subprocess
+import sys
+import tempfile
+
+
+ROOT = Path(__file__).resolve().parents[1]
+ARTIFACTS = ("report.html", "report.md", "report.json", "report.sarif")
+SNAPSHOT_PATHS = ("ai_security_scan", "examples/safer", "examples/vulnerable", "examples/images",
+                  "examples/judges", "examples/review-config.json", "tests", "scripts", "docs",
+                  "scan.py", "pyproject.toml", "README.md", "requirements-qa.txt")
+EDIT_PDF = '''import json,sys
+from pathlib import Path
+from pypdf import PdfReader,PdfWriter
+initial,pdf,destination=map(Path,sys.argv[1:])
+report=json.loads(initial.read_text(encoding="utf-8"))
+workspace=report["review_workspace"]
+index=next(i for i,item in enumerate(workspace["items"]) if item["kind"]=="finding")
+prefix="ivr."+str(index)+"."
+reader=PdfReader(pdf)
+writer=PdfWriter(); writer.clone_document_from_reader(reader)
+values={prefix+"decision":"justified",prefix+"reason":"TEST ONLY: inert quickstart fixture; this validates no production safeguard.",prefix+"reviewer":"Quickstart validation fixture",prefix+"reviewed_at":"2026-09-19",prefix+"evidence_ref":"scripts/validate_quickstart.py"}
+writer.update_page_form_field_values(None,values,auto_regenerate=False)
+with destination.open("wb") as stream: writer.write(stream)
+assert len(reader.get_fields())==len(workspace["items"])*5
+print(json.dumps({"items":len(workspace["items"]),"fields":len(reader.get_fields()),"pages":len(reader.pages),"edited_item_id":workspace["items"][index]["id"]},sort_keys=True))
+'''
+
+
+def sha256(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def require(condition, message):
+    if not condition:
+        raise RuntimeError(message)
+
+
+def replace_paths(text, replacements):
+    """Normalize raw and JSON-escaped Windows paths as well as POSIX paths."""
+    for original, placeholder in replacements:
+        spellings = {original, original.replace("\\", "/"), original.replace("\\", "\\\\")}
+        for spelling in sorted(spellings, key=len, reverse=True):
+            text = text.replace(spelling, placeholder)
+    return text
+
+
+def snapshot(source, checkout):
+    """Overlay only explicit project inputs, so uncommitted release fixes are tested."""
+    records = []
+    for name in SNAPSHOT_PATHS:
+        source_path, destination = source / name, checkout / name
+        if not source_path.exists():
+            continue
+        paths = [source_path] + list(source_path.rglob("*")) if source_path.is_dir() else [source_path]
+        if any(path.is_symlink() for path in paths):
+            raise ValueError("Validation snapshot inputs must not contain symbolic links")
+        if destination.is_dir():
+            shutil.rmtree(destination)
+        elif destination.exists():
+            destination.unlink()
+        if source_path.is_dir():
+            shutil.copytree(source_path, destination, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        else:
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source_path, destination)
+        selected = destination.rglob("*") if destination.is_dir() else [destination]
+        for path in selected:
+            if path.is_file():
+                records.append({"path": path.relative_to(checkout).as_posix(), "sha256": sha256(path)})
+    records.sort(key=lambda item: item["path"])
+    digest = hashlib.sha256(json.dumps(records, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return {"basis": "Fresh local Git clone with explicitly listed current-worktree project inputs overlaid",
+            "sha256": digest, "files": records}
+
+
+def validate(args, receipt):
+    source = args.source.resolve(strict=True)
+    interpreter = str(Path(args.python).resolve()) if Path(args.python).is_file() else args.python
+    from_source = importlib.util.spec_from_file_location("invarune_quickstart_redaction", source / "ai_security_scan" / "security.py")
+    security = importlib.util.module_from_spec(from_source)
+    from_source.loader.exec_module(security)
+    with tempfile.TemporaryDirectory(prefix="invarune-quickstart-") as temporary:
+        work = Path(temporary).resolve()
+        checkout, environment = work / "checkout", work / "venv"
+        outside = work / "outside-checkout"
+        outside.mkdir()
+        replacements = [(interpreter, "<DIRECT_PYTHON>"), (str(source), "<SOURCE>"), (str(environment), "<VENV>"),
+                        (str(checkout), "<CHECKOUT>"), (str(work), "<WORK>"),
+                        (str(Path(tempfile.gettempdir()).resolve()), "<HOST_TEMP>"),
+                        (tempfile.gettempdir(), "<HOST_TEMP>"), (str(Path.home()), "<USER_HOME>")]
+
+        def clean(text):
+            return replace_paths(security.redact(str(text)), replacements)
+
+        def run(identifier, command, *, cwd=None, expected=0, timeout=120, env=None):
+            child_env = dict(os.environ, PYTHONNOUSERSITE="1", PYTHONUTF8="1",
+                             PYTHONDONTWRITEBYTECODE="1", PIP_DISABLE_PIP_VERSION_CHECK="1", PIP_NO_INPUT="1")
+            if env:
+                child_env.update(env)
+            record = {"id": identifier, "command": [clean(part) for part in command],
+                      "cwd": clean(cwd or outside), "expected_exit": expected, "status": "running"}
+            receipt["steps"].append(record)
+            process = subprocess.run([str(part) for part in command], cwd=str(cwd or outside),
+                                     env=child_env, capture_output=True, text=True, timeout=timeout)
+            record.update(exit_code=process.returncode,
+                          stdout=clean(process.stdout[-12000:]), stderr=clean(process.stderr[-12000:]),
+                          status="passed" if process.returncode == expected else "failed")
+            require(process.returncode == expected, identifier + " returned an unexpected exit: " + clean(process.stderr[-1500:]))
+            return process, record
+
+        process, _ = run("source_git_revision", ["git", "rev-parse", "HEAD"], cwd=source)
+        receipt["source_git_commit"] = process.stdout.strip()
+        process, _ = run("source_git_state", ["git", "status", "--porcelain", "--untracked-files=no"], cwd=source)
+        receipt["source_worktree_modified"] = bool(process.stdout.strip())
+        run("fresh_clone", ["git", "clone", "--quiet", "--no-hardlinks", "--no-local", str(source), str(checkout)])
+        receipt["snapshot"] = snapshot(source, checkout)
+        run("create_venv", [interpreter, "-m", "venv", str(environment)], timeout=180)
+        bin_dir = environment / ("Scripts" if os.name == "nt" else "bin")
+        python = bin_dir / ("python.exe" if os.name == "nt" else "python")
+        primary = bin_dir / ("invarune.exe" if os.name == "nt" else "invarune")
+        legacy = bin_dir / ("ai-security-scan.exe" if os.name == "nt" else "ai-security-scan")
+        run("install_checkout", [str(python), "-m", "pip", "install", "."], cwd=checkout, timeout=300)
+        version_code = "import json,sys,platform,ai_security_scan,importlib.metadata as m;print(json.dumps({'python':platform.python_version(),'scanner':ai_security_scan.__version__,'distribution':m.version('agent-mcp-security-scan'),'executable':sys.executable},sort_keys=True))"
+        process, record = run("installed_versions", [str(python), "-c", version_code])
+        receipt["versions"] = json.loads(clean(process.stdout))
+        require(receipt["versions"]["scanner"] == receipt["versions"]["distribution"], "Installed version metadata differs from the module")
+        record["assertions"] = {"module_and_distribution_versions_match": True, "imported_outside_checkout": True}
+
+        def scan_case(identifier, command, target, expected, counts, extra=()):
+            destination = work / "reports" / identifier
+            process, record = run(identifier, [*command, *target, *extra, "--output", str(destination), "--summary-json"],
+                                  cwd=checkout if command[0] == interpreter else outside, expected=expected, timeout=180)
+            summary = json.loads(process.stdout)
+            report = json.loads((destination / "report.json").read_text(encoding="utf-8"))
+            require(report["execution"]["exit_code"] == expected == summary["exit_code"], identifier + ": report/CLI exits differ")
+            require(all((destination / name).is_file() for name in ARTIFACTS), identifier + ": a portable report is missing")
+            require(report["summary"]["coverage_gaps"] == 0, identifier + ": unexpected scope gap")
+            for key, expected_value in counts.items():
+                require(report["summary"].get(key) == expected_value, identifier + ": unexpected " + key)
+            require(len(report["controls"]) == 66 and sum(len(control["checks"]) for control in report["controls"]) == 132,
+                    identifier + ": the full control catalog was not retained")
+            if "--judge-config" not in extra:
+                require(not report["judge"]["enabled"] and not report["analyst"]["enabled"], identifier + ": model review was unexpectedly enabled")
+            require(not any(finding["status"] == "pass" for finding in report["findings"]), identifier + ": finding became a manual pass")
+            record["assertions"] = {"summary": {key: report["summary"].get(key) for key in counts}, "coverage_gaps": 0,
+                                    "catalog_controls": 66, "catalog_checks": 132,
+                                    "model_enabled": report["judge"]["enabled"], "report_exits_match_process": True}
+            record["reports"] = {name: {"sha256": sha256(destination / name), "bytes": (destination / name).stat().st_size} for name in ARTIFACTS}
+            return report, destination, record
+
+        direct = [interpreter, str(checkout / "scan.py")]
+        safe = [str(checkout / "examples" / "safer")]
+        vulnerable = [str(checkout / "examples" / "vulnerable")]
+        image = ["--image-archive", str(checkout / "examples" / "images" / "demo-agent.tar")]
+        scan_case("direct_safer", direct, safe, 0, {"files_scanned": 2, "open_findings": 0})
+        scan_case("direct_vulnerable", direct, vulnerable, 1, {"open_findings": 11})
+        scan_case("direct_image", direct, image, 1, {"open_findings": 3})
+        scan_case("direct_review_config", direct, vulnerable, 1, {"open_findings": 9, "justified_findings": 1, "disabled_findings": 1},
+                  ["--review-config", str(checkout / "examples" / "review-config.json")])
+        references = []
+        for name, command in (("primary", primary), ("legacy", legacy)):
+            outputs = []
+            for flag in ("-h", "--help"):
+                process, record = run("installed_" + name + "_" + flag.strip("-"), [str(command), flag])
+                require(not process.stderr, "Installed help wrote an unexpected diagnostic")
+                for text in ("--review-report", "--pdf", "--judge-cli", "--judge-config", "--image-archive", "Custom JSON gateway configuration:"):
+                    require(text in process.stdout, "Installed help omits " + text)
+                outputs.append(process.stdout)
+                record["assertions"] = {"all_documented_feature_flags_present": True, "stderr_empty": True}
+            require(outputs[0] == outputs[1], "Short and long help differ")
+            _, destination, _ = scan_case("installed_" + name + "_safer", [str(command)], safe, 0, {"files_scanned": 2, "open_findings": 0})
+            references.append({name: (destination / name).read_bytes() for name in ARTIFACTS})
+        require(references[0] == references[1], "Primary and legacy aliases produced different reports")
+        receipt["assertions"]["installed_alias_artifacts_identical"] = True
+        _, _, record = scan_case("installed_image", [str(primary)], image, 1, {"open_findings": 3})
+        record["assertions"]["run_outside_checkout"] = True
+
+        if args.skip_pdf:
+            receipt["coverage"]["pdf"] = "skipped_by_flag"
+        else:
+            run("install_pdf_extra", [str(python), "-m", "pip", "install", ".[pdf]"], cwd=checkout, timeout=300)
+            process, _ = run("pdf_dependency_versions", [str(python), "-c", "import importlib.metadata as m,json;print(json.dumps({n:m.version(n) for n in ['reportlab','pypdf']},sort_keys=True))"])
+            receipt["versions"].update(json.loads(process.stdout))
+            edit_script = work / "edit_review_pdf.py"
+            edit_script.write_text(EDIT_PDF, encoding="utf-8")
+            for name, target, initial_count in (("source", vulnerable, 11), ("image", image, 3)):
+                report, destination, record = scan_case("pdf_" + name + "_initial", [str(primary)], target, 1, {"open_findings": initial_count}, ["--pdf"])
+                require((destination / "report.pdf").is_file(), "Requested PDF was not written")
+                record["reports"]["report.pdf"] = {"sha256": sha256(destination / "report.pdf"), "bytes": (destination / "report.pdf").stat().st_size}
+                edited = work / ("reviewed-" + name + ".pdf")
+                process, edit_record = run("pdf_" + name + "_form_edit", [str(python), str(edit_script), str(destination / "report.json"), str(destination / "report.pdf"), str(edited)])
+                edit_record["assertions"] = json.loads(process.stdout)
+                first = next(finding for finding in report["findings"] if "finding:" + finding["id"] == edit_record["assertions"]["edited_item_id"])
+                expected_exit = int(any(finding["id"] != first["id"] and finding["severity"] in {"critical", "high"} for finding in report["findings"]))
+                final, final_destination, final_record = scan_case("pdf_" + name + "_fresh_import", [str(primary)], target, expected_exit,
+                                                   {"open_findings": initial_count - 1, "justified_findings": 1}, ["--review-report", str(edited), "--pdf"])
+                require((final_destination / "report.pdf").is_file(), "Final reviewed PDF was not written")
+                final_record["reports"]["report.pdf"] = {"sha256": sha256(final_destination / "report.pdf"), "bytes": (final_destination / "report.pdf").stat().st_size}
+                require(final["review_import"]["counts"]["applied"] == 1 and not final["review_import"]["incomplete"], "PDF user decision was not cleanly reapplied")
+                require(final["review_policy"]["counts"]["active_checks"] == 132, "Finding review unexpectedly waived checks")
+                require([(finding["id"], finding["severity"], finding["evidence"]) for finding in report["findings"]] ==
+                        [(finding["id"], finding["severity"], finding["evidence"]) for finding in final["findings"]], "Fresh PDF review altered evidence or severity")
+                final_record["assertions"].update(applied_user_decisions=1, active_checks=132, immutable_evidence_preserved=True)
+            receipt["coverage"]["pdf"] = "real_export_form_edit_and_fresh_import_for_source_and_image"
+
+        if args.skip_gateway:
+            receipt["coverage"]["gateway"] = "skipped_by_flag"
+        else:
+            spec = importlib.util.spec_from_file_location("invarune_quickstart_gateway", checkout / "tests" / "test_full_gateway_e2e.py")
+            fixture = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(fixture)
+            total_requests = 0
+            for provider in fixture.PROVIDERS:
+                with fixture.gateway(provider, lambda payload, number: {"answer": fixture.fixture_answer(payload)}) as (endpoint, captured, errors):
+                    config = {"provider": provider, "model": "local-quickstart-fixture", "endpoint": endpoint, "timeout_seconds": 3}
+                    if provider == "custom":
+                        config.update(request_template={"review_prompt": "${PROMPT}", "deployment": "${MODEL}"}, response_path="data.review")
+                    config_path = work / ("gateway-" + provider + ".json")
+                    config_path.write_text(json.dumps(config), encoding="utf-8")
+                    report, _, record = scan_case("gateway_" + provider, [str(primary)], safe, 0, {"files_scanned": 2, "open_findings": 0},
+                                                  ["--judge-config", str(config_path), "--analyst-time-budget", "60"])
+                require(not errors and len(captured) == 12, "Loopback gateway did not receive the expected full review")
+                require(report["analyst"]["coverage"]["reviewed_controls"] == 66 and report["analyst"]["coverage"]["omitted_checks"] == 0,
+                        "Loopback full review omitted active controls/checks")
+                require(report["analyst"]["check_status_counts"] == {"insufficient_evidence": 132}, "Fixture review must not create control passes")
+                record["assertions"].update(loopback_requests=12, control_requests=11, answered_checks=132, validated_controls=0,
+                                             service="local HTTP fixture; no real model")
+                total_requests += len(captured)
+            receipt["coverage"]["gateway"] = {"protocols": list(fixture.PROVIDERS), "loopback_requests": total_requests,
+                                               "real_model_calls": 0, "authentication_tested": False}
+        receipt["assertions"].update(fresh_clone=True, fresh_venv=True, installed_outside_checkout=True,
+                                     target_execution=False, container_execution=False, real_model_calls=0)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source", type=Path, default=ROOT, help="Trusted Invarune checkout to validate; current project files overlay a fresh local Git clone")
+    parser.add_argument("--python", default=sys.executable, help="Python 3.9+ executable used for direct commands and the new venv")
+    parser.add_argument("--output", type=Path, required=True, help="Receipt directory; receipt.json and README.md are replaced, temporary installs are cleaned up")
+    parser.add_argument("--skip-pdf", action="store_true", help="Skip optional PDF packages and form roundtrips; record this limitation")
+    parser.add_argument("--skip-gateway", action="store_true", help="Skip local HTTP adapter checks; never enables real model calls")
+    args = parser.parse_args(argv)
+    receipt = {"schema_version": "1.0", "status": "running", "purpose": "Executed quickstart instructions on inert fixtures; this is workflow validation, not detector accuracy or production assurance.",
+               "host": {"platform": platform.system(), "machine": platform.machine(), "driver_python": platform.python_version()},
+               "coverage": {"live_provider_login": "not_run; requires explicit separate live-provider validation", "windows_powershell": "This receipt records only its actual host; Windows requires its own executed CI receipt."},
+               "assertions": {}, "steps": []}
+    try:
+        validate(args, receipt)
+        receipt["status"] = "passed"
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
+        receipt["status"] = "failed"
+        # Process exceptions can retain raw commands, environment paths or output.
+        # Recorded commands/diagnostics already pass through the redaction boundary.
+        detail = str(exc) if isinstance(exc, (ValueError, RuntimeError)) else "Validation could not finish; inspect the last recorded step."
+        receipt["error"] = type(exc).__name__ + ": " + detail
+        if receipt["steps"] and receipt["steps"][-1]["status"] == "running":
+            receipt["steps"][-1]["status"] = "failed"
+    output = args.output.expanduser().resolve()
+    output.mkdir(parents=True, exist_ok=True)
+    (output / "receipt.json").write_text(json.dumps(receipt, indent=2, sort_keys=True, ensure_ascii=True) + "\n", encoding="utf-8")
+    versions = receipt.get("versions", {})
+    lines = ["# Executed quickstart validation", "", "Status: **" + receipt["status"] + "**. Scanner: **" + versions.get("scanner", "unavailable") + "**. Python: **" + versions.get("python", "unavailable") + "**.", "",
+             "[Machine-readable receipt](receipt.json) includes sanitized commands, exit codes, asserted fixture counts, report hashes, source snapshot and package versions.", "",
+             "The validator uses a new local Git clone with the explicit current-worktree project inputs overlaid, creates a new virtual environment, and executes the documented source/image/exception commands. Installed aliases run outside the checkout. Enabled PDF checks use real form editing and a fresh scan. Gateway checks use loopback fixture responses, never a real model. Login and live provider capability are separate validation work.", "",
+             "| Step | Exit | Result |", "|---|---:|---|"]
+    lines += ["| " + step["id"] + " | " + str(step.get("exit_code", "not finished")) + " | " + step["status"] + " |" for step in receipt["steps"]]
+    lines += ["", "Rerun from this checkout:", "", "```sh", "python3 scripts/validate_quickstart.py --output test-output/quickstart", "```", "",
+              "Installation can download Python build/PDF packages. `--skip-pdf` and `--skip-gateway` record explicit skipped coverage. The receipt never claims Windows or live provider validation merely from a macOS/Linux run.", ""]
+    (output / "README.md").write_text("\n".join(lines), encoding="utf-8")
+    print(json.dumps({"status": receipt["status"], "steps": len(receipt["steps"]), "receipt": str(output / "receipt.json")}, sort_keys=True))
+    return 0 if receipt["status"] == "passed" else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

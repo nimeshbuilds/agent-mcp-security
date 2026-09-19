@@ -171,6 +171,83 @@ def _unrestricted_approval(value):
     return value is True or isinstance(value, (list, tuple)) and "*" in value
 
 
+def _inspector_nonempty(value):
+    # Inspector tests the environment string's presence, not Boolean syntax:
+    # both "false" and "0" disable authentication. Python os.environ and MCP
+    # JSON env maps require strings; invalid scalar/container values are not
+    # evidence that a nonempty environment string reaches Inspector.
+    return isinstance(value, str) and bool(value)
+
+
+def _inspector_env_assignments(findings, text, path, suffix):
+    """Recognize literal assignments without matching quoted help/reference text.
+
+    Structured JSON, Python and JS have their own paths. Expansion-dependent
+    shell/config values remain unproven, even if their variable name is risky.
+    """
+    config = suffix in {".yaml", ".yml", ".toml", ".ini", ".cfg", ".env"} or PurePosixPath(path).name.startswith(".env")
+    shell = suffix in {".sh", ".bash", ".zsh", ".ps1"} or "dockerfile" in PurePosixPath(path).name.lower()
+    if not (config or shell):
+        return
+    literal = r"(?P<literal>'[^'\r\n]*'|\"(?:[^\"\\\r\n]|\\[^\r\n])*\"|[^\s#;'\"`]+)"
+    assignment = re.compile(r"(?P<key>['\"]?DANGEROUSLY_OMIT_AUTH['\"]?)[ \t]*(?P<separator>[:=])[ \t]*" + literal)
+    earlier_assignment = re.compile(r"[A-Za-z_][A-Za-z0-9_]*=" + literal)
+    offset, yaml_block_indent = 0, None
+    for line in text.splitlines(keepends=True):
+        if suffix in {".yaml", ".yml"}:
+            indent = len(line) - len(line.lstrip(" \t"))
+            if yaml_block_indent is not None:
+                if not line.strip() or indent > yaml_block_indent:
+                    offset += len(line)
+                    continue
+                yaml_block_indent = None
+            if re.search(r":\s*[|>](?:[+-]?[1-9]?|[1-9][+-]?)\s*(?:#.*)?$", line):
+                # Contents of folded/literal scalars are data, not keys.
+                # Resolving an env value encoded this way is outside this
+                # lexical check; do not invent assignments from help text.
+                yaml_block_indent = indent
+                offset += len(line)
+                continue
+        # Only assignment contexts: dotenv/config keys, shell export/env or a
+        # command-prefix assignment, and Docker ENV/RUN. No arbitrary search
+        # inside descriptions, echo arguments, comments, or labels.
+        prefix = re.match(r"[ \t]*(?:-[ \t]+)?", line).end()
+        if shell:
+            command = re.match(r"(?:(?:/bin/(?:sh|bash) -c[ \t]+)?(?:#\(nop\)[ \t]+)?)(?:RUN[ \t]+)?(?:(?:ENV|export|env)[ \t]+)?(?:\$env:)?", line[prefix:])
+            prefix += command.end()
+            # Legacy Docker ENV NAME value uses a space rather than '='.
+            legacy = re.match(r"[ \t]*ENV[ \t]+DANGEROUSLY_OMIT_AUTH[ \t]+" + literal, line)
+        else:
+            legacy = None
+            export = re.match(r"export[ \t]+", line[prefix:])
+            if export:
+                prefix += export.end()
+        match = legacy or assignment.match(line, prefix)
+        if shell and not match:
+            # ENV A=literal B=literal and shell command-prefix assignments.
+            # Stop at the command name, so echo/reference strings stay inert.
+            previous = earlier_assignment.match(line, prefix)
+            while previous:
+                prefix = previous.end()
+                prefix += len(line[prefix:]) - len(line[prefix:].lstrip(" \t"))
+                match = assignment.match(line, prefix)
+                if match:
+                    break
+                previous = earlier_assignment.match(line, prefix)
+        if match:
+            raw = match.group("literal")
+            quoted = raw.startswith(("'", '"'))
+            value = raw[1:-1] if quoted else raw
+            dynamic = (not raw.startswith("'") and bool(re.search(r"(?<!\\)[$`]", value)))
+            # YAML null/container values do not establish an environment
+            # string. Other supported lexical formats retain literal text.
+            typed_scalar = suffix == ".toml" or suffix in {".yaml", ".yml"} and match.group("separator") == ":"
+            nonstring = not quoted and typed_scalar and (value.lower() in {"null", "~", "true", "false"} or value.startswith(("[", "{", "|", ">", "&", "*", "!")) or bool(re.fullmatch(r"[-+]?(?:[0-9][0-9_.eE+-]*|0[xob][0-9a-fA-F_]+|\.(?:inf|nan))", value, re.I)))
+            if value and not dynamic and not nonstring:
+                findings.offset("AI041", offset + match.start(), offset + match.end(), "high")
+        offset += len(line)
+
+
 def _unpinned_package(value):
     if not isinstance(value, str) or value.startswith(("-", ".", "/", "file:", "workspace:")):
         return False
@@ -758,7 +835,7 @@ class _PythonAnalyzer(ast.NodeVisitor):
             self.add("AI010", node, "medium")
         if key == "NODE_TLS_REJECT_UNAUTHORIZED" and literal in ("0", 0):
             self.add("AI006", node, "high")
-        if key == "DANGEROUSLY_OMIT_AUTH" and str(literal).lower() in {"true", "1"}:
+        if key == "DANGEROUSLY_OMIT_AUTH" and _inspector_nonempty(literal):
             self.add("AI041", node, "high")
         if _norm(key) in {"verify", "verifyssl", "rejectunauthorized"} and literal is False:
             self.add("AI006", node)
@@ -799,6 +876,8 @@ class _PythonAnalyzer(ast.NodeVisitor):
                   if isinstance(key, ast.Constant) and isinstance(key.value, str)}
         for key, value_node in values.items():
             literal = self.literal(value_node)
+            if key == "DANGEROUSLY_OMIT_AUTH" and _inspector_nonempty(literal):
+                self.add("AI041", value_node, "high")
             if _credential_literal(key, literal):
                 self.add("AI010", value_node)
             norm = _norm(key)
@@ -822,6 +901,10 @@ class _PythonAnalyzer(ast.NodeVisitor):
         value = lambda key: self.literal(keywords.get(key))
         matches = lambda key, expected: any(type(item) is type(expected) and item == expected for item in self.literals(keywords.get(key)))
         dynamic = first is not None and not self.static(first)
+        if name == "os.putenv" and len(node.args) >= 2 and self.literal(node.args[0]) == "DANGEROUSLY_OMIT_AUTH" and _inspector_nonempty(self.literal(node.args[1])):
+            self.add("AI041", node, "high")
+        if name == "os.environ.update" and _inspector_nonempty(value("DANGEROUSLY_OMIT_AUTH")):
+            self.add("AI041", keywords["DANGEROUSLY_OMIT_AUTH"], "high")
         if name in {"eval", "exec", "builtins.eval", "builtins.exec"} and dynamic:
             self.add("AI001", node)
         if name.startswith("subprocess.") and tail in {"run", "Popen", "call", "check_call", "check_output"} and matches("shell", True) and dynamic:
@@ -963,7 +1046,7 @@ def _json_analysis(findings, text, path):
                 add("AI006", offset, "high")
             if key == "NODE_TLS_REJECT_UNAUTHORIZED" and str(item) == "0":
                 add("AI006", offset, "high")
-            if key == "DANGEROUSLY_OMIT_AUTH" and str(item).lower() in {"true", "1"}:
+            if key == "DANGEROUSLY_OMIT_AUTH" and _inspector_nonempty(item):
                 add("AI041", offset, "high")
             if norm in {"alloworigins", "origins", "corsorigins"} and _has_star(item):
                 add("AI007", offset, "high")
@@ -1417,6 +1500,20 @@ def _js_analysis(findings, text):
                 equal = index + 2 if value(index + 1) == "]" else index + 1
                 if value(equal) == "=" and value(equal + 1) in {"0", "0.0"}:
                     emit("AI006", index, equal + 1, "high")
+            if word == "DANGEROUSLY_OMIT_AUTH" and token.kind in {"identifier", "string"}:
+                operator = index + 2 if value(index + 1) == "]" else index + 1
+                if value(operator) in {":", "="}:
+                    end = expression_end(operator + 1)
+                    setting = tokens[operator + 1:end]
+                    # Known literal object/config strings and process.env
+                    # setters only. Node stringifies even false, 0, null and
+                    # undefined on assignment to process.env; delete is unset.
+                    receiver = (previous == "." and value(index - 2) == "env" and value(index - 3) == "." and value(index - 4) == "process"
+                                or previous == "[" and value(index - 2) == "env" and value(index - 3) == "." and value(index - 4) == "process")
+                    nonempty = len(setting) == 1 and setting[0].kind in {"string", "template"} and not setting[0].children and bool(setting[0].value)
+                    scalar_env = receiver and value(operator) == "=" and len(setting) == 1 and (setting[0].kind == "number" or setting[0].kind == "identifier" and setting[0].value in {"true", "false", "null", "undefined"})
+                    if nonempty or scalar_env:
+                        emit("AI041", index, max(index, end - 1), "high")
 
             # Calls use balanced argument ranges rather than a line-length regex.
             if token.kind == "identifier" and value(index + 1) == "(":
@@ -1484,7 +1581,7 @@ def _generic_analysis(findings, text, path, suffix):
     if suffix in _CONFIG_SUFFIXES or suffix in {".sh", ".bash", ".zsh", ".ps1"} or "dockerfile" in PurePosixPath(path).name.lower():
         _regex(findings, clean, "AI019", r"\b(?:curl|wget)\b[^\n|]{1,1000}\|\s*(?:sudo\s+)?(?:sh|bash|zsh)\b", confidence="high")
         _regex(findings, clean, "AI031", r"--(?:dangerously-skip-permissions|dangerously-bypass-approvals-and-sandbox|yolo)\b", confidence="high")
-        _regex(findings, clean, "AI041", r"\bDANGEROUSLY_OMIT_AUTH\b['\"]?\s*[:=]\s*['\"]?(?:true|1)\b", re.I, "high")
+    _inspector_env_assignments(findings, clean, path, suffix)
     if suffix in {".yaml", ".yml", ".toml", ".ini", ".cfg", ".env"}:
         _regex(findings, clean, "AI031", r"^\s*(?:autoApprove|auto_approve)\s*[:=]\s*(?:true\b|\[(?=[^\]\n]{0,1000}['\"]\*['\"])[^\]\n]{0,1000}\])", re.M, "high")
         if suffix in {".yaml", ".yml"}:

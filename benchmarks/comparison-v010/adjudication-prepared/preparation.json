@@ -1,0 +1,511 @@
+{
+  "batches": [
+    {
+      "batch_id": "batch-001",
+      "case_ids": [
+        "case-014361e949131a64fc67",
+        "case-050bfbbe50b2d3279e55",
+        "case-0802f49bc8f067947cb4",
+        "case-0cc1e880c5023e21e9a5",
+        "case-0d1d9355e0fee331f259",
+        "case-0e2bf513942416b0e753",
+        "case-0f7258be861cb5c54bd1",
+        "case-117d27c5357fda60641f"
+      ],
+      "evidence_sha256": [
+        "73d18c140c10105054a849c0f26d678f58234eb8a8642214291549b127ed13f8",
+        "99d5eee128843d279e6d7b211ce188bc0b49a48426d618d3d8c924e7e23d1e43",
+        "941eb9642e024aab0cc7606dec86fb0ec525b080523035619bee8be8ac17e08d",
+        "59b9aeb708fecae18c5ddb90b100eb143e74d4e93120a2ec0fb04e4fc1ef8c97",
+        "162be66b70d976fca988de30c83676232cb77383fbbaa51ca598fe78dab8dab7",
+        "ef94a2ebbce7f7541ef79f65371d801cee8c133a333faecc42e995e8cdc1f9d7",
+        "3b7d05828fa30408d824793f6bbafc43b88a1ed3304ce280e1b46f6f9366f491",
+        "86ef28f708a81fbacde3c27fee09281688e95fc21621fa6aba40fda068f74176"
+      ],
+      "payload_bytes": 16238,
+      "payload_sha256": "d3ac66b1282d973b2d05a83c82ee5b8331627c27689179ee33d0e0d6b5e3adfb"
+    },
+    {
+      "batch_id": "batch-002",
+      "case_ids": [
+        "case-11f18b5bfaba14e54b27",
+        "case-14673188cb7fb34cd65f",
+        "case-1505eb3f0abc43793fde",
+        "case-16480863312580e53b9d",
+        "case-1726f90297097892f828",
+        "case-177e1dc222e1b54bcefd",
+        "case-18d765e0983a63e20f33",
+        "case-1a3d03d3fbc813be1475"
+      ],
+      "evidence_sha256": [
+        "001e35647998ff79046f4b3c93c7cc60940f1bee373ddaa4be3a37c7b2394331",
+        "e9815bec3d9a1a997680b14fd03d49ee279bef7bdeb76aa5d16d89221a459268",
+        "e55734e6048b33967a8975fbc3ce8e9845c53cecd217967a0e816cc2aff91118",
+        "3a3c2d60094c4268cb65abfb5338c6fb759d90833029051ae92dfba9acfd3006",
+        "666a6677cab3fabc890754750d0bb3c242ba295f0d383ccc144219c89483197e",
+        "166ae73263ac47664867089af5df413ca16c48887b895b99e15228d9b50858df",
+        "00a2c9e700674b990e441bb45d8ee19bf4d077b44c18ffb3eb23edc46e6a59a5",
+        "db941425f8a5d6a433b0c3a65456d11e5f6b957bd8fdf704f33886bb02225368"
+      ],
+      "payload_bytes": 15821,
+      "payload_sha256": "b4498ff3de450911f7e3e8f913a8c57ae01b12cce7390f308db2cbc4ce548157"
+    },
+    {
+      "batch_id": "batch-003",
+      "case_ids": [
+        "case-1a5157bdfec3bb0c9e9c",
+        "case-1babf6d780bf8e7ca686",
+        "case-1bfb05a56ee0f9fd6d66",
+        "case-1cb7c2474078d0672ca7",
+        "case-1dd52cc26204e3abc13d",
+        "case-1e206550803f198c4595",
+        "case-221389e09d31f6b2307f",
+        "case-22f7b7a7d71d67cf0634"
+      ],
+      "evidence_sha256": [
+        "0a63864046e694fa5c17f3f9c0ffe10af2d3e6d1c9a0e665e3039bf0dcf9d520",
+        "cae037fffd47614b3755e5e0c16af49a855b2ed2adc8d7af557c794192e0a8d5",
+        "0bfd2aa5c886d5c7e5932b1c8226db352bfd4dd234c069e95281801e67138eac",
+        "ee903add056f9eb72ad3b7cc3aea22a6742ff5b625dc80f7d947a97705bb4bde",
+        "0e7f2b608c806d0fb319275c0ba97bbf743cc1928ea6e6fd703b4a086e3da543",
+        "e0227e87fb001481ade988b163024e2df9dbac84c560db67d66ad3328f26ca0b",
+        "e9815bec3d9a1a997680b14fd03d49ee279bef7bdeb76aa5d16d89221a459268",
+        "6ca28b0c70640ac9675707abf7a59cf57d26f82d7f15666e53b2958555ba77ea"
+      ],
+      "payload_bytes": 15100,
+      "payload_sha256": "78acbabf4408d71ebfd46b88360a7e8ffdf25ed53e540bd30b62fc3cd5b3bebf"
+    },
+    {
+      "batch_id": "batch-004",
+      "case_ids": [
+        "case-25ae0698876730981df0",
+        "case-27323eb7e1cb03035bbc",
+        "case-2bba08d4373c1540fc53",
+        "case-2c99ac1750ae62cf5d6e",
+        "case-2e98bf200dfc6ffedc10",
+        "case-2efc7c97100517550e12",
+        "case-2fe166b8f1dd8581d0f2",
+        "case-331302bc63fe52dea0b3"
+      ],
+      "evidence_sha256": [
+        "5687ee4486cdd0a0bbca88f06e386164a3d28938cb06b84412180b57e4a49b0b",
+        "ee903add056f9eb72ad3b7cc3aea22a6742ff5b625dc80f7d947a97705bb4bde",
+        "72e85b37e44bddd3ef781772bb7b5134ea3a829ee2ed5be93aac9158089ed09d",
+        "a41e70a4232106a7f3b61527a115a81ce4bad38ed32eda7819d78f1ddbb26f4b",
+        "f351bf6144e77f7b05e1077a1a8d96cd73a56293f41c6086fc6cad7dc4dcb14f",
+        "4751c28febcd557f11b29319e0f11f9963562d868105d8ae7dbe487fe043ba9e",
+        "3eb302b4c5a5263ca0ad1d4e09d72652f34d865463cd3ba467a9de96a2f55b07",
+        "c4b19ca1a39f1eb9d10f8a13e636bfaa86a981f3cbc70581e6f0642030649dc8"
+      ],
+      "payload_bytes": 14998,
+      "payload_sha256": "47178ae01d19df690cc306c5a0971e8203830abaca33d946d7713262f10c0139"
+    },
+    {
+      "batch_id": "batch-005",
+      "case_ids": [
+        "case-339794c95413e904b0e2",
+        "case-399fcdbd487cc50a3cc7",
+        "case-39a01fb18f1ee54fcc32",
+        "case-3a339b141d54bea9034a",
+        "case-3a53b4bdbf715a98db83",
+        "case-3a9c898d02f710a95f64",
+        "case-3c9833aab5ac91d297b7",
+        "case-3cc89e1e909086cd07cf"
+      ],
+      "evidence_sha256": [
+        "0e7f2b608c806d0fb319275c0ba97bbf743cc1928ea6e6fd703b4a086e3da543",
+        "3eedde4e2da4bb12b2903688f7269e8d6e0306d810d28c76e0b5fe895e814dbf",
+        "6ba335e55bbf29a937e2db72bd740fd25e81fd395581cff2c330fec8d595a3e0",
+        "9aad66342be8b3701c76488bc61f18352d907566c6395207007f3e1897b0ba92",
+        "2ad4365f1bd069f6eb97de7e23b078321db90a3b513a2ed7a394a82c65d8b47e",
+        "c92afc71af3db866ecf98267a5118cdadf6d2396d6fd6aed7d68866593d411d3",
+        "c0122b60628da787a41f2afa418a1b9c93b959d5f22a6146dd4e6450a0d47f03",
+        "b55140fe8274dad60e2bba91eecc07cb5b011cba972138deb79bb1901c84321a"
+      ],
+      "payload_bytes": 15972,
+      "payload_sha256": "2e62a844a74534357c8ae462a1adea8057ece2148ccab899bd027de0f6636ed5"
+    },
+    {
+      "batch_id": "batch-006",
+      "case_ids": [
+        "case-3d23cd829c3e3e805c0c",
+        "case-3d40ebf3da30e8a0cbbc",
+        "case-3def059538980c4c3862",
+        "case-3e603f860e84e5868495",
+        "case-3fd46779affb4e92b521",
+        "case-419929de2bd88ae85678",
+        "case-434405ea5ff50898f8b5",
+        "case-43bff3555d22b304fa37"
+      ],
+      "evidence_sha256": [
+        "6e898b838de8e7bd133b6a446cc3d7a83e76d486b4c5b18776f550194f8e2851",
+        "2a96e547b7dc4c1d54047cc4c8658668b9d17fbd7d3b3c3c009b49c1d31d99ee",
+        "5828cbabd9bd0d6b493876c02a0de983e503791ca7cd21702886b08b21eb3271",
+        "6b436c8450b0dea9e8178865caaaf95b1b838c2f6b0bcf2bfc705bf1ce84df18",
+        "41d36c932f563ae65d1e18dfdf09bd9212a60ae3cd79678b54b2c9865d7724f3",
+        "6e898b838de8e7bd133b6a446cc3d7a83e76d486b4c5b18776f550194f8e2851",
+        "186f376fea2d91ee2aa02c654eecb5feb5157a510d4ef52ed1e63c35edead07d",
+        "53e096c5b41ba1ba533f90c6ef89f82bee8e0c2b56cbb8d969333ca5f2a52167"
+      ],
+      "payload_bytes": 15234,
+      "payload_sha256": "f5c0a339287a3cd2bb86e61a606129ef5c73273ec201f6e5d449ffb6ad357e1d"
+    },
+    {
+      "batch_id": "batch-007",
+      "case_ids": [
+        "case-44657c43e1ae38dfd8fa",
+        "case-46764830e8e9513bf09f",
+        "case-48ac11bc79d95c485dae",
+        "case-4be4143f6e20d9ba4ae7",
+        "case-4d36db5f7425d0bba295",
+        "case-5752c27cef9be4a2dda8",
+        "case-5a1d501052c5ed80f3c8",
+        "case-5faa508940ee457cb665"
+      ],
+      "evidence_sha256": [
+        "996027bfe211b79e674c4d5b34ccdbb341dbe7066fb4cc725a6ef22311dfd7f8",
+        "25c9b3ee753489fbbb45ff8c47b874890d319a94e6543d20e5909557e36a724e",
+        "ef1de17fc1d3a16ce9d48363557d2d3490a19c37f6db9d0320fe496f171cfd8f",
+        "ad409528d79c2a492a1d1b3d733fa2d040f4f05b39fcf361559c4ff09fdb7b0f",
+        "fca1c9a7e5a5a3eee16850a94f8452ed87d3ed69f5bbaecccd4fb180d1b29d1d",
+        "11f3650c424d334d71759441866bdf4b1770749ccd031b24cc3ae2070d9d6387",
+        "ce8321b6ca9197d73d083d0354f3962f3b092cc5c855431a46201a96b2d78809",
+        "5828cbabd9bd0d6b493876c02a0de983e503791ca7cd21702886b08b21eb3271"
+      ],
+      "payload_bytes": 16181,
+      "payload_sha256": "10e3da610129276b155979c2c7055da32bdc4309e0402290b4d3476c7e77a53f"
+    },
+    {
+      "batch_id": "batch-008",
+      "case_ids": [
+        "case-62c791d0429303175642",
+        "case-666bfd0ea8668e18238e",
+        "case-667d165e0d6e9dec0c0d",
+        "case-6817d5e78eb51828d289",
+        "case-6866e5e1d8372aee368e",
+        "case-6db8dea16176368f2f94",
+        "case-6f07d31eae7cf16fc29a",
+        "case-6ff980646eda9a6aa959"
+      ],
+      "evidence_sha256": [
+        "de68315e720ff7a4a59a9ead429678625d01713228ca6887f83fa90d9e5e9c62",
+        "5e7a8794c3fca71ab04b240d07ef63cf7b1749d7e7027bb5614d7988fb1d86fd",
+        "9bd98c74f8457151fbd4baed888914c407bd7648784ca9198355981132ea5f29",
+        "2383f19cdaf276a2d642e09e66d982ab64d5cab95b0ba4af56b5de7dc4a18605",
+        "8e96f4b8da0653718ffc6db8aa8c21cfac4a7435d3f6367b7236611450d10e9f",
+        "74942383652a9f73451cbf468f82d534b0b104fd792841dbf0d20e679dd16b07",
+        "5828cbabd9bd0d6b493876c02a0de983e503791ca7cd21702886b08b21eb3271",
+        "9cd1c11d75d1313066d9dee7396b9612cb2645eed41713c80b6b07b992e1511a"
+      ],
+      "payload_bytes": 17523,
+      "payload_sha256": "529adb6ff7fba5717c879e2f2cab1d3b327d0d9b768ac2ef08bd9dc9f52a91f4"
+    },
+    {
+      "batch_id": "batch-009",
+      "case_ids": [
+        "case-7019622275f7f253b180",
+        "case-7183342f7ed880ba6e79",
+        "case-739a2906482670c7a531",
+        "case-73df7058c2e69f672664",
+        "case-74e9fcd113fa84025236",
+        "case-786a2078d3ebbdfc7029",
+        "case-7acb55ea6fe255b243a3",
+        "case-7cce6d3fefb30bf52b6c"
+      ],
+      "evidence_sha256": [
+        "c721a20c83a4432a49c9627c7ac4aba0bcfd3ccfaa985f6d8369b480273ce58d",
+        "c83d4c2af181e14c9970dec0c81cc7fd8f2522bc78e5a42e752a9b47fa5522c9",
+        "166ae73263ac47664867089af5df413ca16c48887b895b99e15228d9b50858df",
+        "fca1c9a7e5a5a3eee16850a94f8452ed87d3ed69f5bbaecccd4fb180d1b29d1d",
+        "d3d99e1e5fbfc93c0d41a4c2f7e81ed6cdb9ed54f6e7ead59cd850dcbc873a2c",
+        "7f7a7d0ebf480519511aff0df69faaf0e9608c1ef91bfa7a54c3d463f630c211",
+        "f351bf6144e77f7b05e1077a1a8d96cd73a56293f41c6086fc6cad7dc4dcb14f",
+        "22a7a13a015204cf307c3a06caacfa2aa386177d56011535e3057478c0e9c0d0"
+      ],
+      "payload_bytes": 16206,
+      "payload_sha256": "18b6c50f7d7ff5861f215277327a2f7866b8c22fa001755347096ceaac1cb3e9"
+    },
+    {
+      "batch_id": "batch-010",
+      "case_ids": [
+        "case-7ec91b41322ca2150472",
+        "case-7f02ecddfd701bb6f5e8",
+        "case-8027e0f599da87d0a8dc",
+        "case-818b55c578382aae493e",
+        "case-88150b080cf6a3a6d47f",
+        "case-88f90320b97d65d7a510",
+        "case-89ca3b33ec09f54c534d",
+        "case-8c993140fdd0a30e7a7b"
+      ],
+      "evidence_sha256": [
+        "e798fb3b35ae933018ef14708b9e8fefc13ef5b3a00477b472b130c45e14ffd8",
+        "88f54ab93b0fca7fda537c9ee18f6ded9c952fd99621d593ac09d238ba29ee53",
+        "99d5eee128843d279e6d7b211ce188bc0b49a48426d618d3d8c924e7e23d1e43",
+        "1a476dcb2df28d02fa8142d7750506719827eb433063e4a7a71c180ed291d560",
+        "52bdcbb35190e0ba52752dd7b2282b5792f673b110f7026bff3c10554e702090",
+        "756b45c30204d34348765a06f8f6e8437df9c15a90d3d103402d5773bed17ee1",
+        "83dbb13f062b5a38cf80348cc99440a5e26834480cc09f695bf3be658c0ae7e6",
+        "3142ef64d38a3dd9474f337e8d329a3a61c1a0a238b28f400ac91c7f5b32a6f3"
+      ],
+      "payload_bytes": 16483,
+      "payload_sha256": "d86ccb2a89c47f687f9dbbea03a61c1809a41bc5ff8861a5399245ced85f3e0c"
+    },
+    {
+      "batch_id": "batch-011",
+      "case_ids": [
+        "case-8e5f94762f45db60f74f",
+        "case-8ebc84ace3f670a584a0",
+        "case-91c49b2ea2605e795390",
+        "case-926ded9e2b3f155309c9",
+        "case-93b52fe89415530f3b77",
+        "case-96e334328d82dbc49081",
+        "case-995e31713f2b758c58a2",
+        "case-9a5373b846b2fdbb0c08"
+      ],
+      "evidence_sha256": [
+        "c9d8b05c5a6365e97b9e8314488f7bd7614a4fa4346d50c5452980dc9d2cd0f1",
+        "11f3650c424d334d71759441866bdf4b1770749ccd031b24cc3ae2070d9d6387",
+        "04380f6a1e737f2f17f2718b08ef0c87f69a3e2e7bdbf92cce8002a72b5df898",
+        "9cd1c11d75d1313066d9dee7396b9612cb2645eed41713c80b6b07b992e1511a",
+        "1c0b2cef5fedb1f8009fbcceda46008cb68e73dd8459ce1eda23001964cf845e",
+        "41d36c932f563ae65d1e18dfdf09bd9212a60ae3cd79678b54b2c9865d7724f3",
+        "fde2dc48837f3da43d31776217b7d8a166e68ea9cadb47431baa3fb735ba8461",
+        "702d10002ddbcea504912ed4d6bfe323b8cf3a268a759a21e1097ee53c48633e"
+      ],
+      "payload_bytes": 16230,
+      "payload_sha256": "1b65638b99327b367c1456826113afe8aaaf9e6ce6f9dade0e0b6395e60c67af"
+    },
+    {
+      "batch_id": "batch-012",
+      "case_ids": [
+        "case-9a84f84c8a32e7ef3cbb",
+        "case-9a87938eed18bf1c9c2e",
+        "case-9afff50c9cda7c4815ed",
+        "case-9bdb80d46c46d70ec9fd",
+        "case-9f97ff3ceb3748b7a0cc",
+        "case-a34a19cf49b561041fe7",
+        "case-a4e3617771618321bf13",
+        "case-a674bda69d83368df784"
+      ],
+      "evidence_sha256": [
+        "3142ef64d38a3dd9474f337e8d329a3a61c1a0a238b28f400ac91c7f5b32a6f3",
+        "5dccd1681d7006c931d9a49f8698f6221a267bfbb95f468082f36c9f9a42fa3f",
+        "c78ceef72b5100404d0e625372a719e05af2470a6484566b37da534da54dbd90",
+        "22afeed22afe57d9e681a90ac98fb00d570fa1436e43c88855ffaec3e7487d3f",
+        "a010bca05633ba2c26eef6eb5f1b764cc9d0d7c0442b49c25d9bfd75276ae134",
+        "77759ea6d6fb4f12187c0788d75fbf29b7d1aa3978061e2d7d01c77b062110ca",
+        "9cd1c11d75d1313066d9dee7396b9612cb2645eed41713c80b6b07b992e1511a",
+        "39456a21b6d8ea358c1f327e32286abedc80b3ec7b666179f6042aca12ecab88"
+      ],
+      "payload_bytes": 17132,
+      "payload_sha256": "9fa1a0b5602e3fffde706bbb5f26258d2585fdbba20491b390a99a04d95de20d"
+    },
+    {
+      "batch_id": "batch-013",
+      "case_ids": [
+        "case-abeba812a1d8d5512095",
+        "case-ac5d258183b2be861a39",
+        "case-acca6c217bb4f4f546e9",
+        "case-acd3e8c18be2dd19be2f",
+        "case-ad805ad615fd710b21ee",
+        "case-af1e8dd64cf166a881d2",
+        "case-b00a7e0e031f51a216d6",
+        "case-b26ca67be59210180209"
+      ],
+      "evidence_sha256": [
+        "c8e1721370b63852a47bf4ba3a9a25e53b4f6672842716624ee8d696efc4cfb3",
+        "9bd98c74f8457151fbd4baed888914c407bd7648784ca9198355981132ea5f29",
+        "85bb66acfa030ad09112729262ece362e6825716a50ea8a92588a85049873d01",
+        "2ad9ef41e5ee07a9b970722a9b3a51bc921130d303bf26607320b3b41c83afd9",
+        "1b8b81247e3b1930e71dff32212ef319d7dd732ff56445c3cc66cbd0cc7fbad1",
+        "bceb896265f8797757677aa6ac488c67495e15624a011f73ae689d2ef47c92f2",
+        "1a8632391c13551b2a1cc2b79447eb89ea15cc92dc8ed49d9e73477e942ff834",
+        "7f1b39b5a35ee246b6e9d4db4ebfedf1adcfdcefd47f0c2f3d46bc7135aa6e02"
+      ],
+      "payload_bytes": 17278,
+      "payload_sha256": "59321520fdeaca039d85acd722e09fc785a48378af91f4eba55771e8f961a34d"
+    },
+    {
+      "batch_id": "batch-014",
+      "case_ids": [
+        "case-b27209b2c411d0eaf193",
+        "case-b7cf7424a0bbcd766795",
+        "case-b8ce69e3fab0ed52e463",
+        "case-b9308e4470578f74f626",
+        "case-b9359bb507c05ab5a01d",
+        "case-b961914b1edcaade8932",
+        "case-bc244c128ebbbff38dae",
+        "case-bc9d978efacd685a8acb"
+      ],
+      "evidence_sha256": [
+        "6e08249f04a7a37be9e5934aae7237c9f8565df42fa156b564ec7462ec61a53f",
+        "087fb8adfb67b07836faf7c1bd21aaf2c157fcd31e07434e98193ba7a0e66d7f",
+        "865f551d9cb2f7d65bca71cecc86f36f087d0ee17681053a4cd30481788534f8",
+        "53cd241a78b35c20b02b1c0d1e69fa1a48b013c43c86fe3848c30fa3f079e711",
+        "9aad66342be8b3701c76488bc61f18352d907566c6395207007f3e1897b0ba92",
+        "36071636a3c0ab256764f77d0b674314476f41c4d2baef86dd6744629688a91e",
+        "d45468cd50b946347d2a3914001137bc6fb223d7d77ab818e412a09c598424a3",
+        "74942383652a9f73451cbf468f82d534b0b104fd792841dbf0d20e679dd16b07"
+      ],
+      "payload_bytes": 14645,
+      "payload_sha256": "c2894f36bf7f1191a40c0469656484dbbb889c8d480199ed274be2974ce59d49"
+    },
+    {
+      "batch_id": "batch-015",
+      "case_ids": [
+        "case-be8874afdac0477c5e3e",
+        "case-c164de15946e179fe96c",
+        "case-c2337424b6ef736f4543",
+        "case-c3d7d2cf49c365624120",
+        "case-c7aee59ff5b6e3b2555a",
+        "case-ced8a0eb55bcfad0bf0d",
+        "case-d044f76a87a04e47340e",
+        "case-d156a4a1db488aa55222"
+      ],
+      "evidence_sha256": [
+        "d45468cd50b946347d2a3914001137bc6fb223d7d77ab818e412a09c598424a3",
+        "5961a4e79271cb8a2aa67265f95520900e45a99793568d7e345e0f68ee3dda2a",
+        "e8e8c8437b0a4964c76ebdb5a32a911eba72f4e0d23a110f68cb6ef47eea72b9",
+        "8a3335da38c63e9f65671a780e1db91adecf4fc4e8e09d1a01f594cdf5dae771",
+        "3142ef64d38a3dd9474f337e8d329a3a61c1a0a238b28f400ac91c7f5b32a6f3",
+        "1fde5b8e6b145d4cb59d6386fbee39ecd49b1896ab56b4ad389990fe7ab0e28d",
+        "73d18c140c10105054a849c0f26d678f58234eb8a8642214291549b127ed13f8",
+        "50e2a2bcef2471eaffcab2e8c6eb11c66061632f48b815d46bc5b2c22a800d20"
+      ],
+      "payload_bytes": 15873,
+      "payload_sha256": "61a64d19cc35384c09ca0163664324474a33ded80b15e34928d5aea772a165a3"
+    },
+    {
+      "batch_id": "batch-016",
+      "case_ids": [
+        "case-d21d55bff8531adbbd4b",
+        "case-d3b32a5557b505b0c834",
+        "case-d48d3a150d309de46fd2",
+        "case-d5845ab8d4849421a33f",
+        "case-d67cce96e29a97a4425b",
+        "case-d6d73cbeb2143fbe6483",
+        "case-d77c88b1aac5f0dc6283",
+        "case-d7ebd6ee3e9ff27228ce"
+      ],
+      "evidence_sha256": [
+        "7f1af2e43e4140f1c83e46c9c8a20ef672131b71bead05ccb31d16c34aba54ec",
+        "384d9e01c80d1cbfe063db57b684ac408fb15da3b92d871b730a3f621931a374",
+        "189509f70fd16a32053456614565638802b77d9697f182024efc03b9c9bb0323",
+        "166ae73263ac47664867089af5df413ca16c48887b895b99e15228d9b50858df",
+        "b9a4229fdd4d3df097d0a2f6e8271605766563e2de55c93683252025064f67ae",
+        "ab66200e9a162fd233c87810f9e2952e802da8ed18c058d0365810af7be0eca0",
+        "7277633b0afbe99e5d2f7d0e93bbf2bfa9846570ca495b5b044bebce9009679f",
+        "96ecd71ae4afb1995345a797b2a5cc6cc6e8b01ef0474fdda40a3ad1fa199fdd"
+      ],
+      "payload_bytes": 15530,
+      "payload_sha256": "db9dce6bead02687e335d257daa23cf715d55b6df32132c483a3ffeaebb7bbc5"
+    },
+    {
+      "batch_id": "batch-017",
+      "case_ids": [
+        "case-db4a898aa8521b5b9518",
+        "case-db93b69e1dc798225f47",
+        "case-dc7892371ae547b557ca",
+        "case-dd74e3c8739b57d4dd43",
+        "case-e0d9ca8d2725a5588365",
+        "case-e3f5a1e5cefe01506d4e",
+        "case-e5531c2376ddf4c53573",
+        "case-e753757946ed90d2c250"
+      ],
+      "evidence_sha256": [
+        "7eca1e0ae50e51cb0fdbc7e59421a3f3855e0907c68a087f45a223962b9bfde8",
+        "106822149accc2e16e35b9cad83e8443291f649b1231776925380fe2fbc3fb28",
+        "59b9aeb708fecae18c5ddb90b100eb143e74d4e93120a2ec0fb04e4fc1ef8c97",
+        "7235ac9f2227c19f0bdf4e5af4e9669ea80cbb90e93b7a3a3392433a972630d5",
+        "c721a20c83a4432a49c9627c7ac4aba0bcfd3ccfaa985f6d8369b480273ce58d",
+        "59b9aeb708fecae18c5ddb90b100eb143e74d4e93120a2ec0fb04e4fc1ef8c97",
+        "24aca4801c610b6fd170a5f876246dbda8c42f0fa3e398b11736bb72c0327ec4",
+        "7487c2e69fbbfc88dd094e17538f91f9c20514cb559330098c1b93fd636e2676"
+      ],
+      "payload_bytes": 19378,
+      "payload_sha256": "7a363d00c45b24776d8e2ed0ece1b52a7ce41bb0217b0ce1233b5e3c2c0ff140"
+    },
+    {
+      "batch_id": "batch-018",
+      "case_ids": [
+        "case-e90824210cf0685c2498",
+        "case-e9aa28cd4cddb671bfda",
+        "case-eb4eb41f99819ce77b29",
+        "case-ed01fb5f899cbd98ad1e",
+        "case-efb1bded0c315bcfa32e",
+        "case-efd866da796ae36b273a",
+        "case-f1900d2179499f1ccea0",
+        "case-f2b47d2a3f9a149f8271"
+      ],
+      "evidence_sha256": [
+        "e55734e6048b33967a8975fbc3ce8e9845c53cecd217967a0e816cc2aff91118",
+        "2b2c6d07b97012381bbeba10bc47785538965f2b47f6d16dba46fa291e4b21b8",
+        "f0bda8cb3b3455b1d48860cd9572614e04659a912edbd04bc781589b4c1dd4a9",
+        "36071636a3c0ab256764f77d0b674314476f41c4d2baef86dd6744629688a91e",
+        "db941425f8a5d6a433b0c3a65456d11e5f6b957bd8fdf704f33886bb02225368",
+        "948563672024ebe91cd7635a06e9c44297f7ab6303de3e445201aafc12e5c269",
+        "3d87e5beff06f08a696546e95a7e8b10021b6bfb0bb0391ddf74a7cbcc2bd627",
+        "c8e1721370b63852a47bf4ba3a9a25e53b4f6672842716624ee8d696efc4cfb3"
+      ],
+      "payload_bytes": 15618,
+      "payload_sha256": "b76ceae8cfe2e3dd018e1ae093ad9e6dfddabfeb5ceac5b4b6b79041adb1b35c"
+    },
+    {
+      "batch_id": "batch-019",
+      "case_ids": [
+        "case-f56c9f388694610665a0",
+        "case-f835ba2de8cd6214659d",
+        "case-fa6e8e8228f95f6ddac7",
+        "case-fb2e8c3d950036b367a4",
+        "case-fc2426b49bf71116e71f",
+        "case-fcad1dcf62f9cf8a492c",
+        "case-fcbd8175d890779d1e01",
+        "case-fda3725960bf76a1f5a5"
+      ],
+      "evidence_sha256": [
+        "74942383652a9f73451cbf468f82d534b0b104fd792841dbf0d20e679dd16b07",
+        "413eadb7d9a6d2c7714f854855ab1efdcad4de9b769bb7f8cc2f31f7b64c1365",
+        "7db641726a1f8044bd79c53f49d3bdbb3caee39ea505dc9124221d56783d8eba",
+        "0134b560c7d4495887726d074bdf6d5c47d472b7e18a04f026ae3dc55bd4d68f",
+        "0a63864046e694fa5c17f3f9c0ffe10af2d3e6d1c9a0e665e3039bf0dcf9d520",
+        "b7650f605f8df810846af3f23539a37476d351bfbb37140fd10016ddade0a158",
+        "36071636a3c0ab256764f77d0b674314476f41c4d2baef86dd6744629688a91e",
+        "26d3781aa1245552c447261b9121f4e326a36386cb1ce3015dd612ecccbd8f32"
+      ],
+      "payload_bytes": 14583,
+      "payload_sha256": "bd36c1f52817ece1d0af48e4c94d197762ba43b92fb5a276bea85b7b13c6865a"
+    },
+    {
+      "batch_id": "batch-020",
+      "case_ids": [
+        "case-fe4948a232d221a95e95"
+      ],
+      "evidence_sha256": [
+        "c9d8b05c5a6365e97b9e8314488f7bd7614a4fa4346d50c5452980dc9d2cd0f1"
+      ],
+      "payload_bytes": 2068,
+      "payload_sha256": "1567208e21a398691ac82f3fa5b407408161d4cf301533c5af14e3348128bf17"
+    }
+  ],
+  "blinding": "Tool names, tool severities, native rule IDs, path/project names, agreement and original messages withheld. Source text may inherently reveal its framework; complete anonymity is not guaranteed.",
+  "engine_versions": [
+    "0.10.0"
+  ],
+  "evidence_errors": [],
+  "limits": {
+    "batch_size": 8,
+    "context_lines": 12,
+    "max_batch_bytes": 150000,
+    "max_evidence_chars": 12000,
+    "max_evidence_lines": 100,
+    "max_file_bytes": 20000000
+  },
+  "original_selection_ledger_sha256": "9be24fd2da5023346c8120d1a4cf0bb157d39421e5ebf28cf5896bd6f5850f6c",
+  "prepared_observations": 153,
+  "review_ledger_sha256": "30d4a3e387fce2578dfeeeccdf978b77fb909c04ec78cad920757fddc3c7aff1",
+  "schema_version": "1.0",
+  "selected_observations": 153,
+  "selection_file_sha256": "19c3dc57b1f582e0c0f239c0f6448b8717bede5775e09f59d8f8a05b3e06f8c3",
+  "selection_id": "comparison-v010-adjudication-2026-09-19-v1",
+  "source_handling": "Confined regular-file reads checked against pinned source SHA-256; redacted bounded excerpts only; no target execution."
+}

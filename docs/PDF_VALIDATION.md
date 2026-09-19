@@ -63,3 +63,11 @@ Historical 0.8.0 artifacts were independently inspected as **65-page** controlbo
 0.8.0 controlbook: ecd12ee5d9c4ab70cfebe4f34db1a91747fa6d87df3ff4b97dc5af080d20061b
 0.8.0 benchmark:   9aa60a8ffd353a451aa3c2da2b7293b69c6f9f7ba6400fed60099126f6f98f78
 ```
+
+## Version 0.10 report and comparison artifacts
+
+The new **13-page finding comparison PDF** contains charts, clickable contents, current/historical provenance, exact match/unknown accounting, a 50-observation source audit and source links. The actual Claude adjudication attempt produced no model answers; its point estimate is explicitly unavailable. The **119-page Claude-enabled scan PDF** preserves 11 deterministic findings with concrete fix plans, all 66 controls and 132 checks, and 715 fillable fields for 143 review items. Its cover and executive summary clearly report the authentication failure and incomplete optional work; it is not a successfully Claude-reviewed report.
+
+All **132 pages** were rendered with Poppler and visually inspected. Every internal link and outline destination resolves, all external links use HTTPS, and the scan PDF's extracted bound review workspace matches its JSON report. The comparison's source-hash appendix was adjusted to keep complete hashes and the reproduction instructions together on its final page. The PDFs have separate purposes: the comparison is a research document; only the operational scan report accepts review-form edits.
+
+[Exact artifact hashes, page/link/field counts and validation receipt](../benchmarks/validation-v010/pdf-receipt.json). This inspection does not establish every PDF viewer's editing behavior; the automated fresh-scan import workflow separately verifies actual field edits and re-export.

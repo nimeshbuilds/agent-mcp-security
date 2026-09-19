@@ -45,7 +45,7 @@ python3 scan.py /path/to/agent-or-mcp-repository --output ./static-report
 2. Build an evidence pool from supported files already present in the scanner's manifest. Read files through confined filesystem operations, reject changed content against the manifest's SHA-256 hashes, and redact selected source.
 3. Rank excerpts using packaged control terms, control titles and acceptance checks, file paths, and finding locations. Selection is deterministic for the same inputs and limits. The model does not choose files, follow links, or request additional retrieval.
 4. Submit controls in stable batches. Each payload contains the acceptance checks, validation mode, source-reference URLs, static status, related rule/finding IDs, and only the excerpts selected for those controls.
-5. Validate every returned control/check identity, status, explanation, verification step, and citation. Derive citation paths and line numbers locally from the submitted evidence; reject model-supplied paths or line claims.
+5. Validate every returned control/check identity, status, explanation, verification step, citation and any proposed action guidance. Derive citation paths and line numbers locally from the submitted evidence; reject model-supplied paths or line claims.
 6. Preserve accepted advice separately from the deterministic report. Fill omissions with explicit `insufficient_evidence` entries and leave runtime or human verification open.
 
 Evidence selection is a bounded keyword-retrieval method. It is not whole-program analysis and can miss relevant implementations or select irrelevant context. A model can also misunderstand authentic evidence. **An exact quote establishes that text was present in a submitted excerpt; it does not establish that the interpretation is true.**
@@ -127,7 +127,17 @@ The control response schema is separate from the finding-triage schema in [JUDGE
           "citations": [],
           "verification_steps": [
             "Obtain deployment configuration and authorized test evidence for this acceptance check."
-          ]
+          ],
+          "recommended_actions": {
+            "agent_mcp_relevance": "A protected MCP tool needs authorization for the caller, tenant and target resource.",
+            "applicability": "The supplied excerpts do not establish the effective deployment or every request path.",
+            "steps": [
+              "Obtain the deployed authorization policy and trace where the tool handler enforces resource ownership before proposing a code change."
+            ],
+            "verification": [
+              "Use authorized runtime tests to check a valid caller with an insufficient scope and a different tenant resource."
+            ]
+          }
         }
       ]
     }
@@ -150,12 +160,17 @@ The deterministic protocol validator enforces:
 - Known, unique control IDs and check indexes. Citation IDs must exist and be included in that control's allowed evidence list.
 - The six status values documented above. `pass`, `secure`, and compliance verdicts are not accepted.
 - A nonempty reason of at most 2,000 characters and one to five nonempty verification steps of at most 500 characters each.
+- When present, `recommended_actions` has exactly `agent_mcp_relevance`, `applicability`, `steps` and `verification`. The first two are nonempty strings of at most 1,200 characters; each array contains one to five nonempty strings of at most 1,000 characters. The same credential sanitization applies to these fields. Unexpected keys, empty or oversized values and invalid types fail the batch.
 - At most three citations per check. Quotes must be nonempty exact substrings of submitted evidence, no longer than 500 characters; duplicate citations are rejected. Quotes that would need credential or control-character sanitization also fail instead of being changed after validation.
 - At least one grounded citation for `supported_by_code`, `potential_gap`, and `not_applicable_proposed`.
 - Locally derived paths, line ranges, and source-file hashes. Model-supplied location or hash fields are rejected. The original-file hash identifies the scanned bytes; it is not the hash of the redacted excerpt.
 - Explicit `insufficient_evidence` replacements for missing controls or checks, with omission counts. `model_supplied` is added locally as true or false; the model cannot supply that field.
 
 The normalized result also records configured provider/model, an optional provider-reported model identifier, adapter/protocol versions, and any deterministic status adjustment. This is provenance for review, not independent attestation of which model a remote gateway actually ran.
+
+Current prompts and official CLI response schemas request action guidance for every answered check. A recommendation should identify the relevant agent/MCP trust boundary, explain when a change applies, name specific APIs/settings when supported, and describe verification that remains to be performed. A supported control may need no code change: the recommendation can instead identify the evidence and regression checks to retain. Missing evidence should lead to a request for that evidence, not an invented implementation defect.
+
+Older responses without `recommended_actions` remain accepted for compatibility. They retain their original check assessment and verification steps, and `advice_coverage` shows that no model fix plan was supplied. A missing action object alone does not make the control review incomplete; an omitted acceptance-check assessment still does. A provided but malformed action object fails validation. Neither detailed action advice nor its absence changes the citation requirement, the deterministic adjustment of manual/dynamic outcomes, or the finding gate.
 
 ## Execution and gateway restrictions
 
@@ -177,7 +192,9 @@ Native adapters support the documented OpenAI-compatible Chat Completions, Respo
 | --- | --- |
 | `findings`, `controls`, `summary` | Existing deterministic findings and control coverage. |
 | `judge` | Separate finding-triage results, selected/omitted finding counts, and mode. |
-| `analyst.control_assessments` | Every control and acceptance check, its advisory status, model-supplied marker, explanations, citations, and proposed verification steps. |
+| `remediation` | Deterministic catalog fix plans keyed by finding ID, including conditional agent/MCP relevance, applicability, concrete changes, verification scenarios and primary references. Available without a model. |
+| `advice_coverage` | Separate counts of static plans and model-provided plans for finding assessments, answered checks and additional concerns; missing model guidance is not filled in. |
+| `analyst.control_assessments` | Every control and acceptance check, its advisory status, model-supplied marker, explanations, citations, proposed verification steps and optional `recommended_actions`. |
 | `analyst.coverage` | Attempted/reviewed controls, unanswered checks, budgets, evidence limits, skipped files, and stop reason when applicable. |
 | `analyst.evidence` | Selected redacted excerpt pool with IDs, source paths, source-file hashes, line ranges, and any truncation metadata. |
 | `analyst.requests` | Batch control/evidence IDs, canonical payload hash, request status, model identifiers, protocol versions, and returned omission counts. |
@@ -186,7 +203,7 @@ Native adapters support the documented OpenAI-compatible Chat Completions, Respo
 
 The payload hash identifies the controller's canonical control/evidence JSON payload. It does not hash authentication headers, the complete provider request envelope, or a model's internal state. An evidence item present in the local pool is not necessarily transmitted; consult request receipts for the evidence IDs included in each attempted batch. A request marked completed can still have model omissions, which are counted separately.
 
-`report.sarif` continues to contain deterministic findings only. Analyst advice cannot delete a finding, lower its severity, waive a control, or become a confirmed SARIF finding.
+`report.sarif` continues to contain deterministic findings only, with catalog remediation in result messages and `properties.agentMcpRemediation`. Model interpretations and model-proposed actions are excluded. Analyst advice cannot delete a finding, lower its severity, waive a control, or become a confirmed SARIF finding. HTML, Markdown, JSON and the optional PDF present model proposals separately from the deterministic plan; all verification instructions remain unexecuted text.
 
 Exit codes remain operational:
 

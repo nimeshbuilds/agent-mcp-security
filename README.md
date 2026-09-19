@@ -13,6 +13,8 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Complete CLI reference](docs/CLI.md)
 - [Justified and disabled checks: review configuration](docs/REVIEW_CONFIGURATION.md)
 - [Accuracy methodology and known false positives/negatives](docs/RULE_ACCURACY.md)
+- [Fresh finding-by-finding competitor comparison](benchmarks/comparison-v010/README.md)
+- [Executed quickstart validation and receipts](benchmarks/quickstart-v010/README.md)
 - [Real-project reports and comparative scanner benchmark](docs/BENCHMARK_RESULTS.md)
 - [CLI subscription login, model defaults and live-test evidence](docs/CLI_PROVIDER_RESEARCH.md)
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
@@ -60,6 +62,10 @@ invarune --image-archive ./agent-image.tar --output ./image-report
 [View the sample Markdown report](examples/reports/vulnerable/report.md) or [download the sample HTML report](examples/reports/vulnerable/report.html?raw=1) and open it locally. These are deliberately vulnerable fixtures, not a production assessment.
 
 For real testing, see the [eight pinned public-project reports](benchmarks/real-world/README.md), the [external scanner comparison](benchmarks/external-tools/README.md), and the [branded benchmark PDF](output/pdf/invarune-benchmark-report.pdf). The same selected source bytes were offered to Invarune, Semgrep CE, Bandit and Gitleaks. Cisco MCP Scanner ran a separate partial metadata test. Findings, false-positive examples, parser gaps, commands, versions and hashes are published; observed counts are not confirmed vulnerabilities or a scanner ranking.
+
+Version **0.10.0** adds a sourced fix plan for every deterministic finding: agent/MCP relevance, applicability, concrete implementation changes, verification steps and remaining risk. The optional model can supply its own structured advice; missing model advice stays visible and cannot replace the static plan. [Guidance catalog](ai_security_scan/data/remediations.json), [report interpretation](docs/REPORTS.md).
+
+The [fresh comparison](benchmarks/comparison-v010/README.md) and [13-page branded comparison PDF](output/pdf/invarune-finding-comparison-v010.pdf) publish every observed finding, shared and tool-only matches, execution gaps and a predefined adjudication sample. Its fixture-label results and any model judgments remain separate from confirmed production vulnerabilities. The [Claude-enabled example](examples/reports/cli-claude-v010/README.md) records the actual authentication failure; the [limited live Codex example](examples/reports/cli-codex-v010/README.md) demonstrates structured fix advice.
 
 Generated files:
 

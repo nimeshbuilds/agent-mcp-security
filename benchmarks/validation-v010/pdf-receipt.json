@@ -1,0 +1,29 @@
+{
+  "artifacts": [
+    {
+      "all_pages_rendered_and_visually_inspected": true,
+      "external_https_links": 38,
+      "form_fields": 0,
+      "internal_links": 20,
+      "outline_entries": 10,
+      "pages": 13,
+      "path": "output/pdf/invarune-finding-comparison-v010.pdf",
+      "sha256": "2159b8625bb2478a77cb8cf2fa0253006715662dc4957b33653dc0bbed150f72"
+    },
+    {
+      "all_pages_rendered_and_visually_inspected": true,
+      "external_https_links": 156,
+      "form_fields": 715,
+      "internal_links": 22,
+      "optional_claude_status": "Authentication error; 0 model answers,132 unreviewed checks, preserved static findings",
+      "outline_entries": 11,
+      "pages": 119,
+      "path": "examples/reports/cli-claude-v010/report.pdf",
+      "review_workspace_matches_json": true,
+      "sha256": "af4f08394d4108d992a3f78e808bc40557289ca120681829c11b875efa9c7877"
+    }
+  ],
+  "date": "2026-09-19",
+  "method": "Poppler raster rendering plus visual inspection, pypdf links/outlines/fields and strict capsule extraction. No browser-viewer compatibility claim.",
+  "schema_version": "1.0"
+}

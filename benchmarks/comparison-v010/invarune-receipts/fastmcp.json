@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "project": "fastmcp",
+  "repository": "https://github.com/PrefectHQ/fastmcp",
+  "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+  "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+  "license": {
+    "summary": "Apache-2.0",
+    "path": "LICENSE",
+    "url": "https://github.com/PrefectHQ/fastmcp/blob/9c35c017cd89e4d50a9f512c8eafde68c301ec70/LICENSE"
+  },
+  "source_files": 283,
+  "source_bytes": 3811079,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "tmp/real-world-src/fastmcp",
+    "--output",
+    "tmp/comparison-v010/invarune/fastmcp",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "c3687f2f37a248daefd6b182e9fc6c4330985f26d71252dfa5a42c336a3ec228",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.9.0"
+  },
+  "scan_id": "833be9220c8fd708310add25e4a55a22d132aeea271fd937130af72784bdc30b",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 3811079,
+    "bytes_read": 3811079,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 283,
+    "open_findings": 0,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 0,
+      "medium": 0
+    },
+    "suppressed_findings": 0
+  },
+  "rule_counts": {},
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 4,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 1,
+      "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 0,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 1,
+      "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 277,
+      "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+    }
+  },
+  "execution": {
+    "exit_code": 0,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "repeated_runs": [
+    {
+      "run": 1,
+      "started_at_utc": "2026-09-19T22:25:47.583104+00:00",
+      "elapsed_seconds": 1.356507,
+      "exit_code": 0,
+      "stderr": "",
+      "report_sha256": {
+        "report.html": "02bcba3f559b38f8697d3fa4e776a0642c159637a20c20001c99726eb810b539",
+        "report.json": "4e0b09a359819eeabe30651db7187d75071742fdbb3c57d2ad0c2c968d46e6d6",
+        "report.md": "1301f0d2afdf83c498e2276f5278cd3253e04dccaac30d82514976c1d87bb3aa",
+        "report.sarif": "2c3de0e38a52ad96633d799857fb79f15e6b62aa675f009539492485a148c9f5"
+      }
+    },
+    {
+      "run": 2,
+      "started_at_utc": "2026-09-19T22:25:48.940916+00:00",
+      "elapsed_seconds": 1.361239,
+      "exit_code": 0,
+      "stderr": "",
+      "report_sha256": {
+        "report.html": "02bcba3f559b38f8697d3fa4e776a0642c159637a20c20001c99726eb810b539",
+        "report.json": "4e0b09a359819eeabe30651db7187d75071742fdbb3c57d2ad0c2c968d46e6d6",
+        "report.md": "1301f0d2afdf83c498e2276f5278cd3253e04dccaac30d82514976c1d87bb3aa",
+        "report.sarif": "2c3de0e38a52ad96633d799857fb79f15e6b62aa675f009539492485a148c9f5"
+      }
+    }
+  ],
+  "byte_identical_reports": true,
+  "target_code_executed": false,
+  "optional_judge_enabled": false
+}

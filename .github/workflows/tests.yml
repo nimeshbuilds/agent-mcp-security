@@ -35,6 +35,9 @@ jobs:
         run: python scripts/evaluate_accuracy.py --format markdown
       - name: Scan safer comparison fixture
         run: python scan.py examples/safer --output test-output/safer
+      - name: Validate the installed Windows quickstart in a fresh environment
+        if: matrix.os == 'windows-latest'
+        run: python scripts/validate_quickstart.py --skip-pdf --skip-gateway --output test-output/quickstart-windows
 
   package-and-schema:
     runs-on: ubuntu-latest

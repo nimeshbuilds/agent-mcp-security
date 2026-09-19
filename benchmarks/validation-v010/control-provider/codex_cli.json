@@ -1,0 +1,173 @@
+{
+  "harness_sha256": "0b94d05eb5551c657285358a9350646d400cbfb773e8e51a2228a65284901848",
+  "input_kind": "synthetic, no target execution",
+  "provider": "codex_cli",
+  "recorded_at_utc": "2026-09-19T22:52:02.183908+00:00",
+  "requested_model": "gpt-6-astra",
+  "results": [
+    {
+      "response": {
+        "adapter_version": "1.2.0",
+        "advisory_only": true,
+        "checks_submitted": 1,
+        "cli": {
+          "arguments": [
+            "-a",
+            "never",
+            "exec",
+            "--ignore-user-config",
+            "--ignore-rules",
+            "--ephemeral",
+            "--skip-git-repo-check",
+            "--sandbox",
+            "read-only",
+            "--json",
+            "--color",
+            "never",
+            "--disable",
+            "shell_tool",
+            "--disable",
+            "unified_exec",
+            "--disable",
+            "code_mode",
+            "--disable",
+            "code_mode_host",
+            "--disable",
+            "computer_use",
+            "--disable",
+            "browser_use",
+            "--disable",
+            "browser_use_external",
+            "--disable",
+            "browser_use_full_cdp_access",
+            "--disable",
+            "in_app_browser",
+            "--disable",
+            "image_generation",
+            "--disable",
+            "view_image",
+            "--disable",
+            "artifact",
+            "--disable",
+            "apps",
+            "--disable",
+            "plugins",
+            "--disable",
+            "plugin_sharing",
+            "--disable",
+            "hooks",
+            "--disable",
+            "multi_agent",
+            "--disable",
+            "multi_agent_v2",
+            "--disable",
+            "skill_search",
+            "--disable",
+            "workspace_dependencies",
+            "--disable",
+            "shell_snapshot",
+            "--disable",
+            "memories",
+            "--disable",
+            "sleep_tool",
+            "--disable",
+            "goals",
+            "--disable",
+            "remote_plugin",
+            "--disable",
+            "tool_suggest",
+            "-c",
+            "web_search=\"disabled\"",
+            "-c",
+            "mcp_servers={}",
+            "-c",
+            "project_doc_max_bytes=0",
+            "-c",
+            "skills.include_instructions=false",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--output-schema",
+            "<private temporary directory>/response-schema.json",
+            "--model",
+            "gpt-6-astra",
+            "-"
+          ],
+          "auth_mode": "cli_managed",
+          "cli_version": "0.154.0",
+          "descendant_termination": "process_group",
+          "executable": "codex",
+          "isolation": "CLI capability restrictions; installed executable and administrator policy remain trusted",
+          "provider": "codex_cli",
+          "repository_working_directory": false,
+          "request_bytes": 4006,
+          "request_sha256": "d8360dd355f5d966e692bb67bd5dee0e2718c999303a8133f261c5746bc2b3a5",
+          "requested_model": "gpt-6-astra",
+          "response_bytes": 2437,
+          "response_sha256": "89badfe0937e6d40eadaa96f1ce8f6cfc4ed9a3ae5221053dd11c60f53842ec8",
+          "stage": "controls",
+          "startup_warnings": [
+            "codex_code_mode_intentionally_disabled"
+          ],
+          "structured_output_requested": true,
+          "token_budget_enforced": false,
+          "tools_policy": "disabled_for_advisory_review",
+          "transport": "official_cli"
+        },
+        "control_assessments": [
+          {
+            "check_assessments": [
+              {
+                "check_index": 1,
+                "citations": [
+                  {
+                    "end_line": 3,
+                    "evidence_id": "LIVE-E1",
+                    "path": "synthetic.py",
+                    "quote": "def run(user_input):\n    os.system(user_input)",
+                    "source_sha256": "b96e16ae2f8b203a976093800f387abb83aa4f98a3e03d1765cdb035a5f55f5a",
+                    "start_line": 2
+                  }
+                ],
+                "model_supplied": true,
+                "reason": "The function passes its argument directly to os.system, which invokes shell execution. If an untrusted caller controls this argument, shell syntax could affect execution. The supplied snippet does not establish input provenance, caller restrictions, or deployment reachability; this is an unverified concern.",
+                "recommended_actions": {
+                  "agent_mcp_relevance": "If exposed through an agent or MCP tool, this function could let externally influenced arguments cross into operating-system shell execution. That exposure is not established by the snippet.",
+                  "applicability": "Apply changes if untrusted input can reach this function or its intended operation does not require arbitrary shell commands.",
+                  "steps": [
+                    "Replace os.system with subprocess.run using a fixed executable, an argument list, and shell=False where shell interpretation is unnecessary.",
+                    "Constrain externally supplied arguments to the intended operation using explicit validation; if arbitrary shell execution is required, obtain an owner review of authorization and isolation requirements."
+                  ],
+                  "verification": [
+                    "Review the revised call to confirm executable selection is controlled and arguments are not interpreted by a shell.",
+                    "Retain isolated behavioral tests covering ordinary arguments, shell metacharacters, and disallowed options."
+                  ]
+                },
+                "status": "potential_gap",
+                "verification_steps": [
+                  "Review callers and input provenance to establish whether user, model, or MCP tool arguments can reach this function.",
+                  "In an authorized isolated environment, verify that shell metacharacters in externally supplied arguments cannot alter the intended operation."
+                ]
+              }
+            ],
+            "control_id": "LIVE-C1"
+          }
+        ],
+        "controls_submitted": 1,
+        "data_policy": "Caller-supplied minimized evidence; code support is not runtime validation.",
+        "model": "gpt-6-astra",
+        "nondeterministic": true,
+        "omitted_checks": 0,
+        "omitted_controls": 0,
+        "protocol_version": "1.1.0",
+        "provider": "codex_cli",
+        "status": "completed"
+      },
+      "seconds": 19.06,
+      "stage": "controls",
+      "status": "completed"
+    }
+  ],
+  "scanner_version": "0.10.0",
+  "schema_version": "1.0",
+  "timeout_seconds_per_stage": 180.0
+}

@@ -30,6 +30,21 @@ class OptionalPDFDependencyTests(unittest.TestCase):
 
 @unittest.skipUnless(HAS_PDF, "Optional PDF extra is not installed")
 class PDFReviewTests(unittest.TestCase):
+    def test_failed_optional_review_is_visible_on_cover_and_executive_page(self):
+        import pypdf
+        report = copy.deepcopy(self.report)
+        report["judge"] = {"enabled": True, "status": "error"}
+        report["analyst"] = {"enabled": True, "status": "error", "coverage": {"omitted_checks": 2}}
+        report["execution"] = {"exit_code": 2}
+        destination = self.root / "failed-optional.pdf"
+        report_pdf.render_pdf(report, destination)
+        reader = pypdf.PdfReader(destination)
+        for index in (0, 2):
+            text = " ".join(reader.pages[index].extract_text().split())
+            self.assertIn("finding stage error; control stage error", text)
+            self.assertIn("2 acceptance checks remain unanswered", text)
+            self.assertIn("Requested work is incomplete", text)
+
     @classmethod
     def setUpClass(cls):
         import pypdf

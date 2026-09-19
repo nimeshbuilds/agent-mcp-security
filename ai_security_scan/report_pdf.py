@@ -397,6 +397,16 @@ def _render_pdf(report, path):
         label = _display(label or (url if len(url) < 105 else url[:101] + "..."))
         return Paragraph('<link color="#087e78" href="' + html.escape(url, quote=True) + '">' + html.escape(label) + '</link>', styles["small"])
 
+    def proposed_actions(actions):
+        if not actions:
+            return []
+        result = [para("Model-proposed fix guidance (unverified)", "sub"),
+                  para("Agent/MCP relevance: " + actions["agent_mcp_relevance"], "small"),
+                  para("When this applies: " + actions["applicability"], "small")]
+        result += [para(str(index) + ". " + step, "small") for index, step in enumerate(actions["steps"], 1)]
+        result += [para("Verify: " + step, "small") for step in actions["verification"]]
+        return result
+
     class ReviewCard(Flowable):
         def __init__(self, index, item):
             Flowable.__init__(self)
@@ -536,20 +546,37 @@ def _render_pdf(report, path):
     posture_explanation = posture.get("explanation", "") if isinstance(posture, dict) else ""
     if isinstance(posture, dict):
         posture = posture.get("title", posture.get("summary", posture.get("label", posture.get("status", "Static review required"))))
+    judge, analyst = report.get("judge", {}), report.get("analyst", {})
+    review_notice = "Optional model review: disabled. Deterministic findings and fix guidance run independently."
+    if judge.get("enabled") or analyst.get("enabled"):
+        review_notice = "Optional model review: finding stage {}; control stage {}.".format(
+            judge.get("status", "unknown") if judge.get("enabled") else "disabled",
+            analyst.get("status", "unknown") if analyst.get("enabled") else "disabled")
+        if analyst.get("enabled"):
+            review_notice += " {} acceptance checks remain unanswered.".format(analyst.get("coverage", {}).get("omitted_checks", 0))
+        if report.get("execution", {}).get("exit_code") == 2:
+            review_notice += " Requested work is incomplete. Inspect the recorded errors; no model judgment resolves the static findings."
     story = [Spacer(1, 18), para("Security findings.\nHuman decisions.\nTraceable evidence.", "title"),
              para("AI AGENT + MCP SECURITY REVIEW", "sub"), para("Scan " + str(report.get("scan_id", "")), "small"),
              para(str(posture)), para(str(posture_explanation), "small"),
              Metrics([("OPEN FINDINGS", int(summary.get("open_findings", 0))), ("COVERAGE GAPS", int(summary.get("coverage_gaps", 0))),
                       ("FILES EXAMINED", int(summary.get("files_scanned", 0)))]),
              para("Observed counts only. This is not an accuracy score or a security grade.", "small"),
+             para(review_notice),
              Spacer(1, 12), para("This PDF contains interactive review fields and the exact bound review workspace as an attachment. Decisions are human assertions, not verified passes. Justified/disabled items are excluded from active denominators; gaps cannot be waived."),
              para("Save an edited copy and import it through Invarune. The importer checks origin/evidence bindings, canonical form data, widget relationships and appearances. Changed source, stale appearances or ambiguous fields are rejected."), PageBreak(),
              heading("Contents", "contents")]
     toc = TableOfContents()
     toc.levelStyles = [ParagraphStyle("TOC", fontName="Helvetica", fontSize=10, leading=19, textColor=teal)]
     story += [toc, PageBreak(), heading("Executive summary", "summary"),
+              para(review_notice),
               para("Severity counts describe observed open patterns. They do not establish exploitability or an estimated probability of compromise."),
               Bars([(name.title(), int(summary.get("severity_counts", {}).get(name, 0))) for name in ("critical", "high", "medium", "low", "info")], "Severity counts use the existing scanner rules; no model or reviewer score is added.")]
+    if report.get("advice_coverage"):
+        advice = report["advice_coverage"]
+        story.append(para("Fix guidance: {}/{} findings have deterministic fix plans and agent/MCP context. Model fix plans: {}/{} finding assessments; {}/{} answered checks. Proposals require verification.".format(
+            advice["static_fix_plans"], advice["static_findings"], advice["finding_fix_plans"], advice["finding_assessments"],
+            advice["model_check_fix_plans"], advice["model_check_assessments"]), "small"))
     for action in assessment.get("immediate_actions", [])[:8]:
         story += [para(str(action.get("rule_id", "")) + " / " + str(action.get("title", "Review finding")), "sub"),
                   para(action.get("immediate_action", "Validate the observed evidence and its deployment context."))]
@@ -599,6 +626,21 @@ def _render_pdf(report, path):
         story += [para("{} / {} / {}".format(finding["rule_id"], finding.get("severity", ""), finding.get("status", "")), "sub"),
                   para(finding.get("title", "")), para("{}:{}".format(finding.get("path", ""), finding.get("line", "")), "small"),
                   para(finding.get("evidence", ""), "small"), para(finding.get("remediation", ""), "small")]
+        advice = report.get("remediation", {}).get(finding.get("id"))
+        if advice:
+            story += [para("Fix plan and agent/MCP relevance", "sub"), para(advice["summary"], "small"),
+                      para("Why this matters for agents/MCP: " + advice["agent_mcp_relevance"], "small"),
+                      para(advice["scope_note"], "small")]
+            story += [para("Confirm applicability: " + item, "small") for item in advice["applicability"]]
+            for index, step in enumerate(advice["steps"], 1):
+                story.append(KeepTogether([para(str(index) + ". " + step["title"], "sub"),
+                                           para(step["action"], "small"), para("Verify: " + step["verification"], "small")]))
+            story += [para("Remaining validation: " + item, "small") for item in advice["residual_risk"]]
+            story.append(para("Related controls: " + ", ".join(advice["control_ids"]), "small"))
+            for source in advice["sources"]:
+                link = source_link(source["url"], source["id"] + " / " + source["title"])
+                if link is not None:
+                    story.append(link)
     for group in assessment.get("finding_groups", []):
         for layer in group.get("defense_layers", []):
             block = [para(str(group.get("rule_id", "")) + " / " + str(layer.get("name", layer.get("title", "Proposed mitigating layer"))), "sub"),
@@ -621,15 +663,18 @@ def _render_pdf(report, path):
         for item in judge.get("assessments", []):
             story.append(para("Finding review: " + str(item.get("finding_id", item.get("id", ""))), "sub"))
             for key, value in item.items():
-                if key not in {"finding_id", "id"}:
+                if key not in {"finding_id", "id", "recommended_actions"}:
                     story.append(para(key.replace("_", " ").capitalize() + ": " + (value if isinstance(value, str) else json.dumps(value, ensure_ascii=True)), "small"))
-        for item in judge.get("additional_concerns", []):
+            story += proposed_actions(item.get("recommended_actions"))
+        concern_actions = {item["concern_index"]: item["recommended_actions"] for item in judge.get("additional_concern_actions", [])}
+        for index, item in enumerate(judge.get("additional_concerns", []), 1):
             story.append(para("Additional model concern - unverified", "sub"))
             if isinstance(item, dict):
                 for key, value in item.items():
                     story.append(para(key.replace("_", " ").capitalize() + ": " + (value if isinstance(value, str) else json.dumps(value, ensure_ascii=True)), "small"))
             else:
                 story.append(para(str(item), "small"))
+            story += proposed_actions(concern_actions.get(index))
         for control in analyst.get("control_assessments", []):
             story += [para(str(control.get("control_id", "")) + " / Advisory check review: " + str(control.get("review_status", "unknown")), "sub")]
             for check in control.get("check_assessments", []):
@@ -647,6 +692,7 @@ def _render_pdf(report, path):
                 for step in check.get("verification_steps", []):
                     block.append(para("Verification still required: " + str(step), "small"))
                 story.append(KeepTogether(block))
+                story += proposed_actions(check.get("recommended_actions"))
     story += [PageBreak(), heading("Coverage gaps and required validation", "gaps")]
     gaps = list(report.get("coverage", {}).get("errors", [])) + [item for item in report.get("coverage", {}).get("skipped", []) if item.get("coverage_gap")]
     if not gaps:
