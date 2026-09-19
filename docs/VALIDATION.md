@@ -4,7 +4,7 @@ Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This docum
 
 ## Automated tests
 
-For version **0.4.0**, **422 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Many methods contain multiple scenario cases. Run them with:
+For version **0.4.0**, **423 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Many methods contain multiple scenario cases. Run them with:
 
 ```sh
 python3 -m unittest discover -s tests -v
@@ -26,7 +26,7 @@ The expanded audit found and fixed six classes of defect: uncharged raced/failed
 
 Real HTTPS tests verify rejection of untrusted certificates, acceptance with an explicit CA bundle, and rejection of a hostname mismatch. The fixture uses temporary certificates and synthetic credentials. The TLS test skips explicitly if `openssl` is unavailable; platform-specific filesystem tests also skip where their OS primitives do not exist.
 
-Image scanning adds **132 tests**: 61 archive-reader methods, 30 image-assessment methods, 23 runtime-acquisition methods, and 18 CLI/integration methods. These cover Docker-save/OCI archives, platform selection, layer order and whiteouts, hardlink snapshots, retained secrets, source-free images, malicious paths, integrity failures, byte/entry/layer limits, subprocess backpressure/deadlines, private-workspace cleanup, image baselines, and full optional analyst review. Final packaged code in `dist`, `node_modules` and virtual environments is tested. Redacted image paths retain layer/content provenance; ambiguous redacted-path collisions produce explicit gaps. Historical-file exclusions are enforced before renaming, and sensitive historical files cannot enter either optional model source-excerpt path. Current and historical context accompanies model evidence independently of findings.
+Image scanning adds **133 tests**: 61 archive-reader methods, 31 image-assessment methods, 23 runtime-acquisition methods, and 18 CLI/integration methods. These cover Docker-save/OCI archives, platform selection, layer order and whiteouts, hardlink snapshots, retained secrets, source-free images, malicious paths, integrity failures, byte/entry/layer limits, subprocess backpressure/deadlines, private-workspace cleanup, image baselines, and full optional analyst review. Final packaged code in `dist`, `node_modules` and virtual environments is tested. Redacted image paths retain layer/content provenance; ambiguous redacted-path collisions produce explicit gaps. Historical-file exclusions are enforced before renaming, and sensitive historical files cannot enter either optional model source-excerpt path. Current and historical context accompanies model evidence independently of findings. The portable reader fallback is explicitly exercised with canonical temporary paths, matching production workspace creation on hosts with path aliases.
 
 Local runtime tests use controlled subprocesses because Docker and Podman are not installed on the validation Mac. A separate Linux CI job builds actual Docker artifacts using controlled `FROM scratch`/`COPY` fixtures, then checks image-reference acquisition, saved archives, retained credentials, packaged source and binary-only scope reporting. It never starts a container. See [image behavior and reproduction instructions](IMAGE_SCANNING.md).
 
@@ -40,7 +40,7 @@ Whole-rule removal tests deliberately disable all 42 detectors one at a time and
 
 ## Coverage and distribution checks
 
-Coverage.py **7.16.1** on Python 3.12.14 measured **3,782 / 4,035 statements (93.73%)** and **1,780 / 2,014 branches (88.38%)**; combined coverage was **91.95%**, with no excluded paths. This configuration measures the parent test process; separately tested subprocess entry points are not included in its counters. Uncovered branches remain visible in the coverage report. This is execution coverage, not a security assurance score.
+Coverage.py **7.16.1** on Python 3.12.14 measured **3,785 / 4,035 statements (93.80%)** and **1,782 / 2,014 branches (88.48%)**; combined coverage was **92.03%**, with no excluded paths. This configuration measures the parent test process; separately tested subprocess entry points are not included in its counters. Uncovered branches remain visible in the coverage report. This is execution coverage, not a security assurance score.
 
 The version 0.4.0 wheel was built, installed without application dependencies into an isolated environment, and invoked from outside the checkout. The installed CLI scanned the shipped image archive without a container runtime, loaded the 66-control packaged catalog, and produced Markdown, JSON and SARIF with three expected findings, zero gaps and exit 1. This guards against source-tree imports hiding packaging errors.
 

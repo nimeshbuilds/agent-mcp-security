@@ -15,7 +15,9 @@ class ImageAssessmentTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
-        self.work = Path(self.tmp.name)
+        # Match scan_image's canonical private workspace. Windows TEMP may use
+        # an 8.3 alias; the portable confined reader rejects unresolved aliases.
+        self.work = Path(self.tmp.name).resolve()
         self.root = self.work / "rootfs"
         self.root.mkdir()
         self.materialized = {"root": self.root, "config": {"config": {"User": "1001:1001"}},
@@ -53,6 +55,16 @@ class ImageAssessmentTests(unittest.TestCase):
         self.assertFalse(result["findings"])
         self.assertIn(".image-metadata/config.json", result["evidence_files"])
         self.assertFalse(result["inventory"]["package_inventory_is_cve_scan"])
+
+    def test_portable_read_fallback_inspects_metadata_and_retained_revisions(self):
+        self.add_file("etc/passwd", "service:x:0:1000:service:/app:/bin/false\n")
+        self.materialized["config"]["config"]["User"] = "service"
+        self.add_layer("app/old.py", 'API_KEY = "syntheticPortableRetainedCredential012345"\n')
+        with patch("ai_security_scan.fs.os.supports_dir_fd", set()):
+            result = self.run_scan()
+        self.assertFalse(result["coverage"]["errors"])
+        self.assertEqual({item["rule_id"] for item in result["findings"]}, {"AI021", "AI010"})
+        self.assertEqual(result["coverage"]["counters"]["retained_layer_revisions_checked"], 1)
 
     def test_default_and_explicit_root_variants_are_identified(self):
         for value in ("", "root", "root:root", "0", "0:1000", "0000:group"):
