@@ -2,7 +2,9 @@
 
 The deterministic scanner works offline and does not need a model. Enable the optional judge explicitly with `--judge-config /path/to/trusted-judge.json`. The judge adds advisory assessments; it cannot delete baseline findings, change their severity, or override the deterministic scan result. It is nondeterministic even if a provider accepts temperature zero or a seed.
 
-The default payload contains minimized findings, including their redacted evidence, and scan metadata. `--judge-include-source` separately opts in to bounded, redacted neighboring source excerpts. Redaction reduces accidental disclosure; it cannot guarantee that all proprietary information or unusual secret formats are removed. Choose an endpoint approved for the data you send. Repository instructions are untrusted review material. The prompt states that boundary, but prompting alone cannot eliminate prompt injection; separate baseline findings and strict output validation are the enforcement boundary.
+In version 0.2, the default configured mode is **full**: one finding-triage request followed by a bounded security analyst review of **all 66 controls and 132 checks**, including checks without findings. This sends redacted source excerpts selected deterministically from the scanned manifest, even when the static scan is clean. The [security analyst guide](ANALYST.md) describes routing, exact-quote validation, the control-output schema, request budgets, evidence limits, and explicit unresolved outcomes. All protocols below work for both stages.
+
+Use `--judge-mode findings` for the previous one-request scope: minimized findings, redacted evidence, and scan metadata. `--judge-include-source` adds bounded neighboring source excerpts to finding triage only; full analyst evidence is independent of that flag. Redaction reduces accidental disclosure; it cannot guarantee that all proprietary information or unusual secret formats are removed. Choose an endpoint approved for the data you send. Repository instructions are untrusted review material. The prompt states that boundary, but prompting alone cannot eliminate prompt injection; separate static findings, fixed evidence retrieval, strict output validation, and no tool dispatch are the enforcement boundaries.
 
 ## Supported protocols
 
@@ -157,11 +159,11 @@ The native Chat Completions adapter uses `max_completion_tokens`. For older Open
 
 Some models do not accept `temperature`, a seed, JSON response-format parameters, or particular reasoning options. Those parameters are deliberately not imposed on all native providers. Use `extra_body` for your model's documented options. Native Gemini and Ollama requests ask for JSON using their protocol fields. Review model context limits and set provider generation parameters large enough for the submitted findings.
 
-The CLI sends up to 100 unsuppressed findings by default. `--judge-max-findings` accepts 1–500. Selection follows the deterministic report order; it is not an extra ranking pass. The payload and report record `omitted_open_findings` for findings excluded by this cap, separately from `omitted_assessments` for submitted findings that the model left unanswered. The report also records `source_context_sent_count`. All baseline findings remain in the deterministic report. The judge makes one bounded request without automatic batching; an oversized request fails explicitly. For a large repository, prioritize a narrower scan or use the deterministic report directly.
+The finding-triage stage sends up to 100 unsuppressed findings by default. `--judge-max-findings` accepts 1–500. Selection follows deterministic report order. The payload and report record `omitted_open_findings` for findings excluded by this cap, separately from `omitted_assessments` for submitted findings that the model left unanswered. The report also records `source_context_sent_count`. All findings remain in the deterministic report. This stage makes one bounded request; an oversized request fails explicitly. Full mode then uses stable control batches (six controls by default) up to the separate analyst call/time budgets. There are no automatic retries. Increase model output limits or reduce `--analyst-batch-size` if your provider truncates control responses, and increase the call budget to accommodate smaller batches.
 
-## Output and failure behavior
+## Finding-triage output and failure behavior
 
-The accepted model output is:
+The finding-triage model output is shown below. Full mode uses a separate strict `control_assessments` schema for subsequent requests, documented in [ANALYST.md](ANALYST.md); the controller supplies the appropriate instructions for each stage.
 
 ```json
 {
@@ -183,6 +185,8 @@ The returned object also records `status`, `provider`, configured `model`, optio
 The transport verifies TLS, rejects redirects, has no retries, ignores environment proxy settings, does not store cookies, rejects compressed responses, and reads a bounded response. Remote HTTP requires explicit configuration; loopback HTTP supports local model servers. Credentials in URL user information or common credential query parameters are rejected. Header injection and reserved transport headers are rejected. Request and response bodies, authentication headers, full endpoint URLs, and raw provider error details are not included in judge error messages. Environment values explicitly used by the adapter are removed if echoed in model output; this is additional protection, not a general data-loss-prevention system.
 
 Configuration is trusted operator input: do not load a judge configuration supplied by the repository under examination. A malicious configuration can choose a data recipient and explicitly request environment variables. Keep it outside untrusted repositories and review custom templates before use.
+
+Full control review additionally rejects recognized tool configuration fields and tool invocation output, including nested custom payload fields. Configure the gateway itself to disable server-side tools; a client cannot attest to a remote service's internal behavior. A first failed control batch stops further calls and preserves completed advice. Every unanswered control/check remains explicit, and incomplete control review returns exit code 2. `supported_by_code` is advisory source support, never a compliance pass. Proposed verification steps are text only and are not executed.
 
 ## API references
 

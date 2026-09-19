@@ -25,8 +25,15 @@ def parser():
     p.add_argument("--write-baseline", metavar="PATH", help="Write a baseline candidate; does not suppress this scan")
     p.add_argument("--baseline-reason", help="Required justification for --write-baseline")
     p.add_argument("--judge-config", help="Opt in to sending a bounded, redacted assessment payload to this configured LLM endpoint")
-    p.add_argument("--judge-include-source", action="store_true", help="Also send bounded redacted source context around findings (requires --judge-config)")
+    p.add_argument("--judge-mode", choices=("full", "findings"), default="full", help="Full control analyst plus finding triage (default), or finding triage only")
+    p.add_argument("--judge-include-source", action="store_true", help="Add neighboring source to finding triage; full analyst separately sends bounded source excerpts")
     p.add_argument("--judge-max-findings", type=int, default=100)
+    p.add_argument("--analyst-max-calls", type=int, default=12, help="Control analyst request budget (0–100); finding triage uses one additional request")
+    p.add_argument("--analyst-batch-size", type=int, default=6, help="Controls per analyst request (1–20)")
+    p.add_argument("--analyst-max-files", type=int, default=200, help="Maximum scanned files to read for analyst evidence")
+    p.add_argument("--analyst-max-bytes", type=int, default=2_000_000, help="Maximum source bytes to read for analyst evidence")
+    p.add_argument("--analyst-max-chars", type=int, default=120_000, help="Maximum redacted source characters retained for analyst evidence")
+    p.add_argument("--analyst-time-budget", type=float, default=180, help="Control analyst scheduling/time budget in seconds; not a hard process deadline")
     p.add_argument("--list-rules", action="store_true")
     p.add_argument("--list-controls", action="store_true")
     p.add_argument("--version", action="version", version=__version__)
@@ -83,6 +90,14 @@ def main(argv=None):
         p.error("--write-baseline requires --baseline-reason with a justification")
     if not 1 <= args.judge_max_findings <= 500:
         p.error("--judge-max-findings must be between 1 and 500")
+    analyst_limits = dict(max_calls=args.analyst_max_calls, batch_size=args.analyst_batch_size,
+                          max_files=args.analyst_max_files, max_bytes=args.analyst_max_bytes,
+                          max_chars=args.analyst_max_chars, max_seconds=args.analyst_time_budget)
+    from .analyst import validate_limits
+    try:
+        validate_limits(**analyst_limits)
+    except ValueError as exc:
+        p.error(str(exc))
     output = Path(args.output).expanduser()
     target = Path(args.target).expanduser()
     if output.resolve() == target.resolve():
@@ -94,19 +109,31 @@ def main(argv=None):
     try:
         baseline = load_baseline(args.baseline) if args.baseline else None
         report = scan(target, exclude=args.exclude, output_paths=exclusions, max_file_bytes=args.max_file_bytes, max_total_bytes=args.max_total_bytes, max_files=args.max_files, max_entries=args.max_entries, baseline=baseline)
+        report["analyst"] = {"enabled": False}
         if args.judge_config:
-            from .judge import JudgeError, load_config, review
-            print("Optional LLM judge enabled: sending redacted findings to the configured endpoint. Redaction is best-effort.", file=sys.stderr)
+            from .judge import JudgeError, load_config, review, validate_analyst_config
+            from .analyst import run_analyst, unreviewed_analyst
+            scope_description = "findings and bounded source excerpts for every control" if args.judge_mode == "full" else "findings"
+            print("Optional LLM review enabled: sending redacted " + scope_description + " to the configured endpoint. Redaction is best-effort.", file=sys.stderr)
             payload = judge_payload(report, target.resolve(), args.judge_include_source, args.judge_max_findings)
             judge_scope = {"omitted_open_findings": payload["omitted_open_findings"], "selected_findings": len(payload["findings"]), "source_context_sent_count": len(payload.get("source_context", []))}
             try:
                 config = load_config(args.judge_config)
+                if args.judge_mode == "full":
+                    config = validate_analyst_config(config)
                 result = review(config, payload)
                 report["judge"] = {**redact_object(result), **judge_scope, "enabled": True, "status": "completed", "advisory_only": True, "source_context_requested": args.judge_include_source}
+                if args.judge_mode == "full":
+                    report["analyst"] = run_analyst(config, report, target.resolve(), **analyst_limits)
             except JudgeError as exc:
                 report["judge"] = {**judge_scope, "enabled": True, "status": "error", "advisory_only": True, "error": redact(str(exc)) + " Deterministic results are preserved."}
+                if args.judge_mode == "full":
+                    report["analyst"] = unreviewed_analyst(report, "Control review was not started because finding triage or judge configuration failed.", max_calls=args.analyst_max_calls)
+            report["judge"]["mode"] = args.judge_mode
         gate_triggered = args.fail_on != "none" and any(f["status"] == "open" and SEVERITIES.index(f["severity"]) <= SEVERITIES.index(args.fail_on) for f in report["findings"])
-        incomplete = not report["summary"]["scan_complete_within_selected_scope"] or report["judge"].get("status") == "error"
+        incomplete = (not report["summary"]["scan_complete_within_selected_scope"]
+                      or report["judge"].get("status") == "error"
+                      or report["analyst"].get("status") in {"error", "incomplete"})
         report["execution"] = {"failure_threshold": args.fail_on, "finding_gate_triggered": bool(gate_triggered), "exit_code": 2 if incomplete else 1 if gate_triggered else 0}
         write_reports(report, output)
         if args.write_baseline:
@@ -121,5 +148,8 @@ def main(argv=None):
     summary = report["summary"]
     print(f"Scanned {summary['files_scanned']} files; {summary['open_findings']} open findings; {summary['coverage_gaps']} coverage gaps.")
     print("Reports: " + str(output.resolve() / "report.md") + " (also JSON and SARIF)")
+    if report["analyst"].get("enabled"):
+        coverage = report["analyst"]["coverage"]
+        print(f"Advisory analyst: {report['analyst']['status']}; {coverage['reviewed_controls']}/{coverage['total_controls']} controls reviewed; {coverage['omitted_checks']} unanswered checks. Code review does not establish runtime validation.")
     # Operational failure always takes precedence over the finding severity gate.
     return report["execution"]["exit_code"]

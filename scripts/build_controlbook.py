@@ -138,7 +138,7 @@ class Book:
         c.showPage()
 
     def plan(self):
-        self.specs = [("cover", None), ("guide", None), ("sources", None), ("workflow", None)]
+        self.specs = [("cover", None), ("guide", None), ("sources", None), ("workflow", None), ("analyst", None)]
         benchmarks = [s for s in self.sources if "benchmark" in s.get("kind", "").lower() and not any(word in s.get("organization", "").lower() for word in ("cis", "center for internet"))]
         for i in range(0, len(benchmarks), 3):
             self.specs.append(("benchmarks", benchmarks[i:i + 3]))
@@ -205,7 +205,7 @@ class Book:
             self.canvas.line(M, y - 10, W - M, y - 10)
             y -= 29
         y -= 12
-        y = self.para(f"<b>Static-rule index:</b> page {self.rule_start} &nbsp; / &nbsp; <b>Full source directory:</b> page {self.ref_start}", M, y, CW, 9.5)
+        y = self.para(f"<b>Controlled security analyst:</b> page 5<br/><b>Static-rule index:</b> page {self.rule_start} &nbsp; / &nbsp; <b>Full source directory:</b> page {self.ref_start}", M, y, CW, 9.5)
         y -= 23
         self.para("<b>Read the labels carefully.</b> A source link shows provenance or thematic alignment. It does not mean that every acceptance check is quoted from that source, or that a rule satisfies an entire external requirement. The applicability and limitations of each source appear in the directory.", M, y, CW, 9.8, 14)
         self.end()
@@ -252,7 +252,27 @@ class Book:
         y -= 2
         self.canvas.setFillColor(NAVY)
         self.canvas.roundRect(M, y - 94, CW, 94, 7, fill=1, stroke=0)
-        self.para("<b>Optional LLM judge</b><br/>Use it to triage uncertainty, not to authorize actions or dismiss deterministic findings. Repository text is untrusted input. Bound the payload, redact secrets, validate the returned schema, and retain the original evidence. Native APIs and custom JSON gateways are supported; compatibility is protocol-specific.", M + 16, y - 13, CW - 32, 9.5, 14, WHITE)
+        self.para("<b>Optional controlled security analyst</b><br/>When enabled, every control receives an advisory review through deterministic evidence retrieval, bounded requests, strict schemas, and exact-quote checks. The LLM remains nondeterministic. Runtime and owner verification stay open; static findings and the severity gate remain intact. See page 5 for the review contract.", M + 16, y - 13, CW - 32, 9.5, 14, WHITE)
+        self.end()
+
+    def analyst(self, _):
+        y = self.start("03 / Validation method / continued", "Controlled security analyst", "Deterministic boundaries around nondeterministic expertise. Source review produces advice; it does not establish deployed security.")
+        stages = [
+            ("01", "Route every unresolved control", "Static rules provide partial evidence, so full mode queues all 66 controls and 132 acceptance checks, including controls with no findings. An empty pattern scan never closes a control."),
+            ("02", "Collect evidence deterministically", "Read only unchanged files in the scan manifest. Check file hashes and path confinement, exclude credential files, redact excerpts, and select bounded context using fixed control terms and finding locations."),
+            ("03", "Run the bounded analyst", "Use the configured model or custom JSON gateway. Fixed batches and call, size, and time budgets constrain review. Repository content is untrusted; no model-directed reads, local tools, or target execution occur."),
+            ("04", "Validate the response contract", "Require known control/check IDs, allowed statuses, and exact evidence quotes for support, gaps, or proposed non-applicability. Derive file and line metadata from submitted excerpts. Reject malformed or fabricated output."),
+            ("05", "Keep gaps visible and auditable", "Record every check, explanation, citation, verification step, and request receipt. Omitted checks and exhausted budgets remain unreviewed. The first failed batch stops further calls; static results are preserved."),
+        ]
+        for number, title, body in stages:
+            self.text(number, M, y - 12, 15, TEAL, True)
+            self.text(title, M + 38, y - 12, 11.5, NAVY, True)
+            y = self.para(esc(body), M + 38, y - 23, CW - 38, 9.1, 12.7) - 16
+        y = self.para("<b>Advisory outcomes</b><br/>Code support / potential gap / runtime validation needed / human review needed / insufficient evidence / non-applicability proposed. Code support cannot complete manual or dynamic controls. Quote validation proves presence in an excerpt, not the model's interpretation.", M, y - 2, CW, 9.2, 13)
+        y -= 18
+        self.canvas.setFillColor(NAVY)
+        self.canvas.roundRect(M, y - 96, CW, 96, 7, fill=1, stroke=0)
+        self.para("<b>Default review envelope</b><br/>11 control batches of 6, within a 12-call cap, plus one finding-triage request. Evidence: at most 200 files / 2 MB; 240 excerpts / 120,000 characters; four excerpts per control. The 180-second scheduling budget is not a hard process deadline. Full mode sends source excerpts even with zero findings. Use --judge-mode findings for finding-only review.", M + 15, y - 11, CW - 30, 9, 12.6, WHITE)
         self.end()
 
     def benchmarks(self, items):
@@ -355,7 +375,7 @@ class Book:
         self.end()
 
     def build(self):
-        handlers = {"cover": self.cover, "guide": self.guide, "sources": self.sources_page, "workflow": self.workflow, "benchmarks": self.benchmarks, "controls": self.control_pages, "rules": self.rules_page, "references": self.references}
+        handlers = {"cover": self.cover, "guide": self.guide, "sources": self.sources_page, "workflow": self.workflow, "analyst": self.analyst, "benchmarks": self.benchmarks, "controls": self.control_pages, "rules": self.rules_page, "references": self.references}
         for kind, content in self.specs:
             handlers[kind](content)
         self.canvas.save()

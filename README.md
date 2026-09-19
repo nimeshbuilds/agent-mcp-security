@@ -1,17 +1,18 @@
 # NimeshBuild | AI Agent & MCP Security
 
-A dependency-free Python CLI that reads a codebase, identifies selected security risks, and produces a detailed report. The deterministic scan runs offline and never imports or executes the target application. An optional LLM judge adds advisory review through native API adapters or a custom HTTP gateway.
+A dependency-free Python CLI that reads a codebase, identifies selected security risks, and produces a detailed report. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every control through a deterministic evidence and validation layer, using native LLM APIs or a custom HTTP gateway. The model's judgment remains nondeterministic and advisory.
 
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
 - [Research, primary sources, dates, and benchmark comparisons](docs/RESEARCH.md)
 - [Judge setup and API compatibility](docs/JUDGE.md)
+- [Controlled security analyst: routing, evidence, budgets, and outcomes](docs/ANALYST.md)
 - [Machine-readable control catalog](ai_security_scan/data/controls.json)
 
 ## The NimeshBuild controlbook
 
-[Download the branded PDF](output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf): **64 pages**, all **66 controls**, **132 acceptance checks**, **75 primary-source references**, **9 executable research benchmarks**, and the **42-rule automation index**. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
+[Download the branded PDF](output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf): **65 pages**, all **66 controls**, **132 acceptance checks**, **75 primary-source references**, **9 executable research benchmarks**, the **42-rule automation index**, and the controlled analyst workflow. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
 
 <p align="center"><a href="output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf"><img src="docs/assets/controlbook-cover.png" alt="NimeshBuild AI Agent and MCP Security Controlbook cover" width="380"></a></p>
 
@@ -38,10 +39,10 @@ Generated files:
 | File | Contents |
 |---|---|
 | `report.md` | Human-readable findings, file/line evidence, severity, confidence, remediation, source references, all 66 controls, and coverage gaps |
-| `report.json` | Structured findings, stable IDs, configuration, file hashes, inventory, control mappings, suppressions, and optional judge output |
+| `report.json` | Structured findings, stable IDs, file hashes, control mappings, suppressions, and optional per-check analyst assessments, evidence excerpts, and request receipts |
 | `report.sarif` | SARIF 2.1.0 findings for compatible code-review and CI consumers; runtime/manual checklist details remain in Markdown/JSON |
 
-Exit codes are **0** when the selected scope completes and no unsuppressed finding reaches the chosen threshold, **1** when findings reach the threshold, and **2** for incomplete scanning, configuration/output errors, or a requested judge failure. Operational failures take precedence over finding severity. Zero is not proof of security.
+Exit codes are **0** when the selected scope completes and no unsuppressed finding reaches the chosen threshold, **1** when findings reach the threshold, and **2** for incomplete scanning, configuration/output errors, a requested judge failure, or an incomplete control review. Operational failures take precedence over finding severity. Zero is not proof of security.
 
 ```sh
 # Gate medium and higher findings; omit one generated directory.
@@ -74,7 +75,7 @@ Python call checks use AST analysis. JavaScript/TypeScript and configuration che
 
 The report retains controls for authorization, tenant separation, consent/approval binding, tool poisoning, memory poisoning, supply-chain provenance, resource budgets, observability, and incident response. Static evidence does not establish these controls as passing. `no_pattern_detected` is explicitly different from a control pass; `findings_detected` means investigate, not automatic noncompliance. `findings_suppressed` means matching findings were accepted in an explicit baseline; it does not mean no risk pattern exists.
 
-## Optional LLM judge
+## Optional controlled security analyst
 
 The judge is disabled by default. Native adapters support **OpenAI-compatible Chat Completions, OpenAI Responses, Anthropic Messages, Gemini GenerateContent, and Ollama Chat**. Every adapter accepts an exact custom endpoint URL. A **custom JSON request template and response-path adapter** covers other HTTP APIs and gateways. Native cloud request signing, OAuth token refresh, gRPC, and streaming-only protocols require an appropriate gateway or additional adapter; accepting arbitrary URLs does not mean every proprietary API works unchanged.
 
@@ -96,15 +97,24 @@ Set `SECURITY_JUDGE_API_KEY` using your shell or secret manager, then:
 ```sh
 python3 scan.py /path/to/repo --judge-config ./judge.json --output ./scan-report
 
-# Explicitly include a small amount of surrounding source context as well.
-python3 scan.py /path/to/repo --judge-config ./judge.json --judge-include-source
+# Increase the scheduling budget for slower models.
+python3 scan.py /path/to/repo --judge-config ./judge.json --analyst-time-budget 600
+
+# Narrow opt-in: finding triage only, without the all-control source review.
+python3 scan.py /path/to/repo --judge-config ./judge.json --judge-mode findings
 ```
 
-By default the judge receives up to 100 unsuppressed findings, including their **redacted evidence**, plus summary/limitations. It does not receive the full repository, control catalog, or environment. `--judge-include-source` adds up to seven lines around each selected finding, capped at 3,000 characters per excerpt and 30,000 total; `.env`, `.pem`, and `.key` source context is excluded. Findings themselves may still originate in those files. A request-size limit bounds the final payload. The judge is one bounded review request, not a full repository reasoning pass. Use `--judge-max-findings` to choose 1–500; omitted findings are counted in the payload.
+With `--judge-config`, **full review is the default**: one finding-triage request followed by all **66 controls / 132 checks**, including those with no findings. Even mapped static rules cannot establish a complete control pass, so every control is queued. A deterministic selector gathers bounded, redacted excerpts from unchanged files in the scan manifest. The model cannot choose files, execute code, use tools, change findings, or authorize actions.
+
+The controller validates a strict per-check schema, known IDs, and exact source quotes. Each check receives `supported_by_code`, `potential_gap`, `needs_runtime_validation`, `needs_human_review`, `insufficient_evidence`, or `not_applicable_proposed`. These are advisory outcomes. Manual and dynamic controls cannot be established by code support; runtime and owner verification stay open. Unsupported claims, fabricated citations, unknown IDs, and tool calls fail the batch. Missing answers stay explicitly unreviewed.
+
+Default control-review budgets are **12 requests**, **6 controls per request**, **180 seconds** for scheduling and per-request timeouts, and evidence from at most **200 files / 2 MB**, with **240 excerpts / 120,000 characters** overall and at most four excerpts per control. A normal complete catalog uses 11 control requests plus one finding-triage request. Time is not a hard process deadline. Budget exhaustion, omitted answers, or a failed batch preserves all results and returns **2**. A completed review can still contain unresolved runtime, human, or evidence requirements. See [all limits and coverage semantics](docs/ANALYST.md).
+
+**Full mode sends bounded source excerpts even when no findings exist.** `--judge-mode findings` retains one-request triage: up to 100 unsuppressed findings and their redacted evidence, summary, and limitations. `--judge-max-findings` accepts 1–500. `--judge-include-source` adds neighboring source only to that triage request, capped at seven lines / 3,000 characters per excerpt and 30,000 total; it is independent of full-mode evidence. Credential files are excluded from analyst excerpts, and all omissions are reported. The source selector is partial retrieval, not a complete semantic review of the repository.
 
 Redaction is best-effort and does not remove all confidential information. Review the local JSON report before choosing an external judge endpoint. API credentials come from explicitly named environment variables, are sent only to the configured endpoint, and are not written to reports. TLS verification stays enabled; private CAs are supported. Redirects and implicit environment proxies are disabled. Remote plaintext HTTP requires an explicit insecure configuration opt-in.
 
-Judge output is nondeterministic, including with deterministic-looking model settings. It cannot suppress findings, downgrade deterministic severity, mark controls as passing, or alter the severity gate. A judge failure preserves the deterministic report and returns exit code 2. See [the complete adapter guide](docs/JUDGE.md) and [example configurations](examples/judges/).
+Judge output is nondeterministic, including with deterministic-looking model settings. It cannot suppress findings, downgrade deterministic severity, mark controls as passing, or alter the severity gate. Markdown places advice beside each acceptance check; JSON retains evidence hashes, citations, omissions, and request receipts. SARIF remains static findings only. See [the complete adapter guide](docs/JUDGE.md) and [example configurations](examples/judges/). Version 0.2 changes configured review from finding-only to full by default; use `--judge-mode findings` for the previous outbound-data scope.
 
 ## Scope, limits, and reproducibility
 

@@ -4,7 +4,7 @@ Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This docum
 
 ## Automated tests
 
-**91 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Run them with:
+For version **0.2.0**, **153 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Run them with:
 
 ```sh
 python3 -m unittest discover -s tests -v
@@ -18,13 +18,17 @@ Filesystem regressions cover symbolic links, special/binary inputs, output paths
 
 Judge tests exercise all five native response protocols and the custom adapter, environment-based authentication, malformed/unknown/duplicate finding IDs, omitted assessments, truncation and response-size errors, timeouts, TLS/configuration failures, header validation, and redirect rejection. Actual loopback HTTP roundtrips include an end-to-end `scan.py` subprocess against a custom JSON gateway. A model calling every finding a false positive is verified not to change deterministic findings, severity, controls, SARIF, or the finding gate.
 
+The **62 analyst tests** cover all-control routing on a zero-finding repository, all 132 acceptance-check records, stable evidence/batch ordering, call and elapsed-time limits, omitted answers, first-error stopping, and preserved static results. The full custom-gateway CLI path is exercised through mocked transport with the real request builder and strict response validator. Full mode rejects tool-enabled custom configuration before either review stage sends a request.
+
+Analyst evidence tests cover unchanged manifest hashes, symlink confinement, post-scan mutations, excluded credential files, secret-line redaction, precise line/truncation metadata, bounded retrieval, and conservative byte charging after failed reads. Protocol tests reject invented or unrelated citations, unknown IDs, invalid statuses, extra fields, duplicate keys, oversized explanations, tool calls, and credential collisions with structural IDs. Quotes cannot be silently sanitized into text that differs from the submitted evidence. Source support for manual and dynamic controls is downgraded to required human/runtime validation.
+
 ## CLI fixture results
 
 | Target | Scanned files | Open findings | Coverage gaps | Exit |
 |---|---:|---:|---:|---:|
 | `examples/vulnerable` | 3 | 11 | 0 | 1 with default high threshold |
 | `examples/safer` | 2 | 0 | 0 | 0 |
-| Scanner package itself | 12 | 0 | 0 | 0 with findings gate disabled |
+| Scanner package itself | 14 | 0 | 0 | 0 with findings gate disabled |
 
 The vulnerable fixture produces 8 high, 2 medium, and 1 low finding. It demonstrates dynamic execution, shell use, unsafe deserialization, disabled TLS, an embedded demo credential, a remote plaintext MCP endpoint, wildcard automatic approvals, an unpinned server package, and container configuration risks. It is never executed by the scan.
 
@@ -35,7 +39,7 @@ All three targets were scanned twice with identical settings. **Markdown, JSON, 
 - [Vulnerable SARIF](../examples/reports/vulnerable/report.sarif)
 - [Safer fixture report](../examples/reports/safer/report.md)
 
-The local test transcript and machine-readable test summary are in `test-output/unittest.log` and `test-output/validation.json` (generated artifacts excluded from version control).
+The refreshed fixture repeatability summary and PDF hash are recorded locally in `test-output/validation-v02.json` (a generated artifact excluded from version control).
 
 ## Boundaries of this validation
 

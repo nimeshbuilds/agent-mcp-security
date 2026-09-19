@@ -1,4 +1,7 @@
 {
+  "analyst": {
+    "enabled": false
+  },
   "configuration": {
     "default_excluded_directories": [
       ".cache",
@@ -2136,7 +2139,7 @@
     "enabled": false
   },
   "mode": "deterministic_static",
-  "scan_id": "34933198138fdb73d9b2da50bcce58e7cdfd7b98c271bdfbe969bdea2bb60def",
+  "scan_id": "5a04a5ff9daec8347df60e7df6ecdb7fae095aa270742421fbc785c1e2bfc276",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_triage_only",
@@ -2156,9 +2159,9 @@
   },
   "target": ".",
   "tool": {
-    "implementation_sha256": "7b0995c908db266591a529b0bb4b25d7e3ea648a0cd13dbe99b269213499b4e9",
+    "implementation_sha256": "1b059cc8dc2db096b15f481383b4292e318cbeab585d713417541734f6cbf0e5",
     "name": "agent-mcp-security-scan",
-    "python_version": "3.9.6",
-    "version": "0.1.0"
+    "python_version": "3.12.14",
+    "version": "0.2.0"
   }
 }

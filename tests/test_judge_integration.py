@@ -51,7 +51,7 @@ class JudgeIntegrationTests(unittest.TestCase):
         output = self.base / output_name
         stdout, stderr = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
-            code = main([str(self.repo), "--output", str(output), *args])
+            code = main([str(self.repo), "--output", str(output), "--judge-mode", "findings", *args])
         report = json.loads((output / "report.json").read_text(encoding="utf-8"))
         return code, report, output, stdout.getvalue() + stderr.getvalue()
 
@@ -187,7 +187,7 @@ class JudgeIntegrationTests(unittest.TestCase):
             environment = dict(os.environ, LOCAL_JUDGE_TEST_KEY="LOCAL_GATEWAY_TRANSPORT_SECRET_123456")
             process = subprocess.run(
                 [sys.executable, str(Path(__file__).resolve().parents[1] / "scan.py"), str(self.repo),
-                 "--output", str(output), "--judge-config", str(self.config)],
+                 "--output", str(output), "--judge-config", str(self.config), "--judge-mode", "findings"],
                 capture_output=True, text=True, timeout=15, env=environment,
             )
             self.assertEqual(process.returncode, 1, process.stdout + process.stderr)

@@ -27,6 +27,17 @@ def markdown(report):
     if report.get("execution"):
         execution = report["execution"]
         lines += ["", f"Severity failure threshold: **{md(execution['failure_threshold'])}** · Process exit code: **{execution['exit_code']}**."]
+    analyst = report.get("analyst", {})
+    analyst_controls = {}
+    if analyst.get("enabled"):
+        coverage = analyst["coverage"]
+        analyst_controls = {item["control_id"]: item for item in analyst["control_assessments"]}
+        lines += ["", "### Advisory security analyst", "",
+                  f"Review status: **{md(analyst['status'])}** · Controls reviewed: **{coverage['reviewed_controls']}/{coverage['total_controls']}** · Unanswered checks: **{coverage['omitted_checks']}** · Control requests: **{coverage['calls_made']}/{coverage['call_budget']}**.", "",
+                  "Every control is routed for review because static patterns cannot establish completion. Review completion means an answer was received for every check; it does not mean the checks passed. The model is nondeterministic. Evidence selection, schema checks, and exact-quote validation are deterministic. Runtime execution and model tools are disabled.", "",
+                  "| Advisory check status | Count |", "|---|---:|"]
+        for status, count in analyst.get("check_status_counts", {}).items():
+            lines.append(f"| {md(status)} | {count} |")
     lines += ["", "A clean pattern scan is not a control pass. Validate applicability and exploitability before remediation; runtime and manual checks remain required.", "", "## Findings", ""]
     if not report["findings"]:
         lines.append("No configured risk patterns were detected in the selected files.")
@@ -51,6 +62,21 @@ def markdown(report):
             lines += ["", "Open finding IDs: " + ", ".join(c["finding_ids"])]
         if c.get("suppressed_finding_ids"):
             lines += ["", "Suppressed finding IDs: " + ", ".join(c["suppressed_finding_ids"])]
+        if c["id"] in analyst_controls:
+            assessment = analyst_controls[c["id"]]
+            lines += ["", f"**Advisory analyst:** {md(assessment['review_status'])}. Deterministic control status remains {md(c['status'])}.", ""]
+            for check in assessment["check_assessments"]:
+                lines += [f"**Check {check['check_index']}: {md(check['status'])}**", "",
+                          md(check["reason"]), ""]
+                if not check.get("model_supplied", False):
+                    lines += ["No model assessment was received for this check.", ""]
+                for citation in check["citations"]:
+                    lines += [f"Evidence {md(citation['evidence_id'])}: {md(citation['path'])}:{citation['start_line']}–{citation['end_line']} (exact quote verified).",
+                              "", codeblock(citation["quote"]), ""]
+                lines.append("Verification still required:")
+                for step in check["verification_steps"]:
+                    lines.append("- " + md(step))
+                lines.append("")
         for url in c.get("sources", []):
             if url.startswith("https://"):
                 lines.append(f"- [Source]({quote(url, safe=':/#?=&%')})")
@@ -74,6 +100,15 @@ def markdown(report):
         lines.append("Disabled. No LLM request was made.")
     else:
         lines += ["Advisory, non-deterministic output. It cannot dismiss deterministic findings, establish compliance, or change the deterministic CI gate.", "", codeblock(json.dumps(judge, indent=2, sort_keys=True, ensure_ascii=True))]
+    if analyst.get("enabled"):
+        lines += ["", "## Analyst evidence and request audit", "",
+                  "Only bounded excerpts were submitted. Missing evidence may reflect collection limits, exclusions, or retrieval misses. A verified quote establishes its presence in an excerpt, not the truth of the model's interpretation. Verification steps are proposals and have not been executed.", "",
+                  "Evidence selection and review coverage:", "", codeblock(json.dumps(analyst["coverage"], indent=2, sort_keys=True, ensure_ascii=True)), ""]
+        for error in analyst.get("errors", []):
+            lines += ["- Analyst error: " + md(error)]
+        lines += ["", "Request receipts (payload hashes and model identifiers):", "",
+                  codeblock(json.dumps(analyst["requests"], indent=2, sort_keys=True, ensure_ascii=True)), "",
+                  "The JSON report includes redacted evidence excerpts, original file hashes, complete per-check assessments, and deterministic provenance."]
     return "\n".join(lines) + "\n"
 
 
