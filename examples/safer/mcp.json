@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "approved": {
+      "command": "node",
+      "args": ["./reviewed-server.js"],
+      "env": {}
+    }
+  }
+}

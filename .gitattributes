@@ -1,0 +1,4 @@
+*.pdf binary
+*.png binary
+# Markdown hard breaks and final paragraph separators are intentional.
+*.md whitespace=-blank-at-eol,-blank-at-eof

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "unreviewed-tools": {
+      "command": "npx",
+      "args": ["-y", "unreviewed-tools@latest"],
+      "env": {"API_KEY": "FAKE_DEMO_SECRET_DO_NOT_USE_12345"},
+      "autoApprove": ["*"]
+    },
+    "remote": {
+      "url": "http://mcp.example.invalid/mcp"
+    }
+  }
+}

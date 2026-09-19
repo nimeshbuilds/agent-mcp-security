@@ -1,0 +1,15 @@
+{
+  "provider": "custom",
+  "model": "YOUR_MODEL_ID",
+  "endpoint": "https://gateway.example.com/security-review",
+  "headers": {
+    "Authorization": "Bearer ${ENV:SECURITY_JUDGE_API_KEY}",
+    "X-Tenant": "${ENV:SECURITY_JUDGE_TENANT}"
+  },
+  "request_template": {
+    "deployment": "${MODEL}",
+    "parameters": {"max_new_tokens": 4096},
+    "inputs": [{"text": "${PROMPT}"}]
+  },
+  "response_path": "result.outputs.0.text"
+}

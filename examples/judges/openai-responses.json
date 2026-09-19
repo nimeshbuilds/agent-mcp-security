@@ -1,0 +1,5 @@
+{
+  "provider": "openai_responses",
+  "model": "YOUR_MODEL_ID",
+  "api_key_env": "OPENAI_API_KEY"
+}

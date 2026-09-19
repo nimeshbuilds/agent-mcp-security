@@ -1,0 +1,8 @@
+{
+  "provider": "openai_chat",
+  "model": "YOUR_DEPLOYMENT",
+  "endpoint": "https://YOUR_RESOURCE.example.com/YOUR_CHAT_PATH?api-version=YOUR_SUPPORTED_VERSION",
+  "api_key_env": "SECURITY_JUDGE_API_KEY",
+  "api_key_header": "api-key",
+  "api_key_prefix": ""
+}

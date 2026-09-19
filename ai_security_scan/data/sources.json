@@ -1,0 +1,1453 @@
+[
+  {
+    "id": "JOINT-AGENTIC",
+    "organization": "ASD ACSC, CISA, NSA, CCCS, NCSC-NZ, NCSC-UK",
+    "title": "Careful adoption of agentic AI services",
+    "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services",
+    "kind": "Government guidance",
+    "version": "Joint guidance",
+    "date": "2026-05-01",
+    "accessed": "2026-09-19",
+    "scope": "Agent privileges, identity, trust boundaries, autonomy, oversight, supply chain and accountable operation.",
+    "limitations": "ASD publication date; NSA announced it on April 30. Recommendations require system-specific implementation and evidence; this is not an executable benchmark.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NSA-AGENTIC",
+    "organization": "NSA",
+    "title": "NSA announcement: Careful Adoption of Agentic AI Services",
+    "url": "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4475134/nsa-joins-the-asds-acsc-and-others-to-release-guidance-on-agentic-artificial-in/",
+    "kind": "Government announcement",
+    "version": "Joint guidance release",
+    "date": "2026-04-30",
+    "accessed": "2026-09-19",
+    "scope": "Confirms NSA participation, publication timing and joint authorship of agentic AI guidance.",
+    "limitations": "Announcement supports provenance; use the complete joint guidance for substantive control interpretation.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "CISA-AGENTIC",
+    "organization": "CISA",
+    "title": "CISA and Partners Release Guidance on Adopting Agentic AI Services",
+    "url": "https://content.govdelivery.com/accounts/USDHSCISA/bulletins/41544ff",
+    "kind": "Government announcement",
+    "version": "Official CISA bulletin",
+    "date": "2026-05-01",
+    "accessed": "2026-09-19",
+    "scope": "Confirms CISA participation and recommendations to bound autonomy and strengthen identity and oversight.",
+    "limitations": "Official bulletin hosted by GovDelivery. This is a release notice, not a separately scored framework.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "ASD-HARNESS",
+    "organization": "ASD ACSC",
+    "title": "Agentic AI harnesses: The layer above the model",
+    "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses",
+    "kind": "Government guidance",
+    "version": "Published guidance",
+    "date": "2026-09-11",
+    "accessed": "2026-09-19",
+    "scope": "Security responsibilities of orchestration, context, tool execution, memory, permissions and operational controls.",
+    "limitations": "ASD publication; do not attribute joint authorship to NSA or CISA. A secure model alone does not establish harness security.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "JOINT-DEPLOY",
+    "organization": "NSA, CISA and international partners; ASD host",
+    "title": "Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems",
+    "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely",
+    "kind": "Government guidance",
+    "version": "1.0",
+    "date": "2024-04-16",
+    "accessed": "2026-09-19",
+    "scope": "Infrastructure hardening, deployment controls, data protection, monitoring and secure AI operation.",
+    "limitations": "ASD page date. Focuses on operating externally developed AI, especially on-premises or private cloud; adapt infrastructure checks to hosted API usage.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NSA-DATA",
+    "organization": "NSA, CISA, FBI and international partners",
+    "title": "AI Data Security: Best Practices for Securing Data Used to Train & Operate AI Systems (NSA announcement)",
+    "url": "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/",
+    "kind": "Government guidance announcement",
+    "version": "Joint Cybersecurity Information Sheet",
+    "date": "2025-05-22",
+    "accessed": "2026-09-19",
+    "scope": "Data provenance, integrity, protection and lifecycle changes affecting training and operational data.",
+    "limitations": "The linked announcement points to the full information sheet. Local source review cannot establish provider practices or retrieval-corpus integrity.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NCSC-SECURE-AI",
+    "organization": "NCSC-UK, CISA and international partners",
+    "title": "Guidelines for secure AI system development",
+    "url": "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development",
+    "kind": "Government guidance",
+    "version": "1.0",
+    "date": "2023-11-27",
+    "accessed": "2026-09-19",
+    "scope": "Secure design, development, deployment, operation and maintenance across the AI lifecycle.",
+    "limitations": "Lifecycle guidance requires implementation evidence; it does not prescribe an agent/MCP scanner or certify code.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "CISA-JCDC",
+    "organization": "CISA",
+    "title": "JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)",
+    "url": "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet",
+    "kind": "Government operational guidance",
+    "version": "2025 release",
+    "date": "2025-01-14",
+    "accessed": "2026-09-19",
+    "scope": "Incident collaboration, voluntary sharing processes and coordinated AI cybersecurity response.",
+    "limitations": "Operational playbook, not a source-code scanning standard or a mandate to disclose all findings.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NIST-RMF",
+    "organization": "NIST",
+    "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+    "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10",
+    "kind": "Risk-management framework",
+    "version": "AI 100-1; 1.0",
+    "date": "2023-01-26",
+    "accessed": "2026-09-19",
+    "scope": "Risk ownership, system context, measurement and risk treatment.",
+    "limitations": "Voluntary framework, not a universal technical pass/fail checklist; project mappings select security-relevant practices.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NIST-RMF-PROGRAM",
+    "organization": "NIST",
+    "title": "AI Risk Management Framework: program status",
+    "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+    "kind": "Program reference",
+    "version": "Living page",
+    "date": "Living page",
+    "accessed": "2026-09-19",
+    "scope": "Current program and revision information for AI RMF.",
+    "limitations": "A changing program page is not a released replacement for the cited AI RMF 1.0 publication.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NIST-GENAI",
+    "organization": "NIST",
+    "title": "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile",
+    "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+    "kind": "Risk-management profile",
+    "version": "AI 600-1",
+    "date": "2024-07",
+    "accessed": "2026-09-19",
+    "scope": "GenAI information security, privacy, data, evaluation and human interaction risks.",
+    "limitations": "Broader than agent/MCP security; selected mappings do not cover the whole profile. NIST records public release on July 26, 2024.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NIST-RMF-RESOURCES",
+    "organization": "NIST",
+    "title": "AI Risk Management Framework resources",
+    "url": "https://www.nist.gov/itl/ai-risk-management-framework/ai-risk-management-framework-resources",
+    "kind": "Program reference",
+    "version": "Living page",
+    "date": "Living page",
+    "accessed": "2026-09-19",
+    "scope": "Publication context and release-date provenance for AI RMF resources and the GenAI Profile.",
+    "limitations": "Reference index, not a separate control framework; link to each actual publication when interpreting its requirements.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NIST-AML",
+    "organization": "NIST",
+    "title": "Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations",
+    "url": "https://csrc.nist.gov/pubs/ai/100/2/e2025/final",
+    "kind": "Threat taxonomy",
+    "version": "AI 100-2e2025",
+    "date": "2025-03-24",
+    "accessed": "2026-09-19",
+    "scope": "Attacker capabilities, goals and attack classes including poisoning, privacy and prompt injection.",
+    "limitations": "Taxonomy is not conformance testing. The official record has a June 3, 2025 potential-updates note; check it before relying on precise identifiers.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NIST-SSDF",
+    "organization": "NIST",
+    "title": "Secure Software Development Framework (SSDF) Version 1.1",
+    "url": "https://csrc.nist.gov/pubs/sp/800/218/final",
+    "kind": "Secure-development framework",
+    "version": "SP 800-218; 1.1",
+    "date": "2022-02-03",
+    "accessed": "2026-09-19",
+    "scope": "Secure engineering, software integrity, vulnerability response and release lifecycle practices.",
+    "limitations": "Referenced for engineering context; this catalog is not an exhaustive SSDF compliance crosswalk.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "NIST-HIJACK-EVAL",
+    "organization": "NIST",
+    "title": "Technical Blog: Strengthening AI Agent Hijacking Evaluations",
+    "url": "https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations",
+    "kind": "Evaluation research",
+    "version": "Technical blog",
+    "date": "2025-01-17",
+    "accessed": "2026-09-19",
+    "scope": "Adaptive attacks, repeated attempts and scenario-specific evaluation of agent hijacking.",
+    "limitations": "Research methodology does not establish production assurance or a certification; report the tested harness and attack budget.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MITRE-ATLAS",
+    "organization": "MITRE",
+    "title": "ATLAS tactics, techniques, mitigations and case-study data",
+    "url": "https://github.com/mitre-atlas/atlas-data",
+    "kind": "Threat knowledge base",
+    "version": "Living official repository",
+    "date": "Living repository",
+    "accessed": "2026-09-19",
+    "scope": "Threat modeling, adversarial AI attack paths and security-test scenario design.",
+    "limitations": "Pin a content release and commit for exact IDs. Content and schema versions differ; this scanner does not calculate an ATLAS security score.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-AGENTIC",
+    "organization": "OWASP GenAI Security Project",
+    "title": "OWASP Top 10 for Agentic Applications for 2026",
+    "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+    "kind": "Threat prioritization",
+    "version": "2026 edition",
+    "date": "2025-12-09",
+    "accessed": "2026-09-19",
+    "scope": "Agent goals, tool use, identity, memory, code execution, communication and cascading failures.",
+    "limitations": "A prioritized risk list, not an executable benchmark. Date follows the page display; machine metadata uses the following UTC day.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-LLM2026",
+    "organization": "OWASP GenAI Security Project",
+    "title": "OWASP GenAI LLM Top 10 2026",
+    "url": "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/",
+    "kind": "Threat prioritization",
+    "version": "2026 edition",
+    "date": "2026-08-03",
+    "accessed": "2026-09-19",
+    "scope": "Security risks of LLM-powered applications and their connected data and execution paths.",
+    "limitations": "Do not silently transfer category numbering from the 2025 edition. Date follows the displayed page rather than next-day UTC metadata.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-MCP10",
+    "organization": "OWASP",
+    "title": "OWASP MCP Top 10",
+    "url": "https://owasp.org/projects/mcp-top-10",
+    "kind": "Threat prioritization",
+    "version": "Living page; MCP01:2025\u2013MCP10:2025 labels",
+    "date": "Living page",
+    "accessed": "2026-09-19",
+    "scope": "MCP credentials, privilege scope, tool poisoning, supply chain, injection, audit and unapproved servers.",
+    "limitations": "Roadmap still describes beta/pilot even though the page also labels the project production. Treat maturity as mixed; it is not protocol conformance or benchmark completion.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-MCP-CS",
+    "organization": "OWASP Cheat Sheet Series",
+    "title": "MCP Security Cheat Sheet",
+    "url": "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html",
+    "kind": "Implementation guidance",
+    "version": "Living document",
+    "date": "Living document",
+    "accessed": "2026-09-19",
+    "scope": "Practical defenses for MCP identity, tools, data boundaries, operations and exposure.",
+    "limitations": "Reconcile version-sensitive recommendations against the actual deployed MCP revision; it is secondary to normative protocol requirements.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-AGENT-CS",
+    "organization": "OWASP Cheat Sheet Series",
+    "title": "AI Agent Security Cheat Sheet",
+    "url": "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html",
+    "kind": "Implementation guidance",
+    "version": "Living document",
+    "date": "Living document",
+    "accessed": "2026-09-19",
+    "scope": "Agent policies, isolation, context, tools and operational security testing.",
+    "limitations": "General implementation guidance requires architecture-specific interpretation and runtime evidence.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-OUTPUT2025",
+    "organization": "OWASP GenAI Security Project",
+    "title": "LLM05:2025 Improper Output Handling",
+    "url": "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/",
+    "kind": "Threat category",
+    "version": "LLM05:2025",
+    "date": "2025 edition",
+    "accessed": "2026-09-19",
+    "scope": "Validate and encode model output before it reaches interpreters, commands, queries or presentation sinks.",
+    "limitations": "Explicit historical category; its identifier must not be described as the 2026 numbering.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-ACS",
+    "organization": "OWASP GenAI Security Project",
+    "title": "Agent Control Standard (ACS)",
+    "url": "https://genai.owasp.org/resource/agent-control-standard-acs/",
+    "kind": "Emerging control architecture",
+    "version": "Resource publication",
+    "date": "2026-09-01",
+    "accessed": "2026-09-19",
+    "scope": "Runtime policy hooks and enforcement architecture for agent systems.",
+    "limitations": "Included as emerging architecture context; this scanner does not implement or claim conformance to ACS.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-CROSSWALK",
+    "organization": "OWASP GenAI Security Project",
+    "title": "GenAI Security Industry Framework Crosswalk",
+    "url": "https://genai.owasp.org/resource/genai-security-industry-framework-crosswalk/",
+    "kind": "Framework crosswalk",
+    "version": "Resource publication",
+    "date": "2026-09-01",
+    "accessed": "2026-09-19",
+    "scope": "Comparison context across AI security guidance and frameworks.",
+    "limitations": "Project mappings are independently scoped. Do not infer exhaustive adoption of this third-party crosswalk.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-SPEC",
+    "organization": "Model Context Protocol maintainers",
+    "title": "Model Context Protocol specification",
+    "url": "https://modelcontextprotocol.io/specification/2026-07-28",
+    "kind": "Protocol specification",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "Reference revision for client/server protocol and conditional interoperability requirements.",
+    "limitations": "Record the deployed revision. Versioned web pages can receive edits; pin upstream source for formal audit evidence.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-AUTH",
+    "organization": "Model Context Protocol maintainers",
+    "title": "MCP: Authorization",
+    "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+    "kind": "Protocol specification",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "HTTP authorization, protected-resource discovery, audience restrictions and OAuth responsibilities.",
+    "limitations": "HTTP authorization is optional in the protocol; protected applications still need suitable controls. Stdio uses a different credential model.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-AUTH-SEC",
+    "organization": "Model Context Protocol maintainers",
+    "title": "MCP: Authorization Security Considerations",
+    "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+    "kind": "Protocol specification",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "Token validation, PKCE, issuer binding, redirects and authorization threat defenses.",
+    "limitations": "Requirements are conditional on roles and deployed protocol version; decoding a token alone does not validate it.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-TRANSPORTS",
+    "organization": "Model Context Protocol maintainers",
+    "title": "MCP: Transport overview",
+    "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports",
+    "kind": "Protocol specification",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "Transport selection, request metadata and compatibility across protocol revisions.",
+    "limitations": "The 2026-07-28 core differs from older session and initialize-handshake designs; do not label older code a violation without checking its advertised version.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-HTTP",
+    "organization": "Model Context Protocol maintainers",
+    "title": "MCP: Streamable HTTP transport",
+    "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
+    "kind": "Protocol specification",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "Origin validation, HTTP request behavior, streaming and transport-specific controls.",
+    "limitations": "Transport compliance does not establish downstream object authorization or safe tool behavior.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-TOOLS",
+    "organization": "Model Context Protocol maintainers",
+    "title": "MCP: Tools",
+    "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+    "kind": "Protocol specification",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "Tool input/output schemas, identity, annotations, access controls and implementation responsibilities.",
+    "limitations": "Descriptions and annotations are untrusted metadata; they do not enforce read-only behavior or least privilege.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-SAMPLING",
+    "organization": "Model Context Protocol maintainers",
+    "title": "MCP: Sampling",
+    "url": "https://modelcontextprotocol.io/specification/2026-07-28/client/sampling",
+    "kind": "Protocol specification",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "Host control over model sampling requests, tool access and shared context.",
+    "limitations": "Sampling permission does not automatically authorize server access to user context or downstream actions.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-ELICITATION",
+    "organization": "Model Context Protocol maintainers",
+    "title": "MCP: Elicitation",
+    "url": "https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation",
+    "kind": "Protocol specification",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "User information requests, interaction modes, sensitive data and correlated responses.",
+    "limitations": "Validate supported modes and version-specific requirements; interaction affordances alone do not prevent phishing.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-ROOTS",
+    "organization": "Model Context Protocol maintainers",
+    "title": "MCP: Roots",
+    "url": "https://modelcontextprotocol.io/specification/2026-07-28/client/roots",
+    "kind": "Protocol specification",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "Client-advertised filesystem roots and scope information supplied to servers.",
+    "limitations": "Advertised roots are not an operating-system sandbox; enforce filesystem access independently.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "MCP-SECURITY",
+    "organization": "Model Context Protocol maintainers",
+    "title": "MCP Security Best Practices",
+    "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices",
+    "kind": "Protocol security guidance",
+    "version": "2026-07-28",
+    "date": "2026-07-28",
+    "accessed": "2026-09-19",
+    "scope": "Confused deputy, token forwarding, discovery SSRF, local launch, URL handling and registration trust.",
+    "limitations": "Companion guidance is not a production assurance result. Use this moved documentation path rather than the older specification path.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "BENCH-AGENTDOJO",
+    "organization": "ETH Zurich / Invariant Labs",
+    "title": "AgentDojo",
+    "url": "https://github.com/ethz-spylab/agentdojo",
+    "kind": "executable research benchmark",
+    "version": "NeurIPS 2024; living repository",
+    "date": "2024",
+    "accessed": "2026-09-19",
+    "scope": "Indirect prompt injection and legitimate task utility in tool workflows.",
+    "limitations": "Simulated suites and evolving API; adapt to production tools and policies. Not executed here.",
+    "paper_url": "https://arxiv.org/abs/2406.13352",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "BENCH-INJECAGENT",
+    "organization": "UIUC Kang Lab",
+    "title": "InjecAgent",
+    "url": "https://github.com/uiuc-kang-lab/InjecAgent",
+    "kind": "executable research benchmark",
+    "version": "2024 research; living repository",
+    "date": "2024",
+    "accessed": "2026-09-19",
+    "scope": "Malicious tool-result scenarios for tool-integrated agents.",
+    "limitations": "Fixed cases are not an adaptive attacker or production permission test. Not executed here.",
+    "paper_url": "https://arxiv.org/abs/2403.02691",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "BENCH-ASB",
+    "organization": "Agent Security Bench authors / agiresearch",
+    "title": "Agent Security Bench (ASB)",
+    "url": "https://github.com/agiresearch/ASB",
+    "kind": "executable research benchmark",
+    "version": "ICLR 2025; living repository",
+    "date": "2025",
+    "accessed": "2026-09-19",
+    "scope": "Multiple agent scenarios and attack/defense evaluation methods.",
+    "limitations": "Match harness, agent, and tools; published scores do not transfer automatically. Not executed here.",
+    "paper_url": "https://arxiv.org/abs/2410.02644",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "BENCH-MCPSECBENCH",
+    "organization": "AIS2Lab",
+    "title": "MCPSecBench",
+    "url": "https://github.com/AIS2Lab/MCPSecBench",
+    "kind": "executable research benchmark",
+    "version": "2025 research; living repository",
+    "date": "2025",
+    "accessed": "2026-09-19",
+    "scope": "MCP security playground and attack scenarios across protocol surfaces.",
+    "limitations": "Environment/client-specific research workflows; not arbitrary-repository auditing or current-spec conformance. Not executed here.",
+    "paper_url": "https://arxiv.org/abs/2508.13220",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "CSA-AICM",
+    "organization": "Cloud Security Alliance",
+    "title": "AI Controls Matrix v1.1",
+    "url": "https://cloudsecurityalliance.org/artifacts/ai-controls-matrix-v1-1",
+    "kind": "control framework and assessment questionnaire",
+    "version": "1.1",
+    "date": "2026-06-22",
+    "accessed": "2026-09-19",
+    "scope": "247 control objectives across 18 domains; AI service roles, lifecycle safeguards, and AI-CAIQ supplier assessment.",
+    "limitations": "Release page verified; complete workbook not reviewed or reproduced. Engineering alignment only; no exact AICM control mapping or certification claim.",
+    "suggested_control_ids": [
+      "AUTH-02",
+      "DATA-02",
+      "DATA-04",
+      "GOV-01",
+      "GOV-03",
+      "GOV-04",
+      "GOV-05",
+      "GOV-06",
+      "OPS-06",
+      "SUP-03"
+    ]
+  },
+  {
+    "id": "CSA-AICM-MACHINE",
+    "organization": "Cloud Security Alliance",
+    "title": "AICM Machine Readable Bundle (JSON/YAML/OSCAL)",
+    "url": "https://cloudsecurityalliance.org/artifacts/aicm-machine-readable-bundle-json-yaml-oscal",
+    "kind": "machine-readable framework distribution",
+    "version": "Release page dated 2026-08-04; bundle not imported",
+    "date": "2026-08-04",
+    "accessed": "2026-09-19",
+    "scope": "Publisher-provided machine-readable AICM controls, AI-CAIQ, implementation guidance, and mappings.",
+    "limitations": "Landing page verified only. Confirm exact downloadable version and licensing before importing into the scanner.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "CSA-CCM",
+    "organization": "Cloud Security Alliance",
+    "title": "Cloud Controls Matrix and CAIQ v4.1",
+    "url": "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1",
+    "kind": "cloud control framework and assessment questionnaire",
+    "version": "4.1",
+    "date": "2026-01-27",
+    "accessed": "2026-09-19",
+    "scope": "207 controls across 17 cloud security domains; infrastructure assurance and provider/customer responsibilities.",
+    "limitations": "Release page verified; no exhaustive control-ID mapping. Cloud assessment does not establish security of configured agent behavior.",
+    "suggested_control_ids": [
+      "DATA-06",
+      "GOV-06",
+      "OPS-01",
+      "OPS-05",
+      "OPS-06",
+      "SUP-05"
+    ]
+  },
+  {
+    "id": "CSA-MAESTRO",
+    "organization": "Cloud Security Alliance",
+    "title": "Agentic AI Threat Modeling Framework: MAESTRO",
+    "url": "https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro",
+    "kind": "threat-modeling framework",
+    "version": "Publication dated 2025-02-06",
+    "date": "2025-02-06",
+    "accessed": "2026-09-19",
+    "scope": "Seven architectural layers and cross-layer attack paths for agentic systems.",
+    "limitations": "Analytical framework, not an executable benchmark or normative control catalog.",
+    "suggested_control_ids": [
+      "AGT-04",
+      "AGT-05",
+      "GOV-02",
+      "SUP-03",
+      "SUP-05",
+      "TEST-09"
+    ]
+  },
+  {
+    "id": "CSA-AGENT-IAM",
+    "organization": "Cloud Security Alliance",
+    "title": "Agentic AI Identity and Access Management: A New Approach",
+    "url": "https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach",
+    "kind": "architecture guidance",
+    "version": "Publication dated 2025-08-18",
+    "date": "2025-08-18",
+    "accessed": "2026-09-19",
+    "scope": "Agent identity profiles, lifecycle governance, delegation, policy enforcement, and revocation.",
+    "limitations": "Proposed architecture; technology choices such as decentralized identifiers are not universal deployment requirements.",
+    "suggested_control_ids": [
+      "AUTH-01",
+      "AUTH-02",
+      "AUTH-05",
+      "AUTH-08",
+      "AUTH-09",
+      "OPS-01",
+      "OPS-03"
+    ]
+  },
+  {
+    "id": "CSA-SCOPING",
+    "organization": "Cloud Security Alliance",
+    "title": "Enhancing the Agentic AI Security Scoping Matrix: A Multi-Dimensional Approach",
+    "url": "https://cloudsecurityalliance.org/blog/2025/12/16/enhancing-the-agentic-ai-security-scoping-matrix-a-multi-dimensional-approach",
+    "kind": "risk-scoping guidance",
+    "version": "Publication dated 2025-12-16",
+    "date": "2025-12-16",
+    "accessed": "2026-09-19",
+    "scope": "Access capability and risk exposure across identity, data, logging, agent controls, boundaries, and orchestration.",
+    "limitations": "CSA commentary extends an AWS framework. Scoping does not provide measured attack resistance.",
+    "suggested_control_ids": [
+      "AGT-02",
+      "AUTH-02",
+      "GOV-03",
+      "GOV-05",
+      "OPS-02"
+    ]
+  },
+  {
+    "id": "CSA-AISMM",
+    "organization": "Cloud Security Alliance",
+    "title": "AI Security Maturity Model (AISMM)",
+    "url": "https://cloudsecurityalliance.org/artifacts/ai-security-maturity-model",
+    "kind": "security program maturity model",
+    "version": "Publication dated 2026-05-19",
+    "date": "2026-05-19",
+    "accessed": "2026-09-19",
+    "scope": "Enterprise AI security program capabilities across self-hosted, PaaS, and API/SaaS deployments.",
+    "limitations": "Representative maturity indicators; not a complete checklist or a pass/fail assessment of one AI application.",
+    "suggested_control_ids": [
+      "GOV-01",
+      "GOV-03",
+      "GOV-04",
+      "OPS-05",
+      "OPS-06",
+      "SUP-02"
+    ]
+  },
+  {
+    "id": "NIST-SSDF-AI",
+    "organization": "NIST",
+    "title": "SP 800-218A: Secure Software Development Practices for Generative AI and Dual-Use Foundation Models",
+    "url": "https://csrc.nist.gov/pubs/sp/800/218/a/final",
+    "kind": "secure-development community profile",
+    "version": "SP 800-218A, final",
+    "date": "2024-07-26",
+    "accessed": "2026-09-19",
+    "scope": "AI-specific additions to SSDF 1.1 for model producers, system producers, and acquirers.",
+    "limitations": "Use with SP 800-218. Training and model-development controls require applicability decisions for API-only consumers.",
+    "suggested_control_ids": [
+      "DATA-04",
+      "GOV-04",
+      "SUP-01",
+      "SUP-03",
+      "SUP-04",
+      "SUP-06",
+      "TEST-06",
+      "TEST-09"
+    ]
+  },
+  {
+    "id": "NIST-AGENT-IDENTITY-DRAFT",
+    "organization": "NIST National Cybersecurity Center of Excellence",
+    "title": "Accelerating the Adoption of Software and AI Agent Identity and Authorization Concept Paper",
+    "url": "https://www.nccoe.nist.gov/publications/other/accelerating-adoption-software-and-ai-agent-identity-and-authorization-concept",
+    "kind": "draft concept paper",
+    "version": "February 2026 draft",
+    "date": "2026-02-05",
+    "accessed": "2026-09-19",
+    "scope": "Exploration of agent identification, authorization, and accountable access delegation using existing standards.",
+    "limitations": "Official page labels it Draft as accessed; not a completed practice guide, mandated standard, or executable benchmark.",
+    "suggested_control_ids": [
+      "AUTH-08",
+      "AUTH-09"
+    ]
+  },
+  {
+    "id": "MITRE-ATLAS-202609",
+    "organization": "MITRE",
+    "title": "MITRE ATLAS content release v2026.09",
+    "url": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09",
+    "kind": "threat taxonomy",
+    "version": "v2026.09",
+    "date": "2026-09-15",
+    "accessed": "2026-09-19",
+    "scope": "Versioned AI adversary techniques, mitigations, and case studies for threat modeling and test selection.",
+    "limitations": "A threat knowledge base, not a security score or evidence that mapped controls are effective.",
+    "suggested_control_mappings": [
+      {
+        "control_ids": [
+          "GOV-02",
+          "TEST-01",
+          "TEST-02"
+        ],
+        "locator": "Release notes and versioned techniques/mitigations",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      }
+    ],
+    "suggested_control_ids": [
+      "GOV-02",
+      "TEST-01",
+      "TEST-02"
+    ]
+  },
+  {
+    "id": "CIS-CONTROLS-81",
+    "organization": "Center for Internet Security",
+    "title": "CIS Critical Security Controls v8.1",
+    "url": "https://www.cisecurity.org/controls/v8-1",
+    "kind": "control framework",
+    "version": "v8.1",
+    "date": "2024-06-24",
+    "accessed": "2026-09-19",
+    "scope": "Enterprise security hygiene and implementation-group context for the deployed agent ecosystem.",
+    "limitations": "Organizational and deployment evidence required; no full CIS assessment performed.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "CIS-AGENTS-2026",
+    "organization": "Center for Internet Security",
+    "title": "Artificial Intelligence (AI) Agents Companion Guide",
+    "url": "https://www.cisecurity.org/insights/white-papers/controls-v8-1-ai-agents-companion-guide",
+    "kind": "implementation guidance",
+    "version": "v1.0 / CIS Controls v8.1",
+    "date": "2026-04-20",
+    "accessed": "2026-09-19",
+    "scope": "Agent runtimes, orchestration, tool use, memory, and operational ownership.",
+    "limitations": "Official 79-page PDF reviewed; independent checks and partial pointers only. CIS CC BY-NC-ND terms apply to original guide.",
+    "document_url": "https://storage.pardot.com/799323/1776780304zb7rY7z2/CIS_Controls_v8.1_AI_Agents_Companion_Guide_April_2026.pdf",
+    "suggested_control_mappings": [
+      {
+        "control_ids": [
+          "GOV-01"
+        ],
+        "locator": "Control 1",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "AGT-04",
+          "DATA-02",
+          "DATA-03",
+          "DATA-05",
+          "DATA-06"
+        ],
+        "locator": "Control 3",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "AUTH-05",
+          "AUTH-08"
+        ],
+        "locator": "Controls 5 and 6",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "OPS-01"
+        ],
+        "locator": "Control 8",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      }
+    ],
+    "suggested_control_ids": [
+      "AGT-04",
+      "AUTH-05",
+      "AUTH-08",
+      "DATA-02",
+      "DATA-03",
+      "DATA-05",
+      "DATA-06",
+      "GOV-01",
+      "OPS-01"
+    ]
+  },
+  {
+    "id": "CIS-MCP-2026",
+    "organization": "Center for Internet Security",
+    "title": "Model Context Protocol (MCP) Companion Guide",
+    "url": "https://www.cisecurity.org/insights/white-papers/controls-v8-1-model-context-protocol-companion-guide",
+    "kind": "implementation guidance",
+    "version": "v1.0 / CIS Controls v8.1",
+    "date": "2026-04-20",
+    "accessed": "2026-09-19",
+    "scope": "Security across MCP hosts, clients, servers, gateways, and connected systems.",
+    "limitations": "Official 82-page PDF reviewed; reconcile protocol-era details with deployed MCP. CIS CC BY-NC-ND terms apply to original guide.",
+    "document_url": "https://storage.pardot.com/799323/1776872497Zw9RMQnm/CIS_Controls_v8.1_Model_Context_Protocol_Companion_Guide_April_2026.pdf",
+    "suggested_control_mappings": [
+      {
+        "control_ids": [
+          "GOV-01"
+        ],
+        "locator": "Control 1",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "AUTH-01",
+          "AUTH-02",
+          "AUTH-03",
+          "AUTH-04",
+          "AUTH-05",
+          "AUTH-08",
+          "AGT-01"
+        ],
+        "locator": "Controls 5 and 6",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "DATA-03",
+          "OPS-01"
+        ],
+        "locator": "Control 8",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "MCP-02",
+          "SUP-02",
+          "SUP-04",
+          "TEST-06"
+        ],
+        "locator": "Control 16",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "TEST-03",
+          "TEST-05"
+        ],
+        "locator": "Control 18",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      }
+    ],
+    "suggested_control_ids": [
+      "AGT-01",
+      "AUTH-01",
+      "AUTH-02",
+      "AUTH-03",
+      "AUTH-04",
+      "AUTH-05",
+      "AUTH-08",
+      "DATA-03",
+      "GOV-01",
+      "MCP-02",
+      "OPS-01",
+      "SUP-02",
+      "SUP-04",
+      "TEST-03",
+      "TEST-05",
+      "TEST-06"
+    ]
+  },
+  {
+    "id": "CIS-AI-WORKBOOK",
+    "organization": "Center for Internet Security",
+    "title": "CIS Controls AI Security Guidance Workbook",
+    "url": "https://www.cisecurity.org/insights/white-papers/controls-v8-1-2-ai-security-guidance-workbook",
+    "kind": "implementation workbook",
+    "version": "Landing page describes workbook v8.1.2",
+    "date": "2026-07-27",
+    "accessed": "2026-09-19",
+    "scope": "Implementation tracking for LLM, agent, and MCP assets and owners.",
+    "limitations": "Public landing page reviewed; workbook cells not audited or imported. Workbook version is not a new overall CIS Controls release.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "CIS-MCP-BENCH-1",
+    "organization": "Center for Internet Security",
+    "title": "CIS MCP Server Benchmark 1.0.0 - official catalog listing",
+    "url": "https://www.cisecurity.org/cis-benchmarks",
+    "kind": "configuration benchmark",
+    "version": "MCP Server 1.0.0",
+    "date": "Publication date not stated in reviewed listing",
+    "accessed": "2026-09-19",
+    "scope": "Catalog identifies an MCP server configuration benchmark; select related platform benchmarks for actual deployment.",
+    "limitations": "Version/catalog verified only. Official full-benchmark download presents a registration form; full controls not reviewed, reproduced, or implemented.",
+    "supporting_urls": [
+      "https://www.cisecurity.org/benchmark/ai-benchmarks",
+      "https://learn.cisecurity.org/benchmarks"
+    ],
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-AISVS-1",
+    "organization": "OWASP",
+    "title": "Artificial Intelligence Security Verification Standard (AISVS)",
+    "url": "https://owasp.github.io/www-project-artificial-intelligence-security-verification-standard-aisvs-docs/",
+    "kind": "verification standard",
+    "version": "1.0",
+    "date": "2026-06",
+    "accessed": "2026-09-19",
+    "scope": "Testable AI security requirements, including agent orchestration and MCP chapters.",
+    "limitations": "Selected chapters reviewed; not an exhaustive assessment. General application and infrastructure security must also be verified.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OWASP-AISVS-C9",
+    "organization": "OWASP",
+    "title": "AISVS 1.0 C9 - Orchestration and Agentic Security",
+    "url": "https://github.com/OWASP/AISVS/blob/main/1.0/en/0x10-C09-Orchestration-and-Agentic-Action.md",
+    "kind": "verification requirements",
+    "version": "1.0, C9",
+    "date": "2026-06",
+    "accessed": "2026-09-19",
+    "scope": "Agent execution budgets, approval, isolation, identity, delegation, and shutdown.",
+    "limitations": "Selected context mappings, not full AISVS conformance. Apply verification levels and preserve version-qualified identifiers.",
+    "suggested_control_mappings": [
+      {
+        "control_ids": [
+          "OPS-02"
+        ],
+        "locator": "v1.0-C9.1",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "AGT-01",
+          "AGT-02"
+        ],
+        "locator": "v1.0-C9.2",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "EXEC-02",
+          "MCP-02"
+        ],
+        "locator": "v1.0-C9.3",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "AUTH-05",
+          "OPS-01"
+        ],
+        "locator": "v1.0-C9.4",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "AUTH-02",
+          "AUTH-08",
+          "AGT-01",
+          "AGT-05"
+        ],
+        "locator": "v1.0-C9.5",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "OPS-03"
+        ],
+        "locator": "v1.0-C9.6",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      }
+    ],
+    "suggested_control_ids": [
+      "AGT-01",
+      "AGT-02",
+      "AGT-05",
+      "AUTH-02",
+      "AUTH-05",
+      "AUTH-08",
+      "EXEC-02",
+      "MCP-02",
+      "OPS-01",
+      "OPS-02",
+      "OPS-03"
+    ]
+  },
+  {
+    "id": "OWASP-AISVS-C10",
+    "organization": "OWASP",
+    "title": "AISVS 1.0 C10 - Model Context Protocol Security",
+    "url": "https://github.com/OWASP/AISVS/blob/main/1.0/en/0x10-C10-MCP-Security.md",
+    "kind": "verification requirements",
+    "version": "1.0, C10",
+    "date": "2026-06",
+    "accessed": "2026-09-19",
+    "scope": "MCP integrity, authorization, transport, schemas, and tool-change review.",
+    "limitations": "Application policy may exceed protocol requirements. Legacy initialize/session references require deployed-version interpretation; no full conformity claimed.",
+    "suggested_control_mappings": [
+      {
+        "control_ids": [
+          "SUP-03",
+          "MCP-09"
+        ],
+        "locator": "v1.0-C10.1",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "AUTH-01",
+          "AUTH-02",
+          "AUTH-03",
+          "AUTH-04"
+        ],
+        "locator": "v1.0-C10.2",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "MCP-01"
+        ],
+        "locator": "v1.0-C10.3",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "MCP-02",
+          "MCP-03",
+          "MCP-04",
+          "OPS-02"
+        ],
+        "locator": "v1.0-C10.4",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      }
+    ],
+    "suggested_control_ids": [
+      "AUTH-01",
+      "AUTH-02",
+      "AUTH-03",
+      "AUTH-04",
+      "MCP-01",
+      "MCP-02",
+      "MCP-03",
+      "MCP-04",
+      "MCP-09",
+      "OPS-02",
+      "SUP-03"
+    ]
+  },
+  {
+    "id": "AIUC1-Q3-2026",
+    "organization": "Artificial Intelligence Underwriting Company",
+    "title": "AIUC-1 Q3 2026 standard update",
+    "url": "https://www.aiuc-1.com/research/2026-q3-standard-update",
+    "kind": "assurance standard",
+    "version": "Q3 2026",
+    "date": "2026-07-14",
+    "accessed": "2026-09-19",
+    "scope": "Coding-agent controls for credentials, generated-code security, containment, and responsibility boundaries.",
+    "limitations": "Privately maintained assurance program. Scanner output is not certification or completion of independent evaluation.",
+    "supporting_urls": [
+      "https://standard.aiuc-1.com/security",
+      "https://www.aiuc-1.com/"
+    ],
+    "suggested_control_mappings": [
+      {
+        "control_ids": [
+          "DATA-01",
+          "DATA-02",
+          "DATA-03"
+        ],
+        "locator": "Q3 update: A008",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "SUP-01",
+          "TEST-06"
+        ],
+        "locator": "Q3 update: B010",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "AGT-01",
+          "AGT-06",
+          "EXEC-02"
+        ],
+        "locator": "Q3 update: B006.3",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      },
+      {
+        "control_ids": [
+          "GOV-03"
+        ],
+        "locator": "Q3 update: E017.3",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      }
+    ],
+    "suggested_control_ids": [
+      "AGT-01",
+      "AGT-06",
+      "DATA-01",
+      "DATA-02",
+      "DATA-03",
+      "EXEC-02",
+      "GOV-03",
+      "SUP-01",
+      "TEST-06"
+    ]
+  },
+  {
+    "id": "ISO-42001-2023",
+    "organization": "ISO/IEC",
+    "title": "ISO/IEC 42001:2023 - AI management systems",
+    "url": "https://www.iso.org/standard/42001",
+    "kind": "management system standard",
+    "version": "Edition 1",
+    "date": "2023-12",
+    "accessed": "2026-09-19",
+    "scope": "Public description of an organizational AI management system.",
+    "limitations": "Public description only; proprietary standard text not reproduced and no clause-level compliance mapping.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "ISO-23894-2023",
+    "organization": "ISO/IEC",
+    "title": "ISO/IEC 23894:2023 - AI guidance on risk management",
+    "url": "https://www.iso.org/standard/77304.html",
+    "kind": "risk management guidance",
+    "version": "Edition 1",
+    "date": "2023-02",
+    "accessed": "2026-09-19",
+    "scope": "Public description of integrating AI risk management into organizational activities.",
+    "limitations": "Public abstract only; proprietary clauses not reviewed or mapped.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OPENSSF-BASELINE-202608",
+    "organization": "OpenSSF",
+    "title": "Open Source Project Security Baseline",
+    "url": "https://baseline.openssf.org/versions/2026-08-28",
+    "kind": "project security baseline",
+    "version": "v2026.08.28",
+    "date": "2026-08-28",
+    "accessed": "2026-09-19",
+    "scope": "Project-maturity baseline for source, builds, releases, documentation, and vulnerability handling.",
+    "limitations": "General project security, not agent behavior or deployed authorization assurance.",
+    "suggested_control_mappings": [
+      {
+        "control_ids": [
+          "SUP-02",
+          "SUP-04",
+          "OPS-06"
+        ],
+        "locator": "Baseline vulnerability-management, build/release, and access-control categories",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      }
+    ],
+    "suggested_control_ids": [
+      "OPS-06",
+      "SUP-02",
+      "SUP-04"
+    ]
+  },
+  {
+    "id": "SLSA-12",
+    "organization": "SLSA / OpenSSF",
+    "title": "Supply-chain Levels for Software Artifacts specification",
+    "url": "https://slsa.dev/spec/v1.2/",
+    "kind": "supply chain specification",
+    "version": "1.2, approved",
+    "date": "Release date not stated on reviewed specification page",
+    "accessed": "2026-09-19",
+    "scope": "Source and build integrity, provenance, attestations, and verification.",
+    "limitations": "Artifact origin and build integrity do not establish safe agent behavior or absence of vulnerabilities.",
+    "suggested_control_mappings": [
+      {
+        "control_ids": [
+          "SUP-03",
+          "SUP-04"
+        ],
+        "locator": "Source and Build tracks",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      }
+    ],
+    "suggested_control_ids": [
+      "SUP-03",
+      "SUP-04"
+    ]
+  },
+  {
+    "id": "OPENSSF-SCORECARD",
+    "organization": "OpenSSF",
+    "title": "OpenSSF Scorecard",
+    "url": "https://securityscorecards.dev/",
+    "kind": "repository assessment tool",
+    "version": "Living project",
+    "date": "Living source; reviewed 2026-09-19",
+    "accessed": "2026-09-19",
+    "scope": "Automated repository and dependency security signals.",
+    "limitations": "Heuristic scores do not certify security; not executed for this publication.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "OPENSSF-MODEL-SIGNING",
+    "organization": "OpenSSF",
+    "title": "Launch of Model Signing v1.0",
+    "url": "https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/",
+    "kind": "artifact integrity tooling",
+    "version": "v1.0 launch reference",
+    "date": "2025-04-04",
+    "accessed": "2026-09-19",
+    "scope": "Signing and verifying model-artifact origin and integrity.",
+    "limitations": "A signature is not evidence that a model is free from backdoors, unsafe behavior, or licensing concerns.",
+    "suggested_control_mappings": [
+      {
+        "control_ids": [
+          "SUP-03"
+        ],
+        "locator": "Model-signing and verification purpose",
+        "relationship": "supporting context",
+        "note": "Partial conceptual relationship; not a conformance claim."
+      }
+    ],
+    "suggested_control_ids": [
+      "SUP-03"
+    ]
+  },
+  {
+    "id": "BENCH-MSB",
+    "organization": "Dongsen Zhang and coauthors",
+    "title": "MCP Security Bench (MSB)",
+    "url": "https://github.com/dongsenzhang/MSB",
+    "kind": "executable research benchmark",
+    "version": "Paper v2; ICLR 2026; living repository",
+    "date": "2026-03-24",
+    "accessed": "2026-09-19",
+    "scope": "Real MCP tool attacks across planning, invocation, and response handling with a security/utility trade-off metric.",
+    "limitations": "Distinct from MCPSecBench; selected tools, domains, agents, and code revisions bound results. Not executed here.",
+    "paper_url": "https://arxiv.org/abs/2510.15994v2",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "BENCH-MCP-SAFETY",
+    "organization": "Xuanjun Zong and coauthors",
+    "title": "MCP-SafetyBench",
+    "url": "https://github.com/xjzzzzzzzz/MCPSafety",
+    "kind": "executable research benchmark",
+    "version": "Paper v2; living repository",
+    "date": "2026-03-05",
+    "accessed": "2026-09-19",
+    "scope": "Multi-turn, cross-server safety evaluation using real MCP servers in five domains and 20 attack types.",
+    "limitations": "Service state, harness assumptions, and task selection affect reproducibility; not protocol authorization certification. Not executed here.",
+    "paper_url": "https://arxiv.org/abs/2512.15163v2",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "BENCH-AGENTDYN",
+    "organization": "SaFo-Lab / Hao Li and coauthors",
+    "title": "AgentDyn",
+    "url": "https://github.com/SaFo-Lab/AgentDyn",
+    "kind": "executable research benchmark",
+    "version": "Paper v3; living repository",
+    "date": "2026-05-07",
+    "accessed": "2026-09-19",
+    "scope": "Dynamic open-ended tasks and helpful third-party instructions expose over-blocking by injection defenses.",
+    "limitations": "Extends AgentDojo and inherits harness assumptions; avoid double-counting identical scenarios. Not executed here.",
+    "paper_url": "https://arxiv.org/abs/2602.03117v3",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "BENCH-AGENTHARM",
+    "organization": "Gray Swan AI / UK AI Safety Institute and coauthors",
+    "title": "AgentHarm",
+    "url": "https://github.com/UKGovernmentBEIS/inspect_evals/blob/main/src/inspect_evals/agentharm/README.md",
+    "kind": "executable research benchmark",
+    "version": "ICLR 2025; living Inspect Evals implementation",
+    "date": "2025",
+    "accessed": "2026-09-19",
+    "scope": "Harmful multi-step user requests and jailbreaks with corresponding benign tasks.",
+    "limitations": "Different threat model from indirect injection. Grading can use LLMs; public subsets, scoring revisions, and safety/security-use license apply. Not executed here.",
+    "paper_url": "https://arxiv.org/abs/2410.09024",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "BENCH-BIPIA",
+    "organization": "Microsoft / Jingwei Yi and coauthors",
+    "title": "BIPIA",
+    "url": "https://github.com/microsoft/BIPIA",
+    "kind": "executable research benchmark",
+    "version": "2023 initial paper; living repository",
+    "date": "2023",
+    "accessed": "2026-09-19",
+    "scope": "Indirect prompt injection in external email, web, table, summarization, and code content.",
+    "limitations": "External-content robustness, not full agent/MCP transport security; some datasets require separate licensed acquisition. Not executed here.",
+    "paper_url": "https://arxiv.org/abs/2312.14197",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "TECH-GITHUB-ACTIONS",
+    "organization": "GitHub",
+    "title": "GitHub Actions: Secure use reference",
+    "url": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+    "kind": "Vendor security documentation",
+    "version": "Living GitHub Actions documentation",
+    "date": "Living documentation",
+    "accessed": "2026-09-19",
+    "scope": "Third-party workflow action integrity, full commit pinning, workflow permissions, secrets and untrusted input handling.",
+    "limitations": "The older cited URL redirects to the current Secure use reference. Pinning mitigates mutable-action changes but does not prove the pinned action is safe.",
+    "suggested_rule_ids": [
+      "AI020"
+    ],
+    "mapping_notes": "Technical or engineering context for scanner rules AI020. Rule detection logic and severity are project-defined, not official publisher conformance tests.",
+    "suggested_control_ids": [],
+    "resolved_url": "https://docs.github.com/en/actions/reference/security/secure-use"
+  },
+  {
+    "id": "TECH-PYTHON-SECURITY",
+    "organization": "Python Software Foundation",
+    "title": "Python Security Considerations",
+    "url": "https://docs.python.org/3/library/security_warnings.html",
+    "kind": "Language security documentation",
+    "version": "Python 3.14.7 documentation at review",
+    "date": "Living documentation",
+    "accessed": "2026-09-19",
+    "scope": "Security-sensitive standard-library APIs, including serialization, subprocesses, temporary files and related trust boundaries.",
+    "limitations": "The /3 URL tracks current Python documentation. Check the installed runtime and follow linked module-specific guidance; this overview is not an agent/MCP security standard.",
+    "suggested_rule_ids": [
+      "AI001",
+      "AI002",
+      "AI003",
+      "AI005",
+      "AI016",
+      "AI038"
+    ],
+    "mapping_notes": "Technical or engineering context for scanner rules AI001, AI002, AI003, AI005, AI016, AI038. Rule detection logic and severity are project-defined, not official publisher conformance tests.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "TECH-PYTHON-TAR",
+    "organization": "Python Software Foundation",
+    "title": "Python tarfile: Extraction filters",
+    "url": "https://docs.python.org/3/library/tarfile.html#extraction-filters",
+    "kind": "Language security documentation",
+    "version": "Python 3.14.7 documentation at review",
+    "date": "Living documentation",
+    "accessed": "2026-09-19",
+    "scope": "Extraction filters, path and link restrictions, trusted archives and additional resource controls.",
+    "limitations": "Default extraction behavior differs by Python version and security backports. A data filter does not prevent every denial-of-service or unsafe-file outcome; inspect inputs and constrain resource use.",
+    "suggested_rule_ids": [
+      "AI037"
+    ],
+    "mapping_notes": "Technical or engineering context for scanner rules AI037. Rule detection logic and severity are project-defined, not official publisher conformance tests.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "TECH-NODE-PROCESS",
+    "organization": "Node.js contributors",
+    "title": "Node.js Child process",
+    "url": "https://nodejs.org/api/child_process.html",
+    "kind": "Runtime API documentation",
+    "version": "Node.js v26.9.0 documentation at review",
+    "date": "Living documentation",
+    "accessed": "2026-09-19",
+    "scope": "Shell interpretation and process-spawning behavior, including risks from untrusted input passed to exec or shell-enabled spawn.",
+    "limitations": "The URL follows current Node documentation; platform and runtime versions matter. Static shell-call detection does not establish attacker-controlled data flow.",
+    "suggested_rule_ids": [
+      "AI012"
+    ],
+    "mapping_notes": "Technical or engineering context for scanner rules AI012. Rule detection logic and severity are project-defined, not official publisher conformance tests.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "TECH-PYTORCH-SERIAL",
+    "organization": "PyTorch contributors",
+    "title": "PyTorch Serialization semantics",
+    "url": "https://pytorch.org/docs/stable/notes/serialization.html",
+    "kind": "Framework security documentation",
+    "version": "PyTorch 2.14 documentation at review",
+    "date": "Living documentation",
+    "accessed": "2026-09-19",
+    "scope": "Checkpoint trust, torch.load, restricted weights-only loading and serialization security limits.",
+    "limitations": "The old domain redirects to docs.pytorch.org and its stable page resolves to 2.14. Defaults vary by PyTorch version; restricted loading is not a universal defense against malicious artifacts.",
+    "suggested_rule_ids": [
+      "AI035"
+    ],
+    "mapping_notes": "Technical or engineering context for scanner rules AI035. Rule detection logic and severity are project-defined, not official publisher conformance tests.",
+    "suggested_control_ids": [],
+    "resolved_url": "https://docs.pytorch.org/docs/2.14/notes/serialization.html"
+  },
+  {
+    "id": "TECH-PYYAML",
+    "organization": "PyYAML maintainers",
+    "title": "PyYAML Documentation",
+    "url": "https://pyyaml.org/wiki/PyYAMLDocumentation",
+    "kind": "Library documentation",
+    "version": "Living documentation; includes historical examples",
+    "date": "Living documentation",
+    "accessed": "2026-09-19",
+    "scope": "YAML object construction, SafeLoader and safe_load behavior when processing untrusted documents.",
+    "limitations": "Examples span historical PyYAML versions; assess the installed loader and registered constructors. Safe loading still needs application schemas, input limits and resource controls.",
+    "suggested_rule_ids": [
+      "AI004"
+    ],
+    "mapping_notes": "Technical or engineering context for scanner rules AI004. Rule detection logic and severity are project-defined, not official publisher conformance tests.",
+    "suggested_control_ids": []
+  },
+  {
+    "id": "CISA-SECURE-BY-DESIGN",
+    "organization": "CISA and U.S./international partners",
+    "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
+    "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design",
+    "kind": "Government secure-development guidance",
+    "version": "October 2023 update",
+    "date": "2023-10-25",
+    "accessed": "2026-09-19",
+    "scope": "Manufacturer responsibility for security outcomes, accountable development and secure product defaults.",
+    "limitations": "General engineering rationale for several scanner rules. The publication does not define these individual source patterns, severity ratings or a pass/fail agent security benchmark.",
+    "suggested_rule_ids": [
+      "AI006",
+      "AI008",
+      "AI009",
+      "AI010",
+      "AI011",
+      "AI018",
+      "AI019",
+      "AI021",
+      "AI022",
+      "AI023",
+      "AI024",
+      "AI025",
+      "AI030",
+      "AI033",
+      "AI035",
+      "AI036",
+      "AI039",
+      "AI042"
+    ],
+    "mapping_notes": "Technical or engineering context for scanner rules AI006, AI008, AI009, AI010, AI011, AI018, AI019, AI021, AI022, AI023, AI024, AI025, AI030, AI033, AI035, AI036, AI039, AI042. Rule detection logic and severity are project-defined, not official publisher conformance tests.",
+    "suggested_control_ids": []
+  }
+]
