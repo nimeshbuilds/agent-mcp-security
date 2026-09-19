@@ -2139,12 +2139,14 @@
     "enabled": false
   },
   "mode": "deterministic_static",
-  "scan_id": "5a04a5ff9daec8347df60e7df6ecdb7fae095aa270742421fbc785c1e2bfc276",
+  "scan_id": "ae28fb247b663e88aaaee9c61e813ede3c8486d894903748b4085e2648d9fabd",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_triage_only",
+    "bytes_charged": 796,
     "bytes_read": 796,
     "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
     "files_scanned": 3,
     "open_findings": 11,
     "scan_complete_within_selected_scope": true,
@@ -2159,9 +2161,9 @@
   },
   "target": ".",
   "tool": {
-    "implementation_sha256": "1b059cc8dc2db096b15f481383b4292e318cbeab585d713417541734f6cbf0e5",
+    "implementation_sha256": "377eac8a4d880e863e7a45c2d8d6f2a1e0ee4e9e5e231a3ddbba5867d57e0697",
     "name": "agent-mcp-security-scan",
     "python_version": "3.12.14",
-    "version": "0.2.0"
+    "version": "0.2.1"
   }
 }

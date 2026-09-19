@@ -159,7 +159,7 @@ The normalized result also records configured provider/model, an optional provid
 
 The scanner does not install dependencies, import or execute target code, start an agent, invoke an MCP tool, contact the target service, run a suggested verification step, or allow the model to select follow-up actions. Only the configured LLM endpoint is contacted for the optional review. References and model-provided URLs are not retrieved.
 
-Full-mode configuration is checked for recognized tool/function configuration before either review stage sends a request. The control analyst repeats this check and rejects recognized tool-call attempts in provider responses. It does not dispatch tool calls. Custom templates expand placeholders once; repository text containing `${ENV:NAME}` remains literal data and cannot read the scanner's environment.
+Both finding triage and the control analyst reject recognized tool/function configuration in request templates and provider options, and reject recognized tool-call attempts in provider responses. They do not dispatch tool calls. Custom templates expand placeholders once; repository text containing `${ENV:NAME}` remains literal data and cannot read the scanner's environment. Configuration nesting is limited to 64 levels; invalid or excessive configuration fails without discarding static results.
 
 **Operators must also disable tools and execution inside their model gateway.** The client can reject tool configuration or tool-call responses it sees, but it cannot inspect or prevent a gateway from running hidden server-side workflows. Choose a plain inference endpoint and review its data and execution policies. Prompt wording alone does not constrain a remote service.
 

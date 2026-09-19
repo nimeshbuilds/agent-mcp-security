@@ -9,10 +9,19 @@ permissions:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONUTF8: '1'
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ['3.12', '3.14']
+        os: [ubuntu-latest]
+        python-version: ['3.9', '3.12', '3.14']
+        include:
+          - os: macos-latest
+            python-version: '3.12'
+          - os: windows-latest
+            python-version: '3.12'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -24,3 +33,30 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Scan safer comparison fixture
         run: python scan.py examples/safer --output test-output/safer
+
+  package-and-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Install optional QA tools
+        run: python -m pip install -r requirements-qa.txt
+      - name: Measure branch and line coverage
+        run: python -m coverage run --branch --source=ai_security_scan -m unittest discover -s tests -v
+      - name: Show coverage evidence
+        run: python -m coverage report --show-missing
+      - name: Build and install the wheel without target dependencies
+        run: |
+          python -m pip wheel --no-deps --wheel-dir test-output/wheels .
+          python -m pip install --no-deps test-output/wheels/*.whl
+      - name: Exercise installed CLI from outside the source checkout
+        working-directory: ${{ runner.temp }}
+        run: ai-security-scan "$GITHUB_WORKSPACE/examples/safer" --output "$RUNNER_TEMP/installed-scan"
+      - name: Validate generated SARIF against the pinned OASIS schema
+        run: |
+          curl --fail --location --proto '=https' --tlsv1.2 --max-time 30 https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json --output test-output/sarif-schema.json
+          python scripts/validate_sarif.py --schema test-output/sarif-schema.json "$RUNNER_TEMP/installed-scan/report.sarif" examples/reports/vulnerable/report.sarif

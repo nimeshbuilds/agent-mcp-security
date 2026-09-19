@@ -159,6 +159,8 @@ The native Chat Completions adapter uses `max_completion_tokens`. For older Open
 
 Some models do not accept `temperature`, a seed, JSON response-format parameters, or particular reasoning options. Those parameters are deliberately not imposed on all native providers. Use `extra_body` for your model's documented options. Native Gemini and Ollama requests ask for JSON using their protocol fields. Review model context limits and set provider generation parameters large enough for the submitted findings.
 
+Configuration files are capped at 256 KiB and 64 nesting levels. Invalid Unicode in a model identifier or endpoint is rejected before transmission. Excessively nested configurations produce an explicit judge error while preserving the static report.
+
 The finding-triage stage sends up to 100 unsuppressed findings by default. `--judge-max-findings` accepts 1–500. Selection follows deterministic report order. The payload and report record `omitted_open_findings` for findings excluded by this cap, separately from `omitted_assessments` for submitted findings that the model left unanswered. The report also records `source_context_sent_count`. All findings remain in the deterministic report. This stage makes one bounded request; an oversized request fails explicitly. Full mode then uses stable control batches (six controls by default) up to the separate analyst call/time budgets. There are no automatic retries. Increase model output limits or reduce `--analyst-batch-size` if your provider truncates control responses, and increase the call budget to accommodate smaller batches.
 
 ## Finding-triage output and failure behavior
@@ -186,7 +188,7 @@ The transport verifies TLS, rejects redirects, has no retries, ignores environme
 
 Configuration is trusted operator input: do not load a judge configuration supplied by the repository under examination. A malicious configuration can choose a data recipient and explicitly request environment variables. Keep it outside untrusted repositories and review custom templates before use.
 
-Full control review additionally rejects recognized tool configuration fields and tool invocation output, including nested custom payload fields. Configure the gateway itself to disable server-side tools; a client cannot attest to a remote service's internal behavior. A first failed control batch stops further calls and preserves completed advice. Every unanswered control/check remains explicit, and incomplete control review returns exit code 2. `supported_by_code` is advisory source support, never a compliance pass. Proposed verification steps are text only and are not executed.
+Both finding triage and control review reject recognized tool configuration fields and tool invocation output, including nested custom payload fields. Configure the gateway itself to disable server-side tools; a client cannot attest to a remote service's internal behavior. A first failed control batch stops further calls and preserves completed advice. Every unanswered control/check remains explicit, and incomplete control review returns exit code 2. `supported_by_code` is advisory source support, never a compliance pass. Proposed verification steps are text only and are not executed.
 
 ## API references
 

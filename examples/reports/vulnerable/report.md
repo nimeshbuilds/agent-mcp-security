@@ -1,6 +1,6 @@
 # AI agent and MCP security scan
 
-Scan ID: `5a04a5ff9daec8347df60e7df6ecdb7fae095aa270742421fbc785c1e2bfc276`
+Scan ID: `ae28fb247b663e88aaaee9c61e813ede3c8486d894903748b4085e2648d9fabd`
 
 This is static security triage, not certification or proof that a system is secure.
 
@@ -11,6 +11,8 @@ Scanned **3 files**; **11 open findings**, **0 suppressed findings**, and **0 co
 | Critical | High | Medium | Low | Info |
 |---:|---:|---:|---:|---:|
 | 0 | 8 | 2 | 1 | 0 |
+
+Source I/O: **796 bytes read**, **796 bytes charged** against the budget, including **0 conservatively charged bytes** for failed reads. Each read reserves a sentinel byte to detect growth.
 
 Severity failure threshold: **high** · Process exit code: **1**.
 

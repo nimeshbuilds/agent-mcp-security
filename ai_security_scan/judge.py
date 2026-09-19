@@ -146,6 +146,15 @@ def _bounded_number(config, name, default, lower, upper, integer=False):
 def _validate_config(config):
     if not isinstance(config, dict):
         raise JudgeError("Judge configuration must be a JSON object.")
+    pending = [(config, 0)]
+    while pending:
+        node, depth = pending.pop()
+        if depth > 64:
+            raise JudgeError("Judge configuration nesting exceeds 64 levels.")
+        if isinstance(node, dict):
+            pending.extend((item, depth + 1) for item in node.values())
+        elif isinstance(node, list):
+            pending.extend((item, depth + 1) for item in node)
     allowed = {"provider", "model", "endpoint", "api_key_env", "api_key_header", "api_key_prefix",
                "headers", "extra_body", "request_template", "response_path", "timeout_seconds",
                "max_request_bytes", "max_response_bytes", "max_output_tokens", "allow_insecure_http",
@@ -163,6 +172,10 @@ def _validate_config(config):
     model = config.get("model")
     if not isinstance(model, str) or not model or len(model) > 256 or any(ord(c) < 32 for c in model):
         raise JudgeError("Judge configuration requires a nonempty model name of at most 256 characters.")
+    try:
+        model.encode("utf-8")
+    except UnicodeError:
+        raise JudgeError("Judge model name must contain valid Unicode text.") from None
     for name in ("allow_insecure_http",):
         if name in config and not isinstance(config[name], bool):
             raise JudgeError("Judge allow_insecure_http must be a JSON boolean.")
@@ -194,6 +207,7 @@ def _validate_config(config):
 
 def _validate_endpoint(endpoint, allow_insecure):
     try:
+        endpoint.encode("utf-8")
         parts = parse.urlsplit(endpoint)
         _ = parts.port
         if not parts.hostname or parts.scheme not in ("https", "http") or parts.username or parts.password or parts.fragment:
@@ -249,6 +263,13 @@ def _expand(value, prompt, model, secrets):
 
 
 def _make_request(config, payload, secrets, instructions=INSTRUCTIONS):
+    try:
+        return _build_request(config, payload, secrets, instructions)
+    except (RecursionError, UnicodeError):
+        raise JudgeError("Judge request contains excessive nesting or invalid text.") from None
+
+
+def _build_request(config, payload, secrets, instructions=INSTRUCTIONS):
     try:
         data = json.dumps(payload, ensure_ascii=True, sort_keys=True, allow_nan=False)
     except (TypeError, ValueError, RecursionError):
@@ -326,6 +347,8 @@ def _post_json(config, headers, body):
                 if time.monotonic() >= deadline:
                     raise JudgeError("Judge request exceeded its time budget.")
                 chunk = response.read1(min(65536, config["max_response_bytes"] + 1 - size))
+                if time.monotonic() >= deadline:
+                    raise JudgeError("Judge request exceeded its time budget.")
                 if not chunk:
                     break
                 chunks.append(chunk)
@@ -390,10 +413,19 @@ def _extract(config, response):
 
 
 def _safe_text(value, secrets, limit=4000):
-    for secret in sorted(secrets, key=len, reverse=True):
+    # Remove unsafe controls before redaction: otherwise sanitization can join
+    # two fragments into a credential that the earlier replacement never saw.
+    value = "".join(c for c in value if ord(c) >= 32 or c in "\n\t")
+    value = value.encode("utf-8", "backslashreplace").decode("utf-8")
+    variants = set(secrets)
+    for secret in secrets:
+        normalized = "".join(c for c in secret if ord(c) >= 32 or c in "\n\t")
+        normalized = normalized.encode("utf-8", "backslashreplace").decode("utf-8")
+        if normalized:
+            variants.add(normalized)
+    for secret in sorted(variants, key=len, reverse=True):
         value = value.replace(secret, "[REDACTED]")
     # Text remains untrusted. Report renderers must HTML/Markdown-escape it.
-    value = "".join(c for c in value if ord(c) >= 32 or c in "\n\t")
     return value[:limit]
 
 
@@ -441,7 +473,7 @@ def review(config, payload):
     payload, remove findings, or change deterministic severity/exit decisions.
     Raises JudgeError with a credential-safe explanation on any review failure.
     """
-    config = _validate_config(config)
+    config = validate_analyst_config(config)
     if not isinstance(payload, dict) or not isinstance(payload.get("findings"), list):
         raise JudgeError("Judge payload requires a findings array.")
     ids = []
@@ -453,6 +485,7 @@ def review(config, payload):
     secrets = set()
     headers, body = _make_request(config, payload, secrets)
     response = _post_json(config, headers, body)
+    _analyst_no_tools(response)
     result = _normalize(_extract(config, response), ids, secrets)
     result.update({"status": "completed", "advisory_only": True, "nondeterministic": True,
                    "provider": config["provider"], "model": _safe_text(config["model"], secrets, 256),
@@ -536,7 +569,7 @@ def _control_payload(payload):
 
 
 def validate_analyst_config(config):
-    """Validate full-review configuration before even the finding-triage request."""
+    """Validate inference-only configuration before either review stage."""
     config = _validate_config(config)
     _analyst_no_tools(config.get("request_template", {}))
     _analyst_no_tools(config.get("extra_body", {}))

@@ -1,0 +1,3 @@
+# Optional validation tools only; the scanner has no third-party dependencies.
+coverage==7.16.1
+jsonschema==4.26.0

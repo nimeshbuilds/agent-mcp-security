@@ -75,7 +75,7 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     root_stat = root.stat()
     root_identity = (root_stat.st_dev, root_stat.st_ino)
     findings, skipped, errors, files = [], [], [], []
-    bytes_read, entries = 0, 0
+    bytes_read, bytes_charged, failed_read_bytes_charged, entries = 0, 0, 0, 0
     interrupted = False
     inventory = {"extensions": Counter(), "dependency_manifests": [], "agent_mcp_signals": []}
 
@@ -140,18 +140,26 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
                 if st.st_size > max_file_bytes:
                     skip(rel, "file_size_limit", True)
                     continue
-                if bytes_read + st.st_size > max_total_bytes:
+                # Reserve one sentinel byte to detect growth without exceeding
+                # the total I/O budget, including failed or rejected reads.
+                if bytes_charged + st.st_size + 1 > max_total_bytes:
                     skip(rel, "total_byte_limit", True)
                     interrupted = True
                     break
-                data, opened = read_confined(root, rel, min(max_file_bytes, max_total_bytes - bytes_read), root_identity)
+                try:
+                    data, opened = read_confined(root, rel, st.st_size, root_identity)
+                except (OSError, ValueError, RuntimeError):
+                    bytes_charged += st.st_size + 1
+                    failed_read_bytes_charged += st.st_size + 1
+                    raise
+                bytes_read += len(data)
+                bytes_charged += len(data)
                 if (opened.st_dev, opened.st_ino) != (st.st_dev, st.st_ino):
                     skip(rel, "file_changed_during_open", True)
                     continue
-                if len(data) > max_file_bytes or len(data) + bytes_read > max_total_bytes:
+                if len(data) > max_file_bytes or bytes_charged > max_total_bytes:
                     skip(rel, "file_grew_beyond_limit", True)
                     continue
-                bytes_read += len(data)
                 if b"\x00" in data:
                     skip(rel, "binary_content", True)
                     continue
@@ -178,7 +186,7 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
                     if identifier in baseline:
                         finding["suppression_reason"] = redact(baseline[identifier])
                     findings.append(finding)
-            except (OSError, ValueError, RecursionError) as exc:
+            except (OSError, ValueError, RuntimeError) as exc:
                 errors.append({"path": redact(rel), "error": type(exc).__name__ + " while reading or analyzing file", "kind": "analysis_error"})
         if interrupted:
             break
@@ -207,7 +215,7 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     active = [f for f in findings if f["status"] == "open"]
     counts = {severity: sum(f["severity"] == severity for f in active) for severity in SEVERITIES}
     coverage_gaps = len(errors) + sum(s["coverage_gap"] for s in skipped)
-    summary = {"open_findings": len(active), "suppressed_findings": len(findings) - len(active), "severity_counts": counts, "files_scanned": len(files), "bytes_read": bytes_read, "coverage_gaps": coverage_gaps, "assessment": "static_triage_only", "scan_complete_within_selected_scope": coverage_gaps == 0}
+    summary = {"open_findings": len(active), "suppressed_findings": len(findings) - len(active), "severity_counts": counts, "files_scanned": len(files), "bytes_read": bytes_read, "bytes_charged": bytes_charged, "failed_read_bytes_charged": failed_read_bytes_charged, "coverage_gaps": coverage_gaps, "assessment": "static_triage_only", "scan_complete_within_selected_scope": coverage_gaps == 0}
     config = {**limits, "exclude": sorted(set(exclude)), "default_excluded_directories": sorted(EXCLUDED_DIRS), "generated_outputs_and_judge_config_excluded": True}
     implementation = hashlib.sha256()
     for module in sorted(Path(__file__).parent.glob("*.py")):

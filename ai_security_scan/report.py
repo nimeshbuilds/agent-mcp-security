@@ -5,16 +5,22 @@ import os
 import re
 import tempfile
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, quote_from_bytes
+
+
+def _unicode_text(value):
+    # JSON strings and POSIX surrogate-escaped filenames can contain unpaired
+    # surrogates. Display them explicitly instead of failing report generation.
+    return str(value).encode("utf-8", "backslashreplace").decode("utf-8")
 
 
 def md(value):
-    text = html.escape(str(value), quote=False).replace("\r", " ").replace("\n", " ")
+    text = html.escape(_unicode_text(value), quote=False).replace("\r", " ").replace("\n", " ")
     return re.sub(r"([\\`*_{\[\]}()#+.!|>~-])", r"\\\1", text)
 
 
 def codeblock(value):
-    text = str(value)
+    text = _unicode_text(value)
     longest = max((len(m.group()) for m in re.finditer(r"`+", text)), default=0)
     fence = "`" * max(3, longest + 1)
     return f"{fence}text\n{text}\n{fence}"
@@ -24,6 +30,8 @@ def markdown(report):
     summary = report["summary"]
     lines = ["# AI agent and MCP security scan", "", f"Scan ID: `{report['scan_id']}`", "", "This is static security triage, not certification or proof that a system is secure.", "", "## Summary", "", f"Scanned **{summary['files_scanned']} files**; **{summary['open_findings']} open findings**, **{summary['suppressed_findings']} suppressed findings**, and **{summary['coverage_gaps']} coverage gaps**.", "", "| Critical | High | Medium | Low | Info |", "|---:|---:|---:|---:|---:|"]
     lines.append("| " + " | ".join(str(summary["severity_counts"][s]) for s in ("critical", "high", "medium", "low", "info")) + " |")
+    if "bytes_charged" in summary:
+        lines += ["", f"Source I/O: **{summary['bytes_read']} bytes read**, **{summary['bytes_charged']} bytes charged** against the budget, including **{summary['failed_read_bytes_charged']} conservatively charged bytes** for failed reads. Each read reserves a sentinel byte to detect growth."]
     if report.get("execution"):
         execution = report["execution"]
         lines += ["", f"Severity failure threshold: **{md(execution['failure_threshold'])}** · Process exit code: **{execution['exit_code']}**."]
@@ -121,7 +129,11 @@ def sarif(report):
     rule_index = {r["id"]: i for i, r in enumerate(descriptors)}
     results = []
     for f in report["findings"]:
-        item = {"ruleId": f["rule_id"], "ruleIndex": rule_index[f["rule_id"]], "level": "error" if f["severity"] in ("critical", "high") else "warning" if f["severity"] == "medium" else "note", "message": {"text": f["description"] + " Remediation: " + f["remediation"]}, "locations": [{"physicalLocation": {"artifactLocation": {"uri": quote(f["path"], safe="/")}, "region": {"startLine": max(1, f["line"]), "endLine": max(f["line"], f.get("end_line", f["line"]))}}}], "partialFingerprints": {"agentMcpScan/v1": f["id"]}, "properties": {"severity": f["severity"], "confidence": f["confidence"], "status": f["status"]}}
+        try:
+            path_bytes = os.fsencode(f["path"])
+        except UnicodeError:
+            path_bytes = _unicode_text(f["path"]).encode("utf-8")
+        item = {"ruleId": f["rule_id"], "ruleIndex": rule_index[f["rule_id"]], "level": "error" if f["severity"] in ("critical", "high") else "warning" if f["severity"] == "medium" else "note", "message": {"text": f["description"] + " Remediation: " + f["remediation"]}, "locations": [{"physicalLocation": {"artifactLocation": {"uri": quote_from_bytes(path_bytes, safe="/")}, "region": {"startLine": max(1, f["line"]), "endLine": max(f["line"], f.get("end_line", f["line"]))}}}], "partialFingerprints": {"agentMcpScan/v1": f["id"]}, "properties": {"severity": f["severity"], "confidence": f["confidence"], "status": f["status"]}}
         if f["status"] == "suppressed":
             item["suppressions"] = [{"kind": "external", "status": "accepted", "justification": f["suppression_reason"]}]
         results.append(item)
