@@ -40,6 +40,15 @@ def markdown(report):
     if report.get("execution"):
         execution = report["execution"]
         lines += ["", f"Severity failure threshold: **{md(execution['failure_threshold'])}** · Process exit code: **{execution['exit_code']}**."]
+    if report.get("image"):
+        container = report["image"]
+        identity = container["identity"]
+        lines += ["", "## Container image", "",
+                  f"Input: **{md(container['display_target'])}** · Format: **{md(identity.get('format', 'unknown'))}** · Platform: **{md(identity.get('platform', 'unknown'))}**.", "",
+                  "Image config digest: " + md(identity.get("config_digest", "unknown")), "",
+                  "Analysis scope: **" + md(container.get("analysis_scope", "unknown")) + "** · Packaged source files inspected: **" + str(container.get("packaged_source_files_inspected", 0)) + "**.", "",
+                  "The container was not started. Paths under `rootfs/` refer to the image filesystem; `.image-metadata/` contains generated evidence from the image configuration, history, and retained layers. Packaged supported code is inspected directly. Native binary logic is not decompiled, and package inventory is not a CVE scan.", "",
+                  "Image inventory:", "", codeblock(json.dumps(container.get("inventory", {}), indent=2, sort_keys=True, ensure_ascii=True)), ""]
     analyst = report.get("analyst", {})
     analyst_controls = {}
     if analyst.get("enabled"):
@@ -58,6 +67,8 @@ def markdown(report):
         lines += [f"### {md(f['rule_id'])} — {md(f['title'])}", "", f"**{md(f['severity'].upper())}** · Confidence: {md(f['confidence'])} · Status: {md(f['status'])}", "", f"Location: {md(f['path'])}:{f['line']}–{f.get('end_line', f['line'])} · Finding ID: `{f['id']}`", "", md(f["description"]), "", codeblock(f.get("evidence", "")), "", "**Remediation:** " + md(f["remediation"]), ""]
         if f.get("suppression_reason"):
             lines += ["**Suppression reason:** " + md(f["suppression_reason"]), ""]
+        if f.get("image_context"):
+            lines += ["Image evidence context: **" + md(f["image_context"]) + "**. Provenance: " + md(json.dumps(f.get("image_provenance", {}), sort_keys=True)), ""]
         if f.get("cwe"):
             lines += ["Weakness mappings: " + ", ".join(md(c) for c in f["cwe"]), ""]
         for url in f.get("references", []):

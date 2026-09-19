@@ -8,18 +8,9 @@
       ".git",
       ".hg",
       ".mypy_cache",
-      ".next",
       ".pytest_cache",
       ".svn",
-      ".tox",
-      ".venv",
-      "__pycache__",
-      "build",
-      "coverage",
-      "dist",
-      "node_modules",
-      "vendor",
-      "venv"
+      "__pycache__"
     ],
     "exclude": [],
     "generated_outputs_and_judge_config_excluded": true,
@@ -326,7 +317,10 @@
         "Use short-lived scoped credentials where supported, protect refresh tokens, and validate rotation and revocation.",
         "Avoid tokens in query strings, model context, source, child-process arguments, and diagnostic output."
       ],
-      "finding_ids": [],
+      "finding_ids": [
+        "9d4be3b23ed7a5edbf22f308",
+        "e770b87231f7a7060cc1f9cc"
+      ],
       "id": "AUTH-05",
       "source_ids": [
         "MCP-AUTH-SEC",
@@ -336,7 +330,7 @@
         "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
       ],
-      "status": "no_pattern_detected",
+      "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Constrain credential lifetime and exposure",
       "validation": "hybrid"
@@ -884,7 +878,9 @@
         "Find shell execution and constructed command strings; use fixed executables, argument arrays, and allowed argument values.",
         "Test untrusted tool inputs containing shell syntax, option injection, command substitution, and hostile filenames."
       ],
-      "finding_ids": [],
+      "finding_ids": [
+        "93d63de077ec33adbdb1ce75"
+      ],
       "id": "EXEC-01",
       "source_ids": [
         "OWASP-MCP10",
@@ -894,7 +890,7 @@
         "https://owasp.org/projects/mcp-top-10",
         "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
       ],
-      "status": "no_pattern_detected",
+      "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Prevent shell and command injection",
       "validation": "hybrid"
@@ -1070,7 +1066,10 @@
         "Inspect code, examples, configuration, notebooks, test fixtures, and generated artifacts for secret-like values.",
         "Verify actual exposures with the owner, rotate real credentials, and remove them from reachable history and artifacts."
       ],
-      "finding_ids": [],
+      "finding_ids": [
+        "9d4be3b23ed7a5edbf22f308",
+        "e770b87231f7a7060cc1f9cc"
+      ],
       "id": "DATA-01",
       "source_ids": [
         "JOINT-DEPLOY"
@@ -1078,7 +1077,7 @@
       "sources": [
         "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
       ],
-      "status": "no_pattern_detected",
+      "status": "findings_detected",
       "suppressed_finding_ids": [],
       "title": "Detect and remove embedded credentials",
       "validation": "static"
@@ -1770,12 +1769,16 @@
         "files": 0,
         "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
       },
+      "image_metadata": {
+        "files": 3,
+        "scope": "Selected image configuration/history/layer security checks; package inventory and file metadata are not application logic or CVE validation."
+      },
       "javascript_lexical": {
         "files": 0,
         "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
       },
       "json_structured": {
-        "files": 1,
+        "files": 0,
         "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
       },
       "python_ast": {
@@ -1785,6 +1788,10 @@
     },
     "errors": [],
     "limitations": [
+      "The container was not started. Image configuration can be overridden at deployment; runtime authorization, network policy, mounts, privileges and effective user are not established.",
+      "Packaged supported source/configuration is analyzed directly. Native binaries, bytecode-only applications and stripped/minified artifacts do not receive decompilation or complete application-logic analysis.",
+      "Image dependency inventory is not a CVE assessment. No vulnerability feed, signature trust policy, registry provenance, or malware engine is consulted.",
+      "Build history and retained-layer credentials are image-artifact evidence; removed source-code defects are not reported as live application defects.",
       "Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.",
       "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.",
       "No dependencies are installed, target code executed, services contacted, or CVE feed queried.",
@@ -1840,65 +1847,294 @@
     "unmatched_baseline_ids": []
   },
   "execution": {
-    "exit_code": 0,
+    "exit_code": 1,
     "failure_threshold": "high",
-    "finding_gate_triggered": false
+    "finding_gate_triggered": true
   },
   "files": [
     {
-      "analysis_profile": "python_ast",
-      "bytes": 476,
-      "path": "agent.py",
-      "sha256": "48368861bc3c47b28e994955affce95cfaf2cd4e722e59bee78b4fe8c2b303e9"
+      "analysis_profile": "image_metadata",
+      "bytes": 45,
+      "image_context": "runtime_configuration",
+      "image_provenance": {
+        "field": "config"
+      },
+      "path": ".image-metadata/config.json",
+      "sha256": "a7ec09598e775a19b24d4b74fe34a347f1c75b9ed86a9202f3e973ebc14f49b9"
     },
     {
-      "analysis_profile": "json_structured",
-      "bytes": 131,
-      "path": "mcp.json",
-      "sha256": "3ddddb21d195a6e4dfdc4c93f0b4698ac555c0a4426c2a9a438a089eef2b4c03"
+      "analysis_profile": "image_metadata",
+      "bytes": 62,
+      "image_context": "runtime_configuration",
+      "image_provenance": {
+        "field": "Env",
+        "index": 0,
+        "key": "SERVICE_API_KEY"
+      },
+      "path": ".image-metadata/environment/000000.json",
+      "sha256": "34911bc31580d6086753787843b7f10880792533b5ad22a0a2fc1830191d4aa3"
+    },
+    {
+      "analysis_profile": "image_metadata",
+      "bytes": 50,
+      "image_context": "retained_layer",
+      "image_provenance": {
+        "layer": 0,
+        "original_path": "app/.env",
+        "present_in_final_filesystem": false,
+        "sha256": "df5fb811b2c6ca2b975051446a8ad7ea08b186178638c122c1f51704d2ee67d6"
+      },
+      "model_evidence_exclusion": "sensitive_file_excluded",
+      "path": ".image-metadata/retained-layer/000001.env",
+      "sha256": "df5fb811b2c6ca2b975051446a8ad7ea08b186178638c122c1f51704d2ee67d6"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 32,
+      "image_context": "final_filesystem",
+      "image_provenance": {
+        "container_path": "/app/dist/agent.py",
+        "layer": 0,
+        "sha256": "9fe29660ec2c4bb7ecdf4a6f98ceab57b516a9eeb33dd0a5d56388a92243b465"
+      },
+      "path": "rootfs/app/dist/agent.py",
+      "sha256": "9fe29660ec2c4bb7ecdf4a6f98ceab57b516a9eeb33dd0a5d56388a92243b465"
     }
   ],
-  "findings": [],
-  "inventory": {
-    "agent_mcp_signals": [
-      {
-        "path": "mcp.json",
-        "signals": [
-          "mcpservers"
+  "findings": [
+    {
+      "category": "secrets",
+      "confidence": "medium",
+      "cwe": [
+        "CWE-798"
+      ],
+      "description": "A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value.",
+      "end_line": 2,
+      "evidence": "[REDACTED: credential-related image evidence; inspect this location locally]",
+      "finding_id": "9d4be3b23ed7a5edbf22f308",
+      "id": "9d4be3b23ed7a5edbf22f308",
+      "image_context": "runtime_configuration",
+      "image_provenance": {
+        "field": "Env",
+        "index": 0,
+        "key": "SERVICE_API_KEY"
+      },
+      "line": 2,
+      "path": ".image-metadata/environment/000000.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design",
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "remediation": "If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege.",
+      "rule_id": "AI010",
+      "severity": "high",
+      "status": "open",
+      "title": "Credential-like literal in source or configuration"
+    },
+    {
+      "category": "secrets",
+      "confidence": "medium",
+      "cwe": [
+        "CWE-798"
+      ],
+      "description": "A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value. This credential-like content remains in a retained image layer even though the file revision is absent from the final filesystem; this is artifact exposure, not a live source-code finding.",
+      "end_line": 2,
+      "evidence": "[REDACTED: credential-related image evidence; inspect this location locally]",
+      "finding_id": "e770b87231f7a7060cc1f9cc",
+      "id": "e770b87231f7a7060cc1f9cc",
+      "image_context": "retained_layer",
+      "image_provenance": {
+        "layer": 0,
+        "original_path": "app/.env",
+        "present_in_final_filesystem": false,
+        "sha256": "df5fb811b2c6ca2b975051446a8ad7ea08b186178638c122c1f51704d2ee67d6"
+      },
+      "line": 1,
+      "path": ".image-metadata/retained-layer/000001.env",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design",
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "remediation": "If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege.",
+      "rule_id": "AI010",
+      "severity": "high",
+      "status": "open",
+      "title": "Credential-like literal in source or configuration"
+    },
+    {
+      "category": "tool_execution",
+      "confidence": "medium",
+      "cwe": [
+        "CWE-78"
+      ],
+      "description": "os.system or os.popen executes a dynamically constructed command through the shell. Review the command's trust boundary.",
+      "end_line": 2,
+      "evidence": "os.system(user_input)",
+      "finding_id": "93d63de077ec33adbdb1ce75",
+      "id": "93d63de077ec33adbdb1ce75",
+      "image_context": "final_filesystem",
+      "image_provenance": {
+        "container_path": "/app/dist/agent.py",
+        "layer": 0,
+        "sha256": "9fe29660ec2c4bb7ecdf4a6f98ceab57b516a9eeb33dd0a5d56388a92243b465"
+      },
+      "line": 2,
+      "path": "rootfs/app/dist/agent.py",
+      "references": [
+        "https://docs.python.org/3/library/security_warnings.html",
+        "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
+      ],
+      "remediation": "Use subprocess with a fixed executable and argument list, shell=False, and explicit allowed options.",
+      "rule_id": "AI003",
+      "severity": "high",
+      "status": "open",
+      "title": "Dynamic os shell command"
+    }
+  ],
+  "image": {
+    "acquisition": null,
+    "analysis_scope": "packaged_source_and_metadata",
+    "assessment_coverage": {
+      "counters": {
+        "bytes_charged": 208,
+        "bytes_read": 50,
+        "max_metadata_records": 10000,
+        "metadata_evidence_files": 3,
+        "metadata_records_considered": 2,
+        "retained_layer_revisions_checked": 1
+      },
+      "errors": [],
+      "limitations": [
+        "Image metadata and retained layers are assessed offline; the image is never started and binaries are not decompiled.",
+        "Installed-package metadata is inventory only; no CVE database, vendor advisory, signature, or exploitability lookup is performed.",
+        "Deleted and overwritten layers are checked for credential exposure only; other historic source patterns are not live-runtime findings.",
+        "Default image user, stored permissions, and command configuration can be overridden at deployment; runtime isolation and authorization require separate validation.",
+        "Compiled code, obfuscated data, encrypted secrets, unsupported package databases, and unavailable source cannot receive source-level rule coverage."
+      ],
+      "skipped": []
+    },
+    "binary_logic_analyzed": false,
+    "container_started": false,
+    "display_target": "demo-agent.tar",
+    "exclusion_scope": "Container-relative exclusions apply to final packaged files and retained file revisions. Image configuration, build history, OS/package inventory and stored permission review remain independently assessed.",
+    "extraction_coverage": {
+      "archive_bytes": 30720,
+      "archive_entries": 7,
+      "errors": [],
+      "expanded_archive_bytes": 30720,
+      "file_revisions": 2,
+      "final_entries": 3,
+      "layer_content_bytes": 82,
+      "layers": 2,
+      "materialized_bytes": 32,
+      "skipped": [],
+      "unpacked_layer_bytes": 20480
+    },
+    "identity": {
+      "archive_sha256": "4010c0c8f34af0ff9172858af3ba8cab6d0c61b585c2ed81d8a89fc98249e16a",
+      "config_digest": "sha256:4d3b0348c48a9cbf6c97239e9e3b7596cdc0e6f9a0eb02f873b3963ecd1738fd",
+      "diff_ids": [
+        "sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc",
+        "sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6"
+      ],
+      "format": "docker-save",
+      "layer_digests": [
+        "sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc",
+        "sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6"
+      ],
+      "manifest_digest": "sha256:6919cf0962349fd1809cc6168286b7af680525085f21d93674b0483ddb4e24fd",
+      "manifest_digest_encoding": "selected-entry-canonical-json",
+      "platform": "linux/amd64",
+      "repo_tags": [
+        "fixture:latest"
+      ]
+    },
+    "input_kind": "archive",
+    "inventory": {
+      "binary_logic_analyzed": false,
+      "binary_secret_engine_enabled": false,
+      "identity": {
+        "archive_sha256": "4010c0c8f34af0ff9172858af3ba8cab6d0c61b585c2ed81d8a89fc98249e16a",
+        "config_digest": "sha256:4d3b0348c48a9cbf6c97239e9e3b7596cdc0e6f9a0eb02f873b3963ecd1738fd",
+        "diff_ids": [
+          "sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc",
+          "sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6"
+        ],
+        "format": "docker-save",
+        "layer_digests": [
+          "sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc",
+          "sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6"
+        ],
+        "manifest_digest": "sha256:6919cf0962349fd1809cc6168286b7af680525085f21d93674b0483ddb4e24fd",
+        "manifest_digest_encoding": "selected-entry-canonical-json",
+        "platform": "linux/amd64",
+        "repo_tags": [
+          "fixture:latest"
         ]
+      },
+      "os_release": {},
+      "package_inventory_is_cve_scan": false,
+      "packages": [],
+      "permission_review_signals": [],
+      "runtime": {
+        "command_present": false,
+        "configured_user": "1000",
+        "deployment_user_override_checked": false,
+        "entrypoint_present": false,
+        "environment_names": [
+          "SERVICE_API_KEY"
+        ],
+        "label_names": [],
+        "user_assessment": "nonroot_numeric",
+        "working_directory": "/app"
       }
-    ],
+    },
+    "limits": {
+      "max_archive_bytes": 2000000000,
+      "max_layer_entries": 500000,
+      "max_layers": 200,
+      "max_unpacked_bytes": 4000000000
+    },
+    "packaged_files_inspected": 1,
+    "packaged_source_files_inspected": 1,
+    "vulnerability_feed_consulted": false
+  },
+  "inventory": {
+    "agent_mcp_signals": [],
     "dependency_manifests": [],
     "extensions": {
-      ".json": 1,
       ".py": 1
     }
   },
   "judge": {
     "enabled": false
   },
-  "mode": "deterministic_static",
-  "scan_id": "4547a4dfd237a057a592b3b6db12145c078824e30593f0f32f2a00ba2530a30e",
+  "mode": "deterministic_image",
+  "scan_id": "aea908e2e5d9e13ea820005332b7f3c42c5d300c4b100fbbf933f40a626c8d97",
   "schema_version": "1.0",
   "summary": {
-    "assessment": "static_triage_only",
-    "bytes_charged": 607,
-    "bytes_read": 607,
+    "assessment": "static_image_triage_only",
+    "bytes_charged": 32,
+    "bytes_read": 32,
     "coverage_gaps": 0,
     "failed_read_bytes_charged": 0,
-    "files_scanned": 2,
-    "open_findings": 0,
+    "files_scanned": 4,
+    "image_analysis_scope": "packaged_source_and_metadata",
+    "metadata_evidence_bytes": 157,
+    "open_findings": 3,
+    "packaged_files_inspected": 1,
+    "packaged_source_files_inspected": 1,
     "scan_complete_within_selected_scope": true,
     "severity_counts": {
       "critical": 0,
-      "high": 0,
+      "high": 3,
       "info": 0,
       "low": 0,
       "medium": 0
     },
     "suppressed_findings": 0
   },
-  "target": ".",
+  "target": "container-image",
   "tool": {
     "implementation_sha256": "689a9507f0639d83b5f51efbbea3b6fb0b88e5efda77b269ed71e7ff27d2d5e6",
     "name": "agent-mcp-security-scan",

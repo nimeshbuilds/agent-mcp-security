@@ -1,6 +1,10 @@
+# Container-image input added in 0.4.0
+
+Use `--image REFERENCE` for local Docker/Podman images, or `--image-archive PATH` for exported Docker-save/OCI tar files. Neither needs a source directory. See the [image guide](IMAGE_SCANNING.md) for all image flags, explicit pulls, platform selection, archive/extraction budgets, and binary-only coverage semantics. Existing options below apply to source and image scans; image exclusions are relative to the container filesystem root. The image is never started.
+
 # Command-line reference
 
-`ai-security-scan` performs bounded, read-only source triage and writes Markdown, JSON, and SARIF reports. The deterministic scan needs no model, credentials, network, or third-party Python package. The optional model analyst is enabled only with `--judge-config`.
+`ai-security-scan` performs bounded, read-only source/image triage and writes Markdown, JSON, and SARIF reports. Deterministic source-directory and image-archive scans need no model, credentials, network, or third-party Python package. Image references use the selected container runtime; registry pulls require `--pull`. The optional model analyst is enabled only with `--judge-config`.
 
 The CLI identifies patterns that need review. A finding does not by itself prove exploitability, and no finding does not establish security, compliance, or complete control coverage. Consult the report's scope, skipped files, parse errors, limitations, and control statuses alongside its severity counts.
 

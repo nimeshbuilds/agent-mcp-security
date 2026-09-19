@@ -2589,5 +2589,5 @@
   "regression_failure_ids": [],
   "schema_version": "1.0",
   "scope": "Synthetic, project-authored rule-presence fixtures. These are not production accuracy estimates or proof of security. Challenge cases are included in overall metrics even when the regression gate passes.",
-  "tool_version": "0.3.0"
+  "tool_version": "0.4.0"
 }

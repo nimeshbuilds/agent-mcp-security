@@ -58,7 +58,33 @@ jobs:
       - name: Exercise installed CLI from outside the source checkout
         working-directory: ${{ runner.temp }}
         run: ai-security-scan "$GITHUB_WORKSPACE/examples/safer" --output "$RUNNER_TEMP/installed-scan"
+      - name: Exercise installed image scanner without a container runtime
+        working-directory: ${{ runner.temp }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib, subprocess
+          output = pathlib.Path(os.environ['RUNNER_TEMP']) / 'installed-image-scan'
+          archive = pathlib.Path(os.environ['GITHUB_WORKSPACE']) / 'examples/images/demo-agent.tar'
+          result = subprocess.run(['ai-security-scan', '--image-archive', str(archive), '--output', str(output)], check=False)
+          assert result.returncode == 1
+          report = json.loads((output / 'report.json').read_text())
+          assert report['summary']['open_findings'] == 3
+          assert report['summary']['coverage_gaps'] == 0
+          assert report['image']['container_started'] is False
+          PY
       - name: Validate generated SARIF against the pinned OASIS schema
         run: |
           curl --fail --location --proto '=https' --tlsv1.2 --max-time 30 https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json --output test-output/sarif-schema.json
-          python scripts/validate_sarif.py --schema test-output/sarif-schema.json "$RUNNER_TEMP/installed-scan/report.sarif" examples/reports/vulnerable/report.sarif
+          python scripts/validate_sarif.py --schema test-output/sarif-schema.json "$RUNNER_TEMP/installed-scan/report.sarif" "$RUNNER_TEMP/installed-image-scan/report.sarif" examples/reports/vulnerable/report.sarif
+
+  built-image-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Inspect actual Docker-built artifacts without starting containers
+        run: python scripts/validate_image_scan.py

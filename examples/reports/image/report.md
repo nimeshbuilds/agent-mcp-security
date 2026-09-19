@@ -1,18 +1,18 @@
 # AI agent and MCP security scan
 
-Scan ID: `4547a4dfd237a057a592b3b6db12145c078824e30593f0f32f2a00ba2530a30e`
+Scan ID: `aea908e2e5d9e13ea820005332b7f3c42c5d300c4b100fbbf933f40a626c8d97`
 
 This is static security triage, not certification or proof that a system is secure.
 
 ## Summary
 
-Scanned **2 files**; **0 open findings**, **0 suppressed findings**, and **0 coverage gaps**.
+Scanned **4 files**; **3 open findings**, **0 suppressed findings**, and **0 coverage gaps**.
 
 | Critical | High | Medium | Low | Info |
 |---:|---:|---:|---:|---:|
-| 0 | 0 | 0 | 0 | 0 |
+| 0 | 3 | 0 | 0 | 0 |
 
-Source I/O: **607 bytes read**, **607 bytes charged** against the budget, including **0 conservatively charged bytes** for failed reads. Each read reserves a sentinel byte to detect growth.
+Source I/O: **32 bytes read**, **32 bytes charged** against the budget, including **0 conservatively charged bytes** for failed reads. Each read reserves a sentinel byte to detect growth.
 
 ### Analysis depth
 
@@ -20,16 +20,133 @@ File counts describe inspected inputs, not complete semantic coverage. Syntax/re
 
 | Profile | Files | Analysis scope |
 |---|---:|---|
-| json\_structured | 1 | Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved\. |
+| image\_metadata | 3 | Selected image configuration/history/layer security checks; package inventory and file metadata are not application logic or CVE validation\. |
 | python\_ast | 1 | Python syntax, bounded local aliases/value tracking and selected security sinks; no whole\-program or interprocedural proof\. |
 
-Severity failure threshold: **high** · Process exit code: **0**.
+Severity failure threshold: **high** · Process exit code: **1**.
+
+## Container image
+
+Input: **demo\-agent\.tar** · Format: **docker\-save** · Platform: **linux/amd64**.
+
+Image config digest: sha256:4d3b0348c48a9cbf6c97239e9e3b7596cdc0e6f9a0eb02f873b3963ecd1738fd
+
+Analysis scope: **packaged\_source\_and\_metadata** · Packaged source files inspected: **1**.
+
+The container was not started. Paths under `rootfs/` refer to the image filesystem; `.image-metadata/` contains generated evidence from the image configuration, history, and retained layers. Packaged supported code is inspected directly. Native binary logic is not decompiled, and package inventory is not a CVE scan.
+
+Image inventory:
+
+```text
+{
+  "binary_logic_analyzed": false,
+  "binary_secret_engine_enabled": false,
+  "identity": {
+    "archive_sha256": "4010c0c8f34af0ff9172858af3ba8cab6d0c61b585c2ed81d8a89fc98249e16a",
+    "config_digest": "sha256:4d3b0348c48a9cbf6c97239e9e3b7596cdc0e6f9a0eb02f873b3963ecd1738fd",
+    "diff_ids": [
+      "sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc",
+      "sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6"
+    ],
+    "format": "docker-save",
+    "layer_digests": [
+      "sha256:a73b5d4e06a19bc6ef0204774121eeb60249122dc9225f27773056698040b5fc",
+      "sha256:abf10363c77e8d633851750e788637782150dc1207a3ba4ea88a8f245bb9ecb6"
+    ],
+    "manifest_digest": "sha256:6919cf0962349fd1809cc6168286b7af680525085f21d93674b0483ddb4e24fd",
+    "manifest_digest_encoding": "selected-entry-canonical-json",
+    "platform": "linux/amd64",
+    "repo_tags": [
+      "fixture:latest"
+    ]
+  },
+  "os_release": {},
+  "package_inventory_is_cve_scan": false,
+  "packages": [],
+  "permission_review_signals": [],
+  "runtime": {
+    "command_present": false,
+    "configured_user": "1000",
+    "deployment_user_override_checked": false,
+    "entrypoint_present": false,
+    "environment_names": [
+      "SERVICE_API_KEY"
+    ],
+    "label_names": [],
+    "user_assessment": "nonroot_numeric",
+    "working_directory": "/app"
+  }
+}
+```
+
 
 A clean pattern scan is not a control pass. Validate applicability and exploitability before remediation; runtime and manual checks remain required.
 
 ## Findings
 
-No configured risk patterns were detected in the selected files.
+### AI010 — Credential\-like literal in source or configuration
+
+**HIGH** · Confidence: medium · Status: open
+
+Location: \.image\-metadata/environment/000000\.json:2–2 · Finding ID: `9d4be3b23ed7a5edbf22f308`
+
+A credential\-named field contains a nonplaceholder literal\. It may be a real secret or test data; validate it without disclosing the value\.
+
+```text
+[REDACTED: credential-related image evidence; inspect this location locally]
+```
+
+**Remediation:** If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege\.
+
+Image evidence context: **runtime\_configuration**. Provenance: \{"field": "Env", "index": 0, "key": "SERVICE\_API\_KEY"\}
+
+Weakness mappings: CWE\-798
+
+- [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
+- [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
+
+### AI010 — Credential\-like literal in source or configuration
+
+**HIGH** · Confidence: medium · Status: open
+
+Location: \.image\-metadata/retained\-layer/000001\.env:1–2 · Finding ID: `e770b87231f7a7060cc1f9cc`
+
+A credential\-named field contains a nonplaceholder literal\. It may be a real secret or test data; validate it without disclosing the value\. This credential\-like content remains in a retained image layer even though the file revision is absent from the final filesystem; this is artifact exposure, not a live source\-code finding\.
+
+```text
+[REDACTED: credential-related image evidence; inspect this location locally]
+```
+
+**Remediation:** If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege\.
+
+Image evidence context: **retained\_layer**. Provenance: \{"layer": 0, "original\_path": "app/\.env", "present\_in\_final\_filesystem": false, "sha256": "df5fb811b2c6ca2b975051446a8ad7ea08b186178638c122c1f51704d2ee67d6"\}
+
+Weakness mappings: CWE\-798
+
+- [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
+- [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
+
+### AI003 — Dynamic os shell command
+
+**HIGH** · Confidence: medium · Status: open
+
+Location: rootfs/app/dist/agent\.py:2–2 · Finding ID: `93d63de077ec33adbdb1ce75`
+
+os\.system or os\.popen executes a dynamically constructed command through the shell\. Review the command's trust boundary\.
+
+```text
+os.system(user_input)
+```
+
+**Remediation:** Use subprocess with a fixed executable and argument list, shell=False, and explicit allowed options\.
+
+Image evidence context: **final\_filesystem**. Provenance: \{"container\_path": "/app/dist/agent\.py", "layer": 0, "sha256": "9fe29660ec2c4bb7ecdf4a6f98ceab57b516a9eeb33dd0a5d56388a92243b465"\}
+
+Weakness mappings: CWE\-78
+
+- [Reference](https://docs.python.org/3/library/security_warnings.html)
+- [Reference](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/)
+
 ## Control checklist and coverage
 
 These are project-defined checks mapped to published guidance. They are not official benchmark scores. `no_pattern_detected` means only that the mapped detector did not fire. `findings_detected` requires investigation, not an automatic compliance failure.
@@ -150,7 +267,7 @@ Partial static rules: AI028
 
 ### AUTH\-05: Constrain credential lifetime and exposure
 
-Category: Identity and authorization · Status: no\_pattern\_detected · Validation: hybrid
+Category: Identity and authorization · Status: findings\_detected · Validation: hybrid
 
 Partial static coverage only; absence of a finding is not a pass
 
@@ -158,6 +275,8 @@ Partial static coverage only; absence of a finding is not a pass
 - [ ] Avoid tokens in query strings, model context, source, child\-process arguments, and diagnostic output\.
 
 Partial static rules: AI010, AI011, AI030, AI034
+
+Open finding IDs: 9d4be3b23ed7a5edbf22f308, e770b87231f7a7060cc1f9cc
 - [Source](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations)
 - [Source](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely)
 
@@ -396,7 +515,7 @@ Not established by this static scan
 
 ### EXEC\-01: Prevent shell and command injection
 
-Category: Execution and application security · Status: no\_pattern\_detected · Validation: hybrid
+Category: Execution and application security · Status: findings\_detected · Validation: hybrid
 
 Partial static coverage only; absence of a finding is not a pass
 
@@ -404,6 +523,8 @@ Partial static coverage only; absence of a finding is not a pass
 - [ ] Test untrusted tool inputs containing shell syntax, option injection, command substitution, and hostile filenames\.
 
 Partial static rules: AI002, AI003, AI012
+
+Open finding IDs: 93d63de077ec33adbdb1ce75
 - [Source](https://owasp.org/projects/mcp-top-10)
 - [Source](https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/)
 
@@ -482,7 +603,7 @@ Partial static rules: AI039, AI040
 
 ### DATA\-01: Detect and remove embedded credentials
 
-Category: Data and privacy · Status: no\_pattern\_detected · Validation: static
+Category: Data and privacy · Status: findings\_detected · Validation: static
 
 Partial static coverage only; absence of a finding is not a pass
 
@@ -490,6 +611,8 @@ Partial static coverage only; absence of a finding is not a pass
 - [ ] Verify actual exposures with the owner, rotate real credentials, and remove them from reachable history and artifacts\.
 
 Partial static rules: AI010, AI011, AI030, AI034
+
+Open finding IDs: 9d4be3b23ed7a5edbf22f308, e770b87231f7a7060cc1f9cc
 - [Source](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely)
 
 ### DATA\-02: Minimize data sent to models and gateways
@@ -771,6 +894,10 @@ Not established by this static scan
 
 ## Coverage and limitations
 
+- The container was not started\. Image configuration can be overridden at deployment; runtime authorization, network policy, mounts, privileges and effective user are not established\.
+- Packaged supported source/configuration is analyzed directly\. Native binaries, bytecode\-only applications and stripped/minified artifacts do not receive decompilation or complete application\-logic analysis\.
+- Image dependency inventory is not a CVE assessment\. No vulnerability feed, signature trust policy, registry provenance, or malware engine is consulted\.
+- Build history and retained\-layer credentials are image\-artifact evidence; removed source\-code defects are not reported as live application defects\.
 - Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities\.
 - Python receives AST\-based call checks; other source languages receive selected textual/configuration checks, not whole\-program dataflow\.
 - No dependencies are installed, target code executed, services contacted, or CVE feed queried\.
@@ -780,7 +907,7 @@ Not established by this static scan
 
 ### Inventory
 
-Dependency manifests: 0; agent/MCP signal files: 1.
+Dependency manifests: 0; agent/MCP signal files: 0.
 
 Dependency manifests are inventoried, not checked against a vulnerability database.
 

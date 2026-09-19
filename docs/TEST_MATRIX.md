@@ -1,6 +1,6 @@
 # Scenario test matrix
 
-This matrix records concrete scanner and controller behavior tested for version **0.3.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
+This matrix records concrete scanner and controller behavior tested for version **0.4.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
 
 ## Reproducible scenario coverage
 
@@ -14,6 +14,11 @@ All filenames below are under `tests/` unless another path is given.
 | JavaScript lexical boundaries | 26 methods / 174 explicit subcases: quoted/regex/comment examples, fake imports, aliases, shadowing, multiline calls, templates, function bodies, escaping, configuration properties and logging labels | `test_javascript_accuracy.py` |
 | Configuration accuracy | Real/mapped loopback, deceptive DNS prefixes, whitespace, package-selector forms, every additional distribution, exact versions, JSON container context, image digest length, ambiguous/nonfinite JSON | `test_configuration_accuracy.py` |
 | CLI usability and analysis depth | Grouped help/defaults, no abbreviated flags, quiet/JSON output, rule explanations, invalid combinations, artifact/gate equivalence, per-file language analysis profiles | `test_cli_usability.py`, `test_analysis_profiles.py` |
+| Image archives | Docker-save/OCI, gzip, multi-platform selection, digest/size/DiffID verification, whiteouts/opq order, replacements, retained revisions, links, hostile paths/collisions, special/sparse/PAX entries, decompression/truncation and resource bounds | `test_image_archive.py` |
+| Image assessment | Default/named users, null fields, env/labels/history secrets, command bypasses, retained credentials, history-vs-runtime provenance, OS/package/permission inventory, binary scope and record budgets | `test_image_assessment.py` |
+| Image runtime acquisition | Real controlled subprocesses, Docker/Podman argument contracts, explicit pulls, no execution, stream caps, pressure/deadlines, atomic cleanup, errors without diagnostic secrets | `test_image_runtime.py` |
+| Image CLI | Runtime-free Docker/OCI, packaged build/dependency source, binary-only metadata scope, source/metadata baselines, secret rotation, redacted-path provenance, report repeatability, optional all-control analyst and cleanup | `test_image_cli.py` |
+| Actual Docker artifact | FROM-scratch COPY-only builds, reference and saved-archive scans, native executable plus packaged source, retained-layer/config secrets, binary-only scope; no container start | `scripts/validate_image_scan.py`, `built-image-integration` CI job |
 | Input and traversal | Empty/invalid targets; supported/unsupported files; exclusions; malformed Python/JSON; binary, BOM, non-UTF-8 and CRLF data; symlinks, FIFO, changed inode/root; repeatability | `test_scanner.py`, `test_rules.py`, `test_security_boundaries.py` |
 | Resource accounting | File, entry, per-file and total-byte limits; rejected/failed reads charged; remaining-budget/sentinel boundary; AST recursion failures | `test_scanner.py`, `test_security_boundaries.py`, `test_rules.py` |
 | CLI policy | All six severity settings; operational failure precedence; invalid flags; listing/version commands; script/module entry points; baseline candidate, suppression, stale IDs and malformed baselines | `test_cli_contract.py`, `test_scanner.py`, `test_security_boundaries.py`, `test_judge_integration.py` |

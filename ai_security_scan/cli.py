@@ -2,7 +2,9 @@ import argparse
 import hashlib
 import json
 import sys
+import math
 from collections import Counter
+from contextlib import ExitStack
 from pathlib import Path
 
 from . import __version__
@@ -18,11 +20,14 @@ class HelpFormatter(argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescript
 
 def parser():
     p = argparse.ArgumentParser(
-        description="Read-only AI agent and MCP source security scan. Offline unless --judge-config is provided.\n"
+        description="Read-only AI agent and MCP source or container-image security scan.\n"
+                    "Source/archive scans are offline unless --judge-config is provided. Image references use the selected runtime; --pull explicitly fetches an image.\n"
                     "Static findings are review signals; a clean scan does not establish security or compliance.",
         allow_abbrev=False, formatter_class=HelpFormatter,
         epilog="""Examples:
   ai-security-scan ./repository --output ./reports
+  ai-security-scan --image my-agent:latest --output ./image-report
+  ai-security-scan --image-archive ./agent-image.tar --output ./image-report
   ai-security-scan ./repository --summary-json --fail-on medium
   ai-security-scan ./repository --quiet --exclude 'tests/*'
   ai-security-scan --explain-rule AI002
@@ -40,6 +45,18 @@ An accepted baseline records review decisions; it does not establish that findin
 Optional LLM judgments remain advisory and cannot suppress deterministic findings.
 """)
     p.add_argument("target", nargs="?", help="Repository directory to inspect")
+    images = p.add_argument_group("Container image input (never starts the container)")
+    image_input = images.add_mutually_exclusive_group()
+    image_input.add_argument("--image", metavar="REFERENCE", help="Inspect a local Docker/Podman image reference without the source checkout")
+    image_input.add_argument("--image-archive", metavar="PATH", help="Inspect an exported Docker-save or OCI image archive without a container runtime")
+    images.add_argument("--image-runtime", choices=("docker", "podman"), default="docker", help="Runtime used only for --image export and optional pull")
+    images.add_argument("--pull", action="store_true", help="Explicitly fetch --image before inspection; never implied by a missing image")
+    images.add_argument("--image-platform", metavar="OS/ARCH[/VARIANT]", help="Select a platform; ambiguous multi-platform archives require a selection")
+    images.add_argument("--image-max-archive-bytes", type=int, default=2_000_000_000, help="Maximum archive/export bytes")
+    images.add_argument("--image-max-unpacked-bytes", type=int, default=4_000_000_000, help="Maximum expanded image data charged by the archive reader")
+    images.add_argument("--image-max-entries", type=int, default=500_000, help="Maximum archive/layer entries")
+    images.add_argument("--image-max-layers", type=int, default=200, help="Maximum selected image layers")
+    images.add_argument("--image-timeout", type=float, default=300, help="Shared runtime pull/export deadline in seconds")
     scope = p.add_argument_group("Scan scope and resource limits")
     scope.add_argument("--exclude", action="append", default=[], metavar="GLOB", help="Additional relative-path exclusion; repeatable")
     scope.add_argument("--max-file-bytes", type=int, default=1_000_000, help="Maximum bytes in one source file; larger files create a coverage gap")
@@ -97,44 +114,52 @@ def _json_summary(report, target, report_paths):
     analyst_summary = {key: analyst[key] for key in ("enabled", "status", "advisory_only", "coverage") if key in analyst}
     return {"schema_version": "1.0", "type": "scan_summary", "status": "completed" if report["execution"]["exit_code"] != 2 else "incomplete",
             "tool": report["tool"], "scan_id": report["scan_id"], "summary": report["summary"],
-            "scope": {"target": redact(str(target.resolve())), "configuration": report["configuration"]},
+            "scope": {"target": report.get("image", {}).get("display_target", redact(str(target.resolve()))), "configuration": report["configuration"]},
             "coverage": {**report["coverage"], "total_controls": len(controls),
                          "total_checks": sum(len(control.get("checks", [])) for control in controls),
                          "statically_mapped_controls": sum(bool(control.get("automated_rule_ids")) for control in controls),
                          "control_status_counts": dict(sorted(Counter(control["status"] for control in controls).items()))},
             "optional_review": {"judge": judge_summary, "analyst": analyst_summary},
-            "execution": report["execution"], "exit_code": report["execution"]["exit_code"], "reports": report_paths}
+            "execution": report["execution"], "exit_code": report["execution"]["exit_code"], "reports": report_paths,
+            **({"image": report["image"]} if "image" in report else {})}
 
 
 def judge_payload(report, root, include_source=False, max_findings=100):
     selected = [f for f in report["findings"] if f["status"] == "open"][:max_findings]
     payload = {"scan_id": report["scan_id"], "summary": report["summary"], "limitations": report["coverage"]["limitations"], "findings": selected, "omitted_open_findings": report["summary"]["open_findings"] - len(selected), "source_context_included": include_source}
     if include_source:
+        from .evidence import image_evidence_context, model_evidence_exclusion
         contexts = []
-        hashes = {f["path"]: f["sha256"] for f in report["files"]}
+        manifest = {f["path"]: f for f in report["files"]}
+        skipped = []
         total = 0
         for f in selected:
+            entry = manifest.get(f["path"])
+            exclusion = model_evidence_exclusion(entry) if entry else "manifest_entry_missing"
+            if exclusion:
+                skipped.append({"finding_id": f["id"], "path": f["path"], "reason": exclusion})
+                continue
             rel = Path(f["path"])
             # The root and all path components must still be confined and unsymlinked.
             path = root / rel
             if rel.is_absolute() or ".." in rel.parts or any(p.is_symlink() for p in [path, *path.parents]) or root not in path.resolve().parents:
                 continue
-            if path.name.startswith(".env") or path.suffix.lower() in {".pem", ".key"}:
-                continue
             try:
                 content, _ = read_confined(root, rel, report["configuration"]["max_file_bytes"])
-                if hashlib.sha256(content).hexdigest() != hashes.get(f["path"]):
+                if hashlib.sha256(content).hexdigest() != entry["sha256"]:
                     continue
                 lines = content.decode("utf-8-sig").splitlines()
                 start = max(0, f["line"] - 4)
                 text = redact("\n".join(lines[start:min(len(lines), f["line"] + 3)]))[:3000]
                 if total + len(text) > 30_000:
                     break
-                contexts.append({"finding_id": f["id"], "path": f["path"], "start_line": start + 1, "text": text})
+                contexts.append({"finding_id": f["id"], "path": f["path"], "start_line": start + 1, "text": text,
+                                 **image_evidence_context(entry)})
                 total += len(text)
             except (OSError, UnicodeError):
                 continue
         payload["source_context"] = contexts
+        payload["source_context_skipped"] = skipped
     return redact_object(payload)
 
 
@@ -142,8 +167,9 @@ def main(argv=None):
     p = parser()
     args = p.parse_args(argv)
     catalog_mode = args.list_rules or args.list_controls or args.explain_rule is not None
-    if catalog_mode and args.target:
-        p.error("catalog inspection does not accept a target directory")
+    image_mode = args.image is not None or args.image_archive is not None
+    if catalog_mode and (args.target or image_mode):
+        p.error("catalog inspection does not accept a target directory or image")
     if catalog_mode and (args.quiet or args.summary_json):
         p.error("--quiet and --summary-json apply to scans; catalog commands already emit JSON")
     if args.list_rules:
@@ -159,8 +185,18 @@ def main(argv=None):
         except ValueError as exc:
             p.error(str(exc))
         return 0
-    if not args.target:
-        p.error("target directory is required")
+    if args.target and image_mode:
+        p.error("choose a target directory or an image, not both")
+    if not args.target and not image_mode:
+        p.error("a target directory, --image, or --image-archive is required")
+    if args.pull and not args.image:
+        p.error("--pull requires --image")
+    if args.image_platform and not image_mode:
+        p.error("--image-platform requires an image input")
+    if any(value <= 0 for value in (args.image_max_archive_bytes, args.image_max_unpacked_bytes, args.image_max_entries, args.image_max_layers)):
+        p.error("image limits must be positive integers")
+    if not math.isfinite(args.image_timeout) or args.image_timeout <= 0:
+        p.error("--image-timeout must be a positive finite number")
     if args.judge_include_source and not args.judge_config:
         p.error("--judge-include-source requires --judge-config")
     if args.write_baseline and not (args.baseline_reason or "").strip():
@@ -176,17 +212,27 @@ def main(argv=None):
     except ValueError as exc:
         p.error(str(exc))
     output = Path(args.output).expanduser()
-    target = Path(args.target).expanduser()
-    if output.resolve() == target.resolve():
+    target = Path(args.target).expanduser() if args.target else Path(".")
+    if not image_mode and output.resolve() == target.resolve():
         p.error("--output must be separate from the repository root")
     exclusions = [output.absolute()]
     for name in (args.baseline, args.write_baseline, args.judge_config):
         if name:
             exclusions.append(Path(name).expanduser().absolute())
     report_paths = {}
+    resources = ExitStack()
     try:
         baseline = load_baseline(args.baseline) if args.baseline else None
-        report = scan(target, exclude=args.exclude, output_paths=exclusions, max_file_bytes=args.max_file_bytes, max_total_bytes=args.max_total_bytes, max_files=args.max_files, max_entries=args.max_entries, baseline=baseline)
+        scan_options = dict(exclude=args.exclude, output_paths=exclusions, max_file_bytes=args.max_file_bytes, max_total_bytes=args.max_total_bytes, max_files=args.max_files, max_entries=args.max_entries, baseline=baseline)
+        if image_mode:
+            from .image_scan import scan_image
+            report, target = resources.enter_context(scan_image(archive=args.image_archive, reference=args.image,
+                runtime=args.image_runtime, pull=args.pull, platform=args.image_platform,
+                max_archive_bytes=args.image_max_archive_bytes, max_unpacked_bytes=args.image_max_unpacked_bytes,
+                max_layer_entries=args.image_max_entries, max_layers=args.image_max_layers,
+                timeout_seconds=args.image_timeout, **scan_options))
+        else:
+            report = scan(target, **scan_options)
         report["analyst"] = {"enabled": False}
         if args.judge_config:
             from .judge import JudgeError, load_config, review, validate_analyst_config
@@ -195,7 +241,8 @@ def main(argv=None):
             if not args.quiet:
                 print("Optional LLM review enabled: sending redacted " + scope_description + " to the configured endpoint. Redaction is best-effort.", file=sys.stderr)
             payload = judge_payload(report, target.resolve(), args.judge_include_source, args.judge_max_findings)
-            judge_scope = {"omitted_open_findings": payload["omitted_open_findings"], "selected_findings": len(payload["findings"]), "source_context_sent_count": len(payload.get("source_context", []))}
+            judge_scope = {"omitted_open_findings": payload["omitted_open_findings"], "selected_findings": len(payload["findings"]), "source_context_sent_count": len(payload.get("source_context", [])),
+                           "source_context_skipped": payload.get("source_context_skipped", [])}
             try:
                 config = load_config(args.judge_config)
                 if args.judge_mode == "full":
@@ -230,6 +277,8 @@ def main(argv=None):
             print(json.dumps({"schema_version": "1.0", "type": "scan_summary", "status": "operational_error",
                               "error": redact(str(exc)), "reports": report_paths, "exit_code": 2}, sort_keys=True))
         return 2
+    finally:
+        resources.close()
     if not report["summary"]["scan_complete_within_selected_scope"]:
         print("Scan incomplete: " + str(report["summary"]["coverage_gaps"]) + " coverage gaps; see report.json for details.", file=sys.stderr)
     if report["analyst"].get("status") in {"error", "incomplete"}:
@@ -241,6 +290,8 @@ def main(argv=None):
         return report["execution"]["exit_code"]
     summary = report["summary"]
     print(f"Scanned {summary['files_scanned']} files; {summary['open_findings']} open findings; {summary['coverage_gaps']} coverage gaps.")
+    if report.get("image"):
+        print(f"Image scope: {summary['image_analysis_scope']}; {summary['packaged_source_files_inspected']} packaged source files inspected. Binary logic and package CVEs were not analyzed.")
     print("Reports: " + str(output.resolve() / "report.md") + " (also JSON and SARIF)")
     if report["analyst"].get("enabled"):
         coverage = report["analyst"]["coverage"]

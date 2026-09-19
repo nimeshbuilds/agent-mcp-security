@@ -14,7 +14,7 @@ import re
 import stat
 
 from .fs import read_confined
-from .security import redact
+from .security import redact, redact_object
 
 
 _LINES_PER_EXCERPT = 12
@@ -137,6 +137,38 @@ def _sensitive_path(path):
         or Path(name).suffix in {".pem", ".key", ".p12", ".pfx", ".jks", ".keystore"}
         or name in {".npmrc", ".netrc", "_netrc", ".pypirc", "credentials", "credentials.json", "credentials.yaml", "credentials.yml", "secrets.json", "secrets.yaml", "secrets.yml", "id_rsa", "id_dsa", "id_ecdsa", "id_ed25519"}
     )
+
+
+def source_scope_exclusion(path, *, exclude=(), default_excluded_directories=()):
+    """Evaluate an original artifact path before a synthetic name or redaction.
+
+    Parent matches reproduce directory-pruning exclusions for historical files
+    that are no longer present in the final image filesystem.
+    """
+    from .scanner import _excluded
+    relative = Path(path)
+    paths = [relative.as_posix()] + [parent.as_posix() for parent in relative.parents if parent != Path(".")]
+    if any(_excluded(candidate, exclude) for candidate in paths):
+        return "user_exclusion"
+    if any(part in default_excluded_directories for part in relative.parts[:-1]):
+        return "default_excluded_directory"
+    return None
+
+
+def model_source_exclusion(path, *, exclude=(), default_excluded_directories=()):
+    if _sensitive_path(path):
+        return "sensitive_file_excluded"
+    return source_scope_exclusion(path, exclude=exclude, default_excluded_directories=default_excluded_directories)
+
+
+def model_evidence_exclusion(item):
+    """Honor image-origin policy as well as the manifest's visible filename."""
+    return item.get("model_evidence_exclusion") or model_source_exclusion(item["path"])
+
+
+def image_evidence_context(item):
+    """Keep historical image evidence distinguishable from packaged live files."""
+    return redact_object({key: item[key] for key in ("image_context", "image_provenance") if key in item})
 
 
 def _valid_entry(item):
@@ -325,8 +357,9 @@ def build_evidence(report, root, *, max_files=200, max_bytes=2_000_000,
             skip(path, "duplicate_manifest_path")
             continue
         seen.add(path)
-        if _sensitive_path(path):
-            skip(path, "sensitive_file_excluded")
+        exclusion = model_evidence_exclusion(item)
+        if exclusion:
+            skip(path, exclusion)
             continue
         valid.append(item)
     valid.sort(key=lambda item: (
@@ -380,7 +413,7 @@ def build_evidence(report, root, *, max_files=200, max_bytes=2_000_000,
             continue
         coverage["files_verified"] += 1
         lines = _redacted_lines(source, findings_by_path[path])
-        sources[path] = (item["sha256"], lines)
+        sources[path] = (item["sha256"], lines, image_evidence_context(item))
         boosts = defaultdict(set)
         for finding in findings_by_path[path]:
             line = finding.get("line", 0)
@@ -434,12 +467,13 @@ def build_evidence(report, root, *, max_files=200, max_bytes=2_000_000,
                 if remaining_chars <= 0:
                     exhausted.add("max_chars")
                     continue
-                digest, lines = sources[path]
+                digest, lines, image_context = sources[path]
                 excerpt = _excerpt(path, digest, lines, start, min(_CHARS_PER_EXCERPT, remaining_chars))
                 if excerpt is None:
                     continue
                 if remaining_chars < _CHARS_PER_EXCERPT and len(excerpt["text"]) < len(_excerpt(path, digest, lines, start, _CHARS_PER_EXCERPT)["text"]):
                     exhausted.add("max_chars")
+                excerpt.update(image_context)
                 selected[key] = excerpt
                 evidence.append(excerpt)
                 coverage["characters_selected"] += len(excerpt["text"])

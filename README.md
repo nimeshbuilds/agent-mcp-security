@@ -1,9 +1,10 @@
 # NimeshBuild | AI Agent & MCP Security
 
-A dependency-free Python CLI that reads a codebase, identifies selected security risks, and produces a detailed report. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every control through a deterministic evidence and validation layer, using native LLM APIs or a custom HTTP gateway. The model's judgment remains nondeterministic and advisory.
+A Python CLI that inspects a codebase or built Linux container image, identifies selected security risks, and produces a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every control through a deterministic evidence and validation layer, using native LLM APIs or a custom HTTP gateway. The model's judgment remains nondeterministic and advisory.
 
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
+- [Built image scanning: Docker, Podman and OCI archives](docs/IMAGE_SCANNING.md)
 - [Complete CLI reference](docs/CLI.md)
 - [Accuracy methodology and known false positives/negatives](docs/RULE_ACCURACY.md)
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
@@ -58,6 +59,22 @@ python3 scan.py /path/to/repo --fail-on none
 python3 scan.py --list-rules
 python3 scan.py --list-controls
 ```
+
+## Scan a built image without source
+
+```sh
+# Existing local image; never starts the container.
+python3 scan.py --image my-agent:latest --output ./image-report
+
+# Exported Docker-save or OCI archive; no runtime required.
+python3 scan.py --image-archive ./agent-image.tar --output ./image-report
+
+# Podman and explicit registry pulls are also supported.
+python3 scan.py --image my-mcp-server:latest --image-runtime podman
+python3 scan.py --image ghcr.io/example/agent:1.2.3 --pull
+```
+
+Image mode scans packaged supported source, configuration, image metadata, and credentials retained in deleted layers. It inventories OS/packages and stored permission signals. Native binary logic and package CVEs remain explicitly unassessed; a source-free image still receives a clearly labeled metadata report. Optional `--judge-config` adds the same controlled analyst. See [formats, budgets, scope and safety](docs/IMAGE_SCANNING.md).
 
 ## Accuracy and CI usage
 

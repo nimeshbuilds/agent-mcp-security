@@ -77,7 +77,7 @@ def load_baseline(path):
     return out
 
 
-def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_total_bytes=50_000_000, max_files=20_000, max_entries=100_000, baseline=None):
+def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_total_bytes=50_000_000, max_files=20_000, max_entries=100_000, baseline=None, default_excluded_directories=None):
     from .analyzer import analyze_file, analyze_file_errors
     from .rules import RULES
 
@@ -91,6 +91,9 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     if any(isinstance(v, bool) or not isinstance(v, int) or v <= 0 for v in limits.values()):
         raise ValueError("All scan limits must be positive integers")
     baseline = baseline or {}
+    excluded_directories = EXCLUDED_DIRS if default_excluded_directories is None else set(default_excluded_directories)
+    if any(not isinstance(name, str) or not name or "/" in name or "\\" in name for name in excluded_directories):
+        raise ValueError("Default directory exclusions must be directory names")
     skip_roots = {Path(p).expanduser().resolve() for p in output_paths}
     root_stat = root.stat()
     root_identity = (root_stat.st_dev, root_stat.st_ino)
@@ -121,7 +124,7 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
                 break
             if path.is_symlink():
                 skip(rel, "symlink_directory", True)
-            elif name in EXCLUDED_DIRS:
+            elif name in excluded_directories:
                 skip(rel, "default_excluded_directory")
             elif _excluded(rel, exclude):
                 skip(rel, "user_exclusion")
@@ -236,7 +239,7 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     counts = {severity: sum(f["severity"] == severity for f in active) for severity in SEVERITIES}
     coverage_gaps = len(errors) + sum(s["coverage_gap"] for s in skipped)
     summary = {"open_findings": len(active), "suppressed_findings": len(findings) - len(active), "severity_counts": counts, "files_scanned": len(files), "bytes_read": bytes_read, "bytes_charged": bytes_charged, "failed_read_bytes_charged": failed_read_bytes_charged, "coverage_gaps": coverage_gaps, "assessment": "static_triage_only", "scan_complete_within_selected_scope": coverage_gaps == 0}
-    config = {**limits, "exclude": sorted(set(exclude)), "default_excluded_directories": sorted(EXCLUDED_DIRS), "generated_outputs_and_judge_config_excluded": True}
+    config = {**limits, "exclude": sorted(set(exclude)), "default_excluded_directories": sorted(excluded_directories), "generated_outputs_and_judge_config_excluded": True}
     implementation = hashlib.sha256()
     for module in sorted(Path(__file__).parent.glob("*.py")):
         implementation.update(module.name.encode())
