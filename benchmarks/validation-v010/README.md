@@ -2,6 +2,8 @@
 
 Validated on 19 September 2026. These results describe finite, development-visible tests and the explicitly recorded installations; they do not establish zero false positives/negatives or universal framework/provider compatibility.
 
+The later [portability follow-up](portability-receipt.json) adds four confinement regressions: **740 tests pass locally and all seven CI jobs pass** at `ee493b1`. Windows also passed its **17-step installed quickstart**, with PDF and gateway steps explicitly skipped. The 153 benchmark cases, 20 prepared model payloads, historical evidence bytes and production scanner fingerprint are unchanged. [Successful CI](https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185). The measurements below retain the original release-validation scope.
+
 - **736 tests passed** under Python 3.12.14 with optional PDF packages. Python 3.9.6 ran the same suite with **25 explicit PDF skips**, zero failures and errors.
 - Coverage.py 7.16.1 measured **6,426 / 6,810 statements (94.36%)** and **2,929 / 3,274 branches (89.46%)**, combined **92.77%**. No exclusions. Parent-process coverage excludes separately exercised subprocess code.
 - Five real deterministic CLI targets were scanned twice; all four report formats matched byte for byte. Fixture findings were 11 vulnerable, 0 safer, 9 open + 1 justified + 1 disabled reviewed, 3 image and 0 self-scan. All findings received static fix plans.

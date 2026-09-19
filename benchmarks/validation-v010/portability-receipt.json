@@ -1,0 +1,115 @@
+{
+  "benchmark_preparation": {
+    "batches": 20,
+    "equal_to_preserved_live_preparation": true,
+    "evidence_errors": 0,
+    "live_calls": 0,
+    "preparation_sha256": "f7d00b5ae7a0713034b7bc644e8b8cad0010493c2b15a79580bb1be11b1a0812",
+    "prepared_observations": 153,
+    "selected_observations": 153
+  },
+  "changes": [
+    "Keep repository text at LF even when core.autocrlf=true; retained evidence digests unchanged.",
+    "Canonicalize the trusted benchmark source root after rejecting a root symlink; preserve confined relative reads and exact source digest checks.",
+    "Four source-root/fallback confinement regressions; no production scanner module changes."
+  ],
+  "checkout_byte_integrity": {
+    "archived_corpus_sha256": "aa4e3b2a95fdf5d5ea09721c0316c72a654d90d58281be5caab249d87510dff8",
+    "commit": "ee493b15cee8942f64047163d1dbd5de55bb109d",
+    "files_checked_against_committed_blobs": 433,
+    "mismatched_paths": [],
+    "mode": "Fresh local Git clone with core.autocrlf=true",
+    "schema_version": "1.0"
+  },
+  "ci": {
+    "conclusion": "success",
+    "jobs": [
+      {
+        "conclusion": "success",
+        "name": "built-image-integration",
+        "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185/job/105987539978"
+      },
+      {
+        "conclusion": "success",
+        "name": "tests (ubuntu-latest, 3.14)",
+        "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185/job/105987540041"
+      },
+      {
+        "conclusion": "success",
+        "name": "tests (macos-latest, 3.12)",
+        "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185/job/105987540042"
+      },
+      {
+        "conclusion": "success",
+        "name": "tests (ubuntu-latest, 3.12)",
+        "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185/job/105987540052"
+      },
+      {
+        "conclusion": "success",
+        "name": "tests (windows-latest, 3.12)",
+        "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185/job/105987540059"
+      },
+      {
+        "conclusion": "success",
+        "name": "package-and-schema",
+        "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185/job/105987540072"
+      },
+      {
+        "conclusion": "success",
+        "name": "tests (ubuntu-latest, 3.9)",
+        "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185/job/105987540117"
+      }
+    ],
+    "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185"
+  },
+  "date": "2026-09-19",
+  "limits": [
+    "Finite tests do not guarantee absence of false positives or false negatives.",
+    "This follow-up makes no new model requests and does not complete the requested Claude review.",
+    "Original release coverage and PDF receipts remain separate historical measurements."
+  ],
+  "local_unit_tests": {
+    "3.12.14": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "7966e7379e69eb0bbe95a289356c9f923a2de2f62348d955bfd7b83d83ed5fe1",
+      "run": 740,
+      "skipped": 0
+    },
+    "3.9.6": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "7f6358999b036ffa9077c106efc8aa811f33f0c3e7e27d7db7af848eedb1c13e",
+      "run": 740,
+      "skipped": 25
+    }
+  },
+  "production_implementation_sha256": "b2ed4a3b8f476586fd723d45c68c388d13874b09ab451d9a61c74cf57874d426",
+  "schema_version": "1.0",
+  "tested_commit": "ee493b15cee8942f64047163d1dbd5de55bb109d",
+  "version": "0.10.0",
+  "windows": {
+    "job_log_sha256": "b2108b63d9306dd14e4dec3c653cdf47dd46b964405b1c3218f453091cb26966",
+    "quickstart": {
+      "evidence": "Windows job completed the actual fresh-clone and fresh-venv quickstart command; job log prints passed and 17 steps. Full per-step receipt is not retained outside the CI workspace.",
+      "skipped_gateway": true,
+      "skipped_pdf": true,
+      "status": "passed",
+      "steps": 17
+    },
+    "unit_tests": {
+      "errors": 0,
+      "failures": 0,
+      "run": 740,
+      "skip_reasons": {
+        "Case-alias regression requires a case-insensitive filesystem": 3,
+        "FIFO requires POSIX": 1,
+        "FIFO test requires POSIX": 1,
+        "Optional PDF extra is not installed": 25,
+        "Pinned root identities require directory descriptors": 2,
+        "Process group lifecycle is POSIX specific": 1
+      },
+      "skipped": 33
+    }
+  }
+}
