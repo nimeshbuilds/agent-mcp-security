@@ -9,3 +9,5 @@ test-output/
 .env
 tmp/
 .DS_Store
+.coverage
+.coverage.*

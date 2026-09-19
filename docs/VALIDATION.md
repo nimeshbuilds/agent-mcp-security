@@ -4,7 +4,7 @@ Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This docum
 
 ## Automated tests
 
-For version **0.2.1**, **202 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Many methods contain multiple scenario cases. Run them with:
+For version **0.3.0**, **290 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Many methods contain multiple scenario cases. Run them with:
 
 ```sh
 python3 -m unittest discover -s tests -v
@@ -26,11 +26,19 @@ The expanded audit found and fixed six classes of defect: uncharged raced/failed
 
 Real HTTPS tests verify rejection of untrusted certificates, acceptance with an explicit CA bundle, and rejection of a hostname mismatch. The fixture uses temporary certificates and synthetic credentials. The TLS test skips explicitly if `openssl` is unavailable; platform-specific filesystem tests also skip where their OS primitives do not exist.
 
+## Rule accuracy evaluation
+
+The frozen project-authored corpus has **109 labeled rule-presence assertions**. Version 0.2.1 produced 44 true positives, 45 true negatives, 7 false positives and 13 false negatives. Version 0.3.0 produces **52 true positives, 50 true negatives, 2 false positives and 5 false negatives**. All **101 supported regression cases match**; 7 of the 8 challenge cases remain mismatched. The one matched runtime-placeholder case is explicitly not a claim that deployment permissions are safe.
+
+On this synthetic corpus, overall precision increased from **86.27% to 96.30%**, and recall from **77.19% to 91.23%**. These are selected source-pattern cases used during development, **not** production accuracy estimates or held-out benchmark results. Every remaining mismatch is published. See [methodology and limits](RULE_ACCURACY.md), [current results](../benchmarks/accuracy-current.md), and the [same-corpus baseline](../benchmarks/accuracy-v021.json).
+
+Whole-rule removal tests deliberately disable all 42 detectors one at a time and confirm the corpus catches each loss. A false-alarm injection verifies precision and failure-gate handling. These do not constitute exhaustive branch/operator mutation testing. Additional Python/JS/configuration regressions exercise scope, branch, literal, token, whitespace, alias and parser variations. Python findings were identical across four hash-seed settings.
+
 ## Coverage and distribution checks
 
-Coverage.py **7.16.1** on Python 3.12.14 measured **1,853 / 1,977 statements (93.73%)** and **841 / 950 branches (88.53%)**; combined coverage was **92.04%**, with no excluded paths. This configuration measures the parent test process; separately tested subprocess entry points are not included in its counters. Uncovered branches remain visible in the coverage report. This is execution coverage, not a security assurance score.
+Coverage.py **7.16.1** on Python 3.12.14 measured **2,604 / 2,753 statements (94.59%)** and **1,262 / 1,408 branches (89.63%)**; combined coverage was **92.91%**, with no excluded paths. This configuration measures the parent test process; separately tested subprocess entry points are not included in its counters. Uncovered branches remain visible in the coverage report. This is execution coverage, not a security assurance score.
 
-The version 0.2.1 wheel was built, installed without application dependencies into an isolated environment, and invoked from outside the checkout. The installed CLI found both fixture files, loaded the 66-control packaged catalog, and produced Markdown, JSON and SARIF with exit 0. This guards against source-tree imports hiding packaging errors.
+The version 0.3.0 wheel was built, installed without application dependencies into an isolated environment, and invoked from outside the checkout. The installed CLI found both fixture files, loaded the 66-control packaged catalog, and produced Markdown, JSON and SARIF with exit 0. This guards against source-tree imports hiding packaging errors.
 
 Four generated SARIF reports (vulnerable fixture, safer fixture, scanner itself and installed package) passed JSON Schema validation with jsonschema **4.26.0** against the official [OASIS SARIF 2.1.0 Errata 01 schema](https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json), SHA-256 `c3b4bb2d6093897483348925aaa73af03b3e3f4bd4ca38cef26dcb4212a2682e`. The repeatable validation script rejects a different schema hash and performs no network access.
 
@@ -53,7 +61,7 @@ All three targets were scanned twice with identical settings. **Markdown, JSON, 
 - [Vulnerable SARIF](../examples/reports/vulnerable/report.sarif)
 - [Safer fixture report](../examples/reports/safer/report.md)
 
-The refreshed fixture repeatability and coverage summary are recorded locally in `test-output/validation-v021.json`, with detailed counters in `test-output/coverage.json` (generated artifacts excluded from version control). The unchanged controlbook artifact has its own [PDF validation record](PDF_VALIDATION.md).
+The refreshed fixture repeatability and coverage summary are recorded locally in `test-output/validation-v030.json`, with detailed counters in `test-output/coverage-v030.json` (generated artifacts excluded from version control). The unchanged controlbook artifact has its own [PDF validation record](PDF_VALIDATION.md).
 
 ## Boundaries of this validation
 

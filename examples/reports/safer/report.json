@@ -1761,6 +1761,28 @@
     }
   ],
   "coverage": {
+    "analysis_profiles": {
+      "configuration_lexical": {
+        "files": 0,
+        "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+      },
+      "generic_text": {
+        "files": 0,
+        "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
+      },
+      "javascript_lexical": {
+        "files": 0,
+        "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+      },
+      "json_structured": {
+        "files": 1,
+        "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+      },
+      "python_ast": {
+        "files": 1,
+        "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+      }
+    },
     "errors": [],
     "limitations": [
       "Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.",
@@ -1824,11 +1846,13 @@
   },
   "files": [
     {
+      "analysis_profile": "python_ast",
       "bytes": 476,
       "path": "agent.py",
       "sha256": "48368861bc3c47b28e994955affce95cfaf2cd4e722e59bee78b4fe8c2b303e9"
     },
     {
+      "analysis_profile": "json_structured",
       "bytes": 131,
       "path": "mcp.json",
       "sha256": "3ddddb21d195a6e4dfdc4c93f0b4698ac555c0a4426c2a9a438a089eef2b4c03"
@@ -1854,7 +1878,7 @@
     "enabled": false
   },
   "mode": "deterministic_static",
-  "scan_id": "f36309c62531f30ac9550d76015130b988923d8fc2f78698570be25cacb07c50",
+  "scan_id": "5a16039ffaf136463dfa04e2b835d27e3af110614f8a84296b54631d8faedda7",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_triage_only",
@@ -1876,9 +1900,9 @@
   },
   "target": ".",
   "tool": {
-    "implementation_sha256": "377eac8a4d880e863e7a45c2d8d6f2a1e0ee4e9e5e231a3ddbba5867d57e0697",
+    "implementation_sha256": "749dd58f8866e02541729eb1b23cc3ac91155db58575ce2b19d20bcc5847fa21",
     "name": "agent-mcp-security-scan",
-    "python_version": "3.12.14",
-    "version": "0.2.1"
+    "python_version": "3.9.6",
+    "version": "0.3.0"
   }
 }

@@ -3,7 +3,7 @@
 These rules find source evidence; they are not claims of exploitability or compliance.
 """
 
-RULESET_VERSION = "1.0.0"
+RULESET_VERSION = "1.1.0"
 
 _MCP = "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
 _OWASP = "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"

@@ -32,6 +32,11 @@ def markdown(report):
     lines.append("| " + " | ".join(str(summary["severity_counts"][s]) for s in ("critical", "high", "medium", "low", "info")) + " |")
     if "bytes_charged" in summary:
         lines += ["", f"Source I/O: **{summary['bytes_read']} bytes read**, **{summary['bytes_charged']} bytes charged** against the budget, including **{summary['failed_read_bytes_charged']} conservatively charged bytes** for failed reads. Each read reserves a sentinel byte to detect growth."]
+    if report["coverage"].get("analysis_profiles"):
+        lines += ["", "### Analysis depth", "", "File counts describe inspected inputs, not complete semantic coverage. Syntax/read failures remain listed as coverage gaps.", "", "| Profile | Files | Analysis scope |", "|---|---:|---|"]
+        for name, profile in sorted(report["coverage"]["analysis_profiles"].items()):
+            if profile["files"]:
+                lines.append(f"| {md(name)} | {profile['files']} | {md(profile['scope'])} |")
     if report.get("execution"):
         execution = report["execution"]
         lines += ["", f"Severity failure threshold: **{md(execution['failure_threshold'])}** · Process exit code: **{execution['exit_code']}**."]

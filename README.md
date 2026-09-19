@@ -4,6 +4,8 @@ A dependency-free Python CLI that reads a codebase, identifies selected security
 
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
+- [Complete CLI reference](docs/CLI.md)
+- [Accuracy methodology and known false positives/negatives](docs/RULE_ACCURACY.md)
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
 - [Research, primary sources, dates, and benchmark comparisons](docs/RESEARCH.md)
 - [Judge setup and API compatibility](docs/JUDGE.md)
@@ -57,6 +59,24 @@ python3 scan.py --list-rules
 python3 scan.py --list-controls
 ```
 
+## Accuracy and CI usage
+
+No static scanner can guarantee zero false positives or false negatives. Our [published accuracy report](benchmarks/accuracy-current.md) includes both passing regression cases and unresolved challenge cases, with all labels and per-rule results available for inspection. A zero-finding result is never a security pass.
+
+```sh
+# Machine-readable stdout, with complete reports still saved.
+python3 scan.py /path/to/repo --summary-json --fail-on medium --output ./scan-report
+
+# Quiet CI output; operational errors remain visible on stderr.
+python3 scan.py /path/to/repo --quiet
+
+# Explain a rule, its references, and mapped controls without scanning.
+python3 scan.py --explain-rule AI002
+
+# Run the labeled accuracy corpus without executing its fixture source.
+python3 scripts/evaluate_accuracy.py --format markdown
+```
+
 ## What the scanner checks
 
 | Area | Examples of static signals |
@@ -71,7 +91,7 @@ python3 scan.py --list-controls
 | Infrastructure and supply chain | Privileged containers, host namespaces/runtime sockets, root users, mutable images/actions/dependencies, download-to-shell |
 | Output handling | Unsafe HTML rendering and debug exposure |
 
-Python call checks use AST analysis. JavaScript/TypeScript and configuration checks use selected structured parsing or text patterns. Other recognized text types get only applicable generic/configuration rules. There is **no whole-program taint analysis**, reachability proof, live MCP probing, dependency CVE lookup, or execution of prompt-injection benchmarks.
+Python call checks use AST analysis with bounded local aliases, value tracking, and conservative branch joins. JavaScript/TypeScript uses bounded tokens and balanced calls; JSON uses structured parsing. Other configuration checks remain selected text patterns. Other recognized text types get only applicable generic/configuration rules. Reports state each file’s analysis depth. There is **no whole-program taint analysis**, reachability proof, live MCP probing, dependency CVE lookup, or execution of prompt-injection benchmarks.
 
 The report retains controls for authorization, tenant separation, consent/approval binding, tool poisoning, memory poisoning, supply-chain provenance, resource budgets, observability, and incident response. Static evidence does not establish these controls as passing. `no_pattern_detected` is explicitly different from a control pass; `findings_detected` means investigate, not automatic noncompliance. `findings_suppressed` means matching findings were accepted in an explicit baseline; it does not mean no risk pattern exists.
 

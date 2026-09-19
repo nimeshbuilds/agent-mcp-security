@@ -1,6 +1,6 @@
 # Scenario test matrix
 
-This matrix records concrete scanner and controller behavior tested for version **0.2.1**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
+This matrix records concrete scanner and controller behavior tested for version **0.3.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
 
 ## Reproducible scenario coverage
 
@@ -9,6 +9,11 @@ All filenames below are under `tests/` unless another path is given.
 | Area | Scenarios exercised | Evidence |
 | --- | --- | --- |
 | All 42 static rules | A detecting example and a corresponding non-triggering or safer alternative for every rule ID; aliases, multiline calls, local source tracking, fixed/dynamic execution, pinned/mutable dependencies | `test_rules.py`, `test_security_boundaries.py` |
+| Labeled accuracy and detector mutations | 109 labeled assertions, all 42 rules with positive/negative labels, each whole-rule removal caught, synthetic false-alarm injection, visible challenge failures, metric denominators and CLI gates | `test_accuracy_corpus.py`, `benchmarks/static_accuracy.json` |
+| Python semantic boundaries | 32 regression methods for aliases, rebinding, scope, fixed/dynamic values, keyword sinks, branches, exceptions, loop zero iterations, mutable data, unsafe loader origins and explicit analysis work limits | `test_python_accuracy.py` |
+| JavaScript lexical boundaries | 26 methods / 174 explicit subcases: quoted/regex/comment examples, fake imports, aliases, shadowing, multiline calls, templates, function bodies, escaping, configuration properties and logging labels | `test_javascript_accuracy.py` |
+| Configuration accuracy | Real/mapped loopback, deceptive DNS prefixes, whitespace, package-selector forms, every additional distribution, exact versions, JSON container context, image digest length, ambiguous/nonfinite JSON | `test_configuration_accuracy.py` |
+| CLI usability and analysis depth | Grouped help/defaults, no abbreviated flags, quiet/JSON output, rule explanations, invalid combinations, artifact/gate equivalence, per-file language analysis profiles | `test_cli_usability.py`, `test_analysis_profiles.py` |
 | Input and traversal | Empty/invalid targets; supported/unsupported files; exclusions; malformed Python/JSON; binary, BOM, non-UTF-8 and CRLF data; symlinks, FIFO, changed inode/root; repeatability | `test_scanner.py`, `test_rules.py`, `test_security_boundaries.py` |
 | Resource accounting | File, entry, per-file and total-byte limits; rejected/failed reads charged; remaining-budget/sentinel boundary; AST recursion failures | `test_scanner.py`, `test_security_boundaries.py`, `test_rules.py` |
 | CLI policy | All six severity settings; operational failure precedence; invalid flags; listing/version commands; script/module entry points; baseline candidate, suppression, stale IDs and malformed baselines | `test_cli_contract.py`, `test_scanner.py`, `test_security_boundaries.py`, `test_judge_integration.py` |
@@ -28,6 +33,8 @@ All filenames below are under `tests/` unless another path is given.
 | SARIF schema | Generated reports validate against the hash-pinned official OASIS SARIF 2.1.0 Errata 01 JSON Schema | `scripts/validate_sarif.py`, `package-and-schema` CI job |
 
 The HTTP counts describe those specific test files; other tests add local requests. Fixture responses exercise controller decisions and error paths. They do not measure a real LLM's judgment quality or prompt-injection resistance.
+
+Version 0.3.0 also fixes 13 previously failing accuracy-corpus cases. [The accuracy methodology](RULE_ACCURACY.md) records those improvements and all remaining labeled mismatches. Passing regression tests does not erase known challenge failures.
 
 ## Defects found and fixed
 

@@ -16,6 +16,26 @@ SEVERITIES = ("critical", "high", "medium", "low", "info")
 EXCLUDED_DIRS = {".git", ".hg", ".svn", "node_modules", "vendor", ".venv", "venv", "__pycache__", ".mypy_cache", ".pytest_cache", ".tox", "dist", "build", "coverage", ".next", ".cache"}
 EXTENSIONS = {".py", ".pyi", ".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs", ".json", ".jsonc", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf", ".config", ".env", ".sh", ".bash", ".zsh", ".dockerfile", ".tf", ".hcl", ".pem", ".key", ".md", ".txt", ".xml", ".lock", ".go", ".rs", ".java", ".rb", ".php", ".cs"}
 MANIFESTS = {"package.json", "package-lock.json", "pnpm-lock.yaml", "yarn.lock", "requirements.txt", "pyproject.toml", "uv.lock", "poetry.lock", "Pipfile", "Pipfile.lock", "go.mod", "go.sum", "Cargo.toml", "Cargo.lock"}
+ANALYSIS_PROFILES = {
+    "python_ast": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof.",
+    "javascript_lexical": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis.",
+    "json_structured": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved.",
+    "configuration_lexical": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved.",
+    "generic_text": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed.",
+}
+
+
+def _analysis_profile(path):
+    suffix, name = path.suffix.lower(), path.name.lower()
+    if suffix in {".py", ".pyi"}:
+        return "python_ast"
+    if suffix in {".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"}:
+        return "javascript_lexical"
+    if suffix in {".json", ".jsonc"}:
+        return "json_structured"
+    if suffix in {".yaml", ".yml", ".toml", ".ini", ".cfg", ".env", ".sh", ".bash", ".zsh", ".ps1"} or name.startswith(("dockerfile", ".env", "requirements")):
+        return "configuration_lexical"
+    return "generic_text"
 
 
 def _canonical(value):
@@ -168,7 +188,7 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
                 except UnicodeDecodeError:
                     skip(rel, "non_utf8_content", True)
                     continue
-                files.append({"path": redact(rel), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()})
+                files.append({"path": redact(rel), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(), "analysis_profile": _analysis_profile(path)})
                 inventory["extensions"][path.suffix.lower() or "(none)"] += 1
                 if name in MANIFESTS:
                     inventory["dependency_manifests"].append(redact(rel))
@@ -223,4 +243,4 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
         implementation.update(module.read_bytes())
     tool = {"name": "agent-mcp-security-scan", "version": __version__, "python_version": platform.python_version(), "implementation_sha256": implementation.hexdigest()}
     deterministic_input = {"files": files, "config": config, "rules": RULES, "controls": catalog, "baseline": baseline, "tool": tool, "errors": errors, "skipped": skipped}
-    return {"schema_version": "1.0", "tool": tool, "scan_id": _digest(deterministic_input), "mode": "deterministic_static", "target": ".", "summary": summary, "configuration": config, "inventory": inventory, "files": files, "findings": findings, "controls": controls, "coverage": {"errors": sorted(errors, key=lambda e: (e["path"], e["error"])), "skipped": sorted(skipped, key=lambda s: (s["path"], s["reason"])), "rules_enabled": sorted(rules_by_id), "unmatched_baseline_ids": sorted(set(baseline) - set(unique)), "limitations": ["Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.", "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.", "No dependencies are installed, target code executed, services contacted, or CVE feed queried.", "Default excluded directories and unsupported files remain outside the selected scan scope.", "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.", "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."]}, "judge": {"enabled": False}}
+    return {"schema_version": "1.0", "tool": tool, "scan_id": _digest(deterministic_input), "mode": "deterministic_static", "target": ".", "summary": summary, "configuration": config, "inventory": inventory, "files": files, "findings": findings, "controls": controls, "coverage": {"analysis_profiles": {name: {"files": sum(item["analysis_profile"] == name for item in files), "scope": description} for name, description in ANALYSIS_PROFILES.items()}, "errors": sorted(errors, key=lambda e: (e["path"], e["error"])), "skipped": sorted(skipped, key=lambda s: (s["path"], s["reason"])), "rules_enabled": sorted(rules_by_id), "unmatched_baseline_ids": sorted(set(baseline) - set(unique)), "limitations": ["Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.", "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.", "No dependencies are installed, target code executed, services contacted, or CVE feed queried.", "Default excluded directories and unsupported files remain outside the selected scan scope.", "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.", "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."]}, "judge": {"enabled": False}}

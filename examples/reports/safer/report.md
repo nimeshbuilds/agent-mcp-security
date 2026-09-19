@@ -1,6 +1,6 @@
 # AI agent and MCP security scan
 
-Scan ID: `f36309c62531f30ac9550d76015130b988923d8fc2f78698570be25cacb07c50`
+Scan ID: `5a16039ffaf136463dfa04e2b835d27e3af110614f8a84296b54631d8faedda7`
 
 This is static security triage, not certification or proof that a system is secure.
 
@@ -13,6 +13,15 @@ Scanned **2 files**; **0 open findings**, **0 suppressed findings**, and **0 cov
 | 0 | 0 | 0 | 0 | 0 |
 
 Source I/O: **607 bytes read**, **607 bytes charged** against the budget, including **0 conservatively charged bytes** for failed reads. Each read reserves a sentinel byte to detect growth.
+
+### Analysis depth
+
+File counts describe inspected inputs, not complete semantic coverage. Syntax/read failures remain listed as coverage gaps.
+
+| Profile | Files | Analysis scope |
+|---|---:|---|
+| json\_structured | 1 | Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved\. |
+| python\_ast | 1 | Python syntax, bounded local aliases/value tracking and selected security sinks; no whole\-program or interprocedural proof\. |
 
 Severity failure threshold: **high** · Process exit code: **0**.
 
