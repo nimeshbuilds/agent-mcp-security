@@ -3,7 +3,7 @@
 These rules find source evidence; they are not claims of exploitability or compliance.
 """
 
-RULESET_VERSION = "1.1.0"
+RULESET_VERSION = "1.2.0"
 
 _MCP = "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
 _OWASP = "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
@@ -49,7 +49,7 @@ RULES = [
           "A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value.",
           "If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege.", ["CWE-798"], [_CISA, _MCP]),
     _rule("AI011", "Private key material in repository", "critical", "secrets",
-          "A private-key PEM header appears in source or configuration. Test keys may be intentional, but production key material must not be stored here.",
+          "A private-key PEM header is followed by plausible encoded key material. Test keys may be intentional; this pattern does not prove cryptographic validity or production use.",
           "Determine whether the key was used, revoke or rotate it if necessary, remove it from version history, and use a managed key store.", ["CWE-321"], [_CISA]),
     _rule("AI012", "Dynamic JavaScript shell execution", "high", "tool_execution",
           "A Node child-process shell execution API receives a dynamic command. Agent or external content reaching this value may inject shell syntax.",
@@ -79,7 +79,7 @@ RULES = [
           "A remote GitHub Action is referenced using a mutable tag, branch, or noncommit reference. Its code can change without a workflow diff.",
           "Pin remote actions to a reviewed full commit SHA and use dependency automation to propose updates.", ["CWE-829"], ["https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions"]),
     _rule("AI021", "Container explicitly runs as root", "medium", "sandboxing",
-          "A Dockerfile explicitly selects root. This increases the impact of agent or tool compromise; later USER instructions or runtime overrides may mitigate it.",
+          "The default final Dockerfile stage explicitly selects or inherits a literal root user. Build-target selection, external image defaults, variable expansion and runtime overrides require separate validation.",
           "Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context.", ["CWE-250"], [_CISA]),
     _rule("AI022", "Privileged container or privilege escalation enabled", "high", "sandboxing",
           "Container configuration explicitly enables privileged execution or privilege escalation, weakening isolation for tool or agent code.",

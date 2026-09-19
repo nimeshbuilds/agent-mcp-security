@@ -1,0 +1,1200 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "toolExecutionNotifications": []
+        }
+      ],
+      "results": [
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-core/src/autogen_core/tools/_function_tool.py"
+                },
+                "region": {
+                  "endLine": 159,
+                  "startLine": 159
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "eval or exec receives a nonliteral expression. If agent, user, or tool content can reach it, it can execute arbitrary Python. Static analysis does not establish the full data flow. Remediation: Replace dynamic execution with an allowlisted operation dispatcher; use ast.literal_eval only for bounded literal parsing. Isolate unavoidable execution with no ambient credentials and strict resource limits."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "3267af939c6985b894806d14"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI001",
+          "ruleIndex": 0
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-core/src/autogen_core/tools/_function_tool.py"
+                },
+                "region": {
+                  "endLine": 171,
+                  "startLine": 171
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "eval or exec receives a nonliteral expression. If agent, user, or tool content can reach it, it can execute arbitrary Python. Static analysis does not establish the full data flow. Remediation: Replace dynamic execution with an allowlisted operation dispatcher; use ast.literal_eval only for bounded literal parsing. Isolate unavoidable execution with no ambient credentials and strict resource limits."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "34f362cd01faaef85332b14e"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI001",
+          "ruleIndex": 0
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_memory_bank.py"
+                },
+                "region": {
+                  "endLine": 82,
+                  "startLine": 82
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Pickle-compatible deserialization can execute code. This finding identifies a dangerous trust boundary, not proof that the serialized input is attacker controlled. Remediation: Use a nonexecutable serialization format with schema validation. If compatibility requires pickle, accept only authenticated artifacts from a strictly controlled producer."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "e7b59756ebdbaf6453e8bf68"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI005",
+          "ruleIndex": 4
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_string_similarity_map.py"
+                },
+                "region": {
+                  "endLine": 48,
+                  "startLine": 48
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Pickle-compatible deserialization can execute code. This finding identifies a dangerous trust boundary, not proof that the serialized input is attacker controlled. Remediation: Use a nonexecutable serialization format with schema validation. If compatibility requires pickle, accept only authenticated artifacts from a strictly controlled producer."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "49ef15a1e06ab2906b0ae813"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI005",
+          "ruleIndex": 4
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-ext/src/autogen_ext/tools/mcp/_workbench.py"
+                },
+                "region": {
+                  "endLine": 179,
+                  "startLine": 179
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value. Remediation: If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "5d062dd8c013df9eaaebf008"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI010",
+          "ruleIndex": 9
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-studio/autogenstudio/web/app.py"
+                },
+                "region": {
+                  "endLine": 60,
+                  "startLine": 60
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Debug mode is explicitly enabled in server code or configuration. Depending on the framework and deployment, error details or a debugger may become externally accessible. Remediation: Disable debug mode in deployed services and return sanitized errors while retaining protected server-side diagnostics."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "8f8e715e8f65d28379ca9bd4"
+          },
+          "properties": {
+            "confidence": "high",
+            "severity": "medium",
+            "status": "open"
+          },
+          "ruleId": "AI009",
+          "ruleIndex": 8
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-studio/autogenstudio/web/auth/manager.py"
+                },
+                "region": {
+                  "endLine": 98,
+                  "startLine": 98
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A logging call directly references a credential-named variable or field. Log processors and retention can broaden access to secrets. Remediation: Log nonsecret identifiers and outcomes; redact credentials before formatting and restrict log access and retention."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "4c41f364f09aeb4440e11ab1"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "medium",
+            "status": "open"
+          },
+          "ruleId": "AI033",
+          "ruleIndex": 32
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-studio/autogenstudio/web/auth/manager.py"
+                },
+                "region": {
+                  "endLine": 101,
+                  "startLine": 101
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A logging call directly references a credential-named variable or field. Log processors and retention can broaden access to secrets. Remediation: Log nonsecret identifiers and outcomes; redact credentials before formatting and restrict log access and retention."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "c895143b34bac6dbd8bd111d"
+          },
+          "properties": {
+            "confidence": "medium",
+            "severity": "medium",
+            "status": "open"
+          },
+          "ruleId": "AI033",
+          "ruleIndex": 32
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "dotnet/src/Microsoft.AutoGen/AgentHost/Dockerfile"
+                },
+                "region": {
+                  "endLine": 4,
+                  "startLine": 4
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A container base or deployment image uses a mutable reference rather than a content digest. The bytes can change between builds or deployments. Remediation: Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability-remediation workflows."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "1b457f2ddf5f7bd1f2b8ff83"
+          },
+          "properties": {
+            "confidence": "low",
+            "severity": "low",
+            "status": "open"
+          },
+          "ruleId": "AI024",
+          "ruleIndex": 23
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "dotnet/src/Microsoft.AutoGen/AgentHost/Dockerfile"
+                },
+                "region": {
+                  "endLine": 10,
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A container base or deployment image uses a mutable reference rather than a content digest. The bytes can change between builds or deployments. Remediation: Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability-remediation workflows."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "9bda7648d4ee61ecefd32bf1"
+          },
+          "properties": {
+            "confidence": "low",
+            "severity": "low",
+            "status": "open"
+          },
+          "ruleId": "AI024",
+          "ruleIndex": 23
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/agbench/src/agbench/res/Dockerfile"
+                },
+                "region": {
+                  "endLine": 1,
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A container base or deployment image uses a mutable reference rather than a content digest. The bytes can change between builds or deployments. Remediation: Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability-remediation workflows."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "b0db6980d83276c2aae4395b"
+          },
+          "properties": {
+            "confidence": "low",
+            "severity": "low",
+            "status": "open"
+          },
+          "ruleId": "AI024",
+          "ruleIndex": 23
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-studio/Dockerfile"
+                },
+                "region": {
+                  "endLine": 1,
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A container base or deployment image uses a mutable reference rather than a content digest. The bytes can change between builds or deployments. Remediation: Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability-remediation workflows."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "6b3993abfce0612f48fb97d5"
+          },
+          "properties": {
+            "confidence": "low",
+            "severity": "low",
+            "status": "open"
+          },
+          "ruleId": "AI024",
+          "ruleIndex": 23
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "python/packages/autogen-studio/requirements.txt"
+                },
+                "region": {
+                  "endLine": 1,
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Remediation: Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "74ba06ff19cb005e43a613c3"
+          },
+          "properties": {
+            "confidence": "low",
+            "severity": "low",
+            "status": "open"
+          },
+          "ruleId": "AI025",
+          "ruleIndex": 24
+        }
+      ],
+      "tool": {
+        "driver": {
+          "fullName": "Invarune by NimeshBuild",
+          "name": "agent-mcp-security-scan",
+          "rules": [
+            {
+              "fullDescription": {
+                "text": "eval or exec receives a nonliteral expression. If agent, user, or tool content can reach it, it can execute arbitrary Python. Static analysis does not establish the full data flow."
+              },
+              "help": {
+                "text": "Replace dynamic execution with an allowlisted operation dispatcher; use ast.literal_eval only for bounded literal parsing. Isolate unavoidable execution with no ambient credentials and strict resource limits."
+              },
+              "id": "AI001",
+              "properties": {
+                "tags": [
+                  "security",
+                  "tool_execution",
+                  "CWE-95"
+                ]
+              },
+              "shortDescription": {
+                "text": "Dynamic Python code execution"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A subprocess call enables a shell, invokes a shell-specific API, or passes a dynamic command to an explicit shell executable. Shell metacharacters in agent or external input may become executable syntax."
+              },
+              "help": {
+                "text": "Pass an argument list with shell=False, allowlist executable names and options, and enforce working-directory and resource restrictions."
+              },
+              "id": "AI002",
+              "properties": {
+                "tags": [
+                  "security",
+                  "tool_execution",
+                  "CWE-78"
+                ]
+              },
+              "shortDescription": {
+                "text": "Dynamic command executed through a shell"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "os.system or os.popen executes a dynamically constructed command through the shell. Review the command's trust boundary."
+              },
+              "help": {
+                "text": "Use subprocess with a fixed executable and argument list, shell=False, and explicit allowed options."
+              },
+              "id": "AI003",
+              "properties": {
+                "tags": [
+                  "security",
+                  "tool_execution",
+                  "CWE-78"
+                ]
+              },
+              "shortDescription": {
+                "text": "Dynamic os shell command"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "YAML is loaded through an unsafe loader or without an explicitly safe loader. Older or unsafe loaders can construct Python objects from input."
+              },
+              "help": {
+                "text": "Use yaml.safe_load or SafeLoader/CSafeLoader and validate the parsed schema and size."
+              },
+              "id": "AI004",
+              "properties": {
+                "tags": [
+                  "security",
+                  "deserialization",
+                  "CWE-502"
+                ]
+              },
+              "shortDescription": {
+                "text": "Unsafe YAML object construction"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Pickle-compatible deserialization can execute code. This finding identifies a dangerous trust boundary, not proof that the serialized input is attacker controlled."
+              },
+              "help": {
+                "text": "Use a nonexecutable serialization format with schema validation. If compatibility requires pickle, accept only authenticated artifacts from a strictly controlled producer."
+              },
+              "id": "AI005",
+              "properties": {
+                "tags": [
+                  "security",
+                  "deserialization",
+                  "CWE-502"
+                ]
+              },
+              "shortDescription": {
+                "text": "Executable deserialization requires trusted inputs"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Certificate verification is explicitly disabled. A network intermediary may impersonate the remote service and capture prompts, credentials, or tool results."
+              },
+              "help": {
+                "text": "Enable certificate verification and install the correct CA bundle; use a trusted private CA for custom gateways."
+              },
+              "id": "AI006",
+              "properties": {
+                "tags": [
+                  "security",
+                  "transport_security",
+                  "CWE-295"
+                ]
+              },
+              "shortDescription": {
+                "text": "TLS certificate verification disabled"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Cross-origin access explicitly permits every origin. For credential-bearing or local MCP services this can expose a browser-accessible trust boundary; reachability and framework behavior require review."
+              },
+              "help": {
+                "text": "Allow only required origins, validate Origin on HTTP MCP endpoints, and combine origin checks with authentication. Do not combine wildcard origins with credentials."
+              },
+              "id": "AI007",
+              "properties": {
+                "tags": [
+                  "security",
+                  "network_exposure",
+                  "CWE-942"
+                ]
+              },
+              "shortDescription": {
+                "text": "Wildcard cross-origin access"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A server explicitly binds to a wildcard address. This is a deployment review signal: source alone cannot establish actual network reachability or authentication."
+              },
+              "help": {
+                "text": "Bind local-only tools to loopback. For intentional remote services, verify ingress policy, TLS, authentication, and origin validation."
+              },
+              "id": "AI008",
+              "properties": {
+                "tags": [
+                  "security",
+                  "network_exposure",
+                  "CWE-668"
+                ]
+              },
+              "shortDescription": {
+                "text": "Service binds to all network interfaces"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Debug mode is explicitly enabled in server code or configuration. Depending on the framework and deployment, error details or a debugger may become externally accessible."
+              },
+              "help": {
+                "text": "Disable debug mode in deployed services and return sanitized errors while retaining protected server-side diagnostics."
+              },
+              "id": "AI009",
+              "properties": {
+                "tags": [
+                  "security",
+                  "configuration",
+                  "CWE-489"
+                ]
+              },
+              "shortDescription": {
+                "text": "Application debug mode enabled"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A credential-named field contains a nonplaceholder literal. It may be a real secret or test data; validate it without disclosing the value."
+              },
+              "help": {
+                "text": "If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege."
+              },
+              "id": "AI010",
+              "properties": {
+                "tags": [
+                  "security",
+                  "secrets",
+                  "CWE-798"
+                ]
+              },
+              "shortDescription": {
+                "text": "Credential-like literal in source or configuration"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A private-key PEM header is followed by plausible encoded key material. Test keys may be intentional; this pattern does not prove cryptographic validity or production use."
+              },
+              "help": {
+                "text": "Determine whether the key was used, revoke or rotate it if necessary, remove it from version history, and use a managed key store."
+              },
+              "id": "AI011",
+              "properties": {
+                "tags": [
+                  "security",
+                  "secrets",
+                  "CWE-321"
+                ]
+              },
+              "shortDescription": {
+                "text": "Private key material in repository"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A Node child-process shell execution API receives a dynamic command. Agent or external content reaching this value may inject shell syntax."
+              },
+              "help": {
+                "text": "Use execFile or spawn with a fixed executable, validated argument array, and shell disabled; constrain tools by policy before execution."
+              },
+              "id": "AI012",
+              "properties": {
+                "tags": [
+                  "security",
+                  "tool_execution",
+                  "CWE-78"
+                ]
+              },
+              "shortDescription": {
+                "text": "Dynamic JavaScript shell execution"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "eval or the Function constructor evaluates a dynamic value as JavaScript. Review whether user, agent, or tool data can cross this execution boundary."
+              },
+              "help": {
+                "text": "Use validated structured data and allowlisted operations instead of evaluating generated code."
+              },
+              "id": "AI013",
+              "properties": {
+                "tags": [
+                  "security",
+                  "tool_execution",
+                  "CWE-95"
+                ]
+              },
+              "shortDescription": {
+                "text": "Dynamic JavaScript code execution"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "An outbound request uses an obvious external-input expression. This is a review signal for SSRF; this local analysis cannot prove whether upstream URL validation exists."
+              },
+              "help": {
+                "text": "Allowlist destinations and schemes, resolve and validate addresses on each connection and redirect, block metadata/private destinations unless explicitly needed, and enforce egress policy."
+              },
+              "id": "AI014",
+              "properties": {
+                "tags": [
+                  "security",
+                  "ssrf",
+                  "CWE-918"
+                ]
+              },
+              "shortDescription": {
+                "text": "Externally influenced outbound request"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A filesystem operation consumes an obvious external-input expression. Review whether canonical path checks and symlink handling confine access to the intended workspace."
+              },
+              "help": {
+                "text": "Resolve paths under a fixed workspace root, reject paths outside it after canonicalization, handle symlinks safely, and give the process only required filesystem permissions."
+              },
+              "id": "AI015",
+              "properties": {
+                "tags": [
+                  "security",
+                  "filesystem",
+                  "CWE-22"
+                ]
+              },
+              "shortDescription": {
+                "text": "Externally influenced filesystem path"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "tempfile.mktemp returns an unused name without atomically creating the file, allowing a race with another local process."
+              },
+              "help": {
+                "text": "Use TemporaryFile, NamedTemporaryFile, TemporaryDirectory, or mkstemp with restrictive permissions and reliable cleanup."
+              },
+              "id": "AI016",
+              "properties": {
+                "tags": [
+                  "security",
+                  "filesystem",
+                  "CWE-377"
+                ]
+              },
+              "shortDescription": {
+                "text": "Race-prone temporary filename creation"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "JWT decoding explicitly disables signature verification or selects the none algorithm. Unverified claims must never authorize agent or MCP operations."
+              },
+              "help": {
+                "text": "Verify signature, algorithm allowlist, issuer, audience, expiry, and scopes before using claims for authorization."
+              },
+              "id": "AI017",
+              "properties": {
+                "tags": [
+                  "security",
+                  "authentication",
+                  "CWE-347"
+                ]
+              },
+              "shortDescription": {
+                "text": "JWT verification explicitly bypassed"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "An MCP launch configuration uses npx, uvx, or a similar ephemeral package runner without an exact package version. The executable artifact can change between launches."
+              },
+              "help": {
+                "text": "Pin an exact audited package version and lock or verify transitive artifacts. Prefer preinstalled verified tools in a controlled environment."
+              },
+              "id": "AI018",
+              "properties": {
+                "tags": [
+                  "security",
+                  "supply_chain",
+                  "CWE-829"
+                ]
+              },
+              "shortDescription": {
+                "text": "MCP package runner resolves an unpinned artifact"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Downloaded content is directly piped to a shell. A changed or compromised remote artifact becomes executable without a visible integrity check."
+              },
+              "help": {
+                "text": "Fetch a versioned artifact, verify an independently trusted digest or signature, review it, and execute it under least privilege."
+              },
+              "id": "AI019",
+              "properties": {
+                "tags": [
+                  "security",
+                  "supply_chain",
+                  "CWE-829"
+                ]
+              },
+              "shortDescription": {
+                "text": "Remote download piped directly to a shell"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A remote GitHub Action is referenced using a mutable tag, branch, or noncommit reference. Its code can change without a workflow diff."
+              },
+              "help": {
+                "text": "Pin remote actions to a reviewed full commit SHA and use dependency automation to propose updates."
+              },
+              "id": "AI020",
+              "properties": {
+                "tags": [
+                  "security",
+                  "supply_chain",
+                  "CWE-829"
+                ]
+              },
+              "shortDescription": {
+                "text": "GitHub Action reference is not pinned to a commit"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "The default final Dockerfile stage explicitly selects or inherits a literal root user. Build-target selection, external image defaults, variable expansion and runtime overrides require separate validation."
+              },
+              "help": {
+                "text": "Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context."
+              },
+              "id": "AI021",
+              "properties": {
+                "tags": [
+                  "security",
+                  "sandboxing",
+                  "CWE-250"
+                ]
+              },
+              "shortDescription": {
+                "text": "Container explicitly runs as root"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Container configuration explicitly enables privileged execution or privilege escalation, weakening isolation for tool or agent code."
+              },
+              "help": {
+                "text": "Disable privileged mode and privilege escalation, drop capabilities, and expose only narrowly required devices or operations."
+              },
+              "id": "AI022",
+              "properties": {
+                "tags": [
+                  "security",
+                  "sandboxing",
+                  "CWE-250"
+                ]
+              },
+              "shortDescription": {
+                "text": "Privileged container or privilege escalation enabled"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A container runtime socket is present in configuration. A writable Docker or containerd socket can give a tool control over host workloads."
+              },
+              "help": {
+                "text": "Remove runtime socket access or use a tightly scoped broker outside the agent sandbox. Read-only mounts do not necessarily make socket APIs read-only."
+              },
+              "id": "AI023",
+              "properties": {
+                "tags": [
+                  "security",
+                  "sandboxing",
+                  "CWE-250"
+                ]
+              },
+              "shortDescription": {
+                "text": "Container runtime socket exposed"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A container base or deployment image uses a mutable reference rather than a content digest. The bytes can change between builds or deployments."
+              },
+              "help": {
+                "text": "Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability-remediation workflows."
+              },
+              "id": "AI024",
+              "properties": {
+                "tags": [
+                  "security",
+                  "supply_chain",
+                  "CWE-829"
+                ]
+              },
+              "shortDescription": {
+                "text": "Container image is not digest pinned"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process."
+              },
+              "help": {
+                "text": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates."
+              },
+              "id": "AI025",
+              "properties": {
+                "tags": [
+                  "security",
+                  "supply_chain",
+                  "CWE-1104"
+                ]
+              },
+              "shortDescription": {
+                "text": "Direct dependency is not exactly pinned"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "An MCP or server configuration explicitly disables an authentication-related control. Local stdio servers may rely on an operating-system boundary; assess the actual transport and exposure."
+              },
+              "help": {
+                "text": "For remote protected resources, require authenticated clients and scoped per-tool authorization. Document local-only trust boundaries and protect launch configuration."
+              },
+              "id": "AI026",
+              "properties": {
+                "tags": [
+                  "security",
+                  "authentication",
+                  "CWE-306"
+                ]
+              },
+              "shortDescription": {
+                "text": "Authentication explicitly disabled"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "An authorization or tool allowlist explicitly grants a wildcard or all-tools capability. This may give an agent broader authority than its task requires."
+              },
+              "help": {
+                "text": "Replace wildcard grants with named tools and constrained resources; enforce authorization server-side for each call and require approval for sensitive effects."
+              },
+              "id": "AI027",
+              "properties": {
+                "tags": [
+                  "security",
+                  "authorization",
+                  "CWE-732"
+                ]
+              },
+              "shortDescription": {
+                "text": "Wildcard tool or permission authorization"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Configuration explicitly enables token passthrough or token forwarding. Forwarding an inbound token to an unrelated downstream audience can bypass consent and authorization boundaries."
+              },
+              "help": {
+                "text": "Validate tokens for this MCP resource and obtain separate audience-bound downstream credentials through an appropriate authorization flow."
+              },
+              "id": "AI028",
+              "properties": {
+                "tags": [
+                  "security",
+                  "authentication",
+                  "CWE-441"
+                ]
+              },
+              "shortDescription": {
+                "text": "MCP token passthrough enabled"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "An MCP configuration points to a nonloopback HTTP URL. Credentials, tool requests, and results may be exposed in transit; network-layer protection is not established by this scan."
+              },
+              "help": {
+                "text": "Use HTTPS with certificate verification for remote MCP endpoints. Reserve plaintext HTTP for explicitly controlled local development or a documented protected transport."
+              },
+              "id": "AI029",
+              "properties": {
+                "tags": [
+                  "security",
+                  "transport_security",
+                  "CWE-319"
+                ]
+              },
+              "shortDescription": {
+                "text": "Remote MCP URL uses plaintext HTTP"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "An SDK explicitly enables browser execution despite credential-exposure safeguards. Verify that a durable privileged API key cannot reach client-side code."
+              },
+              "help": {
+                "text": "Keep durable API credentials on a trusted server, or use narrowly scoped short-lived client tokens designed for the browser."
+              },
+              "id": "AI030",
+              "properties": {
+                "tags": [
+                  "security",
+                  "secrets",
+                  "CWE-522"
+                ]
+              },
+              "shortDescription": {
+                "text": "Browser-side API credential access explicitly enabled"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "An agent configuration or command explicitly disables approvals or enables unrestricted execution. The impact depends on the process identity, tools, and sandbox."
+              },
+              "help": {
+                "text": "Use bounded tool permissions and an isolated runtime; require deliberate approval for destructive, external, financial, or credential-bearing actions."
+              },
+              "id": "AI031",
+              "properties": {
+                "tags": [
+                  "security",
+                  "agent_permissions",
+                  "CWE-862"
+                ]
+              },
+              "shortDescription": {
+                "text": "Agent approval or sandbox safeguard explicitly bypassed"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A system or developer message contains an obvious external-input expression. Untrusted data may be interpreted as privileged instructions; local analysis cannot establish exploitability."
+              },
+              "help": {
+                "text": "Keep trusted instructions separate from untrusted content, label provenance, enforce tool policy outside the model, and test indirect prompt injection and sensitive-action approval."
+              },
+              "id": "AI032",
+              "properties": {
+                "tags": [
+                  "security",
+                  "prompt_injection",
+                  "CWE-1427"
+                ]
+              },
+              "shortDescription": {
+                "text": "External data inserted into privileged LLM instructions"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A logging call directly references a credential-named variable or field. Log processors and retention can broaden access to secrets."
+              },
+              "help": {
+                "text": "Log nonsecret identifiers and outcomes; redact credentials before formatting and restrict log access and retention."
+              },
+              "id": "AI033",
+              "properties": {
+                "tags": [
+                  "security",
+                  "data_protection",
+                  "CWE-532"
+                ]
+              },
+              "shortDescription": {
+                "text": "Potential secret included in logging call"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A URL contains a credential-like query parameter with a nonplaceholder value. URLs can be retained in logs, histories, proxies, and telemetry."
+              },
+              "help": {
+                "text": "Use an appropriate authorization header or short-lived scoped credential; redact existing logs and rotate real exposed credentials."
+              },
+              "id": "AI034",
+              "properties": {
+                "tags": [
+                  "security",
+                  "data_protection",
+                  "CWE-598"
+                ]
+              },
+              "shortDescription": {
+                "text": "Credential-like value embedded in URL query"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "torch.load explicitly sets weights_only=False or a framework disables safe model loading. An untrusted artifact may contain executable object deserialization."
+              },
+              "help": {
+                "text": "Use safe tensor formats or restricted weights-only loading, verify model provenance and integrity, and isolate model conversion workflows."
+              },
+              "id": "AI035",
+              "properties": {
+                "tags": [
+                  "security",
+                  "model_supply_chain",
+                  "CWE-502"
+                ]
+              },
+              "shortDescription": {
+                "text": "Unsafe model checkpoint deserialization"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A database execution call receives an interpolated or concatenated SQL expression. If untrusted content contributes, it may change the query's meaning."
+              },
+              "help": {
+                "text": "Use bound query parameters for values and an explicit allowlist for dynamic SQL identifiers or operations."
+              },
+              "id": "AI036",
+              "properties": {
+                "tags": [
+                  "security",
+                  "tool_execution",
+                  "CWE-89"
+                ]
+              },
+              "shortDescription": {
+                "text": "SQL query constructed with interpolation"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A tar extraction call has no explicit safe data filter, or selects a fully trusted filter. Behavior depends on the Python version and archive provenance."
+              },
+              "help": {
+                "text": "Use filter='data' on supported runtimes, validate members and resource limits, and extract into an isolated directory with no sensitive files."
+              },
+              "id": "AI037",
+              "properties": {
+                "tags": [
+                  "security",
+                  "filesystem",
+                  "CWE-22"
+                ]
+              },
+              "shortDescription": {
+                "text": "Archive extraction without an explicit safe filter"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A credential-, nonce-, or token-named assignment uses a general-purpose random generator. Predictability matters if the value protects access or replay prevention."
+              },
+              "help": {
+                "text": "Use the secrets module or a cryptographically secure runtime API with sufficient entropy for security values."
+              },
+              "id": "AI038",
+              "properties": {
+                "tags": [
+                  "security",
+                  "authentication",
+                  "CWE-338"
+                ]
+              },
+              "shortDescription": {
+                "text": "Cryptographically weak randomness used for a security value"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A server-side template string is dynamically supplied. If agent or user content controls template source, template expressions may execute with server privileges."
+              },
+              "help": {
+                "text": "Use a fixed trusted template and pass untrusted content only as escaped data; sandbox and limit any intentional template authoring."
+              },
+              "id": "AI039",
+              "properties": {
+                "tags": [
+                  "security",
+                  "tool_execution",
+                  "CWE-1336"
+                ]
+              },
+              "shortDescription": {
+                "text": "Server-Side Template rendered from a dynamic template"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Dynamic content is passed to an HTML rendering bypass. Agent or tool-generated content may contain executable browser markup if not sanitized."
+              },
+              "help": {
+                "text": "Render untrusted output as text or sanitize with a maintained HTML policy before using a raw-HTML sink; apply a restrictive content security policy."
+              },
+              "id": "AI040",
+              "properties": {
+                "tags": [
+                  "security",
+                  "output_handling",
+                  "CWE-79"
+                ]
+              },
+              "shortDescription": {
+                "text": "Unsafe HTML rendering boundary"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "The MCP inspector's authorization safeguard is explicitly disabled. A reachable inspector may provide access to connected tools and their privileges."
+              },
+              "help": {
+                "text": "Retain inspector authentication and restrict its listeners and origins to a controlled development environment."
+              },
+              "id": "AI041",
+              "properties": {
+                "tags": [
+                  "security",
+                  "authentication",
+                  "CWE-306"
+                ]
+              },
+              "shortDescription": {
+                "text": "MCP inspector authorization explicitly disabled"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Container configuration explicitly uses the host PID namespace or host networking. This weakens separation between agent tooling and the host."
+              },
+              "help": {
+                "text": "Use isolated namespaces and explicit network rules; document and minimize any unavoidable host-level access."
+              },
+              "id": "AI042",
+              "properties": {
+                "tags": [
+                  "security",
+                  "sandboxing",
+                  "CWE-653"
+                ]
+              },
+              "shortDescription": {
+                "text": "Container uses host namespaces"
+              }
+            }
+          ],
+          "version": "0.8.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

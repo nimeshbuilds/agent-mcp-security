@@ -2,7 +2,7 @@
 
 ![Invarune - Evidence for agent security](docs/assets/brand/invarune-banner.png)
 
-**Invarune** (IN-vuh-roon) is a Python CLI that inspects a codebase or built Linux container image, identifies selected security risks, and produces a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every active control through a deterministic evidence and validation layer, using native LLM APIs or a custom HTTP gateway. The model's judgment remains nondeterministic and advisory.
+**Invarune** (IN-vuh-roon) is a Python CLI that inspects a codebase or built Linux container image, identifies selected security risks, and produces a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every active control through a deterministic evidence and validation layer, using native LLM APIs, a custom HTTP gateway, or an official Codex, Claude Code or Grok Build CLI. The model's judgment remains nondeterministic and advisory.
 
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
@@ -10,6 +10,8 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Complete CLI reference](docs/CLI.md)
 - [Justified and disabled checks: review configuration](docs/REVIEW_CONFIGURATION.md)
 - [Accuracy methodology and known false positives/negatives](docs/RULE_ACCURACY.md)
+- [Real-project reports and comparative scanner benchmark](docs/BENCHMARK_RESULTS.md)
+- [CLI subscription login, model defaults and live-test evidence](docs/CLI_PROVIDER_RESEARCH.md)
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
 - [Research, primary sources, dates, and benchmark comparisons](docs/RESEARCH.md)
 - [Judge setup and API compatibility](docs/JUDGE.md)
@@ -39,7 +41,7 @@ python3 scan.py --help
 python3 scan.py /absolute/path/to/agent-or-mcp-repo --output ./scan-report
 ```
 
-`-h` / `--help` includes the complete offline feature reference: every flag/default/range, source and image behavior, exclusions, baselines, reports, optional analyst budgets, all judge JSON fields, gateway configurations, and twenty-two command examples. The same reference ships in the installed CLI.
+`-h` / `--help` includes the complete offline feature reference: every flag/default/range, source and image behavior, exclusions, baselines, reports, optional analyst budgets, CLI login/model choices, all judge JSON fields, gateway configurations, and executable examples. The same reference ships in the installed CLI.
 
 To invoke it from any directory, use the absolute path to `scan.py`. You can also install the CLI using `python3 -m pip install .` and run `invarune`, or use `python3 -m ai_security_scan` from this directory. Installation may need build tooling; direct script execution needs only Python's standard library.
 
@@ -53,6 +55,8 @@ invarune --image-archive ./agent-image.tar --output ./image-report
 ```
 
 [View the sample Markdown report](examples/reports/vulnerable/report.md) or [download the sample HTML report](examples/reports/vulnerable/report.html?raw=1) and open it locally. These are deliberately vulnerable fixtures, not a production assessment.
+
+For real testing, see the [eight pinned public-project reports](benchmarks/real-world/README.md), the [external scanner comparison](benchmarks/external-tools/README.md), and the [branded benchmark PDF](output/pdf/invarune-benchmark-report.pdf). The same selected source bytes were offered to Invarune, Semgrep CE, Bandit and Gitleaks. Cisco MCP Scanner ran a separate partial metadata test. Findings, false-positive examples, parser gaps, commands, versions and hashes are published; observed counts are not confirmed vulnerabilities or a scanner ranking.
 
 Generated files:
 
@@ -144,6 +148,24 @@ The report retains controls for authorization, tenant separation, consent/approv
 
 ## Optional controlled security analyst
 
+Use an existing official CLI subscription login, with no separate API key configured in Invarune:
+
+```sh
+invarune /path/to/repo --judge-cli codex
+invarune /path/to/repo --judge-cli claude
+invarune /path/to/repo --judge-cli grok
+
+# Sign in directly through Invarune without scanning:
+invarune --login claude
+
+# Unattended runs never prompt for login:
+invarune /path/to/repo --judge-cli codex --judge-login never --summary-json
+```
+
+Interactive scans launch the official login when needed and resume automatically. Cancellation or failure preserves deterministic reports. Invarune selects **`gpt-6-astra`**, **`opus`**, or **`grok-build`** as its respective security-review defaults; `--judge-model` overrides that choice. These are documented quality-focused defaults, not an independently measured model ranking. Vendor account/model access and usage limits apply. The CLI must already be installed; Invarune does not purchase credits or install/update it implicitly.
+
+CLI inference runs with restricted capabilities in a private working directory. Grok profiles with active extensions or external instructions are rejected before inference; `--judge-cli-home` can select a dedicated Grok profile. These restrictions do not provide complete OS isolation. See [official CLI research, requirements and live-test limitations](docs/CLI_PROVIDER_RESEARCH.md) and [complete setup](docs/JUDGE.md).
+
 The judge is disabled by default. Native adapters support **OpenAI-compatible Chat Completions, OpenAI Responses, Anthropic Messages, Gemini GenerateContent, and Ollama Chat**. Every adapter accepts an exact custom endpoint URL. A **custom JSON request template and response-path adapter** covers other HTTP APIs and gateways. Native cloud request signing, OAuth token refresh, gRPC, and streaming-only protocols require an appropriate gateway or additional adapter; accepting arbitrary URLs does not mean every proprietary API works unchanged.
 
 Create a trusted JSON configuration, for example:
@@ -171,7 +193,7 @@ python3 scan.py /path/to/repo --judge-config ./judge.json --analyst-time-budget 
 python3 scan.py /path/to/repo --judge-config ./judge.json --judge-mode findings
 ```
 
-With `--judge-config`, **full review is the default**: one finding-triage request followed by the active checks from **66 controls / 132 checks**, including those with no findings. Even mapped static rules cannot establish a complete control pass, so every active control is queued. Explicit user dispositions in `--review-config` exclude named checklist items from that queue and its denominator; the original catalog remains visible for audit. A deterministic selector gathers bounded, redacted excerpts from unchanged files in the scan manifest. The model cannot choose files, execute code, use tools, change findings, or authorize actions.
+With `--judge-config` or `--judge-cli`, **full review is the default**: one finding-triage request followed by the active checks from **66 controls / 132 checks**, including those with no findings. Even mapped static rules cannot establish a complete control pass, so every active control is queued. Explicit user dispositions in `--review-config` exclude named checklist items from that queue and its denominator; the original catalog remains visible for audit. A deterministic selector gathers bounded, redacted excerpts from unchanged files in the scan manifest. The model cannot choose files, execute code, use tools, change findings, or authorize actions.
 
 The controller validates a strict per-check schema, known IDs, and exact source quotes. Each active check receives `supported_by_code`, `potential_gap`, `needs_runtime_validation`, `needs_human_review`, `insufficient_evidence`, or `not_applicable_proposed`. These are advisory outcomes. Manual and dynamic controls cannot be established by code support; runtime and owner verification stay open. Unsupported claims, fabricated citations, unknown IDs, and tool calls fail the batch. Missing answers stay explicitly unreviewed.
 

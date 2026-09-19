@@ -1,0 +1,2717 @@
+{
+  "schema_version": "1.0",
+  "project": "pydantic-ai",
+  "repository": "https://github.com/pydantic/pydantic-ai",
+  "revision": "c4898abb54dc25ae6f6aef208a4c0661b30a455e",
+  "selection_sha256": "92ac88358f85c6fd6d94e20cfe9c965d57714dc5d54dae72302d0a425ef473c0",
+  "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+  "files": [
+    {
+      "path": "clai/clai/__init__.py",
+      "git_blob": "ec2c025ff7a415230d06351ca5d59bb4585fd3d3",
+      "git_mode": "100644",
+      "bytes": 238,
+      "sha256": "37a730fa8123a0800fc1a12a0510877f78fd638b4d0d4a75612fada6592fc9f0"
+    },
+    {
+      "path": "clai/clai/__main__.py",
+      "git_blob": "95e0dc6f4053a9191e90b641f2d1c2bef18855d1",
+      "git_mode": "100644",
+      "bytes": 138,
+      "sha256": "d4294ff5a30c6a7cc42fc95b46d7adedd196f3b299990441f7669172694278cb"
+    },
+    {
+      "path": "clai/pyproject.toml",
+      "git_blob": "a64be44ddc4ad58acfc04d851fe73c141039523a",
+      "git_mode": "100644",
+      "bytes": 1906,
+      "sha256": "d5ff87ebe34c2ee6d3795060a9040897892a539e4f9ffe26089cfcc0e98c056c"
+    },
+    {
+      "path": "clai/update_readme.py",
+      "git_blob": "6ebf5dd3ba744d0587d33a8b9bb415a70c5de2d0",
+      "git_mode": "100644",
+      "bytes": 976,
+      "sha256": "d021afede3ebbba4a3e0aa6c91c75edc79609868c71b6c29b3035bf9befe123e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/__init__.py",
+      "git_blob": "3c00514f8bb3975f024134412b5c5b13f38d98ee",
+      "git_mode": "100644",
+      "bytes": 9949,
+      "sha256": "16c05a5ffe124ffe2a34007cea9cefe51b74b8a3d4730938869a7ff8ff0ce6fe"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/__main__.py",
+      "git_blob": "b38dcc7be298ce48088610accb5233c0190a2c21",
+      "git_mode": "100644",
+      "bytes": 132,
+      "sha256": "43fcc9535e43500d3562d949da69da2c2a08776626826ade5441111ae413f98d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_agent_graph.py",
+      "git_blob": "170ca4874601603ebff389d0fb1c7f61c3cfb4ac",
+      "git_mode": "100644",
+      "bytes": 165132,
+      "sha256": "9ded628af2b54b3f18cbeb77b76c49826f89cfce64586d4d26a08fb297caca84"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_cancel.py",
+      "git_blob": "80d640cbef12f2f60a1742b22ff13f5d7ab3ff3f",
+      "git_mode": "100644",
+      "bytes": 12738,
+      "sha256": "2c8638bacbfe40ae87cb3701b2e44b99b7bb7d5b769983b990628033fe2d1af9"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_cli/__init__.py",
+      "git_blob": "ee5a7c1df163e7b638e677339ca1a09f97d87e49",
+      "git_mode": "100644",
+      "bytes": 31914,
+      "sha256": "d86795c50b7083b524a444793f4482329059f0c16885c0eeedbbf5117c942a28"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_cli/web.py",
+      "git_blob": "6d3a89fa4aad9c06c71bb16131bc8f4be0a3eb3a",
+      "git_mode": "100644",
+      "bytes": 3881,
+      "sha256": "d16f931810014539d9d382af2a0b2fcde69fd1c090686119e219d4a1c5e0d864"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_deferred.py",
+      "git_blob": "a0e7a3af60abcf83ef9a35a6b15196a904297db5",
+      "git_mode": "100644",
+      "bytes": 9867,
+      "sha256": "aeca0e02735ea8c500ce2ca3e63cdf72dae24fc08a3fea3062770acea3c4cfee"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_deferred_capabilities.py",
+      "git_blob": "085f98f6f563e759235564f4269936a103400677",
+      "git_mode": "100644",
+      "bytes": 7852,
+      "sha256": "e7fe0ac66039bfec492d8f1e5b43289405fb3f673a87ee58a7692a0160b018f0"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_display.py",
+      "git_blob": "7ff3d41438ad2c1a96322e513c3ae94017c9ec7d",
+      "git_mode": "100644",
+      "bytes": 23007,
+      "sha256": "d9234031defadc530c9c3819cbbd5d6ca3a0a29628c0f6f6b0b72492332bfdf2"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_enqueue.py",
+      "git_blob": "c7e045b9766c5850b5691cfe1ee0649a67a09585",
+      "git_mode": "100644",
+      "bytes": 8729,
+      "sha256": "20546d96e3a9ed44eff62e9f021a488e31b0443362a90121bae24310ac920e2a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_event_registry.py",
+      "git_blob": "b1f1b75222ce32d8fdbe592e377a87fdb3c28e32",
+      "git_mode": "100644",
+      "bytes": 16555,
+      "sha256": "876626653a5e9a2756c8ebf778aa3bb1d0e6c2f8867f2b014152fce73d3aeddf"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_function_schema.py",
+      "git_blob": "b798978dcb2c97ec53bf2a1c516b262bfd97f6d6",
+      "git_mode": "100644",
+      "bytes": 20346,
+      "sha256": "15b52bb06f88edd6fa12ed5f45b6edb0733140e480c15f1c10034016f3dca031"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_genai_prices.py",
+      "git_blob": "b991fb359cd0d02d06fb7644d7390ea40354c30c",
+      "git_mode": "100644",
+      "bytes": 7041,
+      "sha256": "c5b568a5938c29d0978b1237b2ca023e752c07271b98bf31ff177bcfe3117d6b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_griffe.py",
+      "git_blob": "8984d4e1f51a2a3b6d7b411bab13ce132aacd639",
+      "git_mode": "100644",
+      "bytes": 5454,
+      "sha256": "4eb1a687286c470490ffd83e8897903bcb57c7213092ce3b25610f68862e216e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_history_processor.py",
+      "git_blob": "b085c7ad55ac2c529c70b4dc1b3b563646d8382b",
+      "git_mode": "100644",
+      "bytes": 1001,
+      "sha256": "269060e9da1cd8d026fba1e41930ab897c16a6c2f862481d5f66dd23de9ea294"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_http.py",
+      "git_blob": "f7d64ab43818c7a5225db13493c227ab7d237664",
+      "git_mode": "100644",
+      "bytes": 4515,
+      "sha256": "e2aedeb774f502826a7cf0d7ace2249001ea525b03732a5e89a835f317408fa1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_instructions.py",
+      "git_blob": "5df74a951bb61e99111de8ee5c633cc8629cc21b",
+      "git_mode": "100644",
+      "bytes": 6861,
+      "sha256": "748efea727bd1bb24a0493834d70291d8307577021c93326c407145203f8553b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_instrumentation.py",
+      "git_blob": "f73819a0c0c3d42f9ee32ab52b6e7cdc50d31b12",
+      "git_mode": "100644",
+      "bytes": 45088,
+      "sha256": "75484fb044995907afe4bc220663b309879a07c363a7243d6d90d5b3d11486c9"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_json_schema.py",
+      "git_blob": "abf518486d5484d9a07b112e2f43fc74c48bc559",
+      "git_mode": "100644",
+      "bytes": 11326,
+      "sha256": "7c411ef54d6499b5524ef11141310da3a6bd3abb6f1a4c0234ef239eab6afee7"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_mcp.py",
+      "git_blob": "89c32835a4f6cee1038cd65558f3f2d11853430e",
+      "git_mode": "100644",
+      "bytes": 11255,
+      "sha256": "3aef97ff2b00672d672acaa61fff95165d16e5de5ad2fd2b8ade3093bf9de8d1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_mcp_compat.py",
+      "git_blob": "835ab010c81bf8217a562786b2bc484b5853c8f1",
+      "git_mode": "100644",
+      "bytes": 2148,
+      "sha256": "dc06082999dad2459d22b971f3bc55f66120b1f5723c90303cff7d2fc28eae80"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_otel_messages.py",
+      "git_blob": "6c97cc77c4a0e0a6d7f15c3af36aae945895856e",
+      "git_mode": "100644",
+      "bytes": 3817,
+      "sha256": "c819f1077db57f1191b26ab7042c4b838f6b4b9554943cec9af193763d4179ff"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_output.py",
+      "git_blob": "b6a558c399e7ef022717ee550c74e69394fc7e0c",
+      "git_mode": "100644",
+      "bytes": 66704,
+      "sha256": "cd4f4752567b5d1eae8996f2ebfe2b96bb846a881951fd034a40b2a8c36d1515"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_parts_manager.py",
+      "git_blob": "db8957bccb5baf2fa1310edab2ce286bc56dad15",
+      "git_mode": "100644",
+      "bytes": 39678,
+      "sha256": "52f3254faf02b05d3fc7315fbe25536d8664b309c85705ffc22ea7abe0b3bd51"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_run_context.py",
+      "git_blob": "b0ca77d1fb1f05ff898daca5c01c250bae82a43a",
+      "git_mode": "100644",
+      "bytes": 51261,
+      "sha256": "66e8a160742a429b16851fe5579d6de076933190363c925f0161c44c59697015"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_spec.py",
+      "git_blob": "23536370fab1047eed50aa871c0ace9b9dd79836",
+      "git_mode": "100644",
+      "bytes": 12822,
+      "sha256": "1a2ada999ba3c79558fff5b61f0e50d4a8d6af4dde91539e6453a75971441dd6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_ssrf.py",
+      "git_blob": "13136bd005ff1b66b9b8361721e08f83710575af",
+      "git_mode": "100644",
+      "bytes": 40968,
+      "sha256": "c511a4be1ec046b1811d8b636456abb839c39b4827296f5a13d5695befa79619"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_sync_stream.py",
+      "git_blob": "86f70ce9674a1c87ebd2ae61cc8857e63c416677",
+      "git_mode": "100644",
+      "bytes": 18207,
+      "sha256": "5c365751b3883351cfab56a7c2d4c326451efafe9e07b6928cbc1583ee631512"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_system_prompt.py",
+      "git_blob": "7b2a580e51dca231ba9fc210d08cec12af9109cb",
+      "git_mode": "100644",
+      "bytes": 2284,
+      "sha256": "b0559e59a09b9e6364186b84b4a2b4c9498501d9b92bdacf9140fe762bdfcced"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_template.py",
+      "git_blob": "50a9036c6f5690f16381f04b59a49cac8eaf4019",
+      "git_mode": "100644",
+      "bytes": 2176,
+      "sha256": "1f70b21d157545923a94e470c786b405f4174a9b4be6f87ec381857bcbbf2e2a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_thinking_part.py",
+      "git_blob": "db67fda84711e0bcc422be844d68f406fc1bc39b",
+      "git_mode": "100644",
+      "bytes": 1295,
+      "sha256": "ff40da8c6c963dae745944cf58dd543df670d310fcfe11dcb92b744f77e046bd"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_tool_execution.py",
+      "git_blob": "281296c3b68a112e0fd679be94150d8b396b96a2",
+      "git_mode": "100644",
+      "bytes": 72866,
+      "sha256": "6c861ba895c795e6da893a5b121b1236c32903083c4205a2be819ac894de0cfa"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_tool_search.py",
+      "git_blob": "1fd2e45d6911d55830f795a6f51cf0785dc3f8cd",
+      "git_mode": "100644",
+      "bytes": 26135,
+      "sha256": "2e062a240e5fd12c50ea15811b6665915b9360185ab14aa7d473c10f7a9572ef"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_usage_attribution.py",
+      "git_blob": "ae5c783b71bccb289068e429d70c7297737452fa",
+      "git_mode": "100644",
+      "bytes": 3356,
+      "sha256": "ad0524eddfad6c8ded64c0fe936dac7ab94168a0d8aad9fdd9683272d8c1e2b9"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_utils.py",
+      "git_blob": "0ac9d2779e0c2b97c1d19bc0dbbbb6fde6da8745",
+      "git_mode": "100644",
+      "bytes": 46729,
+      "sha256": "a2d0be82363a69c0e34b6a3d06bfb57134e475f57683e4e26d3a9cb6101a695e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_uuid.py",
+      "git_blob": "9e2e76a68a3749a379c55ccc236227d35e52889d",
+      "git_mode": "100644",
+      "bytes": 2870,
+      "sha256": "daf2a0b44a9136c19a64c5906cfa450ddc80b47a858e3be8fecac02221bd3aac"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/_warnings.py",
+      "git_blob": "f20f6cbc66d936b161f7cb5d54d948c4a2c61e4a",
+      "git_mode": "100644",
+      "bytes": 595,
+      "sha256": "4d9db2d20c5a7295239e1d4fceb7fca43488b092ea7de5c72f4dea514aa34c74"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/agent/__init__.py",
+      "git_blob": "6b36690432e23f7f4341d061dc7d9523422a7b84",
+      "git_mode": "100644",
+      "bytes": 240119,
+      "sha256": "cbd8d2a070197c185735d7ee4a4da69d863d7c9a8e670b40e12d41ff6ee682b4"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/agent/abstract.py",
+      "git_blob": "dda4b685dcbe2035f7fcc64a84baaaa6a83ee75a",
+      "git_mode": "100644",
+      "bytes": 124967,
+      "sha256": "59c66fdf6458e8ea0b80975b1df71e1eb62ffc2fa3c2d5bd7cc52d7b281ea3ba"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/agent/spec.py",
+      "git_blob": "b68ba23d85b5fec1641148ab27228b8b58c4945f",
+      "git_mode": "100644",
+      "bytes": 16034,
+      "sha256": "9f2088434acac673d514699589197097a14b0cbbf29db82a7f82efec3688504e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/agent/wrapper.py",
+      "git_blob": "20568101b4c636998c72e58b29235fd024848b4c",
+      "git_mode": "100644",
+      "bytes": 21659,
+      "sha256": "f8214d4bfde9ffa00046fd702ffb46d800e1184661ab102a752c5cd74e865240"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/__init__.py",
+      "git_blob": "9b1faa856c913ad8b408874e0a0c7c31479a69f7",
+      "git_mode": "100644",
+      "bytes": 5339,
+      "sha256": "4142fcf74f8d38b5ddf169a9b8bf4c8dd11cf4637ae890082d7785d813876ea2"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_deferred_capabilities.py",
+      "git_blob": "7857f5d96d97d017b143f88b8f0d990bd7f44457",
+      "git_mode": "100644",
+      "bytes": 1696,
+      "sha256": "de1aa5d7ddbb53127419ad2e24d8cb5bd614daf26270ff011b176e91d82d4ae1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_deferred_capability_loader.py",
+      "git_blob": "d834f70fa0ead387f050fb1090fa2a9856e0b491",
+      "git_mode": "100644",
+      "bytes": 4792,
+      "sha256": "46037f3fabf4512ac55a58865a51c1fb39439e72564c1c5b888d64e9bbf0d7c9"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_deprecated_fallback_model.py",
+      "git_blob": "20a1818121c66a61462fbc3a862421c71af67cab",
+      "git_mode": "100644",
+      "bytes": 2946,
+      "sha256": "6d25e3b56e166d79ba914002dba9d3590a22e798203e4a088f16dfee5cefd8dd"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_dynamic.py",
+      "git_blob": "c78c700560c0c6928ed66f832e95d820b9488bdc",
+      "git_mode": "100644",
+      "bytes": 7757,
+      "sha256": "9e869ca05afcaba04a20411f65d09010806c1d86af9b81e4ba31ae2d97922d85"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_merge.py",
+      "git_blob": "16bd4d1b2e8fbc0a2ca32c3d0c7c4e7c232540d7",
+      "git_mode": "100644",
+      "bytes": 12581,
+      "sha256": "a75ed27f691d4f70daa432571d0c124a7c6f8bec4e850359a7eb422c261bfada"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_native_resolution.py",
+      "git_blob": "b9cabd228c89c7834a98263e2144a56749e46db8",
+      "git_mode": "100644",
+      "bytes": 2245,
+      "sha256": "2574660c4368ff14438a5ac3bdb7326db396fc63d8c64baf6ec2f617d720826d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_on_event.py",
+      "git_blob": "352b8c304afa0c810f91f28f119afcc679b6a8de",
+      "git_mode": "100644",
+      "bytes": 3860,
+      "sha256": "2b7606b4ff617a35966e94f9dc667531f643c2a604119240aa8d29291a9fcedd"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_ordering.py",
+      "git_blob": "ca88485ba2118f57851da9b2280d2eb81e261ef6",
+      "git_mode": "100644",
+      "bytes": 7736,
+      "sha256": "923cd8d0bf50f87b7543faf29452b9e320fad5e70fb6680b475f5157eb1c8201"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_pending_messages.py",
+      "git_blob": "64d81efc75d3c7a53cc65ea7f1b13d4f6a002b9d",
+      "git_mode": "100644",
+      "bytes": 7861,
+      "sha256": "1b34e7a57dbc0942e6cf23004d3ea57982dbb3ffd4edda3807c604c2a0851f72"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/_tool_search.py",
+      "git_blob": "5e251a4c074a94f9135da40c893e64816371dd43",
+      "git_mode": "100644",
+      "bytes": 10686,
+      "sha256": "a5d9950d934938a71954772c459993fab9b2a820fc45af6d6dc4bc21de6ad742"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/abstract.py",
+      "git_blob": "d6a3f141564edc1157455f8e7f083bbaa9b36ab3",
+      "git_mode": "100644",
+      "bytes": 72122,
+      "sha256": "fec9c542adc38a44bea442f016c47e8109972aef1d4064ef8ad3691084719583"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/capability.py",
+      "git_blob": "15f67ff4d8bbcbf52561c5625c1ce515ab60cfec",
+      "git_mode": "100644",
+      "bytes": 17429,
+      "sha256": "8cd1c74b7ce963d2b50d60d5278e857c4caf30368f0315f180206b522a8e1f30"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/combined.py",
+      "git_blob": "ea1759fd5bc3b02105649adc6fe0d32540925c38",
+      "git_mode": "100644",
+      "bytes": 48181,
+      "sha256": "e267edad1f42747bf0167a21dbf5c0be14cc2bb767691ce25d905ca4be1b674e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/content_filter.py",
+      "git_blob": "0e8aa498ac73f25864f2151ddf1af9281cba692a",
+      "git_mode": "100644",
+      "bytes": 2340,
+      "sha256": "7e6ea23a7b6748e42efede7b866fb736e5d6742f93f895c0b39bd6608ac9100b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/deferred_tool_handler.py",
+      "git_blob": "22045e32822f4a542b09208b3d526568be49e7bc",
+      "git_mode": "100644",
+      "bytes": 2821,
+      "sha256": "af36815652ac711594d63162460e3a970695bcfc62418d4e6aee3b2308830428"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/durable_operation.py",
+      "git_blob": "fbaeb1cc4ad1250d5142e345732d2e9d80bcfb66",
+      "git_mode": "100644",
+      "bytes": 132,
+      "sha256": "2bdc1c3e35785878fb0fe7dcbefaa6c8a851f55c90b3e856a2537f98d8fc59d3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/hooks.py",
+      "git_blob": "d8acf02ced5eeacfbbe567a54832ccba12eecaca",
+      "git_mode": "100644",
+      "bytes": 61941,
+      "sha256": "68b4f4135996d8176fb9e94499a9931f00d6205e5cef9efda0b6c15622a07d7f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/image_generation.py",
+      "git_blob": "d8b1a0f86f87f6c4ec25ac03920c178646df4842",
+      "git_mode": "100644",
+      "bytes": 41713,
+      "sha256": "a7773ef65e4e2920fb6a3b070521d96547966a707e4dcdb488da2dbf905495f4"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/include_return_schemas.py",
+      "git_blob": "a31faa6f3dbaa7d32e7fcfee510e534650fd68f5",
+      "git_mode": "100644",
+      "bytes": 2711,
+      "sha256": "71cca4d40295195de784622ab4dc7f66c5b48d346f57fa5da964cd635617c111"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/instrumentation.py",
+      "git_blob": "6197839ba968a4faf01e06784036a77f5419b71c",
+      "git_mode": "100644",
+      "bytes": 30040,
+      "sha256": "4f5d21a46d251d02e5799204be06b1bf65518472e9c84d6947da8a57382f06a3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/mcp.py",
+      "git_blob": "26658f28df53b95e277d6048750cd69e39e20e5c",
+      "git_mode": "100644",
+      "bytes": 13401,
+      "sha256": "4b470b78f5d16791b99ee2533db43701ece66a5ba536c9cfa7f776ad8c1eb0b6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/native_or_local.py",
+      "git_blob": "4c2e1052d5168967e2dc21a632efc09bf59d4bfe",
+      "git_mode": "100644",
+      "bytes": 15492,
+      "sha256": "68f47a03fdc48997e3eb9f4043859da9bf60b3a97c0defdc92e7a9d9469e6fad"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/native_tool.py",
+      "git_blob": "3644bb3e670c3ac8e887cc1649f778d251075b6f",
+      "git_mode": "100644",
+      "bytes": 1949,
+      "sha256": "cf8e2735e953d8818223ec91885cc6fc617542d7febbc2a3fd2b5df85836a0f1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/prefix_tools.py",
+      "git_blob": "8f991f5791ee90b4c46926494363260dec63384f",
+      "git_mode": "100644",
+      "bytes": 2343,
+      "sha256": "c3e12c414942c48eacdb7f5ca91d9c91a1099a09b14694d52d362862b4b56938"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/prepare_tools.py",
+      "git_blob": "2b4cabc660eb057a24d120e0504c302e5f2eb387",
+      "git_mode": "100644",
+      "bytes": 3368,
+      "sha256": "2edf2bcdfe9929027fb62c0a5b860f23c953a2833f9ceb5f28089589135cedcd"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/process_event_stream.py",
+      "git_blob": "036896340b64df61899d78f5d8e77cc2f70598b0",
+      "git_mode": "100644",
+      "bytes": 9977,
+      "sha256": "9a5c51d3c4f6d551d25f0532aab711cb9fb4228e5863e53a5fb6eb32b0707741"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/process_history.py",
+      "git_blob": "236642d79a6871763701c9032053de818b07b285",
+      "git_mode": "100644",
+      "bytes": 2400,
+      "sha256": "1c338112e0e4ba28f06a287f1b529f1bdcacec5a8baa26c1dc1c2fcdbdd88187"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/reinject_system_prompt.py",
+      "git_blob": "2724851f937228d5c6c2d69e7051f712a671c1d2",
+      "git_mode": "100644",
+      "bytes": 4993,
+      "sha256": "39ce53bb9c9466be771ab73a385e71b4eaf98c930093ca07d80e43c542f4cd72"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/resolve_model_id.py",
+      "git_blob": "063f86a18a343faa2dc8e1cb8b7f3895e196eecd",
+      "git_mode": "100644",
+      "bytes": 1318,
+      "sha256": "1039a4a6a4f312f0afe99d910b007ed4a48c410bd92ec7aa660aa12acfb81eb3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/select_model.py",
+      "git_blob": "aa5d0329d6d00a74d470c67d6d2e322f10e73095",
+      "git_mode": "100644",
+      "bytes": 812,
+      "sha256": "a40c1d97cf4906159b1d452f2bc4cb7e94520da867a6d217021ad8874bd3584c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/set_tool_metadata.py",
+      "git_blob": "fe7bbe85143eec1c28e25639c253c04dff3fb24e",
+      "git_mode": "100644",
+      "bytes": 1907,
+      "sha256": "210fe381c895e5e5cf0143301fd6397b1416dccc630eb0e80c808198d91afd61"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/thinking.py",
+      "git_blob": "805783ac20d666c0c983dd298467376a0a49adf1",
+      "git_mode": "100644",
+      "bytes": 1366,
+      "sha256": "741b84aa730f33ab1957d1ff22f7d88fe8c883531c0664b7b4af69777002daf3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/thread_executor.py",
+      "git_blob": "659685b3d85dc7346587a3df957138d1f9794157",
+      "git_mode": "100644",
+      "bytes": 2940,
+      "sha256": "6e7b0f14f646f3ea4bc32d3910b6f12cef41bed6127b2272663454c1252ed3a3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/toolset.py",
+      "git_blob": "97c023195c23aa80a5250f1c1c74826c80e31b9e",
+      "git_mode": "100644",
+      "bytes": 535,
+      "sha256": "c7ee0d6aa5a234916b003ea3aec8398c079d378c5ebdde1426106a9e2d0f72fa"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/web_fetch.py",
+      "git_blob": "9cefc31e1303b869b1449bb64fb5c5ed0c3f9409",
+      "git_mode": "100644",
+      "bytes": 4319,
+      "sha256": "522f2d8d13c59499e9c7f56ebdf534d263c4ccaee0ff2469de3f6ba4cb8c6306"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/web_search.py",
+      "git_blob": "d411199a4294018b5a9c584d7ad89d591b69e30e",
+      "git_mode": "100644",
+      "bytes": 5294,
+      "sha256": "b9814689a1ab9e8827a268ba882d81b0b0c72ac3243bb42243855b63a4713fa6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/wrapper.py",
+      "git_blob": "866b7b24fcfd387312f76c9604f1ce0f3af05f26",
+      "git_mode": "100644",
+      "bytes": 21147,
+      "sha256": "2c80f2f9f651823a2e0fe0ebab1e7a853d4c28674db79d01698c59dd9b29b532"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/x_search.py",
+      "git_blob": "f09fabc0f1c40530e3b1cafcd5c11898dfb3f269",
+      "git_mode": "100644",
+      "bytes": 9485,
+      "sha256": "665f0b2a0a8bbb667aeb0bec12dc7b46bd0a68ecfbf6e16184924502118a7a1d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/common_tools/__init__.py",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "git_mode": "100644",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/common_tools/duckduckgo.py",
+      "git_blob": "948ebd6ba5dca6035a8d580a643182108dedbe88",
+      "git_mode": "100644",
+      "bytes": 2313,
+      "sha256": "41e16292579806c4cf24779e0915cf73ed5e9d8b2f17abb141c0f9590eb7ec12"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/common_tools/exa.py",
+      "git_blob": "f2f4425e6be3e7300fe7bbdc1c04430f604c1c0e",
+      "git_mode": "100644",
+      "bytes": 17906,
+      "sha256": "0d23d04e043058146e90a855799b153529ff8a0fe5a562321ff66f3cf6b9ce85"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/common_tools/image_generation.py",
+      "git_blob": "c54fa45e630e1614eb56e7d3c4d9af5a00713da1",
+      "git_mode": "100644",
+      "bytes": 7569,
+      "sha256": "0e4865a4c17772aa32a7e697037c63a8134c10831bcff866691d1faedac7616e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/common_tools/tavily.py",
+      "git_blob": "54c624fa8e32d759e10fd6ed04a99d9ab8b1d7c4",
+      "git_mode": "100644",
+      "bytes": 6989,
+      "sha256": "bb9684558c8a5e9e6857d293946a9da085a8a742210490db715029bdcca08b0f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/common_tools/web_fetch.py",
+      "git_blob": "effc5221a3a370d9c83039d820b6fd6399e8a82f",
+      "git_mode": "100644",
+      "bytes": 16232,
+      "sha256": "a263cadc0ee8d439634362662fbc57c65d15a8340016757f98d75c4432ea4013"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/common_tools/x_search.py",
+      "git_blob": "e8881c378bbc2cfbbc5b391be2e9ae066aaa9977",
+      "git_mode": "100644",
+      "bytes": 4852,
+      "sha256": "0c7fc022244abce2e4b3051206786834db2b48d7e003f6075462b4a596f6ec4e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/concurrency.py",
+      "git_blob": "ed317419941b479e46edde3c98ded68b231f9d8e",
+      "git_mode": "100644",
+      "bytes": 10725,
+      "sha256": "83956b61cbf03711ff54750d002af1a757badd68c6e09ae0808a63f6978116fe"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/direct.py",
+      "git_blob": "d5b0f90433afeeafe5baaee7ac29506f0732bc63",
+      "git_mode": "100644",
+      "bytes": 15313,
+      "sha256": "ac537e90631fef1440cb593f2e80b1fdb8cdb2b4a50ce9548a574f48fba5625b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/__init__.py",
+      "git_blob": "2f2f53c23f20db6410894a3d9239893034bda1f2",
+      "git_mode": "100644",
+      "bytes": 4434,
+      "sha256": "a88e003f64d82be7be33830cffd95d8b304efc22bd57df7a610b13c22e2c1354"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_base.py",
+      "git_blob": "d0ca819cb6acf695c68f4548465a9584080548d7",
+      "git_mode": "100644",
+      "bytes": 92409,
+      "sha256": "0245605519722bf7ab48413cfe0893fc34cdedbcf392f092466676a84cf61b4d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_capability_operation.py",
+      "git_blob": "9aaad7b177d5e8b32bbb9ac564bdbed35c899aa6",
+      "git_mode": "100644",
+      "bytes": 21858,
+      "sha256": "a44c62d8b761611d9f350b295ec50db7d4ec774dce749eadf2f8156fce3a0e17"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_codec.py",
+      "git_blob": "1537c33b7949f0da0036d78f3f78b5e09b1a5323",
+      "git_mode": "100644",
+      "bytes": 3028,
+      "sha256": "602f84dde277c3321aaaaf5380f43a7e97f9db7d2c922bf66f9a6260c3ba3f3f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_operation.py",
+      "git_blob": "49bf0a8cdfaf36781ee64d00cd19b25145bcfbfe",
+      "git_mode": "100644",
+      "bytes": 10132,
+      "sha256": "938dbf5c93ad999c3832aa9af1123aafdfd0af7bf55a7b4abcc416c6cf0574c4"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_operation_backend.py",
+      "git_blob": "d3b8344edf225bc0116429c90ebd01bbafc2c56f",
+      "git_mode": "100644",
+      "bytes": 9216,
+      "sha256": "de7336a2cbcdff8a5597398f9bcb9cbd5505278771af08385935e62043d8dafe"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_operation_names.py",
+      "git_blob": "8f3f32b3792447d589dfd3864b4a7efec63208bd",
+      "git_mode": "100644",
+      "bytes": 4323,
+      "sha256": "51ec59de5583bed50f9a1a002aac75451668c8eec6a4d5434942002cfea306a6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_runtime_toolsets.py",
+      "git_blob": "8259bec57ccdc755d9711b48b18e4959108435a8",
+      "git_mode": "100644",
+      "bytes": 5743,
+      "sha256": "0c2aab2630df66c47e478debd67ec1c7e1a65c441c67d878ffb0661c3aff78a6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_spec.py",
+      "git_blob": "1631792d5e9e8fb2138543ab698d20f1563e0ce8",
+      "git_mode": "100644",
+      "bytes": 4892,
+      "sha256": "eda34a1cddb0a0f392ad516f3611f291b0c08850bac565232f454a0508bb648c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_toolset.py",
+      "git_blob": "f23c67efa495a1dbee28a211f14e3406d7c7ee7f",
+      "git_mode": "100644",
+      "bytes": 39896,
+      "sha256": "689f6c4c61192acbab6fad99f1487547f61bdd2d7b5ab1dc05e385fa6fdeaef2"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/_utils.py",
+      "git_blob": "14d87716480cdc0489579904d6b728ebb2fd051d",
+      "git_mode": "100644",
+      "bytes": 8496,
+      "sha256": "bd53bb8891583fdd2731693ae47b88a0512ab2526aade6d638306eb1abbf6e86"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/dbos/__init__.py",
+      "git_blob": "b72409f232fbad1c38df826bebdaf2dcf9d58e6c",
+      "git_mode": "100644",
+      "bytes": 726,
+      "sha256": "fc6a7d49790baf046aa13bf42660f17f20266a153b8c7849d69094f61c075981"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/dbos/_agent.py",
+      "git_blob": "030a586a2324eb99d38a292001fdb251e5235849",
+      "git_mode": "100644",
+      "bytes": 71466,
+      "sha256": "78f1fff862470a7258fbd478e5ccd24cd52139a73e635fc5b018f65bb32f5a7c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/dbos/_durability.py",
+      "git_blob": "3807494958d17a9a78929f5118a8377fdcb5e87d",
+      "git_mode": "100644",
+      "bytes": 13724,
+      "sha256": "9bae75f0fa0a8c5918b121e98f99b8d4d35db0d43873355b56ae6ba9821c6ddc"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/dbos/_mcp_toolset.py",
+      "git_blob": "035446e70e7a369abe434f0e2aaf0e29a6802cd5",
+      "git_mode": "100644",
+      "bytes": 3779,
+      "sha256": "6c7ee4dff23306aca6f827d88d688792c6e4a7f4bb53c944ce27bce4e633949c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/dbos/_model.py",
+      "git_blob": "0bf3b1774c3a78bec3ce76ca6088e9d6601dc97b",
+      "git_mode": "100644",
+      "bytes": 5900,
+      "sha256": "dbb1d97c79ab31ad5b6c0cf38c82d01764d4d9096a170596503325eade30b22c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/dbos/_operation_backend.py",
+      "git_blob": "7ebbcc69315968a28596595e51ba4fd09d64e942",
+      "git_mode": "100644",
+      "bytes": 13994,
+      "sha256": "a255d4e3e7fff2f77aaf0e45614278652eae2cb623814dedba837b8c36a77359"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/dbos/_operation_names.py",
+      "git_blob": "4a2dcbbda058238621e6ebc2e1629ca62e92c5d3",
+      "git_mode": "100644",
+      "bytes": 628,
+      "sha256": "75c3664b26bebe81b8be8cfb9dc73a685728b32517620acbe7d413de6e57413a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/dbos/_utils.py",
+      "git_blob": "69e5a590ba7c032539cc64bcd261552accf023a9",
+      "git_mode": "100644",
+      "bytes": 945,
+      "sha256": "3b95e68a27292211a36d27fd5383346869e18c217243eb1e62ffc70e62d6ac53"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/__init__.py",
+      "git_blob": "5abf09d81084f3fe3c6700247a0974232713863d",
+      "git_mode": "100644",
+      "bytes": 1025,
+      "sha256": "9b74f24cf50a4c72fa90ab70cc088405a1ad9aeccbf733798572dac235e8eaf1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_agent.py",
+      "git_blob": "5ee85943e8a53444c037d18bd6181b9cb181cb5d",
+      "git_mode": "100644",
+      "bytes": 67253,
+      "sha256": "f84ac721d4099a977e43d5c31f6df8b7531bec5ecf5006e8e38879642fd0096f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_cache_policies.py",
+      "git_blob": "1f4a8c708baccd94bfc0744633a8a5332890038e",
+      "git_mode": "100644",
+      "bytes": 13368,
+      "sha256": "7615fc10402ca9e314555a323e0c7fa6dec2a054706658cfd87cb6d11ed31a50"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_durability.py",
+      "git_blob": "767ff514e68039432f564625e1ff0fa7bbcf54d7",
+      "git_mode": "100644",
+      "bytes": 7153,
+      "sha256": "0a9aceecb4223fdebbd41456293f519da1f3f894ff70a52616907444c615e3ee"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_dynamic_toolset.py",
+      "git_blob": "8734162aba3351acbc58cd9cc8d6c120f67a2503",
+      "git_mode": "100644",
+      "bytes": 3943,
+      "sha256": "da70ac66fb0547532125c537d41e7ef6b38f63c25b15794c19b7e7590d7c9377"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_function_toolset.py",
+      "git_blob": "cf9f64aac8e9d63f9598e085c56f7d54c5b35256",
+      "git_mode": "100644",
+      "bytes": 3610,
+      "sha256": "42feab5042100a64d21179ce5b471a5704287ce9b086e5f95269f06deff178b2"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_mcp_toolset.py",
+      "git_blob": "f0a92bfe171f6700f15244a3b4a88e9a1b324040",
+      "git_mode": "100644",
+      "bytes": 4203,
+      "sha256": "f9a626200ef9d1fcced1f1de466dd392b93c31d1946527ab2af6734d7ba02a61"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_model.py",
+      "git_blob": "18657512cea56362163d0ebcb233da384c283e32",
+      "git_mode": "100644",
+      "bytes": 7189,
+      "sha256": "d05852e267999c01581cdd21e15ee4e0459fd613f114f832eb66e1eb82d59bed"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_operation_backend.py",
+      "git_blob": "a38a2bf9cdb9e4a629584e800f415dae036ad56e",
+      "git_mode": "100644",
+      "bytes": 2469,
+      "sha256": "a193a4a7446d0487fd5b4a7f70596a72ca2969c84f5f4509f39f4a3f5417e362"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_operation_names.py",
+      "git_blob": "48058ce84d1a4b528daf46c4355b8b7052295b72",
+      "git_mode": "100644",
+      "bytes": 2580,
+      "sha256": "1b6f2e69c133c368204bebacda6ab73c09f12ba38fbefddb31962126c6cd563d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_toolset.py",
+      "git_blob": "597b1408f8db12aac57867d6692e6aa6693c4316",
+      "git_mode": "100644",
+      "bytes": 4912,
+      "sha256": "6890283a77df528ce141211c05e9891dfa3159013de9f3273815e5ce6c0bf35e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/prefect/_types.py",
+      "git_blob": "22b2d9ceb735e469731d2895dc96e7b40ce7c2e3",
+      "git_mode": "100644",
+      "bytes": 1437,
+      "sha256": "8266a9a1b5864582c9623456b105e8d9d416d541ca08d97ed63a2cddcf18281d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/__init__.py",
+      "git_blob": "93efa02a68cd04d41102e0c3e351ff2ddd5862f3",
+      "git_mode": "100644",
+      "bytes": 13178,
+      "sha256": "5ef188dbcd1f55e09c474a8dd3d2018324b3b888128e549dec6ab1ffdf477124"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_activity_execution.py",
+      "git_blob": "abe6969ec29f9f393257d3f5a665c180cb6fcda3",
+      "git_mode": "100644",
+      "bytes": 3041,
+      "sha256": "ca4ee66041f92b4f02295c983135bbd3a2069bfa480c627eff957615e62c907c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_agent.py",
+      "git_blob": "db29db4564a2c478fb8fc105df03d913991fd786",
+      "git_mode": "100644",
+      "bytes": 73498,
+      "sha256": "6fe62ff9ec2502de028d054a9b8b287204fc065524cad29b06e32657449fddc0"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_durability.py",
+      "git_blob": "6be6b9d1d59f68bf3531a15a67e47f35b698bce0",
+      "git_mode": "100644",
+      "bytes": 35179,
+      "sha256": "ad5a02c6aa22ace5bb52e689196926e8cb2fab95540c3698f22addf5270c1120"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_dynamic_toolset.py",
+      "git_blob": "0ac27401dfc0c2a6f8e2d74af92bd1900709d256",
+      "git_mode": "100644",
+      "bytes": 7204,
+      "sha256": "78ece5e61adb0627fa21c70aa0fb393db48df925e1c98d09581a1e71f14d0fd3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_event_stream.py",
+      "git_blob": "4304d3acc04af68ec36a180101d9f9faf72d0df4",
+      "git_mode": "100644",
+      "bytes": 21490,
+      "sha256": "633a65abab920aea6b736ec8beed1cbd3c93166678b745ad67c3d7d8e80c21df"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_function_toolset.py",
+      "git_blob": "9729a1d6c7185d7745e86e52f616af11ba7af1e1",
+      "git_mode": "100644",
+      "bytes": 5248,
+      "sha256": "11cda3f08fd7f701898edd1c456000c3fa62321e2fb661ec2da0800e1330591c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_logfire.py",
+      "git_blob": "f65e5be666bbc38c18a50f6d8a49b61f4a46cc86",
+      "git_mode": "100644",
+      "bytes": 4461,
+      "sha256": "6268e73146751ff418c9d623c06340d38e671dda7f61d6c793e3d2be868b31b9"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_mcp_toolset.py",
+      "git_blob": "e60cc06054fdad203bdf15ff38552a36cc0bfffb",
+      "git_mode": "100644",
+      "bytes": 6647,
+      "sha256": "a6c61d43196b9627d64df698c49bfa2889b22c851750196302c9ffc7973fde3c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_model.py",
+      "git_blob": "9c7509cd6e26744096f104c2708e89db7d1d4ac2",
+      "git_mode": "100644",
+      "bytes": 24415,
+      "sha256": "74db01b804ad4fbc126fb1b4e4cdec63e8dc31f2a3c1aac5a64597a33d6c0561"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_operation_backend.py",
+      "git_blob": "51d0ca9a9c3658873a22d60447600d448e3dceb5",
+      "git_mode": "100644",
+      "bytes": 8511,
+      "sha256": "280a7958ddd9358a6c3a61b349eae3911f14ce55f3a37ea91feffe0039c8ac82"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_operation_names.py",
+      "git_blob": "b1bcc842f93e68e417e770199c55581da96d8970",
+      "git_mode": "100644",
+      "bytes": 2714,
+      "sha256": "f31f2485bce10ea163ce44148b23bc2941e18692729578c91482983a9447036f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_payload_converter.py",
+      "git_blob": "a13904e455a1a531f7ee428da0c3897588c75c54",
+      "git_mode": "100644",
+      "bytes": 3797,
+      "sha256": "df3e54aaa4ae20dd3e18d8e6a61232161e6a3c0e16c3a3fe079dfba39cc65a4e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_run_context.py",
+      "git_blob": "fefe5a63da1d9278c242c7503b431420667f6e57",
+      "git_mode": "100644",
+      "bytes": 17739,
+      "sha256": "25ce88f6e7249a1fe9b10131df67743f2da66cbbecafc676d16759ea4e5712ab"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_toolset.py",
+      "git_blob": "e98b4b79469325732b313f9586bb2096a8ec173d",
+      "git_mode": "100644",
+      "bytes": 18014,
+      "sha256": "58ee6086c70cf09dcd5fbfe6a8e557844c7b9706d657e01b07d84233d489bec5"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_transports.py",
+      "git_blob": "b89bed4930f550607f32077c8ceb129dc150e567",
+      "git_mode": "100644",
+      "bytes": 15346,
+      "sha256": "2fbfa0c0a267b4517ae1d963057d2a2a4a99d291a9945bae6da518e656ed6714"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/durable_exec/temporal/_workflow.py",
+      "git_blob": "75f0e66961be9c1d30a2005afab7f31eb9148879",
+      "git_mode": "100644",
+      "bytes": 742,
+      "sha256": "9e40cf44469429410a8d41fb11e2e215fe122bf95602382c98ab356bc1218892"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/__init__.py",
+      "git_blob": "559b59dd1a0cb8ec84c4d8cb52165a68b85dcb9e",
+      "git_mode": "100644",
+      "bytes": 16148,
+      "sha256": "01cd144aa47c65721df3b8315d333e15cb1c99c9b9ede1d55097ff1ec15834f6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/base.py",
+      "git_blob": "a3c37be553bd118f0ecabae0bb41bdad5a484cec",
+      "git_mode": "100644",
+      "bytes": 3991,
+      "sha256": "1f0217e58f8089ca2a7dfa940ef35c646523e0ca81d3c6868208edcec2c2b6ac"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/bedrock.py",
+      "git_blob": "aef7857ca8a8102950152f93a85a2ba9f2a4844a",
+      "git_mode": "100644",
+      "bytes": 25504,
+      "sha256": "7e63ddb76565f6e49b4787b3fdf88682ea981391133c093e097dbeaa7a972c50"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/cohere.py",
+      "git_blob": "f279d885d7e512ecfd2d4cba59424ee1ebb328ce",
+      "git_mode": "100644",
+      "bytes": 9996,
+      "sha256": "c88d03844410d0726f7548e85f02eef93a4c8e0f3f61a4bc2452e6092a04cccb"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/google.py",
+      "git_blob": "16e8affbb27fca2ce75084ea22913ee7e407661e",
+      "git_mode": "100644",
+      "bytes": 13599,
+      "sha256": "65a232f9fc6e7461105dfe11a638ed60f1638f64d5ca71d554c8f349b67b6ef1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/instrumented.py",
+      "git_blob": "7d2f0b5681fe1f655e4a11107e78195bcff608c0",
+      "git_mode": "100644",
+      "bytes": 8224,
+      "sha256": "09e21253fb0b84f549eb0adb992111c5b8a9117351b17f099a9d30c5a69816c8"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/openai.py",
+      "git_blob": "45d1edd9681f6298f64addbdd8878ba4df1c817f",
+      "git_mode": "100644",
+      "bytes": 7279,
+      "sha256": "0e952120ff4e04f62fa12b607baa32cc8529e6a270da3217ee4d397fb7727466"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/result.py",
+      "git_blob": "2a21cce6b82bbf09c5ce56f7b5a0022eaf874c63",
+      "git_mode": "100644",
+      "bytes": 3678,
+      "sha256": "50b734fe1668dd2b774b2e6c3060e0c860f57973912969d54d01a23708c474ee"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/sentence_transformers.py",
+      "git_blob": "edf3d4031295b1b0bda2067a3a8f975290b0313a",
+      "git_mode": "100644",
+      "bytes": 6931,
+      "sha256": "bcde71ed8d64daab4310bf255d9325649fbfbe96b056c47fd6ef0040383e8354"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/settings.py",
+      "git_blob": "89f0d9b68c8b58298b90bb7debce091c2ae0e5f4",
+      "git_mode": "100644",
+      "bytes": 2444,
+      "sha256": "cd74bf2840cc6c7c160978944f933e5738cec80ea8d8ae7511459d0f1f786714"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/test.py",
+      "git_blob": "aadf2865a01a46d16ab82577d6c7646ded8feac8",
+      "git_mode": "100644",
+      "bytes": 3517,
+      "sha256": "7f34000b0d5f15c5015c68473f2a8aa3e13841adb98cd3fac4b3913036d85da1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/voyageai.py",
+      "git_blob": "9b1c1336acd8de8d99580c48d3bed97d383f2146",
+      "git_mode": "100644",
+      "bytes": 6362,
+      "sha256": "3c63f90f3ed7f515e593d4a6826bdf91cfcb07d6ba0eddc3a219c6c84e0893fb"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/embeddings/wrapper.py",
+      "git_blob": "569a3189ee49b7487879f8b5f92af53d6c8c62d9",
+      "git_mode": "100644",
+      "bytes": 2343,
+      "sha256": "0b4e031eccb9ef00a73ad239d44b8a2efee3a59207cb8ccaa7ed1e176f0b1b66"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/exceptions.py",
+      "git_blob": "c4ede94c5d63dce3a79bae32709d84a805dffe77",
+      "git_mode": "100644",
+      "bytes": 26537,
+      "sha256": "4b3f6eed89d78950ad31271a66ffdf7176d7dcd8135da1709271f34f9d73426f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ext/__init__.py",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "git_mode": "100644",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ext/langchain.py",
+      "git_blob": "155caf917dede852634a8466f5c02385e931bd7e",
+      "git_mode": "100644",
+      "bytes": 2317,
+      "sha256": "9266db5770b1d8188d60424264c1d5610aae5100fecc6d8bfdbc036a7832d16c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/format_prompt.py",
+      "git_blob": "aa43bb83a9e086397c553ab3fba81ce76638f9c8",
+      "git_mode": "100644",
+      "bytes": 10674,
+      "sha256": "06f8baaefbf0785967e147749c0fde229eeb6e1cea504cbd8fc8a892244a2fef"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/function_signature.py",
+      "git_blob": "d21338c6775c633be06f0eae5a9c1dff8c582236",
+      "git_mode": "100644",
+      "bytes": 33552,
+      "sha256": "06c00c3b95fda43b7003b97514995c04ec77899776ec725620b95d2f572245d3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/__init__.py",
+      "git_blob": "fd7a95e8109b26f7506eb775b6205fc2ffd445a0",
+      "git_mode": "100644",
+      "bytes": 13420,
+      "sha256": "044e86e71a952e8bbd057cc2f768b769d0bfcc555f4bb9393a8b9e0d5a72de98"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/_geometry.py",
+      "git_blob": "41d6e3338bc8da34f5bbc71e64016700f132e282",
+      "git_mode": "100644",
+      "bytes": 891,
+      "sha256": "568eb0498656ae3aa9f0e1c3e334eef71c4a1e71aa89f7711489daed9104c423"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/_google_geometry.py",
+      "git_blob": "e71dd28999b163dd16ceeaa3d6a0a0c604520406",
+      "git_mode": "100644",
+      "bytes": 5916,
+      "sha256": "b3bb08943af3c5319436fcc790d48d9adef19644ed2029fb78f11bbea4353ab8"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/_media_type.py",
+      "git_blob": "1b2356e4f3f146aba8961d9c8f09c6bfc70e3cbc",
+      "git_mode": "100644",
+      "bytes": 1329,
+      "sha256": "1b9d37f0712b747038a7d0a8ce423c989d649b1921c3573ee1d00339b3dccc30"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/_openai_geometry.py",
+      "git_blob": "61e764fee96bd488abb8e61ab1ca00701f72b6e5",
+      "git_mode": "100644",
+      "bytes": 6690,
+      "sha256": "af2e53cfb91088663d76f27b8a0df79d8d1e7da0cdc92952fa3364e0998e54fa"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/_validation.py",
+      "git_blob": "b8459a258dad3a8554a23a08be47dc6fdabc378e",
+      "git_mode": "100644",
+      "bytes": 2618,
+      "sha256": "61d2812c5f81cb821fc7a7c0bd43ac9d10efb629c024e63bdfabc6a96cbc8e66"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/_xai_geometry.py",
+      "git_blob": "56e171533cd108763850f3c3dfb0e5e560c4a097",
+      "git_mode": "100644",
+      "bytes": 6615,
+      "sha256": "382f26a40e2301fafe59e848fc6a8ba7eb9518ecdda66b1698532a7f57fcc68b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/base.py",
+      "git_blob": "0f387b14ed533e92aab80dfa87f269427a471e32",
+      "git_mode": "100644",
+      "bytes": 4073,
+      "sha256": "f41fb9d40d0d0fb9953c2e1da1c62751a27511cb8826752c016604a29fdb1766"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/google.py",
+      "git_blob": "b340f150141d1adeb4e69cd92e705644323f63ea",
+      "git_mode": "100644",
+      "bytes": 20025,
+      "sha256": "60ddea6ea34962aacf0b00afa93c4b682516a7c3f328134924d19ad502b95513"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/instrumented.py",
+      "git_blob": "f596b41f3fef92ae1e92b92beb6963c856155b01",
+      "git_mode": "100644",
+      "bytes": 8479,
+      "sha256": "5b47d3ed7caeb9797472e7cb68c03948cfc0917b6dc993ed6cbb59a660a3f803"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/openai.py",
+      "git_blob": "80e8ac6949afe9ab22e29050c168c661a3cc5bc5",
+      "git_mode": "100644",
+      "bytes": 19619,
+      "sha256": "5ee397625488a43c6454934a09d91ce5a7c4646c4c2205275b10de9ac44d29a6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/result.py",
+      "git_blob": "ae9073e4bfa608aa989fe6947c20b9e0d7846d33",
+      "git_mode": "100644",
+      "bytes": 3349,
+      "sha256": "c643051c6641e1f65a79c7bfef5970987ef5d5fb5a1634c0ef66567880097b5d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/settings.py",
+      "git_blob": "b13726b2c3c3a7c3cf4483d6fcf57e63222d6dfc",
+      "git_mode": "100644",
+      "bytes": 4245,
+      "sha256": "aa5ea10fd869acbc4a11af16a877cc9e4885890f7aa8a24be4f582d12fcc881f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/test.py",
+      "git_blob": "c5727eb9ecc458d4b690a06c440a839cffbefd77",
+      "git_mode": "100644",
+      "bytes": 4045,
+      "sha256": "ade054c065eedc9c6fd57b90f03ff9ce5516b3cb50c8e418d22caa2b9ed50a75"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/wrapper.py",
+      "git_blob": "bb41b4890366271fff47d25355feb9ce4a9a7b12",
+      "git_mode": "100644",
+      "bytes": 2272,
+      "sha256": "6b3fbcf3e3cb1da576673d4aabaf03f984021012d29752ef166bb7d9a4381d24"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/images/xai.py",
+      "git_blob": "1d8de09a60275c7ea1d1ee75289c84b185496b0a",
+      "git_mode": "100644",
+      "bytes": 17139,
+      "sha256": "546c05137e5c67a3d6973e7a526862c8a80d9d05c089a02ac1c8b3d85999a5da"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/mcp.py",
+      "git_blob": "5eda0fa91ffb1d55be0af5aa83b777374393ab99",
+      "git_mode": "100644",
+      "bytes": 87791,
+      "sha256": "bb34a967e3e436c079e33b13654067850a2788a5eb822ea7b77f77754251587e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/messages.py",
+      "git_blob": "6a8cac45a08b1ecfeb760bcd4954975525dc43db",
+      "git_mode": "100644",
+      "bytes": 228704,
+      "sha256": "0981f83fada5b935006e4945888ae487a97bc52413f1f54a6f9fbcc97f9fcc5b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/__init__.py",
+      "git_blob": "57479dc09e2ca6fa1c309ebc8c29243753130b8a",
+      "git_mode": "100644",
+      "bytes": 128948,
+      "sha256": "138e6abf65cb33ac90afd8050fdad227aa330faebc0813a80d99ec59d9f3ee36"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/_abstract.py",
+      "git_blob": "0087bba13c3dcb9e7fa66dced2f78189746f2426",
+      "git_mode": "100644",
+      "bytes": 3519,
+      "sha256": "a4aeb17148912ffd82c08567119667ddca02902cf335dc089557e3297fb06075"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/_anthropic_bedrock_count_tokens.py",
+      "git_blob": "58dc022042223158349dc5e5ae009d5d28e82be9",
+      "git_mode": "100644",
+      "bytes": 4913,
+      "sha256": "70519ff495af4d9581eea47748b49580602b4aba53e75c984e3702af14062a4b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/_anthropic_containers.py",
+      "git_blob": "077e308cf4ee2cabfa8aab6e0ff2a2f9b37d3ef7",
+      "git_mode": "100644",
+      "bytes": 3525,
+      "sha256": "a6a8c85f1f550a0f3123409cf11bf339ad03bbda92958d868ed37c40f9e703de"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/_continuation.py",
+      "git_blob": "8000151201808eae41ce1dca0ba6aa899cc9a0d1",
+      "git_mode": "100644",
+      "bytes": 35886,
+      "sha256": "7d9cafa4e7a493efbe8832fdd25e0123e42cd8625ab9326d5f9c78947523babc"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/_known_model_names.py",
+      "git_blob": "34f767819629d806ab8790af6a1db84f451b3a2e",
+      "git_mode": "100644",
+      "bytes": 31091,
+      "sha256": "23a4f0d46a570c2e634e1059674c59e6739cc1ccfa5734e7aa210e1908bcc1c6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/_reasoning_details.py",
+      "git_blob": "ec1329e54e351e7068c4660f4f4de5148fff9137",
+      "git_mode": "100644",
+      "bytes": 3854,
+      "sha256": "9896384d4b552083bfbac1348f48663ce818a58799bf88da45bcfbfc4daffe7a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/_tool_choice.py",
+      "git_blob": "83176378681baad8240049282ebee8311167c0f3",
+      "git_mode": "100644",
+      "bytes": 9361,
+      "sha256": "6f661d5b569371e5e26aa3213832fa3202438e5befd9f2a8e4f85458d29250c5"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/anthropic.py",
+      "git_blob": "267f196c71aead4e3019164e67dd6dc7a7201053",
+      "git_mode": "100644",
+      "bytes": 224066,
+      "sha256": "95c4b6636ff6d5647f0bcbdcb407bf012fad27da014c96de5fcdb901d3f7fdbb"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/bedrock.py",
+      "git_blob": "0d542bdf9019b87d2e9161b2b4f6a5e0aa32c7a3",
+      "git_mode": "100644",
+      "bytes": 103104,
+      "sha256": "0acd4b91e99e49308caee62bf604a8f5346f49e20d4b69253f9498feda0c3bb3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/bedrock_mantle.py",
+      "git_blob": "ead261dbd99c2e66c5974ed2178bbe8bbf44c71f",
+      "git_mode": "100644",
+      "bytes": 5317,
+      "sha256": "dd4bf71ce9723f1fc0582761a3d2976d02e5864004ad548faefb799c5b1bad3a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/cerebras.py",
+      "git_blob": "a21a4e57c036baedd6123069c6c650299075ea6a",
+      "git_mode": "100644",
+      "bytes": 7343,
+      "sha256": "157e9ecb1b68fcc92777fcc6266d3ac0268a347c4a8be0470bad5b247074378a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/cohere.py",
+      "git_blob": "b9f17f912be723b53ffb0475a385277ba34cb663",
+      "git_mode": "100644",
+      "bytes": 18440,
+      "sha256": "c9caa0365a530a4881bf45e2600a928ac2488917bf1e9f416d47a0cd423f4d2a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/concurrency.py",
+      "git_blob": "5b2dc411aa9d0264c3d98dec895660eb437f8d9f",
+      "git_mode": "100644",
+      "bytes": 5219,
+      "sha256": "4350627695727a0f9aea67f3fa25c0f4acd77987b0ad9a80e743027a9521e40e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/crusoe.py",
+      "git_blob": "4b8cbb9d882a9e5752f29ce893cbee088b4e1fab",
+      "git_mode": "100644",
+      "bytes": 3251,
+      "sha256": "d549d591ba4106993cffebad37aaf51b302f11757af5c21dde8539c2d9705f76"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/fallback.py",
+      "git_blob": "ddad4fb9314f16eb6b724bbbddb24d5c29884f96",
+      "git_mode": "100644",
+      "bytes": 29148,
+      "sha256": "180a091de56478d203c47583111f90e67737131296cbe89ccdb3f6107b9cc10e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/function.py",
+      "git_blob": "32993c30ab9e32f4f63e61ebb352f044a755b01c",
+      "git_mode": "100644",
+      "bytes": 20157,
+      "sha256": "2bfe1461485cb3a32a6a5f08e07608703137efb71c3beb7ab85eca3e12245cf1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/github_copilot.py",
+      "git_blob": "4dc4bb7f9684a14f8e2521ca9af3c3e2b2dcc731",
+      "git_mode": "100644",
+      "bytes": 4318,
+      "sha256": "e82bd3e3823b818dad774ce33fc07e7a5b8c7cf84ee9f11c16b5ae79c259bdcd"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/google.py",
+      "git_blob": "40c490c87aa80e037f08e99e522b0ccdb8b40412",
+      "git_mode": "100644",
+      "bytes": 113960,
+      "sha256": "5fd528e7754daf2c9ff62671fb9de338ce2106e95f96b7c6d2ba115a26cc3972"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/groq.py",
+      "git_blob": "b329b0c780385be04ea2bc56df69504e04a62e2a",
+      "git_mode": "100644",
+      "bytes": 43573,
+      "sha256": "e6ad110bd1ff252c817e045206c1a9748bf25d5b0a2fc835aa1844a84f2b8b7c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/huggingface.py",
+      "git_blob": "92fede5f61f5519a7e4c10489a00da7179c56ad1",
+      "git_mode": "100644",
+      "bytes": 27020,
+      "sha256": "fec9377d35017872256963f9543f393996716e949375b411842594e824125cd7"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/instrumented.py",
+      "git_blob": "191f50c9c562831abda4e44545e86d1e2ba05736",
+      "git_mode": "100644",
+      "bytes": 22183,
+      "sha256": "148c46040d942f1a7aa44d61a52c86084db2c80ddd343e7f89965ac5649b1b96"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/mcp_sampling.py",
+      "git_blob": "fa02f219452858040d1f7a1e6952ef9fc2bce7a2",
+      "git_mode": "100644",
+      "bytes": 3622,
+      "sha256": "4594e4e0cfb6c6d5e9758e6e04f18df3ac0e7a9cd71b0a5f0a5c5a7c0054bd69"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/mistral.py",
+      "git_blob": "d076bd676dded687559c9088cd08b97d844df04e",
+      "git_mode": "100644",
+      "bytes": 47353,
+      "sha256": "842766717fbd98dd616fe9477f6d46cab5f6d1510e0c61c45f48a46bf83e643d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/ollama.py",
+      "git_blob": "9a0630184bea39b51ba95507fa909e7ec37d4bd8",
+      "git_mode": "100644",
+      "bytes": 4230,
+      "sha256": "061b4f3f2ec2772ef3b49bf29c7afe0a4b33323b95445be54fc01298d8497f3d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/openai.py",
+      "git_blob": "86eca6f2bac10d1601c9dec448f485e75f818fea",
+      "git_mode": "100644",
+      "bytes": 291616,
+      "sha256": "48b539a00a69f860e35247f6c85560e96960b3b38d1279f840f13add72e3b1ac"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/openai_codex.py",
+      "git_blob": "1d2c91d8fd5591b07367a70cbd9459427e0d8e29",
+      "git_mode": "100644",
+      "bytes": 3015,
+      "sha256": "851c992a5415239434ecb5130ae219ce243a2267d3a65d654a21b9070e90012c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/openrouter.py",
+      "git_blob": "7f20eee983884e33173485e8b3d2dd1b8012ea69",
+      "git_mode": "100644",
+      "bytes": 58252,
+      "sha256": "70035d80d91d8d9f1bbd0e12d2697e04752aa561bc8fad06fe2a8eadba0d469a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/snowflake.py",
+      "git_blob": "d92d36fe3fff49a2034773177917163d66b6f213",
+      "git_mode": "100644",
+      "bytes": 13292,
+      "sha256": "449e456ed8f29b3bc8f15e98d3ed2fc5dd6ef0e1b6969426db3838b0e0804cc7"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/test.py",
+      "git_blob": "d3cce5eaf64afac4380b48adc7cc2d656375fb87",
+      "git_mode": "100644",
+      "bytes": 26971,
+      "sha256": "d3221c860c66f0ec88f5c46f22a0dadd9a7da56af8dbd6a5701b2e4c00c8a1e6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/typesafe.py",
+      "git_blob": "e1a1e29121fcaa05e1ec94fed10f682d1cf84a8e",
+      "git_mode": "100644",
+      "bytes": 53642,
+      "sha256": "4700d505c9ccf032cdd853b7d7601bd8b809a230330a8cff9f7618d6fd345f7c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/wrapper.py",
+      "git_blob": "2ff542683a87b17b6a959cc4bb89c3573f3f914e",
+      "git_mode": "100644",
+      "bytes": 6411,
+      "sha256": "a49e07840e916616e03083c1d9afb685a948f72ac1234e022d4eea16cc64ce64"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/xai.py",
+      "git_blob": "b4492110dd1227056b9c2c6cd9e3369447eb9688",
+      "git_mode": "100644",
+      "bytes": 70714,
+      "sha256": "0e8420d07a2e6d352f558362c093102e763bd7580faa78bd527d65b8f3270745"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/models/zai.py",
+      "git_blob": "08d3469d44813781a1b55eecf8578a00903e6ca4",
+      "git_mode": "100644",
+      "bytes": 10528,
+      "sha256": "2c6047ca1f9dc780ae9fcebf32a427165deaca0c31f90555570b47ab3956563f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/native_tools/__init__.py",
+      "git_blob": "92d43fc0b957ed1a81ead2e21b7ca606c399a491",
+      "git_mode": "100644",
+      "bytes": 23604,
+      "sha256": "c5ba8347e365cbd29d5e6b2c5d707ad4a3411ce33e6c7f4fa7f27d68265ccdd7"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/native_tools/_tool_search.py",
+      "git_blob": "cc6db9bd33b2a0ba155d18bf5e0e1dfde5702db4",
+      "git_mode": "100644",
+      "bytes": 7302,
+      "sha256": "ea92550a0ea021139e1be59d46c753fda5fc4ef8c0b6b0b1f1d9578ab46f11ba"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/output.py",
+      "git_blob": "acfcd51deb941f58f93a409c76c469e064549c1e",
+      "git_mode": "100644",
+      "bytes": 26313,
+      "sha256": "a73a1213b31193e2476d25c1025b6649c4fb65fdbfe2e2a2afff116bd5596ceb"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/prices.py",
+      "git_blob": "ec3fd24ec59d36f252b6e310c5e106e2ad4fe71e",
+      "git_mode": "100644",
+      "bytes": 1039,
+      "sha256": "b948567eb2c5934ffd6513d2098e1d0c169d6ac7ac7a977ad74827b01900e2f8"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/__init__.py",
+      "git_blob": "b26c68aa61084af495cec993d87523500c4028f4",
+      "git_mode": "100644",
+      "bytes": 13108,
+      "sha256": "b2e562f14ee002866d9b6cdff5933489324e002300e098a44dcda4712e6d026a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/amazon.py",
+      "git_blob": "88fbc5dc1809f7e2e2e5a4269d3dfcaa1e5c1617",
+      "git_mode": "100644",
+      "bytes": 314,
+      "sha256": "20f6b6c3276971b14b2ef8432b7e7ea70c282a8d0f838bcff38f36ddf1f1d337"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/anthropic.py",
+      "git_blob": "48bdd4c63575367b3cadfce1c2cbca58c55c57ce",
+      "git_mode": "100644",
+      "bytes": 15361,
+      "sha256": "975f53692bd397ff776376f8fa30d9b84efd9eadf1db2f08a39bdbebf577dddc"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/cohere.py",
+      "git_blob": "fd77e586698adb62832389770e3f74eb7f0a1fde",
+      "git_mode": "100644",
+      "bytes": 363,
+      "sha256": "fb7ea6b57bc05fb3e0e58d24b1b1bcb76ed9575558c19051be68756f6396195e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/deepseek.py",
+      "git_blob": "f5434f4ebac13c216b5420e439ecb2f895110376",
+      "git_mode": "100644",
+      "bytes": 694,
+      "sha256": "d9939e00606bceac26cdcbae67e8eb1cce6b411ce4a06ae5d9e355b3ae3a1a50"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/google.py",
+      "git_blob": "4fef20f4288b50519f028e935cd9368157244fac",
+      "git_mode": "100644",
+      "bytes": 23321,
+      "sha256": "d2ca38826c1eb7dec96e22988263139ff5f0c29eac2a2425a750d2e28127cfe3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/grok.py",
+      "git_blob": "870548b5869c0915c6bd8941383cf1dee37c8998",
+      "git_mode": "100644",
+      "bytes": 6407,
+      "sha256": "f1e1e9f694f617e4adb68fcd38a3f70be16c13f7d6322d98f96359cea15e0308"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/groq.py",
+      "git_blob": "e37180e496bf4508cd06a2262920741ca3f43aed",
+      "git_mode": "100644",
+      "bytes": 3451,
+      "sha256": "9cd20b89a640fd988720a212f9ef3e9c1982c4f9842871ac31d8090204bde179"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/harmony.py",
+      "git_blob": "b74703fdcbadfc698bec8f454e1ed91cc3911fa6",
+      "git_mode": "100644",
+      "bytes": 565,
+      "sha256": "50cf67b874117790d2e023fafc5154a05924882b3a19a8066ee723ef7ef7d08a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/meta.py",
+      "git_blob": "497e6ca6832df60565459292fe04fa476b9d4481",
+      "git_mode": "100644",
+      "bytes": 309,
+      "sha256": "25d65ca5d456c7c3d8d6953d6768bf4d8b40d02a5b836df1c85ad5ede5e7a286"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/mistral.py",
+      "git_blob": "30ebd3e335bb0670ac39b3708fc64141e7621ba8",
+      "git_mode": "100644",
+      "bytes": 342,
+      "sha256": "e665ce52de338637c755e43fcc2e011826c3ff998fc8c9f8696efc4db8e1d44f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/moonshotai.py",
+      "git_blob": "4b82d38f31f9f19303b52a7701a31d71786d4b37",
+      "git_mode": "100644",
+      "bytes": 866,
+      "sha256": "650113e60d1387b705f5d6674f7ee22f7b46eff9cdecddaf5887cfedcfca594c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/openai.py",
+      "git_blob": "2d2df65df6acab084a9f5a3feb7ebaa844f606db",
+      "git_mode": "100644",
+      "bytes": 34164,
+      "sha256": "4cd0132e17734feb714c7704dded495c505fa01582805f60ed1830bcf13fe26a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/openai_codex.py",
+      "git_blob": "8d9a8528e2ab6f3d457288be8551f9fd5ec73fa6",
+      "git_mode": "100644",
+      "bytes": 1272,
+      "sha256": "fb943c9a2101dcf11f61ae9447937e5b3ba7b7e70d39a8315db008dd2b977c7e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/qwen.py",
+      "git_blob": "ffb5f9dc7ef06e728bd9dec9f64310af5b4d56ce",
+      "git_mode": "100644",
+      "bytes": 1099,
+      "sha256": "8cdff97a42a718360409c61111f5a567c8879b3f037a20092187b68eea8e9f8a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/typesafe.py",
+      "git_blob": "75b6d6166f43379b66ab9bfe97ed3706bfdf4d10",
+      "git_mode": "100644",
+      "bytes": 1381,
+      "sha256": "8951fe91cd628909662842f7574b413b84667fcfc3d19e67e0c9f705d9833bbc"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/profiles/zai.py",
+      "git_blob": "d62788e46a3b8c87ab3313946c788746913f23d8",
+      "git_mode": "100644",
+      "bytes": 3548,
+      "sha256": "665c52a0b3ce4726b3afd5aa602df635592e093ee07d5528f6de0f524bf4dc8d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/__init__.py",
+      "git_blob": "d8adcf242e552796ba80b0f2824a4e9d07edf23f",
+      "git_mode": "100644",
+      "bytes": 10518,
+      "sha256": "ffdc17a232a229cf8003cf670da3ea728e5a4d5028144566bc91bd7edf99ec2b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/_bedrock_model_names.py",
+      "git_blob": "f0735b3ad2646455a72713c7c04e0e0e21a72786",
+      "git_mode": "100644",
+      "bytes": 2444,
+      "sha256": "066fc59391331f638b32bfd1cca5c7f0378f5bce46c1fa4a57ff8f0c35bb7b33"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/_oauth.py",
+      "git_blob": "202287aba2e95e149ecbc68d9772c942c20af494",
+      "git_mode": "100644",
+      "bytes": 6231,
+      "sha256": "5bd3137facf55875a8ccbad124836130f98c323810532e6cb9adc86c896569f7"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/_openai_compatible.py",
+      "git_blob": "314cf0321b284bd1483b669c393f169a665c9849",
+      "git_mode": "100644",
+      "bytes": 2202,
+      "sha256": "2a65e3e3e3ccd5352de327d458f40f393805532f0c4117e6b10141d827ae2957"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/alibaba.py",
+      "git_blob": "b0169f5063e995a37d473a7d1d1a61341e6f5427",
+      "git_mode": "100644",
+      "bytes": 3462,
+      "sha256": "7830d1dfade0cc3565391f5d54951f9d25c78ba137c44810b459aabaefa9da4e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/anthropic.py",
+      "git_blob": "596662837cd61fe8c135e3583236c69309e1adc8",
+      "git_mode": "100644",
+      "bytes": 11641,
+      "sha256": "320c516c802bd29609a209e117120b9f4d5c0a4a0801b5430efead38fc874ee1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/azure.py",
+      "git_blob": "ee41936b79f9773b815d749ab6e0bc44bf8bb717",
+      "git_mode": "100644",
+      "bytes": 22085,
+      "sha256": "5db3444a5cd355137d96229acfe57d470e0a67cf0606bcdf61c7647a0dc5aa87"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/bedrock.py",
+      "git_blob": "c4d1015533c26e525143df58f9d44086f5c53da1",
+      "git_mode": "100644",
+      "bytes": 33591,
+      "sha256": "8d0fd24ed233b58f3eb301ff8567057ec3ad6a2e7550993b073668fd25bfc30b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/bedrock_mantle.py",
+      "git_blob": "a3426c46343fcc5b42abb08149934a85fa581001",
+      "git_mode": "100644",
+      "bytes": 10830,
+      "sha256": "11de6b974d27b5c871e096d3b949df7a43ec1201a0e98574c2f2a179bcc4640f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/cerebras.py",
+      "git_blob": "a5c3b83629d592f54c3c99a7e417955683e34f9c",
+      "git_mode": "100644",
+      "bytes": 5372,
+      "sha256": "6342487de3509dd3b50d4cf61bcdf997accb4da1ade676d776341305168ff903"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/cohere.py",
+      "git_blob": "d0543220cbc703f7efa5620348cca9e928318cd2",
+      "git_mode": "100644",
+      "bytes": 4053,
+      "sha256": "1600b1fb1f09184c5190198e9deeb88a5c4091a8214ecd13b4a5e3b4e5211939"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/crusoe.py",
+      "git_blob": "efcf38aa0378fd31f8ce9fe36520e9b359b9638e",
+      "git_mode": "100644",
+      "bytes": 4564,
+      "sha256": "530fd6133ead4cc8e2d8413e9a91520627d0afcec46995ae98690d18a7b7549c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/deepseek.py",
+      "git_blob": "59e8795c920d1a73b21aa958342bf3a5a00d0b5d",
+      "git_mode": "100644",
+      "bytes": 5652,
+      "sha256": "30d9141294d2259b69d63c9d1224946e7e0c693e8ae0ec7a080bc878f02e8594"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/fireworks.py",
+      "git_blob": "f8a5652bb82162e75601343a4ddc17ef1f1815e3",
+      "git_mode": "100644",
+      "bytes": 3491,
+      "sha256": "dec37627425acc3dc9aa753c5c952278231e1c835e5a5d715b9067d5ca304e4a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/gateway.py",
+      "git_blob": "3f14ab42bf63a37166dcbb02aa04eed1caad8ad6",
+      "git_mode": "100644",
+      "bytes": 15658,
+      "sha256": "83c58c3f2404de712314052c0372ad704b7d80b5e52b88dc6135d9b4657b6445"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/github.py",
+      "git_blob": "dced62e74413a615453376290c99982bf5301ef4",
+      "git_mode": "100644",
+      "bytes": 6030,
+      "sha256": "b3c7eac4fe47a49298fc905bd21a9add32adfff0a171eff5c8b360ec397ae81b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/github_copilot.py",
+      "git_blob": "641245a869a241ee4cc0ebb47c5ba569e674d3a3",
+      "git_mode": "100644",
+      "bytes": 13046,
+      "sha256": "4268b83c930102b68b7302004ab04bab95746a21f215f24551ec804fb8b46487"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/google.py",
+      "git_blob": "e9033dd1e42d1f52d31c5ed4cc78d94a6e986fac",
+      "git_mode": "100644",
+      "bytes": 7726,
+      "sha256": "0f07f65bbb3e308f4f9dd4b8ba2ff16b2c84757889e07ab60c2f0235c22b30cb"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/google_cloud.py",
+      "git_blob": "86dc1a6867b2af968334dd0a8a97d53e6bc54415",
+      "git_mode": "100644",
+      "bytes": 6536,
+      "sha256": "d300843744ac301f8a15555d4d9455ce29b646e51b3f3a28ec6ef32b01ba2cb3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/groq.py",
+      "git_blob": "974451fd420b5f7c42e8e491b2da894a2f677e27",
+      "git_mode": "100644",
+      "bytes": 6957,
+      "sha256": "c9969053b60271561ac40aca6e21f9b2b9c99c1014b88def4d6fa2e4152bf606"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/heroku.py",
+      "git_blob": "da8ac8065b6d542d4184aafbf43fc2283caad83a",
+      "git_mode": "100644",
+      "bytes": 5700,
+      "sha256": "a3836f99347850ca0028a7ae78c426549947723633771c32d90e3fd8a8c388b7"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/huggingface.py",
+      "git_blob": "6f8d2755eb8943f00184bee59ae3cd2377887503",
+      "git_mode": "100644",
+      "bytes": 6041,
+      "sha256": "c609c10bc1604f4982d08f69c5c8ce448e82199393019b939ee47ceb226eaf29"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/litellm.py",
+      "git_blob": "3479ed468f582ba418be6d104260cf4bcffea5bf",
+      "git_mode": "100644",
+      "bytes": 4835,
+      "sha256": "ec63be0c6088a3d24899eaaa0b0b9182dac61d868f7f6f460c08fb4f5a703cac"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/mistral.py",
+      "git_blob": "93693aaf64ca5743855951a75592e031aa16ecd4",
+      "git_mode": "100644",
+      "bytes": 5404,
+      "sha256": "d912f8ad8c5365cbfb0601f4ce3a4ad1830e5ca9911b95b7738866913b42a5a5"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/moonshotai.py",
+      "git_blob": "3d9c0295f2a63809595532dc7e103594d268e024",
+      "git_mode": "100644",
+      "bytes": 4480,
+      "sha256": "ba763640021c3c8dedcf3e5b42fb0378364ae4cc46a74cc22b04aedd4d217e2e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/nebius.py",
+      "git_blob": "8fe6c88e524953f009b3ecbc4e8b413151a1196a",
+      "git_mode": "100644",
+      "bytes": 3755,
+      "sha256": "65f1d34f5a7898e344870cdaf523c8faf68d25864ae219bf91deea6f8e3d80e3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/ollama.py",
+      "git_blob": "d561a78b5e15c16294849cb9371f8b2bd21eaf66",
+      "git_mode": "100644",
+      "bytes": 5024,
+      "sha256": "e1cd88bbfd6f7346f79f59c03cf15162d960bf0f1a0152b305a9a478db00abc4"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/openai.py",
+      "git_blob": "f9957dcc6720b738db7c25244385ff3d0d7fb6a5",
+      "git_mode": "100644",
+      "bytes": 5799,
+      "sha256": "e7207d28b6072be2cfa87e9f3fc905925f6451058fdbb6f8ce1aaf15c5c1a4d7"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/openai_codex.py",
+      "git_blob": "c66df2e67feecfaedd735bb04e304fc1be13c76d",
+      "git_mode": "100644",
+      "bytes": 30755,
+      "sha256": "bff0d91fbcf9dc0334c9d2981df56dbcc2e3602c1baecef37d4001a0f769960c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/openrouter.py",
+      "git_blob": "d1204c420a5c1989fbca929e956ce95bfee14c25",
+      "git_mode": "100644",
+      "bytes": 13635,
+      "sha256": "8f85269b31ab9c2bfaa7b6b35901b379c27a41752794bd9c148b47e9a0558d4e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/ovhcloud.py",
+      "git_blob": "6a5db8e0282cd441b4b91798034029bc7db02e2e",
+      "git_mode": "100644",
+      "bytes": 3325,
+      "sha256": "3089ee4a3992e6436f6d345206be2eb603fea7e90e06f0548165a95918f4c96b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/sambanova.py",
+      "git_blob": "cb74882253454dc4741d8fea1ff6c7fdba476d59",
+      "git_mode": "100644",
+      "bytes": 4119,
+      "sha256": "890ba87fcda13c4d7893d444f112703803cce10dc835af39b1f76320af5fa26c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/sentence_transformers.py",
+      "git_blob": "f0bbf2c69030cfe7e9df700a178d8a1923e63d9d",
+      "git_mode": "100644",
+      "bytes": 695,
+      "sha256": "733c9c5c4dbd6a756a304d2df9e03fba4073badf756cf1652eb9d0e954545e89"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/snowflake.py",
+      "git_blob": "cab6433c3b009858739f7cbc187c5518c84f462a",
+      "git_mode": "100644",
+      "bytes": 9512,
+      "sha256": "1f25ddef605ce798b32fbe75cb3e8950241b7c2f82088505e7084c3937d88331"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/together.py",
+      "git_blob": "7942e4a47cd12b1e19d3e04608270725894fcd17",
+      "git_mode": "100644",
+      "bytes": 3867,
+      "sha256": "6233bd8e93f059f081f2262e25911abdf4f5c5933219112e51785e1ef0f43bb7"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/typesafe.py",
+      "git_blob": "dce3201db50383fef5f8ca1bb26dd6ea887eec3e",
+      "git_mode": "100644",
+      "bytes": 3918,
+      "sha256": "fcbb98b663fd59deb9ec90ff77c307399c05c7ae09a156c97beed4aab2fb24f3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/vercel.py",
+      "git_blob": "ee0fbb486c149bb0d057e605481a21c5acfba513",
+      "git_mode": "100644",
+      "bytes": 4145,
+      "sha256": "572320b63c1f0e634cbf4598c83e7227e581f3d1530dc6588627a5930f35df2f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/vllm.py",
+      "git_blob": "d789ab98a05a023900a5a896f2f576aecffc4e4c",
+      "git_mode": "100644",
+      "bytes": 8464,
+      "sha256": "78d9bff61d62989378303381efaf0df91301a4c6024db254a1c1736ee214b712"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/voyageai.py",
+      "git_blob": "3df1b45d818e402055cb5b505d881bbfab4f9552",
+      "git_mode": "100644",
+      "bytes": 2224,
+      "sha256": "1094de80700b1cc1c28a629d257e323ecf8fa6f7742a5dcc8f4eb265cc661c80"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/xai.py",
+      "git_blob": "16690fc3b33c9139fd83b43524db2895d60aef2a",
+      "git_mode": "100644",
+      "bytes": 7452,
+      "sha256": "f2c5ad59512a5bc2ddf5d8361a34312e41829f6539fe0a389857806c774993cf"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/providers/zai.py",
+      "git_blob": "ca1a75a88259b5e8ef1ff3295742476702ba6934",
+      "git_mode": "100644",
+      "bytes": 3334,
+      "sha256": "268d9588ccfa0620d650bf4428262a8abccd38894996a8a33f2ec71337192987"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/__init__.py",
+      "git_blob": "0390088ecd7dfc82b86e183413ba38896fc0601a",
+      "git_mode": "100644",
+      "bytes": 3710,
+      "sha256": "8ef7fac3a6850c1f9fb190b9398e6aef0e764f6602c09d0d4839a93d22664302"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/_instrumentation.py",
+      "git_blob": "a648fd8e7ac90527f3e4d40c08a2822ed6dadc63",
+      "git_mode": "100644",
+      "bytes": 26672,
+      "sha256": "99d19359c890b2ec48e69ea74b75401337112b34858b4751e0d1420c78a85146"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/_openai_protocol.py",
+      "git_blob": "88dede598c20c30d6ec64d294c116b525c4b1bc6",
+      "git_mode": "100644",
+      "bytes": 49336,
+      "sha256": "1be82bb6a4e0724aaa6e94faf29e1f08643ff8c7a74cfd34ac4b51732ca64996"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/_openai_webrtc.py",
+      "git_blob": "dd72958d2906d81f9e17b37b89d3f8c07053ea67",
+      "git_mode": "100644",
+      "bytes": 9008,
+      "sha256": "3e639c65bd5229ca9aa35880a15c850484d87abf9419ca820a43b8e0755f8447"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/_session.py",
+      "git_blob": "c69aa728abfce5aa54dd6a7cb924a2c6f6158beb",
+      "git_mode": "100644",
+      "bytes": 184830,
+      "sha256": "6fa0d58f59a56e363deca4ac933509806857c9a8da594bda1a617aafb55db24c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/_utils.py",
+      "git_blob": "71b4912c3a4ba0c0078b620d438458b4c1d18870",
+      "git_mode": "100644",
+      "bytes": 8703,
+      "sha256": "bee53207c762fa2c7ad45d454cc28726f26f74de5acc98220aff7720f04d18b4"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/azure.py",
+      "git_blob": "0811d6f385c7e464838f5a3394d5c8a11677ae43",
+      "git_mode": "100644",
+      "bytes": 27551,
+      "sha256": "a8a5ed60fd31fd79c0ebca398944749e4044c9bff6e2e169cb760659d0e1c507"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/codec.py",
+      "git_blob": "db44c80fb8c488caa7cece551a9c3c28e71f5259",
+      "git_mode": "100644",
+      "bytes": 21312,
+      "sha256": "c9442eae42ec26a8ed7de159e969c2ce030f641a36a919d5749bde1ef9cc7b35"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/google.py",
+      "git_blob": "9ffa90b216c49407b0d926e850414ce24b2f6cf8",
+      "git_mode": "100644",
+      "bytes": 70788,
+      "sha256": "5dfe3835ab3c8f1e7545efa17e0e397c66b6b203507dde583655c3e67eff6d4e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/model.py",
+      "git_blob": "5387be1b0b4de89788c9e49795cefe66899b31b5",
+      "git_mode": "100644",
+      "bytes": 21862,
+      "sha256": "ec7001de9f72b5a58e6b2bbfcf64d5452df092400383f10054869eaee5f13000"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/openai.py",
+      "git_blob": "07ac954c78b188add33b230e736b6ce5b3c51e19",
+      "git_mode": "100644",
+      "bytes": 66738,
+      "sha256": "46bf03c2d3a08943afb6aecb97d685d87fce6190265a449b46725df7bd761a65"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/profiles.py",
+      "git_blob": "aba75095befe353c052f67d74df5606d30712b79",
+      "git_mode": "100644",
+      "bytes": 10156,
+      "sha256": "d03d02ceff57870f4c99668fd627a389cd2ae4550afcbfcd34de0c5de179e264"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/settings.py",
+      "git_blob": "cfba202506dbdd7a3447127eb4c38794721dfae7",
+      "git_mode": "100644",
+      "bytes": 12473,
+      "sha256": "2a6607382ffc8da657acf72d671f8258c6e12f5c2cded68a4fe1891dda6efb2c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/realtime/xai.py",
+      "git_blob": "1d296a4c9159992d45b7d092b833eeabfb1c9e87",
+      "git_mode": "100644",
+      "bytes": 26218,
+      "sha256": "2e1ae2efb2d488586f2573f24682bd30ee8bab346aa3c68225181705263eff34"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/result.py",
+      "git_blob": "45c3c0705f9efe9cb4941abbe7d8239fac7849ed",
+      "git_mode": "100644",
+      "bytes": 54188,
+      "sha256": "e82526e509bca3c905967c1eaedf0d761c5a8ce637269c112e7e7eb7654ed10d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/retries.py",
+      "git_blob": "6fb4c393dee8dcdb2d8d63821769f0332d3ad828",
+      "git_mode": "100644",
+      "bytes": 23408,
+      "sha256": "48195ef53e15646638ed579cddd4d20595552f7ff768adec93f4a4ed4535d53b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/run.py",
+      "git_blob": "9f0b970f6cf4f4fec62d5cc5f54c7c94119186cc",
+      "git_mode": "100644",
+      "bytes": 45045,
+      "sha256": "433991f10944d83512413fa5c60a6b8dd5be1b90afd654ed3faba62098686592"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/settings.py",
+      "git_blob": "33ed14b8de051b6e0b06a5ba17bca3ca44619c57",
+      "git_mode": "100644",
+      "bytes": 16995,
+      "sha256": "2caa43e53a07f6db780494dd41343ccf77dbbd7de16ebad774311884346f02ac"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/template.py",
+      "git_blob": "e5031260e8d94020fcca52925153b1c74e37fffc",
+      "git_mode": "100644",
+      "bytes": 4772,
+      "sha256": "94a893fb1ba6eb0360598c31a6e32b80ecb88389e8c80d7b8f61150946ce03e6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/tool_manager.py",
+      "git_blob": "362d02849b2a12bd52944e1e07b1690fae92eb16",
+      "git_mode": "100644",
+      "bytes": 66473,
+      "sha256": "fd63624581e1eeeb2f2f095c509aea3b7eeb3b1d710b8b7f2384d5e8dfd84f18"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/tools.py",
+      "git_blob": "04300117a61dac1a1251c7ca356eae3a39fbf2ca",
+      "git_mode": "100644",
+      "bytes": 36087,
+      "sha256": "9d1472eb82e2004e717d4835a6e2d2402712da23d53bde866202f4a0b30e6818"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/__init__.py",
+      "git_blob": "f3602ce5b34d0e4cebb36cd898f720fa60913155",
+      "git_mode": "100644",
+      "bytes": 1328,
+      "sha256": "fed0d8cb5f81a3164ec2afa067d27b7ecfd5a91af7b0adc56dbe5d8b593e31a1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/_capability_owned.py",
+      "git_blob": "2f4b44a35a96c3e5ce2e343f565b6853a67f0c9f",
+      "git_mode": "100644",
+      "bytes": 4124,
+      "sha256": "0e25c8c991cea6188f5c23d4043750978acf8c5c05350f2a1ae24197da72037c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/_deferred_capability_loader.py",
+      "git_blob": "5c978c6c3221431adbee08f38334d068efcf2964",
+      "git_mode": "100644",
+      "bytes": 5203,
+      "sha256": "bfa29a432a54d91f3e0d4340fecb8d27d72af7314f1a4c3542cfda1e6140c516"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/_dynamic.py",
+      "git_blob": "f5fba2e673e4869a0318f1edc1b69bfa43741c37",
+      "git_mode": "100644",
+      "bytes": 6147,
+      "sha256": "49970cea677d9009f101b1d13be81df612afd29ed9a8cbd133d9b3a04de8ee9e"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/_instruction_collection.py",
+      "git_blob": "5cea43c116eb3c03827408f885c83fe82182bd22",
+      "git_mode": "100644",
+      "bytes": 3586,
+      "sha256": "82afc92773612078501f86d4825a41d11efbbfd54df6dfe9f9f8909f56cc1d36"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/_tool_search.py",
+      "git_blob": "a3caf35631ff44f199603dfaaa82406f528a375c",
+      "git_mode": "100644",
+      "bytes": 26019,
+      "sha256": "43ac0b95a140a6802f5dc911cd6d6267f1d472f016b56d2b81bec8c39ddcb2d3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/abstract.py",
+      "git_blob": "e1373132aaff25a0488e1f9af1343be80fc448a5",
+      "git_mode": "100644",
+      "bytes": 18168,
+      "sha256": "f6864cf708d4df7a66db0a213e037ddcab9d41442bc5401ecda91355aa05791c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/approval_required.py",
+      "git_blob": "7c5644822828c3f72a6bfb25d4b92942096e1c03",
+      "git_mode": "100644",
+      "bytes": 1100,
+      "sha256": "cf2606131d95aa9acb79dd7a397835416afcd6b9c00740a60334dec9027d038a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/combined.py",
+      "git_blob": "0ba3870857fd8625f3bccb8b66164a02ca0c06d6",
+      "git_mode": "100644",
+      "bytes": 5502,
+      "sha256": "39a850ea4f624fad4d538eb487ead37d1da6c4812e2225b832a99ddf6fbe37b9"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/deferred_loading.py",
+      "git_blob": "10ca03043be927dc15a64be59b61160d5d62d5ec",
+      "git_mode": "100644",
+      "bytes": 1425,
+      "sha256": "6e8924ced57282166fbde7ac099866ab38dd3cfdd0dac169f9fe1683fa1f863a"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/external.py",
+      "git_blob": "ebaf812621070e0d3412be1945b3c861e647e37d",
+      "git_mode": "100644",
+      "bytes": 1525,
+      "sha256": "47770d0c1945391209594e73be231a36002adbdb5feb024f4c7d5a8e1e159a54"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/filtered.py",
+      "git_blob": "d368cf701e24d2a74b50b5ebca59f5f144098968",
+      "git_mode": "100644",
+      "bytes": 1155,
+      "sha256": "b4ebb885cd5bbdadc39b4dbbf14fc0c09c46a5055d12230b88778594befed515"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/function.py",
+      "git_blob": "26ffb297cdece26b928940fe626a1e21cadbce56",
+      "git_mode": "100644",
+      "bytes": 37151,
+      "sha256": "c8c79e789f5a1d15d6bafb6895fcdcdcde276ca1d7d138d83166b3ae4a48c378"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/include_return_schemas.py",
+      "git_blob": "355de0f5d09fd36d91f4788ff6dd9e11e2ec4144",
+      "git_mode": "100644",
+      "bytes": 985,
+      "sha256": "aca00a27245796596139615a58916d7814164fad442f8de0fde7a3c837f876da"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/prefixed.py",
+      "git_blob": "a430b0dabccf58d1ca29467b8c1e5224941df7d2",
+      "git_mode": "100644",
+      "bytes": 1426,
+      "sha256": "d0ac1c0e45bc38cdfa654b0e2d53f987e363dad3eaefc2f7fc4d9cfb515b879b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/prepared.py",
+      "git_blob": "9b90b0f765dd58eb1d8833d37c2b064a7ebd3c9f",
+      "git_mode": "100644",
+      "bytes": 1611,
+      "sha256": "2e2fff18b001dfe547b86b0c96cde74369d2f9fd68ca537b3a0c24d983480dd5"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/renamed.py",
+      "git_blob": "cc7b4e7566f81092b8286eff5b3da9d3654b8bd1",
+      "git_mode": "100644",
+      "bytes": 2055,
+      "sha256": "c53eb92b161c1f1f419bd88c217c69b1d12199d17beca127543a609e7abc2e7d"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/set_metadata.py",
+      "git_blob": "e20bd6e8659dd9931a5d24a6d7e19549643f4ab1",
+      "git_mode": "100644",
+      "bytes": 1087,
+      "sha256": "d28c3d8026ec698e94ff972d3974bd51a281bc2804ad404676bd548406beffa2"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/toolsets/wrapper.py",
+      "git_blob": "92c4e587cf6be06671488ea7826aedabe721a079",
+      "git_mode": "100644",
+      "bytes": 2918,
+      "sha256": "b3440d16a51099e1379575f5a0e123b68fbe5fd991d59fa62ea0b65ecbc12fdc"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/__init__.py",
+      "git_blob": "0ed11870e001b3e5c4eb3f89edbd91f6b2e40376",
+      "git_mode": "100644",
+      "bytes": 1047,
+      "sha256": "d9ccc5baeab20dbd1c5b22f0b0e11a3015e0526748e1ea3cafa295e9a9d53971"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/_adapter.py",
+      "git_blob": "a7bcec377b0d70cce02455faaf7464a635c7c7a2",
+      "git_mode": "100644",
+      "bytes": 46590,
+      "sha256": "e614d2b73aed108749173e6dad23cc308b4b737fedf99675779501bc340b835c"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/_event_stream.py",
+      "git_blob": "d4c34c294fd6147ff9b5d40ca89fafcc1b307a63",
+      "git_mode": "100644",
+      "bytes": 44377,
+      "sha256": "870245781b8ce52b88b3f11296be59adf35a0488a712ab2a6844fafe9ea49ad3"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/_messages_builder.py",
+      "git_blob": "17678ee5ba372cc7f2da5483457762adcd7f5b54",
+      "git_mode": "100644",
+      "bytes": 3477,
+      "sha256": "2c63d3ebf5fee7410ae448441938f031a6ffefae4c22c4d2ab035fb3f63b0181"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/_web/__init__.py",
+      "git_blob": "415ef5e6ccf9e6fc776fd9871a87131c147aa1f3",
+      "git_mode": "100644",
+      "bytes": 250,
+      "sha256": "d5bb6564dba27010109bc7c830d04ac3f51e2c0e0c9ae2b0f4667384a965015f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/_web/_hosts.py",
+      "git_blob": "e319037360b15c1cf1175d4d59ea0add38558a5f",
+      "git_mode": "100644",
+      "bytes": 8258,
+      "sha256": "d4391fb5e54ae52c5d2c768ad602518a869a7791dc3b4a4d3343fc24b6074e09"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/_web/api.py",
+      "git_blob": "ae50f023ee992158b79527ded2112f3b69728c56",
+      "git_mode": "100644",
+      "bytes": 11989,
+      "sha256": "b8a2ed917507227bd22f2a884ffba34aa1537e8f44f050b7804a4474cf829a7f"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/_web/app.py",
+      "git_blob": "23bb4da919b3e98092d3db595d36c681e0e95827",
+      "git_mode": "100644",
+      "bytes": 10742,
+      "sha256": "ae399b34bc0601957732123e7f818875529fcba0ebd2ec1f6732ed147030ef94"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/ag_ui/__init__.py",
+      "git_blob": "5fc5d90b472ab5b151c0d79d9c6d1ff22ab812d6",
+      "git_mode": "100644",
+      "bytes": 263,
+      "sha256": "bf53d519d220901f9a83366c7fcb3525943247f96562e46ed923af123bfd1ca4"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/ag_ui/_adapter.py",
+      "git_blob": "1a6d500a60f54f87546ff64952553edbf90fc63c",
+      "git_mode": "100644",
+      "bytes": 46832,
+      "sha256": "9cef49db349fe2312b0a5157e9e0bbdb1fcdcdc2f2fd1470f5281c7672a52ac8"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/ag_ui/_event_stream.py",
+      "git_blob": "95a67c37b9ffb1c76c97e37faaa0d64d6f6f887d",
+      "git_mode": "100644",
+      "bytes": 22774,
+      "sha256": "d96a79820a858a709a78cb041a74f1d19550155299cc7bf54a94518ba7dd0fbe"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/ag_ui/_forward_compat.py",
+      "git_blob": "bd4b55251aba84c2fb68614f35a9e22dac587efe",
+      "git_mode": "100644",
+      "bytes": 6087,
+      "sha256": "c6a80db32fc5777927bacb98cf7d470990a8bbe83ac77dcad2616994738c8ea0"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/ag_ui/_interrupt.py",
+      "git_blob": "2fa885c14f9e043c827036aae10af5a90640a3b5",
+      "git_mode": "100644",
+      "bytes": 9381,
+      "sha256": "38ccd8546ebc7afa65e7a54b76900aa9a04a755455f77338fa2a9107cc34320b"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/ag_ui/_multimodal.py",
+      "git_blob": "6a6842c93b09ea5f9033d5c1b83258a04377fe18",
+      "git_mode": "100644",
+      "bytes": 4071,
+      "sha256": "06cb418b1b185693ebc52d9c4f52ba2c79393972da5f3374b0c7120177bf2356"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/ag_ui/_thinking_0_10.py",
+      "git_blob": "ed388c24eb45b9545c85acd8bf4c9f6dba383805",
+      "git_mode": "100644",
+      "bytes": 2142,
+      "sha256": "aa47dcc21817b6ae1e2a26caebbfca2ff8da714b7857cd894d6944f1032afefb"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/ag_ui/_thinking_0_11.py",
+      "git_blob": "66c6f7985f7e10e03addc6ac2b4465134e771cf4",
+      "git_mode": "100644",
+      "bytes": 3097,
+      "sha256": "632d37f509eab9eee7e43a99a5016ded944212dbe5ceff0f7576b7b513813fe0"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/ag_ui/_utils.py",
+      "git_blob": "fdb245d1aa20bf3401425b4145e5bd691f8b3ef9",
+      "git_mode": "100644",
+      "bytes": 15184,
+      "sha256": "0098432910b046cda2c0f186fd3d1ac346a7edcdfe94624284f5174691426144"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/vercel_ai/__init__.py",
+      "git_blob": "40c9210de22d2b32b2d5e882a55e3c9c84e139f4",
+      "git_mode": "100644",
+      "bytes": 488,
+      "sha256": "446e89fd6ec7afcf573fe1924fcb913cc6f1bde036101e019a8612b94928efdb"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/vercel_ai/_adapter.py",
+      "git_blob": "2ad4256fa43d7c9c874ff7f529a6d45c5fb65f21",
+      "git_mode": "100644",
+      "bytes": 64135,
+      "sha256": "175e254659b221f99bc4199b2d279aeaafa8e57091850c74148c0669a02594d6"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/vercel_ai/_event_stream.py",
+      "git_blob": "3dda6af86a166d7a2fe58077caf9a64f94a435aa",
+      "git_mode": "100644",
+      "bytes": 22941,
+      "sha256": "40340ae489a46508dc8d40c6f496ff4c0eead823f2fc93edef5115872d43ed98"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/vercel_ai/_models.py",
+      "git_blob": "c530aace98fa4b860e09012db9678414df40f159",
+      "git_mode": "100644",
+      "bytes": 330,
+      "sha256": "395a9a60f5c14a68d44de5645d7e29d5c912bf1b8501bdde59c4ec6141839292"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/vercel_ai/_utils.py",
+      "git_blob": "a75a727d2504bd5a5fbee841c8ca834ffb8524db",
+      "git_mode": "100644",
+      "bytes": 9515,
+      "sha256": "e2e0db2b0979d3ad5e8cc3f90c2c9c5e5e99dd9ee427192ecc0ade79e3dfe914"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/vercel_ai/request_types.py",
+      "git_blob": "5249ad9eafd855a3783be0e135624c566e42dff4",
+      "git_mode": "100644",
+      "bytes": 12852,
+      "sha256": "10a3ea54efb37a722b08774d5c346e493350a7db8c34a2738b3e66a83ea23455"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/ui/vercel_ai/response_types.py",
+      "git_blob": "19f67d2b71808a2f8b4d9d73e7b197809115f4a5",
+      "git_mode": "100644",
+      "bytes": 6485,
+      "sha256": "29406a9c9d043730de32eb43357a221cb44aa3b848635b19d02f2a6ba512e6d1"
+    },
+    {
+      "path": "pydantic_ai_slim/pydantic_ai/usage.py",
+      "git_blob": "9dd8d985024c8d0f1cc997692d0d4ab0e0113e64",
+      "git_mode": "100644",
+      "bytes": 27347,
+      "sha256": "06d69730db331b50663adef9156bdd37fe91623c29f7839934c8c936bb712d4f"
+    },
+    {
+      "path": "pydantic_ai_slim/pyproject.toml",
+      "git_blob": "fcd233c40bd1cf0f2483b6c893e5199432484d4a",
+      "git_mode": "100644",
+      "bytes": 7949,
+      "sha256": "44b875c0c083134ce42af056fa847c460f04c2e87ae988e891c36140ee2b139f"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/__init__.py",
+      "git_blob": "b39e115d12e71cc24d8f0ac43457c93f350870f4",
+      "git_mode": "100644",
+      "bytes": 562,
+      "sha256": "c241674f32e2201a39bf90d83d267921473cdc724895a7ea86157fd342d9dd50"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/_online.py",
+      "git_blob": "b7ca29cb71e59ea4f4fb65afb9b383c50977bdfe",
+      "git_mode": "100644",
+      "bytes": 18547,
+      "sha256": "622b98b30db9761c152b69a1e46d17b9ebd810b54bec7fe8d5a2cc040e21838b"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/_otel_emit.py",
+      "git_blob": "6538d1b9dac90468de1bb95c30ed030c0f0d6799",
+      "git_mode": "100644",
+      "bytes": 9546,
+      "sha256": "73d3fffca1e24957b480665f113fd666fe0a87a02e086f7dac52d2eaa3a92bb4"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/_task_run.py",
+      "git_blob": "2e53547e0bd4a7dba090b3658a80c9f5aca88004",
+      "git_mode": "100644",
+      "bytes": 2794,
+      "sha256": "a6beda7fe87528dd787edb2ffe26a5309a0bd75655a40bd8ba12480a4461402e"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/_utils.py",
+      "git_blob": "a2789277616d80967ced0c25f495f0842ed0c605",
+      "git_mode": "100644",
+      "bytes": 5075,
+      "sha256": "2435a0945b9b02ea0126c7b2ce2b9d29b87120dc0925c78d037ae359c5c2abe0"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/dataset.py",
+      "git_blob": "5d41d9eac21ba300b69f6c211fd9f23ac7af439f",
+      "git_mode": "100644",
+      "bytes": 58498,
+      "sha256": "cd4f8292097dbbdaf2766cf3b0ada1b2ab3adc204966bc2bb4c3456e0a2111f4"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/__init__.py",
+      "git_blob": "70f4d2dae04e810303a65732301cfa3a2558ee80",
+      "git_mode": "100644",
+      "bytes": 1849,
+      "sha256": "43b8ad5d95ad3b73e50c5d75fd31c2da41cdbf1a6a7adae75d3dd89fb9bf1442"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/_base.py",
+      "git_blob": "9cfc2ce2922bd79dab3d497c647bf60fa65a076a",
+      "git_mode": "100644",
+      "bytes": 4687,
+      "sha256": "ac7c66ff1265d14c56c2f4b9a36e189330e9e6aa7c357a22b92d9caa51aba868"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/_run_evaluator.py",
+      "git_blob": "a1ab3e58ed5672f64be694b74ac2c3f4afdabf52",
+      "git_mode": "100644",
+      "bytes": 4530,
+      "sha256": "1309b900a034bab1e956255ace1936dd727267981e038012f8ea5db432168e73"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/agentic.py",
+      "git_blob": "65c63a91749678a42aac5013985bde66ecce8920",
+      "git_mode": "100644",
+      "bytes": 25033,
+      "sha256": "4749fed0965b64f805ceade4f683aa56aa7dea9cc22a382ee67f8f0207a0119e"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/common.py",
+      "git_blob": "78104e5e65b5672b0384d7ab42ea5e074efc619a",
+      "git_mode": "100644",
+      "bytes": 16951,
+      "sha256": "d01e14f69726102e3130783fb2b99830f5115b71961499ba5f3ac8bd53477bf9"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/context.py",
+      "git_blob": "f62f9ed747020e67f3de9f37716a20b716b08ce5",
+      "git_mode": "100644",
+      "bytes": 3963,
+      "sha256": "119e4badcb3abd0cd132afaba6d6281df8ab521b086012ad8f589888819b92f1"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/evaluator.py",
+      "git_blob": "d8cf589918ce651aa49f49d930da4fa971718c4b",
+      "git_mode": "100644",
+      "bytes": 9887,
+      "sha256": "7dc34c8c56db6e839d013589c024ff5e0a99df93c072d49ae90dc170d443520e"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/llm_as_a_judge.py",
+      "git_blob": "74ddd2dc57eafae75ca0d37bbe1043ec53149695",
+      "git_mode": "100644",
+      "bytes": 23632,
+      "sha256": "054596b25c8de3db72e11e2b8fba691906b620f0c9babf6cb313b12dfd2dbf19"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/report_common.py",
+      "git_blob": "8bb3be9c794b1d246652c3b807a1f4e2a3ed62ff",
+      "git_mode": "100644",
+      "bytes": 14857,
+      "sha256": "5858fc4f012b881c7c3668e5c3cd93b5c9b61830e4f547ceae62e82f3317f667"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/report_evaluator.py",
+      "git_blob": "9cca5f2bb5c10bddb626a7de166a8a8ad8ae589b",
+      "git_mode": "100644",
+      "bytes": 2200,
+      "sha256": "0ee9ef10472d768eba545851fc86fdcfdd5bf3419a4adf67ac018dbdbac5256a"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/evaluators/spec.py",
+      "git_blob": "345ec5c5b0d707acd37277949b9915b07c49b63c",
+      "git_mode": "100644",
+      "bytes": 925,
+      "sha256": "d93e795d5a83ad410b82242f3609840210efba9972652f1565f31a91b03017d9"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/generation.py",
+      "git_blob": "d0881f7da39977185e45f7f5917c53dba2a8c483",
+      "git_mode": "100644",
+      "bytes": 3826,
+      "sha256": "4669beb5483c649488d41f0f157c2b22ac678a1a8eec84b5de6f33b380faf08f"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/lifecycle.py",
+      "git_blob": "c03d52223a6039e5153a465fe0669be825803581",
+      "git_mode": "100644",
+      "bytes": 4300,
+      "sha256": "80ef3b7f11c3a5aefe8b9fd209edb29a47fc763094435d17d30b32fc1e54b5ae"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/online.py",
+      "git_blob": "c63f6585eca7aac0ca20d255121b1f747e4ba16e",
+      "git_mode": "100644",
+      "bytes": 39905,
+      "sha256": "263911886d9aa3e3b602d1271cf3f3602fb83b8f5bcb7fef9d0b066e2f8a5131"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/online_capability.py",
+      "git_blob": "9757caa21116ce3f1575e0855b962a85d0a7ef70",
+      "git_mode": "100644",
+      "bytes": 6469,
+      "sha256": "0efa0dfcc1fd4530a3268918a8dacc94d873922b411018ab26cdeacbcdf67288"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/otel/__init__.py",
+      "git_blob": "51d1be9825ddda04ada4efc2db9695a7afb910fa",
+      "git_mode": "100644",
+      "bytes": 221,
+      "sha256": "384b868f9b219f50750adad14fa4a805b3a1e8cd0a9c74ab099e7f9b0809e4b2"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/otel/_context_in_memory_span_exporter.py",
+      "git_blob": "5c8b13f8f75d63f602e456e7dcdfc9fa7eef328a",
+      "git_mode": "100644",
+      "bytes": 11993,
+      "sha256": "35763224c18d88205c7d308d781dce6fffecd29da5c1dc6e86c5a05beb3bb4b0"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/otel/_context_subtree.py",
+      "git_blob": "6b51642478648cfce3e9546d1e16cd3d48e49951",
+      "git_mode": "100644",
+      "bytes": 1484,
+      "sha256": "a25502a4b11074e39cf69c76bbd54ec718a0070e734c6b39273c1497e71c5aef"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/otel/_errors.py",
+      "git_blob": "9970802f8f4b2618d6f88b950dc5dfe3014376ed",
+      "git_mode": "100644",
+      "bytes": 1635,
+      "sha256": "f582392957e52a4231d935ade78d07375670120260530381a924b5776c0e7a19"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/otel/span_tree.py",
+      "git_blob": "93eb689a6a5a7e329b3bac9f611f756c44aedb6e",
+      "git_mode": "100644",
+      "bytes": 25111,
+      "sha256": "7655ea47b6ac14bf3e83cfd08197f543d9cd862cde1a53f0bf0ed2071770b9cb"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/reporting/__init__.py",
+      "git_blob": "aa7189912b1741fa515cd10515e91d3a59a515eb",
+      "git_mode": "100644",
+      "bytes": 71674,
+      "sha256": "358511040795d174aaf0133827df4fed991f3e50378af5bdb0e5792ecd76878e"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/reporting/analyses.py",
+      "git_blob": "d0ec31cd30adde7b479caa7e3115ceb695d82899",
+      "git_mode": "100644",
+      "bytes": 3692,
+      "sha256": "ed60642305286e17a06c354b9015477eb423048a9753d5809582b532413825a2"
+    },
+    {
+      "path": "pydantic_evals/pydantic_evals/reporting/render_numbers.py",
+      "git_blob": "9197974d86b49a5ecff8aaf2e6c88d94ce7f56ed",
+      "git_mode": "100644",
+      "bytes": 6916,
+      "sha256": "f122a52b77ad6c3ec79d25961c213df7771e08d2d909ea5543e4aca94221cb19"
+    },
+    {
+      "path": "pydantic_evals/pyproject.toml",
+      "git_blob": "f8ec08e8df17f3c8a5ee4660da39a79ea068c547",
+      "git_mode": "100644",
+      "bytes": 2294,
+      "sha256": "8f6e6c6223fc9923c9fee0f31c9a05347b086b95106fcb0290dc29ae15835f28"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/__init__.py",
+      "git_blob": "97558b27c32b8d0c32c5151222c0db161209d98b",
+      "git_mode": "100644",
+      "bytes": 1766,
+      "sha256": "85b9bd7dc0f513dfd629955f0332f6f01df3d287869ae07d9e69bdee9177d09a"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/_utils.py",
+      "git_blob": "9bf075b85800e72055a247f817ecbed49dbf47f9",
+      "git_mode": "100644",
+      "bytes": 9498,
+      "sha256": "2d1407ba952887118df469b44598196c8a8030bbffb37023d7bf9dde0dc14077"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/basenode.py",
+      "git_blob": "45b7ce25a87a8bbfc57626f73dea9979f164165b",
+      "git_mode": "100644",
+      "bytes": 2308,
+      "sha256": "35298634b6e83a64eb479cc4a3f2b54495b72284350a99754b44a66a723bf52e"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/decision.py",
+      "git_blob": "aa077d4dddba33205ee6db7c47482209f1032dc1",
+      "git_mode": "100644",
+      "bytes": 11212,
+      "sha256": "c3198e51d18d06769d13523eb5111e17730b9ca1dd4947a5c8d0a2801feb387d"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/exceptions.py",
+      "git_blob": "527b7f0bdbf21294481ff3a86f875fa643cdf7ba",
+      "git_mode": "100644",
+      "bytes": 1630,
+      "sha256": "0455b45c24a6d0e22499a2a40a984ca931362008aceaa5c5869d40beff8dc3ae"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/graph_builder.py",
+      "git_blob": "009e278c70c7b2438472261f890637310a0b33c8",
+      "git_mode": "100644",
+      "bytes": 97654,
+      "sha256": "330454e15f85e4b70e25b576a42bf6bd4383ae12f19651e52eb26b7293934d45"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/id_types.py",
+      "git_blob": "9ec9056ed433eaa6507a0916bc3aaae42fe720b7",
+      "git_mode": "100644",
+      "bytes": 2814,
+      "sha256": "159deb612b9b17a83f39cbf47da2f7c89b32d6534df4019997d7ff8b3bce4548"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/join.py",
+      "git_blob": "e2910f8b44c7d16c95a7ab4b1ce39b901012859d",
+      "git_mode": "100644",
+      "bytes": 8080,
+      "sha256": "2b6f57ac92c5291c7b002a78976bbf7010732ce51d77d2d8e7290ec1e15adea0"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/node.py",
+      "git_blob": "7a5799e4e8ea9c612d00fa53e1097cb1ee42a3cb",
+      "git_mode": "100644",
+      "bytes": 3066,
+      "sha256": "76b8a6f1795f7a544cf010c6ee6a6beca0b637f7e843fe71d1930bbd8a0f93ac"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/node_types.py",
+      "git_blob": "cc441b6ba52f153790526088adde304ce8cb30f0",
+      "git_mode": "100644",
+      "bytes": 3379,
+      "sha256": "bf3024e5680613b5f352a7eb26e6ffb51cbe39ec0c8ac696d91ee3c5e854b27a"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/parent_forks.py",
+      "git_blob": "dad12a21e0339754f3430c9c099680981738104a",
+      "git_mode": "100644",
+      "bytes": 9691,
+      "sha256": "94c093dec9700ee66d88b6489aa5ee5be8b465fb4e342586afb453a4201ef5d6"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/paths.py",
+      "git_blob": "a4575c4c9f8716a41bc98d47ee536e925437c735",
+      "git_mode": "100644",
+      "bytes": 16023,
+      "sha256": "9cafe08ade8edd4e2ddd6e7c96d36585d51cd4b3ab51a533814c0b6042a563f3"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/step.py",
+      "git_blob": "0cc6904238c8bacdcf35143f6d4e64ed74487501",
+      "git_mode": "100644",
+      "bytes": 8837,
+      "sha256": "48652a2720ca8600f1a20d4a205a9d85e155f148c8fa43611f5bb7fdea4f0964"
+    },
+    {
+      "path": "pydantic_graph/pydantic_graph/util.py",
+      "git_blob": "7795b1bead02de0773646d74d50c03e4e85b41de",
+      "git_mode": "100644",
+      "bytes": 3153,
+      "sha256": "17b224482d14fad535c8ec6772c9723ab6791e5ad921d69f049011b0f7ad2074"
+    },
+    {
+      "path": "pydantic_graph/pyproject.toml",
+      "git_blob": "42e0c9d9d150b39d704b3069f8e6c07fdd0b72a5",
+      "git_mode": "100644",
+      "bytes": 2196,
+      "sha256": "ab1bb270bd235806e43a8ff0e8d7c82347551943df1a320f93e74e758fc3e848"
+    },
+    {
+      "path": "pyproject.toml",
+      "git_blob": "c345bab3c6e0e474ac5800cf9b599af0ad125d24",
+      "git_mode": "100644",
+      "bytes": 24447,
+      "sha256": "c7672aba513b7210e2ce4343600e5c039aacd277ecda22c69982aff84bfc8cb1"
+    },
+    {
+      "path": "uv.lock",
+      "git_blob": "6e221c7533bad06d0c26dde8efeaea1d8d147831",
+      "git_mode": "100644",
+      "bytes": 1556499,
+      "sha256": "fb1eb120388e91380cf49ece6e60824e74e91469927b564e42e0db7783470792"
+    }
+  ],
+  "files_exported": 386,
+  "bytes_exported": 8414725,
+  "tracked_entries": 2842,
+  "entries_outside_selected_scope": 2456,
+  "selected_nonregular_entries_excluded": []
+}

@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "project": "crewai",
+  "repository": "https://github.com/crewAIInc/crewAI",
+  "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+  "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+  "license": {
+    "summary": "MIT",
+    "path": "LICENSE",
+    "url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/LICENSE"
+  },
+  "source_files": 968,
+  "source_bytes": 9460151,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "tmp/real-world-src/crewai",
+    "--output",
+    "examples/reports/real-world/crewai",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "bb306fbda1b72f02daa098336512dc53e87c54d6bbb5aa31a6373967df7db483",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.8.0"
+  },
+  "scan_id": "cd3c04f68c1cb522f1daa2ceec2725108e76ffc8e7f1e44d83404acff1bb4c9d",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 9435467,
+    "bytes_read": 9435467,
+    "coverage_gaps": 10,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 967,
+    "open_findings": 28,
+    "scan_complete_within_selected_scope": false,
+    "severity_counts": {
+      "critical": 0,
+      "high": 26,
+      "info": 0,
+      "low": 0,
+      "medium": 2
+    },
+    "suppressed_findings": 0
+  },
+  "rule_counts": {
+    "AI001": 1,
+    "AI005": 1,
+    "AI010": 21,
+    "AI017": 1,
+    "AI036": 2,
+    "AI040": 2
+  },
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 18,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 5,
+      "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 1,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 17,
+      "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 926,
+      "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+    }
+  },
+  "execution": {
+    "exit_code": 2,
+    "failure_threshold": "high",
+    "finding_gate_triggered": true
+  },
+  "repeated_runs": [
+    {
+      "run": 1,
+      "started_at_utc": "2026-09-19T21:16:10.753515+00:00",
+      "elapsed_seconds": 3.666683,
+      "exit_code": 2,
+      "stderr": "Scan incomplete: 10 coverage gaps; see report.json for details.\n",
+      "report_sha256": {
+        "report.html": "e0c393f4752235a9015918c12f331b097cad101377c1af2509496a3a3c3f2cb4",
+        "report.json": "5b2be417e67d8947b553728ce5452bebb40b9f2ce3b9b87faf95807c6cccf346",
+        "report.md": "c9c3e37d1e709b562920a1936e3614ebe963835d8b7b5f44fc1aa0ed174ade87",
+        "report.sarif": "65d70cdecbaa88fce3d51cb179e2251284f40e64832e42c31d5d93f8d15ad92d"
+      }
+    },
+    {
+      "run": 2,
+      "started_at_utc": "2026-09-19T21:16:14.422126+00:00",
+      "elapsed_seconds": 3.569875,
+      "exit_code": 2,
+      "stderr": "Scan incomplete: 10 coverage gaps; see report.json for details.\n",
+      "report_sha256": {
+        "report.html": "e0c393f4752235a9015918c12f331b097cad101377c1af2509496a3a3c3f2cb4",
+        "report.json": "5b2be417e67d8947b553728ce5452bebb40b9f2ce3b9b87faf95807c6cccf346",
+        "report.md": "c9c3e37d1e709b562920a1936e3614ebe963835d8b7b5f44fc1aa0ed174ade87",
+        "report.sarif": "65d70cdecbaa88fce3d51cb179e2251284f40e64832e42c31d5d93f8d15ad92d"
+      }
+    }
+  ],
+  "byte_identical_reports": true,
+  "target_code_executed": false,
+  "optional_judge_enabled": false
+}

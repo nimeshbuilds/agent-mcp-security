@@ -1,6 +1,6 @@
 # Scenario test matrix
 
-This matrix records concrete scanner and controller behavior tested for version **0.7.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
+This matrix records concrete scanner and controller behavior tested for version **0.8.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. The **588-test automated suite** passed on Python 3.9.6 and 3.12.14 with no failures, errors or skips. It uses synthetic secrets, repository fixtures, mocked provider responses, real bounded subprocesses and loopback HTTP/HTTPS. The automated suite never executes the target application or calls a live model. Separate empirical public-project, competitor and official CLI-provider checks are recorded below and in [implementation validation](VALIDATION.md).
 
 ## Reproducible scenario coverage
 
@@ -9,7 +9,7 @@ All filenames below are under `tests/` unless another path is given.
 | Area | Scenarios exercised | Evidence |
 | --- | --- | --- |
 | All 42 static rules | A detecting example and a corresponding non-triggering or safer alternative for every rule ID; aliases, multiline calls, local source tracking, fixed/dynamic execution, pinned/mutable dependencies | `test_rules.py`, `test_security_boundaries.py` |
-| Labeled accuracy and detector mutations | 109 labeled assertions, all 42 rules with positive/negative labels, each whole-rule removal caught, synthetic false-alarm injection, visible challenge failures, metric denominators and CLI gates | `test_accuracy_corpus.py`, `benchmarks/static_accuracy.json` |
+| Labeled accuracy and detector mutations | 109 labeled assertions, all 42 rules with positive/negative labels, each whole-rule removal caught, false-alarm injection, visible challenge failures, metric denominators and gates; corpus 1.1.0 and unchanged original 1.0.0 observations retained separately | `test_accuracy_corpus.py`, `benchmarks/static_accuracy.json`, `benchmarks/static_accuracy-v100.json`, `benchmarks/accuracy-original-corpus.json` |
 | Python semantic boundaries | 32 regression methods for aliases, rebinding, scope, fixed/dynamic values, keyword sinks, branches, exceptions, loop zero iterations, mutable data, unsafe loader origins and explicit analysis work limits | `test_python_accuracy.py` |
 | JavaScript lexical boundaries | 26 methods / 174 explicit subcases: quoted/regex/comment examples, fake imports, aliases, shadowing, multiline calls, templates, function bodies, escaping, configuration properties and logging labels | `test_javascript_accuracy.py` |
 | Configuration accuracy | Real/mapped loopback, deceptive DNS prefixes, whitespace, package-selector forms, every additional distribution, exact versions, JSON container context, image digest length, ambiguous/nonfinite JSON | `test_configuration_accuracy.py` |
@@ -31,6 +31,9 @@ All filenames below are under `tests/` unless another path is given.
 | Evidence selection | Stable ranking and IDs; manifest hashes; confinement; source replacement; duplicate entries; credential exclusions; redaction before truncation; zero/exhausted budgets | `test_evidence.py`, `test_security_boundaries.py` |
 | All-control routing | Zero findings still queue 66 controls and 132 checks; batch/call/time limits; first-error stopping; every omitted/unscheduled check retained | `test_analyst_controller.py`, `test_analyst_cli.py` |
 | All six protocols | Chat Completions, Responses, Anthropic, Gemini, Ollama and custom JSON gateway; both stages; exact endpoints and environment authentication | `test_judge.py`, `test_protocol_adversarial.py`, `test_full_gateway_e2e.py` |
+| Official CLI transport/configuration | 19 methods: all three provider defaults/contracts; strict versions/flags/envelopes; minimized child environment; private prompt input; exact startup warning; Grok extension preflight; stdout/stderr caps, timeout, blocked stdin, nonzero exits and descendant cleanup | `test_cli_judge.py` |
+| CLI review integration | 12 methods: deterministic default never launches providers; all three mocked providers preserve finding gates and review all checks; shortcut/config parity; errors retain reports; policy exclusions, image provenance, exact IDs/citations, tool-output rejection and duplicate config keys | `test_cli_judge_integration.py` |
+| Official authentication flow | 15 methods: read-only status, login delegation, no noninteractive browser launch, successful login/resume, expired-auth retry once, timeout/cancellation, control-call budget, quiet/JSON/never modes, standalone login and static-result preservation | `test_cli_login.py` |
 | Actual CLI HTTP flows | 22 scenario cases / 23 subprocess scans / 135 HTTP requests; all providers complete 11 control batches plus finding triage | `test_full_gateway_e2e.py` |
 | Additional protocol HTTP flows | 12 real HTTP roundtrips: six adapters times two review modes | `test_protocol_adversarial.py` |
 | Actual TLS | Untrusted certificate rejection; explicit CA success; hostname mismatch rejection | `test_protocol_adversarial.py` (requires `openssl`) |
@@ -40,12 +43,15 @@ All filenames below are under `tests/` unless another path is given.
 | Configuration failure | Invalid types, unset keys, unsafe headers/endpoints, oversized/deep configuration; static reports survive requested judge failures | `test_judge.py`, `test_protocol_adversarial.py`, `test_cli_contract.py` |
 | Report integrity | Advice preserves static findings, severity, controls, scan ID and SARIF; HTML/Markdown escaping; code fences/URI encoding; atomic writes and cleanup | `test_analyst_cli.py`, `test_full_gateway_e2e.py`, `test_security_boundaries.py` |
 | Catalog integrity | Control sources, alignments, rule mappings, metadata and reference URLs checked against the packaged catalog | `test_catalog.py`, `test_rules.py` |
+| Public-scan detector regressions | 9 methods with paired cases: plausible PEM material versus marker-only examples, full material in docstrings/escaped strings, SDK dummy values, error role plus error sentence, final Docker USER/stage inheritance/overrides/continuations/heredocs | `test_real_world_regressions.py` |
+| Public-project reproduction boundaries | 8 methods: frozen scope selection, safe paths, source/manifest drift, extra/missing files, symlink rejection, pinned revisions/URLs, regular Git blob export without execution, actual scanner repeatability across four artifacts | `test_public_project_runner.py`, `scripts/scan_public_projects.py` |
+| Competitor harness | 13 methods: findings exits versus execution failures, timeouts/missing JSON, sanitized source/secret diagnostics, coverage gaps, explicit rule mappings, unsupported cases without false true negatives, source-byte verification, Windows rooted/drive-path normalization, literal metadata extraction and false-inventory rejection, pinned tool/rule-pack commands | `test_competitor_benchmarks.py`, `scripts/benchmark_competitors.py` |
 | Installed distribution | Wheel build/install without target dependencies; installed CLI outside checkout; packaged catalog available | `package-and-schema` CI job |
 | SARIF schema | Generated reports validate against the hash-pinned official OASIS SARIF 2.1.0 Errata 01 JSON Schema | `scripts/validate_sarif.py`, `package-and-schema` CI job |
 
 The HTTP counts describe those specific test files; other tests add local requests. Fixture responses exercise controller decisions and error paths. They do not measure a real LLM's judgment quality or prompt-injection resistance.
 
-Version 0.3.0 also fixes 13 previously failing accuracy-corpus cases. [The accuracy methodology](RULE_ACCURACY.md) records those improvements and all remaining labeled mismatches. Passing regression tests does not erase known challenge failures.
+The historical version 0.3.0 accuracy improvements were measured on corpus 1.0.0. The current corpus 1.1.0 changes only the synthetic AI011 positive body to match refined key-material semantics. Current results on both byte sets are published, including the intentional mismatch against the unchanged original marker-only positive. [The accuracy methodology](RULE_ACCURACY.md) records versions, digests and all remaining mismatches. Passing regression tests does not erase known challenge failures.
 
 ## Defects found and fixed
 
@@ -64,7 +70,7 @@ python3 -m unittest discover -s tests -v
 
 The standard-library suite needs no QA packages. `openssl` enables the real TLS fixture. Filesystem tests explicitly skip absent primitives, such as POSIX FIFOs and directory-descriptor root checks on Windows; the Windows job exercises the portable filesystem fallback.
 
-CI runs Python 3.9, 3.12 and 3.14 on Linux, plus Python 3.12 on macOS and Windows. A separate Linux job measures coverage, builds/installs the wheel, invokes it outside the checkout, and validates SARIF. [Implementation validation](VALIDATION.md) records results and the run link.
+CI is configured for Python 3.9, 3.12 and 3.14 on Linux, plus Python 3.12 on macOS and Windows. A separate Linux job measures coverage, builds/installs the wheel, invokes it outside the checkout, and validates SARIF. [Implementation validation](VALIDATION.md) records results and the run link.
 
 For coverage with Python 3.12 and optional QA tools:
 
@@ -91,6 +97,21 @@ curl --fail --location --proto '=https' --tlsv1.2 --max-time 30 \
 
 The validator performs no network access and rejects a schema with a different SHA-256. Schema conformance does not establish every semantic SARIF requirement or compatibility with every consuming product.
 
+## Empirical checks outside the unit suite
+
+| Experiment | Actual execution and result | Evidence and limits |
+|---|---|---|
+| Pinned public agent/MCP source | Eight projects, 4,120 exported files, 4,081 Invarune-examined files, 149 static review candidates and 15 explicit coverage gaps; 16 scans produced 32 byte-identical paired artifacts | [Results and source manifests](../benchmarks/real-world/README.md), [initial diagnostic triage](../benchmarks/real-world/TRIAGE.md); no target execution or vulnerability ground truth |
+| External source scanners | 24 runs: eight exported scopes each for Semgrep CE, Bandit and Gitleaks, with source identity checked and errors/coverage retained | [Combined report](BENCHMARK_RESULTS.md), [pinned tools and receipts](../benchmarks/external-tools/README.md); different scopes/counts are not a scanner ranking |
+| Partial MCP metadata | Cisco MCP Scanner's YARA analyzer scanned 14 literal descriptions extracted from one pinned reference-server implementation | [Metadata receipt](../benchmarks/external-tools/results/cisco-metadata.json); not live `tools/list`, computed inventory, runtime behavior or all MCP servers |
+| Shared development fixtures | Ten positive/negative API-pattern fixtures; Invarune, Semgrep and Bandit each matched five positives and five negatives | [Case mappings and receipts](../benchmarks/external-tools/results/shared-pattern-fixtures.json); tiny development-visible check, no artificial true negatives for out-of-scope tools |
+| Installed Codex CLI | Synthetic finding triage and grounded control review completed through the production adapter; a subsequent public-CLI fixture scan completed two selected `needs_review` assessments with nine omitted findings explicit, retaining all 11 static findings, zero gaps and exit 1; same-runtime no-judge comparison preserved the scan ID/static fields and identical SARIF bytes | [Provider evidence](CLI_PROVIDER_RESEARCH.md), [actual limited fixture report](../examples/reports/cli-codex/report.md); transport/schema checks, not an all-finding review or a security-judge accuracy benchmark |
+| Installed Claude Code CLI | Live request reported missing/expired authentication; later Invarune login launched the official browser flow and timed out after 300 seconds without completed authorization | [Provider evidence](CLI_PROVIDER_RESEARCH.md); unsuccessful authentication is not successful live model coverage |
+| Installed Grok Build CLI | Active profile extensions failed preflight before inference | [Provider evidence](CLI_PROVIDER_RESEARCH.md); no successful live Grok review claimed |
+| Distribution and export | Version 0.8.0 wheel built/installed outside checkout; all four CI inline validation programs passed; five fixture targets produced identical repeated reports; 18 SARIF reports passed the pinned official schema | [Implementation validation](VALIDATION.md); includes 24 scanner package files, policy-aware source/image checks and unchanged machine identities |
+
+The public corpus and diagnostic fixtures are development-visible. Real scans prompted narrow detector fixes whose initial evidence and implementation hashes remain published. No evaluation in this release establishes a universal best scanner, production precision/recall, behavioral benchmark score or security certification.
+
 ## Checks requiring another environment
 
 - Live vendor/enterprise-gateway compatibility with actual credentials, selected models, policies, rate limits and retention settings.
@@ -98,7 +119,7 @@ The validator performs no network access and rejects a schema with a different S
 - Production agent/MCP behavior: authorization, tenant boundaries, side effects, egress, approvals, memory isolation and operational controls.
 - Referenced behavioral benchmarks such as AgentDojo, ASB, InjecAgent and MCP attack suites, which require configured targets and authorized harnesses.
 
-This run used no production repository or live model credentials. Those checks remain explicit instead of being inferred from passing unit tests or a clean pattern scan.
+Eight pinned public repositories were scanned offline, and the installed Codex CLI completed two synthetic review stages plus a bounded two-finding public-CLI fixture review through its existing managed authentication. No target code or public MCP server was executed. Claude authentication did not complete and Grok was blocked before inference. These observations do not establish production security effectiveness or live compatibility across all three providers.
 
 ## Brand and command compatibility
 

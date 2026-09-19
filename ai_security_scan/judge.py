@@ -17,9 +17,11 @@ import time
 from urllib import error, parse, request
 
 
-ADAPTER_VERSION = "1.0.0"
+ADAPTER_VERSION = "1.1.0"
 CONFIG_LIMIT = 256 * 1024
-PROVIDERS = {"openai_chat", "openai_responses", "anthropic", "gemini", "ollama", "custom"}
+HTTP_PROVIDERS = {"openai_chat", "openai_responses", "anthropic", "gemini", "ollama", "custom"}
+CLI_PROVIDERS = {"codex_cli", "claude_cli", "grok_cli"}
+PROVIDERS = HTTP_PROVIDERS | CLI_PROVIDERS
 ALIASES = {"openai": "openai_chat", "openai_compatible": "openai_chat", "responses": "openai_responses"}
 DEFAULT_ENDPOINTS = {
     "openai_chat": "https://api.openai.com/v1/chat/completions",
@@ -102,6 +104,10 @@ class JudgeError(Exception):
     """A deliberately sanitized, user-reportable configuration or provider error."""
 
 
+class JudgeAuthenticationError(JudgeError):
+    """An explicitly selected CLI requires authentication before review."""
+
+
 class _NoRedirect(request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         raise JudgeError("Judge endpoint returned a redirect; redirects are disabled.")
@@ -155,6 +161,15 @@ def _validate_config(config):
             pending.extend((item, depth + 1) for item in node.values())
         elif isinstance(node, list):
             pending.extend((item, depth + 1) for item in node)
+    provider = config.get("provider", "openai_chat")
+    if not isinstance(provider, str):
+        raise JudgeError("Judge provider must be a supported protocol name.")
+    if provider in CLI_PROVIDERS:
+        from .cli_judge import CLIJudgeError, validate_cli_config
+        try:
+            return validate_cli_config(config)
+        except CLIJudgeError as exc:
+            raise JudgeError(str(exc)) from None
     allowed = {"provider", "model", "endpoint", "api_key_env", "api_key_header", "api_key_prefix",
                "headers", "extra_body", "request_template", "response_path", "timeout_seconds",
                "max_request_bytes", "max_response_bytes", "max_output_tokens", "allow_insecure_http",
@@ -466,6 +481,24 @@ def _normalize(output, finding_ids, secrets):
             "omitted_assessments": omitted}
 
 
+def _cli_output(config, payload, instructions, stage):
+    """Run a selected trusted vendor CLI; apply the same no-tool output gate."""
+    from .cli_judge import CLIJudgeError, CLIJudgeAuthError, run_cli
+    try:
+        output, metadata = run_cli(config, payload, instructions, stage=stage)
+    except CLIJudgeAuthError as exc:
+        raise JudgeAuthenticationError(str(exc)) from None
+    except CLIJudgeError as exc:
+        raise JudgeError(str(exc)) from None
+    if isinstance(output, str):
+        try:
+            output = _json_loads(output)
+        except (ValueError, UnicodeError, RecursionError):
+            raise JudgeError("CLI judge returned invalid JSON advice.") from None
+    _analyst_no_tools(output)
+    return output, metadata
+
+
 def review(config, payload):
     """Send an explicitly authorized, caller-redacted payload for advisory review.
 
@@ -483,10 +516,16 @@ def review(config, payload):
             raise JudgeError("Judge payload findings require unique nonempty string IDs.")
         ids.append(finding_id)
     secrets = set()
-    headers, body = _make_request(config, payload, secrets)
-    response = _post_json(config, headers, body)
-    _analyst_no_tools(response)
-    result = _normalize(_extract(config, response), ids, secrets)
+    cli_metadata = None
+    if config["provider"] in CLI_PROVIDERS:
+        output, cli_metadata = _cli_output(config, payload, INSTRUCTIONS, "findings")
+        response = {}
+    else:
+        headers, body = _make_request(config, payload, secrets)
+        response = _post_json(config, headers, body)
+        _analyst_no_tools(response)
+        output = _extract(config, response)
+    result = _normalize(output, ids, secrets)
     result.update({"status": "completed", "advisory_only": True, "nondeterministic": True,
                    "provider": config["provider"], "model": _safe_text(config["model"], secrets, 256),
                    "adapter_version": ADAPTER_VERSION, "findings_submitted": len(ids),
@@ -494,6 +533,8 @@ def review(config, payload):
     reported_model = response.get("model", response.get("modelVersion"))
     if isinstance(reported_model, str):
         result["provider_reported_model"] = _safe_text(reported_model, secrets, 256)
+    if cli_metadata is not None:
+        result["cli"] = cli_metadata
     return result
 
 
@@ -698,12 +739,18 @@ def review_controls(config, payload):
     config = validate_analyst_config(config)
     controls, evidence = _control_payload(payload)
     secrets = set()
-    headers, body = _make_request(config, payload, secrets, instructions=ANALYST_INSTRUCTIONS)
-    if any(_safe_text(identifier, secrets, 256) != identifier for identifier in [*controls, *evidence]):
-        raise JudgeError("Security analyst credentials overlap structural input IDs; safe provenance cannot be preserved.")
-    response = _post_json(config, headers, body)
-    _analyst_no_tools(response)
-    result = _normalize_controls(_extract(config, response), controls, evidence, secrets)
+    cli_metadata = None
+    if config["provider"] in CLI_PROVIDERS:
+        output, cli_metadata = _cli_output(config, payload, ANALYST_INSTRUCTIONS, "controls")
+        response = {}
+    else:
+        headers, body = _make_request(config, payload, secrets, instructions=ANALYST_INSTRUCTIONS)
+        if any(_safe_text(identifier, secrets, 256) != identifier for identifier in [*controls, *evidence]):
+            raise JudgeError("Security analyst credentials overlap structural input IDs; safe provenance cannot be preserved.")
+        response = _post_json(config, headers, body)
+        _analyst_no_tools(response)
+        output = _extract(config, response)
+    result = _normalize_controls(output, controls, evidence, secrets)
     result.update({"status": "completed", "advisory_only": True, "nondeterministic": True,
                    "provider": config["provider"], "model": _safe_text(config["model"], secrets, 256),
                    "adapter_version": ADAPTER_VERSION, "protocol_version": ANALYST_PROTOCOL_VERSION,
@@ -713,4 +760,6 @@ def review_controls(config, payload):
     reported_model = response.get("model", response.get("modelVersion"))
     if isinstance(reported_model, str):
         result["provider_reported_model"] = _safe_text(reported_model, secrets, 256)
+    if cli_metadata is not None:
+        result["cli"] = cli_metadata
     return result

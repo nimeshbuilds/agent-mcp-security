@@ -90,7 +90,7 @@ def evaluate(corpus, corpus_hash, analyzer=analyze_file, error_checker=analyze_f
 
 def render_markdown(report):
     lines = ['# Invarune static rule accuracy', '', report['scope'], '',
-             'Scanner: **' + md(report['tool_version']) + '** · Corpus: `' + report['corpus_sha256'] + '`', '',
+             'Scanner: **' + md(report['tool_version']) + '** · Corpus version: **' + md(report['corpus_version']) + '** · SHA-256: `' + report['corpus_sha256'] + '`', '',
              md(report['provenance']), '', md(report['metric_unit']), '',
              '| Suite | TP | TN | FP | FN | Precision | Recall |', '|---|---:|---:|---:|---:|---:|---:|']
     for name, result in [('Overall', report['overall']), *report['by_suite'].items()]:

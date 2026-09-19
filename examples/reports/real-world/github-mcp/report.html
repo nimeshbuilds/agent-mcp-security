@@ -1,0 +1,2572 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Invarune by NimeshBuild | Security report</title><style>
+:root{color-scheme:light;--ink:#142338;--navy:#0b1220;--mint:#35e3b1;--paper:#f2f6fa;--muted:#516279;--line:#dbe3ec;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:#12674f;text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#064331}a:focus-visible,summary:focus-visible{outline:3px solid #178268;outline-offset:4px}h1,h2,h3,h4,p{margin-top:0}h1{font-size:clamp(1.65rem,3vw,2rem);line-height:1.2;letter-spacing:-.035em;margin-bottom:10px}h2{font-size:1.8rem;line-height:1.25;letter-spacing:-.025em;margin-bottom:12px}h3{font-size:1.14rem;line-height:1.4;margin-bottom:12px}h4{font-size:1rem;margin-bottom:6px}p{margin-bottom:14px}code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}code{font-size:.85em;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;background:#eef2f6;border:1px solid var(--line);padding:18px;border-radius:10px;line-height:1.5;font-size:.82rem;margin:12px 0 20px}pre code{font-size:inherit}ul,ol{padding-left:24px}li+li{margin-top:7px}strong{font-weight:650}.wrap{max-width:1220px;margin:auto;padding:0 40px}.masthead{background:var(--navy);color:#f2f6fa}.brandrow{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-top:16px;padding-bottom:16px;border-bottom:1px solid #2b3648}.brand{display:flex;align-items:center;gap:13px}.brand svg{width:40px;height:40px;flex:none}.brand-name{font-size:1.45rem;font-weight:750;letter-spacing:-.035em;line-height:1.15}.brand-by{font-size:.71rem;letter-spacing:.11em;text-transform:uppercase;color:#adbbc9;margin-top:4px}.edition{color:#adbbc9;font-size:.8rem;text-align:right}.hero{padding-top:23px;padding-bottom:23px}.eyebrow{font-size:.72rem;font-weight:750;text-transform:uppercase;letter-spacing:.16em;color:#238266;margin-bottom:13px}.hero .eyebrow{color:var(--mint)}.hero p{max-width:800px;color:#c3cfdd;font-size:.9rem;margin-bottom:0}.hero-meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;font-size:.72rem;color:#bcc9d8}.hero-meta code{font-size:inherit}.hero-meta span{padding:7px 12px;border:1px solid #334055;border-radius:7px;overflow-wrap:anywhere;min-width:0;max-width:100%}.nav{background:#fff;border-bottom:1px solid var(--line)}.nav .wrap{display:flex;flex-wrap:wrap;gap:8px 25px;padding-top:17px;padding-bottom:17px}.nav a{color:#40516b;text-decoration:none;font-size:.84rem;font-weight:600}.nav a:hover{text-decoration:underline}main{padding-top:32px;padding-bottom:64px}section{scroll-margin-top:24px;margin-bottom:44px}.panel{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:28px}.posture{display:grid;grid-template-columns:8px 1fr;gap:24px;padding:28px;background:#fff;border:1px solid var(--line);border-radius:16px;margin-bottom:20px}.posture:before{content:"";background:#1c8065;border-radius:6px}.posture h2{font-size:1.45rem}.posture p:last-child{margin-bottom:0}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:20px 0}.metric{padding:20px 22px;background:#fff;border:1px solid var(--line);border-radius:13px}.metric strong{display:block;font-size:2rem;line-height:1.1;letter-spacing:-.04em;margin-bottom:7px}.metric span{font-size:.8rem;color:var(--muted)}.severity-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#fff;margin:20px 0}.severity-cell{padding:15px 20px;border-right:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}.severity-cell:last-child{border:0}.severity-cell strong{font-size:1.2rem}.pill{display:inline-block;border:1px solid #ccd7e4;background:#f1f5f9;color:#3b4e66;border-radius:5px;padding:2px 8px;font-size:.69rem;font-weight:700;letter-spacing:.02em;line-height:1.6;overflow-wrap:anywhere;max-width:100%}.pill.justified{background:#f2ecff;border-color:#c7b3e9;color:#60408e}.pill.disabled,.pill.excluded_from_review{background:#eef0f3;border-color:#c4ccd5;color:#4c5969}.pill.critical{background:#fde9ec;border-color:#f2b1bd;color:#961331}.pill.high{background:#fff0e6;border-color:#f4c8a7;color:#913f0d}.pill.medium{background:#fff9dc;border-color:#e4d280;color:#745707}.pill.low{background:#e8f1ff;border-color:#bdd3f3;color:#285286}.pill.info{background:#edf3f5;border-color:#c6d7dc;color:#375866}.muted,.small{color:var(--muted)}.small{font-size:.84rem}.note{border-left:3px solid #65aa98;padding:12px 18px;background:#edf7f3;border-radius:0 8px 8px 0;font-size:.88rem}.note.warning{border-color:#c9a351;background:#fff9e8}.section-heading{display:flex;justify-content:space-between;gap:20px;align-items:baseline;margin-bottom:18px}.section-heading p{margin-bottom:0}.action-preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}.preview{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px}.preview h3{font-size:1rem;margin-top:10px}.preview p:last-child{margin-bottom:0}.badge-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}.priority{background:#0f2d29;color:#dcfff2;border-color:#0f2d29}.action-card,.finding{background:#fff;border:1px solid var(--line);border-radius:14px;padding:25px;margin-bottom:17px;scroll-margin-top:24px}.action-card h3{font-size:1.25rem}.rule-label{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.76rem;color:var(--muted)}.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.action-grid>div{background:#f6f8fb;padding:18px;border-radius:10px}.action-grid p{margin-bottom:0;font-size:.9rem}.locations{margin-top:15px}.sources{font-size:.79rem;color:var(--muted);margin-top:17px}.sources ul{margin-top:7px}.sources li+li{margin-top:4px}.layer{border-left:3px solid #35aa88;padding:0 0 0 17px;margin:23px 0}.layer h4{font-size:1rem}.layer p{font-size:.87rem;margin-bottom:9px}.layer .residual{color:#6d541b;background:#fff9e9;padding:10px 13px;border-radius:6px}.layer:first-child{margin-top:4px}.layer:last-child{margin-bottom:4px}details{border:1px solid var(--line);border-radius:10px;background:#fff;margin-top:15px}summary{padding:16px 18px;cursor:pointer;font-weight:650;line-height:1.45;overflow-wrap:anywhere}summary:hover{background:#f5f8fa;border-radius:10px}details[open]>summary{border-bottom:1px solid var(--line);border-radius:10px 10px 0 0}.details-body{padding:20px}.details-body>:last-child{margin-bottom:0}.control{margin-top:12px;scroll-margin-top:24px}.control>summary{display:flex;justify-content:space-between;gap:15px;align-items:center}.control-title{max-width:75%}.control-code{display:block;font-size:.72rem;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em}.control>summary:before{content:"+";font-size:1.3rem;color:#397763;margin-right:3px}.control[open]>summary:before{content:"−"}.control>summary .control-title{flex:1}.checklist{list-style:none;padding:0;counter-reset:checks}.checklist li{position:relative;padding:10px 12px 10px 40px;background:#f4f7fa;border-radius:7px;counter-increment:checks;font-size:.88rem}.checklist li:before{content:counter(checks);position:absolute;left:13px;color:#397763;font-weight:700}.analyst-panel{border:1px solid #c7cce9;background:#f7f6fe;border-radius:11px;padding:20px;margin-top:18px}.analyst-panel h4{color:#4e4481}.analyst-check{border-top:1px solid #dcdcf0;padding-top:16px;margin-top:16px}.analyst-check p{font-size:.88rem}.evidence-location{display:block;color:#516279;font-size:.8rem;overflow-wrap:anywhere;margin-bottom:12px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;margin:16px 0}table{border-collapse:collapse;width:100%;font-size:.85rem}th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}th{background:#f1f5f9;color:#485b73;font-weight:650}tr:last-child td{border-bottom:0}.empty{padding:26px;background:#fff;border:1px dashed #a4bfb5;border-radius:12px;color:#3d6657}.coverage-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.coverage-grid>div{min-width:0}.audit{font-size:.75rem;max-height:36rem;overflow:auto}.footer{background:#0b1220;color:#aab9ca;padding:28px 0;font-size:.78rem}.footer p:last-child{margin-bottom:0}.footer strong{color:#f2f6fa}.unlinked{overflow-wrap:anywhere}.inline-code{padding:2px 5px;border:1px solid var(--line);border-radius:4px;background:#f1f5f9}.back{font-size:.78rem;float:right}.verification{padding-left:21px;font-size:.88rem}.check-note{font-size:.8rem;color:#695687}.spacer{margin-top:22px}
+.posture.urgent:before{background:#c34b42}.posture.attention:before{background:#b18832}.posture.neutral:before{background:#597693}
+@media(max-width:850px){.wrap{padding-left:22px;padding-right:22px}.severity-cell{padding:13px 12px;display:block}.severity-cell strong{display:block;margin-top:7px}.coverage-grid{grid-template-columns:1fr}.hero{padding-top:22px;padding-bottom:22px}.hero-meta{display:block}.hero-meta span{display:block;margin-top:8px}.action-grid{grid-template-columns:1fr}.section-heading{display:block}}
+@media(max-width:560px){.wrap{padding-left:16px;padding-right:16px}.edition{max-width:120px}.metrics,.action-preview{grid-template-columns:1fr 1fr;gap:9px}.metric{padding:17px 14px}.metric strong{font-size:1.65rem}.severity-row{grid-template-columns:repeat(3,minmax(0,1fr))}.severity-cell{border-bottom:1px solid var(--line)}.action-preview{grid-template-columns:1fr}.panel,.action-card,.finding{padding:20px}.posture{padding:22px;gap:15px}.control>summary{flex-wrap:wrap}.control-title{max-width:85%}.details-body{padding:16px}.nav .wrap{gap:9px 18px}.brand-name{font-size:1.4rem}.brand svg{width:39px;height:39px}.back{float:none;display:block;margin-bottom:10px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{background:#fff;font-size:10pt}.wrap{max-width:none;padding:0}.masthead{background:#fff;color:#142338;border-bottom:2px solid #1c8065}.brand-name{color:#142338}.brand-by,.edition,.hero p,.hero-meta{color:#516279}.brand svg{background:#0b1220;border-radius:7px}.brandrow{padding:0 0 14px;border:0}.hero{padding:18px 0}.hero .eyebrow{color:#12674f}h1{font-size:27pt}h2{font-size:19pt}.hero-meta span{border-color:#b8c6d6}.nav,.back{display:none}main{padding:20px 0}.panel,.posture,.action-card,.finding,.metric,details,.preview{box-shadow:none;border-color:#c2cbd4;border-radius:5px}.metrics{grid-template-columns:repeat(4,1fr)}.action-preview{grid-template-columns:1fr 1fr}.action-grid{grid-template-columns:1fr 1fr}.metric strong{font-size:22pt}.severity-row{grid-template-columns:repeat(5,1fr)}.severity-cell{display:flex}.action-card,.finding,.control{break-inside:auto}h2,h3,h4,summary{break-after:avoid}pre,.layer{break-inside:auto}.audit{max-height:none;overflow:visible}details>summary{list-style:none}details>.details-body{display:block!important}details::details-content{display:block!important;content-visibility:visible!important}details{content-visibility:visible}a{color:#12674f;text-decoration:underline}.footer{background:#fff;color:#516279;border-top:1px solid #c2cbd4}.footer strong{color:#142338}section{margin-bottom:28px}.hero-meta{display:block}.hero-meta span{display:block;margin-top:5px}.coverage-grid{grid-template-columns:1fr}.table-wrap{overflow:visible}thead{display:table-header-group}.checklist li,.note,.action-grid>div{background:#f6f8fa}@page{margin:16mm 14mm}}
+</style></head><body>
+<header class="masthead" id="top"><div class="wrap"><div class="brandrow"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Invarune evidence mark"><polygon fill="#F2F6FA" points="26,4 8,14 8,50 26,60 26,47 19,43 19,21 26,17"/><polygon fill="#35E3B1" points="38,4 56,14 56,50 38,60 38,47 45,43 45,21 38,17"/><polygon fill="#35E3B1" points="32,22 42,32 32,42 22,32"/></svg><div><div class="brand-name">Invarune</div><div class="brand-by">by NimeshBuild</div></div></div>
+<div class="edition">Evidence for agent security<br>Scanner 0.8.0</div></div>
+<div class="hero"><h1>AI agent &amp; MCP security report</h1>
+<p>Findings, priorities, and evidence needed to verify safeguards.</p>
+<div class="hero-meta"><span>Source scope: selected directory (relative paths)</span><span>Scan ID: <code>7adb90643fa6a2a582a0f5f19b9695df058e8a6a38ccacb40996bc5c3a668ff2</code></span></div></div></div></header>
+<nav class="nav" aria-label="Report navigation"><div class="wrap"><a href="#summary">Executive summary</a><a href="#actions">Priority actions</a><a href="#findings">Finding evidence</a><a href="#coverage">Coverage</a><a href="#advisory">Optional review</a><a href="#controls">All controls</a></div></nav>
+<main class="wrap"><section id="summary"><p class="eyebrow">Start here</p><h2>Executive summary</h2>
+<div class="posture attention"><div><h2>Open findings need investigation</h2><p>The scanner found 15 open patterns, with no open critical/high detections. Review applicability, address the causes, and validate the proposed defenses.</p></div></div>
+<div class="metrics">
+<div class="metric"><strong>15</strong><span>Open findings</span></div>
+<div class="metric"><strong>0</strong><span>Critical / high findings</span></div>
+<div class="metric"><strong>1</strong><span>Files with open findings</span></div>
+<div class="metric"><strong>0</strong><span>Recorded coverage gaps</span></div>
+</div><div class="severity-row" aria-label="Open findings by severity">
+<div class="severity-cell"><span class="pill critical">critical</span><strong>0</strong></div>
+<div class="severity-cell"><span class="pill high">high</span><strong>0</strong></div>
+<div class="severity-cell"><span class="pill medium">medium</span><strong>0</strong></div>
+<div class="severity-cell"><span class="pill low">low</span><strong>15</strong></div>
+<div class="severity-cell"><span class="pill info">info</span><strong>0</strong></div>
+</div><p class="small">Inspected <strong>156 files</strong>; <strong>0 suppressed findings</strong> are retained below. <strong>66 active controls require validation</strong> from a catalog of 66; static pattern results do not establish control completion.</p>
+<p class="small"><strong>Configured severity gate:</strong> high · <strong>Process exit code:</strong> 0. The exit code follows configured scan policy; it is not a security rating.</p>
+<p class="note">This is static security triage, not certification or proof that a system is secure. Finding severity describes a detected risk pattern; reachability, exploitability, exposure, and deployed safeguards still require verification.</p>
+<p class="small spacer"><strong>Optional review:</strong> disabled. The deterministic analysis ran offline; no LLM request was made.</p>
+<h3 class="spacer">What the scanner found</h3><p class="small">Detected categories describe observed patterns, not confirmed attack paths.</p><div class="badge-line">
+<span class="pill">Supply chain: 15</span>
+</div>
+<h3 class="spacer">Immediate concerns</h3><p class="small">P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.</p><div class="action-preview">
+<article class="preview"><div class="badge-line"><span class="pill priority">P3</span><span class="pill low">low</span></div><h3><a href="#group-63aabcec3515063d">Direct dependency is not exactly pinned</a></h3><p class="small">Check the effective install command and lockfile; enforce a verified resolution and document intentionally flexible development declarations.</p></article>
+</div><p class="small">Showing 1 of 1 open finding groups. <a href="#actions">Review every priority action and mitigation layer</a>.</p>
+</section><section id="actions"><div class="section-heading"><div><p class="eyebrow">Action plan</p><h2>Priority actions and defense layers</h2></div><a class="back" href="#top">Back to top</a></div>
+<p>Each group connects observed evidence to a practical first action, an accountable team, and additional safeguards. These layers are <strong>proposed, not verified</strong>; they do not automatically reduce finding severity or remove the need to fix the underlying condition.</p>
+<article class="action-card" id="group-63aabcec3515063d">
+<div class="badge-line"><span class="pill priority">P3</span>
+<span class="pill low">low</span>
+<span class="pill">open</span>
+<span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<p class="small">15 occurrence(s) · Suggested owner: <strong>Dependency/build owner</strong></p>
+<div class="action-grid"><div><h4>Why this matters</h4><p>If the actual install is not constrained by an enforced lockfile or hash, dependency versions may change without a corresponding reviewed source change.</p></div><div><h4>Immediate action</h4><p>Check the effective install command and lockfile; enforce a verified resolution and document intentionally flexible development declarations.</p></div></div>
+<p class="small spacer"><strong>Evidence context:</strong> source</p>
+<p class="note spacer">Source evidence: deployment reachability and active use have not been established.</p>
+<details class=""><summary>Affected locations (15)</summary><div class="details-body"><ul class="locations"><li><a href="#finding-885fd1ff8c680557">ui/package.json:17</a></li><li><a href="#finding-e2aa2242d12f944e">ui/package.json:18</a></li><li><a href="#finding-0eeb21b69e1f8516">ui/package.json:19</a></li><li><a href="#finding-5b02dd257b15d5ed">ui/package.json:20</a></li><li><a href="#finding-eab38ca94c25e0b1">ui/package.json:21</a></li><li><a href="#finding-016b4e22b5b27798">ui/package.json:22</a></li><li><a href="#finding-10892c7058ebee51">ui/package.json:23</a></li><li><a href="#finding-b70e2107b958086e">ui/package.json:24</a></li><li><a href="#finding-471abcedf1bf7a9c">ui/package.json:27</a></li><li><a href="#finding-6d032baac500bca9">ui/package.json:28</a></li><li><a href="#finding-8043529f7815dfb7">ui/package.json:29</a></li><li><a href="#finding-17950c92824cb6b1">ui/package.json:30</a></li><li><a href="#finding-3f4472e98ae31597">ui/package.json:31</a></li><li><a href="#finding-5814efbb2feef3f1">ui/package.json:32</a></li><li><a href="#finding-e62299abdd2414e5">ui/package.json:33</a></li></ul></div></details>
+<p class="small"><strong>Evidence:</strong> <a href="#finding-885fd1ff8c680557"><code>7b0fae91f2cabbd6a542b53c</code></a>, <a href="#finding-e2aa2242d12f944e"><code>fc99c43368b10dce0d91882c</code></a>, <a href="#finding-0eeb21b69e1f8516"><code>ee4c762926aea9ae5fb706ab</code></a>, <a href="#finding-5b02dd257b15d5ed"><code>2191362e772c695d302d6156</code></a>, <a href="#finding-eab38ca94c25e0b1"><code>ab9645a9bbd122fb1bb9ae31</code></a>, <a href="#finding-016b4e22b5b27798"><code>a0dcbaea3b4035b68a8e7614</code></a>, <a href="#finding-10892c7058ebee51"><code>24d211a4b8c1639e01ae5601</code></a>, <a href="#finding-b70e2107b958086e"><code>f1877494f91dc313d8307dc0</code></a>, <a href="#finding-471abcedf1bf7a9c"><code>32960660d02c89436915407f</code></a>, <a href="#finding-6d032baac500bca9"><code>719e873f7809682295fc4b6d</code></a>, <a href="#finding-8043529f7815dfb7"><code>382befcbc606c75fe87ef11e</code></a>, <a href="#finding-17950c92824cb6b1"><code>9eccc82fb8f49a2154fb4cb6</code></a>, <a href="#finding-3f4472e98ae31597"><code>1d948705e50af0cc089ac09a</code></a>, <a href="#finding-5814efbb2feef3f1"><code>c9f1720f37736ca8a9099d87</code></a>, <a href="#finding-e62299abdd2414e5"><code>71a47f1998d31d071cb167f0</code></a></p>
+<p class="small"><strong>Related controls:</strong> <a href="#control-ef0baf6e8902818d">SUP-01</a></p>
+<p class="small spacer"><strong>Additional defenses to verify:</strong> Resolve and install reviewed dependency bytes • Keep pinned artifacts maintained</p>
+<details class=""><summary>Additional layers that can lower risk (2)</summary><div class="details-body"><article class="layer"><h4>Resolve and install reviewed dependency bytes</h4><p><strong>How it lowers risk:</strong> Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory.</p><p><strong>Evidence to verify:</strong> Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it.</p><p class="residual"><strong>Residual limitation:</strong> An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-ef0baf6e8902818d">SUP-01</a>, <a href="#control-5aa3257d5693ce20">SUP-03</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li><li><a href="https://baseline.openssf.org/versions/2026-08-28" rel="noopener noreferrer">OPENSSF-BASELINE-202608 / Open Source Project Security Baseline</a></li></ul></div></article><article class="layer"><h4>Keep pinned artifacts maintained</h4><p><strong>How it lowers risk:</strong> Review known-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process.</p><p><strong>Evidence to verify:</strong> Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact.</p><p class="residual"><strong>Residual limitation:</strong> This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw.</p><p class="small"><strong>Verification status:</strong> proposed_not_verified</p><p class="small"><strong>Related controls:</strong> <a href="#control-fe84697e20b37c04">SUP-02</a>, <a href="#control-26ae27f338338f09">SUP-04</a>, <a href="#control-6021dc7b96002e12">OPS-05</a></p><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li><li><a href="https://securityscorecards.dev/" rel="noopener noreferrer">OPENSSF-SCORECARD / OpenSSF Scorecard</a></li></ul></div></article></div></details>
+<details class=""><summary>Guidance sources (4)</summary><div class="details-body"><div class="sources"><strong>Guidance sources</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">CISA-SECURE-BY-DESIGN / Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">NIST-SSDF / Secure Software Development Framework (SSDF) Version 1.1</a></li><li><a href="https://baseline.openssf.org/versions/2026-08-28" rel="noopener noreferrer">OPENSSF-BASELINE-202608 / Open Source Project Security Baseline</a></li><li><a href="https://securityscorecards.dev/" rel="noopener noreferrer">OPENSSF-SCORECARD / OpenSSF Scorecard</a></li></ul></div></div></details>
+</article>
+</section><section id="findings"><div class="section-heading"><div><p class="eyebrow">Scanner observations</p><h2>Complete finding evidence</h2></div><a class="back" href="#top">Back to top</a></div>
+<p class="small">All 15 findings are retained with locations, stable IDs, confidence, remediation, and references. Suppressed, justified, and disabled findings remain visible as distinct exceptions.</p>
+<article class="finding" id="finding-885fd1ff8c680557">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:17–17</span>
+<p class="small"><strong>Finding ID:</strong> <code>7b0fae91f2cabbd6a542b53c</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @github/markdown-toolbar-element. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;@github/markdown-toolbar-element&quot;: &quot;^2.2.3&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-e2aa2242d12f944e">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:18–18</span>
+<p class="small"><strong>Finding ID:</strong> <code>fc99c43368b10dce0d91882c</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @modelcontextprotocol/ext-apps. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;@modelcontextprotocol/ext-apps&quot;: &quot;^1.7.2&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-0eeb21b69e1f8516">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:19–19</span>
+<p class="small"><strong>Finding ID:</strong> <code>ee4c762926aea9ae5fb706ab</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @primer/octicons-react. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;@primer/octicons-react&quot;: &quot;^19.0.0&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-5b02dd257b15d5ed">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:20–20</span>
+<p class="small"><strong>Finding ID:</strong> <code>2191362e772c695d302d6156</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @primer/react. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;@primer/react&quot;: &quot;^36.0.0&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-eab38ca94c25e0b1">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:21–21</span>
+<p class="small"><strong>Finding ID:</strong> <code>ab9645a9bbd122fb1bb9ae31</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: react. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;react&quot;: &quot;^18.0.0&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-016b4e22b5b27798">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:22–22</span>
+<p class="small"><strong>Finding ID:</strong> <code>a0dcbaea3b4035b68a8e7614</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: react-dom. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;react-dom&quot;: &quot;^18.0.0&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-10892c7058ebee51">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:23–23</span>
+<p class="small"><strong>Finding ID:</strong> <code>24d211a4b8c1639e01ae5601</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: react-markdown. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;react-markdown&quot;: &quot;^10.1.0&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-b70e2107b958086e">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:24–24</span>
+<p class="small"><strong>Finding ID:</strong> <code>f1877494f91dc313d8307dc0</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: remark-gfm. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;remark-gfm&quot;: &quot;^4.0.1&quot;</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-471abcedf1bf7a9c">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:27–27</span>
+<p class="small"><strong>Finding ID:</strong> <code>32960660d02c89436915407f</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @types/node. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;@types/node&quot;: &quot;^25.2.0&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-6d032baac500bca9">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:28–28</span>
+<p class="small"><strong>Finding ID:</strong> <code>719e873f7809682295fc4b6d</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @types/react. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;@types/react&quot;: &quot;^18.0.0&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-8043529f7815dfb7">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:29–29</span>
+<p class="small"><strong>Finding ID:</strong> <code>382befcbc606c75fe87ef11e</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @types/react-dom. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;@types/react-dom&quot;: &quot;^18.0.0&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-17950c92824cb6b1">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:30–30</span>
+<p class="small"><strong>Finding ID:</strong> <code>9eccc82fb8f49a2154fb4cb6</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @vitejs/plugin-react. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;@vitejs/plugin-react&quot;: &quot;^6.0.2&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-3f4472e98ae31597">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:31–31</span>
+<p class="small"><strong>Finding ID:</strong> <code>1d948705e50af0cc089ac09a</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: typescript. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;typescript&quot;: &quot;^5.7.0&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-5814efbb2feef3f1">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:32–32</span>
+<p class="small"><strong>Finding ID:</strong> <code>c9f1720f37736ca8a9099d87</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: vite. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;vite&quot;: &quot;^8.0.16&quot;,</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+<article class="finding" id="finding-e62299abdd2414e5">
+<div class="badge-line"><span class="pill low">low</span><span class="pill">open</span><span class="rule-label">AI025</span></div>
+<h3>Direct dependency is not exactly pinned</h3>
+<span class="evidence-location">ui/package.json:33–33</span>
+<p class="small"><strong>Finding ID:</strong> <code>71a47f1998d31d071cb167f0</code><br><strong>Confidence:</strong> low · <strong>Category:</strong> supply_chain</p>
+<p>A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: vite-plugin-singlefile. A lockfile may pin its resolved version.</p>
+<h4>Observed evidence</h4><pre><code>    &quot;vite-plugin-singlefile&quot;: &quot;^2.3.3&quot;</code></pre>
+<p><strong>Remediation:</strong> Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.</p>
+<p class="small"><strong>Weakness mappings:</strong> CWE-1104</p>
+<div class="sources"><strong>Finding references</strong><ul><li><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" rel="noopener noreferrer">https://www.cisa.gov/resources-tools/resources/secure-by-design</a></li></ul></div>
+</article>
+</section>
+
+<section id="coverage"><div class="section-heading"><div><p class="eyebrow">Scope and assurance</p><h2>What this scan could establish</h2></div></div>
+<div class="coverage-grid"><div class="panel"><h3>Coverage requiring attention</h3>
+<p>No traversal, parsing, or resource-limit gaps were recorded inside the selected scope.</p>
+<p class="small">Excluded directories, unsupported languages, deployment configuration, and runtime behavior may remain outside that scope.</p></div>
+<div class="panel"><h3>Unknowns and follow-up validation</h3>
+<ul class="small"><li>Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.</li><li>Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.</li><li>Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.</li><li>No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope.</li></ul>
+</div></div>
+<h3 class="spacer">Analysis depth</h3><p class="small">File counts describe inspected inputs; they do not imply complete semantic coverage.</p><div class="table-wrap"><table><thead><tr><th>Profile</th><th>Files</th><th>Analysis scope</th></tr></thead><tbody><tr><td>configuration_lexical</td><td>1</td><td>Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved.</td></tr><tr><td>generic_text</td><td>136</td><td>Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed.</td></tr><tr><td>javascript_lexical</td><td>12</td><td>Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis.</td></tr><tr><td>json_structured</td><td>7</td><td>Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved.</td></tr></tbody></table></div>
+<p class="small">Source I/O: <strong>2086786 bytes read</strong>; 2086786 bytes charged against the budget, including 0 conservatively charged bytes for failed reads. Reads reserve a sentinel byte to detect growth.</p>
+<details class=""><summary>All scanner limitations</summary><div class="details-body"><ul><li>Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.</li><li>Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.</li><li>No dependencies are installed, target code executed, services contacted, or CVE feed queried.</li><li>Default excluded directories and unsupported files remain outside the selected scan scope.</li><li>Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.</li><li>Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data.</li></ul></div></details>
+<details class=""><summary>Scan errors (0)</summary><div class="details-body"><p>No scan errors recorded.</p></div></details>
+<details class=""><summary>Excluded or skipped paths (7)</summary><div class="details-body"><div class="table-wrap"><table><thead><tr><th>Path</th><th>Reason</th><th>Coverage gap</th></tr></thead><tbody><tr><td>internal/oauth/templates/error.html</td><td>unsupported_extension</td><td>outside scope</td></tr><tr><td>internal/oauth/templates/success.html</td><td>unsupported_extension</td><td>outside scope</td></tr><tr><td>pkg/github/ui_dist/.placeholder.html</td><td>unsupported_extension</td><td>outside scope</td></tr><tr><td>ui/src/apps/get-me/index.html</td><td>unsupported_extension</td><td>outside scope</td></tr><tr><td>ui/src/apps/issue-write/index.html</td><td>unsupported_extension</td><td>outside scope</td></tr><tr><td>ui/src/apps/pr-edit/index.html</td><td>unsupported_extension</td><td>outside scope</td></tr><tr><td>ui/src/apps/pr-write/index.html</td><td>unsupported_extension</td><td>outside scope</td></tr></tbody></table></div></div></details>
+<details class=""><summary>Source and dependency inventory</summary><div class="details-body"><p>Dependency manifests: <strong>4</strong>; agent/MCP signal files: <strong>67</strong>.</p><p class="small">Dependency manifests are inventoried; they are not checked against a vulnerability database.</p><pre class="audit"><code>{
+  &quot;agent_mcp_signals&quot;: [
+    {
+      &quot;path&quot;: &quot;Dockerfile&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;gemini-extension.json&quot;,
+      &quot;signals&quot;: [
+        &quot;mcpservers&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;go.mod&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;go.sum&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;server.json&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;agent-plugin/mcp.json&quot;,
+      &quot;signals&quot;: [
+        &quot;mcpservers&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;internal/ghmcp/oauth.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;internal/ghmcp/server.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/context/mcp_info.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/errors/error.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/actions.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/code_quality.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/code_scanning.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/context_tools.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/copilot.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/csv_output.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/custom_properties.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/dependabot.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/dependencies.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/discussions.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/find_duplicate.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/gists.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/git.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/ifc_labels.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/issue_dependencies.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/issue_fields.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/issues.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/issues_granular.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/labels.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/lockdown.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/notifications.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/projects.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/projects_batch.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/pullrequests.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/pullrequests_granular.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/repositories.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/repositories_helper.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/repository_resource.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/repository_resource_completions.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/rulesets.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/search.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/search_utils.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/secret_scanning.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/security_advisories.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/server.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/ui_capability.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/ui_resources.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/ui_tools.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/github/workflow_prompts.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/http/handler.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/http/middleware/mcp_parse.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/http/oauth/oauth.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/http/servercard/card.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/inventory/prompts.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/inventory/registry.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/inventory/resources.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/inventory/server_tool.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/inventory/tool_availability.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/octicons/octicons.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/tooldiscovery/search.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/toolvalidation/readonlyhint.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;pkg/utils/result.go&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;ui/package-lock.json&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;ui/package.json&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;ui/src/components/AppProvider.tsx&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;ui/src/hooks/useMcpApp.ts&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    },
+    {
+      &quot;path&quot;: &quot;ui/src/lib/toolResult.ts&quot;,
+      &quot;signals&quot;: [
+        &quot;modelcontextprotocol&quot;
+      ]
+    }
+  ],
+  &quot;dependency_manifests&quot;: [
+    &quot;go.mod&quot;,
+    &quot;go.sum&quot;,
+    &quot;ui/package-lock.json&quot;,
+    &quot;ui/package.json&quot;
+  ],
+  &quot;extensions&quot;: {
+    &quot;(none)&quot;: 1,
+    &quot;.go&quot;: 132,
+    &quot;.json&quot;: 7,
+    &quot;.mjs&quot;: 1,
+    &quot;.mod&quot;: 1,
+    &quot;.sum&quot;: 1,
+    &quot;.ts&quot;: 4,
+    &quot;.tsx&quot;: 7,
+    &quot;.txt&quot;: 2
+  }
+}</code></pre></div></details>
+<details class=""><summary>Inspected file manifest and content hashes</summary><div class="details-body"><pre class="audit"><code>[
+  {
+    &quot;analysis_profile&quot;: &quot;configuration_lexical&quot;,
+    &quot;bytes&quot;: 2261,
+    &quot;path&quot;: &quot;Dockerfile&quot;,
+    &quot;sha256&quot;: &quot;03109561b47a7bf94882df8359830802966bc61ff519089b80f70cb38ab48ae9&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;json_structured&quot;,
+    &quot;bytes&quot;: 323,
+    &quot;path&quot;: &quot;gemini-extension.json&quot;,
+    &quot;sha256&quot;: &quot;615d2ae759c863c147a049683114c8b1c6c5a1ef02b4710d82c11625daeef866&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1766,
+    &quot;path&quot;: &quot;go.mod&quot;,
+    &quot;sha256&quot;: &quot;ece991dbfb1c201e564415b3b0134e16840220d7168cc25ddf3f8966dad01af2&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 11375,
+    &quot;path&quot;: &quot;go.sum&quot;,
+    &quot;sha256&quot;: &quot;0ab06ed02ef3b398a6d3632149331fdaa90388aaf6e02cd8ec0a2d60d8974197&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;json_structured&quot;,
+    &quot;bytes&quot;: 1844,
+    &quot;path&quot;: &quot;server.json&quot;,
+    &quot;sha256&quot;: &quot;dad59264c3031b8fffa4edd4f95880f531918cf65d66b18d6e86c742f3362266&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;json_structured&quot;,
+    &quot;bytes&quot;: 203,
+    &quot;path&quot;: &quot;agent-plugin/mcp.json&quot;,
+    &quot;sha256&quot;: &quot;5f82ee81a15e04fa3771fcaad49fc279a963895e2638d86b6c3fb5697718e608&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;json_structured&quot;,
+    &quot;bytes&quot;: 503,
+    &quot;path&quot;: &quot;agent-plugin/plugin.json&quot;,
+    &quot;sha256&quot;: &quot;4500bfe9a78f736c0300fde137595bc47d16582b12727aef062eb0f2b86735f1&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 5013,
+    &quot;path&quot;: &quot;cmd/github-mcp-server/feature_flag_docs.go&quot;,
+    &quot;sha256&quot;: &quot;644a1848030eb393725dc3ccf9c8711434b2a39468486a95b452e1287c07ecc9&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 17244,
+    &quot;path&quot;: &quot;cmd/github-mcp-server/generate_docs.go&quot;,
+    &quot;sha256&quot;: &quot;8ca8bc1e6cbf0fb7f2c10ff90ab26980a1cb99662a0455a03aa3e421ceb4fc56&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 751,
+    &quot;path&quot;: &quot;cmd/github-mcp-server/helpers.go&quot;,
+    &quot;sha256&quot;: &quot;38ede6f98122d4361449725c1bfa064c2159997ff2e1de2e4131892683fc052a&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 8087,
+    &quot;path&quot;: &quot;cmd/github-mcp-server/list_scopes.go&quot;,
+    &quot;sha256&quot;: &quot;aa6b91eaee56991f07e3890e72c435c6a75de652dfa236e85c61004065b00e35&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 17295,
+    &quot;path&quot;: &quot;cmd/github-mcp-server/main.go&quot;,
+    &quot;sha256&quot;: &quot;d21283b9aeab310fc6503f3cf986db065ab960af8d9dfe0ee0f698fc400d5f2c&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 16873,
+    &quot;path&quot;: &quot;cmd/mcpcurl/main.go&quot;,
+    &quot;sha256&quot;: &quot;2f7dc44b48e82aed6d9f44c23264cb21641b6064dbea7afd2372f39d29b39e14&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 889,
+    &quot;path&quot;: &quot;internal/buildinfo/buildinfo.go&quot;,
+    &quot;sha256&quot;: &quot;ddac9bbd3c727e3c044f959dd0d87df4f7478dc3fc007201b41ac43a130fde45&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 11236,
+    &quot;path&quot;: &quot;internal/ghmcp/oauth.go&quot;,
+    &quot;sha256&quot;: &quot;4329e2b2233c81370613e38043bc08d11fae21b7ae4a65494e75c6116ea49fb7&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 17287,
+    &quot;path&quot;: &quot;internal/ghmcp/server.go&quot;,
+    &quot;sha256&quot;: &quot;362213e05969dc64c8b7ec460ee98ed2ab06d774fdb8c7dba46f1c14ec15e819&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 6419,
+    &quot;path&quot;: &quot;internal/githubapp/githubapp.go&quot;,
+    &quot;sha256&quot;: &quot;7623c4ad001fd9ebd16e079e21144435b39db6d13200eef8244560402b06a6ef&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 7337,
+    &quot;path&quot;: &quot;internal/githubv4mock/githubv4mock.go&quot;,
+    &quot;sha256&quot;: &quot;388a5ec7f5a91b149790169b520f0858f63c1a1c10e2e241135e8c114f2e69de&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1969,
+    &quot;path&quot;: &quot;internal/githubv4mock/local_round_tripper.go&quot;,
+    &quot;sha256&quot;: &quot;177496918ad82be17311efe608bee929d2238c72a6081fcfe573defbbdc0019d&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3932,
+    &quot;path&quot;: &quot;internal/githubv4mock/objects_are_equal_values.go&quot;,
+    &quot;sha256&quot;: &quot;8edf93c46c6d081a33162f43c23f369b9db091178c54dcba15edbcf857d037de&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 5203,
+    &quot;path&quot;: &quot;internal/githubv4mock/query.go&quot;,
+    &quot;sha256&quot;: &quot;5df5ebeee4f52f993068dd2a7fa94dc39d46842f1af3fdb4e98ff5127bbddf3e&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 4895,
+    &quot;path&quot;: &quot;internal/oauth/callback.go&quot;,
+    &quot;sha256&quot;: &quot;6589bae729752e52cf2832f5662175c904950ac02e4bf230c29bdf4149cb5955&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2266,
+    &quot;path&quot;: &quot;internal/oauth/env.go&quot;,
+    &quot;sha256&quot;: &quot;baf8bdf801ed92feb16bc5b7ced538a930013612da80a5978b9675bac164e778&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 9044,
+    &quot;path&quot;: &quot;internal/oauth/flow.go&quot;,
+    &quot;sha256&quot;: &quot;d2a26816cf9bbe199b8814e483babfa0960a6f821e8889984f3e431ec6d1f962&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 13898,
+    &quot;path&quot;: &quot;internal/oauth/manager.go&quot;,
+    &quot;sha256&quot;: &quot;c2dd6e55112fedfe0f68df7ddede0647efa01a161a503285da63ffcf2ce2e85b&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3653,
+    &quot;path&quot;: &quot;internal/oauth/oauth.go&quot;,
+    &quot;sha256&quot;: &quot;ba9992457158a584a602ec2e671b337f647588c738ce5a0bf1a6e45454ac0d44&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2928,
+    &quot;path&quot;: &quot;internal/oauth/prompter.go&quot;,
+    &quot;sha256&quot;: &quot;47ae6353cc0c00e29a260a52bcebe3cfbc251fda0434ccb0663cfcceefe75b05&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 5610,
+    &quot;path&quot;: &quot;internal/profiler/profiler.go&quot;,
+    &quot;sha256&quot;: &quot;4a2fe3c0752f45f426777387eb6b1cc158f3f652ecee7c6ca6f4fedb01dc3269&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2178,
+    &quot;path&quot;: &quot;internal/requeststate/sealer.go&quot;,
+    &quot;sha256&quot;: &quot;9bdcc45d264e759bf020b54332314c3a7dad9eb8d36390002922bfb31971ba02&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3932,
+    &quot;path&quot;: &quot;internal/toolsnaps/toolsnaps.go&quot;,
+    &quot;sha256&quot;: &quot;10538452595b06d4bc065f3adcbd1978a3496d29013db9c0202ab19f57b40221&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3539,
+    &quot;path&quot;: &quot;pkg/buffer/buffer.go&quot;,
+    &quot;sha256&quot;: &quot;9bc7d7cd41ce03290bfcfa43719fd95669d3ec1eacc0ac3deeef87dacd10e223&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 580,
+    &quot;path&quot;: &quot;pkg/context/graphql_features.go&quot;,
+    &quot;sha256&quot;: &quot;40bcfd83456a5e1c9c8d801b3aae2cc76860add02d1a2c50d601c209c533339a&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2202,
+    &quot;path&quot;: &quot;pkg/context/mcp_info.go&quot;,
+    &quot;sha256&quot;: &quot;10c591136df791babffe902b000248586ec21be4f1411551d9fdb3a41af51b56&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 4132,
+    &quot;path&quot;: &quot;pkg/context/request.go&quot;,
+    &quot;sha256&quot;: &quot;b0c1188ff61cfd77fc6f32d295de5c113a24b0d5fd7cbb02747bb84074bb8c62&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1065,
+    &quot;path&quot;: &quot;pkg/context/token.go&quot;,
+    &quot;sha256&quot;: &quot;d0f789cfdc7941b80d086abcb889fc2a5ca29efa657b88be913dd2bf592b2862&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 11985,
+    &quot;path&quot;: &quot;pkg/errors/error.go&quot;,
+    &quot;sha256&quot;: &quot;150dd1786d803315efe81f0fe8cee8b32b09f183b8c3edf7f7d402f0fbc82332&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 42381,
+    &quot;path&quot;: &quot;pkg/github/actions.go&quot;,
+    &quot;sha256&quot;: &quot;f49ab47d5b7e4a47422c563a086cb7cc2a1996916c301a5e36558124bcc23325&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3194,
+    &quot;path&quot;: &quot;pkg/github/code_quality.go&quot;,
+    &quot;sha256&quot;: &quot;40e9c5801cdbe2d38efbc5276e5fae38e775d244cb788e5558cb9a25958497a6&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 7413,
+    &quot;path&quot;: &quot;pkg/github/code_scanning.go&quot;,
+    &quot;sha256&quot;: &quot;182cc077d9bf7ad92d3d4b329d89bc068b450e0e9b87bfd9b7df619bea1bb4a6&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 10503,
+    &quot;path&quot;: &quot;pkg/github/context_tools.go&quot;,
+    &quot;sha256&quot;: &quot;44e8b20746efbf82f5824ba06cb6a50f82f2e6b4fb748ddffe16fbd58a7e583e&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 39994,
+    &quot;path&quot;: &quot;pkg/github/copilot.go&quot;,
+    &quot;sha256&quot;: &quot;f5807b26c03be51c116ceabb7a26c129288332fdd9e95b07f9c6faae15d1a6d8&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 9963,
+    &quot;path&quot;: &quot;pkg/github/csv_output.go&quot;,
+    &quot;sha256&quot;: &quot;63087e5b27af8f7d59809513d26967f8d4564189d17b178da10ff44d1d60d120&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 18556,
+    &quot;path&quot;: &quot;pkg/github/custom_properties.go&quot;,
+    &quot;sha256&quot;: &quot;04abf46816c98ee40e3dbf5487e1a28fd8a178f6b13c12fa52e5cbc65d5e8b8f&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 7810,
+    &quot;path&quot;: &quot;pkg/github/dependabot.go&quot;,
+    &quot;sha256&quot;: &quot;b0b2522aebc0421c5422b1897010eda76e15d77c3bde202dd0b65a3d03bd547b&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 17039,
+    &quot;path&quot;: &quot;pkg/github/dependencies.go&quot;,
+    &quot;sha256&quot;: &quot;cfa1c63554dd88736bce9fbe74b7058bfaccdcdf95c362465813fb6ae046e0d7&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1740,
+    &quot;path&quot;: &quot;pkg/github/deprecated_tool_aliases.go&quot;,
+    &quot;sha256&quot;: &quot;146cee07046e44fb292f2590061ad90b3149ed950d91cf7ceec821a21bf26539&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 36847,
+    &quot;path&quot;: &quot;pkg/github/discussions.go&quot;,
+    &quot;sha256&quot;: &quot;bb39cdf81a71691449360f3a0be687a3eaac8257468651cdc938e04ee4148a16&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 5363,
+    &quot;path&quot;: &quot;pkg/github/feature_flags.go&quot;,
+    &quot;sha256&quot;: &quot;5be557098d004a6ec1ddb75d09e5df9891a4473c9a590c5070255b97e5bece01&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2924,
+    &quot;path&quot;: &quot;pkg/github/fields_telemetry.go&quot;,
+    &quot;sha256&quot;: &quot;c1eea8afbea70eba8a0ea68b70561cdb8649fadfc029c5560b6c37d84f89daf1&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 7160,
+    &quot;path&quot;: &quot;pkg/github/find_duplicate.go&quot;,
+    &quot;sha256&quot;: &quot;0f4fbfbd9154c997fecc1bf47828075f94a547994d7fb86161fca55db96508c5&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 11810,
+    &quot;path&quot;: &quot;pkg/github/gists.go&quot;,
+    &quot;sha256&quot;: &quot;ef5d0ca04d45968ea6f58f379bb334ffe93c3bcfa0aedbb68d0be2fda442d1dd&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 6028,
+    &quot;path&quot;: &quot;pkg/github/git.go&quot;,
+    &quot;sha256&quot;: &quot;61b66dbfb9d91b44ab373211fdc92f0b3fae1a9d3dd3ad45ec7232f9dd3ca997&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 6025,
+    &quot;path&quot;: &quot;pkg/github/ifc_labels.go&quot;,
+    &quot;sha256&quot;: &quot;c9cae95f6291bc5c5c0f1ce0bc6040988cea1766a42f08fa7b9d2d9bc33ac9f7&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 787,
+    &quot;path&quot;: &quot;pkg/github/inventory.go&quot;,
+    &quot;sha256&quot;: &quot;84871be3077b6604c7f386d5d34791f3aaf61775f0894580010986cce14264a6&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 15584,
+    &quot;path&quot;: &quot;pkg/github/issue_dependencies.go&quot;,
+    &quot;sha256&quot;: &quot;65b527d5e536d82c6e153f48410e2cae94d18e95ff6e1bcbd77cc6d8e431654c&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 10465,
+    &quot;path&quot;: &quot;pkg/github/issue_fields.go&quot;,
+    &quot;sha256&quot;: &quot;e2aab74264fd3d2c1b39f2ad10ba2ae819eb658f46ea371e21bec5bf6db030fa&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 136979,
+    &quot;path&quot;: &quot;pkg/github/issues.go&quot;,
+    &quot;sha256&quot;: &quot;c15bc0e5b236ddf218afe821f8babdd10c2388751306a439584722b88d763a2c&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 70879,
+    &quot;path&quot;: &quot;pkg/github/issues_granular.go&quot;,
+    &quot;sha256&quot;: &quot;975dbc84efe33634d6df92843e081b116727b29049ccdac4c974e1d536f610bf&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 15055,
+    &quot;path&quot;: &quot;pkg/github/labels.go&quot;,
+    &quot;sha256&quot;: &quot;780f1b056b83f12d053a9f3b15c8b7216df02366b17b3138358c044406461dfc&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1446,
+    &quot;path&quot;: &quot;pkg/github/lockdown.go&quot;,
+    &quot;sha256&quot;: &quot;61917fcef004d0f78ed7f06849145ada4f308c31ade461a5690d46914ae23f6d&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 79321,
+    &quot;path&quot;: &quot;pkg/github/minimal_types.go&quot;,
+    &quot;sha256&quot;: &quot;01d74f0bca5013422d2759e701d3466af69ee0ef45048d155cf08d2f5b8b392b&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 22368,
+    &quot;path&quot;: &quot;pkg/github/notifications.go&quot;,
+    &quot;sha256&quot;: &quot;8b2c757453bd63f15bf6097b0dbc65fb1ce66a29675108995d3c2a61a7c5812c&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 15925,
+    &quot;path&quot;: &quot;pkg/github/params.go&quot;,
+    &quot;sha256&quot;: &quot;197b20b490047f07b138d004ee44b4bb6ccee78471310a937f30609a217f0e95&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 106934,
+    &quot;path&quot;: &quot;pkg/github/projects.go&quot;,
+    &quot;sha256&quot;: &quot;2d7241eb1b9a745230ea6e7e309f1f0a88f9f9f6d01276fd25c54edd9e5fe1cc&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 22049,
+    &quot;path&quot;: &quot;pkg/github/projects_batch.go&quot;,
+    &quot;sha256&quot;: &quot;4452df8c9b6a8d92490e9b811b611293c742c23d1d23988e514a6f8bfa5a7577&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3847,
+    &quot;path&quot;: &quot;pkg/github/projects_batch_mutation.go&quot;,
+    &quot;sha256&quot;: &quot;b1b0f957e389c986e3d568ad2cd85854b4d90eb7787057abb9c15c9a33ba1023&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 21221,
+    &quot;path&quot;: &quot;pkg/github/projects_resolver.go&quot;,
+    &quot;sha256&quot;: &quot;c6b76c06d57cce2f5b5c82310b0dff3d6a5e1440191f47023e2df59ffdbc11dd&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 477,
+    &quot;path&quot;: &quot;pkg/github/prompts.go&quot;,
+    &quot;sha256&quot;: &quot;aec104ce8e886c8831b32a53ebae05c221b96a4751122a7f3bf5dad4b35f9c6d&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 87396,
+    &quot;path&quot;: &quot;pkg/github/pullrequests.go&quot;,
+    &quot;sha256&quot;: &quot;5a656815dbb9365da9cbed664f63a6142929580ad54080d851015991a7aee002&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 37407,
+    &quot;path&quot;: &quot;pkg/github/pullrequests_granular.go&quot;,
+    &quot;sha256&quot;: &quot;7cfa2c670e3770dbacce23100010b186a9bfa46bf87af92270c52a2153eee5f9&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 109406,
+    &quot;path&quot;: &quot;pkg/github/repositories.go&quot;,
+    &quot;sha256&quot;: &quot;d4a0ef2889dc29b0c63027e73382a316e1a006c612992f108d844bae677abe56&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 21959,
+    &quot;path&quot;: &quot;pkg/github/repositories_helper.go&quot;,
+    &quot;sha256&quot;: &quot;a96ecd60e9f09dcda6b8acaba7a79c3b96b4134b677b898317483eea1dbd25ef&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2096,
+    &quot;path&quot;: &quot;pkg/github/repository_path.go&quot;,
+    &quot;sha256&quot;: &quot;c9db3cd23199d9a9aa4fd7fd29a83977523dbf74f981d186d51cd92f83dedd3e&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 10876,
+    &quot;path&quot;: &quot;pkg/github/repository_resource.go&quot;,
+    &quot;sha256&quot;: &quot;8778c9df39f57279dec8ae22c20f07b1bed1f3325bf2df95f548ea301ebefcf6&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 9438,
+    &quot;path&quot;: &quot;pkg/github/repository_resource_completions.go&quot;,
+    &quot;sha256&quot;: &quot;3047663df70afacae5f6db98e2db75bba928e2350e04e4f70d45feed05599805&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 867,
+    &quot;path&quot;: &quot;pkg/github/request_state.go&quot;,
+    &quot;sha256&quot;: &quot;4310a8bc7edf242fd2efab5997c83f52090f10d0936495ea8c7ac90f68226461&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 676,
+    &quot;path&quot;: &quot;pkg/github/resources.go&quot;,
+    &quot;sha256&quot;: &quot;1ade4b1010fc41edb9c795fa28407b395bc69b14762e9d101f4a86e616ee43fa&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 41090,
+    &quot;path&quot;: &quot;pkg/github/rulesets.go&quot;,
+    &quot;sha256&quot;: &quot;f1eea3e69f3d983239b65a906166db0fb586502dc9cf4593402c95dd301b338e&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1235,
+    &quot;path&quot;: &quot;pkg/github/scope_filter.go&quot;,
+    &quot;sha256&quot;: &quot;86ee95f9153830725e97052f6195104ab27c293321d19dc57f81abc20e6f2bca&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 23363,
+    &quot;path&quot;: &quot;pkg/github/search.go&quot;,
+    &quot;sha256&quot;: &quot;7e5d07eaeaf16c9c6078b065f61d641d4ebda68f7178bfa602db9e5b46cd9b21&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 7758,
+    &quot;path&quot;: &quot;pkg/github/search_utils.go&quot;,
+    &quot;sha256&quot;: &quot;ea026673cc0325bd99f8b2e8e296c53519e48c822ec1cdbe2c8f3871fdf68d64&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 7241,
+    &quot;path&quot;: &quot;pkg/github/secret_scanning.go&quot;,
+    &quot;sha256&quot;: &quot;c92f934e136b617e43427552dd77c5131e33398a7a754826b6659a19a28ccd27&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 17053,
+    &quot;path&quot;: &quot;pkg/github/security_advisories.go&quot;,
+    &quot;sha256&quot;: &quot;1b79b41f0f24e1be93618217eafc98345e0b17e6936b7ed92847279a59aee8c4&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 8423,
+    &quot;path&quot;: &quot;pkg/github/server.go&quot;,
+    &quot;sha256&quot;: &quot;8ce69862689b80997063a1c222058f9c300f92ff49be783dc746da138f521724&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2016,
+    &quot;path&quot;: &quot;pkg/github/tool_scopes.go&quot;,
+    &quot;sha256&quot;: &quot;20fc7ab282d855cceae5b48fd7b7b4b49ee8389834478a777059bbb156f36e1e&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 17272,
+    &quot;path&quot;: &quot;pkg/github/tools.go&quot;,
+    &quot;sha256&quot;: &quot;b14b55f66e2e53f059b78c33779047ed6f441b88589446de811ae7f98d6a7167&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 6632,
+    &quot;path&quot;: &quot;pkg/github/toolset_instructions.go&quot;,
+    &quot;sha256&quot;: &quot;daa4832dc46e23b5a05cdfd3b11cb45026231096aea148e8784fde75077c6b0f&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3159,
+    &quot;path&quot;: &quot;pkg/github/ui_capability.go&quot;,
+    &quot;sha256&quot;: &quot;4f40b0efee6ddb3b71f53d67f353580ad013029d8e5bc7807f2231a2b79a0adf&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1246,
+    &quot;path&quot;: &quot;pkg/github/ui_embed.go&quot;,
+    &quot;sha256&quot;: &quot;d12445fe6c7dc1ab7b76941a410312be56893346e4ddc0370c2eb506968a42af&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3835,
+    &quot;path&quot;: &quot;pkg/github/ui_resources.go&quot;,
+    &quot;sha256&quot;: &quot;d75f6c13e332540cf8b1e6e62742caac8a5528afacae3463c17ba2d78fc361d8&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 16472,
+    &quot;path&quot;: &quot;pkg/github/ui_tools.go&quot;,
+    &quot;sha256&quot;: &quot;fded711a7ba5228cab5005ccc88bb7fdf8c448d4728ad681bbfa7897bacc51ac&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3923,
+    &quot;path&quot;: &quot;pkg/github/workflow_prompts.go&quot;,
+    &quot;sha256&quot;: &quot;8f9ceb358f1c2336308d9c6e772bf7dc5d59bbec88a79bb258086f6d56fb8fad&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 17622,
+    &quot;path&quot;: &quot;pkg/http/handler.go&quot;,
+    &quot;sha256&quot;: &quot;30c339439bf265922ac4db8368e260e4e9248e40925f34b15bb54a217dce7c37&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 10982,
+    &quot;path&quot;: &quot;pkg/http/server.go&quot;,
+    &quot;sha256&quot;: &quot;bed20cda579886340f2d33e2d78f318dfb071f83fad8e9c79f98e790346a8e72&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3463,
+    &quot;path&quot;: &quot;pkg/http/headers/headers.go&quot;,
+    &quot;sha256&quot;: &quot;744f3bbad692fec3f0cdb5e6ab050b0894c896567c0a257674617fbde851400b&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 451,
+    &quot;path&quot;: &quot;pkg/http/headers/parse.go&quot;,
+    &quot;sha256&quot;: &quot;48be85ed70c92666ccea7ce0b7ea47e5b9b153421d15b32be1818b59ed37c439&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2224,
+    &quot;path&quot;: &quot;pkg/http/mark/mark.go&quot;,
+    &quot;sha256&quot;: &quot;89582fc7552f741d61c14da8bdd51e7872fe813469e45308ecc549f1cd9cea8b&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1557,
+    &quot;path&quot;: &quot;pkg/http/middleware/body_limit.go&quot;,
+    &quot;sha256&quot;: &quot;211d04e7b1612a45d638701dd7ef6ca5ac6a271d69bfea77d50aa63d1afd2b12&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2986,
+    &quot;path&quot;: &quot;pkg/http/middleware/cors.go&quot;,
+    &quot;sha256&quot;: &quot;6797f724a51de203073d5c39e8cc51abf8889a794bfb55e4dfc4fdee7f32cfd0&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3581,
+    &quot;path&quot;: &quot;pkg/http/middleware/mcp_parse.go&quot;,
+    &quot;sha256&quot;: &quot;5869d6fd1561c2352267e904ac348edee9f4b3e580c2cea828871f230479a3fb&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1699,
+    &quot;path&quot;: &quot;pkg/http/middleware/pat_scope.go&quot;,
+    &quot;sha256&quot;: &quot;881c4390077fddc5f6bf4b3764a0f0f63c265228fedfa681228c4d853a659129&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2528,
+    &quot;path&quot;: &quot;pkg/http/middleware/request_config.go&quot;,
+    &quot;sha256&quot;: &quot;1fe45e4fbac04202f2de1e546dd8d163a976760ce14b3c32d8de362dc067181f&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 4332,
+    &quot;path&quot;: &quot;pkg/http/middleware/scope_challenge.go&quot;,
+    &quot;sha256&quot;: &quot;c929503ec8b0566959318b032f798b4689ae424a2ccec36c675283ac561dd2df&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1924,
+    &quot;path&quot;: &quot;pkg/http/middleware/token.go&quot;,
+    &quot;sha256&quot;: &quot;89f69611a55d4f99aa7c19a1f04ae07b633cc48844adb415d950c803cbffaa5d&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 8974,
+    &quot;path&quot;: &quot;pkg/http/oauth/oauth.go&quot;,
+    &quot;sha256&quot;: &quot;85576423d05640119916f0c09b71ee8d4787b4518e68696c9326bec57fceba38&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 6134,
+    &quot;path&quot;: &quot;pkg/http/servercard/card.go&quot;,
+    &quot;sha256&quot;: &quot;596cdbc7fb110975f644535bdeb9608b7c39f4b93f3626bb98386118b7dbfafe&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 8015,
+    &quot;path&quot;: &quot;pkg/http/servercard/handler.go&quot;,
+    &quot;sha256&quot;: &quot;7eb5eae4527f783ba7d5d3b22b09572ecd488165d5e3bf3397931db61bb83d65&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2154,
+    &quot;path&quot;: &quot;pkg/http/transport/bearer.go&quot;,
+    &quot;sha256&quot;: &quot;8eba1ad32e8f63f4ee1be2d2d34e6696363cad5dc6bd51045625d2193e6ff3d2&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 8701,
+    &quot;path&quot;: &quot;pkg/http/transport/etag.go&quot;,
+    &quot;sha256&quot;: &quot;2d0f74909f0d75dbe3fd33a3a3ff59ca485686ff5794312cdc5cf5fabeb9d517&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1680,
+    &quot;path&quot;: &quot;pkg/http/transport/graphql_features.go&quot;,
+    &quot;sha256&quot;: &quot;b65d81392d3425da4872b7663ca1e7223ffe6892d2195fe830efee7b5ae5e575&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 386,
+    &quot;path&quot;: &quot;pkg/http/transport/user_agent.go&quot;,
+    &quot;sha256&quot;: &quot;6002c0f7a28034b122711f57925f442b31e0d76979b60089c818899676b883dd&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 15159,
+    &quot;path&quot;: &quot;pkg/ifc/ifc.go&quot;,
+    &quot;sha256&quot;: &quot;81aa83a09d46b9c450de6df75d8567180ebcfd6e704ac8866af3275ec9e1a237&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 14021,
+    &quot;path&quot;: &quot;pkg/inventory/builder.go&quot;,
+    &quot;sha256&quot;: &quot;30b10b7b8d5fb075fad91447e6fa6645f7304ef43a03961520be550c6f5dd007&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1047,
+    &quot;path&quot;: &quot;pkg/inventory/errors.go&quot;,
+    &quot;sha256&quot;: &quot;90c3ea0f9b8c18d058ae314d603958f7b54ab385c1b1eedb794b1940b627ee54&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 7158,
+    &quot;path&quot;: &quot;pkg/inventory/features.go&quot;,
+    &quot;sha256&quot;: &quot;57db4ce41ffb68b925ba5d592187fa09a09ab5df92766931ef363fbca1a75861&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 7830,
+    &quot;path&quot;: &quot;pkg/inventory/filters.go&quot;,
+    &quot;sha256&quot;: &quot;d5c77da0ac9b1fa62540a96aa24e9b3b5ce86718027d971e81e2ac3113a82a39&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1711,
+    &quot;path&quot;: &quot;pkg/inventory/instructions.go&quot;,
+    &quot;sha256&quot;: &quot;1d0f7788a5b9473c0be7996cb507c25116c377619b3bfe904b6ffb04fe3076be&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 638,
+    &quot;path&quot;: &quot;pkg/inventory/prompts.go&quot;,
+    &quot;sha256&quot;: &quot;0cb7897ca9d7f6862e7443c60496fb7c9dd86ca274974c9581d6a976f4d0274a&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 17287,
+    &quot;path&quot;: &quot;pkg/inventory/registry.go&quot;,
+    &quot;sha256&quot;: &quot;63d7abfd2388fffddec05d26c8670d405d4108db4e0b74a95cc2b5a2776190f2&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1783,
+    &quot;path&quot;: &quot;pkg/inventory/resources.go&quot;,
+    &quot;sha256&quot;: &quot;86b7a5ed45b1c98d4431d0106c58bd65fe63f25c89f4b37fe4a02a054ebe70e8&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 11148,
+    &quot;path&quot;: &quot;pkg/inventory/server_tool.go&quot;,
+    &quot;sha256&quot;: &quot;34e457c1efb020d4c320c66ae487c15941b9dfcabb41a6dd9b59fc808da3a344&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 6245,
+    &quot;path&quot;: &quot;pkg/inventory/tool_availability.go&quot;,
+    &quot;sha256&quot;: &quot;af7b91b093551ac7bdf751993c0bfac6d220811ec560d93972305d1d3225e8fe&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 10127,
+    &quot;path&quot;: &quot;pkg/lockdown/lockdown.go&quot;,
+    &quot;sha256&quot;: &quot;e743558db4c48c9b7f62d9fd486cf2f8ba64050747ead13f6593a44066932f6a&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1347,
+    &quot;path&quot;: &quot;pkg/log/io.go&quot;,
+    &quot;sha256&quot;: &quot;724315e1cac7c99cf638edfac9e023210158756156c63d2231601ca7ad5eddf0&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 1292,
+    &quot;path&quot;: &quot;pkg/observability/observability.go&quot;,
+    &quot;sha256&quot;: &quot;e4be88675c54594bd1dadd9de017711e1058ce43048818294ce95a441d0cc10c&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 482,
+    &quot;path&quot;: &quot;pkg/observability/metrics/metrics.go&quot;,
+    &quot;sha256&quot;: &quot;ea9a5a8d9a5b6bb1aee20af92a95dae24be0393ffe66eb956ab10a30fbca56f3&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 721,
+    &quot;path&quot;: &quot;pkg/observability/metrics/noop_sink.go&quot;,
+    &quot;sha256&quot;: &quot;0088149910dabd6a7c0d8d6aa7a3707c11bce9d87324fba1e300eafadcf7890a&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 49744,
+    &quot;path&quot;: &quot;pkg/octicons/icons_data_uris.txt&quot;,
+    &quot;sha256&quot;: &quot;53be3b67689ffb80b4ad511adbcbe128f7b0c868056bbd60f32cba756b907990&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 3105,
+    &quot;path&quot;: &quot;pkg/octicons/octicons.go&quot;,
+    &quot;sha256&quot;: &quot;a2184033d3418bfaf573430165aa500e0d3f145b3e34accec8a234cb533c58fa&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 836,
+    &quot;path&quot;: &quot;pkg/octicons/required_icons.txt&quot;,
+    &quot;sha256&quot;: &quot;d36769c62e04ba6eb939773ffe7a8cdb127d3fd337d36097aee94bcbc984547d&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 4287,
+    &quot;path&quot;: &quot;pkg/raw/raw.go&quot;,
+    &quot;sha256&quot;: &quot;111263cba6200d4b0a116489d9a776df06e977980f7f578f11391ea5b987d9c6&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 14867,
+    &quot;path&quot;: &quot;pkg/sanitize/sanitize.go&quot;,
+    &quot;sha256&quot;: &quot;25460f4fe50e3cceaf4aa00255e161695246c0576b6355574af15ffbcae0ec21&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 4305,
+    &quot;path&quot;: &quot;pkg/scopes/fetcher.go&quot;,
+    &quot;sha256&quot;: &quot;40ca3ad4ac52dbfd679cfaea57af0fb28cd49ed8a3d3577a825dc007a7b582c1&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2559,
+    &quot;path&quot;: &quot;pkg/scopes/map.go&quot;,
+    &quot;sha256&quot;: &quot;5127313681897a4aae5a8606b659dc2dc59d631a3e15d70c89db747c138667d7&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 7289,
+    &quot;path&quot;: &quot;pkg/scopes/scopes.go&quot;,
+    &quot;sha256&quot;: &quot;8406791ba8472bb8a2c9ea3bee6f0e08cde0ad69e0091a2a97d5774bdd2b1da0&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 8127,
+    &quot;path&quot;: &quot;pkg/tooldiscovery/search.go&quot;,
+    &quot;sha256&quot;: &quot;a9cf3acbe9043e546e96428a0402a93cb5946fbd9cfad1e7f172e52f5d6fb97e&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 8720,
+    &quot;path&quot;: &quot;pkg/toolvalidation/readonlyhint.go&quot;,
+    &quot;sha256&quot;: &quot;2c20bb82da75b31b17c802940f3fed534b605c8483acab76c5c97f54f5b04ffc&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2236,
+    &quot;path&quot;: &quot;pkg/translations/translations.go&quot;,
+    &quot;sha256&quot;: &quot;7aa255da6425ad462e2f71c6145307df03c2a8e6fb2762edea767e2b0c38208d&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 10297,
+    &quot;path&quot;: &quot;pkg/utils/api.go&quot;,
+    &quot;sha256&quot;: &quot;491c402d66774b65bc5d6f36f763bcfb04950c2e22e06b6f8e3937c536daa851&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2272,
+    &quot;path&quot;: &quot;pkg/utils/result.go&quot;,
+    &quot;sha256&quot;: &quot;811f6521ca854e3dc4426bdb1fd43c73dd4581fc33d7c4c7b2cce952ee371b21&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;generic_text&quot;,
+    &quot;bytes&quot;: 2705,
+    &quot;path&quot;: &quot;pkg/utils/token.go&quot;,
+    &quot;sha256&quot;: &quot;4823b68086cc717f1d14aa599a009ee298234df57b8e7b98ad68d1cd0e4229d3&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;json_structured&quot;,
+    &quot;bytes&quot;: 218184,
+    &quot;path&quot;: &quot;ui/package-lock.json&quot;,
+    &quot;sha256&quot;: &quot;9c8a0c1a9a14e6a78b41549b2ab169a7ce00b8c6358ef9d590d0374c8e9b2228&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;json_structured&quot;,
+    &quot;bytes&quot;: 935,
+    &quot;path&quot;: &quot;ui/package.json&quot;,
+    &quot;sha256&quot;: &quot;6292e903a09297680ff76e8622fd92722f0acb8bd391d0234d926192f20953d7&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;json_structured&quot;,
+    &quot;bytes&quot;: 401,
+    &quot;path&quot;: &quot;ui/tsconfig.json&quot;,
+    &quot;sha256&quot;: &quot;6f472e9837c2b43528a8f6dee432b1fa40235937c56dc077ec5ac9710111476f&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 1548,
+    &quot;path&quot;: &quot;ui/vite.config.ts&quot;,
+    &quot;sha256&quot;: &quot;c10f4db6bd8cc597d7da706bd74f4219a09eff27cd030b0105e0258b5d02a56f&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 400,
+    &quot;path&quot;: &quot;ui/scripts/build.mjs&quot;,
+    &quot;sha256&quot;: &quot;9ebc34ba64bd898cd44c30ffd9b011129f4f4604210db46b2b596b22385cf0e4&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 38,
+    &quot;path&quot;: &quot;ui/src/vite-env.d.ts&quot;,
+    &quot;sha256&quot;: &quot;65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 5598,
+    &quot;path&quot;: &quot;ui/src/apps/get-me/App.tsx&quot;,
+    &quot;sha256&quot;: &quot;696617efa762a9fe0523bb2b226d4d3cd93ee8d9f7a3ea36fb8a713feb2fb305&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 60136,
+    &quot;path&quot;: &quot;ui/src/apps/issue-write/App.tsx&quot;,
+    &quot;sha256&quot;: &quot;288e555fc18ebd207e235bcaa3b5d608a5fee044e480d59010f866a9c14763a0&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 29004,
+    &quot;path&quot;: &quot;ui/src/apps/pr-edit/App.tsx&quot;,
+    &quot;sha256&quot;: &quot;bd81ca6c5bf6bf8944099a792b09670b92219bc858d59075f208ad6fa202d9b2&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 31117,
+    &quot;path&quot;: &quot;ui/src/apps/pr-write/App.tsx&quot;,
+    &quot;sha256&quot;: &quot;43129aba7cb4dde019f0d02f4eaecb3d8b7f1605523f42f96f1f8f65e70995e1&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 1900,
+    &quot;path&quot;: &quot;ui/src/components/AppProvider.tsx&quot;,
+    &quot;sha256&quot;: &quot;38eb6f17162c8d2666b4a1876c5867225292a4a842f4351787d3e5368ecd9dfd&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 442,
+    &quot;path&quot;: &quot;ui/src/components/FeedbackFooter.tsx&quot;,
+    &quot;sha256&quot;: &quot;8efa69d63bdfc8d1df6d59a4efbb45c4d82725386bf2489021bd5df61d07e68c&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 13740,
+    &quot;path&quot;: &quot;ui/src/components/MarkdownEditor.tsx&quot;,
+    &quot;sha256&quot;: &quot;9e9a9f0820fc3ab50caa67efb38c2845784310eb4177e696d371594c61e10e13&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 4518,
+    &quot;path&quot;: &quot;ui/src/hooks/useMcpApp.ts&quot;,
+    &quot;sha256&quot;: &quot;b6c3d8781b2c08414e9202adaae90e7bb677eccb10d79058ab2f14dd73a5a5d7&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;javascript_lexical&quot;,
+    &quot;bytes&quot;: 1444,
+    &quot;path&quot;: &quot;ui/src/lib/toolResult.ts&quot;,
+    &quot;sha256&quot;: &quot;ddd5ed6b0134e120aa39369dbb7add3aa4c88dcc5feeddf597fb42b557aba22b&quot;
+  }
+]</code></pre></div></details>
+<details class=""><summary>Scan configuration and selected rules</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;configuration&quot;: {
+    &quot;default_excluded_directories&quot;: [
+      &quot;.cache&quot;,
+      &quot;.git&quot;,
+      &quot;.hg&quot;,
+      &quot;.mypy_cache&quot;,
+      &quot;.next&quot;,
+      &quot;.pytest_cache&quot;,
+      &quot;.svn&quot;,
+      &quot;.tox&quot;,
+      &quot;.venv&quot;,
+      &quot;__pycache__&quot;,
+      &quot;build&quot;,
+      &quot;coverage&quot;,
+      &quot;dist&quot;,
+      &quot;node_modules&quot;,
+      &quot;vendor&quot;,
+      &quot;venv&quot;
+    ],
+    &quot;exclude&quot;: [],
+    &quot;explicit_exclusion_identity_scope&quot;: &quot;Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.&quot;,
+    &quot;explicit_exclusion_matching&quot;: &quot;resolved_paths_and_snapshot_filesystem_identities&quot;,
+    &quot;generated_outputs_and_judge_config_excluded&quot;: true,
+    &quot;max_entries&quot;: 100000,
+    &quot;max_file_bytes&quot;: 20000000,
+    &quot;max_files&quot;: 20000,
+    &quot;max_total_bytes&quot;: 300000000
+  },
+  &quot;rules_enabled&quot;: [
+    &quot;AI001&quot;,
+    &quot;AI002&quot;,
+    &quot;AI003&quot;,
+    &quot;AI004&quot;,
+    &quot;AI005&quot;,
+    &quot;AI006&quot;,
+    &quot;AI007&quot;,
+    &quot;AI008&quot;,
+    &quot;AI009&quot;,
+    &quot;AI010&quot;,
+    &quot;AI011&quot;,
+    &quot;AI012&quot;,
+    &quot;AI013&quot;,
+    &quot;AI014&quot;,
+    &quot;AI015&quot;,
+    &quot;AI016&quot;,
+    &quot;AI017&quot;,
+    &quot;AI018&quot;,
+    &quot;AI019&quot;,
+    &quot;AI020&quot;,
+    &quot;AI021&quot;,
+    &quot;AI022&quot;,
+    &quot;AI023&quot;,
+    &quot;AI024&quot;,
+    &quot;AI025&quot;,
+    &quot;AI026&quot;,
+    &quot;AI027&quot;,
+    &quot;AI028&quot;,
+    &quot;AI029&quot;,
+    &quot;AI030&quot;,
+    &quot;AI031&quot;,
+    &quot;AI032&quot;,
+    &quot;AI033&quot;,
+    &quot;AI034&quot;,
+    &quot;AI035&quot;,
+    &quot;AI036&quot;,
+    &quot;AI037&quot;,
+    &quot;AI038&quot;,
+    &quot;AI039&quot;,
+    &quot;AI040&quot;,
+    &quot;AI041&quot;,
+    &quot;AI042&quot;
+  ]
+}</code></pre></div></details>
+</section>
+<section id="advisory"><p class="eyebrow">Separate advisory layer</p><h2>Optional security review</h2><div class="panel">
+<p class="note">Model output is nondeterministic and advisory. It cannot dismiss deterministic findings, change their severity, establish compliance, or change the deterministic CI gate.</p>
+<p><strong>Disabled.</strong> No optional LLM request was made. The deterministic scan and this report run independently.</p>
+</div></section>
+<section id="controls"><div class="section-heading"><div><p class="eyebrow">Complete control checklist</p><h2>Controls and acceptance checks</h2></div><a class="back" href="#top">Back to top</a></div>
+<p>All 66 catalog controls appear below. Expand a control for acceptance checks, source guidance, mapped findings, and any optional analyst review.</p>
+<p class="note">These are project-defined checks mapped to published guidance, not official benchmark scores. <code>no_pattern_detected</code> means only that the mapped detector did not fire. <code>findings_detected</code> requires investigation; it is not an automatic compliance failure.</p>
+<details class="control" id="control-c8fc6e8bbfe42e1e"><summary><span class="control-title"><span class="control-code">GOV-01</span>Inventory every agent, MCP server, tool, and model</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Governance · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints.</li><li>Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-RMF</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AICM, CSA-AISMM, CIS-AGENTS-2026, CIS-MCP-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10" rel="noopener noreferrer">https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10</a></li></ul></div>
+</div></details>
+<details class="control" id="control-86210927a6918d8e"><summary><span class="control-title"><span class="control-code">GOV-02</span>Model trust boundaries and attack paths</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Governance · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Diagram user, model, memory, tool, server, gateway, and downstream service boundaries with their credentials.</li><li>Identify who controls each input and the highest-impact action reachable if that input is malicious.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MITRE-ATLAS, NIST-AML</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-MAESTRO, MITRE-ATLAS-202609</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://github.com/mitre-atlas/atlas-data" rel="noopener noreferrer">https://github.com/mitre-atlas/atlas-data</a></li><li><a href="https://csrc.nist.gov/pubs/ai/100/2/e2025/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/ai/100/2/e2025/final</a></li></ul></div>
+</div></details>
+<details class="control" id="control-e520837b4dbcf3b3"><summary><span class="control-title"><span class="control-code">GOV-03</span>Define authorized use and accountable owners</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Governance · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Assign an owner to each autonomous action and document permitted purposes, forbidden outcomes, and escalation routes.</li><li>Record impact, reversibility, approval requirements, and accepted residual risk before production use.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-RMF, JOINT-AGENTIC</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AICM, CSA-SCOPING, CSA-AISMM, AIUC1-Q3-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10" rel="noopener noreferrer">https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services</a></li></ul></div>
+</div></details>
+<details class="control" id="control-3d24885e23d85ad9"><summary><span class="control-title"><span class="control-code">GOV-04</span>Maintain evidence and risk exceptions</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Governance · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Give each control an owner, evidence link, validation date, result, and next review date.</li><li>Time-limit exceptions and require a compensating control; distinguish untested behavior from demonstrated failure.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-GENAI, NIST-SSDF</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AICM, CSA-AISMM, NIST-SSDF-AI</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" rel="noopener noreferrer">https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/final</a></li></ul></div>
+</div></details>
+<details class="control" id="control-541389dca28fedde"><summary><span class="control-title"><span class="control-code">GOV-05</span>Reassess changes in autonomy and integrations</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Governance · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Review security impact when adding a model, tool, server, data source, skill, or broader permission.</li><li>Require deployment evidence for the complete configured system; a model-only score is insufficient.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NCSC-SECURE-AI</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AICM, CSA-SCOPING</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development" rel="noopener noreferrer">https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development</a></li></ul></div>
+</div></details>
+<details class="control" id="control-35ab12d3393fd275"><summary><span class="control-title"><span class="control-code">GOV-06</span>Assign shared security responsibilities across AI providers</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Governance · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>For each model, gateway, orchestrator, MCP service, and cloud provider, document which party implements each applicable safeguard and which customer configuration it depends on.</li><li>Obtain current supplier evidence for inherited safeguards, identify unowned gaps, and record reassessment triggers in the service review.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> CSA-AICM, CSA-CCM</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://cloudsecurityalliance.org/artifacts/ai-controls-matrix-v1-1" rel="noopener noreferrer">https://cloudsecurityalliance.org/artifacts/ai-controls-matrix-v1-1</a></li><li><a href="https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1" rel="noopener noreferrer">https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1</a></li></ul></div>
+</div></details>
+<details class="control" id="control-d73a2020177549f9"><summary><span class="control-title"><span class="control-code">AUTH-01</span>Authenticate protected operations on every request</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries.</li><li>Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI026, AI041</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-AUTH</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AGENT-IAM, CIS-MCP-2026, OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization</a></li></ul></div>
+</div></details>
+<details class="control" id="control-90760a75ba8695e5"><summary><span class="control-title"><span class="control-code">AUTH-02</span>Authorize the exact action and target</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Check user/agent identity, tenant, tool, target object, and requested operation immediately before execution.</li><li>Deny by default; test read-only callers against write tools and object identifiers owned by another user.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI027</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> JOINT-AGENTIC, MCP-TOOLS</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AICM, CSA-AGENT-IAM, CSA-SCOPING, CIS-MCP-2026, OWASP-AISVS-C9, OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/server/tools</a></li></ul></div>
+</div></details>
+<details class="control" id="control-af74d3c30bc942d4"><summary><span class="control-title"><span class="control-code">AUTH-03</span>Validate access-token cryptography and claims</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Verify signature with trusted keys, allowed algorithms, expected issuer/audience, expiry, and required scopes.</li><li>Reject unsigned tokens and tokens minted for another service; decoding a JWT alone is not validation.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI017</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-AUTH-SEC</p>
+<p class="small"><strong>Additional alignment:</strong> CIS-MCP-2026, OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations</a></li></ul></div>
+</div></details>
+<details class="control" id="control-34acb67c0e1c7bbf"><summary><span class="control-title"><span class="control-code">AUTH-04</span>Prevent token passthrough and confused deputy use</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Use audience-bound MCP credentials and separately authorized downstream credentials; never forward arbitrary caller tokens.</li><li>Ensure a proxy cannot use its broader service identity to perform an action the caller cannot authorize.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI028</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-AUTH, MCP-SECURITY</p>
+<p class="small"><strong>Additional alignment:</strong> CIS-MCP-2026, OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
+</div></details>
+<details class="control" id="control-ca087126ce18df20"><summary><span class="control-title"><span class="control-code">AUTH-05</span>Constrain credential lifetime and exposure</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Use short-lived scoped credentials where supported, protect refresh tokens, and validate rotation and revocation.</li><li>Avoid tokens in query strings, model context, source, child-process arguments, and diagnostic output.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI010, AI011, AI030, AI034</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-AUTH-SEC, JOINT-DEPLOY</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AGENT-IAM, CIS-AGENTS-2026, CIS-MCP-2026, OWASP-AISVS-C9</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely</a></li></ul></div>
+</div></details>
+<details class="control" id="control-df47d26f82345bc2"><summary><span class="control-title"><span class="control-code">AUTH-06</span>Bind OAuth flows and validate redirects</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Test PKCE support and S256, exact registered redirects, transaction binding, and authorization-response issuer validation.</li><li>Reject replayed codes, mismatched issuers, unsafe redirect schemes, and unsolicited callback transactions.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI038</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-AUTH-SEC, MCP-AUTH</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization</a></li></ul></div>
+</div></details>
+<details class="control" id="control-16e84612b47ac04a"><summary><span class="control-title"><span class="control-code">AUTH-07</span>Secure OAuth discovery and registration</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Validate discovered metadata and client metadata URLs before fetching; constrain schemes, destinations, redirects, and response sizes.</li><li>Document trust policy for client registration and prevent discovery from reaching internal metadata or privileged network services.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-SECURITY</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
+</div></details>
+<details class="control" id="control-1e33f23f07e0f285"><summary><span class="control-title"><span class="control-code">AUTH-08</span>Bind delegation to identity, scope, and expiry</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Carry authenticated initiator and delegation identity through multi-agent calls instead of trusting identity fields in text.</li><li>Prevent agents from granting themselves privileges; limit delegation scope, depth, lifetime, and downstream audiences.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-AGENT-CS</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AGENT-IAM, NIST-AGENT-IDENTITY-DRAFT, CIS-AGENTS-2026, CIS-MCP-2026, OWASP-AISVS-C9</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html</a></li></ul></div>
+</div></details>
+<details class="control" id="control-e97f684d7ab98fa4"><summary><span class="control-title"><span class="control-code">AUTH-09</span>Manage agent identity enrollment and retirement</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Identity and authorization · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Enroll agents under an accountable sponsor and approved workload identity; verify identity claims before issuing credentials or granting discovery and execution access.</li><li>Test retirement, sponsor departure, redeployment, and identity compromise; remove stale credentials, cached grants, registrations, and downstream access.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> CSA-AGENT-IAM, NIST-AGENT-IDENTITY-DRAFT</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach" rel="noopener noreferrer">https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach</a></li><li><a href="https://www.nccoe.nist.gov/publications/other/accelerating-adoption-software-and-ai-agent-identity-and-authorization-concept" rel="noopener noreferrer">https://www.nccoe.nist.gov/publications/other/accelerating-adoption-software-and-ai-agent-identity-and-authorization-concept</a></li></ul></div>
+</div></details>
+<details class="control" id="control-7e7c857a2e49eba8"><summary><span class="control-title"><span class="control-code">MCP-01</span>Validate transport exposure and origin</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>For HTTP, reject invalid Origin values and verify local deployments bind only to intended interfaces.</li><li>Use TLS for remote protected endpoints; test DNS rebinding and proxy/header behavior in deployment.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI006, AI007, AI008, AI029</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-HTTP</p>
+<p class="small"><strong>Additional alignment:</strong> OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http</a></li></ul></div>
+</div></details>
+<details class="control" id="control-74b16e6a9ccfed0e"><summary><span class="control-title"><span class="control-code">MCP-02</span>Validate tool arguments and results</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Apply schemas and semantic bounds before executing every tool; reject unknown properties where appropriate.</li><li>Bound sizes and nesting; validate declared structured output and render errors without leaking secrets.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-TOOLS</p>
+<p class="small"><strong>Additional alignment:</strong> CIS-MCP-2026, OWASP-AISVS-C9, OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/server/tools</a></li></ul></div>
+</div></details>
+<details class="control" id="control-683f978aa33d6fb5"><summary><span class="control-title"><span class="control-code">MCP-03</span>Treat descriptions and annotations as untrusted</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Inspect descriptions, schemas, resources, icons, and results for instructions that cross tool or user boundaries.</li><li>Never let readOnlyHint, destructiveHint, or other server claims replace independent authorization and approval policy.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-TOOLS, OWASP-MCP-CS</p>
+<p class="small"><strong>Additional alignment:</strong> OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/server/tools</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html" rel="noopener noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html</a></li></ul></div>
+</div></details>
+<details class="control" id="control-cead5f7800024de1"><summary><span class="control-title"><span class="control-code">MCP-04</span>Detect tool substitution and metadata changes</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Bind tool approval to verified server identity and the reviewed tool definition or version.</li><li>Revalidate changes after reconnect/list updates; disambiguate collisions across servers without trusting display names.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-MCP10</p>
+<p class="small"><strong>Additional alignment:</strong> OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://owasp.org/projects/mcp-top-10" rel="noopener noreferrer">https://owasp.org/projects/mcp-top-10</a></li></ul></div>
+</div></details>
+<details class="control" id="control-ebf0716900bb8e7a"><summary><span class="control-title"><span class="control-code">MCP-05</span>Protect state handles and legacy sessions</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> dynamic</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Authorize every state handle against its owner and tenant; enforce expiry, unpredictability, and replay boundaries.</li><li>For older sessionful protocol versions, test session hijacking and cross-user resumption; a session ID is not authentication.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI038</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-TOOLS, MCP-SECURITY</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/server/tools" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/server/tools</a></li><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
+</div></details>
+<details class="control" id="control-6d3fb7be89b97ee8"><summary><span class="control-title"><span class="control-code">MCP-06</span>Constrain sampling and returned model context</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Apply host policy and user control to sampling requests, context sharing, model selection, and associated tool access.</li><li>Test whether an untrusted server can induce disclosure from unrelated conversations or recursively consume model budget.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-SAMPLING</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/client/sampling" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/client/sampling</a></li></ul></div>
+</div></details>
+<details class="control" id="control-febf09660fb40ae5"><summary><span class="control-title"><span class="control-code">MCP-07</span>Secure elicitation and URL interactions</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Keep sensitive credential collection out of form-mode elicitation; validate and visibly identify URL destinations.</li><li>Test cancellation, phishing URLs, unsolicited interactions, and replayed completion state against the selected protocol version.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-ELICITATION</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation</a></li></ul></div>
+</div></details>
+<details class="control" id="control-b27f4e2d45989d83"><summary><span class="control-title"><span class="control-code">MCP-08</span>Enforce filesystem isolation independently of roots</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Treat declared roots as scoped information, not an operating-system sandbox or complete authorization mechanism.</li><li>Enforce allowed paths at file access and test traversal, symlinks, alternate encodings, and writes outside the workspace.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI015</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-ROOTS</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/client/roots" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/client/roots</a></li></ul></div>
+</div></details>
+<details class="control" id="control-9e184aee32fb1724"><summary><span class="control-title"><span class="control-code">MCP-09</span>Constrain local server launch and inherited environment</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Approve executable and package identity before starting a stdio server; use argument arrays and a minimal environment.</li><li>Restrict proxy process-spawn APIs and child filesystem/network permissions; separate stdout protocol traffic from logs.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI018, AI031</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-SECURITY, OWASP-MCP-CS</p>
+<p class="small"><strong>Additional alignment:</strong> OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html" rel="noopener noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html</a></li></ul></div>
+</div></details>
+<details class="control" id="control-8a5bdb5d14c39c28"><summary><span class="control-title"><span class="control-code">MCP-10</span>Apply version-aware metadata, caching, and cancellation</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> MCP protocol and tools · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Record supported revisions and test their capability, metadata, header consistency, stream, and cancellation rules.</li><li>Prevent caches and request continuations from crossing authorization contexts; do not apply legacy handshake assumptions universally.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-TRANSPORTS, MCP-HTTP</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/transports" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/transports</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http</a></li></ul></div>
+</div></details>
+<details class="control" id="control-f39da271682c06ce"><summary><span class="control-title"><span class="control-code">AGT-01</span>Enforce action policy outside the model</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Agent behavior and context · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Place allow/deny decisions at the execution boundary using trusted policy inputs and constrained tool capabilities.</li><li>Show that an injected instruction cannot disable policy, choose privileged credentials, or bypass approval.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI027, AI031</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> ASD-HARNESS</p>
+<p class="small"><strong>Additional alignment:</strong> CIS-MCP-2026, OWASP-AISVS-C9, AIUC1-Q3-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses</a></li></ul></div>
+</div></details>
+<details class="control" id="control-bc40bfe5f2e0dec4"><summary><span class="control-title"><span class="control-code">AGT-02</span>Bind approval to the action executed</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Agent behavior and context · <strong>Validation:</strong> dynamic</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Present actual recipient, target, arguments, data disclosure, and consequences for high-impact approval.</li><li>Invalidate approval if arguments or target change; test races, delayed retries, and approval reuse.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI031</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-AGENT-CS</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-SCOPING, OWASP-AISVS-C9</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html</a></li></ul></div>
+</div></details>
+<details class="control" id="control-4fe52d67eb8c2817"><summary><span class="control-title"><span class="control-code">AGT-03</span>Separate untrusted content from authoritative instructions</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Agent behavior and context · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Track origin and trust level for web pages, documents, messages, OCR, tool results, and repository instructions.</li><li>Test direct and indirect goal hijacking; formatting delimiters and prompt warnings alone are not access controls.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI032</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-LLM2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" rel="noopener noreferrer">https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/</a></li></ul></div>
+</div></details>
+<details class="control" id="control-fc03102a44187a1e"><summary><span class="control-title"><span class="control-code">AGT-04</span>Protect retrieval and persistent memory</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Agent behavior and context · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Enforce document and memory ACLs at retrieval and update time, including vector search metadata filters.</li><li>Test poisoned memory persistence, cross-tenant retrieval, provenance loss, deletion, and stale privileged context.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-AGENTIC</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-MAESTRO, CIS-AGENTS-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" rel="noopener noreferrer">https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/</a></li></ul></div>
+</div></details>
+<details class="control" id="control-fa1a8e3fed761959"><summary><span class="control-title"><span class="control-code">AGT-05</span>Keep objectives and authority bounded across agents</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Agent behavior and context · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Constrain delegated tasks and verify messages against authenticated senders, expected schemas, and allowed transitions.</li><li>Test impersonation, conflicting instructions, cascading failure, and privilege growth across handoffs.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-AGENTIC</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-MAESTRO, OWASP-AISVS-C9</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" rel="noopener noreferrer">https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/</a></li></ul></div>
+</div></details>
+<details class="control" id="control-0e08ff7efcabbde3"><summary><span class="control-title"><span class="control-code">AGT-06</span>Protect agent configuration and skills</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Agent behavior and context · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Inventory skill files, prompts, hooks, memory seed files, MCP configuration, and other executable workflow inputs.</li><li>Require review for changes that add commands, access, or persistence; external repository text cannot become trusted policy.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MITRE-ATLAS, NCSC-SECURE-AI</p>
+<p class="small"><strong>Additional alignment:</strong> AIUC1-Q3-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://github.com/mitre-atlas/atlas-data" rel="noopener noreferrer">https://github.com/mitre-atlas/atlas-data</a></li><li><a href="https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development" rel="noopener noreferrer">https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development</a></li></ul></div>
+</div></details>
+<details class="control" id="control-b1de427688b85eea"><summary><span class="control-title"><span class="control-code">AGT-07</span>Prevent sensitive context leaving through legitimate tools</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Agent behavior and context · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Apply destination and data policies to URLs, searches, tickets, messages, uploads, and telemetry generated by agents.</li><li>Use canary data to test encoded leakage and combinations of otherwise permitted tools.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-MCP-CS</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html" rel="noopener noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html</a></li></ul></div>
+</div></details>
+<details class="control" id="control-2cf819771f9eb45b"><summary><span class="control-title"><span class="control-code">EXEC-01</span>Prevent shell and command injection</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Find shell execution and constructed command strings; use fixed executables, argument arrays, and allowed argument values.</li><li>Test untrusted tool inputs containing shell syntax, option injection, command substitution, and hostile filenames.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI002, AI003, AI012</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-MCP10, OWASP-OUTPUT2025</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://owasp.org/projects/mcp-top-10" rel="noopener noreferrer">https://owasp.org/projects/mcp-top-10</a></li><li><a href="https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/" rel="noopener noreferrer">https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/</a></li></ul></div>
+</div></details>
+<details class="control" id="control-1bb786edd84bebeb"><summary><span class="control-title"><span class="control-code">EXEC-02</span>Constrain generated-code execution</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Locate eval, exec, dynamic imports, templates, notebooks, and interpreter tools accepting model or user content.</li><li>Run required code execution in a disposable restricted environment with explicit filesystem, network, CPU, and time limits.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI001, AI013</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-AGENT-CS</p>
+<p class="small"><strong>Additional alignment:</strong> OWASP-AISVS-C9, AIUC1-Q3-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html</a></li></ul></div>
+</div></details>
+<details class="control" id="control-444147be93bb7407"><summary><span class="control-title"><span class="control-code">EXEC-03</span>Parameterize database and query operations</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Use bound query parameters and allowed query shapes; inspect SQL, NoSQL, graph, and search-language construction.</li><li>Separate read/write database identities and test whether generated queries can escape permitted objects or operations.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI036</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-OUTPUT2025</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/" rel="noopener noreferrer">https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/</a></li></ul></div>
+</div></details>
+<details class="control" id="control-2eaa91317cd52a56"><summary><span class="control-title"><span class="control-code">EXEC-04</span>Constrain file and archive access</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions.</li><li>Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI015, AI016, AI037</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-ROOTS, JOINT-DEPLOY</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/client/roots" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/client/roots</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely</a></li></ul></div>
+</div></details>
+<details class="control" id="control-8d806d3c9d3c050c"><summary><span class="control-title"><span class="control-code">EXEC-05</span>Prevent SSRF and unsafe network destinations</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect.</li><li>Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI014</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-SECURITY</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
+</div></details>
+<details class="control" id="control-15f6680ce355ea47"><summary><span class="control-title"><span class="control-code">EXEC-06</span>Reject unsafe parsing and deserialization</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Inspect pickle, unsafe YAML, object deserialization, XML entity expansion, and unconstrained recursive parsers.</li><li>Use data-only formats with byte, nesting, and type limits; test malformed input and expansion attacks.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI004, AI005, AI035</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-SSDF</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/final</a></li></ul></div>
+</div></details>
+<details class="control" id="control-13922f26baad5c24"><summary><span class="control-title"><span class="control-code">EXEC-07</span>Render model and tool output safely</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Use context-specific escaping for HTML/Markdown, avoid unsafe DOM sinks, and validate links and embedded media.</li><li>Test active SVG/HTML, malicious URLs, terminal escapes, and spreadsheet formulas in exported reports.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI039, AI040</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-OUTPUT2025</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/" rel="noopener noreferrer">https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/</a></li></ul></div>
+</div></details>
+<details class="control" id="control-a2fca031abe0bb3c"><summary><span class="control-title"><span class="control-code">DATA-01</span>Detect and remove embedded credentials</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Data and privacy · <strong>Validation:</strong> static</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Inspect code, examples, configuration, notebooks, test fixtures, and generated artifacts for secret-like values.</li><li>Verify actual exposures with the owner, rotate real credentials, and remove them from reachable history and artifacts.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI010, AI011, AI030, AI034</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> JOINT-DEPLOY</p>
+<p class="small"><strong>Additional alignment:</strong> AIUC1-Q3-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely</a></li></ul></div>
+</div></details>
+<details class="control" id="control-f26ac151625d7728"><summary><span class="control-title"><span class="control-code">DATA-02</span>Minimize data sent to models and gateways</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Data and privacy · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Map which prompts, tool outputs, memory, and code leave the environment and identify the receiving provider/gateway.</li><li>Document allowed data classes, processing location, retention, and training use; redact before transmission where required.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-GENAI</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AICM, CIS-AGENTS-2026, AIUC1-Q3-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" rel="noopener noreferrer">https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf</a></li></ul></div>
+</div></details>
+<details class="control" id="control-4d80858c841c4009"><summary><span class="control-title"><span class="control-code">DATA-03</span>Protect logs, traces, and error responses</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Data and privacy · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Redact secrets and sensitive payloads before logs, traces, exception strings, and dashboards persist them.</li><li>Test the failure paths and provider errors as well as success paths; restrict access and export destinations.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI009, AI033</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-MCP10</p>
+<p class="small"><strong>Additional alignment:</strong> CIS-AGENTS-2026, CIS-MCP-2026, AIUC1-Q3-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://owasp.org/projects/mcp-top-10" rel="noopener noreferrer">https://owasp.org/projects/mcp-top-10</a></li></ul></div>
+</div></details>
+<details class="control" id="control-31d20ef572c23fce"><summary><span class="control-title"><span class="control-code">DATA-04</span>Track provenance and integrity of AI data</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Data and privacy · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Record source, owner, version, transformation history, and integrity evidence for datasets, retrieval corpora, and memory seeds.</li><li>Quarantine unexpected changes and test how poisoned or stale data is detected, removed, and replaced.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NSA-DATA</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AICM, NIST-SSDF-AI</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/" rel="noopener noreferrer">https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/</a></li></ul></div>
+</div></details>
+<details class="control" id="control-63ac808709f92af0"><summary><span class="control-title"><span class="control-code">DATA-05</span>Enforce retention and deletion across copies</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Data and privacy · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Apply expiry and deletion to prompts, embeddings, caches, memory, tool artifacts, backups, and provider-held data.</li><li>Verify deleting a source record removes or invalidates dependent retrieval content and access grants.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-GENAI</p>
+<p class="small"><strong>Additional alignment:</strong> CIS-AGENTS-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" rel="noopener noreferrer">https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf</a></li></ul></div>
+</div></details>
+<details class="control" id="control-b02fe54cb4097dff"><summary><span class="control-title"><span class="control-code">DATA-06</span>Protect stored data and keys</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Data and privacy · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Check transport verification, storage access controls, encryption settings, key separation, and backup permissions.</li><li>Validate key rotation and denied access using a principal outside the authorized tenant or operational role.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NSA-DATA, JOINT-DEPLOY</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-CCM, CIS-AGENTS-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/" rel="noopener noreferrer">https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/</a></li><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely</a></li></ul></div>
+</div></details>
+<details class="control" id="control-ef0baf6e8902818d"><summary><span class="control-title"><span class="control-code">SUP-01</span>Pin and inventory executable dependencies</span><span class="pill">findings_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Supply chain · <strong>Validation:</strong> static</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Review lockfiles and exact versions or immutable digests for packages, images, MCP servers, models, and plugins.</li><li>Flag runtime installs, floating tags, remote scripts, and dependency sources outside approved registries.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI018, AI024, AI025</p>
+<p class="small"><strong>Open finding IDs:</strong> <a href="#finding-885fd1ff8c680557"><code>7b0fae91f2cabbd6a542b53c</code></a>, <a href="#finding-e2aa2242d12f944e"><code>fc99c43368b10dce0d91882c</code></a>, <a href="#finding-0eeb21b69e1f8516"><code>ee4c762926aea9ae5fb706ab</code></a>, <a href="#finding-5b02dd257b15d5ed"><code>2191362e772c695d302d6156</code></a>, <a href="#finding-eab38ca94c25e0b1"><code>ab9645a9bbd122fb1bb9ae31</code></a>, <a href="#finding-016b4e22b5b27798"><code>a0dcbaea3b4035b68a8e7614</code></a>, <a href="#finding-10892c7058ebee51"><code>24d211a4b8c1639e01ae5601</code></a>, <a href="#finding-b70e2107b958086e"><code>f1877494f91dc313d8307dc0</code></a>, <a href="#finding-471abcedf1bf7a9c"><code>32960660d02c89436915407f</code></a>, <a href="#finding-6d032baac500bca9"><code>719e873f7809682295fc4b6d</code></a>, <a href="#finding-8043529f7815dfb7"><code>382befcbc606c75fe87ef11e</code></a>, <a href="#finding-17950c92824cb6b1"><code>9eccc82fb8f49a2154fb4cb6</code></a>, <a href="#finding-3f4472e98ae31597"><code>1d948705e50af0cc089ac09a</code></a>, <a href="#finding-5814efbb2feef3f1"><code>c9f1720f37736ca8a9099d87</code></a>, <a href="#finding-e62299abdd2414e5"><code>71a47f1998d31d071cb167f0</code></a></p>
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-SSDF</p>
+<p class="small"><strong>Additional alignment:</strong> NIST-SSDF-AI, AIUC1-Q3-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/final</a></li></ul></div>
+</div></details>
+<details class="control" id="control-fe84697e20b37c04"><summary><span class="control-title"><span class="control-code">SUP-02</span>Check vulnerability and maintenance exposure</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Supply chain · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Run appropriate package/container advisory tools against resolved dependencies and save database date and tool version.</li><li>Triage reachability, fix availability, support status, and transitive dependencies; source pattern scans do not establish CVE coverage.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NCSC-SECURE-AI</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AISMM, CIS-MCP-2026, OPENSSF-BASELINE-202608</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development" rel="noopener noreferrer">https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development</a></li></ul></div>
+</div></details>
+<details class="control" id="control-5aa3257d5693ce20"><summary><span class="control-title"><span class="control-code">SUP-03</span>Verify artifact identity and provenance</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Supply chain · <strong>Validation:</strong> manual</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Verify publisher identity, hashes/signatures, build provenance, and intended origin before enabling artifacts.</li><li>Review model loading and serialization behavior; an integrity hash cannot make an untrusted publisher safe.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI019, AI024, AI035</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NSA-DATA, NIST-SSDF</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AICM, CSA-MAESTRO, NIST-SSDF-AI, OWASP-AISVS-C10, SLSA-12, OPENSSF-MODEL-SIGNING</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/" rel="noopener noreferrer">https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/final</a></li></ul></div>
+</div></details>
+<details class="control" id="control-26ae27f338338f09"><summary><span class="control-title"><span class="control-code">SUP-04</span>Protect build, release, and configuration changes</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Supply chain · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Restrict CI credentials and workflow permissions; review actions, build scripts, and release provenance.</li><li>Prevent untrusted contributions from executing with deployment secrets or changing approved agent policies.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI020</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-SSDF</p>
+<p class="small"><strong>Additional alignment:</strong> NIST-SSDF-AI, CIS-MCP-2026, OPENSSF-BASELINE-202608, SLSA-12</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/final</a></li></ul></div>
+</div></details>
+<details class="control" id="control-488929fd82499efd"><summary><span class="control-title"><span class="control-code">SUP-05</span>Harden runtime isolation and deployment defaults</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Supply chain · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Review root/privileged containers, host mounts, Docker sockets, unrestricted egress, debug mode, and public management endpoints.</li><li>Separate agent execution from control-plane credentials and audit storage; test isolation in the deployed environment.</li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI021, AI022, AI023, AI031, AI042</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> JOINT-DEPLOY</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-CCM, CSA-MAESTRO</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely</a></li></ul></div>
+</div></details>
+<details class="control" id="control-bf369f25d022339b"><summary><span class="control-title"><span class="control-code">SUP-06</span>Separate and protect model development environments</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Supply chain · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>When training or fine-tuning, isolate development, evaluation, and production identities, data access, registries, and release permissions.</li><li>Protect datasets, weights, adapters, and configuration separately; monitor modifications and demonstrate that an untrusted training job cannot replace an approved production artifact.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-SSDF-AI</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/a/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/a/final</a></li></ul></div>
+</div></details>
+<details class="control" id="control-cf13567ef8d25716"><summary><span class="control-title"><span class="control-code">OPS-01</span>Produce attributable audit events</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Operations and resilience · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Record initiating identity, delegated identity, tool/server/version, approved arguments, decision, outcome, and correlation identifiers.</li><li>Protect log integrity and clock consistency; ensure agents cannot erase their own action history.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-MCP10</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-CCM, CSA-AGENT-IAM, CIS-AGENTS-2026, CIS-MCP-2026, OWASP-AISVS-C9</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://owasp.org/projects/mcp-top-10" rel="noopener noreferrer">https://owasp.org/projects/mcp-top-10</a></li></ul></div>
+</div></details>
+<details class="control" id="control-e8b81e26a6afe395"><summary><span class="control-title"><span class="control-code">OPS-02</span>Bound work, spending, and concurrency</span><span class="pill">review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Operations and resilience · <strong>Validation:</strong> hybrid</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Set server-enforced limits for iterations, tokens, tool calls, recursion, parallelism, bytes, cost, and elapsed time.</li><li>Exercise stuck loops and amplification paths; verify limits apply across retries and child agents.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> ASD-HARNESS</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-SCOPING, OWASP-AISVS-C9, OWASP-AISVS-C10</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses</a></li></ul></div>
+</div></details>
+<details class="control" id="control-1d38b77af1083cbb"><summary><span class="control-title"><span class="control-code">OPS-03</span>Make cancellation and shutdown effective</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Operations and resilience · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Provide a tested stop mechanism that revokes work, credentials, queued actions, and child tasks.</li><li>Measure stop latency and verify cancelled or disconnected requests cannot later commit prohibited side effects.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> JOINT-AGENTIC</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AGENT-IAM, OWASP-AISVS-C9</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services</a></li></ul></div>
+</div></details>
+<details class="control" id="control-acb6a59b5388b78c"><summary><span class="control-title"><span class="control-code">OPS-04</span>Fail safely and prevent duplicate side effects</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Operations and resilience · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Deny or escalate when policy, identity, or approval checks fail; prevent fallback paths from widening privilege.</li><li>Test outages, partial failures, timeouts, retries, idempotency, and recovery of transactions with external effects.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> ASD-HARNESS</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses</a></li></ul></div>
+</div></details>
+<details class="control" id="control-6021dc7b96002e12"><summary><span class="control-title"><span class="control-code">OPS-05</span>Monitor behavior and support rollback</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Operations and resilience · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Alert on unusual tool use, new destinations, scope growth, repeated denials, cost spikes, and unexpected state changes.</li><li>Validate alerts with seeded events and test rollback of models, prompts, tools, policies, and poisoned memory.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NCSC-SECURE-AI</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-CCM, CSA-AISMM</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development" rel="noopener noreferrer">https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development</a></li></ul></div>
+</div></details>
+<details class="control" id="control-cdc216605e329050"><summary><span class="control-title"><span class="control-code">OPS-06</span>Practice incident response and disclosure</span><span class="pill">manual_review_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Operations and resilience · <strong>Validation:</strong> manual</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Maintain procedures to isolate agents, revoke credentials, preserve evidence, notify owners, and recover trusted state.</li><li>Exercise an AI-specific incident and define approved vulnerability/intelligence-sharing channels without exposing sensitive evidence.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> CISA-JCDC</p>
+<p class="small"><strong>Additional alignment:</strong> CSA-AICM, CSA-CCM, CSA-AISMM, OPENSSF-BASELINE-202608</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet" rel="noopener noreferrer">https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet</a></li></ul></div>
+</div></details>
+<details class="control" id="control-d7d0812d1e43913a"><summary><span class="control-title"><span class="control-code">TEST-01</span>Measure prompt-injection security and useful task completion</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Security validation · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Run paired benign and adversarial workflows with representative tools and attacker-controlled external content.</li><li>Record attacker success, authorized task success, blocked benign actions, and the observed unauthorized side effect.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> BENCH-AGENTDOJO, BENCH-INJECAGENT</p>
+<p class="small"><strong>Additional alignment:</strong> MITRE-ATLAS-202609</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://github.com/ethz-spylab/agentdojo" rel="noopener noreferrer">https://github.com/ethz-spylab/agentdojo</a></li><li><a href="https://github.com/uiuc-kang-lab/InjecAgent" rel="noopener noreferrer">https://github.com/uiuc-kang-lab/InjecAgent</a></li></ul></div>
+</div></details>
+<details class="control" id="control-cacb3c6ca4c4de63"><summary><span class="control-title"><span class="control-code">TEST-02</span>Test adaptively and repeat scenarios</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Security validation · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Vary payload wording, placement, modality, attacker knowledge, and attempts; rerun after changing defenses.</li><li>Report per-scenario outcomes, sample counts, attack budget, uncertainty, and model/harness versions instead of only an average.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-HIJACK-EVAL</p>
+<p class="small"><strong>Additional alignment:</strong> MITRE-ATLAS-202609</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations" rel="noopener noreferrer">https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations</a></li></ul></div>
+</div></details>
+<details class="control" id="control-da8e62ab4374b5b4"><summary><span class="control-title"><span class="control-code">TEST-03</span>Exercise MCP authentication and protocol abuse</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Security validation · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>In an isolated test environment, exercise invalid tokens, wrong audiences, origin abuse, malicious servers, and protocol fuzzing.</li><li>Adapt scenarios to the deployed MCP revision and transports; preserve request/response evidence with secrets removed.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> BENCH-MCPSECBENCH, MCP-AUTH</p>
+<p class="small"><strong>Additional alignment:</strong> CIS-MCP-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://github.com/AIS2Lab/MCPSecBench" rel="noopener noreferrer">https://github.com/AIS2Lab/MCPSecBench</a></li><li><a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization" rel="noopener noreferrer">https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization</a></li></ul></div>
+</div></details>
+<details class="control" id="control-e1d405f05f567c43"><summary><span class="control-title"><span class="control-code">TEST-04</span>Verify cross-tenant and cross-agent isolation</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Security validation · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Create two principals and attempt cross-access to objects, memory, caches, handles, subscriptions, and execution results.</li><li>Repeat after reconnect, delegation, failed authentication, concurrent requests, and privilege revocation.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> BENCH-ASB</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://github.com/agiresearch/ASB" rel="noopener noreferrer">https://github.com/agiresearch/ASB</a></li></ul></div>
+</div></details>
+<details class="control" id="control-da798a68529027c6"><summary><span class="control-title"><span class="control-code">TEST-05</span>Test approval, policy, and sandbox bypass</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Security validation · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Use explicit forbidden-action canaries to verify enforcement survives hostile content, tool substitution, and delayed execution.</li><li>Confirm paths through retries, fallback models, alternate tools, and child agents enforce the same boundary.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> OWASP-AGENT-CS</p>
+<p class="small"><strong>Additional alignment:</strong> CIS-MCP-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" rel="noopener noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html</a></li></ul></div>
+</div></details>
+<details class="control" id="control-f01f1198a0bc8cb7"><summary><span class="control-title"><span class="control-code">TEST-06</span>Verify conventional application security</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Security validation · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Run language-aware SAST, dependency review, secret scanning, and authorized integration tests for exposed services.</li><li>Exercise reachable injection, XSS, SSRF, path traversal, deserialization, and access-control risks with safe fixtures.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-SSDF, OWASP-OUTPUT2025</p>
+<p class="small"><strong>Additional alignment:</strong> NIST-SSDF-AI, CIS-MCP-2026, AIUC1-Q3-2026</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/final</a></li><li><a href="https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/" rel="noopener noreferrer">https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/</a></li></ul></div>
+</div></details>
+<details class="control" id="control-9ae92641cbb17cef"><summary><span class="control-title"><span class="control-code">TEST-07</span>Validate resource exhaustion and observability</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Security validation · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Simulate oversized messages, slow peers, streaming floods, repeated errors, runaway agents, and unavailable dependencies.</li><li>Verify quotas, shutdown, telemetry, and alerts work together without leaking payloads or losing attribution.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> ASD-HARNESS</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses" rel="noopener noreferrer">https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses</a></li></ul></div>
+</div></details>
+<details class="control" id="control-890ee48525801fac"><summary><span class="control-title"><span class="control-code">TEST-08</span>Evaluate the optional security judge itself</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Security validation · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Treat repository text and model verdicts as untrusted; test prompt injection, fabricated locations, invalid JSON, and timeouts.</li><li>Compare against labeled cases, retain deterministic results, document model variability, and never equate a judge approval with control validation.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> NIST-HIJACK-EVAL, NIST-GENAI</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations" rel="noopener noreferrer">https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations</a></li><li><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" rel="noopener noreferrer">https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf</a></li></ul></div>
+</div></details>
+<details class="control" id="control-72f47e99249e6cc6"><summary><span class="control-title"><span class="control-code">TEST-09</span>Evaluate model-layer attacks for hosted or customized models</span><span class="pill">runtime_validation_required</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Security validation · <strong>Validation:</strong> dynamic</p>
+<p class="note">Not established by this static scan</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Where applicable, assess suspicious triggers, model extraction, and disclosure of private training examples under an explicit attacker access and query budget.</li><li>Retest acquired or retrained models and adapters before release; document measured failures, model identity, coverage limits, and accepted residual risk.</li></ol>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> CSA-MAESTRO, NIST-SSDF-AI</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro" rel="noopener noreferrer">https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/a/final" rel="noopener noreferrer">https://csrc.nist.gov/pubs/sp/800/218/a/final</a></li></ul></div>
+</div></details>
+</section><section id="provenance"><h2>Report provenance</h2><div class="panel"><p class="small">The executive assessment is derived deterministically from scan findings, scope, and the versioned mitigation guidance catalog. Optional model advice is shown separately.</p>
+<details class=""><summary>Assessment method and guidance provenance</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;guidance&quot;: {
+    &quot;catalog_version&quot;: &quot;1.0.0&quot;,
+    &quot;reviewed_at&quot;: &quot;2026-09-19&quot;,
+    &quot;sha256&quot;: &quot;dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1&quot;,
+    &quot;source_registry_sha256&quot;: &quot;cb7d62fe5f3b856a424ddc3b7afa986563a48b5ec2104423055a91fe290d5142&quot;
+  },
+  &quot;method&quot;: &quot;deterministic_guidance&quot;,
+  &quot;priority_basis&quot;: &quot;P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.&quot;,
+  &quot;schema_version&quot;: &quot;1.0&quot;
+}</code></pre></div></details>
+<details class=""><summary>Scanner identity and implementation digest</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;mode&quot;: &quot;deterministic_static&quot;,
+  &quot;scan_id&quot;: &quot;7adb90643fa6a2a582a0f5f19b9695df058e8a6a38ccacb40996bc5c3a668ff2&quot;,
+  &quot;schema_version&quot;: &quot;1.0&quot;,
+  &quot;tool&quot;: {
+    &quot;display_name&quot;: &quot;Invarune by NimeshBuild&quot;,
+    &quot;implementation_sha256&quot;: &quot;bb306fbda1b72f02daa098336512dc53e87c54d6bbb5aa31a6373967df7db483&quot;,
+    &quot;name&quot;: &quot;agent-mcp-security-scan&quot;,
+    &quot;python_version&quot;: &quot;3.12.14&quot;,
+    &quot;version&quot;: &quot;0.8.0&quot;
+  }
+}</code></pre></div></details>
+<p class="small spacer">This standalone report loads no external resources and runs no scripts. Evidence and advice are rendered as text. Redaction is best-effort; treat the report as potentially sensitive.</p></div></section></main>
+<footer class="footer"><div class="wrap"><p><strong>Invarune by NimeshBuild</strong> / Evidence for agent security.</p><p>Preserve the scan ID and evidence when assigning remediation. Verify controls in the deployed system before accepting residual risk.</p></div></footer></body></html>

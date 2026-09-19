@@ -39,7 +39,7 @@ class AssessmentTests(unittest.TestCase):
         return code, json.loads((output / "report.json").read_text()), output
 
     def test_priority_orders_all_open_groups_and_preserves_repeated_locations(self):
-        (self.root / "key.pem").write_text("-----BEGIN PRIVATE KEY-----\nsynthetic\n", encoding="utf-8")
+        (self.root / "key.pem").write_text("-----BEGIN PRIVATE KEY-----\nMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n", encoding="utf-8")
         (self.root / "second.py").write_text("import os\nos.system(other_input)\n", encoding="utf-8")
         (self.root / "mcp.json").write_text('{"mcpServers":{"demo":{"command":"npx","args":["example-mcp"]}}}', encoding="utf-8")
         report = scan(self.root)

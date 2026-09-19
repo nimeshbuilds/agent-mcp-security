@@ -2,7 +2,7 @@
 
 AI agent and MCP security report
 
-Scan ID: `fc2265dbbd82b4a20d7034a69f91ea644f15836cefa7d660776e9235558e09af`
+Scan ID: `a041a6f9e285cd3c1ab4528bca29eb9fb3dbb3fd14d735490abe2ab849c64776`
 
 This is static security triage, not certification or proof that a system is secure.
 
@@ -264,7 +264,7 @@ Guidance sources (engineering synthesis): [CISA\-SECURE\-BY\-DESIGN](https://www
 
 **MEDIUM** · open · 1 occurrences · source
 
-**Observed evidence:** [Dockerfile:2](#finding-a258b8b7bd29cac1)
+**Observed evidence:** [Dockerfile:2](#finding-9f45cdff486fe6c7)
 
 Source evidence: deployment reachability and active use have not been established\.
 
@@ -505,18 +505,19 @@ Weakness mappings: CWE\-319
 
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
 
-<a id="finding-a258b8b7bd29cac1"></a>
+<a id="finding-9f45cdff486fe6c7"></a>
 
 ### AI021 — Container explicitly runs as root
 
 **MEDIUM** · Confidence: high · Status: open
 
-Location: Dockerfile:2–2 · Finding ID: `aa7bba175c60406f04c15d29`
+Location: Dockerfile:2–3 · Finding ID: `20771a324af20de316ec34f9`
 
-A Dockerfile explicitly selects root\. This increases the impact of agent or tool compromise; later USER instructions or runtime overrides may mitigate it\.
+The default final Dockerfile stage explicitly selects or inherits a literal root user\. Build\-target selection, external image defaults, variable expansion and runtime overrides require separate validation\.
 
 ```text
 USER root
+COPY . /app
 ```
 
 **Remediation:** Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context\.
@@ -1161,7 +1162,7 @@ Partial static coverage only; absence of a finding is not a pass
 
 Partial static rules: AI021, AI022, AI023, AI031, AI042
 
-Open finding IDs: 592fbfc9b7dab062dc97906c, aa7bba175c60406f04c15d29
+Open finding IDs: 592fbfc9b7dab062dc97906c, 20771a324af20de316ec34f9
 - [Source](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely)
 
 ### SUP\-06: Separate and protect model development environments

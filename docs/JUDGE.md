@@ -1,12 +1,41 @@
 # Optional LLM security judge
 
-The deterministic scanner works offline and does not need a model. Enable the optional judge explicitly with `--judge-config /path/to/trusted-judge.json`. The judge adds advisory assessments; it cannot delete baseline findings, change their severity, or override the deterministic scan result. It is nondeterministic even if a provider accepts temperature zero or a seed.
+The deterministic scanner works offline and does not need a model. Enable the optional judge explicitly with `--judge-config /path/to/trusted-judge.json` or `--judge-cli codex|claude|grok`. The judge adds advisory assessments; it cannot delete baseline findings, change their severity, or override the deterministic scan result. It is nondeterministic even if a provider accepts temperature zero or a seed.
 
 In version 0.2, the default configured mode is **full**: one finding-triage request followed by a bounded security analyst review of **all 66 controls and 132 checks**, including checks without findings. This sends redacted source excerpts selected deterministically from the scanned manifest, even when the static scan is clean. The [security analyst guide](ANALYST.md) describes routing, exact-quote validation, the control-output schema, request budgets, evidence limits, and explicit unresolved outcomes. All protocols below work for both stages.
 
 Use `--judge-mode findings` for the previous one-request scope: minimized findings, redacted evidence, and scan metadata. `--judge-include-source` adds bounded neighboring source excerpts to finding triage only; full analyst evidence is independent of that flag. Redaction reduces accidental disclosure; it cannot guarantee that all proprietary information or unusual secret formats are removed. Choose an endpoint approved for the data you send. Repository instructions are untrusted review material. The prompt states that boundary, but prompting alone cannot eliminate prompt injection; separate static findings, fixed evidence retrieval, strict output validation, and no tool dispatch are the enforcement boundaries.
 
 ## Supported protocols
+
+Invarune also supports **official CLI transports**: `codex_cli`, `claude_cli`, and `grok_cli`. Their configuration and login behavior are separate from the HTTP fields below.
+
+```sh
+invarune ./repository --judge-cli codex --judge-timeout 120
+invarune ./repository --judge-cli claude --judge-mode findings
+invarune ./repository --judge-cli grok
+invarune --login claude
+```
+
+An interactive scan uses `--judge-login auto` by default. It opens the vendor's official login when signed out, then resumes. An explicitly reported authentication expiry in either review stage can trigger one login and retry per scan. Control retries consume the control-call budget; completed batches are preserved. Login has its own `--login-timeout` (300 seconds, range 1–900), excluded from the analyst scheduling clock. Cancellation/failure preserves static reports and returns exit 2. `--judge-login never`, `--quiet`, `--summary-json` and noninteractive terminals never prompt. `--login PROVIDER` signs in directly through Invarune without scanning or creating reports.
+
+Invarune's default models are `gpt-6-astra` for Codex, `opus` for Claude, and `grok-build` for Grok. Codex and Claude use high reasoning effort. An explicit `--judge-model MODEL` overrides the model; `--judge-model default` selects the vendor CLI's configured default. Account entitlement and model compatibility still apply. The requested model is recorded, and aliases can change with vendor versions. See the [dated rationale and official sources](CLI_PROVIDER_RESEARCH.md).
+
+Equivalent trusted JSON configuration:
+
+```json
+{"provider":"codex_cli","timeout_seconds":120}
+```
+
+CLI JSON permits only `provider`, optional `model`, `executable`, `timeout_seconds` (default 60, range 0.1–300), `max_request_bytes` (default 524288), `max_response_bytes` (default 1048576), and Grok-only `cli_home`. Byte limits are integers from 1024 through 5242880. `executable` must be a trusted absolute executable path or a bare command name. Shell command files, relative paths, arbitrary extra arguments, HTTP configuration fields, and output-token budgets are rejected. The CLI flags `--judge-executable` and `--judge-cli-home` also work for standalone login; `--judge-model` and `--judge-timeout` require `--judge-cli`. When using JSON, put their equivalents inside that file.
+
+Minimum inspected versions are Codex 0.154.0, Claude Code 2.1.214 and official Grok Build 0.2.60. Version/help probes verify the required flags. The installed executable, vendor service and host administrator configuration remain trusted. Inference uses a private temporary working directory, restricted tools/customizations, bounded input/output and time, strict schemas and the existing citation validator. This is not OS-level containment or a provider-retention guarantee. POSIX inference cleanup targets the process group; Windows and interactive login cleanup target the direct child. No credential file is read or copied by Invarune, and API-key variables are not inherited. The official CLI manages its own login state, which can be subscription-backed or API-backed; Invarune cannot guarantee the billing plan.
+
+Grok performs an additional fail-closed inspection for active extensions/instructions. `cli_home` / `--judge-cli-home` selects an existing absolute `GROK_HOME` directory; keep it outside source targets. A fresh profile can still inherit user/admin extensions and must pass inspection. Invarune does not rewrite an existing profile or copy its credentials. Use `invarune --login grok --judge-cli-home /absolute/profile` to sign into a suitable profile directly.
+
+No CLI-wide output-token/cost cap can be enforced uniformly. Local time/byte limits do not reverse remote usage already consumed. The API/gateway adapters retain their existing explicit token limits and exact endpoint settings.
+
+### HTTP protocols
 
 | `provider` | Default endpoint | Native response extraction |
 | --- | --- | --- |

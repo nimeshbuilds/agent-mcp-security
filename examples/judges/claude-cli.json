@@ -1,0 +1,4 @@
+{
+  "provider": "claude_cli",
+  "timeout_seconds": 120
+}

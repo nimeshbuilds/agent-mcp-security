@@ -166,7 +166,7 @@ class ImageAssessmentTests(unittest.TestCase):
         self.assertFalse(self.run_scan()["findings"])
 
     def test_private_key_and_url_credential_retained_exposure(self):
-        self.add_layer("gone.pem", "-----BEGIN PRIVATE KEY-----\nsample-test-data\n-----END PRIVATE KEY-----")
+        self.add_layer("gone.pem", "-----BEGIN PRIVATE KEY-----\nMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n-----END PRIVATE KEY-----")
         self.add_layer("gone.txt", "https://example.test/?access_token=retained-secret-4827")
         self.assertEqual({item["rule_id"] for item in self.run_scan()["findings"]}, {"AI011", "AI034"})
 

@@ -1,0 +1,28 @@
+{
+  "input_kind": "synthetic, no target execution",
+  "provenance": {
+    "kind": "actual_cli_adapter_run",
+    "original_harness_sha256": "44ba16b4826f5e04c3fd98946e0c0a17e0af79ad8ab5943c0e58f2584e2922bc",
+    "original_receipt_sha256": "e9346ad046805847f79f3d6fa6f18a86c869d09e838a3430a429462579c657d9",
+    "public_synthetic_input_only": true,
+    "recorded_during": "Invarune 0.8.0 development",
+    "timeout_seconds_per_stage": 120
+  },
+  "provider": "claude_cli",
+  "research_date": "2026-09-19",
+  "results": [
+    {
+      "error": "CLI sign-in is missing or expired. Run invarune --login with the selected provider, or use an interactive scan for automatic login.",
+      "seconds": 0.624,
+      "stage": "findings",
+      "status": "error"
+    },
+    {
+      "error": "CLI sign-in is missing or expired. Run invarune --login with the selected provider, or use an interactive scan for automatic login.",
+      "seconds": 0.424,
+      "stage": "controls",
+      "status": "error"
+    }
+  ],
+  "schema_version": "1.0"
+}

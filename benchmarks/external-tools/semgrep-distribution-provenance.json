@@ -1,0 +1,54 @@
+{
+  "name": "semgrep",
+  "version": "1.177.0",
+  "requires_python": ">=3.10",
+  "project_urls": {
+    "Changelog": "https://github.com/semgrep/semgrep/blob/develop/CHANGELOG.md",
+    "Documentation": "https://semgrep.dev/docs",
+    "Homepage": "https://semgrep.dev",
+    "Issues": "https://github.com/semgrep/semgrep/issues",
+    "Repository": "https://github.com/semgrep/semgrep"
+  },
+  "distributions": [
+    {
+      "filename": "semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-macosx_10_14_x86_64.whl",
+      "sha256": "fa6121384b4027925c2d03d7020908c4ebbb15de05d8555b2e67852a3568e67c",
+      "url": "https://files.pythonhosted.org/packages/5b/76/85a2373e672c5593858a94443d96feb19fef5242f570172f0f3d3b3d07b6/semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-macosx_10_14_x86_64.whl"
+    },
+    {
+      "filename": "semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-macosx_11_0_arm64.whl",
+      "sha256": "5e3bcc4053843272f1604b9dc022f9eef1b0e824fdec901d6b979b2806566283",
+      "url": "https://files.pythonhosted.org/packages/5d/a3/cdc5929d9809ddc12623e512ac01502b3f2505a90a330add1fa6c37960cc/semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-macosx_11_0_arm64.whl"
+    },
+    {
+      "filename": "semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-manylinux_2_34_aarch64.whl",
+      "sha256": "f27725632d468fb1a0d740ce5a98e406376a88de91fc6f902fb9fb3b1d6ed4d9",
+      "url": "https://files.pythonhosted.org/packages/c1/28/013cd7342d2909d2ee103dbfe2b3acb894a1911a25fbbfc36c88ec38dc85/semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-manylinux_2_34_aarch64.whl"
+    },
+    {
+      "filename": "semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-manylinux_2_34_x86_64.whl",
+      "sha256": "32d92d0cd2e18a1495b32abfef926be0ed3c972d8cd169bffe6cbb8418e3bb5e",
+      "url": "https://files.pythonhosted.org/packages/1b/85/e4d39028645b7d0431d1fa88db510fe6768c5f110561ae26bb0cbcfaba0c/semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-manylinux_2_34_x86_64.whl"
+    },
+    {
+      "filename": "semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-musllinux_1_2_aarch64.whl",
+      "sha256": "00edda4175f71417bbfab93f060d468578eca73c81447c5ff1faa77df30628f7",
+      "url": "https://files.pythonhosted.org/packages/d1/32/5295cc2700193b7e41afbbaa7e300cbbb17ca2533821ba785ff174351799/semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-musllinux_1_2_aarch64.whl"
+    },
+    {
+      "filename": "semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-musllinux_1_2_x86_64.whl",
+      "sha256": "25df034bae3570438a39a7cb57102659b329eed62e86b3beaa8c5c0dd23932d5",
+      "url": "https://files.pythonhosted.org/packages/3d/f0/d0d6909a22c24e6ca0ca89814215bc40171c8b41f887d5163872f7df1adb/semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-musllinux_1_2_x86_64.whl"
+    },
+    {
+      "filename": "semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-win_amd64.whl",
+      "sha256": "7778456167ed8a46d6f8aeee1ef95ec6ca1666e3c07503cc45d49d00cd4e817c",
+      "url": "https://files.pythonhosted.org/packages/ec/ec/6209b26b77fe07e854ae94c44fc7145c87368fd02639cd23eaa80f831655/semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-win_amd64.whl"
+    },
+    {
+      "filename": "semgrep-1.177.0.tar.gz",
+      "sha256": "a79f212544da540b5e758da6d1979ef8eedd0b8e15a8c5019601d6da0d73538d",
+      "url": "https://files.pythonhosted.org/packages/9c/b0/5c647ef32daaa4b328908ed2deccfcb97ac4d47444b425bcbbcbfaf292de/semgrep-1.177.0.tar.gz"
+    }
+  ]
+}

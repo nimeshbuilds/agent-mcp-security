@@ -886,7 +886,7 @@
       "id": "ai011-risk",
       "matched_labels": true,
       "path": "fixture.pem",
-      "rationale": "Private versus public key marker; no actual key material.",
+      "rationale": "Synthetic PEM-shaped private material versus a public marker. The body is deliberately nonfunctional and contains no actual key.",
       "suite": "regression",
       "unscored_rule_ids": []
     },
@@ -2562,8 +2562,8 @@
     }
   ],
   "corpus_name": "NimeshBuild bounded static rule accuracy corpus",
-  "corpus_sha256": "00149f8a8c56fbf96b9c8b2c1ac2fd402982f6987f079b34b9c56b9932cba019",
-  "corpus_version": "1.0.0",
+  "corpus_sha256": "aa4e3b2a95fdf5d5ea09721c0316c72a654d90d58281be5caab249d87510dff8",
+  "corpus_version": "1.1.0",
   "failed_case_ids": [
     "gap-reflection-python",
     "gap-interprocedural-url",
@@ -2589,5 +2589,5 @@
   "regression_failure_ids": [],
   "schema_version": "1.0",
   "scope": "Synthetic, project-authored rule-presence fixtures. These are not production accuracy estimates or proof of security. Challenge cases are included in overall metrics even when the regression gate passes.",
-  "tool_version": "0.7.0"
+  "tool_version": "0.8.0"
 }

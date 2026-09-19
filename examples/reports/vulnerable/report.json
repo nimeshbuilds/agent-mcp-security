@@ -1316,15 +1316,15 @@
           }
         ],
         "finding_ids": [
-          "aa7bba175c60406f04c15d29"
+          "20771a324af20de316ec34f9"
         ],
         "id": "group-f42ebc88841c",
         "image_context": "source",
         "immediate_action": "Verify the final build stage and deployed user, then run with a dedicated nonroot identity unless a documented operation requires otherwise.",
         "locations": [
           {
-            "end_line": 2,
-            "finding_id": "aa7bba175c60406f04c15d29",
+            "end_line": 3,
+            "finding_id": "20771a324af20de316ec34f9",
             "line": 2,
             "path": "Dockerfile"
           }
@@ -2821,15 +2821,15 @@
           }
         ],
         "finding_ids": [
-          "aa7bba175c60406f04c15d29"
+          "20771a324af20de316ec34f9"
         ],
         "id": "group-f42ebc88841c",
         "image_context": "source",
         "immediate_action": "Verify the final build stage and deployed user, then run with a dedicated nonroot identity unless a documented operation requires otherwise.",
         "locations": [
           {
-            "end_line": 2,
-            "finding_id": "aa7bba175c60406f04c15d29",
+            "end_line": 3,
+            "finding_id": "20771a324af20de316ec34f9",
             "line": 2,
             "path": "Dockerfile"
           }
@@ -4487,7 +4487,7 @@
       ],
       "finding_ids": [
         "592fbfc9b7dab062dc97906c",
-        "aa7bba175c60406f04c15d29"
+        "20771a324af20de316ec34f9"
       ],
       "id": "SUP-05",
       "source_ids": [
@@ -5190,11 +5190,11 @@
       "cwe": [
         "CWE-250"
       ],
-      "description": "A Dockerfile explicitly selects root. This increases the impact of agent or tool compromise; later USER instructions or runtime overrides may mitigate it.",
-      "end_line": 2,
-      "evidence": "USER root",
-      "finding_id": "aa7bba175c60406f04c15d29",
-      "id": "aa7bba175c60406f04c15d29",
+      "description": "The default final Dockerfile stage explicitly selects or inherits a literal root user. Build-target selection, external image defaults, variable expansion and runtime overrides require separate validation.",
+      "end_line": 3,
+      "evidence": "USER root\nCOPY . /app",
+      "finding_id": "20771a324af20de316ec34f9",
+      "id": "20771a324af20de316ec34f9",
       "line": 2,
       "path": "Dockerfile",
       "references": [
@@ -5272,7 +5272,7 @@
     "enabled": false
   },
   "mode": "deterministic_static",
-  "scan_id": "fc2265dbbd82b4a20d7034a69f91ea644f15836cefa7d660776e9235558e09af",
+  "scan_id": "a041a6f9e285cd3c1ab4528bca29eb9fb3dbb3fd14d735490abe2ab849c64776",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_triage_only",
@@ -5295,9 +5295,9 @@
   "target": ".",
   "tool": {
     "display_name": "Invarune by NimeshBuild",
-    "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+    "implementation_sha256": "bb306fbda1b72f02daa098336512dc53e87c54d6bbb5aa31a6373967df7db483",
     "name": "agent-mcp-security-scan",
-    "python_version": "3.9.6",
-    "version": "0.7.0"
+    "python_version": "3.12.14",
+    "version": "0.8.0"
   }
 }

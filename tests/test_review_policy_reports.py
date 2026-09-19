@@ -25,7 +25,7 @@ class ReviewPolicyReportTests(unittest.TestCase):
         self.root = self.base / "source"
         self.root.mkdir()
         (self.root / "agent.py").write_text("import os\nos.system(user_input)\neval(user_input)\n", encoding="utf-8")
-        (self.root / "key.pem").write_text("-----BEGIN PRIVATE KEY-----\nsynthetic\n", encoding="utf-8")
+        (self.root / "key.pem").write_text("-----BEGIN PRIVATE KEY-----\nMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n", encoding="utf-8")
         self.report = scan(self.root)
         self.assertEqual({f["rule_id"] for f in self.report["findings"]}, {"AI001", "AI003", "AI011"})
         self.policy = {"schema_version": "1.0", "rules": {

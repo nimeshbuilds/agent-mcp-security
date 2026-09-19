@@ -1,0 +1,4 @@
+{
+  "provider": "grok_cli",
+  "timeout_seconds": 120
+}

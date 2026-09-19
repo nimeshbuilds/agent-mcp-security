@@ -298,17 +298,17 @@
                   "uri": "Dockerfile"
                 },
                 "region": {
-                  "endLine": 2,
+                  "endLine": 3,
                   "startLine": 2
                 }
               }
             }
           ],
           "message": {
-            "text": "A Dockerfile explicitly selects root. This increases the impact of agent or tool compromise; later USER instructions or runtime overrides may mitigate it. Remediation: Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context."
+            "text": "The default final Dockerfile stage explicitly selects or inherits a literal root user. Build-target selection, external image defaults, variable expansion and runtime overrides require separate validation. Remediation: Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context."
           },
           "partialFingerprints": {
-            "agentMcpScan/v1": "aa7bba175c60406f04c15d29"
+            "agentMcpScan/v1": "20771a324af20de316ec34f9"
           },
           "properties": {
             "confidence": "high",
@@ -602,7 +602,7 @@
             },
             {
               "fullDescription": {
-                "text": "A private-key PEM header appears in source or configuration. Test keys may be intentional, but production key material must not be stored here."
+                "text": "A private-key PEM header is followed by plausible encoded key material. Test keys may be intentional; this pattern does not prove cryptographic validity or production use."
               },
               "help": {
                 "text": "Determine whether the key was used, revoke or rotate it if necessary, remove it from version history, and use a managed key store."
@@ -792,7 +792,7 @@
             },
             {
               "fullDescription": {
-                "text": "A Dockerfile explicitly selects root. This increases the impact of agent or tool compromise; later USER instructions or runtime overrides may mitigate it."
+                "text": "The default final Dockerfile stage explicitly selects or inherits a literal root user. Build-target selection, external image defaults, variable expansion and runtime overrides require separate validation."
               },
               "help": {
                 "text": "Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context."
@@ -1209,7 +1209,7 @@
               }
             }
           ],
-          "version": "0.7.0"
+          "version": "0.8.0"
         }
       }
     }

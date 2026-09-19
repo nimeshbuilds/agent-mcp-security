@@ -1,0 +1,26 @@
+{
+  "name": "bandit",
+  "version": "1.9.4",
+  "requires_python": ">=3.10",
+  "project_urls": {
+    "Discord": "https://discord.gg/qYxpadCgkx",
+    "Documentation": "https://bandit.readthedocs.io/",
+    "Homepage": "https://bandit.readthedocs.io/",
+    "Issue Tracker": "https://github.com/PyCQA/bandit/issues",
+    "Release Notes": "https://github.com/PyCQA/bandit/releases",
+    "Source Code": "https://github.com/PyCQA/bandit",
+    "Sponsor": "https://psfmember.org/civicrm/contribute/transact/?reset=1&id=42"
+  },
+  "distributions": [
+    {
+      "filename": "bandit-1.9.4-py3-none-any.whl",
+      "sha256": "f89ffa663767f5a0585ea075f01020207e966a9c0f2b9ef56a57c7963a3f6f8e",
+      "url": "https://files.pythonhosted.org/packages/05/a4/a26d5b25671d27e03afb5401a0be5899d94ff8fab6a698b1ac5be3ec29ef/bandit-1.9.4-py3-none-any.whl"
+    },
+    {
+      "filename": "bandit-1.9.4.tar.gz",
+      "sha256": "b589e5de2afe70bd4d53fa0c1da6199f4085af666fde00e8a034f152a52cd628",
+      "url": "https://files.pythonhosted.org/packages/aa/c3/0cb80dfe0f3076e5da7e4c5ad8e57bac6ac357ff4a6406205501cade4965/bandit-1.9.4.tar.gz"
+    }
+  ]
+}

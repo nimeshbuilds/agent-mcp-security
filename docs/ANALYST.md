@@ -82,7 +82,7 @@ The CLI exposes these control-analyst limits:
 
 With 66 controls and a batch size of 6, a complete run normally uses **11 control requests plus 1 finding-triage request**. The default call budget permits up to 12 control attempts, but does not create a retry: there are no automatic retries. A failed request attempt counts toward the budget, including attempts rejected locally before an HTTP request is sent.
 
-`--analyst-max-calls 0` stops control requests only. The CLI still sends the finding-triage request when `--judge-config` is present, and it can still collect and retain local analyst evidence. It returns an incomplete control review when active checks remain. Omit `--judge-config` when no LLM request is intended.
+`--analyst-max-calls 0` stops control requests only. The CLI still sends the finding-triage request when `--judge-config` or `--judge-cli` is present, and it can still collect and retain local analyst evidence. It returns an incomplete control review when active checks remain. Omit both `--judge-config` and `--judge-cli` when no LLM request is intended.
 
 Setting `--analyst-max-files 0`, `--analyst-max-bytes 0`, or `--analyst-max-chars 0` leaves the analyst with no source excerpts; it can still receive control metadata and must acknowledge missing evidence. A zero character limit does not prevent local source reads. These limits do not change the separate deterministic scanner or finding-triage payload.
 

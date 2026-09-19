@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "name": "NimeshBuild bounded static rule accuracy corpus",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "provenance": "Project-authored synthetic cases; not an independent industry benchmark or production prevalence sample. Expected labels were authored from API behavior, not inferred from scanner output.",
   "metric_unit": "One explicitly labeled rule-presence assertion per case, not confirmed vulnerabilities. Other rule findings are recorded but are not scored without labels.",
   "cases": [
@@ -209,11 +209,11 @@
       "id": "ai011-risk",
       "suite": "regression",
       "path": "fixture.pem",
-      "source": "-----BEGIN PRIVATE KEY-----\nsynthetic\n",
+      "source": "-----BEGIN PRIVATE KEY-----\nMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n-----END PRIVATE KEY-----\n",
       "expect": {
         "AI011": true
       },
-      "rationale": "Private versus public key marker; no actual key material."
+      "rationale": "Synthetic PEM-shaped private material versus a public marker. The body is deliberately nonfunctional and contains no actual key."
     },
     {
       "id": "ai011-comparison",
@@ -1095,5 +1095,6 @@
       },
       "rationale": "The source does not establish runtime TOOL_PERMISSIONS. Do not invent a wildcard finding. A matched label says nothing about the deployed value; runtime evidence remains required."
     }
-  ]
+  ],
+  "changes_from_1_0_0": "AI011 positive case now includes a synthetic 64-character encoded body, following the documented rule refinement from header-only to plausible private-key material. Existing assertion labels and all other cases are unchanged. The prior corpus is retained in static_accuracy-v100.json; cross-version metrics are not the same corpus."
 }

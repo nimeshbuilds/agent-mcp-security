@@ -12,10 +12,10 @@
 @media print{body{background:#fff;font-size:10pt}.wrap{max-width:none;padding:0}.masthead{background:#fff;color:#142338;border-bottom:2px solid #1c8065}.brand-name{color:#142338}.brand-by,.edition,.hero p,.hero-meta{color:#516279}.brand svg{background:#0b1220;border-radius:7px}.brandrow{padding:0 0 14px;border:0}.hero{padding:18px 0}.hero .eyebrow{color:#12674f}h1{font-size:27pt}h2{font-size:19pt}.hero-meta span{border-color:#b8c6d6}.nav,.back{display:none}main{padding:20px 0}.panel,.posture,.action-card,.finding,.metric,details,.preview{box-shadow:none;border-color:#c2cbd4;border-radius:5px}.metrics{grid-template-columns:repeat(4,1fr)}.action-preview{grid-template-columns:1fr 1fr}.action-grid{grid-template-columns:1fr 1fr}.metric strong{font-size:22pt}.severity-row{grid-template-columns:repeat(5,1fr)}.severity-cell{display:flex}.action-card,.finding,.control{break-inside:auto}h2,h3,h4,summary{break-after:avoid}pre,.layer{break-inside:auto}.audit{max-height:none;overflow:visible}details>summary{list-style:none}details>.details-body{display:block!important}details::details-content{display:block!important;content-visibility:visible!important}details{content-visibility:visible}a{color:#12674f;text-decoration:underline}.footer{background:#fff;color:#516279;border-top:1px solid #c2cbd4}.footer strong{color:#142338}section{margin-bottom:28px}.hero-meta{display:block}.hero-meta span{display:block;margin-top:5px}.coverage-grid{grid-template-columns:1fr}.table-wrap{overflow:visible}thead{display:table-header-group}.checklist li,.note,.action-grid>div{background:#f6f8fa}@page{margin:16mm 14mm}}
 </style></head><body>
 <header class="masthead" id="top"><div class="wrap"><div class="brandrow"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Invarune evidence mark"><polygon fill="#F2F6FA" points="26,4 8,14 8,50 26,60 26,47 19,43 19,21 26,17"/><polygon fill="#35E3B1" points="38,4 56,14 56,50 38,60 38,47 45,43 45,21 38,17"/><polygon fill="#35E3B1" points="32,22 42,32 32,42 22,32"/></svg><div><div class="brand-name">Invarune</div><div class="brand-by">by NimeshBuild</div></div></div>
-<div class="edition">Evidence for agent security<br>Scanner 0.7.0</div></div>
+<div class="edition">Evidence for agent security<br>Scanner 0.8.0</div></div>
 <div class="hero"><h1>AI agent &amp; MCP security report</h1>
 <p>Findings, priorities, and evidence needed to verify safeguards.</p>
-<div class="hero-meta"><span>Target: demo-agent.tar</span><span>Scan ID: <code>f272cac9d3754141a3915bde2e4cc8c2454a7a4563c74f1ce3f64e8fb0f0112e</code></span></div></div></div></header>
+<div class="hero-meta"><span>Target: demo-agent.tar</span><span>Scan ID: <code>232d34de55cceadf34a61a9c136a5fff2e54912d430dc81183539337bf7effcd</code></span></div></div></div></header>
 <nav class="nav" aria-label="Report navigation"><div class="wrap"><a href="#summary">Executive summary</a><a href="#actions">Priority actions</a><a href="#findings">Finding evidence</a><a href="#coverage">Coverage</a><a href="#image">Image scope</a><a href="#advisory">Optional review</a><a href="#controls">All controls</a></div></nav>
 <main class="wrap"><section id="summary"><p class="eyebrow">Start here</p><h2>Executive summary</h2>
 <div class="posture urgent"><div><h2>Critical/high findings need prompt review</h2><p>The scanner found 3 open critical/high patterns among 3 open findings. Confirm exposure and prioritize the actions below. Detector severity is not proof of exploitability or deployed risk.</p></div></div>
@@ -1280,14 +1280,14 @@
 }</code></pre></div></details>
 <details class=""><summary>Scanner identity and implementation digest</summary><div class="details-body"><pre class="audit"><code>{
   &quot;mode&quot;: &quot;deterministic_image&quot;,
-  &quot;scan_id&quot;: &quot;f272cac9d3754141a3915bde2e4cc8c2454a7a4563c74f1ce3f64e8fb0f0112e&quot;,
+  &quot;scan_id&quot;: &quot;232d34de55cceadf34a61a9c136a5fff2e54912d430dc81183539337bf7effcd&quot;,
   &quot;schema_version&quot;: &quot;1.0&quot;,
   &quot;tool&quot;: {
     &quot;display_name&quot;: &quot;Invarune by NimeshBuild&quot;,
-    &quot;implementation_sha256&quot;: &quot;1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37&quot;,
+    &quot;implementation_sha256&quot;: &quot;bb306fbda1b72f02daa098336512dc53e87c54d6bbb5aa31a6373967df7db483&quot;,
     &quot;name&quot;: &quot;agent-mcp-security-scan&quot;,
-    &quot;python_version&quot;: &quot;3.9.6&quot;,
-    &quot;version&quot;: &quot;0.7.0&quot;
+    &quot;python_version&quot;: &quot;3.12.14&quot;,
+    &quot;version&quot;: &quot;0.8.0&quot;
   }
 }</code></pre></div></details>
 <p class="small spacer">This standalone report loads no external resources and runs no scripts. Evidence and advice are rendered as text. Redaction is best-effort; treat the report as potentially sensitive.</p></div></section></main>

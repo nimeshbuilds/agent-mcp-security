@@ -1,6 +1,6 @@
 # Invarune command-line reference
 
-`invarune` performs bounded, read-only source/image triage and writes standalone HTML, Markdown, JSON, and SARIF reports. Deterministic source-directory and image-archive scans need no model, credentials, network, or third-party Python package. Image references use the selected container runtime; registry pulls require `--pull`. The optional model analyst is enabled only with `--judge-config`.
+`invarune` performs bounded, read-only source/image triage and writes standalone HTML, Markdown, JSON, and SARIF reports. Deterministic source-directory and image-archive scans need no model, credentials, network, or third-party Python package. Image references use the selected container runtime; registry pulls require `--pull`. The optional model analyst is enabled only with `--judge-config` or `--judge-cli`.
 
 The CLI identifies patterns that need review. A finding does not by itself prove exploitability, and no finding does not establish security, compliance, or complete control coverage. Consult the report's scope, skipped files, parse errors, limitations, and control statuses alongside its severity counts.
 
@@ -28,7 +28,7 @@ Long options require their complete spelling. Abbreviations such as `--judge-con
 
 ## Complete offline help
 
-Version 0.7.0 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, review dispositions, every judge configuration field, native/custom gateway JSON examples, and twenty-two CLI examples. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
+Version 0.8.0 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, review dispositions, every judge configuration field, native/custom gateway JSON examples, and CLI examples including official login and model selection. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
 
 ```sh
 python3 scan.py --help
@@ -191,9 +191,17 @@ The three inspection modes are mutually exclusive, reject unknown rule IDs, and 
 
 | Argument | Default | Meaning |
 | --- | --- | --- |
-| `--judge-config PATH` | Disabled | Explicitly authorize bounded redacted payloads to the configured endpoint. Without this flag, no LLM is called. |
+| `--judge-config PATH` | Disabled | Explicitly authorize bounded redacted payloads to the configured API/gateway or official CLI. No model is called without this or --judge-cli. |
+| `--judge-cli codex\|claude\|grok` | Disabled | Official CLI transport, mutually exclusive with config-file selection. Interactive scans sign in when needed, then resume. |
+| `--judge-model MODEL` | Provider policy | With `--judge-cli`, override Astra / Opus / Grok Build defaults. Explicit `default` selects the vendor-configured model. |
+| `--judge-executable PATH` | Vendor command on PATH | Trusted absolute executable or bare command name; for CLI scans or standalone login. |
+| `--judge-cli-home PATH` | Existing Grok profile | Grok-only existing absolute `GROK_HOME`, for scan or login. Must pass extension inspection. |
+| `--judge-timeout SECONDS` | `60` | CLI invocation deadline including probes, range 0.1–300; with `--judge-cli`. |
+| `--judge-login auto\|never` | `auto` | Automatic official login only on interactive terminals. Quiet/JSON/noninteractive scans never prompt. One login attempt per scan. |
+| `--login-timeout SECONDS` | `300` | Separate interactive login deadline, range 1–900. Excluded from analyst scheduling time. |
+| `--login codex\|claude\|grok` | Disabled | Standalone official login from Invarune; no target, scan, report or model request. Requires terminal output. |
 | `--judge-mode full\|findings` | `full` | Full mode triages findings and reviews every active control/check, including controls without static findings. Findings mode triages findings only. |
-| `--judge-include-source` | Disabled | Add neighboring source to finding triage; requires `--judge-config`. Full mode's separately bounded evidence selection does not depend on this flag. |
+| `--judge-include-source` | Disabled | Add neighboring source to finding triage; requires `--judge-config` or `--judge-cli`. Full mode's separately bounded evidence selection does not depend on this flag. |
 | `--judge-max-findings N` | `100` | Open findings submitted to finding triage; accepts 1–500. All findings remain in the deterministic report. |
 | `--analyst-max-calls N` | `12` | Control-review request budget, 0–100. Finding triage uses one additional request. Zero leaves active controls explicitly unreviewed. |
 | `--analyst-batch-size N` | `6` | Controls per review request, 1–20. Smaller batches can need more calls. |

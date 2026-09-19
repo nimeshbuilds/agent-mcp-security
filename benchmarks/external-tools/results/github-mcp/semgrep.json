@@ -1,0 +1,58 @@
+{
+  "command": [
+    "semgrep",
+    "scan",
+    "--config",
+    "{semgrep_rules}",
+    "--metrics=off",
+    "--disable-version-check",
+    "--disable-nosem",
+    "--no-git-ignore",
+    "--no-rewrite-rule-ids",
+    "--json",
+    "--quiet",
+    "--jobs",
+    "2",
+    "--timeout",
+    "10",
+    "--max-target-bytes",
+    "20000000",
+    "--output",
+    "{raw_output}/semgrep.json",
+    "{source}"
+  ],
+  "errors": [
+    {
+      "level": "warn",
+      "path": "pkg/github/pullrequests.go",
+      "type": "PartialParsing"
+    }
+  ],
+  "files_reported_scanned": 163,
+  "finding_count": 1,
+  "findings": [
+    {
+      "end_line": 228,
+      "line": 228,
+      "path": "pkg/github/repositories_helper.go",
+      "rule_id": "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1",
+      "severity": "WARNING"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 0,
+  "raw_report_sha256": "b21ab647ccd89ec9a9419d879874aca83d56aef51846b0e5d98ef484c0bf1d3e",
+  "rule_counts": {
+    "go.lang.security.audit.crypto.use_of_weak_crypto.use-of-sha1": 1
+  },
+  "severity_counts": {
+    "WARNING": 1
+  },
+  "started_at_utc": "2026-09-19T21:06:15Z",
+  "status": "completed_with_analysis_errors",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "semgrep",
+  "wall_seconds": 3.007275
+}

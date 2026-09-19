@@ -12,6 +12,7 @@ The scanner itself needs only Python's standard library. PDF authoring is separa
 python3 -m pip install -r requirements-pdf.txt
 python3 scripts/sync_control_docs.py
 python3 scripts/build_controlbook.py
+python3 scripts/build_benchmark_report.py
 ```
 
 The output is `output/pdf/invarune-security-controlbook.pdf`. The builder uses available Arial, Liberation Sans, or DejaVu Sans fonts and falls back to PDF-standard Helvetica. Font choice can affect layout; inspect the result on the build system. The Invarune wordmark and original geometric symbol use the same geometry and palette as the repository's brand assets. NimeshBuild remains the publisher attribution. No third-party logos are reproduced.
@@ -19,6 +20,8 @@ The output is `output/pdf/invarune-security-controlbook.pdf`. The builder uses a
 The optional pinned authoring dependencies are a reproducible starting point, not a claim that those versions are the latest or universally appropriate. Review and update them for your build environment. The shipped PDF was generated using the bundled workspace runtime; exact runtime versions are recorded in `docs/PDF_VALIDATION.md`.
 
 ## Verify the artifact
+
+The second builder creates `output/pdf/invarune-benchmark-report.pdf` from the checked-in public-project and external-tool receipts. It does not rerun scanners or contact a model. Reproduce the underlying executions using [the public-project runner](../benchmarks/real-world/README.md) and [external-tool instructions](../benchmarks/external-tools/README.md) before publishing results for a changed scanner or corpus. Do not reuse old receipts under a new version label. Render every page of this PDF as well; its detailed Markdown counterpart is [the comparative evaluation](BENCHMARK_RESULTS.md).
 
 1. Run `python3 -m unittest discover -s tests -v` for scanner and adapter regressions.
 2. Run `python3 scripts/verify_controlbook.py` for catalog references and PDF text/link checks.

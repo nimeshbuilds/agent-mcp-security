@@ -1,0 +1,51 @@
+{
+  "command": [
+    "gitleaks",
+    "dir",
+    "{source}",
+    "--config",
+    "{support}/gitleaks.toml",
+    "--gitleaks-ignore-path",
+    "{support}/empty-ignore",
+    "--ignore-gitleaks-allow",
+    "--redact=100",
+    "--no-banner",
+    "--no-color",
+    "--report-format",
+    "json",
+    "--report-path",
+    "{raw_output}/gitleaks.json",
+    "--timeout",
+    "300",
+    "--max-target-megabytes",
+    "20"
+  ],
+  "errors": [],
+  "files_reported_scanned": null,
+  "finding_count": 1,
+  "findings": [
+    {
+      "end_line": 245,
+      "line": 245,
+      "path": "fastmcp_slim/fastmcp/server/auth/providers/google.py",
+      "rule_id": "generic-api-key",
+      "severity": "not_provided"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 1,
+  "raw_report_sha256": "5a129895b5808f9e00f12f65fe49292eefafcb3d0088cef1864dd3b7c7d43df8",
+  "rule_counts": {
+    "generic-api-key": 1
+  },
+  "severity_counts": {
+    "not_provided": 1
+  },
+  "started_at_utc": "2026-09-19T21:07:10Z",
+  "status": "completed_with_findings",
+  "stderr_sha256": "14617ef72c6e8d51373f97dc394bf3ee556800cb405686d1bb8fb5b7999ef577",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "gitleaks",
+  "wall_seconds": 0.329617
+}

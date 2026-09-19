@@ -1,0 +1,723 @@
+{
+  "command": [
+    "bandit",
+    "-r",
+    "{source}",
+    "-c",
+    "{support}/bandit.yaml",
+    "--ignore-nosec",
+    "-f",
+    "json",
+    "-o",
+    "{raw_output}/bandit.json",
+    "-q"
+  ],
+  "errors": [],
+  "files_reported_scanned": 183,
+  "finding_count": 84,
+  "findings": [
+    {
+      "confidence": "HIGH",
+      "end_line": 37,
+      "line": 35,
+      "path": "libs/checkpoint-postgres/langgraph/checkpoint/postgres/base.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 129,
+      "line": 120,
+      "path": "libs/checkpoint-postgres/langgraph/checkpoint/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 278,
+      "line": 271,
+      "path": "libs/checkpoint-postgres/langgraph/checkpoint/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 282,
+      "line": 281,
+      "path": "libs/checkpoint-postgres/langgraph/checkpoint/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 621,
+      "line": 621,
+      "path": "libs/checkpoint-postgres/langgraph/checkpoint/postgres/base.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 113,
+      "line": 84,
+      "path": "libs/checkpoint-postgres/langgraph/checkpoint/postgres/shallow.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "MEDIUM",
+      "end_line": 243,
+      "line": 243,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/aio.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 299,
+      "line": 278,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 339,
+      "line": 339,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 409,
+      "line": 401,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 420,
+      "line": 414,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 519,
+      "line": 511,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 536,
+      "line": 521,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 556,
+      "line": 549,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 581,
+      "line": 567,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "MEDIUM",
+      "end_line": 1131,
+      "line": 1131,
+      "path": "libs/checkpoint-postgres/langgraph/store/postgres/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "MEDIUM",
+      "end_line": 57,
+      "line": 57,
+      "path": "libs/checkpoint-sqlite/langgraph/cache/sqlite/__init__.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "MEDIUM",
+      "end_line": 107,
+      "line": 107,
+      "path": "libs/checkpoint-sqlite/langgraph/cache/sqlite/__init__.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 120,
+      "line": 119,
+      "path": "libs/checkpoint-sqlite/langgraph/cache/sqlite/__init__.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 338,
+      "line": 335,
+      "path": "libs/checkpoint-sqlite/langgraph/checkpoint/sqlite/__init__.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 644,
+      "line": 644,
+      "path": "libs/checkpoint-sqlite/langgraph/checkpoint/sqlite/__init__.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 63,
+      "line": 60,
+      "path": "libs/checkpoint-sqlite/langgraph/checkpoint/sqlite/_delta.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 457,
+      "line": 454,
+      "path": "libs/checkpoint-sqlite/langgraph/checkpoint/sqlite/aio.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 717,
+      "line": 717,
+      "path": "libs/checkpoint-sqlite/langgraph/checkpoint/sqlite/aio.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 568,
+      "line": 564,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/aio.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 309,
+      "line": 305,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 328,
+      "line": 322,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 366,
+      "line": 366,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 560,
+      "line": 539,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 578,
+      "line": 574,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 697,
+      "line": 650,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 707,
+      "line": 701,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 909,
+      "line": 905,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 928,
+      "line": 922,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 1419,
+      "line": 1415,
+      "path": "libs/checkpoint-sqlite/langgraph/store/sqlite/base.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 76,
+      "line": 74,
+      "path": "libs/checkpoint/langgraph/cache/redis/__init__.py",
+      "rule_id": "B112",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 108,
+      "line": 106,
+      "path": "libs/checkpoint/langgraph/cache/redis/__init__.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 139,
+      "line": 137,
+      "path": "libs/checkpoint/langgraph/cache/redis/__init__.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 100,
+      "line": 100,
+      "path": "libs/checkpoint/langgraph/checkpoint/base/id.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 102,
+      "line": 102,
+      "path": "libs/checkpoint/langgraph/checkpoint/base/id.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 5,
+      "line": 5,
+      "path": "libs/checkpoint/langgraph/checkpoint/memory/__init__.py",
+      "rule_id": "B403",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 621,
+      "line": 621,
+      "path": "libs/checkpoint/langgraph/checkpoint/memory/__init__.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 44,
+      "line": 44,
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/encrypted.py",
+      "rule_id": "B413",
+      "severity": "HIGH"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 72,
+      "line": 72,
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/encrypted.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 10,
+      "line": 10,
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/jsonplus.py",
+      "rule_id": "B403",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 288,
+      "line": 288,
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/jsonplus.py",
+      "rule_id": "B301",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "MEDIUM",
+      "end_line": 315,
+      "line": 315,
+      "path": "libs/checkpoint/langgraph/store/base/embed.py",
+      "rule_id": "B105",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 81,
+      "line": 81,
+      "path": "libs/cli/langgraph_cli/analytics.py",
+      "rule_id": "B310",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 948,
+      "line": 948,
+      "path": "libs/cli/langgraph_cli/cli.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 880,
+      "line": 880,
+      "path": "libs/cli/langgraph_cli/deploy.py",
+      "rule_id": "B310",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1207,
+      "line": 1206,
+      "path": "libs/cli/langgraph_cli/deploy.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 67,
+      "line": 67,
+      "path": "libs/cli/langgraph_cli/docker.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 73,
+      "line": 69,
+      "path": "libs/cli/langgraph_cli/docker.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 73,
+      "line": 69,
+      "path": "libs/cli/langgraph_cli/docker.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 85,
+      "line": 81,
+      "path": "libs/cli/langgraph_cli/docker.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 85,
+      "line": 81,
+      "path": "libs/cli/langgraph_cli/docker.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "MEDIUM",
+      "end_line": 240,
+      "line": 239,
+      "path": "libs/cli/langgraph_cli/docker.py",
+      "rule_id": "B105",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 104,
+      "line": 104,
+      "path": "libs/cli/langgraph_cli/templates.py",
+      "rule_id": "B310",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "MEDIUM",
+      "end_line": 936,
+      "line": 936,
+      "path": "libs/cli/langgraph_cli/uv_lock.py",
+      "rule_id": "B108",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 28,
+      "line": 28,
+      "path": "libs/langgraph/langgraph/_internal/_cache.py",
+      "rule_id": "B403",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 48,
+      "line": 48,
+      "path": "libs/langgraph/langgraph/_internal/_future.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 68,
+      "line": 68,
+      "path": "libs/langgraph/langgraph/_internal/_future.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 116,
+      "line": 115,
+      "path": "libs/langgraph/langgraph/graph/_branch.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 662,
+      "line": 662,
+      "path": "libs/langgraph/langgraph/pregel/_algo.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 855,
+      "line": 855,
+      "path": "libs/langgraph/langgraph/pregel/_algo.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1014,
+      "line": 1014,
+      "path": "libs/langgraph/langgraph/pregel/_algo.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 80,
+      "line": 79,
+      "path": "libs/langgraph/langgraph/pregel/_call.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 672,
+      "line": 672,
+      "path": "libs/langgraph/langgraph/pregel/_retry.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 828,
+      "line": 828,
+      "path": "libs/langgraph/langgraph/pregel/_retry.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 300,
+      "line": 298,
+      "path": "libs/langgraph/langgraph/pregel/main.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 204,
+      "line": 203,
+      "path": "libs/langgraph/langgraph/stream/run_stream.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 208,
+      "line": 207,
+      "path": "libs/langgraph/langgraph/stream/run_stream.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 566,
+      "line": 565,
+      "path": "libs/langgraph/langgraph/stream/run_stream.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 570,
+      "line": 569,
+      "path": "libs/langgraph/langgraph/stream/run_stream.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1015,
+      "line": 1015,
+      "path": "libs/langgraph/langgraph/types.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1647,
+      "line": 1645,
+      "path": "libs/sdk-py/langgraph_sdk/_async/stream.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1675,
+      "line": 1675,
+      "path": "libs/sdk-py/langgraph_sdk/_async/stream.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 599,
+      "line": 598,
+      "path": "libs/sdk-py/langgraph_sdk/_sync/stream.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 904,
+      "line": 903,
+      "path": "libs/sdk-py/langgraph_sdk/_sync/stream.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1007,
+      "line": 1006,
+      "path": "libs/sdk-py/langgraph_sdk/_sync/stream.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 281,
+      "line": 281,
+      "path": "libs/sdk-py/langgraph_sdk/stream/controller.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 186,
+      "line": 185,
+      "path": "libs/sdk-py/langgraph_sdk/stream/sync_controller.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 215,
+      "line": 214,
+      "path": "libs/sdk-py/langgraph_sdk/stream/sync_controller.py",
+      "rule_id": "B112",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 292,
+      "line": 292,
+      "path": "libs/sdk-py/langgraph_sdk/stream/sync_controller.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 1,
+  "raw_report_sha256": "23ff1d005bd6cf457733ecced471525255ff73faa54d972348e61bda0395a642",
+  "rule_counts": {
+    "B101": 9,
+    "B105": 2,
+    "B108": 1,
+    "B110": 16,
+    "B112": 2,
+    "B301": 1,
+    "B310": 3,
+    "B311": 11,
+    "B403": 3,
+    "B404": 1,
+    "B413": 1,
+    "B603": 2,
+    "B607": 2,
+    "B608": 30
+  },
+  "severity_counts": {
+    "HIGH": 1,
+    "LOW": 48,
+    "MEDIUM": 35
+  },
+  "started_at_utc": "2026-09-19T21:06:43Z",
+  "status": "completed_with_findings",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "bandit",
+  "wall_seconds": 1.303251
+}

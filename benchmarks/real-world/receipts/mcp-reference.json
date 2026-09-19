@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "project": "mcp-reference",
+  "repository": "https://github.com/modelcontextprotocol/servers",
+  "revision": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+  "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+  "license": {
+    "summary": "Apache-2.0 transition / legacy MIT",
+    "path": "LICENSE",
+    "url": "https://github.com/modelcontextprotocol/servers/blob/d73f99efbfd40c3aa1b61e88728b3d49fb52608f/LICENSE"
+  },
+  "source_files": 86,
+  "source_bytes": 1003862,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "tmp/real-world-src/mcp-reference",
+    "--output",
+    "examples/reports/real-world/mcp-reference",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "bb306fbda1b72f02daa098336512dc53e87c54d6bbb5aa31a6373967df7db483",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.8.0"
+  },
+  "scan_id": "7d6921664d19717efdeb6ebcc294497b29d015e6c99d019619019959ede0f635",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 1003862,
+    "bytes_read": 1003862,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 86,
+    "open_findings": 61,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 59,
+      "medium": 2
+    },
+    "suppressed_findings": 0
+  },
+  "rule_counts": {
+    "AI007": 2,
+    "AI024": 14,
+    "AI025": 45
+  },
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 10,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 4,
+      "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 51,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 12,
+      "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 9,
+      "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+    }
+  },
+  "execution": {
+    "exit_code": 0,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "repeated_runs": [
+    {
+      "run": 1,
+      "started_at_utc": "2026-09-19T21:16:05.960823+00:00",
+      "elapsed_seconds": 0.257382,
+      "exit_code": 0,
+      "stderr": "",
+      "report_sha256": {
+        "report.html": "2ea9cd4c83a7bc3dbfe11300dfaf288955e31e150b17df4d67ae2c161155eab2",
+        "report.json": "318a35641bc07d6d200816baf7140615990ba84c7c41cb4e569bc67e824f6293",
+        "report.md": "0bc6f974e29fee72f79a407b1effc8c979191a5eafcb09490bb2ea51112f2799",
+        "report.sarif": "e95edc0ae954ad77f34e7c255ee6ce2a662a656e4d64bd94f96de539e81b7904"
+      }
+    },
+    {
+      "run": 2,
+      "started_at_utc": "2026-09-19T21:16:06.219790+00:00",
+      "elapsed_seconds": 0.211867,
+      "exit_code": 0,
+      "stderr": "",
+      "report_sha256": {
+        "report.html": "2ea9cd4c83a7bc3dbfe11300dfaf288955e31e150b17df4d67ae2c161155eab2",
+        "report.json": "318a35641bc07d6d200816baf7140615990ba84c7c41cb4e569bc67e824f6293",
+        "report.md": "0bc6f974e29fee72f79a407b1effc8c979191a5eafcb09490bb2ea51112f2799",
+        "report.sarif": "e95edc0ae954ad77f34e7c255ee6ce2a662a656e4d64bd94f96de539e81b7904"
+      }
+    }
+  ],
+  "byte_identical_reports": true,
+  "target_code_executed": false,
+  "optional_judge_enabled": false
+}

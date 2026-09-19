@@ -1,0 +1,4118 @@
+{
+  "analyst": {
+    "enabled": false
+  },
+  "assessment": {
+    "coverage_attention": [],
+    "finding_groups": [
+      {
+        "confidence_counts": {
+          "low": 15
+        },
+        "context_note": "Source evidence: deployment reachability and active use have not been established.",
+        "control_ids": [
+          "SUP-01"
+        ],
+        "count": 15,
+        "defense_layers": [
+          {
+            "control_ids": [
+              "SUP-01",
+              "SUP-03"
+            ],
+            "how_it_helps": "Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory.",
+            "id": "immutable-install",
+            "residual_limit": "An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained.",
+            "source_ids": [
+              "NIST-SSDF",
+              "OPENSSF-BASELINE-202608"
+            ],
+            "sources": [
+              {
+                "id": "NIST-SSDF",
+                "title": "Secure Software Development Framework (SSDF) Version 1.1",
+                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+              },
+              {
+                "id": "OPENSSF-BASELINE-202608",
+                "title": "Open Source Project Security Baseline",
+                "url": "https://baseline.openssf.org/versions/2026-08-28"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Resolve and install reviewed dependency bytes",
+            "verification": "Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it."
+          },
+          {
+            "control_ids": [
+              "SUP-02",
+              "SUP-04",
+              "OPS-05"
+            ],
+            "how_it_helps": "Review known-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process.",
+            "id": "maintenance-loop",
+            "residual_limit": "This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw.",
+            "source_ids": [
+              "NIST-SSDF",
+              "OPENSSF-SCORECARD"
+            ],
+            "sources": [
+              {
+                "id": "NIST-SSDF",
+                "title": "Secure Software Development Framework (SSDF) Version 1.1",
+                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+              },
+              {
+                "id": "OPENSSF-SCORECARD",
+                "title": "OpenSSF Scorecard",
+                "url": "https://securityscorecards.dev/"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Keep pinned artifacts maintained",
+            "verification": "Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact."
+          }
+        ],
+        "finding_ids": [
+          "7b0fae91f2cabbd6a542b53c",
+          "fc99c43368b10dce0d91882c",
+          "ee4c762926aea9ae5fb706ab",
+          "2191362e772c695d302d6156",
+          "ab9645a9bbd122fb1bb9ae31",
+          "a0dcbaea3b4035b68a8e7614",
+          "24d211a4b8c1639e01ae5601",
+          "f1877494f91dc313d8307dc0",
+          "32960660d02c89436915407f",
+          "719e873f7809682295fc4b6d",
+          "382befcbc606c75fe87ef11e",
+          "9eccc82fb8f49a2154fb4cb6",
+          "1d948705e50af0cc089ac09a",
+          "c9f1720f37736ca8a9099d87",
+          "71a47f1998d31d071cb167f0"
+        ],
+        "id": "group-35a2b5731941",
+        "image_context": "source",
+        "immediate_action": "Check the effective install command and lockfile; enforce a verified resolution and document intentionally flexible development declarations.",
+        "locations": [
+          {
+            "end_line": 17,
+            "finding_id": "7b0fae91f2cabbd6a542b53c",
+            "line": 17,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 18,
+            "finding_id": "fc99c43368b10dce0d91882c",
+            "line": 18,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 19,
+            "finding_id": "ee4c762926aea9ae5fb706ab",
+            "line": 19,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 20,
+            "finding_id": "2191362e772c695d302d6156",
+            "line": 20,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 21,
+            "finding_id": "ab9645a9bbd122fb1bb9ae31",
+            "line": 21,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 22,
+            "finding_id": "a0dcbaea3b4035b68a8e7614",
+            "line": 22,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 23,
+            "finding_id": "24d211a4b8c1639e01ae5601",
+            "line": 23,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 24,
+            "finding_id": "f1877494f91dc313d8307dc0",
+            "line": 24,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 27,
+            "finding_id": "32960660d02c89436915407f",
+            "line": 27,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 28,
+            "finding_id": "719e873f7809682295fc4b6d",
+            "line": 28,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 29,
+            "finding_id": "382befcbc606c75fe87ef11e",
+            "line": 29,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 30,
+            "finding_id": "9eccc82fb8f49a2154fb4cb6",
+            "line": 30,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 31,
+            "finding_id": "1d948705e50af0cc089ac09a",
+            "line": 31,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 32,
+            "finding_id": "c9f1720f37736ca8a9099d87",
+            "line": 32,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 33,
+            "finding_id": "71a47f1998d31d071cb167f0",
+            "line": 33,
+            "path": "ui/package.json"
+          }
+        ],
+        "plausible_impact": "If the actual install is not constrained by an enforced lockfile or hash, dependency versions may change without a corresponding reviewed source change.",
+        "priority": "P3",
+        "rule_id": "AI025",
+        "severity": "low",
+        "source_ids": [
+          "CISA-SECURE-BY-DESIGN",
+          "NIST-SSDF",
+          "OPENSSF-BASELINE-202608",
+          "OPENSSF-SCORECARD"
+        ],
+        "sources": [
+          {
+            "id": "CISA-SECURE-BY-DESIGN",
+            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
+            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+          },
+          {
+            "id": "NIST-SSDF",
+            "title": "Secure Software Development Framework (SSDF) Version 1.1",
+            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+          },
+          {
+            "id": "OPENSSF-BASELINE-202608",
+            "title": "Open Source Project Security Baseline",
+            "url": "https://baseline.openssf.org/versions/2026-08-28"
+          },
+          {
+            "id": "OPENSSF-SCORECARD",
+            "title": "OpenSSF Scorecard",
+            "url": "https://securityscorecards.dev/"
+          }
+        ],
+        "status": "open",
+        "suggested_owner": "Dependency/build owner",
+        "title": "Direct dependency is not exactly pinned"
+      }
+    ],
+    "guidance": {
+      "catalog_version": "1.0.0",
+      "reviewed_at": "2026-09-19",
+      "sha256": "dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1",
+      "source_registry_sha256": "cb7d62fe5f3b856a424ddc3b7afa986563a48b5ec2104423055a91fe290d5142"
+    },
+    "immediate_actions": [
+      {
+        "confidence_counts": {
+          "low": 15
+        },
+        "context_note": "Source evidence: deployment reachability and active use have not been established.",
+        "control_ids": [
+          "SUP-01"
+        ],
+        "count": 15,
+        "defense_layers": [
+          {
+            "control_ids": [
+              "SUP-01",
+              "SUP-03"
+            ],
+            "how_it_helps": "Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory.",
+            "id": "immutable-install",
+            "residual_limit": "An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained.",
+            "source_ids": [
+              "NIST-SSDF",
+              "OPENSSF-BASELINE-202608"
+            ],
+            "sources": [
+              {
+                "id": "NIST-SSDF",
+                "title": "Secure Software Development Framework (SSDF) Version 1.1",
+                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+              },
+              {
+                "id": "OPENSSF-BASELINE-202608",
+                "title": "Open Source Project Security Baseline",
+                "url": "https://baseline.openssf.org/versions/2026-08-28"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Resolve and install reviewed dependency bytes",
+            "verification": "Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it."
+          },
+          {
+            "control_ids": [
+              "SUP-02",
+              "SUP-04",
+              "OPS-05"
+            ],
+            "how_it_helps": "Review known-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process.",
+            "id": "maintenance-loop",
+            "residual_limit": "This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw.",
+            "source_ids": [
+              "NIST-SSDF",
+              "OPENSSF-SCORECARD"
+            ],
+            "sources": [
+              {
+                "id": "NIST-SSDF",
+                "title": "Secure Software Development Framework (SSDF) Version 1.1",
+                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+              },
+              {
+                "id": "OPENSSF-SCORECARD",
+                "title": "OpenSSF Scorecard",
+                "url": "https://securityscorecards.dev/"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Keep pinned artifacts maintained",
+            "verification": "Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact."
+          }
+        ],
+        "finding_ids": [
+          "7b0fae91f2cabbd6a542b53c",
+          "fc99c43368b10dce0d91882c",
+          "ee4c762926aea9ae5fb706ab",
+          "2191362e772c695d302d6156",
+          "ab9645a9bbd122fb1bb9ae31",
+          "a0dcbaea3b4035b68a8e7614",
+          "24d211a4b8c1639e01ae5601",
+          "f1877494f91dc313d8307dc0",
+          "32960660d02c89436915407f",
+          "719e873f7809682295fc4b6d",
+          "382befcbc606c75fe87ef11e",
+          "9eccc82fb8f49a2154fb4cb6",
+          "1d948705e50af0cc089ac09a",
+          "c9f1720f37736ca8a9099d87",
+          "71a47f1998d31d071cb167f0"
+        ],
+        "id": "group-35a2b5731941",
+        "image_context": "source",
+        "immediate_action": "Check the effective install command and lockfile; enforce a verified resolution and document intentionally flexible development declarations.",
+        "locations": [
+          {
+            "end_line": 17,
+            "finding_id": "7b0fae91f2cabbd6a542b53c",
+            "line": 17,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 18,
+            "finding_id": "fc99c43368b10dce0d91882c",
+            "line": 18,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 19,
+            "finding_id": "ee4c762926aea9ae5fb706ab",
+            "line": 19,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 20,
+            "finding_id": "2191362e772c695d302d6156",
+            "line": 20,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 21,
+            "finding_id": "ab9645a9bbd122fb1bb9ae31",
+            "line": 21,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 22,
+            "finding_id": "a0dcbaea3b4035b68a8e7614",
+            "line": 22,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 23,
+            "finding_id": "24d211a4b8c1639e01ae5601",
+            "line": 23,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 24,
+            "finding_id": "f1877494f91dc313d8307dc0",
+            "line": 24,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 27,
+            "finding_id": "32960660d02c89436915407f",
+            "line": 27,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 28,
+            "finding_id": "719e873f7809682295fc4b6d",
+            "line": 28,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 29,
+            "finding_id": "382befcbc606c75fe87ef11e",
+            "line": 29,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 30,
+            "finding_id": "9eccc82fb8f49a2154fb4cb6",
+            "line": 30,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 31,
+            "finding_id": "1d948705e50af0cc089ac09a",
+            "line": 31,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 32,
+            "finding_id": "c9f1720f37736ca8a9099d87",
+            "line": 32,
+            "path": "ui/package.json"
+          },
+          {
+            "end_line": 33,
+            "finding_id": "71a47f1998d31d071cb167f0",
+            "line": 33,
+            "path": "ui/package.json"
+          }
+        ],
+        "plausible_impact": "If the actual install is not constrained by an enforced lockfile or hash, dependency versions may change without a corresponding reviewed source change.",
+        "priority": "P3",
+        "rule_id": "AI025",
+        "severity": "low",
+        "source_ids": [
+          "CISA-SECURE-BY-DESIGN",
+          "NIST-SSDF",
+          "OPENSSF-BASELINE-202608",
+          "OPENSSF-SCORECARD"
+        ],
+        "sources": [
+          {
+            "id": "CISA-SECURE-BY-DESIGN",
+            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
+            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+          },
+          {
+            "id": "NIST-SSDF",
+            "title": "Secure Software Development Framework (SSDF) Version 1.1",
+            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+          },
+          {
+            "id": "OPENSSF-BASELINE-202608",
+            "title": "Open Source Project Security Baseline",
+            "url": "https://baseline.openssf.org/versions/2026-08-28"
+          },
+          {
+            "id": "OPENSSF-SCORECARD",
+            "title": "OpenSSF Scorecard",
+            "url": "https://securityscorecards.dev/"
+          }
+        ],
+        "status": "open",
+        "suggested_owner": "Dependency/build owner",
+        "title": "Direct dependency is not exactly pinned"
+      }
+    ],
+    "method": "deterministic_guidance",
+    "metrics": {
+      "active_checks": 132,
+      "active_rules": 42,
+      "affected_files": 1,
+      "checks_total": 132,
+      "controls_requiring_validation": 66,
+      "controls_total": 66,
+      "coverage_gaps": 0,
+      "disabled_checks": 0,
+      "disabled_controls": 0,
+      "disabled_findings": 0,
+      "disabled_rules": 0,
+      "excluded_controls": 0,
+      "files_scanned": 156,
+      "justified_checks": 0,
+      "justified_controls": 0,
+      "justified_findings": 0,
+      "justified_rules": 0,
+      "mixed_excluded_controls": 0,
+      "open_findings": 15,
+      "suppressed_findings": 0,
+      "urgent_findings": 0
+    },
+    "posture": {
+      "code": "open_findings_review",
+      "explanation": "The scanner found 15 open patterns, with no open critical/high detections. Review applicability, address the causes, and validate the proposed defenses.",
+      "title": "Open findings need investigation"
+    },
+    "priority_basis": "P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.",
+    "schema_version": "1.0",
+    "themes": [
+      {
+        "category": "supply_chain",
+        "name": "Supply chain",
+        "open_findings": 15,
+        "rule_ids": [
+          "AI025"
+        ]
+      }
+    ],
+    "unknowns": [
+      "Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.",
+      "Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.",
+      "Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.",
+      "No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope."
+    ]
+  },
+  "configuration": {
+    "default_excluded_directories": [
+      ".cache",
+      ".git",
+      ".hg",
+      ".mypy_cache",
+      ".next",
+      ".pytest_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      "__pycache__",
+      "build",
+      "coverage",
+      "dist",
+      "node_modules",
+      "vendor",
+      "venv"
+    ],
+    "exclude": [],
+    "explicit_exclusion_identity_scope": "Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.",
+    "explicit_exclusion_matching": "resolved_paths_and_snapshot_filesystem_identities",
+    "generated_outputs_and_judge_config_excluded": true,
+    "max_entries": 100000,
+    "max_file_bytes": 20000000,
+    "max_files": 20000,
+    "max_total_bytes": 300000000
+  },
+  "controls": [
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-AISMM",
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Record owner, deployment, model/version, MCP transport/version, exposed tools, data classes, and external endpoints.",
+        "Reconcile approved inventory with deployed configurations; investigate unregistered agents and servers."
+      ],
+      "finding_ids": [],
+      "id": "GOV-01",
+      "source_ids": [
+        "NIST-RMF"
+      ],
+      "sources": [
+        "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Inventory every agent, MCP server, tool, and model",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-MAESTRO",
+        "MITRE-ATLAS-202609"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Diagram user, model, memory, tool, server, gateway, and downstream service boundaries with their credentials.",
+        "Identify who controls each input and the highest-impact action reachable if that input is malicious."
+      ],
+      "finding_ids": [],
+      "id": "GOV-02",
+      "source_ids": [
+        "MITRE-ATLAS",
+        "NIST-AML"
+      ],
+      "sources": [
+        "https://github.com/mitre-atlas/atlas-data",
+        "https://csrc.nist.gov/pubs/ai/100/2/e2025/final"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Model trust boundaries and attack paths",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-SCOPING",
+        "CSA-AISMM",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Assign an owner to each autonomous action and document permitted purposes, forbidden outcomes, and escalation routes.",
+        "Record impact, reversibility, approval requirements, and accepted residual risk before production use."
+      ],
+      "finding_ids": [],
+      "id": "GOV-03",
+      "source_ids": [
+        "NIST-RMF",
+        "JOINT-AGENTIC"
+      ],
+      "sources": [
+        "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10",
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Define authorized use and accountable owners",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-AISMM",
+        "NIST-SSDF-AI"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Give each control an owner, evidence link, validation date, result, and next review date.",
+        "Time-limit exceptions and require a compensating control; distinguish untested behavior from demonstrated failure."
+      ],
+      "finding_ids": [],
+      "id": "GOV-04",
+      "source_ids": [
+        "NIST-GENAI",
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Maintain evidence and risk exceptions",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-SCOPING"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "Review security impact when adding a model, tool, server, data source, skill, or broader permission.",
+        "Require deployment evidence for the complete configured system; a model-only score is insufficient."
+      ],
+      "finding_ids": [],
+      "id": "GOV-05",
+      "source_ids": [
+        "NCSC-SECURE-AI"
+      ],
+      "sources": [
+        "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Reassess changes in autonomy and integrations",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Governance",
+      "checks": [
+        "For each model, gateway, orchestrator, MCP service, and cloud provider, document which party implements each applicable safeguard and which customer configuration it depends on.",
+        "Obtain current supplier evidence for inherited safeguards, identify unowned gaps, and record reassessment triggers in the service review."
+      ],
+      "finding_ids": [],
+      "id": "GOV-06",
+      "source_ids": [
+        "CSA-AICM",
+        "CSA-CCM"
+      ],
+      "sources": [
+        "https://cloudsecurityalliance.org/artifacts/ai-controls-matrix-v1-1",
+        "https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Assign shared security responsibilities across AI providers",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AGENT-IAM",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI026",
+        "AI041"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries.",
+        "Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-01",
+      "source_ids": [
+        "MCP-AUTH"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Authenticate protected operations on every request",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-AGENT-IAM",
+        "CSA-SCOPING",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI027"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Check user/agent identity, tenant, tool, target object, and requested operation immediately before execution.",
+        "Deny by default; test read-only callers against write tools and object identifiers owned by another user."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-02",
+      "source_ids": [
+        "JOINT-AGENTIC",
+        "MCP-TOOLS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services",
+        "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Authorize the exact action and target",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI017"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Verify signature with trusted keys, allowed algorithms, expected issuer/audience, expiry, and required scopes.",
+        "Reject unsigned tokens and tokens minted for another service; decoding a JWT alone is not validation."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-03",
+      "source_ids": [
+        "MCP-AUTH-SEC"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Validate access-token cryptography and claims",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI028"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Use audience-bound MCP credentials and separately authorized downstream credentials; never forward arbitrary caller tokens.",
+        "Ensure a proxy cannot use its broader service identity to perform an action the caller cannot authorize."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-04",
+      "source_ids": [
+        "MCP-AUTH",
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Prevent token passthrough and confused deputy use",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AGENT-IAM",
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI010",
+        "AI011",
+        "AI030",
+        "AI034"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Use short-lived scoped credentials where supported, protect refresh tokens, and validate rotation and revocation.",
+        "Avoid tokens in query strings, model context, source, child-process arguments, and diagnostic output."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-05",
+      "source_ids": [
+        "MCP-AUTH-SEC",
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Constrain credential lifetime and exposure",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI038"
+      ],
+      "category": "Identity and authorization",
+      "checks": [
+        "Test PKCE support and S256, exact registered redirects, transaction binding, and authorization-response issuer validation.",
+        "Reject replayed codes, mismatched issuers, unsafe redirect schemes, and unsolicited callback transactions."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-06",
+      "source_ids": [
+        "MCP-AUTH-SEC",
+        "MCP-AUTH"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Bind OAuth flows and validate redirects",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Identity and authorization",
+      "checks": [
+        "Validate discovered metadata and client metadata URLs before fetching; constrain schemes, destinations, redirects, and response sizes.",
+        "Document trust policy for client registration and prevent discovery from reaching internal metadata or privileged network services."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-07",
+      "source_ids": [
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Secure OAuth discovery and registration",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AGENT-IAM",
+        "NIST-AGENT-IDENTITY-DRAFT",
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Identity and authorization",
+      "checks": [
+        "Carry authenticated initiator and delegation identity through multi-agent calls instead of trusting identity fields in text.",
+        "Prevent agents from granting themselves privileges; limit delegation scope, depth, lifetime, and downstream audiences."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-08",
+      "source_ids": [
+        "OWASP-AGENT-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Bind delegation to identity, scope, and expiry",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Identity and authorization",
+      "checks": [
+        "Enroll agents under an accountable sponsor and approved workload identity; verify identity claims before issuing credentials or granting discovery and execution access.",
+        "Test retirement, sponsor departure, redeployment, and identity compromise; remove stale credentials, cached grants, registrations, and downstream access."
+      ],
+      "finding_ids": [],
+      "id": "AUTH-09",
+      "source_ids": [
+        "CSA-AGENT-IAM",
+        "NIST-AGENT-IDENTITY-DRAFT"
+      ],
+      "sources": [
+        "https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach",
+        "https://www.nccoe.nist.gov/publications/other/accelerating-adoption-software-and-ai-agent-identity-and-authorization-concept"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Manage agent identity enrollment and retirement",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI006",
+        "AI007",
+        "AI008",
+        "AI029"
+      ],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "For HTTP, reject invalid Origin values and verify local deployments bind only to intended interfaces.",
+        "Use TLS for remote protected endpoints; test DNS rebinding and proxy/header behavior in deployment."
+      ],
+      "finding_ids": [],
+      "id": "MCP-01",
+      "source_ids": [
+        "MCP-HTTP"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Validate transport exposure and origin",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Apply schemas and semantic bounds before executing every tool; reject unknown properties where appropriate.",
+        "Bound sizes and nesting; validate declared structured output and render errors without leaking secrets."
+      ],
+      "finding_ids": [],
+      "id": "MCP-02",
+      "source_ids": [
+        "MCP-TOOLS"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Validate tool arguments and results",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Inspect descriptions, schemas, resources, icons, and results for instructions that cross tool or user boundaries.",
+        "Never let readOnlyHint, destructiveHint, or other server claims replace independent authorization and approval policy."
+      ],
+      "finding_ids": [],
+      "id": "MCP-03",
+      "source_ids": [
+        "MCP-TOOLS",
+        "OWASP-MCP-CS"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Treat descriptions and annotations as untrusted",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Bind tool approval to verified server identity and the reviewed tool definition or version.",
+        "Revalidate changes after reconnect/list updates; disambiguate collisions across servers without trusting display names."
+      ],
+      "finding_ids": [],
+      "id": "MCP-04",
+      "source_ids": [
+        "OWASP-MCP10"
+      ],
+      "sources": [
+        "https://owasp.org/projects/mcp-top-10"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Detect tool substitution and metadata changes",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI038"
+      ],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Authorize every state handle against its owner and tenant; enforce expiry, unpredictability, and replay boundaries.",
+        "For older sessionful protocol versions, test session hijacking and cross-user resumption; a session ID is not authentication."
+      ],
+      "finding_ids": [],
+      "id": "MCP-05",
+      "source_ids": [
+        "MCP-TOOLS",
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Protect state handles and legacy sessions",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Apply host policy and user control to sampling requests, context sharing, model selection, and associated tool access.",
+        "Test whether an untrusted server can induce disclosure from unrelated conversations or recursively consume model budget."
+      ],
+      "finding_ids": [],
+      "id": "MCP-06",
+      "source_ids": [
+        "MCP-SAMPLING"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/client/sampling"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Constrain sampling and returned model context",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Keep sensitive credential collection out of form-mode elicitation; validate and visibly identify URL destinations.",
+        "Test cancellation, phishing URLs, unsolicited interactions, and replayed completion state against the selected protocol version."
+      ],
+      "finding_ids": [],
+      "id": "MCP-07",
+      "source_ids": [
+        "MCP-ELICITATION"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Secure elicitation and URL interactions",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI015"
+      ],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Treat declared roots as scoped information, not an operating-system sandbox or complete authorization mechanism.",
+        "Enforce allowed paths at file access and test traversal, symlinks, alternate encodings, and writes outside the workspace."
+      ],
+      "finding_ids": [],
+      "id": "MCP-08",
+      "source_ids": [
+        "MCP-ROOTS"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/client/roots"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Enforce filesystem isolation independently of roots",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI018",
+        "AI031"
+      ],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Approve executable and package identity before starting a stdio server; use argument arrays and a minimal environment.",
+        "Restrict proxy process-spawn APIs and child filesystem/network permissions; separate stdout protocol traffic from logs."
+      ],
+      "finding_ids": [],
+      "id": "MCP-09",
+      "source_ids": [
+        "MCP-SECURITY",
+        "OWASP-MCP-CS"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices",
+        "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Constrain local server launch and inherited environment",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "MCP protocol and tools",
+      "checks": [
+        "Record supported revisions and test their capability, metadata, header consistency, stream, and cancellation rules.",
+        "Prevent caches and request continuations from crossing authorization contexts; do not apply legacy handshake assumptions universally."
+      ],
+      "finding_ids": [],
+      "id": "MCP-10",
+      "source_ids": [
+        "MCP-TRANSPORTS",
+        "MCP-HTTP"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports",
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Apply version-aware metadata, caching, and cancellation",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI027",
+        "AI031"
+      ],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Place allow/deny decisions at the execution boundary using trusted policy inputs and constrained tool capabilities.",
+        "Show that an injected instruction cannot disable policy, choose privileged credentials, or bypass approval."
+      ],
+      "finding_ids": [],
+      "id": "AGT-01",
+      "source_ids": [
+        "ASD-HARNESS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Enforce action policy outside the model",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-SCOPING",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI031"
+      ],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Present actual recipient, target, arguments, data disclosure, and consequences for high-impact approval.",
+        "Invalidate approval if arguments or target change; test races, delayed retries, and approval reuse."
+      ],
+      "finding_ids": [],
+      "id": "AGT-02",
+      "source_ids": [
+        "OWASP-AGENT-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Bind approval to the action executed",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI032"
+      ],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Track origin and trust level for web pages, documents, messages, OCR, tool results, and repository instructions.",
+        "Test direct and indirect goal hijacking; formatting delimiters and prompt warnings alone are not access controls."
+      ],
+      "finding_ids": [],
+      "id": "AGT-03",
+      "source_ids": [
+        "OWASP-LLM2026"
+      ],
+      "sources": [
+        "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Separate untrusted content from authoritative instructions",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-MAESTRO",
+        "CIS-AGENTS-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Enforce document and memory ACLs at retrieval and update time, including vector search metadata filters.",
+        "Test poisoned memory persistence, cross-tenant retrieval, provenance loss, deletion, and stale privileged context."
+      ],
+      "finding_ids": [],
+      "id": "AGT-04",
+      "source_ids": [
+        "OWASP-AGENTIC"
+      ],
+      "sources": [
+        "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Protect retrieval and persistent memory",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-MAESTRO",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Constrain delegated tasks and verify messages against authenticated senders, expected schemas, and allowed transitions.",
+        "Test impersonation, conflicting instructions, cascading failure, and privilege growth across handoffs."
+      ],
+      "finding_ids": [],
+      "id": "AGT-05",
+      "source_ids": [
+        "OWASP-AGENTIC"
+      ],
+      "sources": [
+        "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Keep objectives and authority bounded across agents",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Inventory skill files, prompts, hooks, memory seed files, MCP configuration, and other executable workflow inputs.",
+        "Require review for changes that add commands, access, or persistence; external repository text cannot become trusted policy."
+      ],
+      "finding_ids": [],
+      "id": "AGT-06",
+      "source_ids": [
+        "MITRE-ATLAS",
+        "NCSC-SECURE-AI"
+      ],
+      "sources": [
+        "https://github.com/mitre-atlas/atlas-data",
+        "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Protect agent configuration and skills",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Agent behavior and context",
+      "checks": [
+        "Apply destination and data policies to URLs, searches, tickets, messages, uploads, and telemetry generated by agents.",
+        "Use canary data to test encoded leakage and combinations of otherwise permitted tools."
+      ],
+      "finding_ids": [],
+      "id": "AGT-07",
+      "source_ids": [
+        "OWASP-MCP-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Prevent sensitive context leaving through legitimate tools",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI002",
+        "AI003",
+        "AI012"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Find shell execution and constructed command strings; use fixed executables, argument arrays, and allowed argument values.",
+        "Test untrusted tool inputs containing shell syntax, option injection, command substitution, and hostile filenames."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-01",
+      "source_ids": [
+        "OWASP-MCP10",
+        "OWASP-OUTPUT2025"
+      ],
+      "sources": [
+        "https://owasp.org/projects/mcp-top-10",
+        "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Prevent shell and command injection",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "OWASP-AISVS-C9",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI001",
+        "AI013"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Locate eval, exec, dynamic imports, templates, notebooks, and interpreter tools accepting model or user content.",
+        "Run required code execution in a disposable restricted environment with explicit filesystem, network, CPU, and time limits."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-02",
+      "source_ids": [
+        "OWASP-AGENT-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Constrain generated-code execution",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI036"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Use bound query parameters and allowed query shapes; inspect SQL, NoSQL, graph, and search-language construction.",
+        "Separate read/write database identities and test whether generated queries can escape permitted objects or operations."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-03",
+      "source_ids": [
+        "OWASP-OUTPUT2025"
+      ],
+      "sources": [
+        "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Parameterize database and query operations",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI015",
+        "AI016",
+        "AI037"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions.",
+        "Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-04",
+      "source_ids": [
+        "MCP-ROOTS",
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/client/roots",
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Constrain file and archive access",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI014"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect.",
+        "Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-05",
+      "source_ids": [
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Prevent SSRF and unsafe network destinations",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI004",
+        "AI005",
+        "AI035"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Inspect pickle, unsafe YAML, object deserialization, XML entity expansion, and unconstrained recursive parsers.",
+        "Use data-only formats with byte, nesting, and type limits; test malformed input and expansion attacks."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-06",
+      "source_ids": [
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Reject unsafe parsing and deserialization",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI039",
+        "AI040"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Use context-specific escaping for HTML/Markdown, avoid unsafe DOM sinks, and validate links and embedded media.",
+        "Test active SVG/HTML, malicious URLs, terminal escapes, and spreadsheet formulas in exported reports."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-07",
+      "source_ids": [
+        "OWASP-OUTPUT2025"
+      ],
+      "sources": [
+        "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Render model and tool output safely",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI010",
+        "AI011",
+        "AI030",
+        "AI034"
+      ],
+      "category": "Data and privacy",
+      "checks": [
+        "Inspect code, examples, configuration, notebooks, test fixtures, and generated artifacts for secret-like values.",
+        "Verify actual exposures with the owner, rotate real credentials, and remove them from reachable history and artifacts."
+      ],
+      "finding_ids": [],
+      "id": "DATA-01",
+      "source_ids": [
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Detect and remove embedded credentials",
+      "validation": "static"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CIS-AGENTS-2026",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Data and privacy",
+      "checks": [
+        "Map which prompts, tool outputs, memory, and code leave the environment and identify the receiving provider/gateway.",
+        "Document allowed data classes, processing location, retention, and training use; redact before transmission where required."
+      ],
+      "finding_ids": [],
+      "id": "DATA-02",
+      "source_ids": [
+        "NIST-GENAI"
+      ],
+      "sources": [
+        "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Minimize data sent to models and gateways",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI009",
+        "AI033"
+      ],
+      "category": "Data and privacy",
+      "checks": [
+        "Redact secrets and sensitive payloads before logs, traces, exception strings, and dashboards persist them.",
+        "Test the failure paths and provider errors as well as success paths; restrict access and export destinations."
+      ],
+      "finding_ids": [],
+      "id": "DATA-03",
+      "source_ids": [
+        "OWASP-MCP10"
+      ],
+      "sources": [
+        "https://owasp.org/projects/mcp-top-10"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Protect logs, traces, and error responses",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "NIST-SSDF-AI"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Data and privacy",
+      "checks": [
+        "Record source, owner, version, transformation history, and integrity evidence for datasets, retrieval corpora, and memory seeds.",
+        "Quarantine unexpected changes and test how poisoned or stale data is detected, removed, and replaced."
+      ],
+      "finding_ids": [],
+      "id": "DATA-04",
+      "source_ids": [
+        "NSA-DATA"
+      ],
+      "sources": [
+        "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Track provenance and integrity of AI data",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-AGENTS-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Data and privacy",
+      "checks": [
+        "Apply expiry and deletion to prompts, embeddings, caches, memory, tool artifacts, backups, and provider-held data.",
+        "Verify deleting a source record removes or invalidates dependent retrieval content and access grants."
+      ],
+      "finding_ids": [],
+      "id": "DATA-05",
+      "source_ids": [
+        "NIST-GENAI"
+      ],
+      "sources": [
+        "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Enforce retention and deletion across copies",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-CCM",
+        "CIS-AGENTS-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Data and privacy",
+      "checks": [
+        "Check transport verification, storage access controls, encryption settings, key separation, and backup permissions.",
+        "Validate key rotation and denied access using a principal outside the authorized tenant or operational role."
+      ],
+      "finding_ids": [],
+      "id": "DATA-06",
+      "source_ids": [
+        "NSA-DATA",
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/",
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Protect stored data and keys",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "NIST-SSDF-AI",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI018",
+        "AI024",
+        "AI025"
+      ],
+      "category": "Supply chain",
+      "checks": [
+        "Review lockfiles and exact versions or immutable digests for packages, images, MCP servers, models, and plugins.",
+        "Flag runtime installs, floating tags, remote scripts, and dependency sources outside approved registries."
+      ],
+      "finding_ids": [
+        "7b0fae91f2cabbd6a542b53c",
+        "fc99c43368b10dce0d91882c",
+        "ee4c762926aea9ae5fb706ab",
+        "2191362e772c695d302d6156",
+        "ab9645a9bbd122fb1bb9ae31",
+        "a0dcbaea3b4035b68a8e7614",
+        "24d211a4b8c1639e01ae5601",
+        "f1877494f91dc313d8307dc0",
+        "32960660d02c89436915407f",
+        "719e873f7809682295fc4b6d",
+        "382befcbc606c75fe87ef11e",
+        "9eccc82fb8f49a2154fb4cb6",
+        "1d948705e50af0cc089ac09a",
+        "c9f1720f37736ca8a9099d87",
+        "71a47f1998d31d071cb167f0"
+      ],
+      "id": "SUP-01",
+      "source_ids": [
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "findings_detected",
+      "suppressed_finding_ids": [],
+      "title": "Pin and inventory executable dependencies",
+      "validation": "static"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AISMM",
+        "CIS-MCP-2026",
+        "OPENSSF-BASELINE-202608"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Supply chain",
+      "checks": [
+        "Run appropriate package/container advisory tools against resolved dependencies and save database date and tool version.",
+        "Triage reachability, fix availability, support status, and transitive dependencies; source pattern scans do not establish CVE coverage."
+      ],
+      "finding_ids": [],
+      "id": "SUP-02",
+      "source_ids": [
+        "NCSC-SECURE-AI"
+      ],
+      "sources": [
+        "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Check vulnerability and maintenance exposure",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-MAESTRO",
+        "NIST-SSDF-AI",
+        "OWASP-AISVS-C10",
+        "SLSA-12",
+        "OPENSSF-MODEL-SIGNING"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI019",
+        "AI024",
+        "AI035"
+      ],
+      "category": "Supply chain",
+      "checks": [
+        "Verify publisher identity, hashes/signatures, build provenance, and intended origin before enabling artifacts.",
+        "Review model loading and serialization behavior; an integrity hash cannot make an untrusted publisher safe."
+      ],
+      "finding_ids": [],
+      "id": "SUP-03",
+      "source_ids": [
+        "NSA-DATA",
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/",
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Verify artifact identity and provenance",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "NIST-SSDF-AI",
+        "CIS-MCP-2026",
+        "OPENSSF-BASELINE-202608",
+        "SLSA-12"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI020"
+      ],
+      "category": "Supply chain",
+      "checks": [
+        "Restrict CI credentials and workflow permissions; review actions, build scripts, and release provenance.",
+        "Prevent untrusted contributions from executing with deployment secrets or changing approved agent policies."
+      ],
+      "finding_ids": [],
+      "id": "SUP-04",
+      "source_ids": [
+        "NIST-SSDF"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/final"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Protect build, release, and configuration changes",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-CCM",
+        "CSA-MAESTRO"
+      ],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI021",
+        "AI022",
+        "AI023",
+        "AI031",
+        "AI042"
+      ],
+      "category": "Supply chain",
+      "checks": [
+        "Review root/privileged containers, host mounts, Docker sockets, unrestricted egress, debug mode, and public management endpoints.",
+        "Separate agent execution from control-plane credentials and audit storage; test isolation in the deployed environment."
+      ],
+      "finding_ids": [],
+      "id": "SUP-05",
+      "source_ids": [
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Harden runtime isolation and deployment defaults",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Supply chain",
+      "checks": [
+        "When training or fine-tuning, isolate development, evaluation, and production identities, data access, registries, and release permissions.",
+        "Protect datasets, weights, adapters, and configuration separately; monitor modifications and demonstrate that an untrusted training job cannot replace an approved production artifact."
+      ],
+      "finding_ids": [],
+      "id": "SUP-06",
+      "source_ids": [
+        "NIST-SSDF-AI"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/a/final"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Separate and protect model development environments",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-CCM",
+        "CSA-AGENT-IAM",
+        "CIS-AGENTS-2026",
+        "CIS-MCP-2026",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Record initiating identity, delegated identity, tool/server/version, approved arguments, decision, outcome, and correlation identifiers.",
+        "Protect log integrity and clock consistency; ensure agents cannot erase their own action history."
+      ],
+      "finding_ids": [],
+      "id": "OPS-01",
+      "source_ids": [
+        "OWASP-MCP10"
+      ],
+      "sources": [
+        "https://owasp.org/projects/mcp-top-10"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Produce attributable audit events",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-SCOPING",
+        "OWASP-AISVS-C9",
+        "OWASP-AISVS-C10"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Set server-enforced limits for iterations, tokens, tool calls, recursion, parallelism, bytes, cost, and elapsed time.",
+        "Exercise stuck loops and amplification paths; verify limits apply across retries and child agents."
+      ],
+      "finding_ids": [],
+      "id": "OPS-02",
+      "source_ids": [
+        "ASD-HARNESS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
+      ],
+      "status": "review_required",
+      "suppressed_finding_ids": [],
+      "title": "Bound work, spending, and concurrency",
+      "validation": "hybrid"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AGENT-IAM",
+        "OWASP-AISVS-C9"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Provide a tested stop mechanism that revokes work, credentials, queued actions, and child tasks.",
+        "Measure stop latency and verify cancelled or disconnected requests cannot later commit prohibited side effects."
+      ],
+      "finding_ids": [],
+      "id": "OPS-03",
+      "source_ids": [
+        "JOINT-AGENTIC"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Make cancellation and shutdown effective",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Deny or escalate when policy, identity, or approval checks fail; prevent fallback paths from widening privilege.",
+        "Test outages, partial failures, timeouts, retries, idempotency, and recovery of transactions with external effects."
+      ],
+      "finding_ids": [],
+      "id": "OPS-04",
+      "source_ids": [
+        "ASD-HARNESS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Fail safely and prevent duplicate side effects",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-CCM",
+        "CSA-AISMM"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Alert on unusual tool use, new destinations, scope growth, repeated denials, cost spikes, and unexpected state changes.",
+        "Validate alerts with seeded events and test rollback of models, prompts, tools, policies, and poisoned memory."
+      ],
+      "finding_ids": [],
+      "id": "OPS-05",
+      "source_ids": [
+        "NCSC-SECURE-AI"
+      ],
+      "sources": [
+        "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Monitor behavior and support rollback",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CSA-AICM",
+        "CSA-CCM",
+        "CSA-AISMM",
+        "OPENSSF-BASELINE-202608"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Operations and resilience",
+      "checks": [
+        "Maintain procedures to isolate agents, revoke credentials, preserve evidence, notify owners, and recover trusted state.",
+        "Exercise an AI-specific incident and define approved vulnerability/intelligence-sharing channels without exposing sensitive evidence."
+      ],
+      "finding_ids": [],
+      "id": "OPS-06",
+      "source_ids": [
+        "CISA-JCDC"
+      ],
+      "sources": [
+        "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+      ],
+      "status": "manual_review_required",
+      "suppressed_finding_ids": [],
+      "title": "Practice incident response and disclosure",
+      "validation": "manual"
+    },
+    {
+      "alignment_source_ids": [
+        "MITRE-ATLAS-202609"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Run paired benign and adversarial workflows with representative tools and attacker-controlled external content.",
+        "Record attacker success, authorized task success, blocked benign actions, and the observed unauthorized side effect."
+      ],
+      "finding_ids": [],
+      "id": "TEST-01",
+      "source_ids": [
+        "BENCH-AGENTDOJO",
+        "BENCH-INJECAGENT"
+      ],
+      "sources": [
+        "https://github.com/ethz-spylab/agentdojo",
+        "https://github.com/uiuc-kang-lab/InjecAgent"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Measure prompt-injection security and useful task completion",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "MITRE-ATLAS-202609"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Vary payload wording, placement, modality, attacker knowledge, and attempts; rerun after changing defenses.",
+        "Report per-scenario outcomes, sample counts, attack budget, uncertainty, and model/harness versions instead of only an average."
+      ],
+      "finding_ids": [],
+      "id": "TEST-02",
+      "source_ids": [
+        "NIST-HIJACK-EVAL"
+      ],
+      "sources": [
+        "https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Test adaptively and repeat scenarios",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "In an isolated test environment, exercise invalid tokens, wrong audiences, origin abuse, malicious servers, and protocol fuzzing.",
+        "Adapt scenarios to the deployed MCP revision and transports; preserve request/response evidence with secrets removed."
+      ],
+      "finding_ids": [],
+      "id": "TEST-03",
+      "source_ids": [
+        "BENCH-MCPSECBENCH",
+        "MCP-AUTH"
+      ],
+      "sources": [
+        "https://github.com/AIS2Lab/MCPSecBench",
+        "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Exercise MCP authentication and protocol abuse",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Create two principals and attempt cross-access to objects, memory, caches, handles, subscriptions, and execution results.",
+        "Repeat after reconnect, delegation, failed authentication, concurrent requests, and privilege revocation."
+      ],
+      "finding_ids": [],
+      "id": "TEST-04",
+      "source_ids": [
+        "BENCH-ASB"
+      ],
+      "sources": [
+        "https://github.com/agiresearch/ASB"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Verify cross-tenant and cross-agent isolation",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "CIS-MCP-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Use explicit forbidden-action canaries to verify enforcement survives hostile content, tool substitution, and delayed execution.",
+        "Confirm paths through retries, fallback models, alternate tools, and child agents enforce the same boundary."
+      ],
+      "finding_ids": [],
+      "id": "TEST-05",
+      "source_ids": [
+        "OWASP-AGENT-CS"
+      ],
+      "sources": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Test approval, policy, and sandbox bypass",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [
+        "NIST-SSDF-AI",
+        "CIS-MCP-2026",
+        "AIUC1-Q3-2026"
+      ],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Run language-aware SAST, dependency review, secret scanning, and authorized integration tests for exposed services.",
+        "Exercise reachable injection, XSS, SSRF, path traversal, deserialization, and access-control risks with safe fixtures."
+      ],
+      "finding_ids": [],
+      "id": "TEST-06",
+      "source_ids": [
+        "NIST-SSDF",
+        "OWASP-OUTPUT2025"
+      ],
+      "sources": [
+        "https://csrc.nist.gov/pubs/sp/800/218/final",
+        "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Verify conventional application security",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Simulate oversized messages, slow peers, streaming floods, repeated errors, runaway agents, and unavailable dependencies.",
+        "Verify quotas, shutdown, telemetry, and alerts work together without leaking payloads or losing attribution."
+      ],
+      "finding_ids": [],
+      "id": "TEST-07",
+      "source_ids": [
+        "ASD-HARNESS"
+      ],
+      "sources": [
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Validate resource exhaustion and observability",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Treat repository text and model verdicts as untrusted; test prompt injection, fabricated locations, invalid JSON, and timeouts.",
+        "Compare against labeled cases, retain deterministic results, document model variability, and never equate a judge approval with control validation."
+      ],
+      "finding_ids": [],
+      "id": "TEST-08",
+      "source_ids": [
+        "NIST-HIJACK-EVAL",
+        "NIST-GENAI"
+      ],
+      "sources": [
+        "https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations",
+        "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Evaluate the optional security judge itself",
+      "validation": "dynamic"
+    },
+    {
+      "alignment_source_ids": [],
+      "assurance": "Not established by this static scan",
+      "automated_rule_ids": [],
+      "category": "Security validation",
+      "checks": [
+        "Where applicable, assess suspicious triggers, model extraction, and disclosure of private training examples under an explicit attacker access and query budget.",
+        "Retest acquired or retrained models and adapters before release; document measured failures, model identity, coverage limits, and accepted residual risk."
+      ],
+      "finding_ids": [],
+      "id": "TEST-09",
+      "source_ids": [
+        "CSA-MAESTRO",
+        "NIST-SSDF-AI"
+      ],
+      "sources": [
+        "https://cloudsecurityalliance.org/blog/2025/02/06/agentic-ai-threat-modeling-framework-maestro",
+        "https://csrc.nist.gov/pubs/sp/800/218/a/final"
+      ],
+      "status": "runtime_validation_required",
+      "suppressed_finding_ids": [],
+      "title": "Evaluate model-layer attacks for hosted or customized models",
+      "validation": "dynamic"
+    }
+  ],
+  "coverage": {
+    "analysis_profiles": {
+      "configuration_lexical": {
+        "files": 1,
+        "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+      },
+      "generic_text": {
+        "files": 136,
+        "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
+      },
+      "javascript_lexical": {
+        "files": 12,
+        "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+      },
+      "json_structured": {
+        "files": 7,
+        "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+      },
+      "python_ast": {
+        "files": 0,
+        "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+      }
+    },
+    "errors": [],
+    "limitations": [
+      "Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.",
+      "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.",
+      "No dependencies are installed, target code executed, services contacted, or CVE feed queried.",
+      "Default excluded directories and unsupported files remain outside the selected scan scope.",
+      "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.",
+      "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."
+    ],
+    "rules_enabled": [
+      "AI001",
+      "AI002",
+      "AI003",
+      "AI004",
+      "AI005",
+      "AI006",
+      "AI007",
+      "AI008",
+      "AI009",
+      "AI010",
+      "AI011",
+      "AI012",
+      "AI013",
+      "AI014",
+      "AI015",
+      "AI016",
+      "AI017",
+      "AI018",
+      "AI019",
+      "AI020",
+      "AI021",
+      "AI022",
+      "AI023",
+      "AI024",
+      "AI025",
+      "AI026",
+      "AI027",
+      "AI028",
+      "AI029",
+      "AI030",
+      "AI031",
+      "AI032",
+      "AI033",
+      "AI034",
+      "AI035",
+      "AI036",
+      "AI037",
+      "AI038",
+      "AI039",
+      "AI040",
+      "AI041",
+      "AI042"
+    ],
+    "skipped": [
+      {
+        "coverage_gap": false,
+        "path": "internal/oauth/templates/error.html",
+        "reason": "unsupported_extension"
+      },
+      {
+        "coverage_gap": false,
+        "path": "internal/oauth/templates/success.html",
+        "reason": "unsupported_extension"
+      },
+      {
+        "coverage_gap": false,
+        "path": "pkg/github/ui_dist/.placeholder.html",
+        "reason": "unsupported_extension"
+      },
+      {
+        "coverage_gap": false,
+        "path": "ui/src/apps/get-me/index.html",
+        "reason": "unsupported_extension"
+      },
+      {
+        "coverage_gap": false,
+        "path": "ui/src/apps/issue-write/index.html",
+        "reason": "unsupported_extension"
+      },
+      {
+        "coverage_gap": false,
+        "path": "ui/src/apps/pr-edit/index.html",
+        "reason": "unsupported_extension"
+      },
+      {
+        "coverage_gap": false,
+        "path": "ui/src/apps/pr-write/index.html",
+        "reason": "unsupported_extension"
+      }
+    ],
+    "unmatched_baseline_ids": []
+  },
+  "execution": {
+    "exit_code": 0,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "files": [
+    {
+      "analysis_profile": "configuration_lexical",
+      "bytes": 2261,
+      "path": "Dockerfile",
+      "sha256": "03109561b47a7bf94882df8359830802966bc61ff519089b80f70cb38ab48ae9"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 323,
+      "path": "gemini-extension.json",
+      "sha256": "615d2ae759c863c147a049683114c8b1c6c5a1ef02b4710d82c11625daeef866"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1766,
+      "path": "go.mod",
+      "sha256": "ece991dbfb1c201e564415b3b0134e16840220d7168cc25ddf3f8966dad01af2"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 11375,
+      "path": "go.sum",
+      "sha256": "0ab06ed02ef3b398a6d3632149331fdaa90388aaf6e02cd8ec0a2d60d8974197"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 1844,
+      "path": "server.json",
+      "sha256": "dad59264c3031b8fffa4edd4f95880f531918cf65d66b18d6e86c742f3362266"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 203,
+      "path": "agent-plugin/mcp.json",
+      "sha256": "5f82ee81a15e04fa3771fcaad49fc279a963895e2638d86b6c3fb5697718e608"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 503,
+      "path": "agent-plugin/plugin.json",
+      "sha256": "4500bfe9a78f736c0300fde137595bc47d16582b12727aef062eb0f2b86735f1"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 5013,
+      "path": "cmd/github-mcp-server/feature_flag_docs.go",
+      "sha256": "644a1848030eb393725dc3ccf9c8711434b2a39468486a95b452e1287c07ecc9"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 17244,
+      "path": "cmd/github-mcp-server/generate_docs.go",
+      "sha256": "8ca8bc1e6cbf0fb7f2c10ff90ab26980a1cb99662a0455a03aa3e421ceb4fc56"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 751,
+      "path": "cmd/github-mcp-server/helpers.go",
+      "sha256": "38ede6f98122d4361449725c1bfa064c2159997ff2e1de2e4131892683fc052a"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 8087,
+      "path": "cmd/github-mcp-server/list_scopes.go",
+      "sha256": "aa6b91eaee56991f07e3890e72c435c6a75de652dfa236e85c61004065b00e35"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 17295,
+      "path": "cmd/github-mcp-server/main.go",
+      "sha256": "d21283b9aeab310fc6503f3cf986db065ab960af8d9dfe0ee0f698fc400d5f2c"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 16873,
+      "path": "cmd/mcpcurl/main.go",
+      "sha256": "2f7dc44b48e82aed6d9f44c23264cb21641b6064dbea7afd2372f39d29b39e14"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 889,
+      "path": "internal/buildinfo/buildinfo.go",
+      "sha256": "ddac9bbd3c727e3c044f959dd0d87df4f7478dc3fc007201b41ac43a130fde45"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 11236,
+      "path": "internal/ghmcp/oauth.go",
+      "sha256": "4329e2b2233c81370613e38043bc08d11fae21b7ae4a65494e75c6116ea49fb7"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 17287,
+      "path": "internal/ghmcp/server.go",
+      "sha256": "362213e05969dc64c8b7ec460ee98ed2ab06d774fdb8c7dba46f1c14ec15e819"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 6419,
+      "path": "internal/githubapp/githubapp.go",
+      "sha256": "7623c4ad001fd9ebd16e079e21144435b39db6d13200eef8244560402b06a6ef"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 7337,
+      "path": "internal/githubv4mock/githubv4mock.go",
+      "sha256": "388a5ec7f5a91b149790169b520f0858f63c1a1c10e2e241135e8c114f2e69de"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1969,
+      "path": "internal/githubv4mock/local_round_tripper.go",
+      "sha256": "177496918ad82be17311efe608bee929d2238c72a6081fcfe573defbbdc0019d"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3932,
+      "path": "internal/githubv4mock/objects_are_equal_values.go",
+      "sha256": "8edf93c46c6d081a33162f43c23f369b9db091178c54dcba15edbcf857d037de"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 5203,
+      "path": "internal/githubv4mock/query.go",
+      "sha256": "5df5ebeee4f52f993068dd2a7fa94dc39d46842f1af3fdb4e98ff5127bbddf3e"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 4895,
+      "path": "internal/oauth/callback.go",
+      "sha256": "6589bae729752e52cf2832f5662175c904950ac02e4bf230c29bdf4149cb5955"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2266,
+      "path": "internal/oauth/env.go",
+      "sha256": "baf8bdf801ed92feb16bc5b7ced538a930013612da80a5978b9675bac164e778"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 9044,
+      "path": "internal/oauth/flow.go",
+      "sha256": "d2a26816cf9bbe199b8814e483babfa0960a6f821e8889984f3e431ec6d1f962"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 13898,
+      "path": "internal/oauth/manager.go",
+      "sha256": "c2dd6e55112fedfe0f68df7ddede0647efa01a161a503285da63ffcf2ce2e85b"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3653,
+      "path": "internal/oauth/oauth.go",
+      "sha256": "ba9992457158a584a602ec2e671b337f647588c738ce5a0bf1a6e45454ac0d44"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2928,
+      "path": "internal/oauth/prompter.go",
+      "sha256": "47ae6353cc0c00e29a260a52bcebe3cfbc251fda0434ccb0663cfcceefe75b05"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 5610,
+      "path": "internal/profiler/profiler.go",
+      "sha256": "4a2fe3c0752f45f426777387eb6b1cc158f3f652ecee7c6ca6f4fedb01dc3269"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2178,
+      "path": "internal/requeststate/sealer.go",
+      "sha256": "9bdcc45d264e759bf020b54332314c3a7dad9eb8d36390002922bfb31971ba02"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3932,
+      "path": "internal/toolsnaps/toolsnaps.go",
+      "sha256": "10538452595b06d4bc065f3adcbd1978a3496d29013db9c0202ab19f57b40221"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3539,
+      "path": "pkg/buffer/buffer.go",
+      "sha256": "9bc7d7cd41ce03290bfcfa43719fd95669d3ec1eacc0ac3deeef87dacd10e223"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 580,
+      "path": "pkg/context/graphql_features.go",
+      "sha256": "40bcfd83456a5e1c9c8d801b3aae2cc76860add02d1a2c50d601c209c533339a"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2202,
+      "path": "pkg/context/mcp_info.go",
+      "sha256": "10c591136df791babffe902b000248586ec21be4f1411551d9fdb3a41af51b56"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 4132,
+      "path": "pkg/context/request.go",
+      "sha256": "b0c1188ff61cfd77fc6f32d295de5c113a24b0d5fd7cbb02747bb84074bb8c62"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1065,
+      "path": "pkg/context/token.go",
+      "sha256": "d0f789cfdc7941b80d086abcb889fc2a5ca29efa657b88be913dd2bf592b2862"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 11985,
+      "path": "pkg/errors/error.go",
+      "sha256": "150dd1786d803315efe81f0fe8cee8b32b09f183b8c3edf7f7d402f0fbc82332"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 42381,
+      "path": "pkg/github/actions.go",
+      "sha256": "f49ab47d5b7e4a47422c563a086cb7cc2a1996916c301a5e36558124bcc23325"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3194,
+      "path": "pkg/github/code_quality.go",
+      "sha256": "40e9c5801cdbe2d38efbc5276e5fae38e775d244cb788e5558cb9a25958497a6"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 7413,
+      "path": "pkg/github/code_scanning.go",
+      "sha256": "182cc077d9bf7ad92d3d4b329d89bc068b450e0e9b87bfd9b7df619bea1bb4a6"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 10503,
+      "path": "pkg/github/context_tools.go",
+      "sha256": "44e8b20746efbf82f5824ba06cb6a50f82f2e6b4fb748ddffe16fbd58a7e583e"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 39994,
+      "path": "pkg/github/copilot.go",
+      "sha256": "f5807b26c03be51c116ceabb7a26c129288332fdd9e95b07f9c6faae15d1a6d8"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 9963,
+      "path": "pkg/github/csv_output.go",
+      "sha256": "63087e5b27af8f7d59809513d26967f8d4564189d17b178da10ff44d1d60d120"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 18556,
+      "path": "pkg/github/custom_properties.go",
+      "sha256": "04abf46816c98ee40e3dbf5487e1a28fd8a178f6b13c12fa52e5cbc65d5e8b8f"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 7810,
+      "path": "pkg/github/dependabot.go",
+      "sha256": "b0b2522aebc0421c5422b1897010eda76e15d77c3bde202dd0b65a3d03bd547b"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 17039,
+      "path": "pkg/github/dependencies.go",
+      "sha256": "cfa1c63554dd88736bce9fbe74b7058bfaccdcdf95c362465813fb6ae046e0d7"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1740,
+      "path": "pkg/github/deprecated_tool_aliases.go",
+      "sha256": "146cee07046e44fb292f2590061ad90b3149ed950d91cf7ceec821a21bf26539"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 36847,
+      "path": "pkg/github/discussions.go",
+      "sha256": "bb39cdf81a71691449360f3a0be687a3eaac8257468651cdc938e04ee4148a16"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 5363,
+      "path": "pkg/github/feature_flags.go",
+      "sha256": "5be557098d004a6ec1ddb75d09e5df9891a4473c9a590c5070255b97e5bece01"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2924,
+      "path": "pkg/github/fields_telemetry.go",
+      "sha256": "c1eea8afbea70eba8a0ea68b70561cdb8649fadfc029c5560b6c37d84f89daf1"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 7160,
+      "path": "pkg/github/find_duplicate.go",
+      "sha256": "0f4fbfbd9154c997fecc1bf47828075f94a547994d7fb86161fca55db96508c5"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 11810,
+      "path": "pkg/github/gists.go",
+      "sha256": "ef5d0ca04d45968ea6f58f379bb334ffe93c3bcfa0aedbb68d0be2fda442d1dd"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 6028,
+      "path": "pkg/github/git.go",
+      "sha256": "61b66dbfb9d91b44ab373211fdc92f0b3fae1a9d3dd3ad45ec7232f9dd3ca997"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 6025,
+      "path": "pkg/github/ifc_labels.go",
+      "sha256": "c9cae95f6291bc5c5c0f1ce0bc6040988cea1766a42f08fa7b9d2d9bc33ac9f7"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 787,
+      "path": "pkg/github/inventory.go",
+      "sha256": "84871be3077b6604c7f386d5d34791f3aaf61775f0894580010986cce14264a6"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 15584,
+      "path": "pkg/github/issue_dependencies.go",
+      "sha256": "65b527d5e536d82c6e153f48410e2cae94d18e95ff6e1bcbd77cc6d8e431654c"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 10465,
+      "path": "pkg/github/issue_fields.go",
+      "sha256": "e2aab74264fd3d2c1b39f2ad10ba2ae819eb658f46ea371e21bec5bf6db030fa"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 136979,
+      "path": "pkg/github/issues.go",
+      "sha256": "c15bc0e5b236ddf218afe821f8babdd10c2388751306a439584722b88d763a2c"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 70879,
+      "path": "pkg/github/issues_granular.go",
+      "sha256": "975dbc84efe33634d6df92843e081b116727b29049ccdac4c974e1d536f610bf"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 15055,
+      "path": "pkg/github/labels.go",
+      "sha256": "780f1b056b83f12d053a9f3b15c8b7216df02366b17b3138358c044406461dfc"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1446,
+      "path": "pkg/github/lockdown.go",
+      "sha256": "61917fcef004d0f78ed7f06849145ada4f308c31ade461a5690d46914ae23f6d"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 79321,
+      "path": "pkg/github/minimal_types.go",
+      "sha256": "01d74f0bca5013422d2759e701d3466af69ee0ef45048d155cf08d2f5b8b392b"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 22368,
+      "path": "pkg/github/notifications.go",
+      "sha256": "8b2c757453bd63f15bf6097b0dbc65fb1ce66a29675108995d3c2a61a7c5812c"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 15925,
+      "path": "pkg/github/params.go",
+      "sha256": "197b20b490047f07b138d004ee44b4bb6ccee78471310a937f30609a217f0e95"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 106934,
+      "path": "pkg/github/projects.go",
+      "sha256": "2d7241eb1b9a745230ea6e7e309f1f0a88f9f9f6d01276fd25c54edd9e5fe1cc"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 22049,
+      "path": "pkg/github/projects_batch.go",
+      "sha256": "4452df8c9b6a8d92490e9b811b611293c742c23d1d23988e514a6f8bfa5a7577"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3847,
+      "path": "pkg/github/projects_batch_mutation.go",
+      "sha256": "b1b0f957e389c986e3d568ad2cd85854b4d90eb7787057abb9c15c9a33ba1023"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 21221,
+      "path": "pkg/github/projects_resolver.go",
+      "sha256": "c6b76c06d57cce2f5b5c82310b0dff3d6a5e1440191f47023e2df59ffdbc11dd"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 477,
+      "path": "pkg/github/prompts.go",
+      "sha256": "aec104ce8e886c8831b32a53ebae05c221b96a4751122a7f3bf5dad4b35f9c6d"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 87396,
+      "path": "pkg/github/pullrequests.go",
+      "sha256": "5a656815dbb9365da9cbed664f63a6142929580ad54080d851015991a7aee002"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 37407,
+      "path": "pkg/github/pullrequests_granular.go",
+      "sha256": "7cfa2c670e3770dbacce23100010b186a9bfa46bf87af92270c52a2153eee5f9"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 109406,
+      "path": "pkg/github/repositories.go",
+      "sha256": "d4a0ef2889dc29b0c63027e73382a316e1a006c612992f108d844bae677abe56"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 21959,
+      "path": "pkg/github/repositories_helper.go",
+      "sha256": "a96ecd60e9f09dcda6b8acaba7a79c3b96b4134b677b898317483eea1dbd25ef"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2096,
+      "path": "pkg/github/repository_path.go",
+      "sha256": "c9db3cd23199d9a9aa4fd7fd29a83977523dbf74f981d186d51cd92f83dedd3e"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 10876,
+      "path": "pkg/github/repository_resource.go",
+      "sha256": "8778c9df39f57279dec8ae22c20f07b1bed1f3325bf2df95f548ea301ebefcf6"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 9438,
+      "path": "pkg/github/repository_resource_completions.go",
+      "sha256": "3047663df70afacae5f6db98e2db75bba928e2350e04e4f70d45feed05599805"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 867,
+      "path": "pkg/github/request_state.go",
+      "sha256": "4310a8bc7edf242fd2efab5997c83f52090f10d0936495ea8c7ac90f68226461"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 676,
+      "path": "pkg/github/resources.go",
+      "sha256": "1ade4b1010fc41edb9c795fa28407b395bc69b14762e9d101f4a86e616ee43fa"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 41090,
+      "path": "pkg/github/rulesets.go",
+      "sha256": "f1eea3e69f3d983239b65a906166db0fb586502dc9cf4593402c95dd301b338e"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1235,
+      "path": "pkg/github/scope_filter.go",
+      "sha256": "86ee95f9153830725e97052f6195104ab27c293321d19dc57f81abc20e6f2bca"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 23363,
+      "path": "pkg/github/search.go",
+      "sha256": "7e5d07eaeaf16c9c6078b065f61d641d4ebda68f7178bfa602db9e5b46cd9b21"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 7758,
+      "path": "pkg/github/search_utils.go",
+      "sha256": "ea026673cc0325bd99f8b2e8e296c53519e48c822ec1cdbe2c8f3871fdf68d64"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 7241,
+      "path": "pkg/github/secret_scanning.go",
+      "sha256": "c92f934e136b617e43427552dd77c5131e33398a7a754826b6659a19a28ccd27"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 17053,
+      "path": "pkg/github/security_advisories.go",
+      "sha256": "1b79b41f0f24e1be93618217eafc98345e0b17e6936b7ed92847279a59aee8c4"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 8423,
+      "path": "pkg/github/server.go",
+      "sha256": "8ce69862689b80997063a1c222058f9c300f92ff49be783dc746da138f521724"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2016,
+      "path": "pkg/github/tool_scopes.go",
+      "sha256": "20fc7ab282d855cceae5b48fd7b7b4b49ee8389834478a777059bbb156f36e1e"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 17272,
+      "path": "pkg/github/tools.go",
+      "sha256": "b14b55f66e2e53f059b78c33779047ed6f441b88589446de811ae7f98d6a7167"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 6632,
+      "path": "pkg/github/toolset_instructions.go",
+      "sha256": "daa4832dc46e23b5a05cdfd3b11cb45026231096aea148e8784fde75077c6b0f"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3159,
+      "path": "pkg/github/ui_capability.go",
+      "sha256": "4f40b0efee6ddb3b71f53d67f353580ad013029d8e5bc7807f2231a2b79a0adf"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1246,
+      "path": "pkg/github/ui_embed.go",
+      "sha256": "d12445fe6c7dc1ab7b76941a410312be56893346e4ddc0370c2eb506968a42af"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3835,
+      "path": "pkg/github/ui_resources.go",
+      "sha256": "d75f6c13e332540cf8b1e6e62742caac8a5528afacae3463c17ba2d78fc361d8"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 16472,
+      "path": "pkg/github/ui_tools.go",
+      "sha256": "fded711a7ba5228cab5005ccc88bb7fdf8c448d4728ad681bbfa7897bacc51ac"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3923,
+      "path": "pkg/github/workflow_prompts.go",
+      "sha256": "8f9ceb358f1c2336308d9c6e772bf7dc5d59bbec88a79bb258086f6d56fb8fad"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 17622,
+      "path": "pkg/http/handler.go",
+      "sha256": "30c339439bf265922ac4db8368e260e4e9248e40925f34b15bb54a217dce7c37"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 10982,
+      "path": "pkg/http/server.go",
+      "sha256": "bed20cda579886340f2d33e2d78f318dfb071f83fad8e9c79f98e790346a8e72"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3463,
+      "path": "pkg/http/headers/headers.go",
+      "sha256": "744f3bbad692fec3f0cdb5e6ab050b0894c896567c0a257674617fbde851400b"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 451,
+      "path": "pkg/http/headers/parse.go",
+      "sha256": "48be85ed70c92666ccea7ce0b7ea47e5b9b153421d15b32be1818b59ed37c439"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2224,
+      "path": "pkg/http/mark/mark.go",
+      "sha256": "89582fc7552f741d61c14da8bdd51e7872fe813469e45308ecc549f1cd9cea8b"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1557,
+      "path": "pkg/http/middleware/body_limit.go",
+      "sha256": "211d04e7b1612a45d638701dd7ef6ca5ac6a271d69bfea77d50aa63d1afd2b12"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2986,
+      "path": "pkg/http/middleware/cors.go",
+      "sha256": "6797f724a51de203073d5c39e8cc51abf8889a794bfb55e4dfc4fdee7f32cfd0"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3581,
+      "path": "pkg/http/middleware/mcp_parse.go",
+      "sha256": "5869d6fd1561c2352267e904ac348edee9f4b3e580c2cea828871f230479a3fb"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1699,
+      "path": "pkg/http/middleware/pat_scope.go",
+      "sha256": "881c4390077fddc5f6bf4b3764a0f0f63c265228fedfa681228c4d853a659129"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2528,
+      "path": "pkg/http/middleware/request_config.go",
+      "sha256": "1fe45e4fbac04202f2de1e546dd8d163a976760ce14b3c32d8de362dc067181f"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 4332,
+      "path": "pkg/http/middleware/scope_challenge.go",
+      "sha256": "c929503ec8b0566959318b032f798b4689ae424a2ccec36c675283ac561dd2df"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1924,
+      "path": "pkg/http/middleware/token.go",
+      "sha256": "89f69611a55d4f99aa7c19a1f04ae07b633cc48844adb415d950c803cbffaa5d"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 8974,
+      "path": "pkg/http/oauth/oauth.go",
+      "sha256": "85576423d05640119916f0c09b71ee8d4787b4518e68696c9326bec57fceba38"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 6134,
+      "path": "pkg/http/servercard/card.go",
+      "sha256": "596cdbc7fb110975f644535bdeb9608b7c39f4b93f3626bb98386118b7dbfafe"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 8015,
+      "path": "pkg/http/servercard/handler.go",
+      "sha256": "7eb5eae4527f783ba7d5d3b22b09572ecd488165d5e3bf3397931db61bb83d65"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2154,
+      "path": "pkg/http/transport/bearer.go",
+      "sha256": "8eba1ad32e8f63f4ee1be2d2d34e6696363cad5dc6bd51045625d2193e6ff3d2"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 8701,
+      "path": "pkg/http/transport/etag.go",
+      "sha256": "2d0f74909f0d75dbe3fd33a3a3ff59ca485686ff5794312cdc5cf5fabeb9d517"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1680,
+      "path": "pkg/http/transport/graphql_features.go",
+      "sha256": "b65d81392d3425da4872b7663ca1e7223ffe6892d2195fe830efee7b5ae5e575"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 386,
+      "path": "pkg/http/transport/user_agent.go",
+      "sha256": "6002c0f7a28034b122711f57925f442b31e0d76979b60089c818899676b883dd"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 15159,
+      "path": "pkg/ifc/ifc.go",
+      "sha256": "81aa83a09d46b9c450de6df75d8567180ebcfd6e704ac8866af3275ec9e1a237"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 14021,
+      "path": "pkg/inventory/builder.go",
+      "sha256": "30b10b7b8d5fb075fad91447e6fa6645f7304ef43a03961520be550c6f5dd007"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1047,
+      "path": "pkg/inventory/errors.go",
+      "sha256": "90c3ea0f9b8c18d058ae314d603958f7b54ab385c1b1eedb794b1940b627ee54"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 7158,
+      "path": "pkg/inventory/features.go",
+      "sha256": "57db4ce41ffb68b925ba5d592187fa09a09ab5df92766931ef363fbca1a75861"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 7830,
+      "path": "pkg/inventory/filters.go",
+      "sha256": "d5c77da0ac9b1fa62540a96aa24e9b3b5ce86718027d971e81e2ac3113a82a39"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1711,
+      "path": "pkg/inventory/instructions.go",
+      "sha256": "1d0f7788a5b9473c0be7996cb507c25116c377619b3bfe904b6ffb04fe3076be"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 638,
+      "path": "pkg/inventory/prompts.go",
+      "sha256": "0cb7897ca9d7f6862e7443c60496fb7c9dd86ca274974c9581d6a976f4d0274a"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 17287,
+      "path": "pkg/inventory/registry.go",
+      "sha256": "63d7abfd2388fffddec05d26c8670d405d4108db4e0b74a95cc2b5a2776190f2"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1783,
+      "path": "pkg/inventory/resources.go",
+      "sha256": "86b7a5ed45b1c98d4431d0106c58bd65fe63f25c89f4b37fe4a02a054ebe70e8"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 11148,
+      "path": "pkg/inventory/server_tool.go",
+      "sha256": "34e457c1efb020d4c320c66ae487c15941b9dfcabb41a6dd9b59fc808da3a344"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 6245,
+      "path": "pkg/inventory/tool_availability.go",
+      "sha256": "af7b91b093551ac7bdf751993c0bfac6d220811ec560d93972305d1d3225e8fe"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 10127,
+      "path": "pkg/lockdown/lockdown.go",
+      "sha256": "e743558db4c48c9b7f62d9fd486cf2f8ba64050747ead13f6593a44066932f6a"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1347,
+      "path": "pkg/log/io.go",
+      "sha256": "724315e1cac7c99cf638edfac9e023210158756156c63d2231601ca7ad5eddf0"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 1292,
+      "path": "pkg/observability/observability.go",
+      "sha256": "e4be88675c54594bd1dadd9de017711e1058ce43048818294ce95a441d0cc10c"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 482,
+      "path": "pkg/observability/metrics/metrics.go",
+      "sha256": "ea9a5a8d9a5b6bb1aee20af92a95dae24be0393ffe66eb956ab10a30fbca56f3"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 721,
+      "path": "pkg/observability/metrics/noop_sink.go",
+      "sha256": "0088149910dabd6a7c0d8d6aa7a3707c11bce9d87324fba1e300eafadcf7890a"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 49744,
+      "path": "pkg/octicons/icons_data_uris.txt",
+      "sha256": "53be3b67689ffb80b4ad511adbcbe128f7b0c868056bbd60f32cba756b907990"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 3105,
+      "path": "pkg/octicons/octicons.go",
+      "sha256": "a2184033d3418bfaf573430165aa500e0d3f145b3e34accec8a234cb533c58fa"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 836,
+      "path": "pkg/octicons/required_icons.txt",
+      "sha256": "d36769c62e04ba6eb939773ffe7a8cdb127d3fd337d36097aee94bcbc984547d"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 4287,
+      "path": "pkg/raw/raw.go",
+      "sha256": "111263cba6200d4b0a116489d9a776df06e977980f7f578f11391ea5b987d9c6"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 14867,
+      "path": "pkg/sanitize/sanitize.go",
+      "sha256": "25460f4fe50e3cceaf4aa00255e161695246c0576b6355574af15ffbcae0ec21"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 4305,
+      "path": "pkg/scopes/fetcher.go",
+      "sha256": "40ca3ad4ac52dbfd679cfaea57af0fb28cd49ed8a3d3577a825dc007a7b582c1"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2559,
+      "path": "pkg/scopes/map.go",
+      "sha256": "5127313681897a4aae5a8606b659dc2dc59d631a3e15d70c89db747c138667d7"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 7289,
+      "path": "pkg/scopes/scopes.go",
+      "sha256": "8406791ba8472bb8a2c9ea3bee6f0e08cde0ad69e0091a2a97d5774bdd2b1da0"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 8127,
+      "path": "pkg/tooldiscovery/search.go",
+      "sha256": "a9cf3acbe9043e546e96428a0402a93cb5946fbd9cfad1e7f172e52f5d6fb97e"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 8720,
+      "path": "pkg/toolvalidation/readonlyhint.go",
+      "sha256": "2c20bb82da75b31b17c802940f3fed534b605c8483acab76c5c97f54f5b04ffc"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2236,
+      "path": "pkg/translations/translations.go",
+      "sha256": "7aa255da6425ad462e2f71c6145307df03c2a8e6fb2762edea767e2b0c38208d"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 10297,
+      "path": "pkg/utils/api.go",
+      "sha256": "491c402d66774b65bc5d6f36f763bcfb04950c2e22e06b6f8e3937c536daa851"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2272,
+      "path": "pkg/utils/result.go",
+      "sha256": "811f6521ca854e3dc4426bdb1fd43c73dd4581fc33d7c4c7b2cce952ee371b21"
+    },
+    {
+      "analysis_profile": "generic_text",
+      "bytes": 2705,
+      "path": "pkg/utils/token.go",
+      "sha256": "4823b68086cc717f1d14aa599a009ee298234df57b8e7b98ad68d1cd0e4229d3"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 218184,
+      "path": "ui/package-lock.json",
+      "sha256": "9c8a0c1a9a14e6a78b41549b2ab169a7ce00b8c6358ef9d590d0374c8e9b2228"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 935,
+      "path": "ui/package.json",
+      "sha256": "6292e903a09297680ff76e8622fd92722f0acb8bd391d0234d926192f20953d7"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 401,
+      "path": "ui/tsconfig.json",
+      "sha256": "6f472e9837c2b43528a8f6dee432b1fa40235937c56dc077ec5ac9710111476f"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 1548,
+      "path": "ui/vite.config.ts",
+      "sha256": "c10f4db6bd8cc597d7da706bd74f4219a09eff27cd030b0105e0258b5d02a56f"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 400,
+      "path": "ui/scripts/build.mjs",
+      "sha256": "9ebc34ba64bd898cd44c30ffd9b011129f4f4604210db46b2b596b22385cf0e4"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 38,
+      "path": "ui/src/vite-env.d.ts",
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 5598,
+      "path": "ui/src/apps/get-me/App.tsx",
+      "sha256": "696617efa762a9fe0523bb2b226d4d3cd93ee8d9f7a3ea36fb8a713feb2fb305"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 60136,
+      "path": "ui/src/apps/issue-write/App.tsx",
+      "sha256": "288e555fc18ebd207e235bcaa3b5d608a5fee044e480d59010f866a9c14763a0"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 29004,
+      "path": "ui/src/apps/pr-edit/App.tsx",
+      "sha256": "bd81ca6c5bf6bf8944099a792b09670b92219bc858d59075f208ad6fa202d9b2"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 31117,
+      "path": "ui/src/apps/pr-write/App.tsx",
+      "sha256": "43129aba7cb4dde019f0d02f4eaecb3d8b7f1605523f42f96f1f8f65e70995e1"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 1900,
+      "path": "ui/src/components/AppProvider.tsx",
+      "sha256": "38eb6f17162c8d2666b4a1876c5867225292a4a842f4351787d3e5368ecd9dfd"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 442,
+      "path": "ui/src/components/FeedbackFooter.tsx",
+      "sha256": "8efa69d63bdfc8d1df6d59a4efbb45c4d82725386bf2489021bd5df61d07e68c"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 13740,
+      "path": "ui/src/components/MarkdownEditor.tsx",
+      "sha256": "9e9a9f0820fc3ab50caa67efb38c2845784310eb4177e696d371594c61e10e13"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 4518,
+      "path": "ui/src/hooks/useMcpApp.ts",
+      "sha256": "b6c3d8781b2c08414e9202adaae90e7bb677eccb10d79058ab2f14dd73a5a5d7"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 1444,
+      "path": "ui/src/lib/toolResult.ts",
+      "sha256": "ddd5ed6b0134e120aa39369dbb7add3aa4c88dcc5feeddf597fb42b557aba22b"
+    }
+  ],
+  "findings": [
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @github/markdown-toolbar-element. A lockfile may pin its resolved version.",
+      "end_line": 17,
+      "evidence": "    \"@github/markdown-toolbar-element\": \"^2.2.3\",",
+      "finding_id": "7b0fae91f2cabbd6a542b53c",
+      "id": "7b0fae91f2cabbd6a542b53c",
+      "line": 17,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @modelcontextprotocol/ext-apps. A lockfile may pin its resolved version.",
+      "end_line": 18,
+      "evidence": "    \"@modelcontextprotocol/ext-apps\": \"^1.7.2\",",
+      "finding_id": "fc99c43368b10dce0d91882c",
+      "id": "fc99c43368b10dce0d91882c",
+      "line": 18,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @primer/octicons-react. A lockfile may pin its resolved version.",
+      "end_line": 19,
+      "evidence": "    \"@primer/octicons-react\": \"^19.0.0\",",
+      "finding_id": "ee4c762926aea9ae5fb706ab",
+      "id": "ee4c762926aea9ae5fb706ab",
+      "line": 19,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @primer/react. A lockfile may pin its resolved version.",
+      "end_line": 20,
+      "evidence": "    \"@primer/react\": \"^36.0.0\",",
+      "finding_id": "2191362e772c695d302d6156",
+      "id": "2191362e772c695d302d6156",
+      "line": 20,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: react. A lockfile may pin its resolved version.",
+      "end_line": 21,
+      "evidence": "    \"react\": \"^18.0.0\",",
+      "finding_id": "ab9645a9bbd122fb1bb9ae31",
+      "id": "ab9645a9bbd122fb1bb9ae31",
+      "line": 21,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: react-dom. A lockfile may pin its resolved version.",
+      "end_line": 22,
+      "evidence": "    \"react-dom\": \"^18.0.0\",",
+      "finding_id": "a0dcbaea3b4035b68a8e7614",
+      "id": "a0dcbaea3b4035b68a8e7614",
+      "line": 22,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: react-markdown. A lockfile may pin its resolved version.",
+      "end_line": 23,
+      "evidence": "    \"react-markdown\": \"^10.1.0\",",
+      "finding_id": "24d211a4b8c1639e01ae5601",
+      "id": "24d211a4b8c1639e01ae5601",
+      "line": 23,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: remark-gfm. A lockfile may pin its resolved version.",
+      "end_line": 24,
+      "evidence": "    \"remark-gfm\": \"^4.0.1\"",
+      "finding_id": "f1877494f91dc313d8307dc0",
+      "id": "f1877494f91dc313d8307dc0",
+      "line": 24,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @types/node. A lockfile may pin its resolved version.",
+      "end_line": 27,
+      "evidence": "    \"@types/node\": \"^25.2.0\",",
+      "finding_id": "32960660d02c89436915407f",
+      "id": "32960660d02c89436915407f",
+      "line": 27,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @types/react. A lockfile may pin its resolved version.",
+      "end_line": 28,
+      "evidence": "    \"@types/react\": \"^18.0.0\",",
+      "finding_id": "719e873f7809682295fc4b6d",
+      "id": "719e873f7809682295fc4b6d",
+      "line": 28,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @types/react-dom. A lockfile may pin its resolved version.",
+      "end_line": 29,
+      "evidence": "    \"@types/react-dom\": \"^18.0.0\",",
+      "finding_id": "382befcbc606c75fe87ef11e",
+      "id": "382befcbc606c75fe87ef11e",
+      "line": 29,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: @vitejs/plugin-react. A lockfile may pin its resolved version.",
+      "end_line": 30,
+      "evidence": "    \"@vitejs/plugin-react\": \"^6.0.2\",",
+      "finding_id": "9eccc82fb8f49a2154fb4cb6",
+      "id": "9eccc82fb8f49a2154fb4cb6",
+      "line": 30,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: typescript. A lockfile may pin its resolved version.",
+      "end_line": 31,
+      "evidence": "    \"typescript\": \"^5.7.0\",",
+      "finding_id": "1d948705e50af0cc089ac09a",
+      "id": "1d948705e50af0cc089ac09a",
+      "line": 31,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: vite. A lockfile may pin its resolved version.",
+      "end_line": 32,
+      "evidence": "    \"vite\": \"^8.0.16\",",
+      "finding_id": "c9f1720f37736ca8a9099d87",
+      "id": "c9f1720f37736ca8a9099d87",
+      "line": 32,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    },
+    {
+      "category": "supply_chain",
+      "confidence": "low",
+      "cwe": [
+        "CWE-1104"
+      ],
+      "description": "A direct dependency declaration allows version movement. A lockfile elsewhere may constrain the actual installation; review the effective build process. Dependency: vite-plugin-singlefile. A lockfile may pin its resolved version.",
+      "end_line": 33,
+      "evidence": "    \"vite-plugin-singlefile\": \"^2.3.3\"",
+      "finding_id": "71a47f1998d31d071cb167f0",
+      "id": "71a47f1998d31d071cb167f0",
+      "line": 33,
+      "path": "ui/package.json",
+      "references": [
+        "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      ],
+      "remediation": "Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.",
+      "rule_id": "AI025",
+      "severity": "low",
+      "status": "open",
+      "title": "Direct dependency is not exactly pinned"
+    }
+  ],
+  "inventory": {
+    "agent_mcp_signals": [
+      {
+        "path": "Dockerfile",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "gemini-extension.json",
+        "signals": [
+          "mcpservers"
+        ]
+      },
+      {
+        "path": "go.mod",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "go.sum",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "server.json",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "agent-plugin/mcp.json",
+        "signals": [
+          "mcpservers"
+        ]
+      },
+      {
+        "path": "internal/ghmcp/oauth.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "internal/ghmcp/server.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/context/mcp_info.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/errors/error.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/actions.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/code_quality.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/code_scanning.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/context_tools.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/copilot.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/csv_output.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/custom_properties.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/dependabot.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/dependencies.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/discussions.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/find_duplicate.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/gists.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/git.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/ifc_labels.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/issue_dependencies.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/issue_fields.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/issues.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/issues_granular.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/labels.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/lockdown.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/notifications.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/projects.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/projects_batch.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/pullrequests.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/pullrequests_granular.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/repositories.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/repositories_helper.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/repository_resource.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/repository_resource_completions.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/rulesets.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/search.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/search_utils.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/secret_scanning.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/security_advisories.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/server.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/ui_capability.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/ui_resources.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/ui_tools.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/github/workflow_prompts.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/http/handler.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/http/middleware/mcp_parse.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/http/oauth/oauth.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/http/servercard/card.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/inventory/prompts.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/inventory/registry.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/inventory/resources.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/inventory/server_tool.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/inventory/tool_availability.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/octicons/octicons.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/tooldiscovery/search.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/toolvalidation/readonlyhint.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "pkg/utils/result.go",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "ui/package-lock.json",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "ui/package.json",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "ui/src/components/AppProvider.tsx",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "ui/src/hooks/useMcpApp.ts",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "ui/src/lib/toolResult.ts",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      }
+    ],
+    "dependency_manifests": [
+      "go.mod",
+      "go.sum",
+      "ui/package-lock.json",
+      "ui/package.json"
+    ],
+    "extensions": {
+      "(none)": 1,
+      ".go": 132,
+      ".json": 7,
+      ".mjs": 1,
+      ".mod": 1,
+      ".sum": 1,
+      ".ts": 4,
+      ".tsx": 7,
+      ".txt": 2
+    }
+  },
+  "judge": {
+    "enabled": false
+  },
+  "mode": "deterministic_static",
+  "scan_id": "7adb90643fa6a2a582a0f5f19b9695df058e8a6a38ccacb40996bc5c3a668ff2",
+  "schema_version": "1.0",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 2086786,
+    "bytes_read": 2086786,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 156,
+    "open_findings": 15,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 15,
+      "medium": 0
+    },
+    "suppressed_findings": 0
+  },
+  "target": ".",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "bb306fbda1b72f02daa098336512dc53e87c54d6bbb5aa31a6373967df7db483",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.8.0"
+  }
+}

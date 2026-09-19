@@ -6,7 +6,7 @@ from . import DISPLAY_NAME
 
 DESCRIPTION = DISPLAY_NAME + """
 Read-only AI agent and MCP source or container-image security scan.
-Source/archive scans are offline unless --judge-config is provided. No model,
+Source/archive scans are offline unless --judge-config or --judge-cli is provided. No model,
 API key, or third-party Python package is required for deterministic scanning.
 Image references use Docker/Podman; only --pull explicitly fetches an image.
 Static findings are review signals; a clean scan does not establish security or compliance.
@@ -29,7 +29,7 @@ def complete_reference():
   invarune [OPTIONS] TARGET                       (after pip install .)
   ai-security-scan [OPTIONS] TARGET               (compatible legacy alias)
   Replace TARGET with --image REFERENCE or --image-archive PATH for image scans.
-  Choose exactly one input. Catalog commands need no target and write no reports.
+  Choose exactly one input. Catalog commands and --login need no target and write no reports.
   -h and --help print this complete reference; --version prints the version.
   Help/version exit 0 without scanning, loading a judge config, or using a runtime
   or network. Full long-option spelling is required; abbreviations are rejected.
@@ -206,7 +206,8 @@ Catalog inspection:
   --quiet and --summary-json. Unknown rule IDs are errors. No reports are written.
 
 Optional security analyst and data disclosure:
-  No LLM call occurs without --judge-config PATH. Use a trusted UTF-8 JSON file
+  No LLM call occurs without --judge-config PATH or --judge-cli PROVIDER.
+  For file configuration use a trusted UTF-8 JSON file
   outside untrusted target repositories; it controls the recipient and requested
   environment variables. Config files are limited to 256 KiB and 64 nesting levels.
   --judge-mode full (default) triages findings, then reviews every active catalog check,
@@ -237,12 +238,85 @@ Optional security analyst and data disclosure:
   Requested review errors preserve deterministic reports. A failed control batch
   stops further batches; unanswered controls/checks remain explicit and exit 2.
 
-Judge protocols and endpoint configuration (JSON fields, not CLI flags):
+Official CLI login integrations:
+  --judge-cli codex|claude|grok runs an installed official vendor CLI with its own
+  login. No separate API key is required by Invarune for this route.
+  Subscription eligibility, usage limits and model access are vendor/account
+  dependent. API keys are not inherited by the child environment. The scanner
+  never reads or copies auth tokens; the official CLI owns its credential store.
+  Interactive scans use --judge-login auto (default): missing login opens the
+  official browser/device flow and the scan resumes after successful sign-in.
+  Expired credentials in either review stage can trigger one login per scan,
+  then retry the interrupted request. Control retries consume --analyst-max-calls;
+  completed batches remain intact. Login time uses its separate deadline and is
+  excluded from the control analyst scheduling clock. Finding triage can retry
+  once beyond its normal single request; no automatic model-error retry loop runs.
+  --judge-login never requires existing authentication. Quiet, JSON-summary and
+  noninteractive scans never open a browser or wait for sign-in; errors preserve
+  static reports and exit 2. Use --login codex|claude|grok to sign in directly
+  from Invarune without scanning. It requires an interactive terminal, rejects
+  target/image/judge selection and quiet/JSON output, and writes no scan reports.
+  --login-timeout is separate from inference budgets: default 300, range 1..900
+  seconds. Cancellation, timeout or failure returns exit 2. Vendor login output
+  stays on the terminal, never in a report. Login process cleanup is direct-child
+  only; it does not close the user's browser. Account/browser approval stays with
+  the user. Invarune does not purchase credits or bypass vendor account policies.
+  Minimum tested versions: Codex 0.154.0, Claude Code 2.1.214, Grok Build 0.2.60.
+  Version/help capability probes run before any advisory request. Older or
+  incompatible CLIs fail explicitly; help and deterministic scans never probe.
+  Invarune selects gpt-6-astra for Codex, opus for Claude, and grok-build for Grok.
+  These are documented quality-focused review defaults, not a measured universal
+  model ranking. Codex and Claude use high reasoning effort. Vendor aliases can
+  resolve differently by installed version/account. Model access and limits still
+  apply; there is no silent fallback to a different provider or billing route.
+  --judge-model overrides this selection; default explicitly requests the vendor
+  CLI's configured model instead. The selected model is recorded in the report.
+  --judge-executable selects a trusted absolute executable path or bare PATH name
+  for a CLI scan or standalone login.
+  Relative executable paths, shell command files and arbitrary extra arguments
+  are rejected. The installed executable and host administrator policy are trusted.
+  --judge-timeout bounds one invocation, including preflight (default 60 seconds,
+  range 0.1..300). stdout/stderr and request sizes are bounded. Child processes
+  run in a private temporary directory; prompts use stdin or a private file.
+  Target repositories are never the CLI working directory. Tools, MCP, user
+  customizations and persistence are restricted using vendor-specific controls.
+  These controls are not an OS sandbox or a guarantee about provider retention.
+  POSIX cleanup kills the child process group; Windows kills the direct process
+  only. Use an external job/container boundary for descendant isolation on Windows.
+  Grok profiles with active extensions/instructions are rejected before inference.
+  --judge-cli-home is Grok-only and selects an existing absolute clean GROK_HOME
+  profile for scan or --login. Keep this profile outside scan targets.
+  No auth files are copied; the scanner does not change your existing profile.
+  CLI invocations have no uniform token/cost cap. max_output_tokens is rejected
+  for CLI providers. Time/byte limits cannot undo usage already consumed remotely.
+  Reports retain CLI version, capability flags, request/response hashes and sizes,
+  auth_mode=cli_managed, and lifecycle/isolation limits. They never claim a plan.
+  All finding/control validation, user dispositions, source budgets, advisory-only
+  boundaries and error exit codes above apply to CLI providers as to HTTP providers.
+
+  CLI configuration fields (use --judge-config instead of --judge-cli):
+    provider           codex_cli, claude_cli or grok_cli (required).
+    model              Optional; omission selects Invarune's provider default.
+                       Explicit default uses the vendor CLI's configured model.
+    executable         Optional; defaults to codex, claude or grok respectively.
+    timeout_seconds    Default 60, range 0.1..300, including capability probes.
+    max_request_bytes  Default 524288, integer 1024..5242880, full UTF-8 prompt.
+    max_response_bytes Default 1048576, integer 1024..5242880, CLI output envelope.
+    cli_home           Optional existing absolute Grok profile directory only.
+  Unknown fields, API/gateway fields and token limits are rejected for CLI configs.
+  --judge-model/--judge-timeout require --judge-cli. --judge-executable and the
+  Grok-only --judge-cli-home also work with --login. Put corresponding fields
+  inside JSON when using --judge-config. Login policy/time limits remain CLI flags.
+  Minimal CLI configuration:
+    {"provider":"codex_cli","timeout_seconds":120}
+
+Judge protocols and HTTP endpoint configuration (JSON fields, not CLI flags):
 """ + inventory("  Supported provider values:", PROVIDERS) + """  Provider aliases:
 """ + "\n".join("    " + alias + " -> " + target for alias, target in sorted(ALIASES.items())) + """
   Default endpoints (each accepts an exact endpoint override):
 """ + "\n".join("    " + provider + ": " + endpoint for provider, endpoint in sorted(DEFAULT_ENDPOINTS.items())) + """
     custom: no default; supply endpoint explicitly.
+  The following HTTP fields apply only to the six HTTP providers, not *_cli.
   Native adapters cover both triage and control review. Other synchronous JSON
   HTTP POST APIs can use custom. There is no automatic OAuth refresh, AWS SigV4,
   mTLS, WebSocket, SSE-only stream, multipart/binary API or async polling adapter;
@@ -329,6 +403,11 @@ Examples:
   invarune --explain-rule AI002
   # Optional full analyst; trusted-judge.json follows the JSON examples above.
   invarune ./repository --judge-config ./trusted-judge.json
+  invarune ./repository --judge-cli codex --judge-timeout 120
+  invarune --login claude
+  invarune ./repository --judge-cli claude --judge-login never --summary-json
+  invarune ./repository --judge-cli claude --judge-mode findings --judge-include-source
+  invarune ./repository --judge-cli grok --judge-cli-home /absolute/path/to/clean-grok-profile
   invarune --image-archive ./agent-image.tar --judge-config ./trusted-judge.json
   # Finding-only triage with explicitly requested neighboring source.
   invarune ./repository --judge-config ./trusted-judge.json --judge-mode findings --judge-include-source

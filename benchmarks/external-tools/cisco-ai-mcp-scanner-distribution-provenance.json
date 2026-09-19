@@ -1,0 +1,23 @@
+{
+  "name": "cisco-ai-mcp-scanner",
+  "version": "4.8.4",
+  "requires_python": ">=3.11.4",
+  "project_urls": {
+    "Documentation": "https://github.com/cisco-ai-defense/mcp-scanner#readme",
+    "Homepage": "https://github.com/cisco-ai-defense/mcp-scanner",
+    "Issues": "https://github.com/cisco-ai-defense/mcp-scanner/issues",
+    "Repository": "https://github.com/cisco-ai-defense/mcp-scanner"
+  },
+  "distributions": [
+    {
+      "filename": "cisco_ai_mcp_scanner-4.8.4-py3-none-any.whl",
+      "sha256": "cd25f68d4f22c6e40b74578a8c28e2dfc350f69ebf4122801d9d05f804e769cd",
+      "url": "https://files.pythonhosted.org/packages/69/38/5f0bb652e855e183a211353a9ff5404061e8b7daf86ed5d94b369d2a5cf1/cisco_ai_mcp_scanner-4.8.4-py3-none-any.whl"
+    },
+    {
+      "filename": "cisco_ai_mcp_scanner-4.8.4.tar.gz",
+      "sha256": "d417e19e72bc0ebc26227ec4482527e8ca202c83e2559bcf4b4a28fd94f9a8b5",
+      "url": "https://files.pythonhosted.org/packages/90/37/ebf1947d0a08a693e5c67ef62823d07e9ff2dde628986ece458f151e8ff8/cisco_ai_mcp_scanner-4.8.4.tar.gz"
+    }
+  ]
+}

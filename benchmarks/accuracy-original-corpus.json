@@ -1,0 +1,2594 @@
+{
+  "analysis_error_cases": 0,
+  "by_rule": {
+    "AI001": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI002": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI003": {
+      "assertions": 5,
+      "false_negative": 1,
+      "false_negative_rate": 0.333333,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 0.666667,
+      "true_negative": 2,
+      "true_positive": 2
+    },
+    "AI004": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI005": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI006": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI007": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI008": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI009": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI010": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI011": {
+      "assertions": 2,
+      "false_negative": 1,
+      "false_negative_rate": 1.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": null,
+      "recall": 0.0,
+      "true_negative": 1,
+      "true_positive": 0
+    },
+    "AI012": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI013": {
+      "assertions": 4,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 2,
+      "true_positive": 2
+    },
+    "AI014": {
+      "assertions": 5,
+      "false_negative": 2,
+      "false_negative_rate": 0.666667,
+      "false_positive": 1,
+      "false_positive_rate": 0.5,
+      "precision": 0.5,
+      "recall": 0.333333,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI015": {
+      "assertions": 3,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 2
+    },
+    "AI016": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI017": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI018": {
+      "assertions": 6,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 3,
+      "true_positive": 3
+    },
+    "AI019": {
+      "assertions": 3,
+      "false_negative": 1,
+      "false_negative_rate": 0.5,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 0.5,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI020": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI021": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI022": {
+      "assertions": 3,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 2
+    },
+    "AI023": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI024": {
+      "assertions": 3,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 2
+    },
+    "AI025": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI026": {
+      "assertions": 3,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 1,
+      "false_positive_rate": 0.5,
+      "precision": 0.5,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI027": {
+      "assertions": 4,
+      "false_negative": 1,
+      "false_negative_rate": 0.5,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 0.5,
+      "true_negative": 2,
+      "true_positive": 1
+    },
+    "AI028": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI029": {
+      "assertions": 6,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 3,
+      "true_positive": 3
+    },
+    "AI030": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI031": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI032": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI033": {
+      "assertions": 3,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 2,
+      "true_positive": 1
+    },
+    "AI034": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI035": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI036": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI037": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI038": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI039": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI040": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI041": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI042": {
+      "assertions": 3,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 2
+    }
+  },
+  "by_suite": {
+    "challenge": {
+      "assertions": 8,
+      "false_negative": 5,
+      "false_negative_rate": 1.0,
+      "false_positive": 2,
+      "false_positive_rate": 0.666667,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 1,
+      "true_positive": 0
+    },
+    "regression": {
+      "assertions": 101,
+      "false_negative": 1,
+      "false_negative_rate": 0.019231,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 0.980769,
+      "true_negative": 49,
+      "true_positive": 51
+    }
+  },
+  "case_count": 109,
+  "cases": [
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI001"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI001"
+      ],
+      "id": "ai001-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Executable evaluation versus literal data parsing.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI001"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai001-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Executable evaluation versus literal data parsing.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI002"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI002"
+      ],
+      "id": "ai002-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Shell syntax versus a fixed executable with separate arguments.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI002"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai002-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Shell syntax versus a fixed executable with separate arguments.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI003"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI003"
+      ],
+      "id": "ai003-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The rule specifically identifies dynamic shell commands.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI003"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai003-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The rule specifically identifies dynamic shell commands.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI004"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI004"
+      ],
+      "id": "ai004-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Object construction versus a known safe YAML loader.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI004"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai004-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Object construction versus a known safe YAML loader.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI005"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI005"
+      ],
+      "id": "ai005-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Executable deserialization versus JSON parsing.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI005"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai005-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Executable deserialization versus JSON parsing.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI006"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI006"
+      ],
+      "id": "ai006-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Explicit certificate verification bypass.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI006"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai006-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Explicit certificate verification bypass.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI007"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI007"
+      ],
+      "id": "ai007-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Wildcard origin signal versus a named origin.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI007"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai007-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Wildcard origin signal versus a named origin.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI008"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI008"
+      ],
+      "id": "ai008-risk",
+      "matched_labels": true,
+      "path": "server.py",
+      "rationale": "Wildcard listener signal versus loopback.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI008"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai008-comparison",
+      "matched_labels": true,
+      "path": "server.py",
+      "rationale": "Wildcard listener signal versus loopback.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI009"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI009"
+      ],
+      "id": "ai009-risk",
+      "matched_labels": true,
+      "path": "server.py",
+      "rationale": "Explicit debug mode setting.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI009"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai009-comparison",
+      "matched_labels": true,
+      "path": "server.py",
+      "rationale": "Explicit debug mode setting.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI010"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI010"
+      ],
+      "id": "ai010-risk",
+      "matched_labels": true,
+      "path": "settings.json",
+      "rationale": "Synthetic literal credential versus an environment placeholder; neither is a real credential.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI010"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai010-comparison",
+      "matched_labels": true,
+      "path": "settings.json",
+      "rationale": "Synthetic literal credential versus an environment placeholder; neither is a real credential.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": true,
+          "outcome": "false_negative",
+          "rule_id": "AI011"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai011-risk",
+      "matched_labels": false,
+      "path": "fixture.pem",
+      "rationale": "Private versus public key marker; no actual key material.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI011"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai011-comparison",
+      "matched_labels": true,
+      "path": "fixture.pem",
+      "rationale": "Private versus public key marker; no actual key material.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI012"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI012"
+      ],
+      "id": "ai012-risk",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "Shell exec versus argument-based executable API.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI012"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai012-comparison",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "Shell exec versus argument-based executable API.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI013"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI013"
+      ],
+      "id": "ai013-risk",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "Dynamic evaluation versus structured parsing.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI013"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai013-comparison",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "Dynamic evaluation versus structured parsing.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "ai014-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Obvious external URL versus fixed URL; does not prove upstream validation.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai014-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Obvious external URL versus fixed URL; does not prove upstream validation.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI015"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI015"
+      ],
+      "id": "ai015-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Obvious external filesystem path versus fixed path.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI015"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai015-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Obvious external filesystem path versus fixed path.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI016"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI016"
+      ],
+      "id": "ai016-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Non-atomic filename selection versus file creation.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI016"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai016-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Non-atomic filename selection versus file creation.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI017"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI017"
+      ],
+      "id": "ai017-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Explicit signature bypass versus verified decode API shape.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI017"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai017-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Explicit signature bypass versus verified decode API shape.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI018"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI018"
+      ],
+      "id": "ai018-risk",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Mutable launch package versus exact version.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI018"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai018-comparison",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Mutable launch package versus exact version.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI019"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI019"
+      ],
+      "id": "ai019-risk",
+      "matched_labels": true,
+      "path": "setup.sh",
+      "rationale": "Immediate remote execution versus download without execution.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI019"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai019-comparison",
+      "matched_labels": true,
+      "path": "setup.sh",
+      "rationale": "Immediate remote execution versus download without execution.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI020"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI020"
+      ],
+      "id": "ai020-risk",
+      "matched_labels": true,
+      "path": ".github/workflows/check.yml",
+      "rationale": "Mutable GitHub Action reference versus full commit ID.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI020"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai020-comparison",
+      "matched_labels": true,
+      "path": ".github/workflows/check.yml",
+      "rationale": "Mutable GitHub Action reference versus full commit ID.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI021"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI021"
+      ],
+      "id": "ai021-risk",
+      "matched_labels": true,
+      "path": "Dockerfile",
+      "rationale": "Explicit root user versus named runtime user.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI021"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai021-comparison",
+      "matched_labels": true,
+      "path": "Dockerfile",
+      "rationale": "Explicit root user versus named runtime user.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI022"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI022"
+      ],
+      "id": "ai022-risk",
+      "matched_labels": true,
+      "path": "deployment.yml",
+      "rationale": "Explicit container privilege flag.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI022"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai022-comparison",
+      "matched_labels": true,
+      "path": "deployment.yml",
+      "rationale": "Explicit container privilege flag.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI023"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI023"
+      ],
+      "id": "ai023-risk",
+      "matched_labels": true,
+      "path": "compose.yml",
+      "rationale": "Runtime control socket versus ordinary data volume.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI023"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai023-comparison",
+      "matched_labels": true,
+      "path": "compose.yml",
+      "rationale": "Runtime control socket versus ordinary data volume.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI024"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI024"
+      ],
+      "id": "ai024-risk",
+      "matched_labels": true,
+      "path": "Dockerfile",
+      "rationale": "Mutable image versus syntactically complete digest.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI024"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai024-comparison",
+      "matched_labels": true,
+      "path": "Dockerfile",
+      "rationale": "Mutable image versus syntactically complete digest.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI025"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI025"
+      ],
+      "id": "ai025-risk",
+      "matched_labels": true,
+      "path": "requirements.txt",
+      "rationale": "Movable direct dependency versus exact version.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI025"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai025-comparison",
+      "matched_labels": true,
+      "path": "requirements.txt",
+      "rationale": "Movable direct dependency versus exact version.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI026"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI026"
+      ],
+      "id": "ai026-risk",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Authentication disabled versus enabled; presence alone is not assurance.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI026"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai026-comparison",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Authentication disabled versus enabled; presence alone is not assurance.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI027"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI027"
+      ],
+      "id": "ai027-risk",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Unrestricted versus named tools.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI027"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai027-comparison",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Unrestricted versus named tools.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI028"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI028"
+      ],
+      "id": "ai028-risk",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Explicit token forwarding.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI028"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai028-comparison",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Explicit token forwarding.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI029"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI029"
+      ],
+      "id": "ai029-risk",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Remote cleartext versus TLS endpoint.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI029"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai029-comparison",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Remote cleartext versus TLS endpoint.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI030"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI030"
+      ],
+      "id": "ai030-risk",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "Browser credential safeguard opt-out.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI030"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai030-comparison",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "Browser credential safeguard opt-out.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI031"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI031"
+      ],
+      "id": "ai031-risk",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Wildcard versus narrow automatic approval.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI031"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai031-comparison",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Wildcard versus narrow automatic approval.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI032"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI032"
+      ],
+      "id": "ai032-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Untrusted content placed into privileged instruction role.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI032"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai032-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Untrusted content placed into privileged instruction role.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI033"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI033"
+      ],
+      "id": "ai033-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Credential data versus a harmless event label in logging.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI033"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai033-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Credential data versus a harmless event label in logging.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI034"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI034"
+      ],
+      "id": "ai034-risk",
+      "matched_labels": true,
+      "path": "settings.env",
+      "rationale": "Sensitive URL query value versus a request identifier.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI034"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai034-comparison",
+      "matched_labels": true,
+      "path": "settings.env",
+      "rationale": "Sensitive URL query value versus a request identifier.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI035"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI035"
+      ],
+      "id": "ai035-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Explicit unsafe model deserialization flag.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI035"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai035-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Explicit unsafe model deserialization flag.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI036"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI036"
+      ],
+      "id": "ai036-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "SQL source interpolation versus bound data.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI036"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai036-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "SQL source interpolation versus bound data.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI037"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI037"
+      ],
+      "id": "ai037-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Missing explicit safe extraction filter versus data filter.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI037"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai037-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Missing explicit safe extraction filter versus data filter.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI038"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI038"
+      ],
+      "id": "ai038-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Security-named value from general-purpose versus cryptographic randomness.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI038"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai038-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Security-named value from general-purpose versus cryptographic randomness.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI039"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI039"
+      ],
+      "id": "ai039-risk",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Dynamic template source versus fixed template and data.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI039"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai039-comparison",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Dynamic template source versus fixed template and data.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI040"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI040"
+      ],
+      "id": "ai040-risk",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "Raw HTML sink versus plain text.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI040"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai040-comparison",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "Raw HTML sink versus plain text.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI041"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI041"
+      ],
+      "id": "ai041-risk",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Explicit inspector authorization bypass.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI041"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai041-comparison",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Explicit inspector authorization bypass.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI042"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI042"
+      ],
+      "id": "ai042-risk",
+      "matched_labels": true,
+      "path": "compose.yml",
+      "rationale": "Host networking versus isolated network mode.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI042"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "ai042-comparison",
+      "matched_labels": true,
+      "path": "compose.yml",
+      "rationale": "Host networking versus isolated network mode.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI029"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI029"
+      ],
+      "id": "loopback-looking-dns",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "A DNS hostname with a 127 prefix is not a loopback IP.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI029"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "loopback-v4",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "An actual address in 127/8 is loopback.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI029"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "loopback-v6",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "IPv6 loopback is local.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI029"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI029"
+      ],
+      "id": "mapped-remote-v6",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "IPv4-mapped remote address is not loopback.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI018"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "npx-explicit-pin",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Explicit package selector pins the installed distribution; binary need not match its name.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI018"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI018"
+      ],
+      "id": "npx-second-mutable",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Every package selector matters, not just the first.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI018"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "uvx-explicit-pin",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "The --from distribution pin takes precedence over command name.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI018"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI018"
+      ],
+      "id": "uvx-extra-mutable",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "Additional unpinned tool environment dependencies can change executable behavior.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI022"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI022"
+      ],
+      "id": "json-privileged",
+      "matched_labels": true,
+      "path": "deployment.json",
+      "rationale": "Kubernetes JSON carries the same security flags as YAML.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI042"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI042"
+      ],
+      "id": "json-host-namespace",
+      "matched_labels": true,
+      "path": "deployment.json",
+      "rationale": "JSON host namespace configuration must also be covered.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI024"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI024"
+      ],
+      "id": "incomplete-image-digest",
+      "matched_labels": true,
+      "path": "Dockerfile",
+      "rationale": "A sha256 marker without a complete digest does not establish pinning.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI013"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "inert-js-eval",
+      "matched_labels": true,
+      "path": "example.ts",
+      "rationale": "Code quoted as documentation is not executed.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI013"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI013"
+      ],
+      "id": "function-dynamic-body",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "Function body remains dynamic even with fixed parameter names.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI033"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-log-password-label",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "A field-name label is not credential data.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI003"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "python-import-shadow",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "A parameter named os is not proven to be the imported module.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI003"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI003"
+      ],
+      "id": "python-callable-alias",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "A simple local callable alias retains its execution semantics.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI015"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI015"
+      ],
+      "id": "python-keyword-file",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "Keyword argument form is equivalent to positional file path.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": true,
+          "outcome": "false_negative",
+          "rule_id": "AI003"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "gap-reflection-python",
+      "matched_labels": false,
+      "path": "worker.py",
+      "rationale": "Dynamic attribute reconstruction is beyond the bounded callable resolver.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": true,
+          "outcome": "false_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "gap-interprocedural-url",
+      "matched_labels": false,
+      "path": "worker.py",
+      "rationale": "Cross-function argument flow needs interprocedural analysis.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": true,
+          "outcome": "false_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "gap-js-wrapper-taint",
+      "matched_labels": false,
+      "path": "worker.ts",
+      "rationale": "JS wrapper argument flow is not whole-program taint analysis.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": true,
+          "outcome": "false_negative",
+          "rule_id": "AI027"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "gap-yaml-alias",
+      "matched_labels": false,
+      "path": "mcp.yml",
+      "rationale": "Resolving YAML anchors requires a full YAML semantic model.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": false,
+          "outcome": "false_positive",
+          "rule_id": "AI026"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI026"
+      ],
+      "id": "gap-yaml-block-string",
+      "matched_labels": false,
+      "path": "example.yml",
+      "rationale": "Block scalar documentation is text, not an authentication field.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": true,
+          "outcome": "false_negative",
+          "rule_id": "AI019"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "gap-shell-wrapper",
+      "matched_labels": false,
+      "path": "setup.sh",
+      "rationale": "Nested shell expansion is beyond the direct download-pipe pattern.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": false,
+          "outcome": "false_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "gap-validated-user-url",
+      "matched_labels": false,
+      "path": "worker.py",
+      "rationale": "Constraint solving could prove this branch restricts the request to a fixed destination.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI027"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "runtime-placeholder-no-invented-finding",
+      "matched_labels": true,
+      "path": "mcp.json",
+      "rationale": "The source does not establish runtime TOOL_PERMISSIONS. Do not invent a wildcard finding. A matched label says nothing about the deployed value; runtime evidence remains required.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    }
+  ],
+  "corpus_name": "NimeshBuild bounded static rule accuracy corpus",
+  "corpus_sha256": "00149f8a8c56fbf96b9c8b2c1ac2fd402982f6987f079b34b9c56b9932cba019",
+  "corpus_version": "1.0.0",
+  "failed_case_ids": [
+    "ai011-risk",
+    "gap-reflection-python",
+    "gap-interprocedural-url",
+    "gap-js-wrapper-taint",
+    "gap-yaml-alias",
+    "gap-yaml-block-string",
+    "gap-shell-wrapper",
+    "gap-validated-user-url"
+  ],
+  "metric_unit": "One explicitly labeled rule-presence assertion per case, not confirmed vulnerabilities. Other rule findings are recorded but are not scored without labels.",
+  "overall": {
+    "assertions": 109,
+    "false_negative": 6,
+    "false_negative_rate": 0.105263,
+    "false_positive": 2,
+    "false_positive_rate": 0.038462,
+    "precision": 0.962264,
+    "recall": 0.894737,
+    "true_negative": 50,
+    "true_positive": 51
+  },
+  "provenance": "Project-authored synthetic cases; not an independent industry benchmark or production prevalence sample. Expected labels were authored from API behavior, not inferred from scanner output.",
+  "regression_failure_ids": [
+    "ai011-risk"
+  ],
+  "schema_version": "1.0",
+  "scope": "Synthetic, project-authored rule-presence fixtures. These are not production accuracy estimates or proof of security. Challenge cases are included in overall metrics even when the regression gate passes.",
+  "tool_version": "0.8.0"
+}

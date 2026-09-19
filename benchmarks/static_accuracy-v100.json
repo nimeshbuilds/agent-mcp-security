@@ -1,0 +1,1099 @@
+{
+  "schema_version": "1.0",
+  "name": "NimeshBuild bounded static rule accuracy corpus",
+  "version": "1.0.0",
+  "provenance": "Project-authored synthetic cases; not an independent industry benchmark or production prevalence sample. Expected labels were authored from API behavior, not inferred from scanner output.",
+  "metric_unit": "One explicitly labeled rule-presence assertion per case, not confirmed vulnerabilities. Other rule findings are recorded but are not scored without labels.",
+  "cases": [
+    {
+      "id": "ai001-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "eval(task.text)\n",
+      "expect": {
+        "AI001": true
+      },
+      "rationale": "Executable evaluation versus literal data parsing."
+    },
+    {
+      "id": "ai001-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import ast\nast.literal_eval(task.text)\n",
+      "expect": {
+        "AI001": false
+      },
+      "rationale": "Executable evaluation versus literal data parsing."
+    },
+    {
+      "id": "ai002-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import subprocess\nsubprocess.run(task.command, shell=True)\n",
+      "expect": {
+        "AI002": true
+      },
+      "rationale": "Shell syntax versus a fixed executable with separate arguments."
+    },
+    {
+      "id": "ai002-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import subprocess\nsubprocess.run([\"echo\", task.text], shell=False)\n",
+      "expect": {
+        "AI002": false
+      },
+      "rationale": "Shell syntax versus a fixed executable with separate arguments."
+    },
+    {
+      "id": "ai003-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.system(task.command)\n",
+      "expect": {
+        "AI003": true
+      },
+      "rationale": "The rule specifically identifies dynamic shell commands."
+    },
+    {
+      "id": "ai003-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.system(\"echo ready\")\n",
+      "expect": {
+        "AI003": false
+      },
+      "rationale": "The rule specifically identifies dynamic shell commands."
+    },
+    {
+      "id": "ai004-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import yaml\nyaml.load(document, Loader=yaml.Loader)\n",
+      "expect": {
+        "AI004": true
+      },
+      "rationale": "Object construction versus a known safe YAML loader."
+    },
+    {
+      "id": "ai004-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import yaml\nyaml.load(document, Loader=yaml.SafeLoader)\n",
+      "expect": {
+        "AI004": false
+      },
+      "rationale": "Object construction versus a known safe YAML loader."
+    },
+    {
+      "id": "ai005-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import pickle\npickle.loads(blob)\n",
+      "expect": {
+        "AI005": true
+      },
+      "rationale": "Executable deserialization versus JSON parsing."
+    },
+    {
+      "id": "ai005-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import json\njson.loads(blob)\n",
+      "expect": {
+        "AI005": false
+      },
+      "rationale": "Executable deserialization versus JSON parsing."
+    },
+    {
+      "id": "ai006-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nrequests.get(endpoint, verify=False)\n",
+      "expect": {
+        "AI006": true
+      },
+      "rationale": "Explicit certificate verification bypass."
+    },
+    {
+      "id": "ai006-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nrequests.get(endpoint, verify=True)\n",
+      "expect": {
+        "AI006": false
+      },
+      "rationale": "Explicit certificate verification bypass."
+    },
+    {
+      "id": "ai007-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "app.add_middleware(CORSMiddleware, allow_origins=[\"*\"])\n",
+      "expect": {
+        "AI007": true
+      },
+      "rationale": "Wildcard origin signal versus a named origin."
+    },
+    {
+      "id": "ai007-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "app.add_middleware(CORSMiddleware, allow_origins=[\"https://app.example\"])\n",
+      "expect": {
+        "AI007": false
+      },
+      "rationale": "Wildcard origin signal versus a named origin."
+    },
+    {
+      "id": "ai008-risk",
+      "suite": "regression",
+      "path": "server.py",
+      "source": "server.run(host=\"0.0.0.0\")\n",
+      "expect": {
+        "AI008": true
+      },
+      "rationale": "Wildcard listener signal versus loopback."
+    },
+    {
+      "id": "ai008-comparison",
+      "suite": "regression",
+      "path": "server.py",
+      "source": "server.run(host=\"127.0.0.1\")\n",
+      "expect": {
+        "AI008": false
+      },
+      "rationale": "Wildcard listener signal versus loopback."
+    },
+    {
+      "id": "ai009-risk",
+      "suite": "regression",
+      "path": "server.py",
+      "source": "app.run(debug=True)\n",
+      "expect": {
+        "AI009": true
+      },
+      "rationale": "Explicit debug mode setting."
+    },
+    {
+      "id": "ai009-comparison",
+      "suite": "regression",
+      "path": "server.py",
+      "source": "app.run(debug=False)\n",
+      "expect": {
+        "AI009": false
+      },
+      "rationale": "Explicit debug mode setting."
+    },
+    {
+      "id": "ai010-risk",
+      "suite": "regression",
+      "path": "settings.json",
+      "source": "{\"api_key\":\"syntheticCredential987654321\"}",
+      "expect": {
+        "AI010": true
+      },
+      "rationale": "Synthetic literal credential versus an environment placeholder; neither is a real credential."
+    },
+    {
+      "id": "ai010-comparison",
+      "suite": "regression",
+      "path": "settings.json",
+      "source": "{\"api_key\":\"${SERVICE_API_KEY}\"}",
+      "expect": {
+        "AI010": false
+      },
+      "rationale": "Synthetic literal credential versus an environment placeholder; neither is a real credential."
+    },
+    {
+      "id": "ai011-risk",
+      "suite": "regression",
+      "path": "fixture.pem",
+      "source": "-----BEGIN PRIVATE KEY-----\nsynthetic\n",
+      "expect": {
+        "AI011": true
+      },
+      "rationale": "Private versus public key marker; no actual key material."
+    },
+    {
+      "id": "ai011-comparison",
+      "suite": "regression",
+      "path": "fixture.pem",
+      "source": "-----BEGIN PUBLIC KEY-----\nsynthetic\n",
+      "expect": {
+        "AI011": false
+      },
+      "rationale": "Private versus public key marker; no actual key material."
+    },
+    {
+      "id": "ai012-risk",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "import { exec } from \"node:child_process\";\nexec(task.command);",
+      "expect": {
+        "AI012": true
+      },
+      "rationale": "Shell exec versus argument-based executable API."
+    },
+    {
+      "id": "ai012-comparison",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "import { execFile } from \"node:child_process\";\nexecFile(\"echo\", [task.text]);",
+      "expect": {
+        "AI012": false
+      },
+      "rationale": "Shell exec versus argument-based executable API."
+    },
+    {
+      "id": "ai013-risk",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "eval(task.code);",
+      "expect": {
+        "AI013": true
+      },
+      "rationale": "Dynamic evaluation versus structured parsing."
+    },
+    {
+      "id": "ai013-comparison",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "JSON.parse(task.code);",
+      "expect": {
+        "AI013": false
+      },
+      "rationale": "Dynamic evaluation versus structured parsing."
+    },
+    {
+      "id": "ai014-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nrequests.get(user_url)\n",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "Obvious external URL versus fixed URL; does not prove upstream validation."
+    },
+    {
+      "id": "ai014-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nrequests.get(\"https://api.example/status\")\n",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "Obvious external URL versus fixed URL; does not prove upstream validation."
+    },
+    {
+      "id": "ai015-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "open(user_path).read()\n",
+      "expect": {
+        "AI015": true
+      },
+      "rationale": "Obvious external filesystem path versus fixed path."
+    },
+    {
+      "id": "ai015-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "open(\"approved.txt\").read()\n",
+      "expect": {
+        "AI015": false
+      },
+      "rationale": "Obvious external filesystem path versus fixed path."
+    },
+    {
+      "id": "ai016-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import tempfile\np = tempfile.mktemp()\n",
+      "expect": {
+        "AI016": true
+      },
+      "rationale": "Non-atomic filename selection versus file creation."
+    },
+    {
+      "id": "ai016-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import tempfile\np = tempfile.mkstemp()\n",
+      "expect": {
+        "AI016": false
+      },
+      "rationale": "Non-atomic filename selection versus file creation."
+    },
+    {
+      "id": "ai017-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import jwt\njwt.decode(token, options={\"verify_signature\":False})\n",
+      "expect": {
+        "AI017": true
+      },
+      "rationale": "Explicit signature bypass versus verified decode API shape."
+    },
+    {
+      "id": "ai017-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import jwt\njwt.decode(token, key, algorithms=[\"RS256\"])\n",
+      "expect": {
+        "AI017": false
+      },
+      "rationale": "Explicit signature bypass versus verified decode API shape."
+    },
+    {
+      "id": "ai018-risk",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"mcpServers\":{\"worker\":{\"command\":\"npx\",\"args\":[\"@vendor/worker@latest\"]}}}",
+      "expect": {
+        "AI018": true
+      },
+      "rationale": "Mutable launch package versus exact version."
+    },
+    {
+      "id": "ai018-comparison",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"mcpServers\":{\"worker\":{\"command\":\"npx\",\"args\":[\"@vendor/worker@1.2.3\"]}}}",
+      "expect": {
+        "AI018": false
+      },
+      "rationale": "Mutable launch package versus exact version."
+    },
+    {
+      "id": "ai019-risk",
+      "suite": "regression",
+      "path": "setup.sh",
+      "source": "curl https://installer.example/install.sh | sh\n",
+      "expect": {
+        "AI019": true
+      },
+      "rationale": "Immediate remote execution versus download without execution."
+    },
+    {
+      "id": "ai019-comparison",
+      "suite": "regression",
+      "path": "setup.sh",
+      "source": "curl https://installer.example/install.sh -o installer.sh\n",
+      "expect": {
+        "AI019": false
+      },
+      "rationale": "Immediate remote execution versus download without execution."
+    },
+    {
+      "id": "ai020-risk",
+      "suite": "regression",
+      "path": ".github/workflows/check.yml",
+      "source": "steps:\n  - uses: vendor/action@main\n",
+      "expect": {
+        "AI020": true
+      },
+      "rationale": "Mutable GitHub Action reference versus full commit ID."
+    },
+    {
+      "id": "ai020-comparison",
+      "suite": "regression",
+      "path": ".github/workflows/check.yml",
+      "source": "steps:\n  - uses: vendor/action@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+      "expect": {
+        "AI020": false
+      },
+      "rationale": "Mutable GitHub Action reference versus full commit ID."
+    },
+    {
+      "id": "ai021-risk",
+      "suite": "regression",
+      "path": "Dockerfile",
+      "source": "FROM scratch\nUSER root\n",
+      "expect": {
+        "AI021": true
+      },
+      "rationale": "Explicit root user versus named runtime user."
+    },
+    {
+      "id": "ai021-comparison",
+      "suite": "regression",
+      "path": "Dockerfile",
+      "source": "FROM scratch\nUSER worker\n",
+      "expect": {
+        "AI021": false
+      },
+      "rationale": "Explicit root user versus named runtime user."
+    },
+    {
+      "id": "ai022-risk",
+      "suite": "regression",
+      "path": "deployment.yml",
+      "source": "securityContext:\n  privileged: true\n",
+      "expect": {
+        "AI022": true
+      },
+      "rationale": "Explicit container privilege flag."
+    },
+    {
+      "id": "ai022-comparison",
+      "suite": "regression",
+      "path": "deployment.yml",
+      "source": "securityContext:\n  privileged: false\n",
+      "expect": {
+        "AI022": false
+      },
+      "rationale": "Explicit container privilege flag."
+    },
+    {
+      "id": "ai023-risk",
+      "suite": "regression",
+      "path": "compose.yml",
+      "source": "volumes:\n  - /var/run/docker.sock:/var/run/docker.sock\n",
+      "expect": {
+        "AI023": true
+      },
+      "rationale": "Runtime control socket versus ordinary data volume."
+    },
+    {
+      "id": "ai023-comparison",
+      "suite": "regression",
+      "path": "compose.yml",
+      "source": "volumes:\n  - ./data:/data\n",
+      "expect": {
+        "AI023": false
+      },
+      "rationale": "Runtime control socket versus ordinary data volume."
+    },
+    {
+      "id": "ai024-risk",
+      "suite": "regression",
+      "path": "Dockerfile",
+      "source": "FROM python:latest\n",
+      "expect": {
+        "AI024": true
+      },
+      "rationale": "Mutable image versus syntactically complete digest."
+    },
+    {
+      "id": "ai024-comparison",
+      "suite": "regression",
+      "path": "Dockerfile",
+      "source": "FROM python@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+      "expect": {
+        "AI024": false
+      },
+      "rationale": "Mutable image versus syntactically complete digest."
+    },
+    {
+      "id": "ai025-risk",
+      "suite": "regression",
+      "path": "requirements.txt",
+      "source": "mcp>=1.0\n",
+      "expect": {
+        "AI025": true
+      },
+      "rationale": "Movable direct dependency versus exact version."
+    },
+    {
+      "id": "ai025-comparison",
+      "suite": "regression",
+      "path": "requirements.txt",
+      "source": "mcp==1.0.0\n",
+      "expect": {
+        "AI025": false
+      },
+      "rationale": "Movable direct dependency versus exact version."
+    },
+    {
+      "id": "ai026-risk",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"authentication\":false}",
+      "expect": {
+        "AI026": true
+      },
+      "rationale": "Authentication disabled versus enabled; presence alone is not assurance."
+    },
+    {
+      "id": "ai026-comparison",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"authentication\":true}",
+      "expect": {
+        "AI026": false
+      },
+      "rationale": "Authentication disabled versus enabled; presence alone is not assurance."
+    },
+    {
+      "id": "ai027-risk",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"allowedTools\":[\"*\"]}",
+      "expect": {
+        "AI027": true
+      },
+      "rationale": "Unrestricted versus named tools."
+    },
+    {
+      "id": "ai027-comparison",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"allowedTools\":[\"read_document\"]}",
+      "expect": {
+        "AI027": false
+      },
+      "rationale": "Unrestricted versus named tools."
+    },
+    {
+      "id": "ai028-risk",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"tokenPassthrough\":true}",
+      "expect": {
+        "AI028": true
+      },
+      "rationale": "Explicit token forwarding."
+    },
+    {
+      "id": "ai028-comparison",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"tokenPassthrough\":false}",
+      "expect": {
+        "AI028": false
+      },
+      "rationale": "Explicit token forwarding."
+    },
+    {
+      "id": "ai029-risk",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"url\":\"http://remote.example/mcp\"}",
+      "expect": {
+        "AI029": true
+      },
+      "rationale": "Remote cleartext versus TLS endpoint."
+    },
+    {
+      "id": "ai029-comparison",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"url\":\"https://remote.example/mcp\"}",
+      "expect": {
+        "AI029": false
+      },
+      "rationale": "Remote cleartext versus TLS endpoint."
+    },
+    {
+      "id": "ai030-risk",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "new SDK({dangerouslyAllowBrowser: true});",
+      "expect": {
+        "AI030": true
+      },
+      "rationale": "Browser credential safeguard opt-out."
+    },
+    {
+      "id": "ai030-comparison",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "new SDK({dangerouslyAllowBrowser: false});",
+      "expect": {
+        "AI030": false
+      },
+      "rationale": "Browser credential safeguard opt-out."
+    },
+    {
+      "id": "ai031-risk",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"autoApprove\":[\"*\"]}",
+      "expect": {
+        "AI031": true
+      },
+      "rationale": "Wildcard versus narrow automatic approval."
+    },
+    {
+      "id": "ai031-comparison",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"autoApprove\":[\"read_document\"]}",
+      "expect": {
+        "AI031": false
+      },
+      "rationale": "Wildcard versus narrow automatic approval."
+    },
+    {
+      "id": "ai032-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "messages = [{\"role\":\"system\",\"content\":tool_output}]\n",
+      "expect": {
+        "AI032": true
+      },
+      "rationale": "Untrusted content placed into privileged instruction role."
+    },
+    {
+      "id": "ai032-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "messages = [{\"role\":\"user\",\"content\":tool_output}]\n",
+      "expect": {
+        "AI032": false
+      },
+      "rationale": "Untrusted content placed into privileged instruction role."
+    },
+    {
+      "id": "ai033-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "logger.info(\"Credential: %s\", access_token)\n",
+      "expect": {
+        "AI033": true
+      },
+      "rationale": "Credential data versus a harmless event label in logging."
+    },
+    {
+      "id": "ai033-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "logger.info(\"Credential rotation completed\")\n",
+      "expect": {
+        "AI033": false
+      },
+      "rationale": "Credential data versus a harmless event label in logging."
+    },
+    {
+      "id": "ai034-risk",
+      "suite": "regression",
+      "path": "settings.env",
+      "source": "URL=https://api.example?access_token=syntheticToken987654321\n",
+      "expect": {
+        "AI034": true
+      },
+      "rationale": "Sensitive URL query value versus a request identifier."
+    },
+    {
+      "id": "ai034-comparison",
+      "suite": "regression",
+      "path": "settings.env",
+      "source": "URL=https://api.example?request_id=syntheticTrace987654321\n",
+      "expect": {
+        "AI034": false
+      },
+      "rationale": "Sensitive URL query value versus a request identifier."
+    },
+    {
+      "id": "ai035-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import torch\ntorch.load(artifact, weights_only=False)\n",
+      "expect": {
+        "AI035": true
+      },
+      "rationale": "Explicit unsafe model deserialization flag."
+    },
+    {
+      "id": "ai035-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import torch\ntorch.load(artifact, weights_only=True)\n",
+      "expect": {
+        "AI035": false
+      },
+      "rationale": "Explicit unsafe model deserialization flag."
+    },
+    {
+      "id": "ai036-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "cursor.execute(f\"SELECT * FROM entries WHERE id={user_input}\")\n",
+      "expect": {
+        "AI036": true
+      },
+      "rationale": "SQL source interpolation versus bound data."
+    },
+    {
+      "id": "ai036-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "cursor.execute(\"SELECT * FROM entries WHERE id=?\", (user_input,))\n",
+      "expect": {
+        "AI036": false
+      },
+      "rationale": "SQL source interpolation versus bound data."
+    },
+    {
+      "id": "ai037-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import tarfile\nwith tarfile.open(archive) as archive_handle:\n    archive_handle.extractall(destination)\n",
+      "expect": {
+        "AI037": true
+      },
+      "rationale": "Missing explicit safe extraction filter versus data filter."
+    },
+    {
+      "id": "ai037-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import tarfile\nwith tarfile.open(archive) as archive_handle:\n    archive_handle.extractall(destination, filter=\"data\")\n",
+      "expect": {
+        "AI037": false
+      },
+      "rationale": "Missing explicit safe extraction filter versus data filter."
+    },
+    {
+      "id": "ai038-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import random\naccess_token = random.randrange(10**12)\n",
+      "expect": {
+        "AI038": true
+      },
+      "rationale": "Security-named value from general-purpose versus cryptographic randomness."
+    },
+    {
+      "id": "ai038-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import secrets\naccess_token = secrets.token_hex(32)\n",
+      "expect": {
+        "AI038": false
+      },
+      "rationale": "Security-named value from general-purpose versus cryptographic randomness."
+    },
+    {
+      "id": "ai039-risk",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "from flask import render_template_string\nrender_template_string(user_input)\n",
+      "expect": {
+        "AI039": true
+      },
+      "rationale": "Dynamic template source versus fixed template and data."
+    },
+    {
+      "id": "ai039-comparison",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "from flask import render_template_string\nrender_template_string(\"Hello {{ name }}\", name=user_input)\n",
+      "expect": {
+        "AI039": false
+      },
+      "rationale": "Dynamic template source versus fixed template and data."
+    },
+    {
+      "id": "ai040-risk",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "element.innerHTML = toolOutput;",
+      "expect": {
+        "AI040": true
+      },
+      "rationale": "Raw HTML sink versus plain text."
+    },
+    {
+      "id": "ai040-comparison",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "element.textContent = toolOutput;",
+      "expect": {
+        "AI040": false
+      },
+      "rationale": "Raw HTML sink versus plain text."
+    },
+    {
+      "id": "ai041-risk",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"DANGEROUSLY_OMIT_AUTH\":\"true\"}",
+      "expect": {
+        "AI041": true
+      },
+      "rationale": "Explicit inspector authorization bypass."
+    },
+    {
+      "id": "ai041-comparison",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"DANGEROUSLY_OMIT_AUTH\":\"false\"}",
+      "expect": {
+        "AI041": false
+      },
+      "rationale": "Explicit inspector authorization bypass."
+    },
+    {
+      "id": "ai042-risk",
+      "suite": "regression",
+      "path": "compose.yml",
+      "source": "network_mode: host\n",
+      "expect": {
+        "AI042": true
+      },
+      "rationale": "Host networking versus isolated network mode."
+    },
+    {
+      "id": "ai042-comparison",
+      "suite": "regression",
+      "path": "compose.yml",
+      "source": "network_mode: bridge\n",
+      "expect": {
+        "AI042": false
+      },
+      "rationale": "Host networking versus isolated network mode."
+    },
+    {
+      "id": "loopback-looking-dns",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"url\":\"http://127.attacker.example/mcp\"}",
+      "expect": {
+        "AI029": true
+      },
+      "rationale": "A DNS hostname with a 127 prefix is not a loopback IP."
+    },
+    {
+      "id": "loopback-v4",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"url\":\"http://127.23.45.67/mcp\"}",
+      "expect": {
+        "AI029": false
+      },
+      "rationale": "An actual address in 127/8 is loopback."
+    },
+    {
+      "id": "loopback-v6",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"url\":\"http://[::1]/mcp\"}",
+      "expect": {
+        "AI029": false
+      },
+      "rationale": "IPv6 loopback is local."
+    },
+    {
+      "id": "mapped-remote-v6",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"url\":\"http://[::ffff:192.0.2.1]/mcp\"}",
+      "expect": {
+        "AI029": true
+      },
+      "rationale": "IPv4-mapped remote address is not loopback."
+    },
+    {
+      "id": "npx-explicit-pin",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"mcpServers\": {\"agent\": {\"command\": \"npx\", \"args\": [\"--package=@vendor/server@1.2.3\", \"server\"]}}}",
+      "expect": {
+        "AI018": false
+      },
+      "rationale": "Explicit package selector pins the installed distribution; binary need not match its name."
+    },
+    {
+      "id": "npx-second-mutable",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"mcpServers\": {\"agent\": {\"command\": \"npx\", \"args\": [\"--package\", \"@vendor/server@1.2.3\", \"--package\", \"helper@latest\", \"server\"]}}}",
+      "expect": {
+        "AI018": true
+      },
+      "rationale": "Every package selector matters, not just the first."
+    },
+    {
+      "id": "uvx-explicit-pin",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"mcpServers\": {\"agent\": {\"command\": \"uvx\", \"args\": [\"--from=server==1.2.3\", \"server\"]}}}",
+      "expect": {
+        "AI018": false
+      },
+      "rationale": "The --from distribution pin takes precedence over command name."
+    },
+    {
+      "id": "uvx-extra-mutable",
+      "suite": "regression",
+      "path": "mcp.json",
+      "source": "{\"mcpServers\": {\"agent\": {\"command\": \"uvx\", \"args\": [\"--from=server==1.2.3\", \"--with=helper\", \"server\"]}}}",
+      "expect": {
+        "AI018": true
+      },
+      "rationale": "Additional unpinned tool environment dependencies can change executable behavior."
+    },
+    {
+      "id": "json-privileged",
+      "suite": "regression",
+      "path": "deployment.json",
+      "source": "{\"securityContext\":{\"privileged\":true}}",
+      "expect": {
+        "AI022": true
+      },
+      "rationale": "Kubernetes JSON carries the same security flags as YAML."
+    },
+    {
+      "id": "json-host-namespace",
+      "suite": "regression",
+      "path": "deployment.json",
+      "source": "{\"spec\":{\"hostPID\":true}}",
+      "expect": {
+        "AI042": true
+      },
+      "rationale": "JSON host namespace configuration must also be covered."
+    },
+    {
+      "id": "incomplete-image-digest",
+      "suite": "regression",
+      "path": "Dockerfile",
+      "source": "FROM image@sha256:abc\n",
+      "expect": {
+        "AI024": true
+      },
+      "rationale": "A sha256 marker without a complete digest does not establish pinning."
+    },
+    {
+      "id": "inert-js-eval",
+      "suite": "regression",
+      "path": "example.ts",
+      "source": "const documentation = \"eval(userInput)\";",
+      "expect": {
+        "AI013": false
+      },
+      "rationale": "Code quoted as documentation is not executed."
+    },
+    {
+      "id": "function-dynamic-body",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "new Function(\"input\", task.code);",
+      "expect": {
+        "AI013": true
+      },
+      "rationale": "Function body remains dynamic even with fixed parameter names."
+    },
+    {
+      "id": "js-log-password-label",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "console.log(\"password rotation completed\");",
+      "expect": {
+        "AI033": false
+      },
+      "rationale": "A field-name label is not credential data."
+    },
+    {
+      "id": "python-import-shadow",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\ndef preview(os):\n    os.system(task.command)\n",
+      "expect": {
+        "AI003": false
+      },
+      "rationale": "A parameter named os is not proven to be the imported module."
+    },
+    {
+      "id": "python-callable-alias",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nrun_command = os.system\nrun_command(task.command)\n",
+      "expect": {
+        "AI003": true
+      },
+      "rationale": "A simple local callable alias retains its execution semantics."
+    },
+    {
+      "id": "python-keyword-file",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "open(file=user_path).read()\n",
+      "expect": {
+        "AI015": true
+      },
+      "rationale": "Keyword argument form is equivalent to positional file path."
+    },
+    {
+      "id": "gap-reflection-python",
+      "suite": "challenge",
+      "path": "worker.py",
+      "source": "import os\ngetattr(os, \"sys\" + \"tem\")(task.command)\n",
+      "expect": {
+        "AI003": true
+      },
+      "rationale": "Dynamic attribute reconstruction is beyond the bounded callable resolver."
+    },
+    {
+      "id": "gap-interprocedural-url",
+      "suite": "challenge",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\nretrieve(user_url)\n",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "Cross-function argument flow needs interprocedural analysis."
+    },
+    {
+      "id": "gap-js-wrapper-taint",
+      "suite": "challenge",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { return fetch(address); }\nretrieve(req.body.url);",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "JS wrapper argument flow is not whole-program taint analysis."
+    },
+    {
+      "id": "gap-yaml-alias",
+      "suite": "challenge",
+      "path": "mcp.yml",
+      "source": "open_access: &wildcard [\"*\"]\nallowed_tools: *wildcard\n",
+      "expect": {
+        "AI027": true
+      },
+      "rationale": "Resolving YAML anchors requires a full YAML semantic model."
+    },
+    {
+      "id": "gap-yaml-block-string",
+      "suite": "challenge",
+      "path": "example.yml",
+      "source": "description: |\n  authentication: false\n",
+      "expect": {
+        "AI026": false
+      },
+      "rationale": "Block scalar documentation is text, not an authentication field."
+    },
+    {
+      "id": "gap-shell-wrapper",
+      "suite": "challenge",
+      "path": "setup.sh",
+      "source": "installer=https://installer.example/setup.sh\nsh -c \"$(curl -fsSL \"$installer\")\"\n",
+      "expect": {
+        "AI019": true
+      },
+      "rationale": "Nested shell expansion is beyond the direct download-pipe pattern."
+    },
+    {
+      "id": "gap-validated-user-url",
+      "suite": "challenge",
+      "path": "worker.py",
+      "source": "import requests\nif user_url == \"https://approved.example/status\":\n    requests.get(user_url)\n",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "Constraint solving could prove this branch restricts the request to a fixed destination."
+    },
+    {
+      "id": "runtime-placeholder-no-invented-finding",
+      "suite": "challenge",
+      "path": "mcp.json",
+      "source": "{\"permissions\":\"${TOOL_PERMISSIONS}\"}",
+      "expect": {
+        "AI027": false
+      },
+      "rationale": "The source does not establish runtime TOOL_PERMISSIONS. Do not invent a wildcard finding. A matched label says nothing about the deployed value; runtime evidence remains required."
+    }
+  ]
+}

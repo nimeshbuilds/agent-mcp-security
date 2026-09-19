@@ -127,7 +127,8 @@ def unreviewed_analyst(report, reason, *, status="error", max_calls=0):
 
 
 def run_analyst(config, report, root, *, max_calls=12, batch_size=6,
-                max_files=200, max_bytes=2_000_000, max_chars=120_000, max_seconds=180):
+                max_files=200, max_bytes=2_000_000, max_chars=120_000, max_seconds=180,
+                on_auth_required=None):
     """Review all controls in stable batches with bounded, hash-locked evidence.
 
     Time is a scheduling/per-request budget, not a hard process deadline. Network
@@ -202,7 +203,24 @@ def run_analyst(config, report, root, *, max_calls=12, batch_size=6,
         result["coverage"]["attempted_controls"] += len(batch)
         effective_config = dict(config, timeout_seconds=min(config.get("timeout_seconds", 60), remaining))
         try:
-            response = judge.review_controls(effective_config, payload)
+            try:
+                response = judge.review_controls(effective_config, payload)
+            except judge.JudgeAuthenticationError:
+                if on_auth_required is None or result["coverage"]["calls_made"] >= max_calls:
+                    raise
+                login_started = time.monotonic()
+                if not on_auth_required():
+                    raise
+                # Interactive authentication has its own explicit deadline.
+                started += time.monotonic() - login_started
+                remaining = max_seconds - (time.monotonic() - started)
+                if remaining < 0.1:
+                    raise judge.JudgeError("Analyst time budget exhausted before authentication retry.")
+                effective_config["timeout_seconds"] = min(config.get("timeout_seconds", 60), remaining)
+                request["authentication_retry"] = True
+                request["model_attempts"] = 2
+                result["coverage"]["calls_made"] += 1
+                response = judge.review_controls(effective_config, payload)
         except judge.JudgeError as exc:
             result["status"] = "error"
             stop_reason = "The analyst stopped after a provider or response-validation error; this check remains unreviewed."
@@ -210,7 +228,7 @@ def run_analyst(config, report, root, *, max_calls=12, batch_size=6,
             request["error"] = redact(str(exc))
             break
         request.update({key: response[key] for key in (
-            "provider", "model", "provider_reported_model", "adapter_version", "protocol_version",
+            "provider", "model", "provider_reported_model", "adapter_version", "protocol_version", "cli",
             "controls_submitted", "checks_submitted", "omitted_controls", "omitted_checks") if key in response})
         request["status"] = "completed"
         normalized = {item["control_id"]: item for item in response["control_assessments"]}

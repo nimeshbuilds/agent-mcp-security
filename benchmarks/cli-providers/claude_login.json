@@ -1,0 +1,20 @@
+{
+  "browser_authorization_flow_launched": true,
+  "command": [
+    "invarune",
+    "--login",
+    "claude"
+  ],
+  "evidence_type": "Sanitized execution observation; no successful account authorization was observed.",
+  "exit_code": 2,
+  "kind": "actual_interactive_login_attempt",
+  "model_request_performed_by_login_command": false,
+  "official_login_flow_launched": true,
+  "privacy": "OAuth URLs, authorization codes, account identities, credential contents, local paths and raw terminal output are intentionally omitted.",
+  "provider": "claude_cli",
+  "research_date": "2026-09-19",
+  "schema_version": "1.0",
+  "status": "timed_out",
+  "successful_authentication_verified": false,
+  "timeout_seconds": 300
+}

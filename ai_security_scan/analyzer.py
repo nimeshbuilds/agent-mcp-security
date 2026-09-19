@@ -47,13 +47,97 @@ def _placeholder(value):
         return True
     if re.match(r"^(?:\$\{|\$[A-Z_]|<|\{\{|%[A-Z_])", value):
         return True
-    if lowered in {"your_api_key", "your-api-key", "redacted", "placeholder", "example-token", "example-key", "test-token", "test-secret", "dummy-secret", "your-token-here", "sk-your-key-here"}:
+    if lowered in {"your_api_key", "your-api-key", "redacted", "placeholder", "example-token", "example-key", "test-token", "test-secret", "dummy-secret", "your-token-here", "sk-your-key-here", "api-key-not-set", "codex-subscription-auth"}:
         return True
     if re.fullmatch(r"(?:x+|\*+|\.+|0+)", value, re.I):
         return True
     if lowered.startswith(("replace_me", "replace-me", "your_api_key_here", "your-api-key-here", "example_", "dummy_")):
         return True
     return False
+
+
+def _credential_literal(key, value):
+    if not _is_secret_key(key) or not isinstance(value, str) or _placeholder(value):
+        return False
+    # Both the identifier role and a narrow authentication error message must
+    # agree. Never suppress a secret-shaped value merely because its name says
+    # "error", or suppress an actual password field containing a human phrase.
+    error_role = re.search(r"(?:^|[_-])(?:error|message)$", key, re.I)
+    error_message = re.fullmatch(
+        r"(?:invalid|missing|expired|incorrect|unauthorized) (?:api key|access token|auth token|password|credentials)[.!]?",
+        value.strip(), re.I)
+    return not (error_role and error_message)
+
+
+def _private_key_body(text, marker_end):
+    # A PEM marker in an example or a parser's marker constant is not private
+    # key material. Require a plausible encoded body, including truncated keys.
+    # This deliberately does not claim cryptographic validity or key usage.
+    tail = text[marker_end:marker_end + 32768].replace("\\r\\n", "\n").replace("\\n", "\n")
+    return bool(re.match(
+        r"\s*(?:(?:Proc-Type|DEK-Info):[^\n]*\n\s*)*[A-Za-z0-9+/]{32,}={0,2}(?=\s|-----END|['\"]|$)",
+        tail))
+
+
+def _docker_final_root(findings, text):
+    """Track explicit USER state for the default final Docker stage only.
+
+    Ignore continued instruction bodies and heredoc contents. External image
+    defaults, variables and non-default --target builds remain unproven.
+    """
+    stages, stage, root = {}, None, None
+    escape, pending, start, heredocs, seen_instruction = "\\", "", 0, [], False
+    offset = 0
+    for line in text.splitlines(keepends=True):
+        stripped = line.strip()
+        if heredocs:
+            delimiter, strip_tabs = heredocs[0]
+            candidate = line.rstrip("\r\n")
+            if (candidate.lstrip("\t") if strip_tabs else candidate) == delimiter:
+                heredocs.pop(0)
+            offset += len(line)
+            continue
+        if stripped.startswith("#"):
+            directive = re.fullmatch(r"#\s*escape\s*=\s*([\\`])", stripped, re.I)
+            if directive and not pending and not seen_instruction:
+                escape = directive.group(1)
+            offset += len(line)
+            continue
+        if pending and not stripped:
+            offset += len(line)
+            continue
+        if not pending:
+            start = offset
+        content = line.rstrip("\r\n")
+        continued = content.rstrip().endswith(escape)
+        pending += content.rstrip()[:-1] + " " if continued else content
+        offset += len(line)
+        if continued:
+            continue
+        instruction, pending = pending, ""
+        match = re.match(r"^\s*(?P<op>[A-Za-z]+)\s+(?P<args>.*)$", instruction)
+        if not match:
+            continue
+        seen_instruction = True
+        op, args = match.group("op").upper(), match.group("args").strip()
+        if op in {"RUN", "COPY", "ADD"}:
+            heredocs = [(next(value for value in groups[1:] if value), bool(groups[0])) for groups in re.findall(
+                r"(?<!<)<<(-?)\s*(?:'([^'\r\n]+)'|\"([^\"\r\n]+)\"|([^\s;|&<>'\"]+))", args)]
+        if op == "FROM":
+            if stage is not None:
+                stages[stage] = root
+            source = re.match(r"(?:--platform=\S+\s+)?(?P<image>\S+)(?:\s+AS\s+(?P<stage>\S+))?", args, re.I)
+            if source:
+                root = stages.get(source.group("image").lower())
+                stage = source.group("stage").lower() if source.group("stage") else None
+            else:
+                stage, root = None, None
+        elif op == "USER":
+            # Inline '#' is not a Docker comment; invalid or dynamically
+            # resolved users cannot establish a literal final root identity.
+            root = (start, offset) if re.fullmatch(r"(?:root|0+)(?::[^\s]+)?", args) else None
+    if root:
+        findings.offset("AI021", root[0], root[1], "high")
 
 
 def _constant(node):
@@ -670,7 +754,7 @@ class _PythonAnalyzer(ast.NodeVisitor):
                 self.literal_values.pop(root.id, None)
                 if source:
                     self.external_scopes[-1][root.id] = True
-        if _is_secret_key(key) and isinstance(literal, str) and not _placeholder(literal):
+        if _credential_literal(key, literal):
             self.add("AI010", node, "medium")
         if key == "NODE_TLS_REJECT_UNAUTHORIZED" and literal in ("0", 0):
             self.add("AI006", node, "high")
@@ -715,7 +799,7 @@ class _PythonAnalyzer(ast.NodeVisitor):
                   if isinstance(key, ast.Constant) and isinstance(key.value, str)}
         for key, value_node in values.items():
             literal = self.literal(value_node)
-            if _is_secret_key(key) and isinstance(literal, str) and not _placeholder(literal):
+            if _credential_literal(key, literal):
                 self.add("AI010", value_node)
             norm = _norm(key)
             if norm in _AUTH_DISABLED and literal is False:
@@ -814,7 +898,7 @@ class _PythonAnalyzer(ast.NodeVisitor):
                 self.add("AI033", node)
         for key, val_node in keywords.items():
             literal = self.literal(val_node)
-            if _is_secret_key(key) and isinstance(literal, str) and not _placeholder(literal):
+            if _credential_literal(key, literal):
                 self.add("AI010", val_node)
             if _norm(key) in _AUTH_DISABLED and matches(key, False):
                 self.add("AI026", val_node)
@@ -867,7 +951,7 @@ def _json_analysis(findings, text, path):
             offset = occurrences[min(ordinal, len(occurrences) - 1)]
             cursors[key] = ordinal + 1
             norm = _norm(key)
-            if _is_secret_key(key) and isinstance(item, str) and not _placeholder(item):
+            if _credential_literal(key, item):
                 add("AI010", offset)
             if norm in _AUTH_DISABLED and item is False:
                 add("AI026", offset)
@@ -1381,17 +1465,18 @@ def _js_analysis(findings, text):
 
 def _generic_analysis(findings, text, path, suffix):
     clean = _strip_comments(text) if suffix in _JS_SUFFIXES or suffix == ".jsonc" else text
-    _regex(findings, clean, "AI011", r"-----BEGIN (?:RSA |EC |DSA |OPENSSH |ENCRYPTED )?PRIVATE KEY-----", confidence="high")
+    _regex(findings, clean, "AI011", r"-----BEGIN (?:RSA |EC |DSA |OPENSSH |ENCRYPTED )?PRIVATE KEY-----", confidence="high",
+           predicate=lambda match: _private_key_body(clean, match.end()))
     _regex(findings, clean, "AI034", r"https?://[^\s'\"<>]{1,1500}[?&](?:access_token|api_key|apikey|client_secret|token)=(?P<secret>[^\s'\"&<>]{8,500})", re.I,
            predicate=lambda match: not _placeholder(match.group("secret")))
     # Generic secrets cover dotenv, YAML, JS and shell; Python/JSON have syntax-aware checks.
     if suffix not in {".py", ".pyi", ".json", ".jsonc"}:
         secret_pattern = r"\b(?P<key>[A-Za-z_][A-Za-z0-9_-]{0,80})\s*[:=]\s*(?P<quote>['\"])(?P<secret>[^'\"\r\n]{8,500})(?P=quote)"
         _regex(findings, clean, "AI010", secret_pattern,
-               predicate=lambda match: _is_secret_key(match.group("key")) and not _placeholder(match.group("secret")))
+               predicate=lambda match: _credential_literal(match.group("key"), match.group("secret")))
         if suffix in {".env", ".yaml", ".yml", ".ini", ".cfg", ".toml"} or PurePosixPath(path).name.startswith(".env"):
             _regex(findings, clean, "AI010", r"^\s*(?P<key>[A-Za-z_][A-Za-z0-9_-]{0,80})\s*[:=]\s*(?P<secret>[^\s'\"#][^\s#]{7,499})\s*(?:#.*)?$", re.M,
-                   predicate=lambda match: _is_secret_key(match.group("key")) and not _placeholder(match.group("secret")))
+                   predicate=lambda match: _credential_literal(match.group("key"), match.group("secret")))
     # Standalone recognizable key formats supplement semantic key names.
     _regex(findings, clean, "AI010", r"\b(?:AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{30,255}|sk-(?:proj-)?[A-Za-z0-9_-]{24,255})\b")
     _regex(findings, clean, "AI010", r"\b(?:Authorization|authorization)['\"]?\s*[:=]\s*['\"]Bearer\s+(?P<secret>[A-Za-z0-9._~+/-]{12,500})['\"]",
@@ -1420,7 +1505,7 @@ def _generic_analysis(findings, text, path, suffix):
             _regex(findings, clean, "AI020", r"^\s*-?\s*uses\s*:\s*['\"]?(?P<action>[^\s'\"#]+)", re.M, "high",
                    lambda match: not match.group("action").startswith(("./", "docker://")) and not re.search(r"@[a-fA-F0-9]{40}$", match.group("action")))
     if "dockerfile" in PurePosixPath(path).name.lower():
-        _regex(findings, clean, "AI021", r"^\s*USER\s+(?:root|0)(?::\S+)?\s*(?:#.*)?$", re.M | re.I, "high")
+        _docker_final_root(findings, clean)
         stage_names = set()
         for match in re.finditer(r"^\s*FROM\s+(?:--platform=\S+\s+)?(?P<image>\S+)(?:\s+AS\s+(?P<stage>\S+))?", clean, re.M | re.I):
             image = match.group("image")

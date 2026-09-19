@@ -1,0 +1,576 @@
+{
+  "schema_version": "1.0",
+  "reviewed_at_utc": "2026-09-19T20:44:48.791375+00:00",
+  "method": "Author review of selected static findings and pinned source context. Purposive diagnostic sample, not independent blinded labeling or an accuracy denominator. No target execution or exploit validation. Initial development-visible scans; subsequent fixes and rescans may no longer emit some findings. Original scan IDs and implementation hashes retained for audit.",
+  "cases": [
+    {
+      "project": "crewai",
+      "rule_id": "AI011",
+      "finding_id": "7132abcb78f9d2f4b4c9f7c6",
+      "path": "lib/crewai/src/crewai/a2a/utils/agent_card_signing.py",
+      "line": 106,
+      "original_severity": "critical",
+      "original_scan_id": "fbbd560cd5f4c10086569c9cf8265da14ef79ce1ca2ca075d262bc742c34ea13",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "false_positive",
+      "confidence": "high",
+      "rationale": "The matched PEM opening marker is followed by an ellipsis inside an embedded API docstring example; no PEM body or usable private key is present.",
+      "reviewed_context_lines": "103-108",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/crewai/src/crewai/a2a/utils/agent_card_signing.py#L106",
+      "additional_context_url": null,
+      "next_validation": "A secret rule should require plausible key material, not the marker alone. Do not classify a marker-only documentation example as leaked credentials."
+    },
+    {
+      "project": "crewai",
+      "rule_id": "AI010",
+      "finding_id": "27c4bdaae215550927b730ae",
+      "path": "lib/cli/src/crewai_cli/deploy/validate.py",
+      "line": 86,
+      "original_severity": "high",
+      "original_scan_id": "fbbd560cd5f4c10086569c9cf8265da14ef79ce1ca2ca075d262bc742c34ea13",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "false_positive",
+      "confidence": "high",
+      "rationale": "The dictionary maps environment-variable names to provider display names. The values are labels used by a validation tool, not authentication credentials.",
+      "reviewed_context_lines": "85-108",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/cli/src/crewai_cli/deploy/validate.py#L86",
+      "additional_context_url": null,
+      "next_validation": "Follow the value role and consumer before treating a credential-related identifier as a literal secret."
+    },
+    {
+      "project": "pydantic-ai",
+      "rule_id": "AI010",
+      "finding_id": "69e76372e00744f21b0a9f2a",
+      "path": "pydantic_ai_slim/pydantic_ai/providers/openai.py",
+      "line": 122,
+      "original_severity": "high",
+      "original_scan_id": "230a57124c8b1ab00fc980ba4e962081bbf9e8fb029f7f6b0f70fb0ddf4be851",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "false_positive",
+      "confidence": "high",
+      "rationale": "The value api-key-not-set is explicitly a dummy API key for compatible local services because the client SDK requires a nonempty string.",
+      "reviewed_context_lines": "103-122",
+      "source_url": "https://github.com/pydantic/pydantic-ai/blob/c4898abb54dc25ae6f6aef208a4c0661b30a455e/pydantic_ai_slim/pydantic_ai/providers/openai.py#L122",
+      "additional_context_url": null,
+      "next_validation": "Determine whether a literal is a genuine authentication secret or an SDK placeholder; still validate any externally configured service authentication independently."
+    },
+    {
+      "project": "pydantic-ai",
+      "rule_id": "AI010",
+      "finding_id": "4fe567592c53967574ed8451",
+      "path": "pydantic_ai_slim/pydantic_ai/providers/openai_codex.py",
+      "line": 562,
+      "original_severity": "high",
+      "original_scan_id": "230a57124c8b1ab00fc980ba4e962081bbf9e8fb029f7f6b0f70fb0ddf4be851",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "false_positive",
+      "confidence": "high",
+      "rationale": "The value codex-subscription-auth is a placeholder. The surrounding auth object replaces the SDK bearer header. This finding does not establish a credential leak.",
+      "reviewed_context_lines": "550-564",
+      "source_url": "https://github.com/pydantic/pydantic-ai/blob/c4898abb54dc25ae6f6aef208a4c0661b30a455e/pydantic_ai_slim/pydantic_ai/providers/openai_codex.py#L562",
+      "additional_context_url": null,
+      "next_validation": "Review the credential-injecting auth handler and actual credential storage separately; the placeholder itself is not a secret."
+    },
+    {
+      "project": "openhands",
+      "rule_id": "AI010",
+      "finding_id": "5c801869313bdb62d8ad8c1b",
+      "path": "src/api/agent-server-compatibility.ts",
+      "line": 32,
+      "original_severity": "high",
+      "original_scan_id": "12c789316b994d70d2bebd1d4e6de59d865427c442d573645c90d859d24ef476",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "false_positive",
+      "confidence": "high",
+      "rationale": "INVALID_BACKEND_API_KEY_ERROR contains the human-readable sentinel message Invalid API key. It is an error label, not a key.",
+      "reviewed_context_lines": "26-32",
+      "source_url": "https://github.com/OpenHands/OpenHands/blob/a07364828c8f202e7745c6bce3dcef3915ae7ac1/src/api/agent-server-compatibility.ts#L32",
+      "additional_context_url": null,
+      "next_validation": "Exclude error/status message roles from credential classifications while retaining scans of actual secret values."
+    },
+    {
+      "project": "langgraph",
+      "rule_id": "AI036",
+      "finding_id": "b2c38b5835f1f8a2839ec011",
+      "path": "libs/checkpoint-postgres/langgraph/checkpoint/postgres/__init__.py",
+      "line": 160,
+      "original_severity": "high",
+      "original_scan_id": "089259704c83e9043d275081c0a16dfc4901fdbb50c7e18780ebada91c8d777c",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "false_positive_for_this_reviewed_call",
+      "confidence": "high",
+      "rationale": "This call supplies query values as separate parameters. Its helper builds fixed SQL predicates with placeholders, and LIMIT is bound through a parameter. The composed-query signal alone does not demonstrate injection here.",
+      "reviewed_context_lines": "152-160",
+      "source_url": "https://github.com/langchain-ai/langgraph/blob/aa742fb31e2827d569b843e3600aeda2e0528e4b/libs/checkpoint-postgres/langgraph/checkpoint/postgres/__init__.py#L160",
+      "additional_context_url": "https://github.com/langchain-ai/langgraph/blob/aa742fb31e2827d569b843e3600aeda2e0528e4b/libs/checkpoint-postgres/langgraph/checkpoint/postgres/base.py#L624",
+      "next_validation": "Verify the helper and every interpolation separately; this disposition applies only to this reviewed call, not all 23 SQL findings or all calls that accept a parameter list."
+    },
+    {
+      "project": "autogen",
+      "rule_id": "AI001",
+      "finding_id": "34f362cd01faaef85332b14e",
+      "path": "python/packages/autogen-core/src/autogen_core/tools/_function_tool.py",
+      "line": 171,
+      "original_severity": "high",
+      "original_scan_id": "2e6cd49d7e5a45f10e7bcdd741514fff353a6783e8e83e73e47eb8baa20b733d",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "expected_risk_bearing_capability",
+      "confidence": "context_review_only",
+      "rationale": "FunctionTool config loading deliberately executes supplied Python source. The upstream code warns to load configs only from trusted sources. The execution sink is real; reachability from an untrusted actor was not tested.",
+      "reviewed_context_lines": "144-174",
+      "source_url": "https://github.com/microsoft/autogen/blob/027ecf0a379bcc1d09956d46d12d44a3ad9cee14/python/packages/autogen-core/src/autogen_core/tools/_function_tool.py#L171",
+      "additional_context_url": null,
+      "next_validation": "Enforce trusted provenance and authorization for serialized tool configuration; isolate any intentional untrusted execution with separate credentials, filesystem and network boundaries."
+    },
+    {
+      "project": "autogen",
+      "rule_id": "AI005",
+      "finding_id": "e7b59756ebdbaf6453e8bf68",
+      "path": "python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_memory_bank.py",
+      "line": 82,
+      "original_severity": "high",
+      "original_scan_id": "2e6cd49d7e5a45f10e7bcdd741514fff353a6783e8e83e73e47eb8baa20b733d",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "review_required",
+      "confidence": "context_review_only",
+      "rationale": "The experimental memory bank loads a local pickle file. Whether an attacker can influence that file depends on the application and deployment. The scan did not prove such access.",
+      "reviewed_context_lines": "70-84",
+      "source_url": "https://github.com/microsoft/autogen/blob/027ecf0a379bcc1d09956d46d12d44a3ad9cee14/python/packages/autogen-ext/src/autogen_ext/experimental/task_centric_memory/_memory_bank.py#L82",
+      "additional_context_url": null,
+      "next_validation": "Prefer a non-executable data format or verify a trusted, access-controlled artifact. Validate directory permissions and model/tool write access to the memory location."
+    },
+    {
+      "project": "mcp-reference",
+      "rule_id": "AI007",
+      "finding_id": "1dfd877e293f6304ea57ccd1",
+      "path": "src/everything/transports/sse.ts",
+      "line": 12,
+      "original_severity": "medium",
+      "original_scan_id": "9c3d6d3208ef800706f67f00ecafbdc934f66b53ee6fa7dba01d326579f56996",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "intentional_reference_configuration",
+      "confidence": "context_review_only",
+      "rationale": "The reference server deliberately enables wildcard CORS for Inspector direct-connect testing, and its code cautions about production use. Upstream labels this repository as reference implementations.",
+      "reviewed_context_lines": "8-17",
+      "source_url": "https://github.com/modelcontextprotocol/servers/blob/d73f99efbfd40c3aa1b61e88728b3d49fb52608f/src/everything/transports/sse.ts#L12",
+      "additional_context_url": null,
+      "next_validation": "For deployments derived from this reference, validate origin handling, authentication and host/network exposure; this result does not claim the reference project is a vulnerable production service."
+    },
+    {
+      "project": "github-mcp",
+      "rule_id": "AI025",
+      "finding_id": "7b0fae91f2cabbd6a542b53c",
+      "path": "ui/package.json",
+      "line": 17,
+      "original_severity": "low",
+      "original_scan_id": "4b1a732afbd3e9c82d36320614d8c3d442628e3615075786992aeb59438653bc",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "policy_advisory_not_demonstrated_vulnerability",
+      "confidence": "context_review_only",
+      "rationale": "The package declares a semver range. A committed UI lockfile is also in the selected snapshot. This signal does not determine whether builds use frozen installs or resolve a floating dependency.",
+      "reviewed_context_lines": "16-22",
+      "source_url": "https://github.com/github/github-mcp-server/blob/85598ba6e1256f7ebf4867b95d63b833c4549264/ui/package.json#L17",
+      "additional_context_url": null,
+      "next_validation": "Verify the lockfile, package manager frozen-install setting, integrity verification and release provenance. A semver range by itself is not an exploitable supply-chain vulnerability."
+    },
+    {
+      "project": "openhands",
+      "rule_id": "AI021",
+      "finding_id": "2ab1284791f923d814e77e8d",
+      "path": "docker/Dockerfile",
+      "line": 95,
+      "original_severity": "medium",
+      "original_scan_id": "12c789316b994d70d2bebd1d4e6de59d865427c442d573645c90d859d24ef476",
+      "original_tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "review_disposition": "false_positive_for_final_runtime_user",
+      "confidence": "high",
+      "rationale": "The source Dockerfile temporarily switches to root for image setup but switches to USER openhands at line 158 before the final ENTRYPOINT. The finding omits that later effective-user change.",
+      "reviewed_context_lines": "74-171",
+      "source_url": "https://github.com/OpenHands/OpenHands/blob/a07364828c8f202e7745c6bce3dcef3915ae7ac1/docker/Dockerfile#L95",
+      "additional_context_url": null,
+      "next_validation": "Evaluate the final effective USER per Docker stage, and separately verify runtime user overrides. This source review did not build or run the image."
+    }
+  ],
+  "initial_run_summaries": [
+    {
+      "project": "mcp-reference",
+      "scan_id": "9c3d6d3208ef800706f67f00ecafbdc934f66b53ee6fa7dba01d326579f56996",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 1003862,
+        "bytes_read": 1003862,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 86,
+        "open_findings": 61,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 59,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "coverage_errors": []
+    },
+    {
+      "project": "github-mcp",
+      "scan_id": "4b1a732afbd3e9c82d36320614d8c3d442628e3615075786992aeb59438653bc",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 2086786,
+        "bytes_read": 2086786,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 156,
+        "open_findings": 15,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 15,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "coverage_errors": []
+    },
+    {
+      "project": "autogen",
+      "scan_id": "2e6cd49d7e5a45f10e7bcdd741514fff353a6783e8e83e73e47eb8baa20b733d",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 4232838,
+        "bytes_read": 4232838,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 759,
+        "open_findings": 13,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 5,
+          "info": 0,
+          "low": 5,
+          "medium": 3
+        },
+        "suppressed_findings": 0
+      },
+      "coverage_errors": []
+    },
+    {
+      "project": "crewai",
+      "scan_id": "fbbd560cd5f4c10086569c9cf8265da14ef79ce1ca2ca075d262bc742c34ea13",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 9435467,
+        "bytes_read": 9435467,
+        "coverage_gaps": 10,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 967,
+        "open_findings": 29,
+        "scan_complete_within_selected_scope": false,
+        "severity_counts": {
+          "critical": 1,
+          "high": 26,
+          "info": 0,
+          "low": 0,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "coverage_errors": [
+        {
+          "error": "Python syntax could not be parsed at line 7: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/crew/crew.py"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 7: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/crew/main.py"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 8: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/flow/main.py"
+        },
+        {
+          "error": "JSON could not be parsed at line 5: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/agent.jsonc"
+        },
+        {
+          "error": "JSON could not be parsed at line 2: Extra data; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/agent_settings.jsonc"
+        },
+        {
+          "error": "JSON could not be parsed at line 3: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/crew.jsonc"
+        },
+        {
+          "error": "JSON could not be parsed at line 3: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/task.jsonc"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 1: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/__init__.py"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 4: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/tool.py"
+        },
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "lib/crewai/src/crewai/flow/runtime/__init__.py"
+        }
+      ]
+    },
+    {
+      "project": "langgraph",
+      "scan_id": "089259704c83e9043d275081c0a16dfc4901fdbb50c7e18780ebada91c8d777c",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 6378697,
+        "bytes_read": 6378697,
+        "coverage_gaps": 1,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 211,
+        "open_findings": 23,
+        "scan_complete_within_selected_scope": false,
+        "severity_counts": {
+          "critical": 0,
+          "high": 23,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "coverage_errors": [
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "libs/langgraph/langgraph/pregel/main.py"
+        }
+      ]
+    },
+    {
+      "project": "openhands",
+      "scan_id": "12c789316b994d70d2bebd1d4e6de59d865427c442d573645c90d859d24ef476",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 7487391,
+        "bytes_read": 7487391,
+        "coverage_gaps": 2,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 1233,
+        "open_findings": 11,
+        "scan_complete_within_selected_scope": false,
+        "severity_counts": {
+          "critical": 0,
+          "high": 3,
+          "info": 0,
+          "low": 4,
+          "medium": 4
+        },
+        "suppressed_findings": 0
+      },
+      "coverage_errors": [
+        {
+          "error": "JSON could not be parsed at line 33: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "tsconfig.json"
+        }
+      ]
+    },
+    {
+      "project": "pydantic-ai",
+      "scan_id": "230a57124c8b1ab00fc980ba4e962081bbf9e8fb029f7f6b0f70fb0ddf4be851",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 8414725,
+        "bytes_read": 8414725,
+        "coverage_gaps": 2,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 386,
+        "open_findings": 3,
+        "scan_complete_within_selected_scope": false,
+        "severity_counts": {
+          "critical": 0,
+          "high": 3,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "coverage_errors": [
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "pydantic_ai_slim/pydantic_ai/models/anthropic.py"
+        },
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "pydantic_ai_slim/pydantic_ai/models/openai.py"
+        }
+      ]
+    },
+    {
+      "project": "fastmcp",
+      "scan_id": "760e1afc3b0c51424fb5b0124623acf0ca85e4f9593d3c3c52a6cd427468558c",
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "1a06a484cd366092bcdefacbb99a60efb93b60270f6f5c9c104e2b9e40531c37",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.7.0"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 3811079,
+        "bytes_read": 3811079,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 283,
+        "open_findings": 0,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "coverage_errors": []
+    }
+  ]
+}

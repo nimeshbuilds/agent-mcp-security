@@ -56,7 +56,15 @@ def parser():
     policy = p.add_argument_group("User review dispositions (disabled by default)")
     policy.add_argument("--review-config", metavar="PATH", help="Explicit trusted JSON rule/control/check exceptions; justified or disabled items are retained for audit and excluded from active counts. Schema and precedence below")
     judge = p.add_argument_group("Optional advisory LLM review (disabled by default)")
-    judge.add_argument("--judge-config", metavar="PATH", help="Trusted JSON config; opt in to model calls and bounded redacted evidence disclosure. Protocols, fields and examples below")
+    judge_source = judge.add_mutually_exclusive_group()
+    judge_source.add_argument("--judge-config", metavar="PATH", help="Trusted JSON API/gateway or CLI config; opt in to model calls and bounded redacted evidence disclosure. Fields and examples below")
+    judge_source.add_argument("--judge-cli", choices=("codex", "claude", "grok"), help="Use an installed official CLI and its existing login; mutually exclusive with --judge-config. See required versions and isolation limits below")
+    judge.add_argument("--judge-model", metavar="MODEL", help="With --judge-cli only: explicit model override; otherwise Invarune selects its security-review default for that provider")
+    judge.add_argument("--judge-executable", metavar="PATH", help="With --judge-cli or --login: trusted vendor executable path/name; otherwise resolve codex, claude or grok on PATH")
+    judge.add_argument("--judge-cli-home", metavar="PATH", help="With Grok --judge-cli or --login only: absolute clean GROK_HOME profile; no credentials are copied")
+    judge.add_argument("--judge-timeout", type=float, metavar="SECONDS", help="With --judge-cli only: per-invocation deadline including preflight; 0.1..300 seconds, default 60")
+    judge.add_argument("--judge-login", choices=("auto", "never"), default="auto", help="auto: signed-out CLI scans launch official login on an interactive terminal, then resume; never: require an existing login. Quiet/JSON/noninteractive scans never prompt")
+    judge.add_argument("--login-timeout", type=float, default=300, metavar="SECONDS", help="Official CLI login flow timeout, finite 1..900 seconds; separate from model request and analyst budgets")
     judge.add_argument("--judge-mode", choices=("full", "findings"), default="full", help="full: finding triage plus every active control/check, including zero-finding scans; findings: one finding-triage request only")
     judge.add_argument("--judge-include-source", action="store_true", help="Add neighboring source to finding triage; full analyst separately sends bounded source excerpts")
     judge.add_argument("--judge-max-findings", type=int, default=100, help="Maximum open findings sent to finding triage (1-500)")
@@ -71,6 +79,8 @@ def parser():
     mode.add_argument("--list-rules", action="store_true", help="Print all deterministic rule metadata as JSON")
     mode.add_argument("--list-controls", action="store_true", help="Print all control checks, stable CONTROL:INDEX check IDs, rule mappings, and sources as JSON")
     mode.add_argument("--explain-rule", metavar="ID", help="Print one rule's metadata, mapped controls, and interpretation as JSON")
+    authentication = p.add_argument_group("Official CLI authentication (interactive, optional)")
+    authentication.add_argument("--login", choices=("codex", "claude", "grok"), help="Sign in through an official CLI directly from Invarune, then exit; requires an interactive terminal and no scan target or reports")
     p.add_argument("--version", action="version", version=__version__, help="Print scanner version and exit without scanning or model calls")
     return p
 
@@ -92,7 +102,7 @@ def _json_summary(report, target, report_paths):
     controls = report["controls"]
     judge = report.get("judge", {"enabled": False})
     analyst = report.get("analyst", {"enabled": False})
-    judge_summary = {key: judge[key] for key in ("enabled", "status", "mode", "advisory_only", "selected_findings", "omitted_open_findings", "error") if key in judge}
+    judge_summary = {key: judge[key] for key in ("enabled", "status", "mode", "advisory_only", "provider", "model", "cli", "selected_findings", "omitted_open_findings", "error") if key in judge}
     analyst_summary = {key: analyst[key] for key in ("enabled", "status", "advisory_only", "coverage") if key in analyst}
     policy = report.get("review_policy", {})
     counts = policy.get("counts", {})
@@ -156,6 +166,25 @@ def judge_payload(report, root, include_source=False, max_findings=100):
 def main(argv=None):
     p = parser()
     args = p.parse_args(argv)
+    if not math.isfinite(args.login_timeout) or not 1 <= args.login_timeout <= 900:
+        p.error("--login-timeout must be finite and between 1 and 900 seconds")
+    if args.login:
+        if args.target or args.image or args.image_archive or args.judge_cli or args.judge_config or args.list_rules or args.list_controls or args.explain_rule:
+            p.error("--login is a standalone command; omit scan input and judge selection")
+        if args.quiet or args.summary_json or args.judge_model or args.judge_timeout is not None:
+            p.error("--login requires interactive output and does not accept scan/model output options")
+        if args.judge_cli_home is not None and args.login != "grok":
+            p.error("--judge-cli-home is Grok-only")
+        from .cli_judge import CLIJudgeError, login_cli
+        try:
+            login_cli({"provider": args.login + "_cli", **{key: value for key, value in
+                (("executable", args.judge_executable), ("cli_home", args.judge_cli_home)) if value is not None}},
+                timeout_seconds=args.login_timeout)
+        except CLIJudgeError as exc:
+            print("CLI login error: " + redact(str(exc)), file=sys.stderr)
+            return 2
+        print("Signed in through the official " + args.login + " CLI. Invarune does not store authentication tokens.")
+        return 0
     catalog_mode = args.list_rules or args.list_controls or args.explain_rule is not None
     image_mode = args.image is not None or args.image_archive is not None
     if catalog_mode and (args.target or image_mode):
@@ -189,8 +218,15 @@ def main(argv=None):
         p.error("image limits must be positive integers")
     if not math.isfinite(args.image_timeout) or args.image_timeout <= 0:
         p.error("--image-timeout must be a positive finite number")
-    if args.judge_include_source and not args.judge_config:
-        p.error("--judge-include-source requires --judge-config")
+    judge_enabled = bool(args.judge_config or args.judge_cli)
+    if args.judge_include_source and not judge_enabled:
+        p.error("--judge-include-source requires --judge-config or --judge-cli")
+    if any(value is not None for value in (args.judge_model, args.judge_executable, args.judge_timeout, args.judge_cli_home)) and not args.judge_cli:
+        p.error("--judge-model, --judge-executable, --judge-timeout and --judge-cli-home require --judge-cli")
+    if args.judge_cli_home is not None and args.judge_cli != "grok":
+        p.error("--judge-cli-home requires --judge-cli grok")
+    if args.judge_timeout is not None and (not math.isfinite(args.judge_timeout) or not 0.1 <= args.judge_timeout <= 300):
+        p.error("--judge-timeout must be finite and between 0.1 and 300 seconds")
     if args.write_baseline and not (args.baseline_reason or "").strip():
         p.error("--write-baseline requires --baseline-reason with a justification")
     if not 1 <= args.judge_max_findings <= 500:
@@ -208,7 +244,7 @@ def main(argv=None):
     if not image_mode and output.resolve() == target.resolve():
         p.error("--output must be separate from the repository root")
     exclusions = [output.absolute()]
-    for name in (args.baseline, args.write_baseline, args.judge_config, args.review_config):
+    for name in (args.baseline, args.write_baseline, args.judge_config, args.review_config, args.judge_cli_home):
         if name:
             exclusions.append(Path(name).expanduser().absolute())
     report_paths = {}
@@ -242,23 +278,59 @@ def main(argv=None):
         if review_config is not None:
             report = apply_review_config(report, review_config)
         report["analyst"] = {"enabled": False}
-        if args.judge_config:
-            from .judge import JudgeError, load_config, review, validate_analyst_config
+        if judge_enabled:
+            from .judge import JudgeError, JudgeAuthenticationError, load_config, review, validate_analyst_config
             from .analyst import run_analyst, unreviewed_analyst
             scope_description = "open findings and bounded source excerpts for active control checks" if args.judge_mode == "full" else "open findings"
             if not args.quiet:
-                print("Optional LLM review enabled: sending redacted " + scope_description + " to the configured endpoint. Redaction is best-effort.", file=sys.stderr)
+                recipient = "selected CLI's configured service" if args.judge_cli else "configured provider/service"
+                print("Optional LLM review enabled: sending redacted " + scope_description + " to the " + recipient + ". Redaction is best-effort.", file=sys.stderr)
             payload = judge_payload(report, target.resolve(), args.judge_include_source, args.judge_max_findings)
             judge_scope = {"omitted_open_findings": payload["omitted_open_findings"], "selected_findings": len(payload["findings"]), "source_context_sent_count": len(payload.get("source_context", [])),
                            "source_context_skipped": payload.get("source_context_skipped", [])}
             try:
-                config = load_config(args.judge_config)
+                if args.judge_config:
+                    config = load_config(args.judge_config)
+                else:
+                    config = validate_analyst_config({"provider": args.judge_cli + "_cli",
+                        **{key: value for key, value in (("model", args.judge_model),
+                           ("executable", args.judge_executable), ("timeout_seconds", args.judge_timeout),
+                           ("cli_home", args.judge_cli_home)) if value is not None}})
                 if args.judge_mode == "full":
                     config = validate_analyst_config(config)
-                result = review(config, payload)
+                interactive_login = config["provider"].endswith("_cli") and args.judge_login == "auto" and not (args.quiet or args.summary_json) and sys.stdin.isatty() and sys.stderr.isatty()
+                login_attempted = False
+
+                def authenticate():
+                    nonlocal login_attempted
+                    if not interactive_login or login_attempted:
+                        return False
+                    login_attempted = True
+                    try:
+                        print("Sign-in required. Opening the official CLI login; this scan will resume after sign-in.", file=sys.stderr)
+                        login_cli(config, timeout_seconds=args.login_timeout)
+                    except CLIJudgeError as exc:
+                        raise JudgeError(str(exc)) from None
+                    return True
+
+                if interactive_login:
+                    from .cli_judge import CLIJudgeError, probe_auth, login_cli
+                    try:
+                        auth = probe_auth(config)
+                        if auth["logged_in"] is False:
+                            authenticate()
+                    except CLIJudgeError as exc:
+                        raise JudgeError(str(exc)) from None
+                try:
+                    result = review(config, payload)
+                except JudgeAuthenticationError:
+                    if not authenticate():
+                        raise
+                    result = review(config, payload)
                 report["judge"] = {**redact_object(result), **judge_scope, "enabled": True, "status": "completed", "advisory_only": True, "source_context_requested": args.judge_include_source}
                 if args.judge_mode == "full":
-                    report["analyst"] = run_analyst(config, report, target.resolve(), **analyst_limits)
+                    report["analyst"] = run_analyst(config, report, target.resolve(),
+                        **({"on_auth_required": authenticate} if interactive_login else {}), **analyst_limits)
             except JudgeError as exc:
                 report["judge"] = {**judge_scope, "enabled": True, "status": "error", "advisory_only": True, "error": redact(str(exc)) + " Deterministic results are preserved."}
                 print("Optional LLM review error: " + redact(str(exc)) + " Deterministic results are preserved.", file=sys.stderr)

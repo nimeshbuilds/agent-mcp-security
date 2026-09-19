@@ -92,9 +92,9 @@ class CliUsabilityTests(unittest.TestCase):
         for arguments in examples:
             with self.subTest(arguments=arguments):
                 args = parser().parse_args(arguments)
-                catalog = args.list_rules or args.list_controls or args.explain_rule
+                catalog = args.list_rules or args.list_controls or args.explain_rule or args.login
                 self.assertEqual(sum(bool(value) for value in (args.target, args.image, args.image_archive)), 0 if catalog else 1)
-                self.assertFalse(args.judge_include_source and not args.judge_config)
+                self.assertFalse(args.judge_include_source and not (args.judge_config or args.judge_cli))
                 self.assertFalse(args.pull and not args.image)
                 validate_limits(max_calls=args.analyst_max_calls, batch_size=args.analyst_batch_size,
                                 max_files=args.analyst_max_files, max_bytes=args.analyst_max_bytes,

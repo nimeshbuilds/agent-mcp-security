@@ -1,0 +1,345 @@
+{
+  "schema_version": "1.0",
+  "corpus_id": "public-agent-mcp-2026-09",
+  "selected_at_utc": "2026-09-19T20:36:10.117355+00:00",
+  "selection": "Purposive ecosystem sample selected before any scanner results: official MCP servers, MCP frameworks, and established agent frameworks/applications across Python, TypeScript and Go. Not random or representative of all agent software.",
+  "scope_policy": {
+    "description": "First-party implementation directories and package/runtime configuration. Uniform removal of tests, examples, docs, vendored/generated trees and non-code assets; embedded production prompts remain. Dependency manifests and lockfiles are retained. Same exported bytes are offered to every scanner.",
+    "excluded_directory_names": [
+      ".git",
+      ".github",
+      ".agents",
+      ".claude",
+      ".cursor",
+      "tests",
+      "test",
+      "__tests__",
+      "__mocks__",
+      "testdata",
+      "test_data",
+      "test_files",
+      "test-utils",
+      "test_utils",
+      "fixtures",
+      "__fixtures__",
+      "docs",
+      "dev-docs",
+      "examples",
+      "example",
+      "samples",
+      "sample",
+      "benchmarks",
+      "benchmark",
+      "bench",
+      "notebooks",
+      "node_modules",
+      "vendor",
+      "third-party",
+      "third_party",
+      "dist",
+      "build",
+      "coverage",
+      "__pycache__",
+      "integration",
+      "e2e"
+    ],
+    "excluded_basename_globs": [
+      "test_*.py",
+      "*_test.py",
+      "*_test.go",
+      "*.test.*",
+      "*.spec.*",
+      "conftest.py",
+      "README*",
+      "LICENSE*",
+      "CHANGELOG*",
+      "CONTRIBUTING*",
+      "AGENTS.md",
+      "CLAUDE.md",
+      "MIGRATION.md"
+    ],
+    "text_extensions": [
+      ".py",
+      ".pyi",
+      ".js",
+      ".jsx",
+      ".ts",
+      ".tsx",
+      ".mjs",
+      ".cjs",
+      ".json",
+      ".jsonc",
+      ".yaml",
+      ".yml",
+      ".toml",
+      ".ini",
+      ".cfg",
+      ".conf",
+      ".config",
+      ".env",
+      ".sh",
+      ".bash",
+      ".zsh",
+      ".dockerfile",
+      ".tf",
+      ".hcl",
+      ".pem",
+      ".key",
+      ".md",
+      ".txt",
+      ".xml",
+      ".lock",
+      ".go",
+      ".rs",
+      ".java",
+      ".rb",
+      ".php",
+      ".cs",
+      ".csproj",
+      ".props",
+      ".targets",
+      ".proto",
+      ".sql",
+      ".css",
+      ".scss",
+      ".html",
+      ".svelte"
+    ],
+    "text_names": [
+      "Dockerfile",
+      "Makefile",
+      "Jenkinsfile",
+      "go.mod",
+      "go.sum",
+      "Pipfile",
+      "Pipfile.lock",
+      ".npmrc",
+      ".pypirc",
+      ".netrc"
+    ],
+    "max_export_file_bytes": 20000000,
+    "max_export_total_bytes": 300000000
+  },
+  "scanner_options": {
+    "max_file_bytes": 20000000,
+    "max_total_bytes": 300000000,
+    "max_files": 20000,
+    "max_entries": 100000,
+    "fail_on": "high"
+  },
+  "projects": [
+    {
+      "id": "mcp-reference",
+      "name": "MCP reference servers",
+      "kind": "Reference implementation collection (upstream explicitly not production-ready)",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "revision": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+      "commit_date": "2026-09-02T18:42:26-07:00",
+      "license": {
+        "summary": "Apache-2.0 transition / legacy MIT",
+        "path": "LICENSE",
+        "url": "https://github.com/modelcontextprotocol/servers/blob/d73f99efbfd40c3aa1b61e88728b3d49fb52608f/LICENSE"
+      },
+      "include_prefixes": [
+        "src"
+      ],
+      "include_globs": [],
+      "include_files": [
+        "package.json",
+        "package-lock.json",
+        "tsconfig.json",
+        ".mcp.json",
+        ".npmrc"
+      ]
+    },
+    {
+      "id": "github-mcp",
+      "name": "GitHub MCP Server",
+      "kind": "Official MCP server",
+      "repository": "https://github.com/github/github-mcp-server",
+      "revision": "85598ba6e1256f7ebf4867b95d63b833c4549264",
+      "commit_date": "2026-09-16T10:58:29+01:00",
+      "license": {
+        "summary": "MIT",
+        "path": "LICENSE",
+        "url": "https://github.com/github/github-mcp-server/blob/85598ba6e1256f7ebf4867b95d63b833c4549264/LICENSE"
+      },
+      "include_prefixes": [
+        "cmd",
+        "internal",
+        "pkg",
+        "ui",
+        "agent-plugin"
+      ],
+      "include_globs": [],
+      "include_files": [
+        "Dockerfile",
+        "go.mod",
+        "go.sum",
+        "server.json",
+        "gemini-extension.json"
+      ]
+    },
+    {
+      "id": "autogen",
+      "name": "AutoGen",
+      "kind": "Agent framework and runtime integrations",
+      "repository": "https://github.com/microsoft/autogen",
+      "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "commit_date": "2026-04-06T15:35:32-07:00",
+      "license": {
+        "summary": "MIT (code)",
+        "path": "LICENSE-CODE",
+        "url": "https://github.com/microsoft/autogen/blob/027ecf0a379bcc1d09956d46d12d44a3ad9cee14/LICENSE-CODE"
+      },
+      "include_prefixes": [
+        "python/packages/autogen-agentchat/src",
+        "python/packages/autogen-core/src",
+        "python/packages/autogen-ext/src",
+        "python/packages/autogen-studio/autogenstudio",
+        "python/packages/autogen-studio/frontend/src",
+        "python/packages/magentic-one-cli/src",
+        "python/packages/pyautogen/src",
+        "dotnet/src"
+      ],
+      "include_globs": [
+        "python/packages/*/pyproject.toml",
+        "python/packages/*/Dockerfile",
+        "python/packages/*/requirements.txt"
+      ],
+      "include_files": []
+    },
+    {
+      "id": "crewai",
+      "name": "CrewAI",
+      "kind": "Agent orchestration and tool framework",
+      "repository": "https://github.com/crewAIInc/crewAI",
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "commit_date": "2026-09-18T20:13:44-03:00",
+      "license": {
+        "summary": "MIT",
+        "path": "LICENSE",
+        "url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/LICENSE"
+      },
+      "include_prefixes": [
+        "lib/cli",
+        "lib/crewai-core",
+        "lib/crewai-files",
+        "lib/crewai-tools",
+        "lib/crewai"
+      ],
+      "include_globs": [],
+      "include_files": [
+        "pyproject.toml",
+        "uv.lock"
+      ]
+    },
+    {
+      "id": "langgraph",
+      "name": "LangGraph",
+      "kind": "Agent graph execution, checkpoint and SDK libraries",
+      "repository": "https://github.com/langchain-ai/langgraph",
+      "revision": "aa742fb31e2827d569b843e3600aeda2e0528e4b",
+      "commit_date": "2026-09-18T23:31:43Z",
+      "license": {
+        "summary": "MIT",
+        "path": "LICENSE",
+        "url": "https://github.com/langchain-ai/langgraph/blob/aa742fb31e2827d569b843e3600aeda2e0528e4b/LICENSE"
+      },
+      "include_prefixes": [
+        "libs/checkpoint/langgraph",
+        "libs/checkpoint-postgres/langgraph",
+        "libs/checkpoint-sqlite/langgraph",
+        "libs/cli/langgraph_cli",
+        "libs/cli/schemas",
+        "libs/langgraph/langgraph",
+        "libs/prebuilt/langgraph",
+        "libs/sdk-py/langgraph_sdk"
+      ],
+      "include_globs": [
+        "libs/*/pyproject.toml",
+        "libs/*/uv.lock"
+      ],
+      "include_files": []
+    },
+    {
+      "id": "openhands",
+      "name": "OpenHands",
+      "kind": "Agent development application (current upstream desktop/web implementation)",
+      "repository": "https://github.com/OpenHands/OpenHands",
+      "revision": "a07364828c8f202e7745c6bce3dcef3915ae7ac1",
+      "commit_date": "2026-09-18T23:29:17+02:00",
+      "license": {
+        "summary": "MIT",
+        "path": "LICENSE",
+        "url": "https://github.com/OpenHands/OpenHands/blob/a07364828c8f202e7745c6bce3dcef3915ae7ac1/LICENSE"
+      },
+      "include_prefixes": [
+        "src",
+        "electron",
+        "bin",
+        "config",
+        "docker",
+        "helm"
+      ],
+      "include_globs": [],
+      "include_files": [
+        "package.json",
+        "package-lock.json",
+        "electron-builder.config.mjs",
+        "react-router.config.ts",
+        "vite.config.ts",
+        "tsconfig.json",
+        "tsconfig.lib.json",
+        "vercel.json"
+      ]
+    },
+    {
+      "id": "pydantic-ai",
+      "name": "Pydantic AI",
+      "kind": "Typed agent framework, graph runtime, evaluations and CLI",
+      "repository": "https://github.com/pydantic/pydantic-ai",
+      "revision": "c4898abb54dc25ae6f6aef208a4c0661b30a455e",
+      "commit_date": "2026-09-18T21:42:06-06:00",
+      "license": {
+        "summary": "MIT",
+        "path": "LICENSE",
+        "url": "https://github.com/pydantic/pydantic-ai/blob/c4898abb54dc25ae6f6aef208a4c0661b30a455e/LICENSE"
+      },
+      "include_prefixes": [
+        "pydantic_ai_slim",
+        "pydantic_evals",
+        "pydantic_graph",
+        "clai"
+      ],
+      "include_globs": [],
+      "include_files": [
+        "pyproject.toml",
+        "uv.lock"
+      ]
+    },
+    {
+      "id": "fastmcp",
+      "name": "FastMCP",
+      "kind": "MCP server/client framework",
+      "repository": "https://github.com/PrefectHQ/fastmcp",
+      "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+      "commit_date": "2026-09-19T01:38:44-05:00",
+      "license": {
+        "summary": "Apache-2.0",
+        "path": "LICENSE",
+        "url": "https://github.com/PrefectHQ/fastmcp/blob/9c35c017cd89e4d50a9f512c8eafde68c301ec70/LICENSE"
+      },
+      "include_prefixes": [
+        "fastmcp_slim",
+        "fastmcp_tasks",
+        "fastmcp_remote"
+      ],
+      "include_globs": [],
+      "include_files": [
+        "pyproject.toml",
+        "uv.lock"
+      ]
+    }
+  ]
+}

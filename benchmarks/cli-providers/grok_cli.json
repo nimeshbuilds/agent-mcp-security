@@ -1,0 +1,22 @@
+{
+  "input_kind": "synthetic, no target execution",
+  "provenance": {
+    "kind": "actual_cli_adapter_run",
+    "original_harness_sha256": "44ba16b4826f5e04c3fd98946e0c0a17e0af79ad8ab5943c0e58f2584e2922bc",
+    "original_receipt_sha256": "f8dd772c5e20d2ddd72003e4bb3eea4599b93e3975c6e98febfce1c9255130b8",
+    "public_synthetic_input_only": true,
+    "recorded_during": "Invarune 0.8.0 development",
+    "timeout_seconds_per_stage": 120
+  },
+  "provider": "grok_cli",
+  "research_date": "2026-09-19",
+  "results": [
+    {
+      "error": "Grok CLI has active extensions or external instructions (hooks, plugins, skills, agents). Use a dedicated clean GROK_HOME signed in with the official CLI; no credentials are copied by Invarune.",
+      "seconds": 0.235,
+      "stage": "findings",
+      "status": "error"
+    }
+  ],
+  "schema_version": "1.0"
+}
