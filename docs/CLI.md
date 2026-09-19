@@ -1,5 +1,7 @@
 # Invarune command-line reference
 
+New to Invarune? Follow the [quick-start guide](QUICKSTART.md) for your first source or image report, optional AI review and expected results.
+
 `invarune` performs bounded, read-only source/image triage and writes standalone HTML, Markdown, JSON, and SARIF reports. Deterministic source-directory and image-archive scans need no model, credentials, network, or third-party Python package. Image references use the selected container runtime; registry pulls require `--pull`. The optional model analyst is enabled only with `--judge-config` or `--judge-cli`.
 
 The CLI identifies patterns that need review. A finding does not by itself prove exploitability, and no finding does not establish security, compliance, or complete control coverage. Consult the report's scope, skipped files, parse errors, limitations, and control statuses alongside its severity counts.

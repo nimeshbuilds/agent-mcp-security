@@ -6,6 +6,7 @@
 
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
+- **[Quick start: get your first report](docs/QUICKSTART.md)**
 - [Built image scanning: Docker, Podman and OCI archives](docs/IMAGE_SCANNING.md)
 - [Complete CLI reference](docs/CLI.md)
 - [Justified and disabled checks: review configuration](docs/REVIEW_CONFIGURATION.md)
