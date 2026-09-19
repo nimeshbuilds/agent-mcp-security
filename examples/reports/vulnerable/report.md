@@ -2,11 +2,318 @@
 
 AI agent and MCP security report
 
-Scan ID: `bb70b69eab506e9685a6c3c4e9ffb793225104db48f356275abcae36d0d3962e`
+Scan ID: `dbf93ed118df176f790a7c87dbf07046fb6a68677e4a5e7b61e600da5d6ee778`
 
 This is static security triage, not certification or proof that a system is secure.
 
-## Summary
+## Executive assessment
+
+### Critical/high findings need prompt review
+
+The scanner found 8 open critical/high patterns among 11 open findings\. Confirm exposure and prioritize the actions below\. Detector severity is not proof of exploitability or deployed risk\.
+
+| Open findings | Critical/high | Affected files | Accepted baseline findings | Coverage gaps |
+|---:|---:|---:|---:|---:|
+| 11 | 8 | 3 | 0 | 0 |
+
+All **66 controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.
+
+**What the scanner found:** Tool execution: 3; Supply chain: 2; Transport security: 2; Agent permissions: 1; Deserialization: 1; Sandboxing: 1; Secrets: 1. These are detected pattern categories, not confirmed attack paths.
+
+**Execution:** exit 1; severity threshold high. The exit threshold does not change the review priorities below.
+
+**Optional model review:** disabled. This overview and the mitigation guidance work offline without a model.
+
+## Immediate concerns and first actions
+
+P0: critical, P1: high, P2: medium, P3: low/info\. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual\-risk scores\. Confidence describes the detected pattern; applicability must be checked\.
+
+| Priority | What the scanner found | Occurrences | First action | Suggested owner |
+|---|---|---:|---|---|
+| P1 | [AI001: Dynamic Python code execution](#group-45290f4fa5c7) (source) | 1 | Trace the input to eval/exec and replace it with fixed operations; if generated execution is essential, isolate it before accepting untrusted input\. | Agent/tool developer |
+| P1 | [AI002: Dynamic command executed through a shell](#group-66e04ed7d9ac) (source) | 1 | Remove shell interpretation, select a fixed executable, and validate each argument and permitted option\. | Agent/tool developer |
+| P1 | [AI003: Dynamic os shell command](#group-f0e53150bfd5) (source) | 1 | Replace os\.system/os\.popen with a fixed executable and validated argument list; trace all contributing values\. | Agent/tool developer |
+| P1 | [AI005: Executable deserialization requires trusted inputs](#group-9ee5075ce1a1) (source) | 1 | Establish who can produce and replace the input; migrate to a nonexecutable data format or restrict verified legacy artifacts to an isolated conversion path\. | Application/model pipeline owner |
+| P1 | [AI006: TLS certificate verification disabled](#group-08a6f7f32c94) (source) | 1 | Enable certificate and hostname verification; install the intended CA for a private gateway and test rejection of an untrusted certificate\. | Application and gateway owner |
+| P1 | [AI010: Credential\-like literal in source or configuration](#group-57a1992f928c) (source) | 1 | Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process\. | Credential/service owner |
+| P1 | [AI029: Remote MCP URL uses plaintext HTTP](#group-b69c379f05c4) (source) | 1 | Use HTTPS with verified certificates; if a separate protected transport is intentional, document and test every network hop and termination boundary\. | MCP/gateway owner |
+| P1 | [AI031: Agent approval or sandbox safeguard explicitly bypassed](#group-0a77dbbc61c4) (source) | 1 | Review the effective permission policy and restore bounded tools and runtime isolation; require independent approval for the specific sensitive effects\. | Agent/platform owner |
+| P2 | [AI018: MCP package runner resolves an unpinned artifact](#group-964934e5a62a) (source) | 1 | Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets\. | MCP integration/build owner |
+| P2 | [AI021: Container explicitly runs as root](#group-f42ebc88841c) (source) | 1 | Verify the final build stage and deployed user, then run with a dedicated nonroot identity unless a documented operation requires otherwise\. | Container/platform owner |
+| P3 | [AI024: Container image is not digest pinned](#group-0cc3d39352a0) (source) | 1 | Identify the approved image digest and enforce it in the effective build or deployment while preserving a reviewed update process\. | Container/release owner |
+
+## What could reduce the risk
+
+The layers below are **proposed and unverified**. They can reduce exposure or impact only when correctly implemented and tested. Fix the underlying issue where applicable. No suggested layer, baseline exception, or model opinion lowers a finding's recorded severity.
+
+Before accepting lower residual risk, record deployment evidence, negative-test results, owner, review date, and expiry. Confirm that requests cannot bypass the control and retest after changes.
+
+<a id="group-45290f4fa5c7"></a>
+
+### AI001: Dynamic Python code execution
+
+**HIGH** · open · 1 occurrences · source
+
+**Observed evidence:** [agent\.py:16](#finding-af20d1e161ca5c4a)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If external or generated content reaches this expression, it could execute Python with the process identity and access its files, credentials, and network\.
+
+**Address the cause:** Trace the input to eval/exec and replace it with fixed operations; if generated execution is essential, isolate it before accepting untrusted input\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Enforce action policy outside the model | Have an execution service allow only named operations, permitted argument values, and caller\-owned target resources before invoking a tool\. | Exercise disallowed operations, additional arguments, cross\-tenant identifiers, and direct calls that bypass the agent planner\. | Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary\. |
+| Isolate tool execution | Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access\. | In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence\. | Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape\. |
+
+Related controls: EXEC\-02
+
+Guidance sources (engineering synthesis): [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-TOOLS](https://modelcontextprotocol.io/specification/2026-07-28/server/tools); [OWASP\-AGENT\-CS](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html); [OWASP\-LLM2026](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/); [TECH\-PYTHON\-SECURITY](https://docs.python.org/3/library/security_warnings.html)
+
+<a id="group-66e04ed7d9ac"></a>
+
+### AI002: Dynamic command executed through a shell
+
+**HIGH** · open · 1 occurrences · source
+
+**Observed evidence:** [agent\.py:9](#finding-193f30b4480af19a)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If a caller or agent controls command content, shell syntax could alter the intended operation and execute with the tool process permissions\.
+
+**Address the cause:** Remove shell interpretation, select a fixed executable, and validate each argument and permitted option\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Enforce action policy outside the model | Have an execution service allow only named operations, permitted argument values, and caller\-owned target resources before invoking a tool\. | Exercise disallowed operations, additional arguments, cross\-tenant identifiers, and direct calls that bypass the agent planner\. | Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary\. |
+| Isolate tool execution | Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access\. | In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence\. | Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape\. |
+
+Related controls: EXEC\-01
+
+Guidance sources (engineering synthesis): [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-TOOLS](https://modelcontextprotocol.io/specification/2026-07-28/server/tools); [OWASP\-AGENT\-CS](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html); [OWASP\-LLM2026](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/); [OWASP\-MCP10](https://owasp.org/projects/mcp-top-10); [OWASP\-OUTPUT2025](https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/); [TECH\-PYTHON\-SECURITY](https://docs.python.org/3/library/security_warnings.html)
+
+<a id="group-f0e53150bfd5"></a>
+
+### AI003: Dynamic os shell command
+
+**HIGH** · open · 1 occurrences · source
+
+**Observed evidence:** [agent\.py:10](#finding-61b51e1ee40425bd)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If external values contribute to the command string, the shell could execute additional commands with the server identity\.
+
+**Address the cause:** Replace os\.system/os\.popen with a fixed executable and validated argument list; trace all contributing values\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Enforce action policy outside the model | Have an execution service allow only named operations, permitted argument values, and caller\-owned target resources before invoking a tool\. | Exercise disallowed operations, additional arguments, cross\-tenant identifiers, and direct calls that bypass the agent planner\. | Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary\. |
+| Isolate tool execution | Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access\. | In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence\. | Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape\. |
+
+Related controls: EXEC\-01
+
+Guidance sources (engineering synthesis): [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-TOOLS](https://modelcontextprotocol.io/specification/2026-07-28/server/tools); [OWASP\-AGENT\-CS](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html); [OWASP\-LLM2026](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/); [OWASP\-MCP10](https://owasp.org/projects/mcp-top-10); [OWASP\-OUTPUT2025](https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/); [TECH\-PYTHON\-SECURITY](https://docs.python.org/3/library/security_warnings.html)
+
+<a id="group-9ee5075ce1a1"></a>
+
+### AI005: Executable deserialization requires trusted inputs
+
+**HIGH** · open · 1 occurrences · source
+
+**Observed evidence:** [agent\.py:12](#finding-41a2872c0a4408e8)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If an attacker can supply or replace the serialized input, loading it may execute code even before the application examines the returned object\.
+
+**Address the cause:** Establish who can produce and replace the input; migrate to a nonexecutable data format or restrict verified legacy artifacts to an isolated conversion path\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Verify artifact identity before use | Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest\. | Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact\. | Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content\. |
+| Separate artifact conversion from production | Perform necessary conversion of legacy serialized artifacts in a disposable environment without production data or credentials\. | Demonstrate that a conversion job cannot reach production services and only approved output formats are promoted\. | Conversion output still needs integrity, format, and downstream behavior review; isolation is not proof of benign content\. |
+
+Related controls: EXEC\-06
+
+Guidance sources (engineering synthesis): [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [NIST\-SSDF](https://csrc.nist.gov/pubs/sp/800/218/final); [OPENSSF\-MODEL\-SIGNING](https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/); [SLSA\-12](https://slsa.dev/spec/v1.2/); [TECH\-PYTHON\-SECURITY](https://docs.python.org/3/library/security_warnings.html); [TECH\-PYTORCH\-SERIAL](https://pytorch.org/docs/stable/notes/serialization.html)
+
+<a id="group-08a6f7f32c94"></a>
+
+### AI006: TLS certificate verification disabled
+
+**HIGH** · open · 1 occurrences · source
+
+**Observed evidence:** [agent\.py:11](#finding-b0fb0bf3edd91686)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If a network intermediary can impersonate the destination, disabled verification may expose or alter credentials, prompts, and tool responses\.
+
+**Address the cause:** Enable certificate and hostname verification; install the intended CA for a private gateway and test rejection of an untrusted certificate\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Require authenticated encrypted transport | Use verified TLS on every relevant network hop, with an appropriate public or private CA and validated service hostname\. | Present an untrusted, expired, or wrong\-host certificate and verify rejection; inspect backend traffic after TLS termination\. | TLS does not protect data from an authorized endpoint, compromised gateway, or plaintext segments beyond termination\. |
+| Restrict outbound destinations independently | Enforce an outbound policy outside the application that permits only required destinations and services; include IPv6 and proxy paths\. | From the deployed identity, test direct IP, DNS, redirect, metadata\-service, and proxy\-mediated attempts to prohibited destinations\. | Allowed destinations may themselves accept leaked data; destination rules do not replace content and action authorization\. |
+
+Related controls: MCP\-01
+
+Guidance sources (engineering synthesis): [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-AUTH](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization); [MCP\-AUTH\-SEC](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations); [MCP\-HTTP](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
+
+<a id="group-57a1992f928c"></a>
+
+### AI010: Credential\-like literal in source or configuration
+
+**HIGH** · open · 1 occurrences · source
+
+**Observed evidence:** [mcp\.json:6](#finding-905bdaaa0ff6de85)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions\.
+
+**Address the cause:** Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Investigate and contain confirmed secret exposure | For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse\. | Confirm the old credential no longer works and record the exposure window, affected copies, and follow\-up owner\. | Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred\. |
+| Use managed credential injection and revocation | Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context\. | Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies\. | Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed\. |
+| Limit credentials available to the workload | Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations\. | Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails\. | A compromised component can still use its allowed permissions until credentials expire or revocation takes effect\. |
+
+Related controls: AUTH\-05, DATA\-01
+
+Guidance sources (engineering synthesis): [CISA\-JCDC](https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet); [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [JOINT\-AGENTIC](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-AUTH](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization); [MCP\-AUTH\-SEC](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices); [NIST\-SSDF](https://csrc.nist.gov/pubs/sp/800/218/final)
+
+<a id="group-b69c379f05c4"></a>
+
+### AI029: Remote MCP URL uses plaintext HTTP
+
+**HIGH** · open · 1 occurrences · source
+
+**Observed evidence:** [mcp\.json:10](#finding-972bd4a450d55cd8)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If remote traffic traverses an unprotected link, observers or intermediaries may read or modify MCP credentials, requests, and responses\.
+
+**Address the cause:** Use HTTPS with verified certificates; if a separate protected transport is intentional, document and test every network hop and termination boundary\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Require authenticated encrypted transport | Use verified TLS on every relevant network hop, with an appropriate public or private CA and validated service hostname\. | Present an untrusted, expired, or wrong\-host certificate and verify rejection; inspect backend traffic after TLS termination\. | TLS does not protect data from an authorized endpoint, compromised gateway, or plaintext segments beyond termination\. |
+| Limit credentials available to the workload | Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations\. | Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails\. | A compromised component can still use its allowed permissions until credentials expire or revocation takes effect\. |
+
+Related controls: MCP\-01
+
+Guidance sources (engineering synthesis): [JOINT\-AGENTIC](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services); [MCP\-AUTH](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization); [MCP\-AUTH\-SEC](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations); [MCP\-HTTP](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
+
+<a id="group-0a77dbbc61c4"></a>
+
+### AI031: Agent approval or sandbox safeguard explicitly bypassed
+
+**HIGH** · open · 1 occurrences · source
+
+**Observed evidence:** [mcp\.json:7](#finding-023509c337313312)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If unrestricted execution or disabled approval is effective, malicious context or an erroneous plan may reach sensitive actions with the agent identity\.
+
+**Address the cause:** Review the effective permission policy and restore bounded tools and runtime isolation; require independent approval for the specific sensitive effects\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Enforce action policy outside the model | Have an execution service allow only named operations, permitted argument values, and caller\-owned target resources before invoking a tool\. | Exercise disallowed operations, additional arguments, cross\-tenant identifiers, and direct calls that bypass the agent planner\. | Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary\. |
+| Bind sensitive actions to explicit approval | Require an independent approval for the exact actor, tool, normalized arguments, target, and expiry before irreversible effects occur\. | Change arguments after approval, replay the approval, and call after expiry; each attempt must be denied before a side effect\. | Approval cannot compensate for misleading previews, excessive approver authority, or actions that happen before the check\. |
+| Isolate tool execution | Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access\. | In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence\. | Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape\. |
+
+Related controls: AGT\-01, AGT\-02, MCP\-09, SUP\-05
+
+Guidance sources (engineering synthesis): [ASD\-HARNESS](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/agentic-ai-harnesses); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices); [MCP\-TOOLS](https://modelcontextprotocol.io/specification/2026-07-28/server/tools); [OWASP\-AGENT\-CS](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html); [OWASP\-LLM2026](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/); [OWASP\-MCP\-CS](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html)
+
+<a id="group-964934e5a62a"></a>
+
+### AI018: MCP package runner resolves an unpinned artifact
+
+**MEDIUM** · open · 1 occurrences · source
+
+**Observed evidence:** [mcp\.json:4](#finding-62e5f603bc805d76)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If the package runner resolves a changed or malicious artifact, the next MCP launch could execute different code with the client environment permissions\.
+
+**Address the cause:** Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Resolve and install reviewed dependency bytes | Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory\. | Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it\. | An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained\. |
+| Verify artifact identity before use | Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest\. | Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact\. | Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content\. |
+| Limit credentials available to the workload | Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations\. | Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails\. | A compromised component can still use its allowed permissions until credentials expire or revocation takes effect\. |
+
+Related controls: MCP\-09, SUP\-01
+
+Guidance sources (engineering synthesis): [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [JOINT\-AGENTIC](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices); [NIST\-SSDF](https://csrc.nist.gov/pubs/sp/800/218/final); [OPENSSF\-BASELINE\-202608](https://baseline.openssf.org/versions/2026-08-28); [OPENSSF\-MODEL\-SIGNING](https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/); [OWASP\-MCP\-CS](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html); [SLSA\-12](https://slsa.dev/spec/v1.2/)
+
+<a id="group-f42ebc88841c"></a>
+
+### AI021: Container explicitly runs as root
+
+**MEDIUM** · open · 1 occurrences · source
+
+**Observed evidence:** [Dockerfile:2](#finding-a258b8b7bd29cac1)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If this is the effective runtime user, a tool compromise may gain more authority within the container; host impact depends on mounts, capabilities, user mappings, and kernel isolation\.
+
+**Address the cause:** Verify the final build stage and deployed user, then run with a dedicated nonroot identity unless a documented operation requires otherwise\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Apply runtime isolation controls together | Use a dedicated nonroot identity, minimal capabilities, no privilege escalation, and an enforced syscall and mandatory\-access policy where supported\. | Inspect the effective workload and attempt privileged operations, prohibited syscalls, and access to protected host resources\. | Nonroot alone is insufficient; writable mounts, added capabilities, host namespaces, and kernel flaws can weaken isolation\. |
+| Separate risky tools from sensitive workloads | Place tools needing exceptional privileges in a separate environment with narrow interfaces and no unrelated tenant data\. | Test cross\-workload network and filesystem access and confirm the privileged component cannot impersonate the requesting agent\. | Shared kernels or administrative infrastructure may retain common failure paths; a container is not automatically a strong hostile\-code boundary\. |
+
+Related controls: SUP\-05
+
+Guidance sources (engineering synthesis): [CIS\-CONTROLS\-81](https://www.cisecurity.org/controls/v8-1); [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [CSA\-CCM](https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4-1); [JOINT\-AGENTIC](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely)
+
+<a id="group-0cc3d39352a0"></a>
+
+### AI024: Container image is not digest pinned
+
+**LOW** · open · 1 occurrences · source
+
+**Observed evidence:** [Dockerfile:1](#finding-0ca23a2f487902a4)
+
+Source evidence: deployment reachability and active use have not been established\.
+
+**Possible impact:** If a mutable image tag changes, a rebuild or deployment may consume unreviewed bytes; the scan does not establish that the current image is vulnerable\.
+
+**Address the cause:** Identify the approved image digest and enforce it in the effective build or deployment while preserving a reviewed update process\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Verify artifact identity before use | Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest\. | Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact\. | Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content\. |
+| Keep pinned artifacts maintained | Review known\-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process\. | Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact\. | This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw\. |
+
+Related controls: SUP\-01, SUP\-03
+
+Guidance sources (engineering synthesis): [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [NIST\-SSDF](https://csrc.nist.gov/pubs/sp/800/218/final); [NSA\-DATA](https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4192332/nsas-aisc-releases-joint-guidance-on-the-risks-and-best-practices-in-ai-data-se/); [OPENSSF\-MODEL\-SIGNING](https://openssf.org/blog/2025/04/04/launch-of-model-signing-v1-0-openssf-ai-ml-working-group-secures-the-machine-learning-supply-chain/); [OPENSSF\-SCORECARD](https://securityscorecards.dev/); [SLSA\-12](https://slsa.dev/spec/v1.2/)
+
+### What remains unknown
+
+- Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification\.
+- Authentication, authorization, tenant isolation, tool approvals, prompt\-injection resistance, and recovery need runtime or human evidence\.
+- Suggested defense layers have not been verified as deployed\. There is no calculated residual\-risk score or automatic severity reduction\.
+- No dependency CVE feed or live adversarial agent/MCP benchmark was run\. Excluded and unsupported files remain outside the selected scope\.
+
+Guidance catalog version: 1\.0\.0; SHA-256: `dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1`. The catalog is bundled and does not contact external sources during a scan.
+
+## Scan details
 
 Scanned **3 files**; **11 open findings**, **0 suppressed findings**, and **0 coverage gaps**.
 
@@ -32,6 +339,8 @@ A clean pattern scan is not a control pass. Validate applicability and exploitab
 
 ## Findings
 
+<a id="finding-193f30b4480af19a"></a>
+
 ### AI002 — Dynamic command executed through a shell
 
 **HIGH** · Confidence: medium · Status: open
@@ -50,6 +359,8 @@ Weakness mappings: CWE\-78
 
 - [Reference](https://docs.python.org/3/library/security_warnings.html)
 - [Reference](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/)
+
+<a id="finding-61b51e1ee40425bd"></a>
 
 ### AI003 — Dynamic os shell command
 
@@ -70,6 +381,8 @@ Weakness mappings: CWE\-78
 - [Reference](https://docs.python.org/3/library/security_warnings.html)
 - [Reference](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/)
 
+<a id="finding-b0fb0bf3edd91686"></a>
+
 ### AI006 — TLS certificate verification disabled
 
 **HIGH** · Confidence: high · Status: open
@@ -89,6 +402,8 @@ Weakness mappings: CWE\-295
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
 - [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
 
+<a id="finding-41a2872c0a4408e8"></a>
+
 ### AI005 — Executable deserialization requires trusted inputs
 
 **HIGH** · Confidence: medium · Status: open
@@ -106,6 +421,8 @@ Pickle\-compatible deserialization can execute code\. This finding identifies a 
 Weakness mappings: CWE\-502
 
 - [Reference](https://docs.python.org/3/library/security_warnings.html)
+
+<a id="finding-af20d1e161ca5c4a"></a>
 
 ### AI001 — Dynamic Python code execution
 
@@ -126,6 +443,8 @@ Weakness mappings: CWE\-95
 - [Reference](https://docs.python.org/3/library/security_warnings.html)
 - [Reference](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/)
 
+<a id="finding-905bdaaa0ff6de85"></a>
+
 ### AI010 — Credential\-like literal in source or configuration
 
 **HIGH** · Confidence: medium · Status: open
@@ -144,6 +463,8 @@ Weakness mappings: CWE\-798
 
 - [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
+
+<a id="finding-023509c337313312"></a>
 
 ### AI031 — Agent approval or sandbox safeguard explicitly bypassed
 
@@ -164,6 +485,8 @@ Weakness mappings: CWE\-862
 - [Reference](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/)
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
 
+<a id="finding-972bd4a450d55cd8"></a>
+
 ### AI029 — Remote MCP URL uses plaintext HTTP
 
 **HIGH** · Confidence: high · Status: open
@@ -181,6 +504,8 @@ An MCP configuration points to a nonloopback HTTP URL\. Credentials, tool reques
 Weakness mappings: CWE\-319
 
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
+
+<a id="finding-a258b8b7bd29cac1"></a>
 
 ### AI021 — Container explicitly runs as root
 
@@ -200,6 +525,8 @@ Weakness mappings: CWE\-250
 
 - [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
 
+<a id="finding-62e5f603bc805d76"></a>
+
 ### AI018 — MCP package runner resolves an unpinned artifact
 
 **MEDIUM** · Confidence: high · Status: open
@@ -218,6 +545,8 @@ Weakness mappings: CWE\-829
 
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
 - [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
+
+<a id="finding-0ca23a2f487902a4"></a>
 
 ### AI024 — Container image is not digest pinned
 

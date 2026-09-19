@@ -98,7 +98,7 @@ class ScannerTests(unittest.TestCase):
             clean_gate = main([str(self.root), "--output", str(output), "--fail-on", "none"])
         self.assertEqual(result, 1)
         self.assertEqual(clean_gate, 0)
-        self.assertEqual({p.name for p in output.iterdir()}, {"report.md", "report.json", "report.sarif"})
+        self.assertEqual({p.name for p in output.iterdir()}, {"report.html", "report.md", "report.json", "report.sarif"})
         self.write("bad.py", "def broken(:\n")
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(main([str(self.root), "--output", str(output), "--fail-on", "none"]), 2)

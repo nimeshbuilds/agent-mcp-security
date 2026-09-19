@@ -269,7 +269,7 @@ class SecurityBoundaryTests(unittest.TestCase):
         report["findings"][0]["evidence"] = "model or repository text \ud800"
         output = self.base / "surrogate-report"
         write_reports(report, output)
-        for name in ("report.json", "report.md", "report.sarif"):
+        for name in ("report.html", "report.json", "report.md", "report.sarif"):
             self.assertTrue((output / name).read_text(encoding="utf-8"))
 
     def test_sarif_and_static_fields_ignore_advisory_model_text(self):

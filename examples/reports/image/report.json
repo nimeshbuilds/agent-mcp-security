@@ -2,6 +2,984 @@
   "analyst": {
     "enabled": false
   },
+  "assessment": {
+    "coverage_attention": [],
+    "finding_groups": [
+      {
+        "confidence_counts": {
+          "medium": 1
+        },
+        "context_note": "Packaged file in the final image filesystem; whether it executes in deployment is unverified.",
+        "control_ids": [
+          "EXEC-01"
+        ],
+        "count": 1,
+        "defense_layers": [
+          {
+            "control_ids": [
+              "AGT-01",
+              "AUTH-02",
+              "MCP-02"
+            ],
+            "how_it_helps": "Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.",
+            "id": "tool-policy",
+            "residual_limit": "Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.",
+            "source_ids": [
+              "OWASP-AGENT-CS",
+              "MCP-TOOLS"
+            ],
+            "sources": [
+              {
+                "id": "MCP-TOOLS",
+                "title": "MCP: Tools",
+                "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+              },
+              {
+                "id": "OWASP-AGENT-CS",
+                "title": "AI Agent Security Cheat Sheet",
+                "url": "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Enforce action policy outside the model",
+            "verification": "Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner."
+          },
+          {
+            "control_ids": [
+              "EXEC-02",
+              "SUP-05",
+              "OPS-02"
+            ],
+            "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+            "id": "execution-isolation",
+            "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+            "source_ids": [
+              "JOINT-DEPLOY"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-DEPLOY",
+                "title": "Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Isolate tool execution",
+            "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence."
+          }
+        ],
+        "finding_ids": [
+          "93d63de077ec33adbdb1ce75"
+        ],
+        "id": "group-9d4abccaf43a",
+        "image_context": "final_filesystem",
+        "immediate_action": "Replace os.system/os.popen with a fixed executable and validated argument list; trace all contributing values.",
+        "locations": [
+          {
+            "end_line": 2,
+            "finding_id": "93d63de077ec33adbdb1ce75",
+            "line": 2,
+            "path": "rootfs/app/dist/agent.py"
+          }
+        ],
+        "plausible_impact": "If external values contribute to the command string, the shell could execute additional commands with the server identity.",
+        "priority": "P1",
+        "rule_id": "AI003",
+        "severity": "high",
+        "source_ids": [
+          "JOINT-DEPLOY",
+          "MCP-TOOLS",
+          "OWASP-AGENT-CS",
+          "OWASP-LLM2026",
+          "OWASP-MCP10",
+          "OWASP-OUTPUT2025",
+          "TECH-PYTHON-SECURITY"
+        ],
+        "sources": [
+          {
+            "id": "JOINT-DEPLOY",
+            "title": "Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+          },
+          {
+            "id": "MCP-TOOLS",
+            "title": "MCP: Tools",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+          },
+          {
+            "id": "OWASP-AGENT-CS",
+            "title": "AI Agent Security Cheat Sheet",
+            "url": "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+          },
+          {
+            "id": "OWASP-LLM2026",
+            "title": "OWASP GenAI LLM Top 10 2026",
+            "url": "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
+          },
+          {
+            "id": "OWASP-MCP10",
+            "title": "OWASP MCP Top 10",
+            "url": "https://owasp.org/projects/mcp-top-10"
+          },
+          {
+            "id": "OWASP-OUTPUT2025",
+            "title": "LLM05:2025 Improper Output Handling",
+            "url": "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+          },
+          {
+            "id": "TECH-PYTHON-SECURITY",
+            "title": "Python Security Considerations",
+            "url": "https://docs.python.org/3/library/security_warnings.html"
+          }
+        ],
+        "status": "open",
+        "suggested_owner": "Agent/tool developer",
+        "title": "Dynamic os shell command"
+      },
+      {
+        "confidence_counts": {
+          "medium": 1
+        },
+        "context_note": "Historical layer content remains in the distributed archive even if removed from the final filesystem. This does not mean the file currently executes. Real credentials can remain exposed through the retained layer.",
+        "control_ids": [
+          "AUTH-05",
+          "DATA-01"
+        ],
+        "count": 1,
+        "defense_layers": [
+          {
+            "control_ids": [
+              "AUTH-05",
+              "OPS-06"
+            ],
+            "how_it_helps": "For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse.",
+            "id": "exposure-response",
+            "residual_limit": "Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred.",
+            "source_ids": [
+              "CISA-JCDC",
+              "NIST-SSDF"
+            ],
+            "sources": [
+              {
+                "id": "CISA-JCDC",
+                "title": "JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)",
+                "url": "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+              },
+              {
+                "id": "NIST-SSDF",
+                "title": "Secure Software Development Framework (SSDF) Version 1.1",
+                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Investigate and contain confirmed secret exposure",
+            "verification": "Confirm the old credential no longer works and record the exposure window, affected copies, and follow-up owner."
+          },
+          {
+            "control_ids": [
+              "AUTH-05",
+              "DATA-01",
+              "DATA-06"
+            ],
+            "how_it_helps": "Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context.",
+            "id": "credential-lifecycle",
+            "residual_limit": "Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed.",
+            "source_ids": [
+              "MCP-AUTH",
+              "JOINT-AGENTIC"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-AGENTIC",
+                "title": "Careful adoption of agentic AI services",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+              },
+              {
+                "id": "MCP-AUTH",
+                "title": "MCP: Authorization",
+                "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Use managed credential injection and revocation",
+            "verification": "Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies."
+          },
+          {
+            "control_ids": [
+              "AUTH-05",
+              "AUTH-09"
+            ],
+            "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+            "id": "secret-boundary",
+            "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+            "source_ids": [
+              "JOINT-AGENTIC"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-AGENTIC",
+                "title": "Careful adoption of agentic AI services",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Limit credentials available to the workload",
+            "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails."
+          }
+        ],
+        "finding_ids": [
+          "e770b87231f7a7060cc1f9cc"
+        ],
+        "id": "group-2e42c7eb207c",
+        "image_context": "retained_layer",
+        "immediate_action": "Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process.",
+        "locations": [
+          {
+            "end_line": 2,
+            "finding_id": "e770b87231f7a7060cc1f9cc",
+            "line": 1,
+            "path": ".image-metadata/retained-layer/000001.env"
+          }
+        ],
+        "plausible_impact": "If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions.",
+        "priority": "P1",
+        "rule_id": "AI010",
+        "severity": "high",
+        "source_ids": [
+          "CISA-JCDC",
+          "CISA-SECURE-BY-DESIGN",
+          "JOINT-AGENTIC",
+          "JOINT-DEPLOY",
+          "MCP-AUTH",
+          "MCP-AUTH-SEC",
+          "MCP-SECURITY",
+          "NIST-SSDF"
+        ],
+        "sources": [
+          {
+            "id": "CISA-JCDC",
+            "title": "JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)",
+            "url": "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+          },
+          {
+            "id": "CISA-SECURE-BY-DESIGN",
+            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
+            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+          },
+          {
+            "id": "JOINT-AGENTIC",
+            "title": "Careful adoption of agentic AI services",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+          },
+          {
+            "id": "JOINT-DEPLOY",
+            "title": "Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+          },
+          {
+            "id": "MCP-AUTH",
+            "title": "MCP: Authorization",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+          },
+          {
+            "id": "MCP-AUTH-SEC",
+            "title": "MCP: Authorization Security Considerations",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations"
+          },
+          {
+            "id": "MCP-SECURITY",
+            "title": "MCP Security Best Practices",
+            "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+          },
+          {
+            "id": "NIST-SSDF",
+            "title": "Secure Software Development Framework (SSDF) Version 1.1",
+            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+          }
+        ],
+        "status": "open",
+        "suggested_owner": "Credential/service owner",
+        "title": "Credential-like literal in source or configuration"
+      },
+      {
+        "confidence_counts": {
+          "medium": 1
+        },
+        "context_note": "Image configuration defaults; actual deployment settings may override them.",
+        "control_ids": [
+          "AUTH-05",
+          "DATA-01"
+        ],
+        "count": 1,
+        "defense_layers": [
+          {
+            "control_ids": [
+              "AUTH-05",
+              "OPS-06"
+            ],
+            "how_it_helps": "For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse.",
+            "id": "exposure-response",
+            "residual_limit": "Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred.",
+            "source_ids": [
+              "CISA-JCDC",
+              "NIST-SSDF"
+            ],
+            "sources": [
+              {
+                "id": "CISA-JCDC",
+                "title": "JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)",
+                "url": "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+              },
+              {
+                "id": "NIST-SSDF",
+                "title": "Secure Software Development Framework (SSDF) Version 1.1",
+                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Investigate and contain confirmed secret exposure",
+            "verification": "Confirm the old credential no longer works and record the exposure window, affected copies, and follow-up owner."
+          },
+          {
+            "control_ids": [
+              "AUTH-05",
+              "DATA-01",
+              "DATA-06"
+            ],
+            "how_it_helps": "Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context.",
+            "id": "credential-lifecycle",
+            "residual_limit": "Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed.",
+            "source_ids": [
+              "MCP-AUTH",
+              "JOINT-AGENTIC"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-AGENTIC",
+                "title": "Careful adoption of agentic AI services",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+              },
+              {
+                "id": "MCP-AUTH",
+                "title": "MCP: Authorization",
+                "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Use managed credential injection and revocation",
+            "verification": "Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies."
+          },
+          {
+            "control_ids": [
+              "AUTH-05",
+              "AUTH-09"
+            ],
+            "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+            "id": "secret-boundary",
+            "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+            "source_ids": [
+              "JOINT-AGENTIC"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-AGENTIC",
+                "title": "Careful adoption of agentic AI services",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Limit credentials available to the workload",
+            "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails."
+          }
+        ],
+        "finding_ids": [
+          "9d4be3b23ed7a5edbf22f308"
+        ],
+        "id": "group-bee54b56acdb",
+        "image_context": "runtime_configuration",
+        "immediate_action": "Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process.",
+        "locations": [
+          {
+            "end_line": 2,
+            "finding_id": "9d4be3b23ed7a5edbf22f308",
+            "line": 2,
+            "path": ".image-metadata/environment/000000.json"
+          }
+        ],
+        "plausible_impact": "If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions.",
+        "priority": "P1",
+        "rule_id": "AI010",
+        "severity": "high",
+        "source_ids": [
+          "CISA-JCDC",
+          "CISA-SECURE-BY-DESIGN",
+          "JOINT-AGENTIC",
+          "JOINT-DEPLOY",
+          "MCP-AUTH",
+          "MCP-AUTH-SEC",
+          "MCP-SECURITY",
+          "NIST-SSDF"
+        ],
+        "sources": [
+          {
+            "id": "CISA-JCDC",
+            "title": "JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)",
+            "url": "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+          },
+          {
+            "id": "CISA-SECURE-BY-DESIGN",
+            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
+            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+          },
+          {
+            "id": "JOINT-AGENTIC",
+            "title": "Careful adoption of agentic AI services",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+          },
+          {
+            "id": "JOINT-DEPLOY",
+            "title": "Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+          },
+          {
+            "id": "MCP-AUTH",
+            "title": "MCP: Authorization",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+          },
+          {
+            "id": "MCP-AUTH-SEC",
+            "title": "MCP: Authorization Security Considerations",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations"
+          },
+          {
+            "id": "MCP-SECURITY",
+            "title": "MCP Security Best Practices",
+            "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+          },
+          {
+            "id": "NIST-SSDF",
+            "title": "Secure Software Development Framework (SSDF) Version 1.1",
+            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+          }
+        ],
+        "status": "open",
+        "suggested_owner": "Credential/service owner",
+        "title": "Credential-like literal in source or configuration"
+      }
+    ],
+    "guidance": {
+      "catalog_version": "1.0.0",
+      "reviewed_at": "2026-09-19",
+      "sha256": "dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1",
+      "source_registry_sha256": "cb7d62fe5f3b856a424ddc3b7afa986563a48b5ec2104423055a91fe290d5142"
+    },
+    "immediate_actions": [
+      {
+        "confidence_counts": {
+          "medium": 1
+        },
+        "context_note": "Packaged file in the final image filesystem; whether it executes in deployment is unverified.",
+        "control_ids": [
+          "EXEC-01"
+        ],
+        "count": 1,
+        "defense_layers": [
+          {
+            "control_ids": [
+              "AGT-01",
+              "AUTH-02",
+              "MCP-02"
+            ],
+            "how_it_helps": "Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.",
+            "id": "tool-policy",
+            "residual_limit": "Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.",
+            "source_ids": [
+              "OWASP-AGENT-CS",
+              "MCP-TOOLS"
+            ],
+            "sources": [
+              {
+                "id": "MCP-TOOLS",
+                "title": "MCP: Tools",
+                "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+              },
+              {
+                "id": "OWASP-AGENT-CS",
+                "title": "AI Agent Security Cheat Sheet",
+                "url": "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Enforce action policy outside the model",
+            "verification": "Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner."
+          },
+          {
+            "control_ids": [
+              "EXEC-02",
+              "SUP-05",
+              "OPS-02"
+            ],
+            "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+            "id": "execution-isolation",
+            "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+            "source_ids": [
+              "JOINT-DEPLOY"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-DEPLOY",
+                "title": "Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Isolate tool execution",
+            "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence."
+          }
+        ],
+        "finding_ids": [
+          "93d63de077ec33adbdb1ce75"
+        ],
+        "id": "group-9d4abccaf43a",
+        "image_context": "final_filesystem",
+        "immediate_action": "Replace os.system/os.popen with a fixed executable and validated argument list; trace all contributing values.",
+        "locations": [
+          {
+            "end_line": 2,
+            "finding_id": "93d63de077ec33adbdb1ce75",
+            "line": 2,
+            "path": "rootfs/app/dist/agent.py"
+          }
+        ],
+        "plausible_impact": "If external values contribute to the command string, the shell could execute additional commands with the server identity.",
+        "priority": "P1",
+        "rule_id": "AI003",
+        "severity": "high",
+        "source_ids": [
+          "JOINT-DEPLOY",
+          "MCP-TOOLS",
+          "OWASP-AGENT-CS",
+          "OWASP-LLM2026",
+          "OWASP-MCP10",
+          "OWASP-OUTPUT2025",
+          "TECH-PYTHON-SECURITY"
+        ],
+        "sources": [
+          {
+            "id": "JOINT-DEPLOY",
+            "title": "Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+          },
+          {
+            "id": "MCP-TOOLS",
+            "title": "MCP: Tools",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+          },
+          {
+            "id": "OWASP-AGENT-CS",
+            "title": "AI Agent Security Cheat Sheet",
+            "url": "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
+          },
+          {
+            "id": "OWASP-LLM2026",
+            "title": "OWASP GenAI LLM Top 10 2026",
+            "url": "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
+          },
+          {
+            "id": "OWASP-MCP10",
+            "title": "OWASP MCP Top 10",
+            "url": "https://owasp.org/projects/mcp-top-10"
+          },
+          {
+            "id": "OWASP-OUTPUT2025",
+            "title": "LLM05:2025 Improper Output Handling",
+            "url": "https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/"
+          },
+          {
+            "id": "TECH-PYTHON-SECURITY",
+            "title": "Python Security Considerations",
+            "url": "https://docs.python.org/3/library/security_warnings.html"
+          }
+        ],
+        "status": "open",
+        "suggested_owner": "Agent/tool developer",
+        "title": "Dynamic os shell command"
+      },
+      {
+        "confidence_counts": {
+          "medium": 1
+        },
+        "context_note": "Historical layer content remains in the distributed archive even if removed from the final filesystem. This does not mean the file currently executes. Real credentials can remain exposed through the retained layer.",
+        "control_ids": [
+          "AUTH-05",
+          "DATA-01"
+        ],
+        "count": 1,
+        "defense_layers": [
+          {
+            "control_ids": [
+              "AUTH-05",
+              "OPS-06"
+            ],
+            "how_it_helps": "For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse.",
+            "id": "exposure-response",
+            "residual_limit": "Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred.",
+            "source_ids": [
+              "CISA-JCDC",
+              "NIST-SSDF"
+            ],
+            "sources": [
+              {
+                "id": "CISA-JCDC",
+                "title": "JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)",
+                "url": "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+              },
+              {
+                "id": "NIST-SSDF",
+                "title": "Secure Software Development Framework (SSDF) Version 1.1",
+                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Investigate and contain confirmed secret exposure",
+            "verification": "Confirm the old credential no longer works and record the exposure window, affected copies, and follow-up owner."
+          },
+          {
+            "control_ids": [
+              "AUTH-05",
+              "DATA-01",
+              "DATA-06"
+            ],
+            "how_it_helps": "Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context.",
+            "id": "credential-lifecycle",
+            "residual_limit": "Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed.",
+            "source_ids": [
+              "MCP-AUTH",
+              "JOINT-AGENTIC"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-AGENTIC",
+                "title": "Careful adoption of agentic AI services",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+              },
+              {
+                "id": "MCP-AUTH",
+                "title": "MCP: Authorization",
+                "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Use managed credential injection and revocation",
+            "verification": "Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies."
+          },
+          {
+            "control_ids": [
+              "AUTH-05",
+              "AUTH-09"
+            ],
+            "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+            "id": "secret-boundary",
+            "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+            "source_ids": [
+              "JOINT-AGENTIC"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-AGENTIC",
+                "title": "Careful adoption of agentic AI services",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Limit credentials available to the workload",
+            "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails."
+          }
+        ],
+        "finding_ids": [
+          "e770b87231f7a7060cc1f9cc"
+        ],
+        "id": "group-2e42c7eb207c",
+        "image_context": "retained_layer",
+        "immediate_action": "Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process.",
+        "locations": [
+          {
+            "end_line": 2,
+            "finding_id": "e770b87231f7a7060cc1f9cc",
+            "line": 1,
+            "path": ".image-metadata/retained-layer/000001.env"
+          }
+        ],
+        "plausible_impact": "If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions.",
+        "priority": "P1",
+        "rule_id": "AI010",
+        "severity": "high",
+        "source_ids": [
+          "CISA-JCDC",
+          "CISA-SECURE-BY-DESIGN",
+          "JOINT-AGENTIC",
+          "JOINT-DEPLOY",
+          "MCP-AUTH",
+          "MCP-AUTH-SEC",
+          "MCP-SECURITY",
+          "NIST-SSDF"
+        ],
+        "sources": [
+          {
+            "id": "CISA-JCDC",
+            "title": "JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)",
+            "url": "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+          },
+          {
+            "id": "CISA-SECURE-BY-DESIGN",
+            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
+            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+          },
+          {
+            "id": "JOINT-AGENTIC",
+            "title": "Careful adoption of agentic AI services",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+          },
+          {
+            "id": "JOINT-DEPLOY",
+            "title": "Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+          },
+          {
+            "id": "MCP-AUTH",
+            "title": "MCP: Authorization",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+          },
+          {
+            "id": "MCP-AUTH-SEC",
+            "title": "MCP: Authorization Security Considerations",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations"
+          },
+          {
+            "id": "MCP-SECURITY",
+            "title": "MCP Security Best Practices",
+            "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+          },
+          {
+            "id": "NIST-SSDF",
+            "title": "Secure Software Development Framework (SSDF) Version 1.1",
+            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+          }
+        ],
+        "status": "open",
+        "suggested_owner": "Credential/service owner",
+        "title": "Credential-like literal in source or configuration"
+      },
+      {
+        "confidence_counts": {
+          "medium": 1
+        },
+        "context_note": "Image configuration defaults; actual deployment settings may override them.",
+        "control_ids": [
+          "AUTH-05",
+          "DATA-01"
+        ],
+        "count": 1,
+        "defense_layers": [
+          {
+            "control_ids": [
+              "AUTH-05",
+              "OPS-06"
+            ],
+            "how_it_helps": "For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse.",
+            "id": "exposure-response",
+            "residual_limit": "Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred.",
+            "source_ids": [
+              "CISA-JCDC",
+              "NIST-SSDF"
+            ],
+            "sources": [
+              {
+                "id": "CISA-JCDC",
+                "title": "JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)",
+                "url": "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+              },
+              {
+                "id": "NIST-SSDF",
+                "title": "Secure Software Development Framework (SSDF) Version 1.1",
+                "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Investigate and contain confirmed secret exposure",
+            "verification": "Confirm the old credential no longer works and record the exposure window, affected copies, and follow-up owner."
+          },
+          {
+            "control_ids": [
+              "AUTH-05",
+              "DATA-01",
+              "DATA-06"
+            ],
+            "how_it_helps": "Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context.",
+            "id": "credential-lifecycle",
+            "residual_limit": "Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed.",
+            "source_ids": [
+              "MCP-AUTH",
+              "JOINT-AGENTIC"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-AGENTIC",
+                "title": "Careful adoption of agentic AI services",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+              },
+              {
+                "id": "MCP-AUTH",
+                "title": "MCP: Authorization",
+                "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Use managed credential injection and revocation",
+            "verification": "Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies."
+          },
+          {
+            "control_ids": [
+              "AUTH-05",
+              "AUTH-09"
+            ],
+            "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+            "id": "secret-boundary",
+            "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+            "source_ids": [
+              "JOINT-AGENTIC"
+            ],
+            "sources": [
+              {
+                "id": "JOINT-AGENTIC",
+                "title": "Careful adoption of agentic AI services",
+                "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+              }
+            ],
+            "status": "proposed_not_verified",
+            "title": "Limit credentials available to the workload",
+            "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails."
+          }
+        ],
+        "finding_ids": [
+          "9d4be3b23ed7a5edbf22f308"
+        ],
+        "id": "group-bee54b56acdb",
+        "image_context": "runtime_configuration",
+        "immediate_action": "Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process.",
+        "locations": [
+          {
+            "end_line": 2,
+            "finding_id": "9d4be3b23ed7a5edbf22f308",
+            "line": 2,
+            "path": ".image-metadata/environment/000000.json"
+          }
+        ],
+        "plausible_impact": "If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions.",
+        "priority": "P1",
+        "rule_id": "AI010",
+        "severity": "high",
+        "source_ids": [
+          "CISA-JCDC",
+          "CISA-SECURE-BY-DESIGN",
+          "JOINT-AGENTIC",
+          "JOINT-DEPLOY",
+          "MCP-AUTH",
+          "MCP-AUTH-SEC",
+          "MCP-SECURITY",
+          "NIST-SSDF"
+        ],
+        "sources": [
+          {
+            "id": "CISA-JCDC",
+            "title": "JCDC AI Cybersecurity Collaboration Playbook and Fact Sheet (release notice)",
+            "url": "https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet"
+          },
+          {
+            "id": "CISA-SECURE-BY-DESIGN",
+            "title": "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
+            "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+          },
+          {
+            "id": "JOINT-AGENTIC",
+            "title": "Careful adoption of agentic AI services",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services"
+          },
+          {
+            "id": "JOINT-DEPLOY",
+            "title": "Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems",
+            "url": "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+          },
+          {
+            "id": "MCP-AUTH",
+            "title": "MCP: Authorization",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization"
+          },
+          {
+            "id": "MCP-AUTH-SEC",
+            "title": "MCP: Authorization Security Considerations",
+            "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations"
+          },
+          {
+            "id": "MCP-SECURITY",
+            "title": "MCP Security Best Practices",
+            "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+          },
+          {
+            "id": "NIST-SSDF",
+            "title": "Secure Software Development Framework (SSDF) Version 1.1",
+            "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+          }
+        ],
+        "status": "open",
+        "suggested_owner": "Credential/service owner",
+        "title": "Credential-like literal in source or configuration"
+      }
+    ],
+    "method": "deterministic_guidance",
+    "metrics": {
+      "affected_files": 3,
+      "controls_requiring_validation": 66,
+      "controls_total": 66,
+      "coverage_gaps": 0,
+      "files_scanned": 4,
+      "open_findings": 3,
+      "suppressed_findings": 0,
+      "urgent_findings": 3
+    },
+    "posture": {
+      "code": "urgent_review",
+      "explanation": "The scanner found 3 open critical/high patterns among 3 open findings. Confirm exposure and prioritize the actions below. Detector severity is not proof of exploitability or deployed risk.",
+      "title": "Critical/high findings need prompt review"
+    },
+    "priority_basis": "P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.",
+    "schema_version": "1.0",
+    "themes": [
+      {
+        "category": "secrets",
+        "name": "Secrets",
+        "open_findings": 2,
+        "rule_ids": [
+          "AI010"
+        ]
+      },
+      {
+        "category": "tool_execution",
+        "name": "Tool execution",
+        "open_findings": 1,
+        "rule_ids": [
+          "AI003"
+        ]
+      }
+    ],
+    "unknowns": [
+      "Image scope: packaged_source_and_metadata; 1 packaged source files inspected. The container was not started. Compiled application behavior and runtime overrides are unassessed.",
+      "Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.",
+      "Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.",
+      "Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.",
+      "No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope."
+    ]
+  },
   "configuration": {
     "default_excluded_directories": [
       ".cache",
@@ -2110,7 +3088,7 @@
     "enabled": false
   },
   "mode": "deterministic_image",
-  "scan_id": "789259cbc09ad4302a58f9119e58b73a86758971f0bb59bef04cf4f247ff80a4",
+  "scan_id": "16c8feff0b84e23a7beab20ef46e661fd83817ad104314157f6f071faf297d3a",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_image_triage_only",
@@ -2137,9 +3115,9 @@
   "target": "container-image",
   "tool": {
     "display_name": "Invarune by NimeshBuild",
-    "implementation_sha256": "28d287b3a3e6a30c8a4dc677395c43adb4939bea18379df5a2270f3a8207585e",
+    "implementation_sha256": "52f5de5d1c4f218555941425588330288156155ebab4d98824cac01a30d60143",
     "name": "agent-mcp-security-scan",
     "python_version": "3.9.6",
-    "version": "0.5.0"
+    "version": "0.6.0"
   }
 }

@@ -1,6 +1,6 @@
 # Invarune command-line reference
 
-`invarune` performs bounded, read-only source/image triage and writes Markdown, JSON, and SARIF reports. Deterministic source-directory and image-archive scans need no model, credentials, network, or third-party Python package. Image references use the selected container runtime; registry pulls require `--pull`. The optional model analyst is enabled only with `--judge-config`.
+`invarune` performs bounded, read-only source/image triage and writes standalone HTML, Markdown, JSON, and SARIF reports. Deterministic source-directory and image-archive scans need no model, credentials, network, or third-party Python package. Image references use the selected container runtime; registry pulls require `--pull`. The optional model analyst is enabled only with `--judge-config`.
 
 The CLI identifies patterns that need review. A finding does not by itself prove exploitability, and no finding does not establish security, compliance, or complete control coverage. Consult the report's scope, skipped files, parse errors, limitations, and control statuses alongside its severity counts.
 
@@ -28,7 +28,7 @@ Long options require their complete spelling. Abbreviations such as `--judge-con
 
 ## Complete offline help
 
-Version 0.5.0 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, every judge configuration field, native/custom gateway JSON examples, and twenty CLI examples. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
+Version 0.6.0 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, every judge configuration field, native/custom gateway JSON examples, and twenty CLI examples. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
 
 ```sh
 python3 scan.py --help
@@ -91,12 +91,18 @@ Glob matching is case-sensitive against relative paths; this is not a `.gitignor
 
 | Argument | Default | Meaning |
 | --- | --- | --- |
-| `--output PATH` | `scan-report` | Directory for `report.json`, `report.md`, and `report.sarif`. |
+| `--output PATH` | `scan-report` | Directory for `report.html`, `report.json`, `report.md`, and `report.sarif`. |
 | `--fail-on LEVEL` | `high` | Gate on open findings at or above `critical`, `high`, `medium`, `low`, or `info`. `none` disables this severity gate only. |
 | `--quiet` | Disabled | Suppress scan progress and human summaries. Operational and optional review errors remain on stderr. |
 | `--summary-json` | Disabled | Emit one JSON summary on stdout instead of the human summary. Diagnostics remain on stderr. |
 
 `--quiet` and `--summary-json` are mutually exclusive. Both keep the same findings, report artifacts, baseline handling, and exit gate as the default human output. Default deterministic runs with identical files, configuration, runtime, and scanner implementation are reproducible; enabling a model does not make model responses reproducible.
+
+Open `report.html` locally for the complete branded report. It contains its styling and logo, uses no scripts or external fonts/images, and works without a web server or internet connection. Markdown offers a portable equivalent, while JSON exposes the assessment for downstream automation. SARIF retains deterministic findings for compatible code-review tools.
+
+HTML and Markdown start with the scan outcome, immediate concerns, affected files, accepted baseline risks, and coverage limitations. Repeated findings are grouped by rule, status, and image evidence context, with each location preserved. Critical findings receive review priority P0, high P1, medium P2, and low/info P3; these labels are ordering guidance, not deadlines or a numerical security rating. The action plan includes suggested ownership, direct remediation, and additional defense layers, each with expected benefit, verification work, residual limits, and source mappings.
+
+Defense layers are recommendations marked `proposed_not_verified`. The scan does not assume they exist or reduce the finding's severity because they could exist. Baseline exceptions remain visible and do not count as remediation. Scope completion and zero findings do not establish that runtime or manual controls work. Image metadata, build history, retained-layer exposures, and current packaged-code findings retain their distinct contexts. Optional model assessments cannot change deterministic priority or the severity gate. See the [report guide](REPORTS.md) for the full interpretation and verification workflow.
 
 | Exit | Interpretation |
 | --- | --- |
@@ -128,6 +134,7 @@ invarune ./repository --output ./reports --summary-json > ./summary.json
 | `status` | `completed` or `incomplete`. A completed scan can still have findings and exit 1. |
 | `tool`, `scan_id` | Scanner/runtime identity, implementation hash, and deterministic scan identifier copied from the report. |
 | `summary` | The report's exact deterministic counts: open/suppressed findings, severity counts, scanned files, read/charged bytes, coverage gaps, and selected-scope completion. |
+| `assessment` | Compact deterministic executive `posture`, `metrics`, and guidance catalog provenance. The complete grouped findings, action plan, defense layers, sources, and unresolved validation work remain in `report.json`. |
 | `scope` | Resolved source target path, or displayed image reference/archive basename, and exact scan configuration. |
 | `image` | Present for image inputs: identity, acquisition, inventories, per-phase counters, analysis scope and explicit binary/CVE limits. |
 | `coverage` | Errors, skipped files/reasons, enabled rules, unmatched baseline IDs, limitations, control/check totals, statically mapped control count, and control status counts. |
@@ -135,7 +142,7 @@ invarune ./repository --output ./reports --summary-json > ./summary.json
 | `optional_review.analyst` | Whether full control review was enabled, its status, and detailed control/check/evidence/request coverage if present. |
 | `execution` | Severity threshold, whether the deterministic finding gate triggered, and exit code. |
 | `exit_code` | The command's exit code, convenient for CI consumers. |
-| `reports` | Absolute paths under keys `json`, `markdown`, and `sarif`. |
+| `reports` | Absolute paths under keys `html`, `json`, `markdown`, and `sarif`. |
 
 Counts and statuses are copied or aggregated from the written report. Model opinions cannot alter deterministic severity, findings, or control statuses. `no_pattern_detected` means the applicable static patterns were not found, `findings_suppressed` means explicitly baselined findings exist, and runtime/manual statuses remain unresolved validation work.
 

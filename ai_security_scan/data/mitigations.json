@@ -1,0 +1,2197 @@
+{
+  "schema_version": "1.0",
+  "catalog_version": "1.0.0",
+  "reviewed_at": "2026-09-19",
+  "interpretation": "Author-written treatment guidance mapped to Invarune controls and primary-source rationale. Suggested owners and layers are proposals, not observed deployment controls. Verify applicability, enforcement, and residual exposure before accepting risk; no layer automatically lowers a finding severity or proves exploitability.",
+  "rules": [
+    {
+      "rule_id": "AI001",
+      "plausible_impact": "If external or generated content reaches this expression, it could execute Python with the process identity and access its files, credentials, and network.",
+      "immediate_action": "Trace the input to eval/exec and replace it with fixed operations; if generated execution is essential, isolate it before accepting untrusted input.",
+      "suggested_owner": "Agent/tool developer",
+      "control_ids": [
+        "EXEC-02"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-TOOLS",
+        "OWASP-AGENT-CS",
+        "OWASP-LLM2026",
+        "TECH-PYTHON-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "tool-policy",
+          "title": "Enforce action policy outside the model",
+          "how_it_helps": "Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.",
+          "verification": "Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.",
+          "residual_limit": "Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.",
+          "control_ids": [
+            "AGT-01",
+            "AUTH-02",
+            "MCP-02"
+          ],
+          "source_ids": [
+            "OWASP-AGENT-CS",
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "execution-isolation",
+          "title": "Isolate tool execution",
+          "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+          "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.",
+          "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+          "control_ids": [
+            "EXEC-02",
+            "SUP-05",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI002",
+      "plausible_impact": "If a caller or agent controls command content, shell syntax could alter the intended operation and execute with the tool process permissions.",
+      "immediate_action": "Remove shell interpretation, select a fixed executable, and validate each argument and permitted option.",
+      "suggested_owner": "Agent/tool developer",
+      "control_ids": [
+        "EXEC-01"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-TOOLS",
+        "OWASP-AGENT-CS",
+        "OWASP-LLM2026",
+        "OWASP-MCP10",
+        "OWASP-OUTPUT2025",
+        "TECH-PYTHON-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "tool-policy",
+          "title": "Enforce action policy outside the model",
+          "how_it_helps": "Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.",
+          "verification": "Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.",
+          "residual_limit": "Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.",
+          "control_ids": [
+            "AGT-01",
+            "AUTH-02",
+            "MCP-02"
+          ],
+          "source_ids": [
+            "OWASP-AGENT-CS",
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "execution-isolation",
+          "title": "Isolate tool execution",
+          "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+          "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.",
+          "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+          "control_ids": [
+            "EXEC-02",
+            "SUP-05",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI003",
+      "plausible_impact": "If external values contribute to the command string, the shell could execute additional commands with the server identity.",
+      "immediate_action": "Replace os.system/os.popen with a fixed executable and validated argument list; trace all contributing values.",
+      "suggested_owner": "Agent/tool developer",
+      "control_ids": [
+        "EXEC-01"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-TOOLS",
+        "OWASP-AGENT-CS",
+        "OWASP-LLM2026",
+        "OWASP-MCP10",
+        "OWASP-OUTPUT2025",
+        "TECH-PYTHON-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "tool-policy",
+          "title": "Enforce action policy outside the model",
+          "how_it_helps": "Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.",
+          "verification": "Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.",
+          "residual_limit": "Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.",
+          "control_ids": [
+            "AGT-01",
+            "AUTH-02",
+            "MCP-02"
+          ],
+          "source_ids": [
+            "OWASP-AGENT-CS",
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "execution-isolation",
+          "title": "Isolate tool execution",
+          "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+          "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.",
+          "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+          "control_ids": [
+            "EXEC-02",
+            "SUP-05",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI004",
+      "plausible_impact": "If an unsafe loader processes attacker-controlled YAML, it may construct executable objects with application privileges.",
+      "immediate_action": "Use a safe YAML loader, verify that custom constructors do not restore unsafe behavior, and validate the resulting data.",
+      "suggested_owner": "Application developer",
+      "control_ids": [
+        "EXEC-06"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-TOOLS",
+        "NIST-SSDF",
+        "TECH-PYYAML"
+      ],
+      "defense_layers": [
+        {
+          "id": "bounded-parser",
+          "title": "Validate structure and impose parsing limits",
+          "how_it_helps": "Accept a small explicit data schema and bound input bytes, nesting, collection sizes, and processing time before downstream use.",
+          "verification": "Reject unexpected types and fields and oversized or deeply nested inputs; verify termination and resource limits under load.",
+          "residual_limit": "A valid schema cannot make an executable deserializer safe or establish that the content is authorized.",
+          "control_ids": [
+            "MCP-02",
+            "EXEC-06",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "execution-isolation",
+          "title": "Isolate tool execution",
+          "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+          "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.",
+          "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+          "control_ids": [
+            "EXEC-02",
+            "SUP-05",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI005",
+      "plausible_impact": "If an attacker can supply or replace the serialized input, loading it may execute code even before the application examines the returned object.",
+      "immediate_action": "Establish who can produce and replace the input; migrate to a nonexecutable data format or restrict verified legacy artifacts to an isolated conversion path.",
+      "suggested_owner": "Application/model pipeline owner",
+      "control_ids": [
+        "EXEC-06"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "NIST-SSDF",
+        "OPENSSF-MODEL-SIGNING",
+        "SLSA-12",
+        "TECH-PYTHON-SECURITY",
+        "TECH-PYTORCH-SERIAL"
+      ],
+      "defense_layers": [
+        {
+          "id": "artifact-verification",
+          "title": "Verify artifact identity before use",
+          "how_it_helps": "Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.",
+          "verification": "Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact.",
+          "residual_limit": "Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.",
+          "control_ids": [
+            "SUP-03",
+            "DATA-04"
+          ],
+          "source_ids": [
+            "SLSA-12",
+            "OPENSSF-MODEL-SIGNING"
+          ]
+        },
+        {
+          "id": "isolated-conversion",
+          "title": "Separate artifact conversion from production",
+          "how_it_helps": "Perform necessary conversion of legacy serialized artifacts in a disposable environment without production data or credentials.",
+          "verification": "Demonstrate that a conversion job cannot reach production services and only approved output formats are promoted.",
+          "residual_limit": "Conversion output still needs integrity, format, and downstream behavior review; isolation is not proof of benign content.",
+          "control_ids": [
+            "EXEC-06",
+            "SUP-06"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "TECH-PYTORCH-SERIAL"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI006",
+      "plausible_impact": "If a network intermediary can impersonate the destination, disabled verification may expose or alter credentials, prompts, and tool responses.",
+      "immediate_action": "Enable certificate and hostname verification; install the intended CA for a private gateway and test rejection of an untrusted certificate.",
+      "suggested_owner": "Application and gateway owner",
+      "control_ids": [
+        "MCP-01"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-DEPLOY",
+        "MCP-AUTH",
+        "MCP-AUTH-SEC",
+        "MCP-HTTP",
+        "MCP-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "trusted-transport",
+          "title": "Require authenticated encrypted transport",
+          "how_it_helps": "Use verified TLS on every relevant network hop, with an appropriate public or private CA and validated service hostname.",
+          "verification": "Present an untrusted, expired, or wrong-host certificate and verify rejection; inspect backend traffic after TLS termination.",
+          "residual_limit": "TLS does not protect data from an authorized endpoint, compromised gateway, or plaintext segments beyond termination.",
+          "control_ids": [
+            "MCP-01",
+            "AUTH-05"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "MCP-AUTH-SEC"
+          ]
+        },
+        {
+          "id": "egress-policy",
+          "title": "Restrict outbound destinations independently",
+          "how_it_helps": "Enforce an outbound policy outside the application that permits only required destinations and services; include IPv6 and proxy paths.",
+          "verification": "From the deployed identity, test direct IP, DNS, redirect, metadata-service, and proxy-mediated attempts to prohibited destinations.",
+          "residual_limit": "Allowed destinations may themselves accept leaked data; destination rules do not replace content and action authorization.",
+          "control_ids": [
+            "EXEC-05",
+            "AGT-07",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "MCP-SECURITY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI007",
+      "plausible_impact": "If a browser can reach this service, permissive origin handling may allow an unintended site to interact with or read responses; actual impact depends on authentication and browser behavior.",
+      "immediate_action": "Identify intended browser clients, restrict allowed origins, and verify MCP Origin checks on each reachable HTTP endpoint.",
+      "suggested_owner": "MCP/API service owner",
+      "control_ids": [
+        "MCP-01"
+      ],
+      "source_ids": [
+        "MCP-AUTH",
+        "MCP-AUTH-SEC",
+        "MCP-HTTP",
+        "MCP-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "origin-boundary",
+          "title": "Validate browser origin at the MCP listener",
+          "how_it_helps": "Reject disallowed Origin values at the HTTP MCP endpoint and keep the allowed list limited to intended browser clients.",
+          "verification": "Send requests with permitted and unapproved origins through each ingress path, including the direct backend path.",
+          "residual_limit": "Origin checks and CORS behavior do not authenticate non-browser clients; missing-Origin handling needs its own policy.",
+          "control_ids": [
+            "MCP-01"
+          ],
+          "source_ids": [
+            "MCP-HTTP"
+          ]
+        },
+        {
+          "id": "request-auth",
+          "title": "Authenticate and authorize protected requests",
+          "how_it_helps": "Authenticate each protected request and enforce tool, tenant, and target permissions at the service handling the operation.",
+          "verification": "Test missing, expired, wrong-audience, and revoked credentials, plus a valid caller requesting a forbidden target.",
+          "residual_limit": "Authentication identifies a caller; it does not make their supplied data safe or grant every authenticated caller equal authority.",
+          "control_ids": [
+            "AUTH-01",
+            "AUTH-02",
+            "AUTH-03"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "MCP-AUTH-SEC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI008",
+      "plausible_impact": "If ingress rules expose the wildcard listener to unintended clients, agent or MCP operations may become reachable beyond the expected local trust boundary.",
+      "immediate_action": "Confirm actual listener reachability; bind local-only services to loopback or document and test the controls for intentional remote access.",
+      "suggested_owner": "Platform/network owner",
+      "control_ids": [
+        "MCP-01"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-DEPLOY",
+        "MCP-AUTH",
+        "MCP-AUTH-SEC",
+        "MCP-HTTP",
+        "MCP-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "ingress-restriction",
+          "title": "Restrict network ingress",
+          "how_it_helps": "Expose the listener only to required clients through explicit bind addresses and network access rules; close unused ports.",
+          "verification": "Probe from allowed and forbidden network segments, including direct backend addresses and alternate address families.",
+          "residual_limit": "Network location does not establish caller identity or protect against a compromised permitted client.",
+          "control_ids": [
+            "MCP-01",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "MCP-HTTP"
+          ]
+        },
+        {
+          "id": "request-auth",
+          "title": "Authenticate and authorize protected requests",
+          "how_it_helps": "Authenticate each protected request and enforce tool, tenant, and target permissions at the service handling the operation.",
+          "verification": "Test missing, expired, wrong-audience, and revoked credentials, plus a valid caller requesting a forbidden target.",
+          "residual_limit": "Authentication identifies a caller; it does not make their supplied data safe or grant every authenticated caller equal authority.",
+          "control_ids": [
+            "AUTH-01",
+            "AUTH-02",
+            "AUTH-03"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "MCP-AUTH-SEC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI009",
+      "plausible_impact": "If debug behavior is active on a reachable deployment, errors or a framework debugger may disclose internals or permit additional actions.",
+      "immediate_action": "Verify the effective deployed setting, disable debug behavior, and confirm representative errors do not expose a debugger or sensitive details.",
+      "suggested_owner": "Application and platform owner",
+      "control_ids": [
+        "DATA-03"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "NCSC-SECURE-AI",
+        "NIST-SSDF",
+        "OWASP-MCP10"
+      ],
+      "defense_layers": [
+        {
+          "id": "diagnostic-boundary",
+          "title": "Separate operational diagnostics from client errors",
+          "how_it_helps": "Return minimal errors to clients and retain necessary diagnostic detail only in protected, redacted server-side records.",
+          "verification": "Trigger representative failures and confirm public responses exclude stack traces, credentials, paths, and debug consoles.",
+          "residual_limit": "Redaction can miss unexpected formats, and authorized log readers may still see sensitive operational context.",
+          "control_ids": [
+            "DATA-03",
+            "OPS-01"
+          ],
+          "source_ids": [
+            "CISA-SECURE-BY-DESIGN",
+            "NCSC-SECURE-AI"
+          ]
+        },
+        {
+          "id": "deployment-policy",
+          "title": "Enforce reviewed deployment defaults",
+          "how_it_helps": "Gate releases on approved runtime settings and reject deployments that restore the unsafe option through overrides.",
+          "verification": "Evaluate the rendered deployment and running workload, then attempt a rollout containing the forbidden override.",
+          "residual_limit": "A source configuration or successful build does not establish the effective production runtime policy.",
+          "control_ids": [
+            "SUP-04",
+            "SUP-05",
+            "GOV-05"
+          ],
+          "source_ids": [
+            "NIST-SSDF",
+            "NCSC-SECURE-AI"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI010",
+      "plausible_impact": "If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions.",
+      "immediate_action": "Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process.",
+      "suggested_owner": "Credential/service owner",
+      "control_ids": [
+        "AUTH-05",
+        "DATA-01"
+      ],
+      "source_ids": [
+        "CISA-JCDC",
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-AGENTIC",
+        "JOINT-DEPLOY",
+        "MCP-AUTH",
+        "MCP-AUTH-SEC",
+        "MCP-SECURITY",
+        "NIST-SSDF"
+      ],
+      "defense_layers": [
+        {
+          "id": "exposure-response",
+          "title": "Investigate and contain confirmed secret exposure",
+          "how_it_helps": "For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse.",
+          "verification": "Confirm the old credential no longer works and record the exposure window, affected copies, and follow-up owner.",
+          "residual_limit": "Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred.",
+          "control_ids": [
+            "AUTH-05",
+            "OPS-06"
+          ],
+          "source_ids": [
+            "CISA-JCDC",
+            "NIST-SSDF"
+          ]
+        },
+        {
+          "id": "credential-lifecycle",
+          "title": "Use managed credential injection and revocation",
+          "how_it_helps": "Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context.",
+          "verification": "Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies.",
+          "residual_limit": "Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed.",
+          "control_ids": [
+            "AUTH-05",
+            "DATA-01",
+            "DATA-06"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "JOINT-AGENTIC"
+          ]
+        },
+        {
+          "id": "secret-boundary",
+          "title": "Limit credentials available to the workload",
+          "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+          "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.",
+          "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+          "control_ids": [
+            "AUTH-05",
+            "AUTH-09"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI011",
+      "plausible_impact": "If this private key is used for a trusted identity, a reader may impersonate that identity or decrypt data where the key permits it.",
+      "immediate_action": "Establish whether the key was ever trusted; revoke or rotate affected keys/certificates and assess copies and prior access before removing it.",
+      "suggested_owner": "Key/certificate owner",
+      "control_ids": [
+        "AUTH-05",
+        "DATA-01"
+      ],
+      "source_ids": [
+        "CISA-JCDC",
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-AGENTIC",
+        "JOINT-DEPLOY",
+        "MCP-AUTH",
+        "MCP-AUTH-SEC",
+        "NIST-SSDF"
+      ],
+      "defense_layers": [
+        {
+          "id": "exposure-response",
+          "title": "Investigate and contain confirmed secret exposure",
+          "how_it_helps": "For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse.",
+          "verification": "Confirm the old credential no longer works and record the exposure window, affected copies, and follow-up owner.",
+          "residual_limit": "Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred.",
+          "control_ids": [
+            "AUTH-05",
+            "OPS-06"
+          ],
+          "source_ids": [
+            "CISA-JCDC",
+            "NIST-SSDF"
+          ]
+        },
+        {
+          "id": "credential-lifecycle",
+          "title": "Use managed credential injection and revocation",
+          "how_it_helps": "Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context.",
+          "verification": "Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies.",
+          "residual_limit": "Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed.",
+          "control_ids": [
+            "AUTH-05",
+            "DATA-01",
+            "DATA-06"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "JOINT-AGENTIC"
+          ]
+        },
+        {
+          "id": "secret-boundary",
+          "title": "Limit credentials available to the workload",
+          "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+          "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.",
+          "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+          "control_ids": [
+            "AUTH-05",
+            "AUTH-09"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI012",
+      "plausible_impact": "If an agent or external caller influences the command, Node shell execution may interpret their content as additional executable syntax.",
+      "immediate_action": "Replace the shell command with execFile or spawn using a fixed executable, validated argument array, and shell disabled.",
+      "suggested_owner": "Agent/tool developer",
+      "control_ids": [
+        "EXEC-01"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-TOOLS",
+        "OWASP-AGENT-CS",
+        "OWASP-LLM2026",
+        "OWASP-MCP10",
+        "OWASP-OUTPUT2025",
+        "TECH-NODE-PROCESS"
+      ],
+      "defense_layers": [
+        {
+          "id": "tool-policy",
+          "title": "Enforce action policy outside the model",
+          "how_it_helps": "Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.",
+          "verification": "Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.",
+          "residual_limit": "Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.",
+          "control_ids": [
+            "AGT-01",
+            "AUTH-02",
+            "MCP-02"
+          ],
+          "source_ids": [
+            "OWASP-AGENT-CS",
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "execution-isolation",
+          "title": "Isolate tool execution",
+          "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+          "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.",
+          "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+          "control_ids": [
+            "EXEC-02",
+            "SUP-05",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI013",
+      "plausible_impact": "If untrusted content reaches eval or Function, it could execute JavaScript with available server or browser privileges.",
+      "immediate_action": "Replace generated executable strings with structured data and a fixed operation dispatcher; identify any essential execution needing isolation.",
+      "suggested_owner": "Application/agent developer",
+      "control_ids": [
+        "EXEC-02"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-TOOLS",
+        "OWASP-AGENT-CS",
+        "OWASP-LLM2026"
+      ],
+      "defense_layers": [
+        {
+          "id": "tool-policy",
+          "title": "Enforce action policy outside the model",
+          "how_it_helps": "Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.",
+          "verification": "Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.",
+          "residual_limit": "Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.",
+          "control_ids": [
+            "AGT-01",
+            "AUTH-02",
+            "MCP-02"
+          ],
+          "source_ids": [
+            "OWASP-AGENT-CS",
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "execution-isolation",
+          "title": "Isolate tool execution",
+          "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+          "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.",
+          "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+          "control_ids": [
+            "EXEC-02",
+            "SUP-05",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI014",
+      "plausible_impact": "If the caller controls an insufficiently restricted destination, requests may reach internal services or metadata endpoints, or send data to an unintended host.",
+      "immediate_action": "Trace URL validation and redirects; allow only required schemes and destinations and verify the connected address at every hop.",
+      "suggested_owner": "Network-tool developer",
+      "control_ids": [
+        "EXEC-05"
+      ],
+      "source_ids": [
+        "JOINT-AGENTIC",
+        "JOINT-DEPLOY",
+        "MCP-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "egress-policy",
+          "title": "Restrict outbound destinations independently",
+          "how_it_helps": "Enforce an outbound policy outside the application that permits only required destinations and services; include IPv6 and proxy paths.",
+          "verification": "From the deployed identity, test direct IP, DNS, redirect, metadata-service, and proxy-mediated attempts to prohibited destinations.",
+          "residual_limit": "Allowed destinations may themselves accept leaked data; destination rules do not replace content and action authorization.",
+          "control_ids": [
+            "EXEC-05",
+            "AGT-07",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "MCP-SECURITY"
+          ]
+        },
+        {
+          "id": "secret-boundary",
+          "title": "Limit credentials available to the workload",
+          "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+          "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.",
+          "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+          "control_ids": [
+            "AUTH-05",
+            "AUTH-09"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI015",
+      "plausible_impact": "If path checks can be bypassed, an external value may select files outside the intended workspace, including data or executable configuration.",
+      "immediate_action": "Validate the final path against the intended root and review symlink and concurrent-change handling for the actual file operation.",
+      "suggested_owner": "File-tool developer",
+      "control_ids": [
+        "EXEC-04",
+        "MCP-08"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-ROOTS",
+        "MCP-SECURITY",
+        "OWASP-LLM2026",
+        "TECH-PYTHON-SECURITY",
+        "TECH-PYTHON-TAR"
+      ],
+      "defense_layers": [
+        {
+          "id": "filesystem-isolation",
+          "title": "Enforce a real filesystem boundary",
+          "how_it_helps": "Run the tool with access only to its intended workspace and temporary area; remove sensitive mounts and inherited write access.",
+          "verification": "Attempt traversal, absolute paths, symlink escapes, and writes outside the workspace using the actual runtime identity.",
+          "residual_limit": "MCP roots are a cooperation signal rather than a sandbox; permissions and mount policy must enforce containment.",
+          "control_ids": [
+            "MCP-08",
+            "EXEC-04",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "MCP-ROOTS",
+            "MCP-SECURITY"
+          ]
+        },
+        {
+          "id": "file-operation-checks",
+          "title": "Make file authorization resistant to races",
+          "how_it_helps": "Authorize the final target and use safe atomic file operations that do not follow attacker-controlled links unexpectedly.",
+          "verification": "Test concurrent link replacement, traversal variants, pre-existing destination files, and create-versus-overwrite semantics.",
+          "residual_limit": "A path check followed by an unrelated open can race; filesystem and operating-system differences require runtime verification.",
+          "control_ids": [
+            "EXEC-04",
+            "TEST-06"
+          ],
+          "source_ids": [
+            "TECH-PYTHON-SECURITY",
+            "TECH-PYTHON-TAR"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI016",
+      "plausible_impact": "If another local actor can create the predicted temporary path first, the operation may overwrite or disclose unintended files.",
+      "immediate_action": "Replace name-only temporary allocation with atomic creation and preserve restrictive permissions for the full operation.",
+      "suggested_owner": "Application developer",
+      "control_ids": [
+        "EXEC-04"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-ROOTS",
+        "MCP-SECURITY",
+        "TECH-PYTHON-SECURITY",
+        "TECH-PYTHON-TAR"
+      ],
+      "defense_layers": [
+        {
+          "id": "temporary-directory",
+          "title": "Give temporary work a private lifetime",
+          "how_it_helps": "Allocate a private temporary directory atomically, use restrictive permissions, and remove it after success or failure.",
+          "verification": "Confirm another local identity cannot pre-create or read its files and that interrupted jobs leave no sensitive artifacts.",
+          "residual_limit": "Permissions do not isolate processes sharing the same identity; crashes and retained backups can leave copies.",
+          "control_ids": [
+            "EXEC-04",
+            "DATA-05"
+          ],
+          "source_ids": [
+            "TECH-PYTHON-SECURITY",
+            "TECH-PYTHON-TAR"
+          ]
+        },
+        {
+          "id": "filesystem-isolation",
+          "title": "Enforce a real filesystem boundary",
+          "how_it_helps": "Run the tool with access only to its intended workspace and temporary area; remove sensitive mounts and inherited write access.",
+          "verification": "Attempt traversal, absolute paths, symlink escapes, and writes outside the workspace using the actual runtime identity.",
+          "residual_limit": "MCP roots are a cooperation signal rather than a sandbox; permissions and mount policy must enforce containment.",
+          "control_ids": [
+            "MCP-08",
+            "EXEC-04",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "MCP-ROOTS",
+            "MCP-SECURITY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI017",
+      "plausible_impact": "If unverified claims authorize a request, a caller may forge identity or privileges without possessing a valid issuer-signed token.",
+      "immediate_action": "Verify signatures and an explicit algorithm allowlist, trusted issuer, intended audience, expiry, and required claims before authorization.",
+      "suggested_owner": "Identity/API owner",
+      "control_ids": [
+        "AUTH-03"
+      ],
+      "source_ids": [
+        "CSA-AGENT-IAM",
+        "MCP-AUTH",
+        "MCP-AUTH-SEC",
+        "MCP-SECURITY",
+        "MCP-TOOLS"
+      ],
+      "defense_layers": [
+        {
+          "id": "request-auth",
+          "title": "Authenticate and authorize protected requests",
+          "how_it_helps": "Authenticate each protected request and enforce tool, tenant, and target permissions at the service handling the operation.",
+          "verification": "Test missing, expired, wrong-audience, and revoked credentials, plus a valid caller requesting a forbidden target.",
+          "residual_limit": "Authentication identifies a caller; it does not make their supplied data safe or grant every authenticated caller equal authority.",
+          "control_ids": [
+            "AUTH-01",
+            "AUTH-02",
+            "AUTH-03"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "MCP-AUTH-SEC"
+          ]
+        },
+        {
+          "id": "per-action-authorization",
+          "title": "Authorize downstream effects separately",
+          "how_it_helps": "For each effect, check caller identity, tenant, operation, and target at the executing service using bounded downstream credentials.",
+          "verification": "Try read-only users against writes, other-tenant identifiers, and direct tool calls without an agent session.",
+          "residual_limit": "Correct token verification alone cannot prevent an authorized but overly broad or harmful business operation.",
+          "control_ids": [
+            "AUTH-02",
+            "AUTH-04",
+            "AGT-01"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "CSA-AGENT-IAM"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI018",
+      "plausible_impact": "If the package runner resolves a changed or malicious artifact, the next MCP launch could execute different code with the client environment permissions.",
+      "immediate_action": "Resolve and approve exact executable and transitive artifacts, enforce the lock at launch, and minimize inherited environment secrets.",
+      "suggested_owner": "MCP integration/build owner",
+      "control_ids": [
+        "MCP-09",
+        "SUP-01"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-AGENTIC",
+        "MCP-SECURITY",
+        "NIST-SSDF",
+        "OPENSSF-BASELINE-202608",
+        "OPENSSF-MODEL-SIGNING",
+        "OWASP-MCP-CS",
+        "SLSA-12"
+      ],
+      "defense_layers": [
+        {
+          "id": "immutable-install",
+          "title": "Resolve and install reviewed dependency bytes",
+          "how_it_helps": "Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory.",
+          "verification": "Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it.",
+          "residual_limit": "An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained.",
+          "control_ids": [
+            "SUP-01",
+            "SUP-03"
+          ],
+          "source_ids": [
+            "NIST-SSDF",
+            "OPENSSF-BASELINE-202608"
+          ]
+        },
+        {
+          "id": "artifact-verification",
+          "title": "Verify artifact identity before use",
+          "how_it_helps": "Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.",
+          "verification": "Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact.",
+          "residual_limit": "Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.",
+          "control_ids": [
+            "SUP-03",
+            "DATA-04"
+          ],
+          "source_ids": [
+            "SLSA-12",
+            "OPENSSF-MODEL-SIGNING"
+          ]
+        },
+        {
+          "id": "secret-boundary",
+          "title": "Limit credentials available to the workload",
+          "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+          "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.",
+          "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+          "control_ids": [
+            "AUTH-05",
+            "AUTH-09"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI019",
+      "plausible_impact": "If the remote response changes or its publisher is compromised, piping it to a shell immediately runs those bytes with the installer identity.",
+      "immediate_action": "Download to a controlled location, verify independently trusted identity and integrity, review the artifact, and execute with minimal authority.",
+      "suggested_owner": "Build/platform owner",
+      "control_ids": [
+        "SUP-03"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-DEPLOY",
+        "NIST-SSDF",
+        "NSA-DATA",
+        "OPENSSF-MODEL-SIGNING",
+        "SLSA-12"
+      ],
+      "defense_layers": [
+        {
+          "id": "artifact-verification",
+          "title": "Verify artifact identity before use",
+          "how_it_helps": "Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.",
+          "verification": "Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact.",
+          "residual_limit": "Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.",
+          "control_ids": [
+            "SUP-03",
+            "DATA-04"
+          ],
+          "source_ids": [
+            "SLSA-12",
+            "OPENSSF-MODEL-SIGNING"
+          ]
+        },
+        {
+          "id": "execution-isolation",
+          "title": "Isolate tool execution",
+          "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+          "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.",
+          "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+          "control_ids": [
+            "EXEC-02",
+            "SUP-05",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI020",
+      "plausible_impact": "If a referenced tag or branch moves, a workflow may execute changed third-party code with the job token, secrets, and runner access.",
+      "immediate_action": "Pin the action to a reviewed full commit SHA from its intended repository and review updates through the normal change process.",
+      "suggested_owner": "CI/release owner",
+      "control_ids": [
+        "SUP-04"
+      ],
+      "source_ids": [
+        "NIST-SSDF",
+        "OPENSSF-SCORECARD",
+        "TECH-GITHUB-ACTIONS"
+      ],
+      "defense_layers": [
+        {
+          "id": "ci-privilege",
+          "title": "Limit authority in build jobs",
+          "how_it_helps": "Give each job only required token permissions and secrets; separate untrusted contribution jobs from privileged release jobs.",
+          "verification": "Test a contribution workflow and confirm it cannot access release credentials, protected environments, or writable repository permissions.",
+          "residual_limit": "A pinned action still runs code with its assigned authority; compromised trusted jobs can misuse that authority.",
+          "control_ids": [
+            "SUP-04",
+            "AUTH-05"
+          ],
+          "source_ids": [
+            "TECH-GITHUB-ACTIONS"
+          ]
+        },
+        {
+          "id": "maintenance-loop",
+          "title": "Keep pinned artifacts maintained",
+          "how_it_helps": "Review known-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process.",
+          "verification": "Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact.",
+          "residual_limit": "This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw.",
+          "control_ids": [
+            "SUP-02",
+            "SUP-04",
+            "OPS-05"
+          ],
+          "source_ids": [
+            "NIST-SSDF",
+            "OPENSSF-SCORECARD"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI021",
+      "plausible_impact": "If this is the effective runtime user, a tool compromise may gain more authority within the container; host impact depends on mounts, capabilities, user mappings, and kernel isolation.",
+      "immediate_action": "Verify the final build stage and deployed user, then run with a dedicated nonroot identity unless a documented operation requires otherwise.",
+      "suggested_owner": "Container/platform owner",
+      "control_ids": [
+        "SUP-05"
+      ],
+      "source_ids": [
+        "CIS-CONTROLS-81",
+        "CISA-SECURE-BY-DESIGN",
+        "CSA-CCM",
+        "JOINT-AGENTIC",
+        "JOINT-DEPLOY"
+      ],
+      "defense_layers": [
+        {
+          "id": "runtime-restrictions",
+          "title": "Apply runtime isolation controls together",
+          "how_it_helps": "Use a dedicated nonroot identity, minimal capabilities, no privilege escalation, and an enforced syscall and mandatory-access policy where supported.",
+          "verification": "Inspect the effective workload and attempt privileged operations, prohibited syscalls, and access to protected host resources.",
+          "residual_limit": "Nonroot alone is insufficient; writable mounts, added capabilities, host namespaces, and kernel flaws can weaken isolation.",
+          "control_ids": [
+            "SUP-05",
+            "TEST-05"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "CIS-CONTROLS-81"
+          ]
+        },
+        {
+          "id": "workload-separation",
+          "title": "Separate risky tools from sensitive workloads",
+          "how_it_helps": "Place tools needing exceptional privileges in a separate environment with narrow interfaces and no unrelated tenant data.",
+          "verification": "Test cross-workload network and filesystem access and confirm the privileged component cannot impersonate the requesting agent.",
+          "residual_limit": "Shared kernels or administrative infrastructure may retain common failure paths; a container is not automatically a strong hostile-code boundary.",
+          "control_ids": [
+            "SUP-05",
+            "TEST-04",
+            "GOV-02"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC",
+            "CSA-CCM"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI022",
+      "plausible_impact": "If the privileged or escalation setting is effective, a compromised tool may access host capabilities or resources that ordinary container isolation would restrict.",
+      "immediate_action": "Remove privileged mode and privilege escalation; replace any required operation with a narrowly scoped external service.",
+      "suggested_owner": "Container/platform owner",
+      "control_ids": [
+        "SUP-05"
+      ],
+      "source_ids": [
+        "CIS-CONTROLS-81",
+        "CISA-SECURE-BY-DESIGN",
+        "CSA-CCM",
+        "JOINT-AGENTIC",
+        "JOINT-DEPLOY"
+      ],
+      "defense_layers": [
+        {
+          "id": "runtime-restrictions",
+          "title": "Apply runtime isolation controls together",
+          "how_it_helps": "Use a dedicated nonroot identity, minimal capabilities, no privilege escalation, and an enforced syscall and mandatory-access policy where supported.",
+          "verification": "Inspect the effective workload and attempt privileged operations, prohibited syscalls, and access to protected host resources.",
+          "residual_limit": "Nonroot alone is insufficient; writable mounts, added capabilities, host namespaces, and kernel flaws can weaken isolation.",
+          "control_ids": [
+            "SUP-05",
+            "TEST-05"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "CIS-CONTROLS-81"
+          ]
+        },
+        {
+          "id": "workload-separation",
+          "title": "Separate risky tools from sensitive workloads",
+          "how_it_helps": "Place tools needing exceptional privileges in a separate environment with narrow interfaces and no unrelated tenant data.",
+          "verification": "Test cross-workload network and filesystem access and confirm the privileged component cannot impersonate the requesting agent.",
+          "residual_limit": "Shared kernels or administrative infrastructure may retain common failure paths; a container is not automatically a strong hostile-code boundary.",
+          "control_ids": [
+            "SUP-05",
+            "TEST-04",
+            "GOV-02"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC",
+            "CSA-CCM"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI023",
+      "plausible_impact": "If the socket grants runtime API access, a compromised agent may create or control workloads, mount host files, or reach other containers.",
+      "immediate_action": "Remove direct runtime socket access; if administration is required, expose only specific authorized operations through a separate broker.",
+      "suggested_owner": "Container/platform owner",
+      "control_ids": [
+        "SUP-05"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "CSA-CCM",
+        "JOINT-AGENTIC",
+        "JOINT-DEPLOY",
+        "TECH-GITHUB-ACTIONS"
+      ],
+      "defense_layers": [
+        {
+          "id": "runtime-broker",
+          "title": "Broker only narrowly authorized infrastructure actions",
+          "how_it_helps": "Move runtime administration outside the agent and expose specific, authenticated operations with server-side target and argument restrictions.",
+          "verification": "Attempt arbitrary container creation, host mounts, execution in other workloads, and API paths outside the broker contract.",
+          "residual_limit": "A read-only socket mount does not turn a writable runtime API into a read-only API; the broker remains privileged.",
+          "control_ids": [
+            "AUTH-02",
+            "SUP-05",
+            "AGT-01"
+          ],
+          "source_ids": [
+            "TECH-GITHUB-ACTIONS",
+            "JOINT-DEPLOY"
+          ]
+        },
+        {
+          "id": "workload-separation",
+          "title": "Separate risky tools from sensitive workloads",
+          "how_it_helps": "Place tools needing exceptional privileges in a separate environment with narrow interfaces and no unrelated tenant data.",
+          "verification": "Test cross-workload network and filesystem access and confirm the privileged component cannot impersonate the requesting agent.",
+          "residual_limit": "Shared kernels or administrative infrastructure may retain common failure paths; a container is not automatically a strong hostile-code boundary.",
+          "control_ids": [
+            "SUP-05",
+            "TEST-04",
+            "GOV-02"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC",
+            "CSA-CCM"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI024",
+      "plausible_impact": "If a mutable image tag changes, a rebuild or deployment may consume unreviewed bytes; the scan does not establish that the current image is vulnerable.",
+      "immediate_action": "Identify the approved image digest and enforce it in the effective build or deployment while preserving a reviewed update process.",
+      "suggested_owner": "Container/release owner",
+      "control_ids": [
+        "SUP-01",
+        "SUP-03"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "NIST-SSDF",
+        "NSA-DATA",
+        "OPENSSF-MODEL-SIGNING",
+        "OPENSSF-SCORECARD",
+        "SLSA-12"
+      ],
+      "defense_layers": [
+        {
+          "id": "artifact-verification",
+          "title": "Verify artifact identity before use",
+          "how_it_helps": "Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.",
+          "verification": "Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact.",
+          "residual_limit": "Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.",
+          "control_ids": [
+            "SUP-03",
+            "DATA-04"
+          ],
+          "source_ids": [
+            "SLSA-12",
+            "OPENSSF-MODEL-SIGNING"
+          ]
+        },
+        {
+          "id": "maintenance-loop",
+          "title": "Keep pinned artifacts maintained",
+          "how_it_helps": "Review known-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process.",
+          "verification": "Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact.",
+          "residual_limit": "This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw.",
+          "control_ids": [
+            "SUP-02",
+            "SUP-04",
+            "OPS-05"
+          ],
+          "source_ids": [
+            "NIST-SSDF",
+            "OPENSSF-SCORECARD"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI025",
+      "plausible_impact": "If the actual install is not constrained by an enforced lockfile or hash, dependency versions may change without a corresponding reviewed source change.",
+      "immediate_action": "Check the effective install command and lockfile; enforce a verified resolution and document intentionally flexible development declarations.",
+      "suggested_owner": "Dependency/build owner",
+      "control_ids": [
+        "SUP-01"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "NIST-SSDF",
+        "OPENSSF-BASELINE-202608",
+        "OPENSSF-SCORECARD"
+      ],
+      "defense_layers": [
+        {
+          "id": "immutable-install",
+          "title": "Resolve and install reviewed dependency bytes",
+          "how_it_helps": "Use a committed lock or approved artifact manifest, enforce it during installation, and retain the resolved dependency inventory.",
+          "verification": "Build in a clean environment and compare resolved bytes; modify a lock or artifact and verify the release gate rejects it.",
+          "residual_limit": "An exact version or digest can still identify a vulnerable artifact; mutable transitive dependencies must also be constrained.",
+          "control_ids": [
+            "SUP-01",
+            "SUP-03"
+          ],
+          "source_ids": [
+            "NIST-SSDF",
+            "OPENSSF-BASELINE-202608"
+          ]
+        },
+        {
+          "id": "maintenance-loop",
+          "title": "Keep pinned artifacts maintained",
+          "how_it_helps": "Review known-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process.",
+          "verification": "Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact.",
+          "residual_limit": "This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw.",
+          "control_ids": [
+            "SUP-02",
+            "SUP-04",
+            "OPS-05"
+          ],
+          "source_ids": [
+            "NIST-SSDF",
+            "OPENSSF-SCORECARD"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI026",
+      "plausible_impact": "If this disables protection on a reachable remote operation, an unauthenticated caller may invoke tools; a local stdio service may instead rely on an operating-system trust boundary.",
+      "immediate_action": "Determine the transport and exposure; restore authentication for protected remote operations and verify permissions and launch ownership for local stdio.",
+      "suggested_owner": "MCP/API service owner",
+      "control_ids": [
+        "AUTH-01"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-AUTH",
+        "MCP-AUTH-SEC",
+        "MCP-HTTP",
+        "MCP-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "request-auth",
+          "title": "Authenticate and authorize protected requests",
+          "how_it_helps": "Authenticate each protected request and enforce tool, tenant, and target permissions at the service handling the operation.",
+          "verification": "Test missing, expired, wrong-audience, and revoked credentials, plus a valid caller requesting a forbidden target.",
+          "residual_limit": "Authentication identifies a caller; it does not make their supplied data safe or grant every authenticated caller equal authority.",
+          "control_ids": [
+            "AUTH-01",
+            "AUTH-02",
+            "AUTH-03"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "MCP-AUTH-SEC"
+          ]
+        },
+        {
+          "id": "ingress-restriction",
+          "title": "Restrict network ingress",
+          "how_it_helps": "Expose the listener only to required clients through explicit bind addresses and network access rules; close unused ports.",
+          "verification": "Probe from allowed and forbidden network segments, including direct backend addresses and alternate address families.",
+          "residual_limit": "Network location does not establish caller identity or protect against a compromised permitted client.",
+          "control_ids": [
+            "MCP-01",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "MCP-HTTP"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI027",
+      "plausible_impact": "If the wildcard is effective, an agent or compromised caller may invoke tools or access resources beyond the intended task.",
+      "immediate_action": "Replace wildcard grants with named operations and resources, and enforce the caller-specific decision immediately before the effect.",
+      "suggested_owner": "Agent policy/authorization owner",
+      "control_ids": [
+        "AGT-01",
+        "AUTH-02"
+      ],
+      "source_ids": [
+        "ASD-HARNESS",
+        "CSA-AGENT-IAM",
+        "JOINT-AGENTIC",
+        "MCP-SECURITY",
+        "MCP-TOOLS",
+        "OWASP-AGENT-CS",
+        "OWASP-LLM2026"
+      ],
+      "defense_layers": [
+        {
+          "id": "per-action-authorization",
+          "title": "Authorize downstream effects separately",
+          "how_it_helps": "For each effect, check caller identity, tenant, operation, and target at the executing service using bounded downstream credentials.",
+          "verification": "Try read-only users against writes, other-tenant identifiers, and direct tool calls without an agent session.",
+          "residual_limit": "Correct token verification alone cannot prevent an authorized but overly broad or harmful business operation.",
+          "control_ids": [
+            "AUTH-02",
+            "AUTH-04",
+            "AGT-01"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "CSA-AGENT-IAM"
+          ]
+        },
+        {
+          "id": "action-approval",
+          "title": "Bind sensitive actions to explicit approval",
+          "how_it_helps": "Require an independent approval for the exact actor, tool, normalized arguments, target, and expiry before irreversible effects occur.",
+          "verification": "Change arguments after approval, replay the approval, and call after expiry; each attempt must be denied before a side effect.",
+          "residual_limit": "Approval cannot compensate for misleading previews, excessive approver authority, or actions that happen before the check.",
+          "control_ids": [
+            "AGT-02",
+            "OPS-04"
+          ],
+          "source_ids": [
+            "OWASP-AGENT-CS"
+          ]
+        },
+        {
+          "id": "secret-boundary",
+          "title": "Limit credentials available to the workload",
+          "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+          "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.",
+          "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+          "control_ids": [
+            "AUTH-05",
+            "AUTH-09"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI028",
+      "plausible_impact": "If arbitrary inbound tokens are forwarded to another resource, audience boundaries and the downstream service consent model may be bypassed.",
+      "immediate_action": "Disable passthrough, validate the MCP resource audience, and acquire separately authorized downstream credentials for the intended operation.",
+      "suggested_owner": "MCP identity/integration owner",
+      "control_ids": [
+        "AUTH-04"
+      ],
+      "source_ids": [
+        "CSA-AGENT-IAM",
+        "MCP-AUTH",
+        "MCP-SECURITY",
+        "MCP-TOOLS"
+      ],
+      "defense_layers": [
+        {
+          "id": "downstream-token-boundary",
+          "title": "Use resource-specific downstream credentials",
+          "how_it_helps": "Obtain downstream credentials for the intended service and caller-authorized scopes, rather than forwarding the inbound MCP token.",
+          "verification": "Send tokens with another audience and attempt delegation beyond the caller scope; confirm both are denied.",
+          "residual_limit": "A valid downstream token can still be overprivileged; consent, token storage, and each operation need separate review.",
+          "control_ids": [
+            "AUTH-03",
+            "AUTH-04",
+            "AUTH-08"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "MCP-SECURITY"
+          ]
+        },
+        {
+          "id": "per-action-authorization",
+          "title": "Authorize downstream effects separately",
+          "how_it_helps": "For each effect, check caller identity, tenant, operation, and target at the executing service using bounded downstream credentials.",
+          "verification": "Try read-only users against writes, other-tenant identifiers, and direct tool calls without an agent session.",
+          "residual_limit": "Correct token verification alone cannot prevent an authorized but overly broad or harmful business operation.",
+          "control_ids": [
+            "AUTH-02",
+            "AUTH-04",
+            "AGT-01"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "CSA-AGENT-IAM"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI029",
+      "plausible_impact": "If remote traffic traverses an unprotected link, observers or intermediaries may read or modify MCP credentials, requests, and responses.",
+      "immediate_action": "Use HTTPS with verified certificates; if a separate protected transport is intentional, document and test every network hop and termination boundary.",
+      "suggested_owner": "MCP/gateway owner",
+      "control_ids": [
+        "MCP-01"
+      ],
+      "source_ids": [
+        "JOINT-AGENTIC",
+        "MCP-AUTH",
+        "MCP-AUTH-SEC",
+        "MCP-HTTP",
+        "MCP-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "trusted-transport",
+          "title": "Require authenticated encrypted transport",
+          "how_it_helps": "Use verified TLS on every relevant network hop, with an appropriate public or private CA and validated service hostname.",
+          "verification": "Present an untrusted, expired, or wrong-host certificate and verify rejection; inspect backend traffic after TLS termination.",
+          "residual_limit": "TLS does not protect data from an authorized endpoint, compromised gateway, or plaintext segments beyond termination.",
+          "control_ids": [
+            "MCP-01",
+            "AUTH-05"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "MCP-AUTH-SEC"
+          ]
+        },
+        {
+          "id": "secret-boundary",
+          "title": "Limit credentials available to the workload",
+          "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+          "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.",
+          "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+          "control_ids": [
+            "AUTH-05",
+            "AUTH-09"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI030",
+      "plausible_impact": "If a durable privileged key is bundled or sent to a browser, users or injected scripts can obtain and use it outside the intended interface.",
+      "immediate_action": "Inspect the built client and runtime requests; move durable credentials to a trusted backend or use a provider-designed, scoped short-lived client token.",
+      "suggested_owner": "Frontend/backend owner",
+      "control_ids": [
+        "AUTH-05",
+        "DATA-01"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-AGENTIC",
+        "JOINT-DEPLOY",
+        "MCP-AUTH",
+        "MCP-AUTH-SEC"
+      ],
+      "defense_layers": [
+        {
+          "id": "browser-backend",
+          "title": "Keep privileged service access behind a backend",
+          "how_it_helps": "Have a trusted backend hold durable provider credentials and authorize each client operation, including model, tool, spend, and data scope.",
+          "verification": "Inspect built browser assets and network traffic for durable secrets; attempt calls beyond the current user permission and quota.",
+          "residual_limit": "A backend can become a confused deputy if authorization is missing; a browser-designed short-lived token still needs narrow scope.",
+          "control_ids": [
+            "AUTH-02",
+            "AUTH-05",
+            "DATA-01",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "CISA-SECURE-BY-DESIGN",
+            "MCP-AUTH"
+          ]
+        },
+        {
+          "id": "credential-lifecycle",
+          "title": "Use managed credential injection and revocation",
+          "how_it_helps": "Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context.",
+          "verification": "Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies.",
+          "residual_limit": "Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed.",
+          "control_ids": [
+            "AUTH-05",
+            "DATA-01",
+            "DATA-06"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "JOINT-AGENTIC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI031",
+      "plausible_impact": "If unrestricted execution or disabled approval is effective, malicious context or an erroneous plan may reach sensitive actions with the agent identity.",
+      "immediate_action": "Review the effective permission policy and restore bounded tools and runtime isolation; require independent approval for the specific sensitive effects.",
+      "suggested_owner": "Agent/platform owner",
+      "control_ids": [
+        "AGT-01",
+        "AGT-02",
+        "MCP-09",
+        "SUP-05"
+      ],
+      "source_ids": [
+        "ASD-HARNESS",
+        "JOINT-DEPLOY",
+        "MCP-SECURITY",
+        "MCP-TOOLS",
+        "OWASP-AGENT-CS",
+        "OWASP-LLM2026",
+        "OWASP-MCP-CS"
+      ],
+      "defense_layers": [
+        {
+          "id": "tool-policy",
+          "title": "Enforce action policy outside the model",
+          "how_it_helps": "Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.",
+          "verification": "Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.",
+          "residual_limit": "Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.",
+          "control_ids": [
+            "AGT-01",
+            "AUTH-02",
+            "MCP-02"
+          ],
+          "source_ids": [
+            "OWASP-AGENT-CS",
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "action-approval",
+          "title": "Bind sensitive actions to explicit approval",
+          "how_it_helps": "Require an independent approval for the exact actor, tool, normalized arguments, target, and expiry before irreversible effects occur.",
+          "verification": "Change arguments after approval, replay the approval, and call after expiry; each attempt must be denied before a side effect.",
+          "residual_limit": "Approval cannot compensate for misleading previews, excessive approver authority, or actions that happen before the check.",
+          "control_ids": [
+            "AGT-02",
+            "OPS-04"
+          ],
+          "source_ids": [
+            "OWASP-AGENT-CS"
+          ]
+        },
+        {
+          "id": "execution-isolation",
+          "title": "Isolate tool execution",
+          "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+          "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.",
+          "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+          "control_ids": [
+            "EXEC-02",
+            "SUP-05",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI032",
+      "plausible_impact": "If external content is promoted into privileged instructions, an attacker may redirect the agent toward unauthorized data access or tool use.",
+      "immediate_action": "Keep external values outside trusted instruction templates and trace their provenance; enforce any security decision outside the model.",
+      "suggested_owner": "Agent/orchestration owner",
+      "control_ids": [
+        "AGT-03"
+      ],
+      "source_ids": [
+        "BENCH-AGENTDOJO",
+        "JOINT-AGENTIC",
+        "MCP-TOOLS",
+        "NIST-HIJACK-EVAL",
+        "OWASP-AGENT-CS",
+        "OWASP-LLM2026"
+      ],
+      "defense_layers": [
+        {
+          "id": "context-separation",
+          "title": "Keep external content outside privileged instructions",
+          "how_it_helps": "Maintain trusted instruction templates and explicit provenance for retrieved content, tool results, and memory used as data.",
+          "verification": "Trace each context source and test malicious instructions embedded in retrieval, tool metadata, and multi-step tool results.",
+          "residual_limit": "Labels, delimiters, filters, and model judgments are fallible; they cannot substitute for enforced action and data-access policy.",
+          "control_ids": [
+            "AGT-03",
+            "AGT-04",
+            "MCP-03"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC",
+            "OWASP-AGENT-CS"
+          ]
+        },
+        {
+          "id": "tool-policy",
+          "title": "Enforce action policy outside the model",
+          "how_it_helps": "Have an execution service allow only named operations, permitted argument values, and caller-owned target resources before invoking a tool.",
+          "verification": "Exercise disallowed operations, additional arguments, cross-tenant identifiers, and direct calls that bypass the agent planner.",
+          "residual_limit": "Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary.",
+          "control_ids": [
+            "AGT-01",
+            "AUTH-02",
+            "MCP-02"
+          ],
+          "source_ids": [
+            "OWASP-AGENT-CS",
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "adversarial-exercises",
+          "title": "Exercise the complete configured agent",
+          "how_it_helps": "Run representative injection and tool-abuse scenarios with realistic permissions, multi-step workflows, and useful-task success criteria.",
+          "verification": "Record denied and successful actions, repeat stochastic cases, and retain counterexamples when a model or integration changes.",
+          "residual_limit": "A passing sample or benchmark does not establish universal resistance; results apply to the tested configuration and attack set.",
+          "control_ids": [
+            "TEST-01",
+            "TEST-02",
+            "TEST-05"
+          ],
+          "source_ids": [
+            "NIST-HIJACK-EVAL",
+            "BENCH-AGENTDOJO"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI033",
+      "plausible_impact": "If this value is a real secret, log readers, exporters, or retained telemetry copies may gain its permissions beyond the original application boundary.",
+      "immediate_action": "Verify the logged value safely, remove it before formatting/export, and rotate it if real exposure is confirmed.",
+      "suggested_owner": "Application/observability owner",
+      "control_ids": [
+        "DATA-03"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-AGENTIC",
+        "NCSC-SECURE-AI",
+        "NIST-GENAI",
+        "OWASP-MCP10"
+      ],
+      "defense_layers": [
+        {
+          "id": "log-access",
+          "title": "Minimize and protect retained telemetry",
+          "how_it_helps": "Collect only necessary nonsecret events, redact before export, and limit access, retention, and downstream replication.",
+          "verification": "Inject recognizable synthetic secret values and trace their absence through application, proxy, tracing, and archived logs.",
+          "residual_limit": "Redaction tests cover selected formats; already exported copies and authorized readers remain part of the exposure assessment.",
+          "control_ids": [
+            "DATA-03",
+            "DATA-05",
+            "OPS-01"
+          ],
+          "source_ids": [
+            "NIST-GENAI",
+            "NCSC-SECURE-AI"
+          ]
+        },
+        {
+          "id": "secret-boundary",
+          "title": "Limit credentials available to the workload",
+          "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+          "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.",
+          "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+          "control_ids": [
+            "AUTH-05",
+            "AUTH-09"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI034",
+      "plausible_impact": "If the query value is a real credential, browser history, proxies, access logs, traces, or copied links may retain a reusable secret.",
+      "immediate_action": "Remove the credential from the URL, use the supported authorization mechanism, and rotate real credentials while investigating retained copies.",
+      "suggested_owner": "API/credential owner",
+      "control_ids": [
+        "AUTH-05",
+        "DATA-01"
+      ],
+      "source_ids": [
+        "CISA-JCDC",
+        "JOINT-DEPLOY",
+        "MCP-AUTH-SEC",
+        "MCP-SECURITY",
+        "NCSC-SECURE-AI",
+        "NIST-GENAI",
+        "NIST-SSDF"
+      ],
+      "defense_layers": [
+        {
+          "id": "log-access",
+          "title": "Minimize and protect retained telemetry",
+          "how_it_helps": "Collect only necessary nonsecret events, redact before export, and limit access, retention, and downstream replication.",
+          "verification": "Inject recognizable synthetic secret values and trace their absence through application, proxy, tracing, and archived logs.",
+          "residual_limit": "Redaction tests cover selected formats; already exported copies and authorized readers remain part of the exposure assessment.",
+          "control_ids": [
+            "DATA-03",
+            "DATA-05",
+            "OPS-01"
+          ],
+          "source_ids": [
+            "NIST-GENAI",
+            "NCSC-SECURE-AI"
+          ]
+        },
+        {
+          "id": "exposure-response",
+          "title": "Investigate and contain confirmed secret exposure",
+          "how_it_helps": "For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse.",
+          "verification": "Confirm the old credential no longer works and record the exposure window, affected copies, and follow-up owner.",
+          "residual_limit": "Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred.",
+          "control_ids": [
+            "AUTH-05",
+            "OPS-06"
+          ],
+          "source_ids": [
+            "CISA-JCDC",
+            "NIST-SSDF"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI035",
+      "plausible_impact": "If an untrusted model checkpoint reaches unsafe loading, object deserialization may execute code with the model worker permissions.",
+      "immediate_action": "Use a nonexecutable tensor format or a maintained, appropriate restricted loader; verify provenance, patch affected runtimes, and isolate necessary legacy conversion.",
+      "suggested_owner": "Model pipeline owner",
+      "control_ids": [
+        "EXEC-06",
+        "SUP-03"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-DEPLOY",
+        "NIST-SSDF",
+        "NSA-DATA",
+        "OPENSSF-MODEL-SIGNING",
+        "OPENSSF-SCORECARD",
+        "SLSA-12",
+        "TECH-PYTORCH-SERIAL"
+      ],
+      "defense_layers": [
+        {
+          "id": "artifact-verification",
+          "title": "Verify artifact identity before use",
+          "how_it_helps": "Require reviewed artifact provenance plus a digest or signature checked against an independently trusted identity or manifest.",
+          "verification": "Substitute bytes, producer identity, or verification metadata in a controlled test and confirm the consumer rejects the artifact.",
+          "residual_limit": "Authenticity establishes the producer and bytes; an approved producer can still ship vulnerable or malicious content.",
+          "control_ids": [
+            "SUP-03",
+            "DATA-04"
+          ],
+          "source_ids": [
+            "SLSA-12",
+            "OPENSSF-MODEL-SIGNING"
+          ]
+        },
+        {
+          "id": "isolated-conversion",
+          "title": "Separate artifact conversion from production",
+          "how_it_helps": "Perform necessary conversion of legacy serialized artifacts in a disposable environment without production data or credentials.",
+          "verification": "Demonstrate that a conversion job cannot reach production services and only approved output formats are promoted.",
+          "residual_limit": "Conversion output still needs integrity, format, and downstream behavior review; isolation is not proof of benign content.",
+          "control_ids": [
+            "EXEC-06",
+            "SUP-06"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "TECH-PYTORCH-SERIAL"
+          ]
+        },
+        {
+          "id": "maintenance-loop",
+          "title": "Keep pinned artifacts maintained",
+          "how_it_helps": "Review known-vulnerability and maintenance evidence for the actual resolved artifacts and apply updates through a repeatable release process.",
+          "verification": "Demonstrate a dependency update, relevant regression checks, and deployment or rollback of the resulting approved artifact.",
+          "residual_limit": "This source/image scan does not provide a current CVE verdict, and a vulnerability database cannot identify every unknown flaw.",
+          "control_ids": [
+            "SUP-02",
+            "SUP-04",
+            "OPS-05"
+          ],
+          "source_ids": [
+            "NIST-SSDF",
+            "OPENSSF-SCORECARD"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI036",
+      "plausible_impact": "If untrusted values are inserted as SQL syntax, they may alter a query to read or change unintended records within the database identity authority.",
+      "immediate_action": "Bind values as parameters and allowlist any dynamic identifiers or operation choices; trace generated and tool-supplied query fragments.",
+      "suggested_owner": "Database/tool developer",
+      "control_ids": [
+        "EXEC-03"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "CSA-AGENT-IAM",
+        "JOINT-AGENTIC",
+        "MCP-TOOLS",
+        "OWASP-OUTPUT2025"
+      ],
+      "defense_layers": [
+        {
+          "id": "database-privilege",
+          "title": "Constrain the database identity and operation set",
+          "how_it_helps": "Use dedicated database credentials with only the required tables, rows, and operations; separate administrative access from agent tools.",
+          "verification": "Using the agent identity, attempt schema changes, other-tenant records, unrestricted exports, and unauthorized writes.",
+          "residual_limit": "Database permissions bound damage but cannot make a permitted query correct; query parameters do not safely bind identifiers.",
+          "control_ids": [
+            "AUTH-02",
+            "EXEC-03"
+          ],
+          "source_ids": [
+            "CISA-SECURE-BY-DESIGN",
+            "JOINT-AGENTIC"
+          ]
+        },
+        {
+          "id": "per-action-authorization",
+          "title": "Authorize downstream effects separately",
+          "how_it_helps": "For each effect, check caller identity, tenant, operation, and target at the executing service using bounded downstream credentials.",
+          "verification": "Try read-only users against writes, other-tenant identifiers, and direct tool calls without an agent session.",
+          "residual_limit": "Correct token verification alone cannot prevent an authorized but overly broad or harmful business operation.",
+          "control_ids": [
+            "AUTH-02",
+            "AUTH-04",
+            "AGT-01"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "CSA-AGENT-IAM"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI037",
+      "plausible_impact": "If an untrusted archive is extracted without effective restrictions, members may escape the target directory, overwrite data, or exhaust resources.",
+      "immediate_action": "Check the deployed Python behavior and explicitly use a supported safe filter plus member validation; extract into a new isolated directory.",
+      "suggested_owner": "File/model ingestion owner",
+      "control_ids": [
+        "EXEC-04"
+      ],
+      "source_ids": [
+        "JOINT-DEPLOY",
+        "MCP-ROOTS",
+        "MCP-SECURITY",
+        "TECH-PYTHON-TAR"
+      ],
+      "defense_layers": [
+        {
+          "id": "archive-budget",
+          "title": "Bound archive processing and isolate its output",
+          "how_it_helps": "Validate member types and limits, reject unnecessary links, and enforce disk, memory, CPU, file-count, and expanded-byte budgets.",
+          "verification": "Test traversal, links, repeated names, oversized members, archive bombs, and interruption cleanup in a disposable directory.",
+          "residual_limit": "A safe extraction filter does not stop resource exhaustion or protect a destination concurrently modified by another process.",
+          "control_ids": [
+            "EXEC-04",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "TECH-PYTHON-TAR"
+          ]
+        },
+        {
+          "id": "filesystem-isolation",
+          "title": "Enforce a real filesystem boundary",
+          "how_it_helps": "Run the tool with access only to its intended workspace and temporary area; remove sensitive mounts and inherited write access.",
+          "verification": "Attempt traversal, absolute paths, symlink escapes, and writes outside the workspace using the actual runtime identity.",
+          "residual_limit": "MCP roots are a cooperation signal rather than a sandbox; permissions and mount policy must enforce containment.",
+          "control_ids": [
+            "MCP-08",
+            "EXEC-04",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "MCP-ROOTS",
+            "MCP-SECURITY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI038",
+      "plausible_impact": "If this value protects authentication, authorization, or replay prevention, a predictable generator may allow guessing or reuse; a nonsecurity correlation value may be harmless.",
+      "immediate_action": "Confirm the value purpose and replace security-sensitive generation with a cryptographically secure API and sufficient entropy.",
+      "suggested_owner": "Identity/application owner",
+      "control_ids": [
+        "AUTH-06",
+        "MCP-05"
+      ],
+      "source_ids": [
+        "MCP-AUTH",
+        "MCP-AUTH-SEC",
+        "MCP-SECURITY",
+        "MCP-TOOLS",
+        "TECH-PYTHON-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "token-lifetime",
+          "title": "Bound token use, scope, and replay",
+          "how_it_helps": "Bind security tokens or state handles to their intended identity and purpose, expire them promptly, and reject inappropriate reuse.",
+          "verification": "Try another user, another operation, repeated redemption, and use after expiry against the real verification endpoint.",
+          "residual_limit": "Expiry and rate limits cannot replace unpredictable token generation; some protocols legitimately permit reuse within a bounded session.",
+          "control_ids": [
+            "AUTH-06",
+            "MCP-05"
+          ],
+          "source_ids": [
+            "MCP-AUTH-SEC",
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "request-auth",
+          "title": "Authenticate and authorize protected requests",
+          "how_it_helps": "Authenticate each protected request and enforce tool, tenant, and target permissions at the service handling the operation.",
+          "verification": "Test missing, expired, wrong-audience, and revoked credentials, plus a valid caller requesting a forbidden target.",
+          "residual_limit": "Authentication identifies a caller; it does not make their supplied data safe or grant every authenticated caller equal authority.",
+          "control_ids": [
+            "AUTH-01",
+            "AUTH-02",
+            "AUTH-03"
+          ],
+          "source_ids": [
+            "MCP-AUTH",
+            "MCP-AUTH-SEC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI039",
+      "plausible_impact": "If a user or agent controls template source, server-side expressions may access objects or execute behavior with the renderer privileges.",
+      "immediate_action": "Use a trusted fixed template and pass external values only as data; isolate any deliberate untrusted template authoring.",
+      "suggested_owner": "Application/rendering owner",
+      "control_ids": [
+        "EXEC-07"
+      ],
+      "source_ids": [
+        "CISA-SECURE-BY-DESIGN",
+        "JOINT-DEPLOY",
+        "NIST-SSDF",
+        "OWASP-OUTPUT2025"
+      ],
+      "defense_layers": [
+        {
+          "id": "template-scope",
+          "title": "Keep template evaluation away from secrets and authority",
+          "how_it_helps": "Use fixed templates and a minimal data model; isolate any intentional untrusted template authoring from application services and credentials.",
+          "verification": "Try template expressions that access objects, files, process state, or expensive computation in a controlled test.",
+          "residual_limit": "HTML escaping does not prevent server-side template execution; a template sandbox needs its own maintenance and bypass testing.",
+          "control_ids": [
+            "EXEC-07",
+            "EXEC-02",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "OWASP-OUTPUT2025",
+            "NIST-SSDF"
+          ]
+        },
+        {
+          "id": "execution-isolation",
+          "title": "Isolate tool execution",
+          "how_it_helps": "Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access.",
+          "verification": "In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence.",
+          "residual_limit": "Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape.",
+          "control_ids": [
+            "EXEC-02",
+            "SUP-05",
+            "OPS-02"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI040",
+      "plausible_impact": "If unsanitized agent or tool content reaches a raw HTML sink, attacker-controlled markup may execute in a viewer browser and access that viewer session.",
+      "immediate_action": "Render external output as text or apply a maintained, context-appropriate sanitizer before the sink; verify the final rendering path.",
+      "suggested_owner": "Frontend/rendering owner",
+      "control_ids": [
+        "EXEC-07"
+      ],
+      "source_ids": [
+        "OWASP-LLM2026",
+        "OWASP-OUTPUT2025"
+      ],
+      "defense_layers": [
+        {
+          "id": "browser-output",
+          "title": "Apply browser defenses around rendered output",
+          "how_it_helps": "Render data as text by default; where HTML is essential, use a maintained sanitizer and a restrictive Content Security Policy.",
+          "verification": "Exercise active markup, event handlers, URL schemes, and sanitizer bypass regressions in the actual rendering component.",
+          "residual_limit": "CSP is an additional layer and can be weakened by unsafe directives; sanitization must match the eventual HTML or URL context.",
+          "control_ids": [
+            "EXEC-07",
+            "TEST-06"
+          ],
+          "source_ids": [
+            "OWASP-OUTPUT2025"
+          ]
+        },
+        {
+          "id": "browser-isolation",
+          "title": "Isolate untrusted previews from privileged sessions",
+          "how_it_helps": "Place intentionally active external previews on a separate origin or an appropriately restricted sandbox, without application credentials or privileged messaging capabilities.",
+          "verification": "Attempt parent-frame access, navigation, storage access, and privileged postMessage calls from the preview; confirm explicit rejection.",
+          "residual_limit": "Sandbox permissions can restore dangerous authority, and origin isolation does not make downloaded content safe to execute elsewhere.",
+          "control_ids": [
+            "EXEC-07",
+            "AUTH-02",
+            "TEST-06"
+          ],
+          "source_ids": [
+            "OWASP-OUTPUT2025"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI041",
+      "plausible_impact": "If the unauthenticated inspector is reachable, another client may access connected MCP servers with the inspector process permissions.",
+      "immediate_action": "Re-enable inspector authorization and restrict its listeners and origins to the intended development environment.",
+      "suggested_owner": "Developer tooling/platform owner",
+      "control_ids": [
+        "AUTH-01"
+      ],
+      "source_ids": [
+        "JOINT-AGENTIC",
+        "JOINT-DEPLOY",
+        "MCP-AUTH",
+        "MCP-HTTP",
+        "MCP-SECURITY"
+      ],
+      "defense_layers": [
+        {
+          "id": "ingress-restriction",
+          "title": "Restrict network ingress",
+          "how_it_helps": "Expose the listener only to required clients through explicit bind addresses and network access rules; close unused ports.",
+          "verification": "Probe from allowed and forbidden network segments, including direct backend addresses and alternate address families.",
+          "residual_limit": "Network location does not establish caller identity or protect against a compromised permitted client.",
+          "control_ids": [
+            "MCP-01",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "MCP-HTTP"
+          ]
+        },
+        {
+          "id": "origin-boundary",
+          "title": "Validate browser origin at the MCP listener",
+          "how_it_helps": "Reject disallowed Origin values at the HTTP MCP endpoint and keep the allowed list limited to intended browser clients.",
+          "verification": "Send requests with permitted and unapproved origins through each ingress path, including the direct backend path.",
+          "residual_limit": "Origin checks and CORS behavior do not authenticate non-browser clients; missing-Origin handling needs its own policy.",
+          "control_ids": [
+            "MCP-01"
+          ],
+          "source_ids": [
+            "MCP-HTTP"
+          ]
+        },
+        {
+          "id": "secret-boundary",
+          "title": "Limit credentials available to the workload",
+          "how_it_helps": "Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations.",
+          "verification": "Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails.",
+          "residual_limit": "A compromised component can still use its allowed permissions until credentials expire or revocation takes effect.",
+          "control_ids": [
+            "AUTH-05",
+            "AUTH-09"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI042",
+      "plausible_impact": "If host namespaces are effective, the workload may observe host processes or bypass expected network separation, depending on its remaining privileges and deployment.",
+      "immediate_action": "Remove host PID/network namespace use where possible; narrowly scope and isolate any documented operational exception.",
+      "suggested_owner": "Container/platform owner",
+      "control_ids": [
+        "SUP-05"
+      ],
+      "source_ids": [
+        "CIS-CONTROLS-81",
+        "CISA-SECURE-BY-DESIGN",
+        "CSA-CCM",
+        "JOINT-AGENTIC",
+        "JOINT-DEPLOY"
+      ],
+      "defense_layers": [
+        {
+          "id": "runtime-restrictions",
+          "title": "Apply runtime isolation controls together",
+          "how_it_helps": "Use a dedicated nonroot identity, minimal capabilities, no privilege escalation, and an enforced syscall and mandatory-access policy where supported.",
+          "verification": "Inspect the effective workload and attempt privileged operations, prohibited syscalls, and access to protected host resources.",
+          "residual_limit": "Nonroot alone is insufficient; writable mounts, added capabilities, host namespaces, and kernel flaws can weaken isolation.",
+          "control_ids": [
+            "SUP-05",
+            "TEST-05"
+          ],
+          "source_ids": [
+            "JOINT-DEPLOY",
+            "CIS-CONTROLS-81"
+          ]
+        },
+        {
+          "id": "workload-separation",
+          "title": "Separate risky tools from sensitive workloads",
+          "how_it_helps": "Place tools needing exceptional privileges in a separate environment with narrow interfaces and no unrelated tenant data.",
+          "verification": "Test cross-workload network and filesystem access and confirm the privileged component cannot impersonate the requesting agent.",
+          "residual_limit": "Shared kernels or administrative infrastructure may retain common failure paths; a container is not automatically a strong hostile-code boundary.",
+          "control_ids": [
+            "SUP-05",
+            "TEST-04",
+            "GOV-02"
+          ],
+          "source_ids": [
+            "JOINT-AGENTIC",
+            "CSA-CCM"
+          ]
+        }
+      ]
+    }
+  ]
+}

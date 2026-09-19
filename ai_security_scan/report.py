@@ -1,5 +1,6 @@
 """Portable JSON, Markdown, and SARIF output; repository strings are escaped."""
 import html
+import hashlib
 import json
 import os
 import re
@@ -8,6 +9,7 @@ from pathlib import Path
 from urllib.parse import quote, quote_from_bytes
 
 from . import DISPLAY_NAME
+from .assessment import build_assessment
 
 
 def _unicode_text(value):
@@ -28,9 +30,75 @@ def codeblock(value):
     return f"{fence}text\n{text}\n{fence}"
 
 
+def finding_anchor(identifier):
+    return "finding-" + hashlib.sha256(_unicode_text(identifier).encode("utf-8")).hexdigest()[:16]
+
+
+def executive_markdown(report, assessment):
+    posture, metrics = assessment["posture"], assessment["metrics"]
+    lines = ["## Executive assessment", "", "### " + md(posture["title"]), "", md(posture["explanation"]), "",
+             "| Open findings | Critical/high | Affected files | Accepted baseline findings | Coverage gaps |",
+             "|---:|---:|---:|---:|---:|",
+             f"| {metrics['open_findings']} | {metrics['urgent_findings']} | {metrics['affected_files']} | {metrics['suppressed_findings']} | {metrics['coverage_gaps']} |", "",
+             f"All **{metrics['controls_requiring_validation']} controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.", ""]
+    if assessment["themes"]:
+        lines += ["**What the scanner found:** " + "; ".join(f"{md(theme['name'])}: {theme['open_findings']}" for theme in assessment["themes"]) + ". These are detected pattern categories, not confirmed attack paths.", ""]
+    if metrics["suppressed_findings"]:
+        lines += ["Accepted baseline findings are still detected patterns. Confirm their owner, expiry, justification, and compensating-control evidence; they are excluded from the severity gate, not proven fixed.", ""]
+    execution = report.get("execution", {})
+    if execution:
+        lines += [f"**Execution:** exit {execution['exit_code']}; severity threshold {md(execution['failure_threshold'])}. The exit threshold does not change the review priorities below.", ""]
+    judge, analyst = report.get("judge", {}), report.get("analyst", {})
+    if judge.get("enabled"):
+        lines += ["**Optional model review:** " + md(judge.get("status", "unknown")) + ". Model advice is separate from the deterministic assessment and cannot lower these priorities.", ""]
+        if analyst.get("enabled"):
+            coverage = analyst.get("coverage", {})
+            lines += [f"Control-review status: **{md(analyst.get('status', 'unknown'))}**; {coverage.get('reviewed_controls', 0)}/{coverage.get('total_controls', len(report['controls']))} controls answered, {coverage.get('omitted_checks', 0)} unanswered checks. An answered check is not a passed check.", ""]
+        if execution.get("exit_code") == 2:
+            lines += ["**Requested work is incomplete.** Inspect scan gaps and optional-review errors below; retain the static findings even when a model request failed.", ""]
+    else:
+        lines += ["**Optional model review:** disabled. This overview and the mitigation guidance work offline without a model.", ""]
+    lines += ["## Immediate concerns and first actions", "", md(assessment["priority_basis"]), ""]
+    if assessment["coverage_attention"]:
+        lines += ["**Close scan coverage gaps:** resolve the listed errors or scope limits and rerun on a stable input. Existing findings still need review.", ""]
+        for gap in assessment["coverage_attention"]:
+            lines.append(f"- {md(gap['reason'])}: {gap['count']} entries. Examples: " + ", ".join(md(path) for path in gap["examples"]))
+        lines.append("")
+    if assessment["immediate_actions"]:
+        lines += ["| Priority | What the scanner found | Occurrences | First action | Suggested owner |", "|---|---|---:|---|---|"]
+        for group in assessment["immediate_actions"]:
+            lines.append(f"| {group['priority']} | [{md(group['rule_id'])}: {md(group['title'])}](#{group['id']}) ({md(group['image_context'])}) | {group['count']} | {md(group['immediate_action'])} | {md(group['suggested_owner'])} |")
+    else:
+        lines.append("There are no open pattern findings to prioritize. This does not close the coverage, runtime, or accepted-risk follow-up work.")
+    lines += ["", "## What could reduce the risk", "",
+              "The layers below are **proposed and unverified**. They can reduce exposure or impact only when correctly implemented and tested. Fix the underlying issue where applicable. No suggested layer, baseline exception, or model opinion lowers a finding's recorded severity.", "",
+              "Before accepting lower residual risk, record deployment evidence, negative-test results, owner, review date, and expiry. Confirm that requests cannot bypass the control and retest after changes.", ""]
+    for group in assessment["finding_groups"]:
+        lines += [f'<a id="{group["id"]}"></a>', "", f"### {md(group['rule_id'])}: {md(group['title'])}", "",
+                  f"**{md(group['severity'].upper())}** · {md(group['status'])} · {group['count']} occurrences · {md(group['image_context'])}", "",
+                  "**Observed evidence:** " + ", ".join(f"[{md(item['path'])}:{item['line']}](#{finding_anchor(item['finding_id'])})" for item in group["locations"]), "",
+                  md(group["context_note"]), "", "**Possible impact:** " + md(group["plausible_impact"]), "",
+                  "**Address the cause:** " + md(group["immediate_action"]), "",
+                  "| Additional defense | How it could help | Evidence needed | Remaining limitation |",
+                  "|---|---|---|---|"]
+        for layer in group["defense_layers"]:
+            lines.append(f"| {md(layer['title'])} | {md(layer['how_it_helps'])} | {md(layer['verification'])} | {md(layer['residual_limit'])} |")
+        lines += ["", "Related controls: " + ", ".join(md(identifier) for identifier in group["control_ids"]), "",
+                  "Guidance sources (engineering synthesis): " + "; ".join(f"[{md(source['id'])}]({quote(source['url'], safe=':/#?=&%')})" for source in group["sources"]), ""]
+    if not assessment["finding_groups"]:
+        lines += ["No finding-specific mitigation was selected because no configured pattern was detected. Use the full control checklist to validate identity and authorization, tool execution boundaries, isolation, secrets, monitoring, and incident response.", ""]
+    lines += ["### What remains unknown", ""]
+    lines += ["- " + md(unknown) for unknown in assessment["unknowns"]]
+    lines += ["", "Guidance catalog version: " + md(assessment["guidance"]["catalog_version"]) + "; SHA-256: `" + assessment["guidance"]["sha256"] + "`. The catalog is bundled and does not contact external sources during a scan.", ""]
+    return lines
+
+
 def markdown(report):
     summary = report["summary"]
-    lines = ["# " + md(report["tool"].get("display_name", DISPLAY_NAME)), "", "AI agent and MCP security report", "", f"Scan ID: `{report['scan_id']}`", "", "This is static security triage, not certification or proof that a system is secure.", "", "## Summary", "", f"Scanned **{summary['files_scanned']} files**; **{summary['open_findings']} open findings**, **{summary['suppressed_findings']} suppressed findings**, and **{summary['coverage_gaps']} coverage gaps**.", "", "| Critical | High | Medium | Low | Info |", "|---:|---:|---:|---:|---:|"]
+    assessment = report.get("assessment") or build_assessment(report)
+    lines = ["# " + md(report["tool"].get("display_name", DISPLAY_NAME)), "", "AI agent and MCP security report", "", f"Scan ID: `{report['scan_id']}`", "", "This is static security triage, not certification or proof that a system is secure.", ""]
+    lines += executive_markdown(report, assessment)
+    lines += ["## Scan details", "", f"Scanned **{summary['files_scanned']} files**; **{summary['open_findings']} open findings**, **{summary['suppressed_findings']} suppressed findings**, and **{summary['coverage_gaps']} coverage gaps**.", "", "| Critical | High | Medium | Low | Info |", "|---:|---:|---:|---:|---:|"]
     lines.append("| " + " | ".join(str(summary["severity_counts"][s]) for s in ("critical", "high", "medium", "low", "info")) + " |")
     if "bytes_charged" in summary:
         lines += ["", f"Source I/O: **{summary['bytes_read']} bytes read**, **{summary['bytes_charged']} bytes charged** against the budget, including **{summary['failed_read_bytes_charged']} conservatively charged bytes** for failed reads. Each read reserves a sentinel byte to detect growth."]
@@ -66,6 +134,7 @@ def markdown(report):
     if not report["findings"]:
         lines.append("No configured risk patterns were detected in the selected files.")
     for f in report["findings"]:
+        lines += [f'<a id="{finding_anchor(f["id"])}"></a>', ""]
         lines += [f"### {md(f['rule_id'])} — {md(f['title'])}", "", f"**{md(f['severity'].upper())}** · Confidence: {md(f['confidence'])} · Status: {md(f['status'])}", "", f"Location: {md(f['path'])}:{f['line']}–{f.get('end_line', f['line'])} · Finding ID: `{f['id']}`", "", md(f["description"]), "", codeblock(f.get("evidence", "")), "", "**Remediation:** " + md(f["remediation"]), ""]
         if f.get("suppression_reason"):
             lines += ["**Suppression reason:** " + md(f["suppression_reason"]), ""]
@@ -183,6 +252,10 @@ def write_reports(report, output):
     if output.is_symlink():
         raise ValueError("Report directory must not be a symbolic link")
     output = output.resolve()
+    report = {**report, "assessment": build_assessment(report)}
+    from .report_html import html_report
     atomic_write(output / "report.json", json.dumps(report, indent=2, sort_keys=True, ensure_ascii=True) + "\n")
     atomic_write(output / "report.md", markdown(report))
     atomic_write(output / "report.sarif", json.dumps(sarif(report), indent=2, sort_keys=True, ensure_ascii=True) + "\n")
+    atomic_write(output / "report.html", html_report(report))
+    return report

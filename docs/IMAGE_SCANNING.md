@@ -53,7 +53,7 @@ Package names/versions are **inventory, not a CVE scan**. The tool does not cons
 
 ## Reports and coverage
 
-The usual `report.json`, `report.md`, and `report.sarif` are produced. `image.identity` includes archive, config, manifest, layer and DiffID provenance where available. Docker-save's manifest digest is explicitly labeled as the digest of its canonical selected entry, not a claimed registry manifest digest.
+The usual `report.html`, `report.json`, `report.md`, and `report.sarif` are produced. The [executive report](REPORTS.md) distinguishes final filesystem, image configuration, build history, and retained-layer findings and offers source-linked mitigation layers. `image.identity` includes archive, config, manifest, layer and DiffID provenance where available. Docker-save's manifest digest is explicitly labeled as the digest of its canonical selected entry, not a claimed registry manifest digest.
 
 `rootfs/app/...` locations refer to image paths. `.image-metadata/...` locations identify generated evidence from the configuration, build history, or historical layers. These files live only in the scanner's private temporary workspace and are removed when scanning/optional review completes. Reports retain hashes, source location information, redacted evidence and provenance. They may still contain sensitive repository metadata; redaction is best-effort.
 

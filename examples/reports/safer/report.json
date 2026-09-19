@@ -2,6 +2,42 @@
   "analyst": {
     "enabled": false
   },
+  "assessment": {
+    "coverage_attention": [],
+    "finding_groups": [],
+    "guidance": {
+      "catalog_version": "1.0.0",
+      "reviewed_at": "2026-09-19",
+      "sha256": "dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1",
+      "source_registry_sha256": "cb7d62fe5f3b856a424ddc3b7afa986563a48b5ec2104423055a91fe290d5142"
+    },
+    "immediate_actions": [],
+    "method": "deterministic_guidance",
+    "metrics": {
+      "affected_files": 0,
+      "controls_requiring_validation": 66,
+      "controls_total": 66,
+      "coverage_gaps": 0,
+      "files_scanned": 2,
+      "open_findings": 0,
+      "suppressed_findings": 0,
+      "urgent_findings": 0
+    },
+    "posture": {
+      "code": "no_patterns_detected",
+      "explanation": "The selected static scope completed without a detector match. This is not a security pass. Review the unassessed boundaries and validate the controls below.",
+      "title": "No configured risk patterns detected"
+    },
+    "priority_basis": "P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.",
+    "schema_version": "1.0",
+    "themes": [],
+    "unknowns": [
+      "Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.",
+      "Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.",
+      "Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.",
+      "No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope."
+    ]
+  },
   "configuration": {
     "default_excluded_directories": [
       ".cache",
@@ -1878,7 +1914,7 @@
     "enabled": false
   },
   "mode": "deterministic_static",
-  "scan_id": "801770afe031b11f9e7cd823bd59ccf6824a5eb519fbb51a4b5e0e1a161bfd48",
+  "scan_id": "8a1788927882f30807bdea6bd13abb0c0323a8844ab79737083c528c2341eb0e",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_triage_only",
@@ -1901,9 +1937,9 @@
   "target": ".",
   "tool": {
     "display_name": "Invarune by NimeshBuild",
-    "implementation_sha256": "28d287b3a3e6a30c8a4dc677395c43adb4939bea18379df5a2270f3a8207585e",
+    "implementation_sha256": "52f5de5d1c4f218555941425588330288156155ebab4d98824cac01a30d60143",
     "name": "agent-mcp-security-scan",
     "python_version": "3.9.6",
-    "version": "0.5.0"
+    "version": "0.6.0"
   }
 }

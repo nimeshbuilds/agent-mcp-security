@@ -74,7 +74,7 @@ jobs:
               report = json.loads((output / 'report.json').read_text())
               assert report['tool']['name'] == 'agent-mcp-security-scan'
               assert report['tool']['display_name'] == 'Invarune by NimeshBuild'
-              artifacts.append({name: (output / name).read_bytes() for name in ('report.json', 'report.md', 'report.sarif')})
+              artifacts.append({name: (output / name).read_bytes() for name in ('report.html', 'report.json', 'report.md', 'report.sarif')})
           assert artifacts[0] == artifacts[1]
           print('Installed branded and legacy commands emit identical source reports.')
           PY
@@ -113,7 +113,7 @@ jobs:
               assert report['summary']['open_findings'] == 3
               assert report['summary']['coverage_gaps'] == 0
               assert report['image']['container_started'] is False
-              artifacts.append({name: (output / name).read_bytes() for name in ('report.json', 'report.md', 'report.sarif')})
+              artifacts.append({name: (output / name).read_bytes() for name in ('report.html', 'report.json', 'report.md', 'report.sarif')})
           assert artifacts[0] == artifacts[1]
           print('Installed branded and legacy commands emit identical image reports.')
           PY

@@ -155,10 +155,10 @@ class FullGatewayEndToEndTests(unittest.TestCase):
                            http_proxy="http://127.0.0.1:1", https_proxy="http://127.0.0.1:1", no_proxy="")
         process = subprocess.run(command + list(arguments), capture_output=True, text=True, timeout=30, env=environment)
         self.assertTrue((output / "report.json").exists(), process.stdout + process.stderr)
-        self.assertEqual({p.name for p in output.iterdir()}, {"report.json", "report.md", "report.sarif"})
+        self.assertEqual({p.name for p in output.iterdir()}, {"report.html", "report.json", "report.md", "report.sarif"})
         report = json.loads((output / "report.json").read_text(encoding="utf-8"))
         self.assertEqual(report["execution"]["exit_code"], process.returncode)
-        for name in ("report.json", "report.md", "report.sarif"):
+        for name in ("report.html", "report.json", "report.md", "report.sarif"):
             text = (output / name).read_text(encoding="utf-8")
             self.assertNotIn(TRANSPORT_SECRET, text)
             self.assertNotIn(SOURCE_SECRET, text)

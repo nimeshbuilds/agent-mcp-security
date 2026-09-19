@@ -1,6 +1,6 @@
 # Scenario test matrix
 
-This matrix records concrete scanner and controller behavior tested for version **0.5.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
+This matrix records concrete scanner and controller behavior tested for version **0.6.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
 
 ## Reproducible scenario coverage
 
@@ -97,4 +97,8 @@ This run used no production repository or live model credentials. Those checks r
 
 ## Brand and command compatibility
 
-`test_brand_compatibility.py` checks pre-brand source/image finding IDs and baselines, stable JSON/SARIF machine identities, additive display metadata, and equivalent primary/legacy help and version behavior. The packaging CI job installs both command names and compares source/image Markdown, JSON, and SARIF bytes and exit codes from outside the checkout.
+`test_brand_compatibility.py` checks pre-brand source/image finding IDs and baselines, stable JSON/SARIF machine identities, additive display metadata, and equivalent primary/legacy help and version behavior. The packaging CI job installs both command names and compares source/image HTML, Markdown, JSON, and SARIF bytes and exit codes from outside the checkout.
+
+## Executive reports and mitigation guidance
+
+`test_report_assessment.py` verifies severity ordering, repeated locations, category counts, open versus accepted findings, source/image coverage gaps, current versus historical image evidence, every rule's sourced guidance, and assessment independence from model verdicts and exit thresholds. `test_report_html.py` checks summary-local review status, all finding/control evidence, valid internal navigation, escaping of malicious source/model/exception text, URL rejection, script-free CSP, and lone-surrogate text. Existing CLI and gateway tests verify all four outputs, redaction, policy parity, package data, and repeatability. Suggested defense layers remain unverified and never reduce finding severity.

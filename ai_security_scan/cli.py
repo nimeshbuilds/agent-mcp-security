@@ -44,7 +44,7 @@ def parser():
     scope.add_argument("--max-files", type=int, default=20_000, help="Maximum source/configuration files to scan")
     scope.add_argument("--max-entries", type=int, default=100_000, help="Maximum traversed file/directory entries")
     output = p.add_argument_group("Reports and CI output")
-    output.add_argument("--output", default="scan-report", help="Directory for report.json, report.md and report.sarif; creates parents and replaces existing report files")
+    output.add_argument("--output", default="scan-report", help="Directory for report.html, report.json, report.md and report.sarif; creates parents and replaces existing report files")
     display = output.add_mutually_exclusive_group()
     display.add_argument("--quiet", action="store_true", help="Suppress scan progress and human summaries; errors remain on stderr")
     display.add_argument("--summary-json", action="store_true", help="Write one JSON summary to stdout; diagnostics remain on stderr")
@@ -94,6 +94,7 @@ def _json_summary(report, target, report_paths):
     analyst_summary = {key: analyst[key] for key in ("enabled", "status", "advisory_only", "coverage") if key in analyst}
     return {"schema_version": "1.0", "type": "scan_summary", "status": "completed" if report["execution"]["exit_code"] != 2 else "incomplete",
             "tool": report["tool"], "scan_id": report["scan_id"], "summary": report["summary"],
+            "assessment": {key: report["assessment"][key] for key in ("posture", "metrics", "guidance")},
             "scope": {"target": report.get("image", {}).get("display_target", redact(str(target.resolve()))), "configuration": report["configuration"]},
             "coverage": {**report["coverage"], "total_controls": len(controls),
                          "total_checks": sum(len(control.get("checks", [])) for control in controls),
@@ -242,9 +243,9 @@ def main(argv=None):
                       or report["judge"].get("status") == "error"
                       or report["analyst"].get("status") in {"error", "incomplete"})
         report["execution"] = {"failure_threshold": args.fail_on, "finding_gate_triggered": bool(gate_triggered), "exit_code": 2 if incomplete else 1 if gate_triggered else 0}
-        write_reports(report, output)
+        report = write_reports(report, output)
         report_paths = {kind: str(output.resolve() / name) for kind, name in
-                        (("json", "report.json"), ("markdown", "report.md"), ("sarif", "report.sarif"))}
+                        (("html", "report.html"), ("json", "report.json"), ("markdown", "report.md"), ("sarif", "report.sarif"))}
         if args.write_baseline:
             path = Path(args.write_baseline).expanduser()
             if path.is_symlink():
@@ -272,7 +273,7 @@ def main(argv=None):
     print(f"Scanned {summary['files_scanned']} files; {summary['open_findings']} open findings; {summary['coverage_gaps']} coverage gaps.")
     if report.get("image"):
         print(f"Image scope: {summary['image_analysis_scope']}; {summary['packaged_source_files_inspected']} packaged source files inspected. Binary logic and package CVEs were not analyzed.")
-    print("Reports: " + str(output.resolve() / "report.md") + " (also JSON and SARIF)")
+    print("Reports: " + str(output.resolve() / "report.html") + " (also Markdown, JSON and SARIF)")
     if report["analyst"].get("enabled"):
         coverage = report["analyst"]["coverage"]
         print(f"Advisory analyst: {report['analyst']['status']}; {coverage['reviewed_controls']}/{coverage['total_controls']} controls reviewed; {coverage['omitted_checks']} unanswered checks. Code review does not establish runtime validation.")

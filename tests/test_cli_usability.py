@@ -191,7 +191,7 @@ class CliUsabilityTests(unittest.TestCase):
                 code, stdout, stderr = self.invoke(*arguments)
                 self.assertEqual(code, 1)
                 self.assertEqual(stderr, "")
-                artifacts.append({name: (self.output / name).read_bytes() for name in ("report.json", "report.md", "report.sarif")})
+                artifacts.append({name: (self.output / name).read_bytes() for name in ("report.html", "report.json", "report.md", "report.sarif")})
                 if arguments == ("--quiet",):
                     self.assertEqual(stdout, "")
                 elif arguments == ("--summary-json",):
@@ -210,6 +210,7 @@ class CliUsabilityTests(unittest.TestCase):
         data, report = json.loads(stdout), self.report()
         self.assertEqual(data["status"], "completed")
         self.assertEqual(data["summary"], report["summary"])
+        self.assertEqual(data["assessment"], {key: report["assessment"][key] for key in ("posture", "metrics", "guidance")})
         self.assertEqual(data["execution"], report["execution"])
         self.assertEqual(data["scope"]["configuration"], report["configuration"])
         self.assertEqual(data["scope"]["target"], str(self.root))
@@ -220,7 +221,7 @@ class CliUsabilityTests(unittest.TestCase):
         self.assertIn({"path": "ignore.py", "reason": "user_exclusion", "coverage_gap": False}, data["coverage"]["skipped"])
         self.assertFalse(data["optional_review"]["judge"]["enabled"])
         self.assertFalse(data["optional_review"]["analyst"]["enabled"])
-        self.assertEqual(data["reports"], {"json": str(self.output / "report.json"), "markdown": str(self.output / "report.md"), "sarif": str(self.output / "report.sarif")})
+        self.assertEqual(data["reports"], {"html": str(self.output / "report.html"), "json": str(self.output / "report.json"), "markdown": str(self.output / "report.md"), "sarif": str(self.output / "report.sarif")})
         self.assertTrue(all(Path(path).is_file() for path in data["reports"].values()))
         repeated = self.invoke("--summary-json", "--exclude", "ignore.py", "--fail-on", "none")
         self.assertEqual(repeated, (code, stdout, stderr))

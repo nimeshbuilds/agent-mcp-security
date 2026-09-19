@@ -2,11 +2,126 @@
 
 AI agent and MCP security report
 
-Scan ID: `789259cbc09ad4302a58f9119e58b73a86758971f0bb59bef04cf4f247ff80a4`
+Scan ID: `16c8feff0b84e23a7beab20ef46e661fd83817ad104314157f6f071faf297d3a`
 
 This is static security triage, not certification or proof that a system is secure.
 
-## Summary
+## Executive assessment
+
+### Critical/high findings need prompt review
+
+The scanner found 3 open critical/high patterns among 3 open findings\. Confirm exposure and prioritize the actions below\. Detector severity is not proof of exploitability or deployed risk\.
+
+| Open findings | Critical/high | Affected files | Accepted baseline findings | Coverage gaps |
+|---:|---:|---:|---:|---:|
+| 3 | 3 | 3 | 0 | 0 |
+
+All **66 controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.
+
+**What the scanner found:** Secrets: 2; Tool execution: 1. These are detected pattern categories, not confirmed attack paths.
+
+**Execution:** exit 1; severity threshold high. The exit threshold does not change the review priorities below.
+
+**Optional model review:** disabled. This overview and the mitigation guidance work offline without a model.
+
+## Immediate concerns and first actions
+
+P0: critical, P1: high, P2: medium, P3: low/info\. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual\-risk scores\. Confidence describes the detected pattern; applicability must be checked\.
+
+| Priority | What the scanner found | Occurrences | First action | Suggested owner |
+|---|---|---:|---|---|
+| P1 | [AI003: Dynamic os shell command](#group-9d4abccaf43a) (final\_filesystem) | 1 | Replace os\.system/os\.popen with a fixed executable and validated argument list; trace all contributing values\. | Agent/tool developer |
+| P1 | [AI010: Credential\-like literal in source or configuration](#group-2e42c7eb207c) (retained\_layer) | 1 | Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process\. | Credential/service owner |
+| P1 | [AI010: Credential\-like literal in source or configuration](#group-bee54b56acdb) (runtime\_configuration) | 1 | Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process\. | Credential/service owner |
+
+## What could reduce the risk
+
+The layers below are **proposed and unverified**. They can reduce exposure or impact only when correctly implemented and tested. Fix the underlying issue where applicable. No suggested layer, baseline exception, or model opinion lowers a finding's recorded severity.
+
+Before accepting lower residual risk, record deployment evidence, negative-test results, owner, review date, and expiry. Confirm that requests cannot bypass the control and retest after changes.
+
+<a id="group-9d4abccaf43a"></a>
+
+### AI003: Dynamic os shell command
+
+**HIGH** · open · 1 occurrences · final\_filesystem
+
+**Observed evidence:** [rootfs/app/dist/agent\.py:2](#finding-048583e918841128)
+
+Packaged file in the final image filesystem; whether it executes in deployment is unverified\.
+
+**Possible impact:** If external values contribute to the command string, the shell could execute additional commands with the server identity\.
+
+**Address the cause:** Replace os\.system/os\.popen with a fixed executable and validated argument list; trace all contributing values\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Enforce action policy outside the model | Have an execution service allow only named operations, permitted argument values, and caller\-owned target resources before invoking a tool\. | Exercise disallowed operations, additional arguments, cross\-tenant identifiers, and direct calls that bypass the agent planner\. | Authorized operations can still be harmful when business constraints are incomplete; prompt instructions cannot enforce this boundary\. |
+| Isolate tool execution | Run the risky tool in a separate, disposable identity with no host mounts, ambient credentials, or unnecessary outbound access\. | In a test environment, attempt reads outside the workspace, forbidden network connections, and resource exhaustion; retain policy and denial evidence\. | Isolation limits reachable assets; it does not make injected code trustworthy or rule out a runtime escape\. |
+
+Related controls: EXEC\-01
+
+Guidance sources (engineering synthesis): [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-TOOLS](https://modelcontextprotocol.io/specification/2026-07-28/server/tools); [OWASP\-AGENT\-CS](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html); [OWASP\-LLM2026](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/); [OWASP\-MCP10](https://owasp.org/projects/mcp-top-10); [OWASP\-OUTPUT2025](https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/); [TECH\-PYTHON\-SECURITY](https://docs.python.org/3/library/security_warnings.html)
+
+<a id="group-2e42c7eb207c"></a>
+
+### AI010: Credential\-like literal in source or configuration
+
+**HIGH** · open · 1 occurrences · retained\_layer
+
+**Observed evidence:** [\.image\-metadata/retained\-layer/000001\.env:1](#finding-908179b40eae85ee)
+
+Historical layer content remains in the distributed archive even if removed from the final filesystem\. This does not mean the file currently executes\. Real credentials can remain exposed through the retained layer\.
+
+**Possible impact:** If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions\.
+
+**Address the cause:** Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Investigate and contain confirmed secret exposure | For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse\. | Confirm the old credential no longer works and record the exposure window, affected copies, and follow\-up owner\. | Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred\. |
+| Use managed credential injection and revocation | Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context\. | Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies\. | Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed\. |
+| Limit credentials available to the workload | Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations\. | Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails\. | A compromised component can still use its allowed permissions until credentials expire or revocation takes effect\. |
+
+Related controls: AUTH\-05, DATA\-01
+
+Guidance sources (engineering synthesis): [CISA\-JCDC](https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet); [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [JOINT\-AGENTIC](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-AUTH](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization); [MCP\-AUTH\-SEC](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices); [NIST\-SSDF](https://csrc.nist.gov/pubs/sp/800/218/final)
+
+<a id="group-bee54b56acdb"></a>
+
+### AI010: Credential\-like literal in source or configuration
+
+**HIGH** · open · 1 occurrences · runtime\_configuration
+
+**Observed evidence:** [\.image\-metadata/environment/000000\.json:2](#finding-b1a04a9b8cb75eea)
+
+Image configuration defaults; actual deployment settings may override them\.
+
+**Possible impact:** If the detected literal is a live credential, anyone with access to the source, image layers, or copied artifacts may use its granted permissions\.
+
+**Address the cause:** Determine whether the value is real without reproducing it; revoke or rotate a real exposed credential and remove retained copies through the incident process\.
+
+| Additional defense | How it could help | Evidence needed | Remaining limitation |
+|---|---|---|---|
+| Investigate and contain confirmed secret exposure | For a real exposed credential, identify reachable systems, revoke or rotate it, and review access records for misuse\. | Confirm the old credential no longer works and record the exposure window, affected copies, and follow\-up owner\. | Successful rotation stops future use of that credential but cannot reverse access or data loss that already occurred\. |
+| Use managed credential injection and revocation | Load secrets at runtime through an approved store or workload identity; keep them out of source, artifacts, and model context\. | Test rotation and revocation without disclosing values; inspect build layers and launch metadata for retained copies\. | Deleting a file or hiding a later image layer does not revoke a credential or erase copies already distributed\. |
+| Limit credentials available to the workload | Give this component a distinct identity and only the downstream scopes and lifetime needed for its approved operations\. | Use its runtime identity to attempt forbidden service operations, then revoke it and confirm subsequent access fails\. | A compromised component can still use its allowed permissions until credentials expire or revocation takes effect\. |
+
+Related controls: AUTH\-05, DATA\-01
+
+Guidance sources (engineering synthesis): [CISA\-JCDC](https://www.cisa.gov/news-events/alerts/2025/01/14/cisa-releases-jcdc-ai-cybersecurity-collaboration-playbook-and-fact-sheet); [CISA\-SECURE\-BY\-DESIGN](https://www.cisa.gov/resources-tools/resources/secure-by-design); [JOINT\-AGENTIC](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services); [JOINT\-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely); [MCP\-AUTH](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization); [MCP\-AUTH\-SEC](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations); [MCP\-SECURITY](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices); [NIST\-SSDF](https://csrc.nist.gov/pubs/sp/800/218/final)
+
+### What remains unknown
+
+- Image scope: packaged\_source\_and\_metadata; 1 packaged source files inspected\. The container was not started\. Compiled application behavior and runtime overrides are unassessed\.
+- Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification\.
+- Authentication, authorization, tenant isolation, tool approvals, prompt\-injection resistance, and recovery need runtime or human evidence\.
+- Suggested defense layers have not been verified as deployed\. There is no calculated residual\-risk score or automatic severity reduction\.
+- No dependency CVE feed or live adversarial agent/MCP benchmark was run\. Excluded and unsupported files remain outside the selected scope\.
+
+Guidance catalog version: 1\.0\.0; SHA-256: `dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1`. The catalog is bundled and does not contact external sources during a scan.
+
+## Scan details
 
 Scanned **4 files**; **3 open findings**, **0 suppressed findings**, and **0 coverage gaps**.
 
@@ -86,6 +201,8 @@ A clean pattern scan is not a control pass. Validate applicability and exploitab
 
 ## Findings
 
+<a id="finding-b1a04a9b8cb75eea"></a>
+
 ### AI010 — Credential\-like literal in source or configuration
 
 **HIGH** · Confidence: medium · Status: open
@@ -107,6 +224,8 @@ Weakness mappings: CWE\-798
 - [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
 
+<a id="finding-908179b40eae85ee"></a>
+
 ### AI010 — Credential\-like literal in source or configuration
 
 **HIGH** · Confidence: medium · Status: open
@@ -127,6 +246,8 @@ Weakness mappings: CWE\-798
 
 - [Reference](https://www.cisa.gov/resources-tools/resources/secure-by-design)
 - [Reference](https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices)
+
+<a id="finding-048583e918841128"></a>
 
 ### AI003 — Dynamic os shell command
 

@@ -71,7 +71,7 @@ class AnalystCliTests(unittest.TestCase):
         self.assertEqual(len(report["analyst"]["control_assessments"]), 66)
         self.assertEqual(report["analyst"]["coverage"]["total_checks"], 132)
         self.assertEqual(report["execution"]["exit_code"], 0)
-        self.assertEqual({path.name for path in output.iterdir()}, {"report.json", "report.md", "report.sarif"})
+        self.assertEqual({path.name for path in output.iterdir()}, {"report.html", "report.json", "report.md", "report.sarif"})
         self.assertIn("insufficient_evidence", (output / "report.md").read_text(encoding="utf-8").replace("\\_", "_"))
 
     def test_findings_mode_keeps_control_calls_disabled(self):

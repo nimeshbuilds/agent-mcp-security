@@ -2,11 +2,50 @@
 
 AI agent and MCP security report
 
-Scan ID: `801770afe031b11f9e7cd823bd59ccf6824a5eb519fbb51a4b5e0e1a161bfd48`
+Scan ID: `8a1788927882f30807bdea6bd13abb0c0323a8844ab79737083c528c2341eb0e`
 
 This is static security triage, not certification or proof that a system is secure.
 
-## Summary
+## Executive assessment
+
+### No configured risk patterns detected
+
+The selected static scope completed without a detector match\. This is not a security pass\. Review the unassessed boundaries and validate the controls below\.
+
+| Open findings | Critical/high | Affected files | Accepted baseline findings | Coverage gaps |
+|---:|---:|---:|---:|---:|
+| 0 | 0 | 0 | 0 | 0 |
+
+All **66 controls** still require applicability and effectiveness validation. A completed static scan or optional review cannot establish a control pass.
+
+**Execution:** exit 0; severity threshold high. The exit threshold does not change the review priorities below.
+
+**Optional model review:** disabled. This overview and the mitigation guidance work offline without a model.
+
+## Immediate concerns and first actions
+
+P0: critical, P1: high, P2: medium, P3: low/info\. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual\-risk scores\. Confidence describes the detected pattern; applicability must be checked\.
+
+There are no open pattern findings to prioritize. This does not close the coverage, runtime, or accepted-risk follow-up work.
+
+## What could reduce the risk
+
+The layers below are **proposed and unverified**. They can reduce exposure or impact only when correctly implemented and tested. Fix the underlying issue where applicable. No suggested layer, baseline exception, or model opinion lowers a finding's recorded severity.
+
+Before accepting lower residual risk, record deployment evidence, negative-test results, owner, review date, and expiry. Confirm that requests cannot bypass the control and retest after changes.
+
+No finding-specific mitigation was selected because no configured pattern was detected. Use the full control checklist to validate identity and authorization, tool execution boundaries, isolation, secrets, monitoring, and incident response.
+
+### What remains unknown
+
+- Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification\.
+- Authentication, authorization, tenant isolation, tool approvals, prompt\-injection resistance, and recovery need runtime or human evidence\.
+- Suggested defense layers have not been verified as deployed\. There is no calculated residual\-risk score or automatic severity reduction\.
+- No dependency CVE feed or live adversarial agent/MCP benchmark was run\. Excluded and unsupported files remain outside the selected scope\.
+
+Guidance catalog version: 1\.0\.0; SHA-256: `dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1`. The catalog is bundled and does not contact external sources during a scan.
+
+## Scan details
 
 Scanned **2 files**; **0 open findings**, **0 suppressed findings**, and **0 coverage gaps**.
 

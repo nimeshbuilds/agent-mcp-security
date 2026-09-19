@@ -38,7 +38,7 @@ class CliContractTests(unittest.TestCase):
                     self.assertEqual(report["execution"]["exit_code"], expected)
                     reports.append(report)
         for report in reports[1:]:
-            for key in ("scan_id", "findings", "controls", "summary"):
+            for key in ("scan_id", "findings", "controls", "summary", "assessment"):
                 self.assertEqual(report[key], reports[0][key])
 
     def test_operational_incompleteness_takes_precedence_for_every_gate(self):
@@ -92,7 +92,7 @@ class CliContractTests(unittest.TestCase):
         result = subprocess.run([sys.executable, "-m", "ai_security_scan", str(self.root), "--output", str(self.output)],
                                 cwd=project, capture_output=True, text=True, timeout=15)
         self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
-        for filename in ("report.json", "report.md", "report.sarif"):
+        for filename in ("report.html", "report.json", "report.md", "report.sarif"):
             self.assertTrue((self.output / filename).is_file())
 
     def test_deeply_nested_gateway_config_preserves_static_report(self):

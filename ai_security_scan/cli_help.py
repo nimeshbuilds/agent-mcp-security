@@ -112,16 +112,29 @@ Container images without a source checkout:
   wall-clock timeout; those phases use resource bounds.
 
 Reports, output modes, and Exit codes:
-  Every completed scan writes report.json, report.md and report.sarif to --output.
-  JSON/Markdown include all controls, evidence, remediation, primary sources,
+  Every scan that produces reports writes report.html, report.json, report.md and
+  report.sarif to --output. Open report.html locally for the branded report; it is
+  self-contained, works offline, and needs no external scripts, fonts or images.
+  HTML and Markdown begin with an executive summary: detected findings, immediate
+  concerns, affected locations, accepted baseline risks, and coverage limitations.
+  Findings are grouped by rule, status and image context. Priorities P0/P1/P2/P3
+  mean critical/high/medium/low-or-info review order, not an SLA or security score.
+  Each group includes a suggested owner, direct remediation, and additional defense
+  layers with expected benefit, verification steps, residual limits and sources.
+  These layers are proposals, not observed controls or proven risk reductions.
+  Suppression is a reviewed exception, not proof of remediation. Zero findings do
+  not establish security; incomplete coverage and manual/runtime checks stay visible.
+  JSON includes the same deterministic assessment for automation. Model opinions
+  cannot lower its priority, suppress findings, or establish mitigation effectiveness.
+  HTML/JSON/Markdown include all controls, evidence, remediation, primary sources,
   suppressions, gaps, inventories and optional advisory review. SARIF 2.1.0 carries
   deterministic findings for CI/code-review consumers; checklist detail stays in
-  JSON/Markdown. Existing report filenames are replaced; files are written atomically.
+  HTML/JSON/Markdown. Existing report filenames are replaced; files are written atomically.
   --output must differ from a source target root. Parent directories are created.
   Default output is human-readable. --quiet suppresses summaries/progress while
   preserving stderr errors. --summary-json emits one JSON object on stdout, with
   diagnostics on stderr. --quiet and --summary-json cannot be combined.
-  Summary fields include status, tool, scan_id, summary, scope, coverage,
+  Summary fields include status, tool, scan_id, summary, assessment, scope, coverage,
   optional_review, execution, exit_code and reports; image scans also include image.
   Operational errors emit status=operational_error with --summary-json when possible.
   Argument syntax/combination errors use stderr and exit 2, without a JSON document.
