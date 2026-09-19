@@ -1,6 +1,6 @@
 # Scenario test matrix
 
-This matrix records concrete scanner and controller behavior tested for version **0.4.1**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
+This matrix records concrete scanner and controller behavior tested for version **0.5.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. Tests use synthetic secrets, repository fixtures, mocked responses, and real loopback HTTP/HTTPS. They never execute the target application or use a paid model API.
 
 ## Reproducible scenario coverage
 
@@ -94,3 +94,7 @@ The validator performs no network access and rejects a schema with a different S
 - Referenced behavioral benchmarks such as AgentDojo, ASB, InjecAgent and MCP attack suites, which require configured targets and authorized harnesses.
 
 This run used no production repository or live model credentials. Those checks remain explicit instead of being inferred from passing unit tests or a clean pattern scan.
+
+## Brand and command compatibility
+
+`test_brand_compatibility.py` checks pre-brand source/image finding IDs and baselines, stable JSON/SARIF machine identities, additive display metadata, and equivalent primary/legacy help and version behavior. The packaging CI job installs both command names and compares source/image Markdown, JSON, and SARIF bytes and exit codes from outside the checkout.

@@ -1,6 +1,6 @@
-# NimeshBuild AI agent and MCP security benchmark landscape
+# Invarune AI agent and MCP security benchmark landscape
 
-**Research snapshot: 2026-09-19.** This expands [the research basis](RESEARCH.md). It is a curated security landscape, not a claim to include every benchmark published. Government guidance, threat catalogs, verification standards, configuration benchmarks, and behavioral experiments answer different questions. The [NimeshBuild control catalog](SECURITY_CHECKLIST.md) is an independent engineering checklist; references and suggested mappings do not establish conformance, certification, or completed benchmark runs.
+**Research snapshot: 2026-09-19.** This expands [the research basis](RESEARCH.md). It is a curated security landscape, not a claim to include every benchmark published. Government guidance, threat catalogs, verification standards, configuration benchmarks, and behavioral experiments answer different questions. The [Invarune control catalog](SECURITY_CHECKLIST.md) is an independent engineering checklist; references and suggested mappings do not establish conformance, certification, or completed benchmark runs.
 
 Machine-readable records, including scope, version, limitations, and selected control mappings, are in [additional_sources_benchmarks.json](../ai_security_scan/data/additional_sources_benchmarks.json). The existing government, NIST, MCP, and OWASP sources remain in the main research document; CSA is covered in the companion CSA research.
 
@@ -29,7 +29,7 @@ The existing OWASP references were rechecked: [Agentic Applications 2026](https:
 
 These are NimeshBuild's **partial conceptual mappings** to existing checks, not authoritative crosswalks. The CIS pointers refer to the reviewed companion guides. No proprietary ISO control text or full CIS control set is republished.
 
-| Source locator | Related NimeshBuild controls | Evidence to obtain |
+| Source locator | Related Invarune controls | Evidence to obtain |
 |---|---|---|
 | CIS Agents and MCP guides, Control 1 | GOV-01 | Agent/server/tool inventory with owner, deployment, identity, connectivity, and retirement status. |
 | CIS Agents guide, Control 3 | AGT-04; DATA-02, DATA-03, DATA-05, DATA-06 | Memory access tests, data-flow records, retention configuration, encryption, and redacted telemetry. |

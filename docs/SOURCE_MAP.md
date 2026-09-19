@@ -1,6 +1,6 @@
 # Source map and scope of alignment
 
-NimeshBuild research snapshot: 2026-09-19. Sources can support a project control without prescribing its exact wording. This is a thematic engineering crosswalk, not a statement of compliance with every clause in an external framework. Some references provide landscape/provenance context without a direct control mapping.
+Invarune by NimeshBuild. Research snapshot: 2026-09-19. Sources can support a project control without prescribing its exact wording. This is a thematic engineering crosswalk, not a statement of compliance with every clause in an external framework. Some references provide landscape/provenance context without a direct control mapping.
 
 All URLs are primary publisher or benchmark-author sources. Source-specific limitations disclose release-page-only reviews, drafts, gated benchmark content, version differences, and implementation assumptions.
 

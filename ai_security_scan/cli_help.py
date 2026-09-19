@@ -1,8 +1,10 @@
 """Offline CLI reference shipped in the wheel, with live format/adapter inventories."""
 import textwrap
 
+from . import DISPLAY_NAME
 
-DESCRIPTION = """NimeshBuild | AI Agent & MCP Security
+
+DESCRIPTION = DISPLAY_NAME + """
 Read-only AI agent and MCP source or container-image security scan.
 Source/archive scans are offline unless --judge-config is provided. No model,
 API key, or third-party Python package is required for deterministic scanning.
@@ -24,7 +26,8 @@ def complete_reference():
     return """Invocation and mode selection:
   python3 scan.py [OPTIONS] TARGET
   python3 -m ai_security_scan [OPTIONS] TARGET
-  ai-security-scan [OPTIONS] TARGET                (after pip install .)
+  invarune [OPTIONS] TARGET                       (after pip install .)
+  ai-security-scan [OPTIONS] TARGET               (compatible legacy alias)
   Replace TARGET with --image REFERENCE or --image-archive PATH for image scans.
   Choose exactly one input. Catalog commands need no target and write no reports.
   -h and --help print this complete reference; --version prints the version.
@@ -32,6 +35,10 @@ def complete_reference():
   or network. Full long-option spelling is required; abbreviations are rejected.
   Relative paths use the current working directory. Use an absolute scan.py path
   when running the script elsewhere. Python 3.9+ is required.
+  The invarune and ai-security-scan commands are equivalent. The ai_security_scan
+  module, distribution agent-mcp-security-scan, report schema and rule/finding IDs
+  remain compatible. JSON tool.name and SARIF driver.name retain the stable
+  agent-mcp-security-scan identifier; display_name/fullName carry the product brand.
 
 Source analysis and selected scope:
   Python uses bounded AST/local value tracking. JavaScript/TypeScript uses lexical
@@ -242,37 +249,37 @@ Custom JSON gateway configuration:
 
 Examples:
   # Offline source scan; output includes every control and explicit gaps.
-  ai-security-scan ./repository --output ./reports
+  invarune ./repository --output ./reports
   # Docker local image; no source checkout, pull, or container start.
-  ai-security-scan --image my-agent:latest --output ./image-report
+  invarune --image my-agent:latest --output ./image-report
   # Podman local image, or explicitly pull a registry image and select a platform.
-  ai-security-scan --image my-mcp-server:latest --image-runtime podman
-  ai-security-scan --image ghcr.io/example/agent:1.2.3 --pull --image-platform linux/amd64
+  invarune --image my-mcp-server:latest --image-runtime podman
+  invarune --image ghcr.io/example/agent:1.2.3 --pull --image-platform linux/amd64
   # Export elsewhere, then scan an archive offline without Docker/Podman.
   docker image save --output agent-image.tar my-agent:latest
-  ai-security-scan --image-archive ./agent-image.tar --output ./image-report
-  ai-security-scan --image-archive ./agent.oci.tar --image-platform linux/arm64
+  invarune --image-archive ./agent-image.tar --output ./image-report
+  invarune --image-archive ./agent.oci.tar --image-platform linux/arm64
   # Increase image and packaged-file budgets for larger artifacts.
-  ai-security-scan --image-archive ./agent-image.tar --image-max-unpacked-bytes 8000000000 --max-total-bytes 200000000
+  invarune --image-archive ./agent-image.tar --image-max-unpacked-bytes 8000000000 --max-total-bytes 200000000
   # Repeated exclusions, CI severity gating, and machine-readable stdout.
-  ai-security-scan ./repository --exclude 'generated/*' --exclude 'fixtures/*'
-  ai-security-scan ./repository --summary-json --fail-on medium --output ./reports
-  ai-security-scan ./repository --quiet --fail-on none
-  ai-security-scan ./repository --max-file-bytes 2000000 --max-total-bytes 100000000
+  invarune ./repository --exclude 'generated/*' --exclude 'fixtures/*'
+  invarune ./repository --summary-json --fail-on medium --output ./reports
+  invarune ./repository --quiet --fail-on none
+  invarune ./repository --max-file-bytes 2000000 --max-total-bytes 100000000
   # Create a candidate; review/edit it before accepting a baseline.
-  ai-security-scan ./repository --write-baseline ./candidate.json --baseline-reason 'Owner review required'
-  ai-security-scan ./repository --baseline ./reviewed.json --summary-json
+  invarune ./repository --write-baseline ./candidate.json --baseline-reason 'Owner review required'
+  invarune ./repository --baseline ./reviewed.json --summary-json
   # Offline catalogs and exact rule explanations, including source references.
-  ai-security-scan --list-rules
-  ai-security-scan --list-controls
-  ai-security-scan --explain-rule AI002
+  invarune --list-rules
+  invarune --list-controls
+  invarune --explain-rule AI002
   # Optional full analyst; trusted-judge.json follows the JSON examples above.
-  ai-security-scan ./repository --judge-config ./trusted-judge.json
-  ai-security-scan --image-archive ./agent-image.tar --judge-config ./trusted-judge.json
+  invarune ./repository --judge-config ./trusted-judge.json
+  invarune --image-archive ./agent-image.tar --judge-config ./trusted-judge.json
   # Finding-only triage with explicitly requested neighboring source.
-  ai-security-scan ./repository --judge-config ./trusted-judge.json --judge-mode findings --judge-include-source
+  invarune ./repository --judge-config ./trusted-judge.json --judge-mode findings --judge-include-source
   # Smaller full-review batches with larger call/time budgets.
-  ai-security-scan ./repository --judge-config ./trusted-judge.json --analyst-batch-size 3 --analyst-max-calls 24 --analyst-time-budget 600
+  invarune ./repository --judge-config ./trusted-judge.json --analyst-batch-size 3 --analyst-max-calls 24 --analyst-time-budget 600
 
 Detailed guides and controlbook (also in the repository):
   https://github.com/nimeshbuilds/agent-mcp-security/blob/main/docs/CLI.md
@@ -281,5 +288,5 @@ Detailed guides and controlbook (also in the repository):
   docs/ANALYST.md         Control response schema, citations and evidence routing.
   docs/SECURITY_CHECKLIST.md and docs/RESEARCH.md   Controls and primary sources.
   docs/RULE_ACCURACY.md and docs/VALIDATION.md     Tests, measured limits and gaps.
-  output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf   Branded controlbook.
+  output/pdf/invarune-security-controlbook.pdf   Branded controlbook.
 """

@@ -1,4 +1,4 @@
-# NimeshBuild controlled security analyst
+# Invarune controlled security analyst
 
 When optional LLM review is enabled, the scanner queues every catalog control for a security analyst review, including controls with no deterministic findings. A deterministic controller selects evidence, schedules bounded requests, checks the response schema, and verifies citations. The analyst's interpretation remains nondeterministic and advisory.
 

@@ -4,13 +4,15 @@ Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This docum
 
 ## Automated tests
 
-For version **0.4.1**, **426 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Many methods contain multiple scenario cases. Run them with:
+For version **0.5.0**, **430 tests passed, 0 failures, 0 errors, 0 skipped**, on Python 3.9.6 and Python 3.12.14. Many methods contain multiple scenario cases. Run them with:
 
 ```sh
 python3 -m unittest discover -s tests -v
 ```
 
 Three additional help regressions verify that every registered public option has visible help/defaults/choices, live format/adapter inventories appear intact, twenty displayed CLI examples parse, and the displayed gateway/baseline JSON is accepted by the actual loaders. Both help aliases are checked for identical output and no scan, config-load, runtime, archive or network side effects. Script/module subprocesses and the installed CLI also render the full reference.
+
+Four brand-compatibility tests verify pre-brand source/image finding IDs and accepted baselines, stable machine identities, additive report branding, and equivalent CLI help/version behavior. Installed `invarune` and `ai-security-scan` commands produced byte-identical Markdown, JSON, and SARIF on both source and image targets with matching exit codes.
 
 Four catalog-integrity tests also verify every control source, thematic alignment, scanner rule, and technical-reference URL against the expanded 75-source registry.
 
@@ -34,7 +36,7 @@ Local runtime tests use controlled subprocesses because Docker and Podman are no
 
 ## Rule accuracy evaluation
 
-The frozen project-authored corpus has **109 labeled rule-presence assertions**. Version 0.2.1 produced 44 true positives, 45 true negatives, 7 false positives and 13 false negatives. Version 0.4.1 preserves the version 0.3.0 result: **52 true positives, 50 true negatives, 2 false positives and 5 false negatives**. All **101 supported regression cases match**; 7 of the 8 challenge cases remain mismatched. The one matched runtime-placeholder case is explicitly not a claim that deployment permissions are safe. This source-pattern corpus does not measure container-image detector accuracy.
+The frozen project-authored corpus has **109 labeled rule-presence assertions**. Version 0.2.1 produced 44 true positives, 45 true negatives, 7 false positives and 13 false negatives. Version 0.5.0 preserves the version 0.3.0 result: **52 true positives, 50 true negatives, 2 false positives and 5 false negatives**. All **101 supported regression cases match**; 7 of the 8 challenge cases remain mismatched. The one matched runtime-placeholder case is explicitly not a claim that deployment permissions are safe. This source-pattern corpus does not measure container-image detector accuracy.
 
 On this synthetic corpus, overall precision increased from **86.27% to 96.30%**, and recall from **77.19% to 91.23%**. These are selected source-pattern cases used during development, **not** production accuracy estimates or held-out benchmark results. Every remaining mismatch is published. See [methodology and limits](RULE_ACCURACY.md), [current results](../benchmarks/accuracy-current.md), and the [same-corpus baseline](../benchmarks/accuracy-v021.json).
 
@@ -42,9 +44,9 @@ Whole-rule removal tests deliberately disable all 42 detectors one at a time and
 
 ## Coverage and distribution checks
 
-Coverage.py **7.16.1** on Python 3.12.14 measured **3,796 / 4,046 statements (93.82%)** and **1,782 / 2,014 branches (88.48%)**; combined coverage was **92.05%**, with no excluded paths. This configuration measures the parent test process; separately tested subprocess entry points are not included in its counters. Uncovered branches remain visible in the coverage report. This is execution coverage, not a security assurance score.
+Coverage.py **7.16.1** on Python 3.12.14 measured **3,799 / 4,049 statements (93.83%)** and **1,782 / 2,014 branches (88.48%)**; combined coverage was **92.05%**, with no excluded paths. This configuration measures the parent test process; separately tested subprocess entry points are not included in its counters. Uncovered branches remain visible in the coverage report. This is execution coverage, not a security assurance score.
 
-The version 0.4.1 wheel was built, installed without application dependencies into an isolated environment, and invoked from outside the checkout. The installed CLI scanned the shipped image archive without a container runtime, loaded the 66-control packaged catalog, and produced Markdown, JSON and SARIF with three expected findings, zero gaps and exit 1. The installed `-h` and `--help` output was identical and included the complete source/image/gateway reference without relying on repository Markdown files. This guards against source-tree imports hiding packaging errors.
+The version 0.5.0 wheel was built, installed without application dependencies into an isolated environment, and invoked from outside the checkout. The installed CLI scanned the shipped image archive without a container runtime, loaded the 66-control packaged catalog, and produced Markdown, JSON and SARIF with three expected findings, zero gaps and exit 1. The installed `-h` and `--help` output was identical and included the complete source/image/gateway reference without relying on repository Markdown files. This guards against source-tree imports hiding packaging errors.
 
 Five generated SARIF reports (vulnerable fixture, safer fixture, scanner itself, image fixture and installed package) passed JSON Schema validation with jsonschema **4.26.0** against the official [OASIS SARIF 2.1.0 Errata 01 schema](https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json), SHA-256 `c3b4bb2d6093897483348925aaa73af03b3e3f4bd4ca38cef26dcb4212a2682e`. The repeatable validation script rejects a different schema hash and performs no network access.
 
@@ -69,7 +71,7 @@ All four targets were scanned twice with identical settings. **Markdown, JSON, a
 - [Safer fixture report](../examples/reports/safer/report.md)
 - [Image fixture report](../examples/reports/image/report.md)
 
-The refreshed fixture repeatability and coverage summary are recorded locally in `test-output/validation-v041.json`, with detailed counters in `test-output/coverage-v041.json` (generated artifacts excluded from version control). The unchanged controlbook artifact has its own [PDF validation record](PDF_VALIDATION.md).
+The refreshed fixture repeatability and coverage summary are recorded locally in `test-output/validation-v050.json`, with detailed counters in `test-output/coverage-v050.json` (generated artifacts excluded from version control). The rebranded controlbook artifact has its own [PDF validation record](PDF_VALIDATION.md).
 
 ## Boundaries of this validation
 

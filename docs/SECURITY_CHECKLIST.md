@@ -1,4 +1,6 @@
-# NimeshBuild AI agent and MCP security checklist
+# Invarune AI agent and MCP security checklist
+
+**Invarune by NimeshBuild** - Evidence for agent security.
 
 Research snapshot: **2026-09-19**. This catalog contains **66 controls and 132 acceptance checks**. These are original engineering review questions synthesized from the sources in [RESEARCH.md](RESEARCH.md), [CSA_AND_CLOUD.md](CSA_AND_CLOUD.md), and [BENCHMARK_LANDSCAPE.md](BENCHMARK_LANDSCAPE.md). This is not an official NSA, CISA, CSA, NIST, MITRE, OWASP, MCP, CIS, or ISO certification checklist.
 

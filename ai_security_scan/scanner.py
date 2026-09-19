@@ -8,7 +8,7 @@ import stat
 from collections import Counter
 from pathlib import Path
 
-from . import __version__
+from . import DISPLAY_NAME, __version__
 from .fs import read_confined
 from .security import redact
 
@@ -244,6 +244,8 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     for module in sorted(Path(__file__).parent.glob("*.py")):
         implementation.update(module.name.encode())
         implementation.update(module.read_bytes())
-    tool = {"name": "agent-mcp-security-scan", "version": __version__, "python_version": platform.python_version(), "implementation_sha256": implementation.hexdigest()}
+    # Keep the machine identifier stable for existing report consumers and SARIF
+    # history. The product brand is separate, additive display metadata.
+    tool = {"name": "agent-mcp-security-scan", "display_name": DISPLAY_NAME, "version": __version__, "python_version": platform.python_version(), "implementation_sha256": implementation.hexdigest()}
     deterministic_input = {"files": files, "config": config, "rules": RULES, "controls": catalog, "baseline": baseline, "tool": tool, "errors": errors, "skipped": skipped}
     return {"schema_version": "1.0", "tool": tool, "scan_id": _digest(deterministic_input), "mode": "deterministic_static", "target": ".", "summary": summary, "configuration": config, "inventory": inventory, "files": files, "findings": findings, "controls": controls, "coverage": {"analysis_profiles": {name: {"files": sum(item["analysis_profile"] == name for item in files), "scope": description} for name, description in ANALYSIS_PROFILES.items()}, "errors": sorted(errors, key=lambda e: (e["path"], e["error"])), "skipped": sorted(skipped, key=lambda s: (s["path"], s["reason"])), "rules_enabled": sorted(rules_by_id), "unmatched_baseline_ids": sorted(set(baseline) - set(unique)), "limitations": ["Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.", "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.", "No dependencies are installed, target code executed, services contacted, or CVE feed queried.", "Default excluded directories and unsupported files remain outside the selected scan scope.", "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.", "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."]}, "judge": {"enabled": False}}

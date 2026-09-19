@@ -20,7 +20,7 @@ def normalize(value):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--pdf", default=str(ROOT / "output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf"))
+    parser.add_argument("--pdf", default=str(ROOT / "output/pdf/invarune-security-controlbook.pdf"))
     args = parser.parse_args()
     controls = json.loads((ROOT / "ai_security_scan/data/controls.json").read_text())
     sources = json.loads((ROOT / "ai_security_scan/data/sources.json").read_text())
@@ -38,6 +38,11 @@ def main():
     pdf = PdfReader(args.pdf)
     text = normalize(" ".join(page.extract_text() or "" for page in pdf.pages))
     assert "\ufffd" not in text, "Replacement glyph in extracted PDF"
+    cover_text = normalize(pdf.pages[0].extract_text() or "")
+    assert "Invarune" in cover_text, "Missing product brand on cover"
+    assert "by NimeshBuild" in cover_text, "Missing publisher attribution on cover"
+    assert "Evidence for agent security." in cover_text, "Missing product strapline"
+    assert "Invarune" in (pdf.metadata.title or ""), "Missing product brand in metadata"
     for c in controls:
         for value in [c["id"], c["title"]] + c["checks"]:
             assert normalize(value) in text, "Missing control content: " + c["id"]

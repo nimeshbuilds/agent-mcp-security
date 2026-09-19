@@ -2110,7 +2110,7 @@
     "enabled": false
   },
   "mode": "deterministic_image",
-  "scan_id": "591c1baf5f1159a71fa4ff47736ff11e24e73e5e531b60631383b99604fd468c",
+  "scan_id": "789259cbc09ad4302a58f9119e58b73a86758971f0bb59bef04cf4f247ff80a4",
   "schema_version": "1.0",
   "summary": {
     "assessment": "static_image_triage_only",
@@ -2136,9 +2136,10 @@
   },
   "target": "container-image",
   "tool": {
-    "implementation_sha256": "a2050f0a81ee2aa04b1e32e7e31b932361fd6d423fdac96105c3c59f29d4ea2c",
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "28d287b3a3e6a30c8a4dc677395c43adb4939bea18379df5a2270f3a8207585e",
     "name": "agent-mcp-security-scan",
     "python_version": "3.9.6",
-    "version": "0.4.1"
+    "version": "0.5.0"
   }
 }

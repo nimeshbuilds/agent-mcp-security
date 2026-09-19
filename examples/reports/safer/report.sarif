@@ -11,6 +11,7 @@
       "results": [],
       "tool": {
         "driver": {
+          "fullName": "Invarune by NimeshBuild",
           "name": "agent-mcp-security-scan",
           "rules": [
             {
@@ -812,7 +813,7 @@
               }
             }
           ],
-          "version": "0.4.1"
+          "version": "0.5.0"
         }
       }
     }

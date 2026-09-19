@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.0",
+  "research_date": "2026-09-19",
+  "document": "../BRAND_RESEARCH.md",
+  "chosen_name": "Invarune",
+  "parent_brand": "NimeshBuild",
+  "pronunciation": "IN-vuh-roon",
+  "name_origin": "Coined from invariant and rune: repeatable checks and readable evidence.",
+  "tagline": "Evidence for agent security.",
+  "decision": "Selected following preliminary public screening; lower observed collision risk than rejected candidates within the searches performed.",
+  "decision_is_legal_clearance": false,
+  "global_uniqueness_established": false,
+  "registrability_established": false,
+  "direct_registry_checks": [
+    {
+      "check": "pypi",
+      "url": "https://pypi.org/pypi/invarune/json",
+      "checked_at": "2026-09-19T18:42:18.507157+00:00",
+      "status": 404
+    },
+    {
+      "check": "npm",
+      "url": "https://registry.npmjs.org/invarune",
+      "checked_at": "2026-09-19T18:42:18.507477+00:00",
+      "status": 404
+    },
+    {
+      "check": "nuget",
+      "url": "https://api.nuget.org/v3-flatcontainer/invarune/index.json",
+      "checked_at": "2026-09-19T18:42:18.507619+00:00",
+      "status": 404
+    },
+    {
+      "check": "crates",
+      "url": "https://crates.io/api/v1/crates/invarune",
+      "checked_at": "2026-09-19T18:42:18.507733+00:00",
+      "status": 404
+    },
+    {
+      "check": "github-repositories",
+      "url": "https://api.github.com/search/repositories?q=invarune",
+      "checked_at": "2026-09-19T18:42:18.507833+00:00",
+      "status": 200,
+      "total_count": 0,
+      "incomplete_results": false
+    },
+    {
+      "check": "github-users",
+      "url": "https://api.github.com/search/users?q=invarune",
+      "checked_at": "2026-09-19T18:42:18.507932+00:00",
+      "status": 200,
+      "total_count": 0,
+      "incomplete_results": false
+    },
+    {
+      "check": "domain-com",
+      "url": "https://rdap.verisign.com/com/v1/domain/invarune.com",
+      "checked_at": "2026-09-19T18:42:18.508069+00:00",
+      "status": 404
+    },
+    {
+      "check": "domain-org",
+      "url": "https://rdap.publicinterestregistry.org/rdap/domain/invarune.org",
+      "checked_at": "2026-09-19T18:42:18.508219+00:00",
+      "status": 404
+    }
+  ],
+  "direct_registry_check_interpretation": {
+    "404": "No record returned by the specific endpoint at the recorded time; this is not a guarantee of availability or registrability.",
+    "github_zero_results": "No results returned by the public query at the recorded time; private repositories and undiscoverable uses are outside this check.",
+    "rights": "Package, repository, user, and domain lookups do not establish trademark rights."
+  },
+  "web_search_scope": {
+    "query_families": [
+      {
+        "query_or_family": "Invarune; \"Invarune\"",
+        "kind": "exact name and unquoted name"
+      },
+      {
+        "query_or_family": "Exact name combined with software, security, AI, MCP, company, product, or trademark terms",
+        "kind": "related-category queries; family description, not a literal search string"
+      },
+      {
+        "query_or_family": "Exact name with GitHub, PyPI, and npm domain restrictions",
+        "kind": "indexed software queries; family description, not a literal search string"
+      },
+      {
+        "query_or_family": "\"Invarune\" site:nuget.org OR site:crates.io OR site:github.com",
+        "kind": "literal indexed software query"
+      },
+      {
+        "query_or_family": "\"Inva Rune\" OR \"Invarun\" OR \"Invaroon\"",
+        "kind": "literal limited spelling-variant query"
+      }
+    ],
+    "observation": "No exact Invarune name match identified in the search results reviewed.",
+    "nearby_results": "Broader searches surfaced unrelated uses of invar and Invaru.",
+    "exhaustive": false,
+    "full_result_pages_archived": false
+  },
+  "uspto_search": {
+    "provider": "United States Patent and Trademark Office",
+    "interface_url": "https://tmsearch.uspto.gov/search/search-results",
+    "date": "2026-09-19",
+    "method": "Official browser interface; completed basic Wordmark search",
+    "search_field": "Wordmark",
+    "search_input": "Invarune",
+    "live_dead_filters": [
+      "Live",
+      "Dead"
+    ],
+    "status_filters": [
+      "Registered",
+      "Pending",
+      "Cancelled",
+      "Abandoned"
+    ],
+    "class_filter": null,
+    "displayed_result": "No results found.",
+    "scope": "Basic exact-name knockout search, not a comprehensive similar-mark or likelihood-of-confusion search.",
+    "saved_search_result_url": null,
+    "guidance_url": "https://www.uspto.gov/trademarks/search/comprehensive-clearance-search-similar-trademarks"
+  },
+  "rejected_candidates": [
+    {
+      "name": "Provenyx",
+      "observed_use": "Existing AI governance and access-control product",
+      "references": [
+        "https://provenyx.ai/",
+        "https://provenyx.ai/terms-of-service/"
+      ]
+    },
+    {
+      "name": "Aegivra",
+      "observed_use": "Existing insurance brand",
+      "references": [
+        "https://aegivra.com/about"
+      ]
+    },
+    {
+      "name": "Vigilith",
+      "observed_use": "Existing AI organization/product presence",
+      "references": [
+        "https://huggingface.co/Vigilith",
+        "https://vigilith.ai"
+      ]
+    },
+    {
+      "name": "Cairnveil",
+      "observed_use": "Existing retail brand",
+      "references": [
+        "https://cairnveil.shop/about-us/"
+      ]
+    },
+    {
+      "name": "Vericairn",
+      "observed_use": "Existing software package listing",
+      "references": [
+        "https://socket.dev/nuget/package/vericairn"
+      ]
+    },
+    {
+      "name": "Arcloom",
+      "observed_use": "Multiple existing product or company uses",
+      "references": [
+        "https://arcloom.com/",
+        "https://arcloomlabs.com/",
+        "https://arcloom.app/"
+      ]
+    },
+    {
+      "name": "Cairnox",
+      "observed_use": "Existing character/name use in a commercial game listing",
+      "references": [
+        "https://store.steampowered.com/app/4975000/Elimination_Protocol/"
+      ]
+    }
+  ],
+  "not_searched_or_completed": [
+    "WIPO and other international or national trademark databases beyond the described US federal search",
+    "US state trademark registers",
+    "State or business incorporation registers",
+    "Comprehensive common-law trademark search",
+    "Professional legal clearance or likelihood-of-confusion assessment",
+    "Exhaustive social-network, app-store, software-registry, top-level-domain, language, transliteration, or spelling-variant checks",
+    "Nonpublic products, private repositories, unpublished uses, or future registrations"
+  ],
+  "registrations_or_purchases_made": [],
+  "registered_trademark_symbol_used": false,
+  "limitations": [
+    "Search results and registry contents are time-bound and may change.",
+    "Absence of an exact match does not establish absence of confusingly similar uses or legal rights.",
+    "The record supports a preliminary naming decision, not worldwide uniqueness, legal clearance, or an availability guarantee."
+  ],
+  "recommended_followup": "Recheck before wider commercial launch, registration, or material brand investment."
+}

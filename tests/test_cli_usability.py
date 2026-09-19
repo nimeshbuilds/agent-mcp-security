@@ -87,7 +87,7 @@ class CliUsabilityTests(unittest.TestCase):
         from ai_security_scan.judge import load_config
         help_text = parser().format_help()
         examples = [shlex.split(line.strip())[1:] for line in help_text.split("Examples:\n", 1)[1].splitlines()
-                    if line.strip().startswith("ai-security-scan ")]
+                    if line.strip().startswith("invarune ")]
         self.assertGreaterEqual(len(examples), 20)
         for arguments in examples:
             with self.subTest(arguments=arguments):

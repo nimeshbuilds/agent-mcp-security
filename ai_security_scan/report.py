@@ -7,6 +7,8 @@ import tempfile
 from pathlib import Path
 from urllib.parse import quote, quote_from_bytes
 
+from . import DISPLAY_NAME
+
 
 def _unicode_text(value):
     # JSON strings and POSIX surrogate-escaped filenames can contain unpaired
@@ -28,7 +30,7 @@ def codeblock(value):
 
 def markdown(report):
     summary = report["summary"]
-    lines = ["# AI agent and MCP security scan", "", f"Scan ID: `{report['scan_id']}`", "", "This is static security triage, not certification or proof that a system is secure.", "", "## Summary", "", f"Scanned **{summary['files_scanned']} files**; **{summary['open_findings']} open findings**, **{summary['suppressed_findings']} suppressed findings**, and **{summary['coverage_gaps']} coverage gaps**.", "", "| Critical | High | Medium | Low | Info |", "|---:|---:|---:|---:|---:|"]
+    lines = ["# " + md(report["tool"].get("display_name", DISPLAY_NAME)), "", "AI agent and MCP security report", "", f"Scan ID: `{report['scan_id']}`", "", "This is static security triage, not certification or proof that a system is secure.", "", "## Summary", "", f"Scanned **{summary['files_scanned']} files**; **{summary['open_findings']} open findings**, **{summary['suppressed_findings']} suppressed findings**, and **{summary['coverage_gaps']} coverage gaps**.", "", "| Critical | High | Medium | Low | Info |", "|---:|---:|---:|---:|---:|"]
     lines.append("| " + " | ".join(str(summary["severity_counts"][s]) for s in ("critical", "high", "medium", "low", "info")) + " |")
     if "bytes_charged" in summary:
         lines += ["", f"Source I/O: **{summary['bytes_read']} bytes read**, **{summary['bytes_charged']} bytes charged** against the budget, including **{summary['failed_read_bytes_charged']} conservatively charged bytes** for failed reads. Each read reserves a sentinel byte to detect growth."]
@@ -155,7 +157,7 @@ def sarif(report):
         results.append(item)
     notifications = [{"level": "warning", "message": {"text": e["path"] + ": " + e["error"]}} for e in report["coverage"]["errors"]]
     notifications += [{"level": "warning", "message": {"text": s["path"] + ": " + s["reason"]}} for s in report["coverage"]["skipped"] if s["coverage_gap"]]
-    return {"$schema": "https://json.schemastore.org/sarif-2.1.0.json", "version": "2.1.0", "runs": [{"tool": {"driver": {"name": report["tool"]["name"], "version": report["tool"]["version"], "rules": descriptors}}, "invocations": [{"executionSuccessful": report["summary"]["scan_complete_within_selected_scope"], "toolExecutionNotifications": notifications}], "results": results}]}
+    return {"$schema": "https://json.schemastore.org/sarif-2.1.0.json", "version": "2.1.0", "runs": [{"tool": {"driver": {"name": report["tool"]["name"], "fullName": report["tool"].get("display_name", DISPLAY_NAME), "version": report["tool"]["version"], "rules": descriptors}}, "invocations": [{"executionSuccessful": report["summary"]["scan_complete_within_selected_scope"], "toolExecutionNotifications": notifications}], "results": results}]}
 
 
 def atomic_write(path, text):

@@ -1,4 +1,6 @@
-# Building and reviewing the NimeshBuild controlbook
+# Building and reviewing the Invarune controlbook
+
+**Invarune by NimeshBuild** - Evidence for agent security.
 
 The canonical catalogs live in `ai_security_scan/data/controls.json` and `ai_security_scan/data/sources.json`. The PDF, Markdown checklist, and source map use these same inputs. The source registry preserves publisher links, dates, scope, limitations, and thematic mapping notes. It does not bundle third-party standards or benchmark data.
 
@@ -12,7 +14,7 @@ python3 scripts/sync_control_docs.py
 python3 scripts/build_controlbook.py
 ```
 
-The output is `output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf`. The builder uses available Arial, Liberation Sans, or DejaVu Sans fonts and falls back to PDF-standard Helvetica. Font choice can affect layout; inspect the result on the build system. The visual identity is a NimeshBuild wordmark and original vector motif created for this publication; no third-party logos are reproduced.
+The output is `output/pdf/invarune-security-controlbook.pdf`. The builder uses available Arial, Liberation Sans, or DejaVu Sans fonts and falls back to PDF-standard Helvetica. Font choice can affect layout; inspect the result on the build system. The Invarune wordmark and original geometric symbol use the same geometry and palette as the repository's brand assets. NimeshBuild remains the publisher attribution. No third-party logos are reproduced.
 
 The optional pinned authoring dependencies are a reproducible starting point, not a claim that those versions are the latest or universally appropriate. Review and update them for your build environment. The shipped PDF was generated using the bundled workspace runtime; exact runtime versions are recorded in `docs/PDF_VALIDATION.md`.
 
@@ -20,7 +22,7 @@ The optional pinned authoring dependencies are a reproducible starting point, no
 
 1. Run `python3 -m unittest discover -s tests -v` for scanner and adapter regressions.
 2. Run `python3 scripts/verify_controlbook.py` for catalog references and PDF text/link checks.
-3. Render **every page** with Poppler: `pdftoppm -r 100 -png output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf tmp/pdfs/page`.
+3. Render **every page** with Poppler: `pdftoppm -r 100 -png output/pdf/invarune-security-controlbook.pdf tmp/pdfs/page`.
 4. Inspect layout, typography, control cards, links, and source entries. The builder raises on known page/card overflows, but rendering is still required after content or font changes.
 5. Regenerate fixture reports after catalog or scanner changes so their control inventory and implementation fingerprints agree with the shipped version.
 

@@ -1,6 +1,8 @@
-# NimeshBuild | AI Agent & MCP Security
+# Invarune by NimeshBuild
 
-A Python CLI that inspects a codebase or built Linux container image, identifies selected security risks, and produces a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every control through a deterministic evidence and validation layer, using native LLM APIs or a custom HTTP gateway. The model's judgment remains nondeterministic and advisory.
+![Invarune - Evidence for agent security](docs/assets/brand/invarune-banner.png)
+
+**Invarune** (IN-vuh-roon) is a Python CLI that inspects a codebase or built Linux container image, identifies selected security risks, and produces a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every control through a deterministic evidence and validation layer, using native LLM APIs or a custom HTTP gateway. The model's judgment remains nondeterministic and advisory.
 
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
@@ -13,11 +15,11 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Controlled security analyst: routing, evidence, budgets, and outcomes](docs/ANALYST.md)
 - [Machine-readable control catalog](ai_security_scan/data/controls.json)
 
-## The NimeshBuild controlbook
+## The Invarune controlbook
 
-[Download the branded PDF](output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf): **65 pages**, all **66 controls**, **132 acceptance checks**, **75 primary-source references**, **9 executable research benchmarks**, the **42-rule automation index**, and the controlled analyst workflow. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
+[Download the branded PDF](output/pdf/invarune-security-controlbook.pdf): **65 pages**, all **66 controls**, **132 acceptance checks**, **75 primary-source references**, **9 executable research benchmarks**, the **42-rule automation index**, and the controlled analyst workflow. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
 
-<p align="center"><a href="output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf"><img src="docs/assets/controlbook-cover.png" alt="NimeshBuild AI Agent and MCP Security Controlbook cover" width="380"></a></p>
+<p align="center"><a href="output/pdf/invarune-security-controlbook.pdf"><img src="docs/assets/controlbook-cover.png" alt="Invarune AI Agent and MCP Security Controlbook cover" width="380"></a></p>
 
 The expanded landscape includes CSA AICM/CCM and MAESTRO, CIS agent/MCP companion guides and the MCP Server benchmark, OWASP AISVS, ISO management/risk standards, software provenance guidance, and agent/MCP attack suites. This is a curated engineering synthesis; it does not reproduce entire proprietary or gated frameworks or claim universal benchmark coverage.
 
@@ -38,7 +40,16 @@ python3 scan.py /absolute/path/to/agent-or-mcp-repo --output ./scan-report
 
 `-h` / `--help` includes the complete offline feature reference: every flag/default/range, source and image behavior, exclusions, baselines, reports, optional analyst budgets, all judge JSON fields, gateway configurations, and twenty command examples. The same reference ships in the installed CLI.
 
-To invoke it from any directory, use the absolute path to `scan.py`. You can also install the CLI using `python3 -m pip install .` and run `ai-security-scan`, or use `python3 -m ai_security_scan` from this directory. Installation may need build tooling; direct script execution needs only Python's standard library.
+To invoke it from any directory, use the absolute path to `scan.py`. You can also install the CLI using `python3 -m pip install .` and run `invarune`, or use `python3 -m ai_security_scan` from this directory. Installation may need build tooling; direct script execution needs only Python's standard library.
+
+The original `ai-security-scan` command remains a supported alias. The distribution name `agent-mcp-security-scan`, Python module `ai_security_scan`, report machine identifiers, and repository URL remain stable. See the [brand kit](docs/BRAND.md) and [dated name research](docs/BRAND_RESEARCH.md).
+
+```sh
+# Installed command, including complete offline help:
+invarune --help
+invarune /path/to/repo --output ./scan-report
+invarune --image-archive ./agent-image.tar --output ./image-report
+```
 
 Generated files:
 

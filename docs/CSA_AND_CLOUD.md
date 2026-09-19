@@ -1,6 +1,6 @@
 # CSA, cloud assurance, and AI development guidance
 
-Research snapshot: **19 September 2026**. These are primary publisher sources. The NimeshBuild controls are independent engineering checks informed by these publications; they are not a reproduction of the CSA catalogs or an assertion of CSA certification.
+Research snapshot: **19 September 2026**. These are primary publisher sources. The Invarune controls are independent engineering checks informed by these publications; they are not a reproduction of the CSA catalogs or an assertion of CSA certification.
 
 ## Verified source register
 
@@ -22,7 +22,7 @@ Prefer versioned release pages: CSA's general CCM landing page still contains an
 
 The relationships below are NimeshBuild's synthesis, not an official crosswalk. Exact third-party control identifiers are omitted unless their source text was reviewed.
 
-| Source family | Relevant NimeshBuild checks | Assessment use |
+| Source family | Relevant Invarune checks | Assessment use |
 | --- | --- | --- |
 | AICM / AI-CAIQ | GOV-01 through GOV-05; DATA; SUP; OPS; GOV-06 | Determine applicable responsibilities and request evidence for inherited safeguards. |
 | CCM / CAIQ | DATA-06; SUP-05; OPS-01, OPS-05, OPS-06 | Review cloud configuration and provider/customer responsibility boundaries. |

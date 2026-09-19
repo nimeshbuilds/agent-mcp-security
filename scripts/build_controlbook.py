@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the NimeshBuild controlbook from the same catalog used by the scanner.
+"""Build the Invarune controlbook from the same catalog used by the scanner.
 
 Requires ReportLab. No web requests or target-code execution. Use --output to
 choose a destination. Source URLs are clickable throughout the PDF.
@@ -26,13 +26,13 @@ ROOT = Path(__file__).resolve().parents[1]
 W, H = 595.276, 841.89
 M = 45
 CW = W - 2 * M
-NAVY = colors.HexColor("#102631")
-INK = colors.HexColor("#183541")
+NAVY = colors.HexColor("#0B1220")
+INK = colors.HexColor("#243247")
 TEAL = colors.HexColor("#087E78")
-MINT = colors.HexColor("#68EDBE")
-PAPER = colors.HexColor("#F5F8F7")
-GREY = colors.HexColor("#526B75")
-LINE = colors.HexColor("#D8E4E2")
+MINT = colors.HexColor("#35E3B1")
+PAPER = colors.HexColor("#F2F6FA")
+GREY = colors.HexColor("#526276")
+LINE = colors.HexColor("#D8E2ED")
 WHITE = colors.white
 
 
@@ -65,10 +65,10 @@ class Book:
         self.by_url = {s["url"]: s for s in sources}
         self.by_id = {s["id"]: s for s in sources}
         self.canvas = canvas.Canvas(str(output), pagesize=(W, H), pageCompression=1, invariant=1)
-        self.canvas.setTitle("NimeshBuild | AI Agent & MCP Security Controlbook")
+        self.canvas.setTitle("Invarune | AI Agent & MCP Security Controlbook")
         self.canvas.setAuthor("NimeshBuild")
         self.canvas.setSubject("Source-linked controls, benchmarks, and validation guidance for AI agents and MCP servers")
-        self.canvas.setCreator("NimeshBuild controlbook builder / ReportLab")
+        self.canvas.setCreator("Invarune by NimeshBuild / ReportLab")
         self.page = 0
         self.page_map = []
         self.specs = []
@@ -93,22 +93,24 @@ class Book:
         return top - height
 
     def mark(self, x, y, scale=1, light=False):
+        """Draw the original Invarune mark using the brand SVG's 64-unit geometry."""
         c = self.canvas
-        c.setFillColor(MINT if light else TEAL)
-        path = c.beginPath()
-        path.moveTo(x, y)
-        path.lineTo(x, y + 19 * scale)
-        path.lineTo(x + 6 * scale, y + 19 * scale)
-        path.lineTo(x + 15 * scale, y + 6 * scale)
-        path.lineTo(x + 15 * scale, y + 19 * scale)
-        path.lineTo(x + 21 * scale, y + 19 * scale)
-        path.lineTo(x + 21 * scale, y)
-        path.lineTo(x + 15 * scale, y)
-        path.lineTo(x + 6 * scale, y + 13 * scale)
-        path.lineTo(x + 6 * scale, y)
-        path.close()
-        c.drawPath(path, fill=1, stroke=0)
-        self.text("NimeshBuild", x + 29 * scale, y + 2 * scale, 17 * scale, WHITE if light else NAVY, True)
+        unit = 30 * scale / 64
+        shapes = [
+            ([(26, 4), (8, 14), (8, 50), (26, 60), (26, 47), (19, 43), (19, 21), (26, 17)], PAPER if light else NAVY),
+            ([(38, 4), (56, 14), (56, 50), (38, 60), (38, 47), (45, 43), (45, 21), (38, 17)], MINT if light else TEAL),
+            ([(32, 22), (42, 32), (32, 42), (22, 32)], MINT if light else TEAL),
+        ]
+        for points, fill in shapes:
+            c.setFillColor(fill)
+            path = c.beginPath()
+            path.moveTo(x + points[0][0] * unit, y + (64 - points[0][1]) * unit)
+            for px, py in points[1:]:
+                path.lineTo(x + px * unit, y + (64 - py) * unit)
+            path.close()
+            c.drawPath(path, fill=1, stroke=0)
+        self.text("Invarune", x + 39 * scale, y + 13 * scale, 20 * scale, PAPER if light else NAVY, True)
+        self.text("by NimeshBuild", x + 40 * scale, y + 2 * scale, 7.5 * scale, MINT if light else TEAL)
 
     def start(self, section, title, subtitle=None):
         self.page += 1
@@ -131,7 +133,7 @@ class Book:
         c = self.canvas
         c.setStrokeColor(LINE)
         c.line(M, 45, W - M, 45)
-        self.text("NimeshBuild  /  Source-linked controls  /  19 Sep 2026", M, 29, 7.2, GREY)
+        self.text("Invarune by NimeshBuild  /  Source-linked controls  /  19 Sep 2026", M, 29, 7.2, GREY)
         c.setFillColor(TEAL)
         c.setFont(BOLD, 9)
         c.drawRightString(W - M, 28, f"{self.page:02d} / {len(self.specs):02d}")
@@ -159,8 +161,8 @@ class Book:
         c = self.canvas
         c.setFillColor(NAVY)
         c.rect(0, 0, W, H, fill=1, stroke=0)
-        # Architecture motif is native vector artwork, not a copied brand asset.
-        c.setStrokeColor(colors.HexColor("#234A52"))
+        # Evidence paths are original vector artwork, not copied brand assets.
+        c.setStrokeColor(colors.HexColor("#203348"))
         for x in range(327, 650, 41):
             c.line(x, 0, x - 125, H)
         for y in range(100, 760, 70):
@@ -168,28 +170,29 @@ class Book:
         for x, y in [(439, 172), (516, 266), (412, 448), (543, 592)]:
             c.setFillColor(MINT)
             c.circle(x, y, 5, fill=1, stroke=0)
-        self.mark(M, H - 79, 1.1, True)
-        self.text("CONTROLBOOK  /  FIRST EDITION", M, H - 157, 9, MINT, True)
+        self.mark(M - 7, H - 98, 2, True)
+        self.text("SECURITY CONTROLBOOK  /  RESEARCH EDITION", M, H - 157, 9, MINT, True)
         y = H - 198
         for line in ("AI Agent", "& MCP", "Security"):
             self.text(line, M - 2, y - 47, 53, WHITE, True)
             y -= 61
-        self.para("A practical control catalog for the systems<br/>that reason, use tools, and act.", M, y - 33, 420, 16, 23, colors.HexColor("#C6DCD9"))
+        self.text("Evidence for agent security.", M, y - 43, 19, MINT, True)
+        self.para("Source-linked controls for the systems that reason,<br/>use tools, and act.", M, y - 65, 420, 11, 16, colors.HexColor("#CFDCEB"))
         y = 280
         for x, value, label in [(M, len(self.controls), "CONTROLS"), (M + 170, sum(len(c["checks"]) for c in self.controls), "ACCEPTANCE CHECKS"), (M + 340, len(self.rules), "STATIC RULES")]:
             self.text(str(value), x, y, 34, MINT, True)
             self.text(label, x, y - 22, 7.9, WHITE, True)
-        self.para("NSA + CISA  /  CSA  /  MITRE  /  NIST<br/>OWASP  /  MCP  /  CIS  /  standards + research benchmarks", M, 174, CW, 9.5, 17, colors.HexColor("#C6DCD9"))
-        c.setStrokeColor(colors.HexColor("#426169"))
+        self.para("NSA + CISA  /  CSA  /  MITRE  /  NIST<br/>OWASP  /  MCP  /  CIS  /  standards + research benchmarks", M, 174, CW, 9.5, 17, colors.HexColor("#CFDCEB"))
+        c.setStrokeColor(colors.HexColor("#40546E"))
         c.line(M, 92, W - M, 92)
         self.text("RESEARCH SNAPSHOT  19 SEPTEMBER 2026", M, 69, 8.4, WHITE, True)
         self.text("github.com/nimeshbuilds/agent-mcp-security", M, 50, 8, MINT)
         c.linkURL("https://github.com/nimeshbuilds/agent-mcp-security", (M, 47, W - M, 63), relative=0)
-        self.page_map.append({"page": self.page, "section": "Cover", "title": "AI Agent & MCP Security"})
+        self.page_map.append({"page": self.page, "section": "Cover", "title": "Invarune | AI Agent & MCP Security"})
         c.showPage()
 
     def guide(self, _):
-        y = self.start("01 / Reading guide", "From code patterns to assurance", "The complete NimeshBuild catalog, with evidence requirements and a traceable source for every control.")
+        y = self.start("01 / Reading guide", "From code patterns to assurance", "The Invarune catalog by NimeshBuild, with evidence requirements and a traceable source for every control.")
         y = self.para("Use this book to review agents, MCP clients and servers, gateways, tools, retrieval, memory, and the infrastructure that grants them authority. It is a synthesized engineering checklist, not a reproduction of every external framework or a certification claim.", M, y, CW, 11, 16)
         y -= 26
         self.text("FIND THE CONTROL YOU NEED", M, y, 8.5, TEAL, True)
@@ -384,7 +387,7 @@ class Book:
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--output", default=str(ROOT / "output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf"))
+    p.add_argument("--output", default=str(ROOT / "output/pdf/invarune-security-controlbook.pdf"))
     args = p.parse_args()
     controls = json.loads((ROOT / "ai_security_scan/data/controls.json").read_text())
     sources = json.loads((ROOT / "ai_security_scan/data/sources.json").read_text())
