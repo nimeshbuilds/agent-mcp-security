@@ -145,7 +145,7 @@ jobs:
               result = subprocess.run([command, '--ask', 'prompt injection'], capture_output=True, text=True, check=True)
               assert not result.stderr and 'AGT-03' in result.stdout
               result = subprocess.run([command, '--list-sources', '--catalog-format', 'json'], capture_output=True, text=True, check=True)
-                  assert len(json.loads(result.stdout)['sources']) == 76
+              assert len(json.loads(result.stdout)['sources']) == 76
               result = subprocess.run([command, '--list-scans', '--catalog-format', 'json'], capture_output=True, text=True, check=True)
               assert len(json.loads(result.stdout)['scans']) == 46
               result = subprocess.run([command, '--explain-scan', 'AI043'], capture_output=True, text=True, check=True)
