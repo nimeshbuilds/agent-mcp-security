@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "commit": "d5fa868c56eee9b4879b8b3100daec9cb6fca64a",
+  "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35481097846",
+  "status": "completed",
+  "conclusion": "success",
+  "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+  "started_at": "2026-09-20T01:19:32Z",
+  "completed_at": "2026-09-20T01:23:02Z",
+  "jobs": [
+    {
+      "name": "built-image-integration",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35481097846/job/105998935818",
+      "startedAt": "2026-09-20T01:19:34Z",
+      "completedAt": "2026-09-20T01:19:45Z"
+    },
+    {
+      "name": "package-and-schema",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35481097846/job/105998935919",
+      "startedAt": "2026-09-20T01:19:34Z",
+      "completedAt": "2026-09-20T01:23:02Z"
+    },
+    {
+      "name": "tests (ubuntu-latest, 3.9)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35481097846/job/105998935934",
+      "startedAt": "2026-09-20T01:19:34Z",
+      "completedAt": "2026-09-20T01:20:33Z"
+    },
+    {
+      "name": "tests (windows-latest, 3.12)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35481097846/job/105998935939",
+      "startedAt": "2026-09-20T01:19:34Z",
+      "completedAt": "2026-09-20T01:21:21Z"
+    },
+    {
+      "name": "headroom-integration",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35481097846/job/105998935953",
+      "startedAt": "2026-09-20T01:19:39Z",
+      "completedAt": "2026-09-20T01:20:13Z"
+    },
+    {
+      "name": "tests (ubuntu-latest, 3.14)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35481097846/job/105998935960",
+      "startedAt": "2026-09-20T01:19:34Z",
+      "completedAt": "2026-09-20T01:20:24Z"
+    },
+    {
+      "name": "tests (macos-latest, 3.12)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35481097846/job/105998936013",
+      "startedAt": "2026-09-20T01:19:41Z",
+      "completedAt": "2026-09-20T01:21:13Z"
+    },
+    {
+      "name": "tests (ubuntu-latest, 3.12)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35481097846/job/105998936106",
+      "startedAt": "2026-09-20T01:19:36Z",
+      "completedAt": "2026-09-20T01:20:28Z"
+    }
+  ],
+  "windows": {
+    "quickstart_steps": 38,
+    "log_sha256": "e0d7c5e06de45bd625ec8dc9d8935063f5639957a4d33151cca5b8392de8d64c",
+    "tests_run": 793,
+    "explicit_skips": 36,
+    "quickstart_skips": [
+      "pdf",
+      "gateway"
+    ]
+  },
+  "headroom": {
+    "quickstart_steps": 46,
+    "log_sha256": "2aaea014ea3d583c41bd1bb74181fae530c7836dbf64df97e5be6348ca1695ed",
+    "quickstart_skips": [
+      "pdf"
+    ],
+    "actual_headroom_version": "0.37.0",
+    "loopback_calls": 72,
+    "protocols": 6
+  },
+  "limits": [
+    "This receipt binds the implementation commit; publication-only documentation and receipt changes may follow.",
+    "Success establishes recorded workflows on the selected environments, not exhaustive security detection or question understanding."
+  ]
+}

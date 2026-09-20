@@ -6,6 +6,8 @@ Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This docum
 
 **793 tests passed** on Python 3.12.14; Python 3.9.6 passed with 28 explicit optional-PDF skips. Parent-process coverage measured 94.71% of statements and 89.75% of branches (93.09% combined). The fresh-install quickstart passed **53 steps**, including ten new installed catalog/explorer checks. [Executed v0.12 receipts](../benchmarks/validation-v012/README.md).
 
+Implementation commit `d5fa868` passed **all eight CI jobs**. Windows passed 793 tests with 36 explicit platform/optional-dependency skips and a 38-step quickstart excluding PDF/gateway work. Linux's actual Headroom quickstart passed 46 steps including 72 loopback calls, with PDF excluded. The released wheel was downloaded back, hash-verified and installed in another fresh environment; its structured question answer exactly matched the published asset. [CI receipt](../benchmarks/validation-v012/ci-receipt.json), [release verification](../benchmarks/validation-v012/release-receipt.json).
+
 The offline explorer explains all 66 controls and 132 acceptance checks, including each control's rationale and agent/MCP context. Tests preserve all 75 source records, exact primary/thematic relationships and 42 rule references. Case-normalized lexical search, unknown IDs, input bounds, JSON compatibility and no-scan/model/login/network/output behavior are verified. Seven installed-wheel example commands reproduced identical outputs and all three CLI aliases matched. No detector rule, benchmark accuracy result, source mapping or report renderer changed. [Actual explorer outputs](../examples/security-explorer/README.md).
 
 ## Historical v0.11.0 results

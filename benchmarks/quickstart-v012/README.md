@@ -4,6 +4,8 @@ Status: **passed**. Scanner: **0.12.0**. Python: **3.12.14**.
 
 [Machine-readable receipt](receipt.json) includes sanitized commands, exit codes, asserted fixture counts, report hashes, source snapshot and package versions.
 
+All **53 steps passed**, including ten new explorer checks, all three installed aliases, source/image review workflows and 72 loopback requests across six protocols. The snapshot contains 162 files and matched the release worktree when verified; subsequent publication-only documentation updates are outside that frozen snapshot. [Release validation evidence](../validation-v012/README.md).
+
 The validator uses a new local Git clone with the explicit current-worktree project inputs overlaid, creates a new virtual environment, and executes the documented source/image/exception commands. Installed aliases run outside the checkout. Enabled PDF checks use real form editing and a fresh scan. Gateway checks use loopback fixture responses, never a real model. Login and live provider capability are separate validation work.
 
 | Step | Exit | Result |

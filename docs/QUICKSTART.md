@@ -6,7 +6,7 @@ Get your first report, explore its security controls, then add image scanning, o
 
 ## 1. Install the CLI and get your first report
 
-Want the previously released CLI without a source checkout? The [v0.11.0 release](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.11.0) provides a downloadable wheel, checksums and installation commands. Its downloaded wheel was installed and verified in a fresh environment. The new offline explorer requires **0.12.0 from the current checkout**; the 0.11.0 wheel does not include those commands. The checkout route below also includes the example source and image fixtures used throughout this guide.
+Want the CLI without a source checkout? The [v0.12.0 release](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. Its downloaded wheel was installed and verified in a fresh environment. The checkout route below also includes the example source and image fixtures used throughout this guide.
 
 Clone this repository using Git credentials that have access:
 
@@ -236,7 +236,7 @@ Installed `invarune` and `ai-security-scan` accept the same flags and produce th
 
 ## Reproduce the quickstart validation
 
-The [executed 0.11 quickstart receipt](../benchmarks/quickstart-v011/README.md) records that version's command exits, fixture counts, package versions, and exact source-file hashes; it predates the new explorer commands. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
+The [executed 53-step quickstart receipt](../benchmarks/quickstart-v012/README.md) records command exits, fixture counts, package versions, and exact source-file hashes, including the new explorer commands. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
 
 ```sh
 python3 scripts/validate_quickstart.py --output test-output/quickstart

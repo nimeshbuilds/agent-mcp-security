@@ -8,7 +8,7 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 
 - **[Quick start: install and use invscan](docs/QUICKSTART.md)**
 - **[Ask about security controls offline](docs/SECURITY_EXPLORER.md)**
-- **[Download the released v0.11 CLI wheel and sample PDF](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.11.0)**
+- **[Download the v0.12 CLI wheel and explorer examples](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0)**
 - **[New v0.11 scan report: fillable PDF, HTML and live AI example](examples/reports/invscan-v011/README.md)**
 - [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
 - [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
@@ -17,7 +17,7 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Justified and disabled checks: review configuration](docs/REVIEW_CONFIGURATION.md)
 - [Accuracy methodology and known false positives/negatives](docs/RULE_ACCURACY.md)
 - [Fresh finding-by-finding competitor comparison](benchmarks/comparison-v010/README.md)
-- [Executed quickstart validation and receipts](benchmarks/quickstart-v011/README.md)
+- [Executed quickstart validation and receipts](benchmarks/quickstart-v012/README.md)
 - [Real-project reports and comparative scanner benchmark](docs/BENCHMARK_RESULTS.md)
 - [CLI subscription login, model defaults and live-test evidence](docs/CLI_PROVIDER_RESEARCH.md)
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
@@ -44,13 +44,15 @@ These commands read the bundled catalog only. `--ask` is bounded deterministic t
 
 New explorer commands default to readable text. The existing `--list-rules`, `--list-controls` and `--explain-rule` retain their JSON defaults; `--catalog-format text` requests a readable view. No model or login is enabled. [Complete explorer guide](docs/SECURITY_EXPLORER.md), or run `invscan --help-topic security`.
 
+[Read actual installed CLI answers](examples/security-explorer/README.md). Version 0.12 passed **793 local tests**, a **53-step fresh-install quickstart**, and **all eight cross-platform CI jobs**. The released wheel was downloaded back, hash-verified and installed in another fresh environment. [Validation receipts](benchmarks/validation-v012/README.md).
+
 ## Latest scan report
 
 [Open the redesigned scan report](examples/reports/invscan-v011/README.md): priorities and linked locations at the beginning, findings from page 4, concrete fixes and mitigating layers, readable scope/configuration/AI coverage, Headroom byte receipts, and editable justifications with an audit appendix. The actual example uses installed `invscan`, limited live Codex review and default Headroom. Its 2 selected finding answers, 9 unselected findings and unrequested control review are explicit.
 
 <p align="center"><a href="examples/reports/invscan-v011/report.pdf"><img src="docs/assets/invscan-v011-report-cover.png" alt="Invarune 0.11 scan report with linked security priorities" width="440"></a></p>
 
-The [43-step quickstart receipt](benchmarks/quickstart-v011/README.md), [765-test validation evidence](benchmarks/validation-v011/README.md) and [eight successful CI jobs](https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718) record what was actually exercised. The published wheel was downloaded back, hash-checked and installed in another fresh environment. The controlbook below is the separate research/control reference.
+That v0.11 report's [43-step quickstart receipt](benchmarks/quickstart-v011/README.md), [765-test validation evidence](benchmarks/validation-v011/README.md) and [eight successful CI jobs](https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718) remain historical evidence. The v0.12 explorer does not change report rendering or detectors. The controlbook below is the separate research/control reference.
 
 ## The Invarune controlbook
 
@@ -99,7 +101,7 @@ invscan --help-topic review
 
 For real testing, see the [eight pinned public-project reports](benchmarks/real-world/README.md), the [external scanner comparison](benchmarks/external-tools/README.md), and the [branded benchmark PDF](output/pdf/invarune-benchmark-report.pdf). The same selected source bytes were offered to Invarune, Semgrep CE, Bandit and Gitleaks. Cisco MCP Scanner ran a separate partial metadata test. Findings, false-positive examples, parser gaps, commands, versions and hashes are published; observed counts are not confirmed vulnerabilities or a scanner ranking.
 
-Version **0.12.0** adds an offline security explorer to the current checkout: ask what the catalog checks, why a control matters and where its guidance came from. It explains all controls and checks without a target, model, login or network request. The published 0.11.0 wheel and report examples above predate this feature; install the current checkout for the new commands.
+Version **0.12.0** adds an offline security explorer: ask what the catalog checks, why a control matters and where its guidance came from. It explains all controls and checks without a target, model, login or network request. Install the [released 0.12.0 wheel](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0) or the current checkout for these commands.
 
 Version **0.11.0** made `invscan` the primary command, added topic help and an example gallery, and brought findings/action links to the front of the scan PDF. Optional AI review defaults to guarded Headroom JSON compaction, with exact evidence preservation and a visible built-in fallback. [Headroom research and measured limits](docs/HEADROOM_RESEARCH.md).
 

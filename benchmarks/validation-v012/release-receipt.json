@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "release_url": "https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0",
+  "target_commit": "d5fa868c56eee9b4879b8b3100daec9cb6fca64a",
+  "assets": [
+    {
+      "name": "agent_mcp_security_scan-0.12.0-py3-none-any.whl",
+      "sha256": "4abcf9adc83f255bbf4457537af684ebedd1ed56b9579da75a098d30a77f087a",
+      "download_hash_verified": true
+    },
+    {
+      "name": "topics.txt",
+      "sha256": "85ded403b6805eb68c2f2a733431260382dcf43c38ac57236d6d6500e26326bd",
+      "download_hash_verified": true
+    },
+    {
+      "name": "prompt-injection.json",
+      "sha256": "74b005f20f53f52a96e5ed0dbbc8bbc85be2b819fbe63de7f3f1252cbb1e9b1c",
+      "download_hash_verified": true
+    }
+  ],
+  "downloaded_wheel_installed_in_fresh_environment": true,
+  "run_outside_checkout": true,
+  "python": "3.12.14",
+  "commands": [
+    {
+      "arguments": [
+        "--version"
+      ],
+      "exit_code": 0,
+      "stderr_empty": true
+    },
+    {
+      "arguments": [
+        "--list-topics",
+        "--catalog-format",
+        "json"
+      ],
+      "exit_code": 0,
+      "stderr_empty": true
+    },
+    {
+      "arguments": [
+        "--ask",
+        "What do you check for prompt injection?",
+        "--catalog-format",
+        "json"
+      ],
+      "exit_code": 0,
+      "stderr_empty": true
+    }
+  ],
+  "published_question_json_matches_installed_output": true,
+  "model_review_enabled": false
+}
