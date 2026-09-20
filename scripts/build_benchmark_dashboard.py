@@ -514,7 +514,8 @@ Equal exported input does not mean equal language support, rule scope or success
         for source in ledger['inputs']:
             project = source['project_id']
             location = comparison + '/invarune-reports/' + project + '/report.'
-            text += '| ' + esc(PROJECT_NAMES.get(project, project)) + ' | [HTML](' + location + 'html) · [Markdown](' + location + 'md) | [JSON](' + location + 'json) · [SARIF](' + location + 'sarif) |\n'
+            raw_markdown = 'https://raw.githubusercontent.com/nimeshbuilds/invarune/main/' + data['directory'] + '/invarune-reports/' + project + '/report.md'
+            text += '| ' + esc(PROJECT_NAMES.get(project, project)) + ' | [HTML](' + location + 'html) · [Markdown](' + raw_markdown + ') | [JSON](' + location + 'json) · [SARIF](' + location + 'sarif) |\n'
         text += '\n'
     text += '''## Complementary review surfaces
 

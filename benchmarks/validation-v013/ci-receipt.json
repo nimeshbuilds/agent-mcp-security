@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "implementation_commit": "1e420e27da88944fdb1a05d62091627c1377c60f",
+  "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35485317001",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "built-image-integration",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35485317001/job/106010489630"
+    },
+    {
+      "name": "tests (ubuntu-latest, 3.14)",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35485317001/job/106010489695"
+    },
+    {
+      "name": "headroom-integration",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35485317001/job/106010489708"
+    },
+    {
+      "name": "tests (macos-latest, 3.12)",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35485317001/job/106010489738"
+    },
+    {
+      "name": "tests (ubuntu-latest, 3.9)",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35485317001/job/106010489746"
+    },
+    {
+      "name": "tests (windows-latest, 3.12)",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35485317001/job/106010489752"
+    },
+    {
+      "name": "package-and-schema",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35485317001/job/106010489771"
+    },
+    {
+      "name": "tests (ubuntu-latest, 3.12)",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35485317001/job/106010489823"
+    }
+  ],
+  "scope": "Actual hosted CI: five OS/Python jobs, built-image integration, installed-package/report/schema validation, and Headroom integration. Does not establish universal security accuracy or live-provider compatibility."
+}

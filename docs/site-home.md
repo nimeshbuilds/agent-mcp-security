@@ -82,7 +82,7 @@ On the same 113 development fixtures, precision improved **96.49% → 98.31%** a
 
 - **Read the evidence behind this release**
 
-    Inspect the current release validation and fresh before/after benchmark. Historical versions retain their original execution receipts.
+    v0.13 passed 845 local tests, a 53-step installed-CLI quickstart and all eight CI jobs. Its release assets were downloaded back and hash-verified.
 
     [v0.13 validation](benchmarks/validation-v013/README.md) · [Quickstart receipt](benchmarks/quickstart-v013/README.md)
 

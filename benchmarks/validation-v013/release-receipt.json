@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "version": "0.13.0",
+  "release": "https://github.com/nimeshbuilds/invarune/releases/tag/v0.13.0",
+  "downloaded_all_three_assets": true,
+  "all_checksums_match": true,
+  "fresh_environment": true,
+  "invoked_outside_checkout": true,
+  "installed_without_optional_dependencies": true,
+  "checks": [
+    {
+      "command": [
+        "invscan",
+        "--version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "invarune",
+        "--version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "ai-security-scan",
+        "--version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "invscan",
+        "--help"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "invscan",
+        "--ask",
+        "How is MCP authentication covered?",
+        "--catalog-format",
+        "json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "invscan",
+        "<SAFER_FIXTURE>",
+        "--output",
+        "source-report"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "safer_scan": {
+    "findings": 0,
+    "coverage_gaps": 0,
+    "judge_enabled": false
+  },
+  "wheel_sha256": "98f2171a2f7409b9680ef7b9a0b28b5bee294fe440815d479129b6a338f2b67c",
+  "pdf_sha256": "2f6435ec0980637a02f8a8bcaa802fc97d404493427f3dd5e127269b2be1caf2"
+}

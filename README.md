@@ -12,7 +12,7 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - **[Report and PDF library](docs/REPORT_LIBRARY.md)** · **[Developer guide](CONTRIBUTING.md)**
 - **[Ask about security controls offline](docs/SECURITY_EXPLORER.md)**
 - **[Download the v0.13 CLI wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.13.0)**
-- **[New v0.11 scan report: fillable PDF, HTML and live AI example](examples/reports/invscan-v011/README.md)**
+- **[Versioned scan example: fillable PDF, HTML and live AI review](examples/reports/invscan-v011/README.md)**
 - [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
 - [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
 - [Built image scanning: Docker, Podman and OCI archives](docs/IMAGE_SCANNING.md)
@@ -57,9 +57,9 @@ These commands read the bundled catalog only. `--ask` is bounded deterministic t
 
 New explorer commands default to readable text. The existing `--list-rules`, `--list-controls` and `--explain-rule` retain their JSON defaults; `--catalog-format text` requests a readable view. No model or login is enabled. [Complete explorer guide](docs/SECURITY_EXPLORER.md), or run `invscan --help-topic security`.
 
-[Read actual installed CLI answers](examples/security-explorer/README.md). Version 0.12 passed **793 local tests**, a **53-step fresh-install quickstart**, and **all eight cross-platform CI jobs**. The released wheel was downloaded back, hash-verified and installed in another fresh environment. [Validation receipts](benchmarks/validation-v012/README.md).
+[Read versioned installed CLI answers](examples/security-explorer/README.md). Current version **0.13** passed **845 local tests**, a **53-step fresh-install quickstart**, and **all eight cross-platform CI jobs**. Its released wheel was downloaded back, hash-verified and installed in another fresh environment. [Current validation receipts](benchmarks/validation-v013/README.md).
 
-## Latest scan report
+## Editable scan example (v0.11)
 
 [Open the redesigned scan report](examples/reports/invscan-v011/README.md): priorities and linked locations at the beginning, findings from page 4, concrete fixes and mitigating layers, readable scope/configuration/AI coverage, Headroom byte receipts, and editable justifications with an audit appendix. The actual example uses installed `invscan`, limited live Codex review and default Headroom. Its 2 selected finding answers, 9 unselected findings and unrequested control review are explicit.
 
