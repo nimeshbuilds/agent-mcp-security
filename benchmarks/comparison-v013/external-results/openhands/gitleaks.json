@@ -1,0 +1,51 @@
+{
+  "command": [
+    "gitleaks",
+    "dir",
+    "{source}",
+    "--config",
+    "{support}/gitleaks.toml",
+    "--gitleaks-ignore-path",
+    "{support}/empty-ignore",
+    "--ignore-gitleaks-allow",
+    "--redact=100",
+    "--no-banner",
+    "--no-color",
+    "--report-format",
+    "json",
+    "--report-path",
+    "{raw_output}/gitleaks.json",
+    "--timeout",
+    "300",
+    "--max-target-megabytes",
+    "20"
+  ],
+  "errors": [],
+  "files_reported_scanned": null,
+  "finding_count": 1,
+  "findings": [
+    {
+      "end_line": 42,
+      "line": 42,
+      "path": "config/defaults.json",
+      "rule_id": "generic-api-key",
+      "severity": "not_provided"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 1,
+  "raw_report_sha256": "f619e3a82d036ac4176ed5480b63b1299383e33a607ff524a428c8bd959600b0",
+  "rule_counts": {
+    "generic-api-key": 1
+  },
+  "severity_counts": {
+    "not_provided": 1
+  },
+  "started_at_utc": "2026-09-20T02:28:08Z",
+  "status": "completed_with_findings",
+  "stderr_sha256": "ea414317821a974c6c19c1e9c6660b7db4137140fd1a46d8a9072fb8b3b2446e",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "gitleaks",
+  "wall_seconds": 0.437541
+}

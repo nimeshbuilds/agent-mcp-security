@@ -1,16 +1,17 @@
 # Invarune by NimeshBuild
 
-![Invarune - Evidence for agent security](docs/assets/brand/invarune-banner.png)
+![Invarune by NimeshBuild — invscan for AI agents, MCP servers, source and built images](docs/assets/brand/invarune-social.png)
 
 **Invarune** (IN-vuh-roon) provides the `invscan` CLI to inspect a codebase or built Linux container image, identify selected security risks, and produce a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every active control through a deterministic evidence and validation layer, using native LLM APIs, a custom HTTP gateway, or an official Codex, Claude Code or Grok Build CLI. The model's judgment remains nondeterministic and advisory.
 
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
 - **[Quick start: install and use invscan](docs/QUICKSTART.md)**
-- **[Documentation website](https://nimeshbuilds.github.io/agent-mcp-security/)** — searchable user guides, developer internals and benchmark evidence.
+- **[Documentation website](https://nimeshbuilds.github.io/invarune/)** — searchable user guides, developer internals and benchmark evidence.
+- **[Visual benchmark dashboard](docs/BENCHMARK_DASHBOARD.md)** — fresh measurements, improvements, complementary tool coverage and reproducible evidence.
 - **[Report and PDF library](docs/REPORT_LIBRARY.md)** · **[Developer guide](CONTRIBUTING.md)**
 - **[Ask about security controls offline](docs/SECURITY_EXPLORER.md)**
-- **[Download the v0.12 CLI wheel and explorer examples](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0)**
+- **[Download the v0.13 CLI wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.13.0)**
 - **[New v0.11 scan report: fillable PDF, HTML and live AI example](examples/reports/invscan-v011/README.md)**
 - [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
 - [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
@@ -18,8 +19,8 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Complete CLI reference](docs/CLI.md)
 - [Justified and disabled checks: review configuration](docs/REVIEW_CONFIGURATION.md)
 - [Accuracy methodology and known false positives/negatives](docs/RULE_ACCURACY.md)
-- [Fresh finding-by-finding competitor comparison](benchmarks/comparison-v010/README.md)
-- [Executed quickstart validation and receipts](benchmarks/quickstart-v012/README.md)
+- [Fresh finding-by-finding competitor comparison](benchmarks/comparison-v013/README.md)
+- [Executed quickstart validation and receipts](benchmarks/quickstart-v013/README.md)
 - [Real-project reports and comparative scanner benchmark](docs/BENCHMARK_RESULTS.md)
 - [CLI subscription login, model defaults and live-test evidence](docs/CLI_PROVIDER_RESEARCH.md)
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
@@ -27,6 +28,16 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Judge setup and API compatibility](docs/JUDGE.md)
 - [Controlled security analyst: routing, evidence, budgets, and outcomes](docs/ANALYST.md)
 - [Machine-readable control catalog](ai_security_scan/data/controls.json)
+
+## Measured improvement in v0.13
+
+![Same-input fixture precision and recall before and after detector fixes](docs/assets/benchmarks/fixture-progress.svg)
+
+The unchanged **113-case, project-authored corpus** improved from **96.49% → 98.31% precision** and **91.67% → 96.67% recall**. Four failing cases now match their labels; two misses and one false alarm remain. These are development fixture results, not production accuracy.
+
+Fresh scans cover the same **eight pinned public projects / 4,120 exported files**. Three reviewed source false alarms were removed; 146 observations and 15 coverage gaps remain. All 32 detailed source report files match two repeated executions. The comparison includes fresh Semgrep CE, Bandit, Gitleaks and a separate Cisco metadata run. Scope, unsupported inputs and every tool-only observation stay visible.
+
+[Explore the visual dashboard](docs/BENCHMARK_DASHBOARD.md) · [Read the nine-page benchmark PDF](output/pdf/invarune-benchmark-v013.pdf) · [Inspect all 1,114 observations](benchmarks/comparison-v013/FINDINGS.md)
 
 ## Ask what the security checks cover
 
@@ -54,7 +65,7 @@ New explorer commands default to readable text. The existing `--list-rules`, `--
 
 <p align="center"><a href="examples/reports/invscan-v011/report.pdf"><img src="docs/assets/invscan-v011-report-cover.png" alt="Invarune 0.11 scan report with linked security priorities" width="440"></a></p>
 
-That v0.11 report's [43-step quickstart receipt](benchmarks/quickstart-v011/README.md), [765-test validation evidence](benchmarks/validation-v011/README.md) and [eight successful CI jobs](https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718) remain historical evidence. The v0.12 explorer does not change report rendering or detectors. The controlbook below is the separate research/control reference.
+That v0.11 report's [43-step quickstart receipt](benchmarks/quickstart-v011/README.md), [765-test validation evidence](benchmarks/validation-v011/README.md) and [eight successful CI jobs](https://github.com/nimeshbuilds/invarune/actions/runs/35479443718) remain historical evidence. The v0.12 explorer does not change report rendering or detectors. The controlbook below is the separate research/control reference.
 
 ## The Invarune controlbook
 
@@ -97,19 +108,21 @@ invscan --help-topic review
 
 `-h` / `--help` includes the complete offline reference: every flag/default/range, source and image behavior, exclusions, baselines, reports, analyst budgets, login/model choices, all judge JSON fields, gateway configurations and examples. `--help-topic` provides focused guides, and `--examples` gives copyable recipes. None of these help commands scan files, read provider configuration, log in or call a service.
 
-`invarune` and `ai-security-scan` remain compatible aliases of `invscan`. Direct `scan.py` and module invocation remain available for existing users. The distribution name `agent-mcp-security-scan`, report machine identifiers and repository URL stay stable. See the [brand kit](docs/BRAND.md).
+`invarune` and `ai-security-scan` remain compatible aliases of `invscan`. Direct `scan.py` and module invocation remain available for existing users. The distribution name `agent-mcp-security-scan` and report machine identifiers remain compatible. The canonical repository is now `nimeshbuilds/invarune`. See the [brand kit](docs/BRAND.md).
 
 [View the sample Markdown report](examples/reports/v011/source/report.md) or [download the sample HTML report](examples/reports/v011/source/report.html?raw=1) and open it locally. These are deliberately vulnerable fixtures, not a production assessment.
 
 For real testing, see the [eight pinned public-project reports](benchmarks/real-world/README.md), the [external scanner comparison](benchmarks/external-tools/README.md), and the [branded benchmark PDF](output/pdf/invarune-benchmark-report.pdf). The same selected source bytes were offered to Invarune, Semgrep CE, Bandit and Gitleaks. Cisco MCP Scanner ran a separate partial metadata test. Findings, false-positive examples, parser gaps, commands, versions and hashes are published; observed counts are not confirmed vulnerabilities or a scanner ranking.
 
-Version **0.12.0** adds an offline security explorer: ask what the catalog checks, why a control matters and where its guidance came from. It explains all controls and checks without a target, model, login or network request. Install the [released 0.12.0 wheel](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0) or the current checkout for these commands.
+Version **0.13.0** adds bounded Python reflection, YAML and shell-command refinements, source precision fixes, the branded benchmark dashboard, and the canonical Invarune repository/site. [Current validation](benchmarks/validation-v013/README.md).
+
+Version **0.12.0** added an offline security explorer: ask what the catalog checks, why a control matters and where its guidance came from. It explains all controls and checks without a target, model, login or network request. Install the [released 0.12.0 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.12.0) or the current checkout for these commands.
 
 Version **0.11.0** made `invscan` the primary command, added topic help and an example gallery, and brought findings/action links to the front of the scan PDF. Optional AI review defaults to guarded Headroom JSON compaction, with exact evidence preservation and a visible built-in fallback. [Headroom research and measured limits](docs/HEADROOM_RESEARCH.md).
 
 Version **0.10.0** added a sourced fix plan for every deterministic finding: agent/MCP relevance, applicability, concrete implementation changes, verification steps and remaining risk. The optional model can supply its own structured advice; missing model advice stays visible and cannot replace the static plan. [Guidance catalog](ai_security_scan/data/remediations.json), [report interpretation](docs/REPORTS.md).
 
-The [fresh comparison](benchmarks/comparison-v010/README.md) and [13-page branded comparison PDF](output/pdf/invarune-finding-comparison-v010.pdf) publish every observed finding, shared and tool-only matches, execution gaps and a predefined adjudication sample. Its fixture-label results and any model judgments remain separate from confirmed production vulnerabilities. The [Claude-enabled example](examples/reports/cli-claude-v010/README.md) records the actual authentication failure; the [limited live Codex example](examples/reports/cli-codex-v010/README.md) demonstrates structured fix advice.
+The [historical v0.10 comparison](benchmarks/comparison-v010/README.md) and [13-page branded comparison PDF](output/pdf/invarune-finding-comparison-v010.pdf) publish every observed finding, shared and tool-only matches, execution gaps and a predefined adjudication sample. Its fixture-label results and any model judgments remain separate from confirmed production vulnerabilities. The [Claude-enabled example](examples/reports/cli-claude-v010/README.md) records the actual authentication failure; the [limited live Codex example](examples/reports/cli-codex-v010/README.md) demonstrates structured fix advice.
 
 Generated files:
 

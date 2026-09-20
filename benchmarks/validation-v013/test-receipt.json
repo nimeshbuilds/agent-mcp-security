@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "version": "0.13.0",
+  "ruleset_version": "1.4.0",
+  "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+  "unit_tests": {
+    "3.12.14": {
+      "run": 845,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "log_sha256": "ab330cf822f2cfdf9f23abd0488a94db84fb12c6fc338613b8686bed46339fa3"
+    },
+    "3.9.6": {
+      "run": 845,
+      "skipped": 29,
+      "failures": 0,
+      "errors": 0,
+      "log_sha256": "7f9dcfc64d22682705a54ce6f3bc5857f8f083d033ce8cca375712a3474992bf"
+    }
+  },
+  "coverage": {
+    "covered_lines": 7343,
+    "num_statements": 7768,
+    "percent_covered": 92.92990331491713,
+    "percent_covered_display": "93",
+    "missing_lines": 425,
+    "excluded_lines": 0,
+    "percent_statements_covered": 94.52883625128733,
+    "percent_statements_covered_display": "95",
+    "num_branches": 3816,
+    "num_partial_branches": 366,
+    "covered_branches": 3422,
+    "missing_branches": 394,
+    "percent_branches_covered": 89.67505241090147,
+    "percent_branches_covered_display": "90"
+  },
+  "coverage_scope": "Parent unit-test process; subprocess workflows exercised separately. Execution coverage is not detector accuracy.",
+  "quickstart": {
+    "status": "passed",
+    "steps": 53,
+    "receipt_sha256": "0dcfd4fbd35c92c754d11002feb36351e822c930ebf74394fe4c58c45a38ebf1",
+    "all_33_package_snapshot_files_match_final_source": true,
+    "loopback_requests": 72,
+    "live_model_requests": 0
+  },
+  "wheel": {
+    "filename": "agent_mcp_security_scan-0.13.0-py3-none-any.whl",
+    "sha256": "98f2171a2f7409b9680ef7b9a0b28b5bee294fe440815d479129b6a338f2b67c",
+    "all_32_packaged_source_data_files_match_final_checkout": true
+  },
+  "sarif": {
+    "reports": 8,
+    "all_valid": true,
+    "schema_sha256": "c3b4bb2d6093897483348925aaa73af03b3e3f4bd4ca38cef26dcb4212a2682e"
+  },
+  "new_detector_regression_methods": 22,
+  "dashboard_provenance_tests": 15,
+  "benchmark_pdf_provenance_tests": 13
+}

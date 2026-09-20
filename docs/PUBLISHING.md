@@ -4,9 +4,9 @@
 
 ## Documentation website
 
-The searchable [GitHub Pages site](https://nimeshbuilds.github.io/agent-mcp-security/) uses MkDocs 1.6.1 and Material 9.7.7. It includes user guides, developer documentation, source mapping, benchmark receipts and all seven checked-in PDF publications/reports. Search runs in the browser. The site does not call a model, run scans, collect review form submissions or require a login. Operational HTML reports retain their local export behavior; download a report before editing it for your own review.
+The searchable [GitHub Pages site](https://nimeshbuilds.github.io/invarune/) uses MkDocs 1.6.1 and Material 9.7.7. It includes user guides, developer documentation, source mapping, benchmark receipts and all checked-in PDF publications/reports. Search runs in the browser. The site does not call a model, run scans, collect review form submissions or require a login. Operational HTML reports retain their local export behavior; download a report before editing it for your own review.
 
-The repository Markdown remains canonical. `scripts/prepare_docs.py` stages **Git-indexed files** from explicit documentation/evidence directories and a narrow set of file extensions. It never copies the workspace wholesale. `tmp/`, virtual environments, `.git/`, private configuration and local scan outputs are not selected. Symlinks are rejected. Original PDF/JSON/HTML evidence is copied byte-for-byte; Markdown links to source code outside the site are adapted to GitHub. The public [artifact manifest](https://nimeshbuilds.github.io/agent-mcp-security/publication-manifest.json) records source paths and hashes.
+The repository Markdown remains canonical. `scripts/prepare_docs.py` stages **Git-indexed files** from explicit documentation/evidence directories and a narrow set of file extensions. It never copies the workspace wholesale. `tmp/`, virtual environments, `.git/`, private configuration and local scan outputs are not selected. Symlinks are rejected. Original PDF/JSON/HTML evidence is copied byte-for-byte; Markdown links to source code outside the site are adapted to GitHub. The public [artifact manifest](https://nimeshbuilds.github.io/invarune/publication-manifest.json) records source paths and hashes.
 
 ### Build and preview locally
 
@@ -27,7 +27,7 @@ python scripts/verify_docs_site.py --receipt site/site-validation.json
 python -m mkdocs serve
 ```
 
-The `git add` line is an example for a new guide: omit it when rebuilding an existing checkout, and replace the path with the actual new file when authoring. On Windows, create the environment with `py -3.12 -m venv .venv-docs` and use `.venv-docs\Scripts\python.exe` for the Python commands. Add navigation entries in `mkdocs.yml`. After editing original Markdown, run `prepare_docs.py` again before previewing; the server reads the staged copy. Open `http://127.0.0.1:8000/agent-mcp-security/`.
+The `git add` line is an example for a new guide: omit it when rebuilding an existing checkout, and replace the path with the actual new file when authoring. On Windows, create the environment with `py -3.12 -m venv .venv-docs` and use `.venv-docs\Scripts\python.exe` for the Python commands. Add navigation entries in `mkdocs.yml`. After editing original Markdown, run `prepare_docs.py` again before previewing; the server reads the staged copy. Open `http://127.0.0.1:8000/invarune/`.
 
 The validation step checks rendered internal links and fragment anchors, required entry pages, a nonempty search index, and every verbatim download against the manifest. Strict MkDocs validation also rejects broken Markdown links and anchors. The build needs package installation/network access initially; subsequent builds use installed tooling and local inputs. External source websites are linked, not mirrored, and can change independently.
 
@@ -90,3 +90,17 @@ Install the optional PDF extra and use `--pdf` on a source/image scan to generat
 ## Finding-by-finding comparison (0.10)
 
 Validate its frozen/current ledger and review bindings with `python3 scripts/build_finding_comparison_report.py --validate-only`. Generate the branded PDF with `python3 scripts/build_finding_comparison_report.py --output output/pdf/invarune-finding-comparison-v010.pdf` using the authoring ReportLab environment. This never scans a target or invokes a model. The current comparison preserves the failed Claude attempt and explicitly unknown TP rate. Render and visually inspect all pages after edits; [the current QA receipt](../benchmarks/validation-v010/pdf-receipt.json) is tied to exact artifact hashes.
+
+## Current benchmark dashboard and v0.13 PDF
+
+The [visual dashboard](BENCHMARK_DASHBOARD.md) and [v0.13 benchmark PDF](../output/pdf/invarune-benchmark-v013.pdf) read the fresh receipts in `benchmarks/comparison-v013/`. They compare the frozen 0.12 implementation with 0.13 on identical corpus bytes and pinned source manifests. The historical publishers above remain available for their original evidence contracts.
+
+```sh
+python scripts/build_benchmark_dashboard.py
+python scripts/build_benchmark_update.py --validate-only
+python scripts/build_benchmark_update.py
+```
+
+Both builders reject inconsistent evidence rather than substituting scores. Run the provenance tests, render and inspect every PDF page, and check desktop/mobile layouts before publication. Never edit a result JSON to make a chart look better; fix the detector, rerun the frozen inputs, and regenerate from actual execution receipts.
+
+The canonical public repository is [nimeshbuilds/invarune](https://github.com/nimeshbuilds/invarune), and Pages uses `/invarune/`. Existing GitHub repository links redirect after the rename, but old Pages URLs do not; see [GitHub's repository rename behavior](https://docs.github.com/en/repositories/creating-and-managing-repositories/renaming-a-repository). Update bookmarks and local origins. Original historical receipts and PDF bytes retain their measurement provenance.

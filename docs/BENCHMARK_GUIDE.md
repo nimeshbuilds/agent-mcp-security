@@ -1,5 +1,7 @@
 # Benchmark evidence guide
 
+**Current release:** [visual benchmark dashboard](BENCHMARK_DASHBOARD.md), [fresh v0.13 execution evidence](../benchmarks/comparison-v013/README.md), and [updated benchmark PDF](../output/pdf/invarune-benchmark-v013.pdf). Earlier results below retain their original versions and scope.
+
 The published experiments show what Invarune and selected tools observed on bounded inputs, where their outputs overlapped, and which questions remain unresolved. They do not establish a universal scanner ranking, zero false positives/negatives, or a count of confirmed exploitable vulnerabilities.
 
 Start with the [13-page finding comparison PDF](../output/pdf/invarune-finding-comparison-v010.pdf), then inspect the [complete 1,117-observation ledger](../benchmarks/comparison-v010/FINDINGS.md). The [earlier 9-page benchmark PDF](../output/pdf/invarune-benchmark-report.pdf) preserves the original 0.8 experiment. The [71-page controlbook](../output/pdf/invarune-security-controlbook.pdf) is the broader control/research reference; listed research attack suites were not all executed. The [report library](REPORT_LIBRARY.md) distinguishes every PDF and its version.

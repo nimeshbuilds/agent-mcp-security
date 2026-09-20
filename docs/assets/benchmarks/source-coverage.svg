@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 639" role="img" aria-labelledby="title desc">
+<title id="title">Source coverage stays beside findings</title><desc id="desc">Examined versus offered source files, with Invarune coverage gaps separately reported for each project.</desc>
+<rect width="1000" height="639" rx="24" fill="#081d29"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="36" y="42" fill="#59dec2" font-size="13" font-weight="700" text-anchor="start" letter-spacing="2">INVARUNE  /  BENCHMARK LAB</text>
+<text x="36" y="81" fill="#edf9fc" font-size="28" font-weight="700" text-anchor="start" letter-spacing="0">Source coverage stays beside findings</text>
+<text x="36" y="112" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Invarune 0.13.0 · selected pinned implementation files</text>
+<text x="36" y="153" fill="#aac4cd" font-size="12" font-weight="700" text-anchor="start" letter-spacing="1">PROJECT</text>
+<text x="693" y="153" fill="#aac4cd" font-size="12" font-weight="700" text-anchor="start" letter-spacing="0">EXAMINED / OFFERED</text>
+<text x="934" y="153" fill="#aac4cd" font-size="12" font-weight="700" text-anchor="end" letter-spacing="0">GAPS</text>
+<text x="36" y="196" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">MCP reference</text>
+<rect x="210" y="178" width="450" height="21" rx="4" fill="#294755"/>
+<rect x="210" y="178" width="450.0" height="21" rx="4" fill="#59dec2"/>
+<text x="694" y="196" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">86 / 86</text>
+<rect x="886" y="174" width="61" height="32" rx="8" fill="#102e3c"/>
+<text x="917" y="196" fill="#aac4cd" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">0</text>
+<text x="36" y="244" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">GitHub MCP</text>
+<rect x="210" y="226" width="450" height="21" rx="4" fill="#294755"/>
+<rect x="210" y="226" width="430.67" height="21" rx="4" fill="#59dec2"/>
+<text x="694" y="244" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">156 / 163</text>
+<rect x="886" y="222" width="61" height="32" rx="8" fill="#102e3c"/>
+<text x="917" y="244" fill="#aac4cd" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">0</text>
+<text x="36" y="292" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">AutoGen</text>
+<rect x="210" y="274" width="450" height="21" rx="4" fill="#294755"/>
+<rect x="210" y="274" width="434.54" height="21" rx="4" fill="#59dec2"/>
+<text x="694" y="292" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">759 / 786</text>
+<rect x="886" y="270" width="61" height="32" rx="8" fill="#102e3c"/>
+<text x="917" y="292" fill="#aac4cd" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">0</text>
+<text x="36" y="340" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">CrewAI</text>
+<rect x="210" y="322" width="450" height="21" rx="4" fill="#294755"/>
+<rect x="210" y="322" width="449.54" height="21" rx="4" fill="#59dec2"/>
+<text x="694" y="340" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">967 / 968</text>
+<rect x="886" y="318" width="61" height="32" rx="8" fill="#483824"/>
+<text x="917" y="340" fill="#ffc16f" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">10</text>
+<text x="36" y="388" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">LangGraph</text>
+<rect x="210" y="370" width="450" height="21" rx="4" fill="#294755"/>
+<rect x="210" y="370" width="450.0" height="21" rx="4" fill="#59dec2"/>
+<text x="694" y="388" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">211 / 211</text>
+<rect x="886" y="366" width="61" height="32" rx="8" fill="#483824"/>
+<text x="917" y="388" fill="#ffc16f" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="36" y="436" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">OpenHands</text>
+<rect x="210" y="418" width="450" height="21" rx="4" fill="#294755"/>
+<rect x="210" y="418" width="448.54" height="21" rx="4" fill="#59dec2"/>
+<text x="694" y="436" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">1,233 / 1,237</text>
+<rect x="886" y="414" width="61" height="32" rx="8" fill="#483824"/>
+<text x="917" y="436" fill="#ffc16f" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">2</text>
+<text x="36" y="484" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">Pydantic AI</text>
+<rect x="210" y="466" width="450" height="21" rx="4" fill="#294755"/>
+<rect x="210" y="466" width="450.0" height="21" rx="4" fill="#59dec2"/>
+<text x="694" y="484" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">386 / 386</text>
+<rect x="886" y="462" width="61" height="32" rx="8" fill="#483824"/>
+<text x="917" y="484" fill="#ffc16f" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">2</text>
+<text x="36" y="532" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">FastMCP</text>
+<rect x="210" y="514" width="450" height="21" rx="4" fill="#294755"/>
+<rect x="210" y="514" width="450.0" height="21" rx="4" fill="#59dec2"/>
+<text x="694" y="532" fill="#edf9fc" font-size="17" font-weight="400" text-anchor="start" letter-spacing="0">283 / 283</text>
+<rect x="886" y="510" width="61" height="32" rx="8" fill="#102e3c"/>
+<text x="917" y="532" fill="#aac4cd" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">0</text>
+<path d="M36 591H964" stroke="#294755"/>
+<text x="36" y="617" fill="#aac4cd" font-size="13" font-weight="400" text-anchor="start" letter-spacing="0">File counts describe selected scope. Examined files can receive partial analysis; gaps are a separate measure.</text>
+</g></svg>

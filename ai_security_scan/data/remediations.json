@@ -787,7 +787,7 @@
     {
       "rule_id": "AI019",
       "summary": "Separate downloading, integrity verification and script execution.",
-      "agent_mcp_relevance": "A tool bootstrap or agent image build that pipes downloaded text into a shell lets the remote response choose commands under the build/runtime identity, potentially reaching deployment credentials.",
+      "agent_mcp_relevance": "A tool bootstrap or agent image build that pipes downloaded text into a shell or uses it directly as shell command text lets the remote response choose commands under the build/runtime identity, potentially reaching deployment credentials.",
       "applicability": [
         "Determine whether this command runs during build, startup or a user-authorized maintenance step, and identify the remote producer.",
         "HTTPS alone does not establish that changing script bytes are the approved release."
@@ -795,7 +795,7 @@
       "steps": [
         {
           "title": "Download an identified artifact",
-          "action": "Replace the direct curl/wget-to-shell pipeline with a separate fetch of a specific release into a controlled temporary location. Prefer a reviewed package or image when available.",
+          "action": "Replace the direct curl/wget-to-shell pipeline or downloaded shell command substitution with a separate fetch of a specific release into a controlled temporary location. Prefer a reviewed package or image when available.",
           "verification": "Confirm a failed or partial download cannot enter the execution step and that redirects cannot silently change the approved source."
         },
         {

@@ -2,7 +2,7 @@
 
 Invarune **0.12.0** can explain the security catalog before you scan anything. Use `invscan --ask` to find relevant controls, checks, rules and sources; then open an exact item for its rationale and evidence requirements. The answers come from bundled data and deterministic lookup. No model, API key, provider configuration, login, network connection or target directory is needed.
 
-Install the [released 0.12.0 wheel](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0) or follow the [quickstart](QUICKSTART.md) to install the checkout. The `invarune` and `ai-security-scan` aliases support the same flags. [Actual installed examples](../examples/security-explorer/README.md) show the resulting text and JSON.
+Install the [released 0.12.0 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.12.0) or follow the [quickstart](QUICKSTART.md) to install the checkout. The `invarune` and `ai-security-scan` aliases support the same flags. [Actual installed examples](../examples/security-explorer/README.md) show the resulting text and JSON.
 
 ## Start with a security question
 

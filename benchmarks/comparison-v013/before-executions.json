@@ -1,0 +1,527 @@
+{
+  "accuracy": {
+    "analysis_error_cases": 0,
+    "case_count": 113,
+    "command": [
+      "python",
+      "tmp/comparison-v013/baseline-v012/scripts/evaluate_accuracy.py",
+      "--output",
+      "benchmarks/comparison-v013/accuracy-before.json",
+      "--fail-on",
+      "none"
+    ],
+    "corpus_sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3",
+    "interpretation": "All regression and challenge labels remain in the metrics; fail-on none affects only the process gate.",
+    "overall": {
+      "assertions": 113,
+      "false_negative": 5,
+      "false_negative_rate": 0.083333,
+      "false_positive": 2,
+      "false_positive_rate": 0.037736,
+      "precision": 0.964912,
+      "recall": 0.916667,
+      "true_negative": 51,
+      "true_positive": 55
+    },
+    "path": "accuracy-before.json",
+    "sha256": "317df5794e85e17d4c5965023ff1fddfb708262bb94f5fb3f517f265994a6a94"
+  },
+  "actual_source_cli_executions": 16,
+  "implementation_hash_verified_against_frozen_snapshot": true,
+  "phase": "before",
+  "scanner": {
+    "baseline_git_revision": "317c2fee15109468b616a1955d7979aeea5800ea",
+    "baseline_package_source": "Git objects from pinned revision; unchanged source snapshot, independent of subsequent working-tree edits.",
+    "cases": 113,
+    "corpus_sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3",
+    "corpus_version": "1.2.0",
+    "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+    "scanner_version": "0.12.0",
+    "snapshot_archive_sha256": "dafbb7f05950fa9a97a0439ca4a1f30f423120e6237b97a7b341ce1ba577a970"
+  },
+  "schema_version": "1.0",
+  "scope": "Frozen Git baseline; no LLM calls, target builds or target code execution.",
+  "source_bytes_verified_before_and_after": true,
+  "source_runs": [
+    {
+      "byte_identical_reports": true,
+      "executions": [
+        {
+          "elapsed_seconds": 1.577232,
+          "exit_code": 1,
+          "report_sha256": {
+            "report.html": "316b2864c031d380560d06fa76d65f5ab57f0c0e01c6da60c402c913a4bef2ac",
+            "report.json": "2103d1bb9ae7b9ad41ccbadeaca319b12d9110bbb3b19538736f916695003c84",
+            "report.md": "7f2f118545ef474f6e3a321a0db43d5a25572f400007b54d404edd7c53e3d587",
+            "report.sarif": "ee5b02c3f311fcc8fc8954bb33fc5fcb1cc2214bf6b4c7419af3457bb0726ba1"
+          },
+          "run": 1,
+          "started_at_utc": "2026-09-20T02:26:39.779983+00:00",
+          "stderr": ""
+        },
+        {
+          "elapsed_seconds": 1.592598,
+          "exit_code": 1,
+          "report_sha256": {
+            "report.html": "316b2864c031d380560d06fa76d65f5ab57f0c0e01c6da60c402c913a4bef2ac",
+            "report.json": "2103d1bb9ae7b9ad41ccbadeaca319b12d9110bbb3b19538736f916695003c84",
+            "report.md": "7f2f118545ef474f6e3a321a0db43d5a25572f400007b54d404edd7c53e3d587",
+            "report.sarif": "ee5b02c3f311fcc8fc8954bb33fc5fcb1cc2214bf6b4c7419af3457bb0726ba1"
+          },
+          "run": 2,
+          "started_at_utc": "2026-09-20T02:26:41.359299+00:00",
+          "stderr": ""
+        }
+      ],
+      "project_id": "autogen",
+      "receipt": "invarune-receipts-before/autogen.json",
+      "receipt_sha256": "910c9c09bd6fe22687caf3d6da91e43edd4d2bc04415dba74ab2cff7822129c3",
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 4232838,
+        "bytes_read": 4232838,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 759,
+        "open_findings": 13,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 5,
+          "info": 0,
+          "low": 5,
+          "medium": 3
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.12.0"
+      }
+    },
+    {
+      "byte_identical_reports": true,
+      "executions": [
+        {
+          "elapsed_seconds": 3.553757,
+          "exit_code": 2,
+          "report_sha256": {
+            "report.html": "73fbdb4d28080e32de4dc6f0f173c63d27396d1fc06aaa5489f0713f42caf6a6",
+            "report.json": "7256fa36a97bb3566095b09924b92d28071ae4a9c56342f6537fbcdea7a1e6f6",
+            "report.md": "c09ec8d26e0493bfeb41581892749fada898fac35fd2ef24c20c80441ff57270",
+            "report.sarif": "64d1fa1cbb30eb8586026c000ba30471d0ca3adc2eb4044443a620728e717507"
+          },
+          "run": 1,
+          "started_at_utc": "2026-09-20T02:26:43.173882+00:00",
+          "stderr": "Scan incomplete: 10 coverage gaps; see report.json for details.\n"
+        },
+        {
+          "elapsed_seconds": 3.590303,
+          "exit_code": 2,
+          "report_sha256": {
+            "report.html": "73fbdb4d28080e32de4dc6f0f173c63d27396d1fc06aaa5489f0713f42caf6a6",
+            "report.json": "7256fa36a97bb3566095b09924b92d28071ae4a9c56342f6537fbcdea7a1e6f6",
+            "report.md": "c09ec8d26e0493bfeb41581892749fada898fac35fd2ef24c20c80441ff57270",
+            "report.sarif": "64d1fa1cbb30eb8586026c000ba30471d0ca3adc2eb4044443a620728e717507"
+          },
+          "run": 2,
+          "started_at_utc": "2026-09-20T02:26:46.730102+00:00",
+          "stderr": "Scan incomplete: 10 coverage gaps; see report.json for details.\n"
+        }
+      ],
+      "project_id": "crewai",
+      "receipt": "invarune-receipts-before/crewai.json",
+      "receipt_sha256": "a9aecebaaa4fbacd8dd9b602665046c6b32cfdce984fea8766b3bd621b5945f2",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 9435467,
+        "bytes_read": 9435467,
+        "coverage_gaps": 10,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 967,
+        "open_findings": 28,
+        "scan_complete_within_selected_scope": false,
+        "severity_counts": {
+          "critical": 0,
+          "high": 26,
+          "info": 0,
+          "low": 0,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.12.0"
+      }
+    },
+    {
+      "byte_identical_reports": true,
+      "executions": [
+        {
+          "elapsed_seconds": 1.328064,
+          "exit_code": 0,
+          "report_sha256": {
+            "report.html": "e4627f7657938f684dc985ac1e63d1a4dadf2c1823ac0b067d09c26ed7f85908",
+            "report.json": "1b887e5c17be955aed33ce13f9df7f076412f9068602072423f0f6ebe4cce159",
+            "report.md": "f5e73464336ad51a34d3e97041eef1af867c4f9fe77042ae2dd28b32d84d5729",
+            "report.sarif": "0406cb69f0e3686ccf8de0007a3cdedb5b93817704a81f18805834de10ecde11"
+          },
+          "run": 1,
+          "started_at_utc": "2026-09-20T02:27:03.357668+00:00",
+          "stderr": ""
+        },
+        {
+          "elapsed_seconds": 1.335209,
+          "exit_code": 0,
+          "report_sha256": {
+            "report.html": "e4627f7657938f684dc985ac1e63d1a4dadf2c1823ac0b067d09c26ed7f85908",
+            "report.json": "1b887e5c17be955aed33ce13f9df7f076412f9068602072423f0f6ebe4cce159",
+            "report.md": "f5e73464336ad51a34d3e97041eef1af867c4f9fe77042ae2dd28b32d84d5729",
+            "report.sarif": "0406cb69f0e3686ccf8de0007a3cdedb5b93817704a81f18805834de10ecde11"
+          },
+          "run": 2,
+          "started_at_utc": "2026-09-20T02:27:04.687142+00:00",
+          "stderr": ""
+        }
+      ],
+      "project_id": "fastmcp",
+      "receipt": "invarune-receipts-before/fastmcp.json",
+      "receipt_sha256": "f89e0b92c8a8a813399972976136855d06873274633e87ad2ef956650988c8e0",
+      "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 3811079,
+        "bytes_read": 3811079,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 283,
+        "open_findings": 0,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.12.0"
+      }
+    },
+    {
+      "byte_identical_reports": true,
+      "executions": [
+        {
+          "elapsed_seconds": 0.282503,
+          "exit_code": 0,
+          "report_sha256": {
+            "report.html": "5d91d91ad4706437aad7d74d8f33c6f4ea480df6d0bd5bcacbca8f80347edc87",
+            "report.json": "ca35b13f41b31041a8d3d79ad9a4957d2ec65e647da04580487bbf05e1f6ce76",
+            "report.md": "ca4383f85af77108b865ac297a9bb9853599cffab63eeb1ee5f3cf2e4d84ca79",
+            "report.sarif": "3d3d79beb006a066347f8fa869268ffadc8f826b6c5ea61ce987ade6fc6299d0"
+          },
+          "run": 1,
+          "started_at_utc": "2026-09-20T02:26:39.079187+00:00",
+          "stderr": ""
+        },
+        {
+          "elapsed_seconds": 0.268969,
+          "exit_code": 0,
+          "report_sha256": {
+            "report.html": "5d91d91ad4706437aad7d74d8f33c6f4ea480df6d0bd5bcacbca8f80347edc87",
+            "report.json": "ca35b13f41b31041a8d3d79ad9a4957d2ec65e647da04580487bbf05e1f6ce76",
+            "report.md": "ca4383f85af77108b865ac297a9bb9853599cffab63eeb1ee5f3cf2e4d84ca79",
+            "report.sarif": "3d3d79beb006a066347f8fa869268ffadc8f826b6c5ea61ce987ade6fc6299d0"
+          },
+          "run": 2,
+          "started_at_utc": "2026-09-20T02:26:39.363115+00:00",
+          "stderr": ""
+        }
+      ],
+      "project_id": "github-mcp",
+      "receipt": "invarune-receipts-before/github-mcp.json",
+      "receipt_sha256": "acfbd40c5f7ba31a0a548c4db1d2ae76aa93782be3ec7071c3a8540c0c07a196",
+      "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 2086786,
+        "bytes_read": 2086786,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 156,
+        "open_findings": 15,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 15,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.12.0"
+      }
+    },
+    {
+      "byte_identical_reports": true,
+      "executions": [
+        {
+          "elapsed_seconds": 1.378351,
+          "exit_code": 2,
+          "report_sha256": {
+            "report.html": "b50d918d650a4f979f5b763a14982f00815ec2885dec43adc54f3eb233af95fd",
+            "report.json": "98bc96e92d20337d344fff81c263be7def36f3e9494500032504803a9363d5bb",
+            "report.md": "eb6d33d17a92f12ecd6e4ce50ca5f2c8cc20596d5ee325375d12af558026fbc5",
+            "report.sarif": "ec9ef34f2d6ab1f4bd11e9355be229709ae0ace8e2d38bd9bf7e6cd1b93f4b9b"
+          },
+          "run": 1,
+          "started_at_utc": "2026-09-20T02:26:50.439733+00:00",
+          "stderr": "Scan incomplete: 1 coverage gaps; see report.json for details.\n"
+        },
+        {
+          "elapsed_seconds": 1.384764,
+          "exit_code": 2,
+          "report_sha256": {
+            "report.html": "b50d918d650a4f979f5b763a14982f00815ec2885dec43adc54f3eb233af95fd",
+            "report.json": "98bc96e92d20337d344fff81c263be7def36f3e9494500032504803a9363d5bb",
+            "report.md": "eb6d33d17a92f12ecd6e4ce50ca5f2c8cc20596d5ee325375d12af558026fbc5",
+            "report.sarif": "ec9ef34f2d6ab1f4bd11e9355be229709ae0ace8e2d38bd9bf7e6cd1b93f4b9b"
+          },
+          "run": 2,
+          "started_at_utc": "2026-09-20T02:26:51.820004+00:00",
+          "stderr": "Scan incomplete: 1 coverage gaps; see report.json for details.\n"
+        }
+      ],
+      "project_id": "langgraph",
+      "receipt": "invarune-receipts-before/langgraph.json",
+      "receipt_sha256": "00fb1cc77face856ea2a9d7cb2f21e3c6950ea38e87691ecb196df87e4eaab0e",
+      "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 6378697,
+        "bytes_read": 6378697,
+        "coverage_gaps": 1,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 211,
+        "open_findings": 23,
+        "scan_complete_within_selected_scope": false,
+        "severity_counts": {
+          "critical": 0,
+          "high": 23,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.12.0"
+      }
+    },
+    {
+      "byte_identical_reports": true,
+      "executions": [
+        {
+          "elapsed_seconds": 0.264475,
+          "exit_code": 0,
+          "report_sha256": {
+            "report.html": "c516322619be99041a5f91a36b1336fffc842415664471146843a723a4534a37",
+            "report.json": "e3394a443964ca2361e838ea9f0dec1c827f2351abb66596137efd6dfba5ccda",
+            "report.md": "22c5df11030039423ed8955383a1e86a1b8c3a29ef898ae724eb29c089320b51",
+            "report.sarif": "657a973de1a43be2d7935b6b31e2ffe24834cbd96fbd5cc7daed47e319b7f2d8"
+          },
+          "run": 1,
+          "started_at_utc": "2026-09-20T02:26:38.540338+00:00",
+          "stderr": ""
+        },
+        {
+          "elapsed_seconds": 0.231171,
+          "exit_code": 0,
+          "report_sha256": {
+            "report.html": "c516322619be99041a5f91a36b1336fffc842415664471146843a723a4534a37",
+            "report.json": "e3394a443964ca2361e838ea9f0dec1c827f2351abb66596137efd6dfba5ccda",
+            "report.md": "22c5df11030039423ed8955383a1e86a1b8c3a29ef898ae724eb29c089320b51",
+            "report.sarif": "657a973de1a43be2d7935b6b31e2ffe24834cbd96fbd5cc7daed47e319b7f2d8"
+          },
+          "run": 2,
+          "started_at_utc": "2026-09-20T02:26:38.807591+00:00",
+          "stderr": ""
+        }
+      ],
+      "project_id": "mcp-reference",
+      "receipt": "invarune-receipts-before/mcp-reference.json",
+      "receipt_sha256": "6581853c105b13feb4f3303bfe1f9092b776c7deb434da30ab53c32412779074",
+      "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 1003862,
+        "bytes_read": 1003862,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 86,
+        "open_findings": 61,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 59,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.12.0"
+      }
+    },
+    {
+      "byte_identical_reports": true,
+      "executions": [
+        {
+          "elapsed_seconds": 2.229954,
+          "exit_code": 2,
+          "report_sha256": {
+            "report.html": "71e6a0753023512b7ad4a5b05e53e5d52bc5c1c117b089626830fefa025f9f6b",
+            "report.json": "e5dc1ecdc5c964a8056ff1fb5e72dea924e2816e86cd9af54aa409b73771fa77",
+            "report.md": "19a6c2348ea788aeac34bfcef55c993560ec62d5da36c8ece880c557b791ae36",
+            "report.sarif": "08d6167ddf100529389fb0db978ed5ef64f9462d42056cc6fc76a68f7324de44"
+          },
+          "run": 1,
+          "started_at_utc": "2026-09-20T02:26:53.444933+00:00",
+          "stderr": "Scan incomplete: 2 coverage gaps; see report.json for details.\n"
+        },
+        {
+          "elapsed_seconds": 2.235405,
+          "exit_code": 2,
+          "report_sha256": {
+            "report.html": "71e6a0753023512b7ad4a5b05e53e5d52bc5c1c117b089626830fefa025f9f6b",
+            "report.json": "e5dc1ecdc5c964a8056ff1fb5e72dea924e2816e86cd9af54aa409b73771fa77",
+            "report.md": "19a6c2348ea788aeac34bfcef55c993560ec62d5da36c8ece880c557b791ae36",
+            "report.sarif": "08d6167ddf100529389fb0db978ed5ef64f9462d42056cc6fc76a68f7324de44"
+          },
+          "run": 2,
+          "started_at_utc": "2026-09-20T02:26:55.677081+00:00",
+          "stderr": "Scan incomplete: 2 coverage gaps; see report.json for details.\n"
+        }
+      ],
+      "project_id": "openhands",
+      "receipt": "invarune-receipts-before/openhands.json",
+      "receipt_sha256": "bdd6d3d778c20e2aef6ab11d4b309afd11ef08a87c9b98d9adaeae1a0c013fe8",
+      "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 7487391,
+        "bytes_read": 7487391,
+        "coverage_gaps": 2,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 1233,
+        "open_findings": 9,
+        "scan_complete_within_selected_scope": false,
+        "severity_counts": {
+          "critical": 0,
+          "high": 2,
+          "info": 0,
+          "low": 4,
+          "medium": 3
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.12.0"
+      }
+    },
+    {
+      "byte_identical_reports": true,
+      "executions": [
+        {
+          "elapsed_seconds": 2.577659,
+          "exit_code": 2,
+          "report_sha256": {
+            "report.html": "074d27291101afc93ad8667cb5695099b93e3ec7395baeea3981890855ee95df",
+            "report.json": "4ed1c442d9dc0027ef48a5bc22babe25523577a4e784cc68125a2411213ce56e",
+            "report.md": "c0d9cd803d6ed717fcc137598c52d81ffa0275771a052c39043efaa48c7d4e6e",
+            "report.sarif": "f01b9e3832e41a5084a004c05d66235e4027a2ea8847db763876e9badf556cc2"
+          },
+          "run": 1,
+          "started_at_utc": "2026-09-20T02:26:58.069105+00:00",
+          "stderr": "Scan incomplete: 2 coverage gaps; see report.json for details.\n"
+        },
+        {
+          "elapsed_seconds": 2.620686,
+          "exit_code": 2,
+          "report_sha256": {
+            "report.html": "074d27291101afc93ad8667cb5695099b93e3ec7395baeea3981890855ee95df",
+            "report.json": "4ed1c442d9dc0027ef48a5bc22babe25523577a4e784cc68125a2411213ce56e",
+            "report.md": "c0d9cd803d6ed717fcc137598c52d81ffa0275771a052c39043efaa48c7d4e6e",
+            "report.sarif": "f01b9e3832e41a5084a004c05d66235e4027a2ea8847db763876e9badf556cc2"
+          },
+          "run": 2,
+          "started_at_utc": "2026-09-20T02:27:00.648027+00:00",
+          "stderr": "Scan incomplete: 2 coverage gaps; see report.json for details.\n"
+        }
+      ],
+      "project_id": "pydantic-ai",
+      "receipt": "invarune-receipts-before/pydantic-ai.json",
+      "receipt_sha256": "dae6ee2db4583a6085b9cf0c22adeef4d6d207f2a6ddf82751e4901937368eff",
+      "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 8414725,
+        "bytes_read": 8414725,
+        "coverage_gaps": 2,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 386,
+        "open_findings": 0,
+        "scan_complete_within_selected_scope": false,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      },
+      "tool": {
+        "display_name": "Invarune by NimeshBuild",
+        "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+        "name": "agent-mcp-security-scan",
+        "python_version": "3.12.14",
+        "version": "0.12.0"
+      }
+    }
+  ]
+}

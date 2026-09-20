@@ -1,0 +1,401 @@
+{
+  "corpus_id": "public-agent-mcp-2026-09",
+  "host": {
+    "machine": "arm64",
+    "system": "Darwin"
+  },
+  "manifest_sha256": "8f0115f7f24d81a15dfbb9c67e555bd33f652f129b73b19277419a346e2a096e",
+  "method": "Same exported public source bytes offered to each tool. Source is never executed. Counts are observations, not confirmed vulnerabilities or accuracy scores.",
+  "projects": [
+    {
+      "id": "mcp-reference",
+      "input": {
+        "bytes": 1003862,
+        "file_count": 86,
+        "manifest_sha256": "bedfe185b48d618d9a8371d18059716c25c66994de5d898b70149fbb0dcdd94f",
+        "python_files": 9
+      },
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "revision": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+      "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+      "tools": [
+        {
+          "errors": [],
+          "files_reported_scanned": 86,
+          "finding_count": 0,
+          "process_exit_code": 0,
+          "status": "completed_no_findings",
+          "tool": "semgrep",
+          "wall_seconds": 3.78
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": 9,
+          "finding_count": 0,
+          "process_exit_code": 0,
+          "status": "completed_no_findings",
+          "tool": "bandit",
+          "wall_seconds": 0.098575
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": null,
+          "finding_count": 0,
+          "process_exit_code": 0,
+          "status": "completed_no_findings",
+          "tool": "gitleaks",
+          "wall_seconds": 0.237466
+        }
+      ]
+    },
+    {
+      "id": "github-mcp",
+      "input": {
+        "bytes": 2092407,
+        "file_count": 163,
+        "manifest_sha256": "bea40ed74c204c14963846d9fb2d682de00fb19e84d377c4ec0689614884998b",
+        "python_files": 0
+      },
+      "repository": "https://github.com/github/github-mcp-server",
+      "revision": "85598ba6e1256f7ebf4867b95d63b833c4549264",
+      "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+      "tools": [
+        {
+          "errors": [
+            {
+              "level": "warn",
+              "path": "pkg/github/pullrequests.go",
+              "type": "PartialParsing"
+            }
+          ],
+          "files_reported_scanned": 163,
+          "finding_count": 1,
+          "process_exit_code": 0,
+          "status": "completed_with_analysis_errors",
+          "tool": "semgrep",
+          "wall_seconds": 3.654431
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": 0,
+          "finding_count": null,
+          "process_exit_code": 0,
+          "status": "unsupported_no_python_files",
+          "tool": "bandit",
+          "wall_seconds": 0.06964
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": null,
+          "finding_count": 0,
+          "process_exit_code": 0,
+          "status": "completed_no_findings",
+          "tool": "gitleaks",
+          "wall_seconds": 0.286896
+        }
+      ]
+    },
+    {
+      "id": "autogen",
+      "input": {
+        "bytes": 4264776,
+        "file_count": 786,
+        "manifest_sha256": "5fbeade844bb4ddc045a39543dba691b3effb388914b7c6e640521f6dc7b9c08",
+        "python_files": 321
+      },
+      "repository": "https://github.com/microsoft/autogen",
+      "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "tools": [
+        {
+          "errors": [],
+          "files_reported_scanned": 786,
+          "finding_count": 6,
+          "process_exit_code": 0,
+          "status": "completed_with_findings",
+          "tool": "semgrep",
+          "wall_seconds": 5.541058
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": 321,
+          "finding_count": 183,
+          "process_exit_code": 1,
+          "status": "completed_with_findings",
+          "tool": "bandit",
+          "wall_seconds": 1.10902
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": null,
+          "finding_count": 0,
+          "process_exit_code": 0,
+          "status": "completed_no_findings",
+          "tool": "gitleaks",
+          "wall_seconds": 0.332232
+        }
+      ]
+    },
+    {
+      "id": "crewai",
+      "input": {
+        "bytes": 9460151,
+        "file_count": 968,
+        "manifest_sha256": "e952580c0b9b5e85c3315149ecce0bf63e93400f1ba78121f5d13aa3e3d5f6cd",
+        "python_files": 926
+      },
+      "repository": "https://github.com/crewAIInc/crewAI",
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "tools": [
+        {
+          "errors": [
+            {
+              "level": "warn",
+              "path": "lib/cli/src/crewai_cli/templates/crew/crew.py",
+              "type": "PartialParsing"
+            },
+            {
+              "level": "warn",
+              "path": "lib/cli/src/crewai_cli/templates/crew/main.py",
+              "type": "PartialParsing"
+            },
+            {
+              "level": "warn",
+              "path": "lib/cli/src/crewai_cli/templates/flow/main.py",
+              "type": "PartialParsing"
+            },
+            {
+              "level": "warn",
+              "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/__init__.py",
+              "type": "PartialParsing"
+            },
+            {
+              "level": "warn",
+              "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/tool.py",
+              "type": "PartialParsing"
+            }
+          ],
+          "files_reported_scanned": 968,
+          "finding_count": 8,
+          "process_exit_code": 0,
+          "status": "completed_with_analysis_errors",
+          "tool": "semgrep",
+          "wall_seconds": 10.144557
+        },
+        {
+          "errors": [
+            {
+              "path": "lib/cli/src/crewai_cli/templates/crew/crew.py",
+              "type": "syntax error while parsing AST from file"
+            },
+            {
+              "path": "lib/cli/src/crewai_cli/templates/crew/main.py",
+              "type": "syntax error while parsing AST from file"
+            },
+            {
+              "path": "lib/cli/src/crewai_cli/templates/flow/main.py",
+              "type": "syntax error while parsing AST from file"
+            },
+            {
+              "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/__init__.py",
+              "type": "syntax error while parsing AST from file"
+            },
+            {
+              "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/tool.py",
+              "type": "syntax error while parsing AST from file"
+            }
+          ],
+          "files_reported_scanned": 926,
+          "finding_count": 232,
+          "process_exit_code": 1,
+          "status": "completed_with_analysis_errors",
+          "tool": "bandit",
+          "wall_seconds": 3.512498
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": null,
+          "finding_count": 0,
+          "process_exit_code": 0,
+          "status": "completed_no_findings",
+          "tool": "gitleaks",
+          "wall_seconds": 0.522998
+        }
+      ]
+    },
+    {
+      "id": "langgraph",
+      "input": {
+        "bytes": 6378697,
+        "file_count": 211,
+        "manifest_sha256": "7b31d9cbf3af79dcf90c7b1e3032ce2469c4be53e753d0156064fb26c7931970",
+        "python_files": 183
+      },
+      "repository": "https://github.com/langchain-ai/langgraph",
+      "revision": "aa742fb31e2827d569b843e3600aeda2e0528e4b",
+      "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+      "tools": [
+        {
+          "errors": [],
+          "files_reported_scanned": 211,
+          "finding_count": 8,
+          "process_exit_code": 0,
+          "status": "completed_with_findings",
+          "tool": "semgrep",
+          "wall_seconds": 5.325452
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": 183,
+          "finding_count": 84,
+          "process_exit_code": 1,
+          "status": "completed_with_findings",
+          "tool": "bandit",
+          "wall_seconds": 1.396696
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": null,
+          "finding_count": 1,
+          "process_exit_code": 1,
+          "status": "completed_with_findings",
+          "tool": "gitleaks",
+          "wall_seconds": 0.366757
+        }
+      ]
+    },
+    {
+      "id": "openhands",
+      "input": {
+        "bytes": 7520534,
+        "file_count": 1237,
+        "manifest_sha256": "dd384882e5bb106d8e582497b5618454a7a5811e8a11206916d049fbbf4f2b54",
+        "python_files": 0
+      },
+      "repository": "https://github.com/OpenHands/OpenHands",
+      "revision": "a07364828c8f202e7745c6bce3dcef3915ae7ac1",
+      "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+      "tools": [
+        {
+          "errors": [
+            {
+              "level": "warn",
+              "path": "src/components/features/plugins/plugin-spec-identity.ts",
+              "type": "PartialParsing"
+            }
+          ],
+          "files_reported_scanned": 1237,
+          "finding_count": 0,
+          "process_exit_code": 0,
+          "status": "completed_with_analysis_errors",
+          "tool": "semgrep",
+          "wall_seconds": 6.711127
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": 0,
+          "finding_count": null,
+          "process_exit_code": 0,
+          "status": "unsupported_no_python_files",
+          "tool": "bandit",
+          "wall_seconds": 0.086219
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": null,
+          "finding_count": 1,
+          "process_exit_code": 1,
+          "status": "completed_with_findings",
+          "tool": "gitleaks",
+          "wall_seconds": 0.437541
+        }
+      ]
+    },
+    {
+      "id": "pydantic-ai",
+      "input": {
+        "bytes": 8414725,
+        "file_count": 386,
+        "manifest_sha256": "38df02c7753cbeeb4086f5f0b23d093a645a2f72b8aaf0c0c3c54f93b27148d7",
+        "python_files": 380
+      },
+      "repository": "https://github.com/pydantic/pydantic-ai",
+      "revision": "c4898abb54dc25ae6f6aef208a4c0661b30a455e",
+      "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+      "tools": [
+        {
+          "errors": [],
+          "files_reported_scanned": 386,
+          "finding_count": 2,
+          "process_exit_code": 0,
+          "status": "completed_with_findings",
+          "tool": "semgrep",
+          "wall_seconds": 9.163659
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": 380,
+          "finding_count": 344,
+          "process_exit_code": 1,
+          "status": "completed_with_findings",
+          "tool": "bandit",
+          "wall_seconds": 2.913493
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": null,
+          "finding_count": 0,
+          "process_exit_code": 0,
+          "status": "completed_no_findings",
+          "tool": "gitleaks",
+          "wall_seconds": 0.469151
+        }
+      ]
+    },
+    {
+      "id": "fastmcp",
+      "input": {
+        "bytes": 3811079,
+        "file_count": 283,
+        "manifest_sha256": "07912aa9a2b18b8b21fd4b952e68be1ade284b6da477b5a97e39d062c58bfbf1",
+        "python_files": 277
+      },
+      "repository": "https://github.com/PrefectHQ/fastmcp",
+      "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+      "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+      "tools": [
+        {
+          "errors": [],
+          "files_reported_scanned": 283,
+          "finding_count": 2,
+          "process_exit_code": 0,
+          "status": "completed_with_findings",
+          "tool": "semgrep",
+          "wall_seconds": 5.370752
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": 277,
+          "finding_count": 95,
+          "process_exit_code": 1,
+          "status": "completed_with_findings",
+          "tool": "bandit",
+          "wall_seconds": 1.422313
+        },
+        {
+          "errors": [],
+          "files_reported_scanned": null,
+          "finding_count": 1,
+          "process_exit_code": 1,
+          "status": "completed_with_findings",
+          "tool": "gitleaks",
+          "wall_seconds": 0.332411
+        }
+      ]
+    }
+  ],
+  "schema_version": "1.0",
+  "semgrep_rules_sha256": "b109a039df712f30c6d3e25e1e8358053fd0f1c91b92d0e8d2871cd141fe602f",
+  "tool_lock_sha256": "3281101632b908168b250adb5073f6af8947979159a8d350c195337ef0ca0c00"
+}

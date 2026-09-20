@@ -2,17 +2,17 @@
 
 **NimeshBuild · Evidence for agent security**
 
-Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These checkout examples target **Invarune 0.12.0**. The primary command is **`invscan`**. Deterministic scans and catalog exploration need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
+Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These checkout examples target **Invarune 0.13.0**. The primary command is **`invscan`**. Deterministic scans and catalog exploration need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
 
 ## 1. Install the CLI and get your first report
 
-Want the CLI without a source checkout? The [v0.12.0 release](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. Its downloaded wheel was installed and verified in a fresh environment. The checkout route below also includes the example source and image fixtures used throughout this guide.
+Want the CLI without a source checkout? The [v0.13.0 release](https://github.com/nimeshbuilds/invarune/releases/tag/v0.13.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. Its downloaded wheel was installed and verified in a fresh environment. The checkout route below also includes the example source and image fixtures used throughout this guide.
 
 Clone the public repository (no GitHub login required):
 
 ```sh
-git clone https://github.com/nimeshbuilds/agent-mcp-security.git
-cd agent-mcp-security
+git clone https://github.com/nimeshbuilds/invarune.git
+cd invarune
 ```
 
 Already have the checkout? Change to its directory. Create a **new** virtual environment; if `.venv` already belongs to this project, reuse it and skip the creation command. Otherwise choose an unused environment name. Installation can download Python build tooling.
@@ -35,7 +35,7 @@ $env:Path = "$((Resolve-Path .venv\Scripts).Path);$env:Path"
 invscan --version
 ```
 
-The PATH change applies to this terminal. Expect version **0.12.0** from the current checkout. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. The existing `invarune` and `ai-security-scan` commands are compatible aliases.
+The PATH change applies to this terminal. Expect version **0.13.0** from the current checkout. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. The existing `invarune` and `ai-security-scan` commands are compatible aliases.
 
 Run your first offline scan:
 
@@ -236,7 +236,7 @@ Installed `invarune` and `ai-security-scan` accept the same flags and produce th
 
 ## Reproduce the quickstart validation
 
-The [executed 53-step quickstart receipt](../benchmarks/quickstart-v012/README.md) records command exits, fixture counts, package versions, and exact source-file hashes, including the new explorer commands. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
+The [executed 53-step quickstart receipt](../benchmarks/quickstart-v013/README.md) records command exits, fixture counts, package versions, and exact source-file hashes, including the new explorer commands. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
 
 ```sh
 python3 scripts/validate_quickstart.py --output test-output/quickstart

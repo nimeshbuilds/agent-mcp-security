@@ -268,8 +268,8 @@ class Book:
         c.setStrokeColor(colors.HexColor("#40546E"))
         c.line(M, 92, W - M, 92)
         self.text("RESEARCH SNAPSHOT  19 SEPTEMBER 2026", M, 69, 8.4, WHITE, True)
-        self.text("github.com/nimeshbuilds/agent-mcp-security", M, 50, 8, MINT)
-        c.linkURL("https://github.com/nimeshbuilds/agent-mcp-security", (M, 47, W - M, 63), relative=0)
+        self.text("github.com/nimeshbuilds/invarune", M, 50, 8, MINT)
+        c.linkURL("https://github.com/nimeshbuilds/invarune", (M, 47, W - M, 63), relative=0)
         self.page_map.append({"page": self.page, "section": "Cover", "title": "Invarune | AI Agent & MCP Security"})
         c.showPage()
 

@@ -4,11 +4,12 @@ Choose a document by the question you want to answer. The PDFs below are existin
 
 | Start here when you want to… | Recommended document |
 | --- | --- |
+| See measured improvements and cross-tool coverage | [Visual benchmark dashboard](BENCHMARK_DASHBOARD.md) and [v0.13 benchmark PDF](../output/pdf/invarune-benchmark-v013.pdf) |
 | See a complete scan report, priorities, fixes and editable review fields | [Latest scan PDF: Invarune 0.11, 114 pages](../examples/reports/invscan-v011/report.pdf) |
 | Understand the controls and their sources | [Security controlbook, 71 pages](../output/pdf/invarune-security-controlbook.pdf) |
 | Compare actual scanner findings and uncertainty | [Finding comparison, 13 pages](../output/pdf/invarune-finding-comparison-v010.pdf), then the [benchmark guide](BENCHMARK_GUIDE.md) |
 | Learn how accepted justifications survive a fresh scan | [Review roundtrip PDF, 99 pages](../examples/reports/review-workflow/source/final-pdf/report.pdf) and the [workflow](REVIEW_WORKFLOW.md) |
-| Inspect detection accuracy and known misses | [Labeled results](../benchmarks/accuracy-current.md) and [accuracy methodology](RULE_ACCURACY.md) |
+| Inspect detection accuracy and known misses | [Current paired labeled results](../benchmarks/comparison-v013/accuracy-after.json) and [accuracy methodology](RULE_ACCURACY.md) |
 
 ## Research and benchmark PDFs
 
@@ -16,6 +17,7 @@ These are reading references. They do not contain the editable scan-review works
 
 | Open or download | Version and validated length | Contents and interpretation |
 | --- | --- | --- |
+| [Current benchmark update](../output/pdf/invarune-benchmark-v013.pdf) | **0.13.0 · 9 pages** | Same 113 labels before/after; fresh eight-project comparison; three source precision fixes; charts, clickable contents, remaining gaps and complete-ledger links. No public-project TP percentage is claimed. |
 | [Security controlbook](../output/pdf/invarune-security-controlbook.pdf) | 0.9 document workflow · **71 pages** | 66 project-defined controls, 132 checks, 75 source records, nine research benchmark entries and the 42-rule inventory. Includes source organizations, scope and limitations. Listing a research benchmark does not mean Invarune executed it. |
 | [Finding-by-finding scanner comparison](../output/pdf/invarune-finding-comparison-v010.pdf) | Final Invarune **0.10.0** comparison · **13 pages** | The 1,117-observation ledger, conservative cross-tool matches, a 50-observation source audit, unknowns and reproduction links. The Claude adjudication attempt failed authentication; no model TP percentage is available. |
 | [Earlier real-project benchmark report](../output/pdf/invarune-benchmark-report.pdf) | **0.8.0 measurements**, expanded in the 0.9 document workflow · **9 pages** | Eight pinned public projects, complementary source scanners, coverage gaps, mitigation context and ten shared development fixtures. Its refreshed layout did not turn the recorded 0.8 measurements into a new scan. |

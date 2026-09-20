@@ -1,0 +1,190 @@
+{
+  "fresh_before_receipts": "invarune-receipts-before/",
+  "historical_candidate_ledger": "benchmarks/comparison-v010/observations.json",
+  "historical_candidate_ledger_sha256": "f26958d6565e2a304737e5fab0067b10e9714d5246b97b7b273489563af06dcc",
+  "kind": "development_visible_agent_assisted_gap_review",
+  "observations": [
+    {
+      "assessment": "narrow_pattern_precision_gap",
+      "id": "local-self-install",
+      "observation_ids": [
+        "obs-c86c09e8c3c9e66ab1c4e378"
+      ],
+      "path": "python/packages/autogen-studio/requirements.txt",
+      "project_id": "autogen",
+      "rationale": "The requirements file consists of a local self-install dot reference. It is not a named dependency version range, while the AI025 predicate describes a direct dependency allowing version movement. The fresh v0.12 before scan still reports it.",
+      "recommended_action": "Exclude narrowly recognized local requirement paths while retaining named unpinned dependency checks.",
+      "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "source_ranges": [
+        [
+          1,
+          1
+        ]
+      ],
+      "source_sha256": "eb4bd64f7014f7d42e9d358035802242741b974e8dfcd37c59f9c21ce29d781e",
+      "source_url": "https://github.com/microsoft/autogen/blob/027ecf0a379bcc1d09956d46d12d44a3ad9cee14/python/packages/autogen-studio/requirements.txt#L1",
+      "vulnerability_status": "not_established"
+    },
+    {
+      "assessment": "narrow_pattern_precision_gap",
+      "id": "environment-variable-name",
+      "observation_ids": [
+        "obs-47bf7ae427bc4238ea1e723e"
+      ],
+      "path": "lib/crewai/src/crewai/rag/chromadb/config.py",
+      "project_id": "crewai",
+      "rationale": "api_key_env_var receives the name of an environment variable, while the adjacent api_key reads the value from the environment. This is a credential-source identifier, not a literal credential.",
+      "recommended_action": "Exclude explicit environment-variable-name field roles with paired real-secret tests.",
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "source_ranges": [
+        [
+          63,
+          63
+        ]
+      ],
+      "source_sha256": "7abece9ec37c2d552f9e15ad01e1b6ae227ea00e99dcfdd8a1b171079ab2863e",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/crewai/src/crewai/rag/chromadb/config.py#L63",
+      "vulnerability_status": "not_established"
+    },
+    {
+      "assessment": "narrow_pattern_precision_gap",
+      "id": "documentation-token-placeholder",
+      "observation_ids": [
+        "obs-e50b009ca6ade97896a4f355"
+      ],
+      "path": "python/packages/autogen-ext/src/autogen_ext/tools/mcp/_workbench.py",
+      "project_id": "autogen",
+      "rationale": "The recognized token-shaped literal appears in documentation and its suffix repeats one placeholder character. The standalone key-format detector bypasses the existing placeholder test.",
+      "recommended_action": "Reject narrowly defined repeated-character token placeholders without suppressing arbitrary documentation or realistic random-looking literals.",
+      "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "source_ranges": [
+        [
+          179,
+          179
+        ]
+      ],
+      "source_sha256": "fa06069fed60c078ed337dab860b89d169d92d870ae5ce8beda8ca5ec4467a57",
+      "source_url": "https://github.com/microsoft/autogen/blob/027ecf0a379bcc1d09956d46d12d44a3ad9cee14/python/packages/autogen-ext/src/autogen_ext/tools/mcp/_workbench.py#L179",
+      "vulnerability_status": "not_established"
+    },
+    {
+      "assessment": "incompatible_rule_predicate",
+      "id": "base-loader-versus-object-loader",
+      "observation_ids": [
+        "obs-b89b79839f69ca6969a2f900"
+      ],
+      "path": "fastmcp_slim/fastmcp/server/providers/skills/_common.py",
+      "project_id": "fastmcp",
+      "rationale": "The selected yaml.load call explicitly supplies yaml.BaseLoader. A broad loader-API warning is not the same as the object-construction predicate of Invarune AI004.",
+      "recommended_action": "Do not introduce a detector just to reproduce this broader tool observation.",
+      "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+      "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+      "source_ranges": [
+        [
+          95,
+          109
+        ]
+      ],
+      "source_sha256": "8845d0ceb5a62372ea24f338522998282552941c29801810448444edf85b513d",
+      "source_url": "https://github.com/PrefectHQ/fastmcp/blob/9c35c017cd89e4d50a9f512c8eafde68c301ec70/fastmcp_slim/fastmcp/server/providers/skills/_common.py#L105",
+      "vulnerability_status": "not_established"
+    },
+    {
+      "assessment": "explicit_pattern_mitigation",
+      "id": "tar-explicit-data-filter",
+      "observation_ids": [
+        "obs-d12d4a9d3981c106c5836794"
+      ],
+      "path": "lib/cli/src/crewai_cli/skills/main.py",
+      "project_id": "crewai",
+      "rationale": "The selected tar extraction call explicitly uses filter=\"data\". Invarune AI037 is scoped to absence of a safe filter or an explicitly fully-trusted filter.",
+      "recommended_action": "Retain the safe-filter distinction; validate other archive resource limits separately.",
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "source_ranges": [
+        [
+          352,
+          362
+        ]
+      ],
+      "source_sha256": "d3fddfc8b68085febda030a2f04a351bc28da42d978a18760f1d4511fa970f6d",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/cli/src/crewai_cli/skills/main.py#L358",
+      "vulnerability_status": "not_established"
+    },
+    {
+      "assessment": "bounded_receiver_inference_limit_with_mitigating_context",
+      "id": "tar-helper-local-validation",
+      "observation_ids": [
+        "obs-fb54920ef07057d2cd61417c"
+      ],
+      "path": "lib/cli/src/crewai_cli/skills/main.py",
+      "project_id": "crewai",
+      "rationale": "The call uses a typed tarfile.TarFile parameter named tf rather than a locally constructed receiver. The helper checks member paths, link destinations and member types before extractall. Recognizing the type annotation could identify a no-filter API call, but would not establish a vulnerability through these checks.",
+      "recommended_action": "Record the local type-inference boundary; do not call the unmatched API observation a confirmed missed vulnerability.",
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "source_ranges": [
+        [
+          422,
+          458
+        ]
+      ],
+      "source_sha256": "d3fddfc8b68085febda030a2f04a351bc28da42d978a18760f1d4511fa970f6d",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/cli/src/crewai_cli/skills/main.py#L458",
+      "vulnerability_status": "not_established"
+    },
+    {
+      "assessment": "different_api_scope",
+      "id": "zip-versus-tar-api",
+      "observation_ids": [
+        "obs-9d049e9e92f303a9588fbaad"
+      ],
+      "path": "lib/cli/src/crewai_cli/skills/main.py",
+      "project_id": "crewai",
+      "rationale": "This call is zipfile.ZipFile.extractall behind member-path validation. The current Invarune AI037 detector is scoped to tar extraction behavior, not all ZIP extraction calls.",
+      "recommended_action": "Keep scope explicit; any new ZIP rule requires its own positive/negative fixtures and security predicate.",
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "source_ranges": [
+        [
+          461,
+          468
+        ]
+      ],
+      "source_sha256": "d3fddfc8b68085febda030a2f04a351bc28da42d978a18760f1d4511fa970f6d",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/cli/src/crewai_cli/skills/main.py#L468",
+      "vulnerability_status": "not_established"
+    },
+    {
+      "assessment": "conditional_input_flow_unknown",
+      "id": "urllib-wrapper-value",
+      "observation_ids": [
+        "obs-feb439e8b3d52b64fbe3f0e1"
+      ],
+      "path": "libs/cli/langgraph_cli/deploy.py",
+      "project_id": "langgraph",
+      "rationale": "The outbound call receives a locally constructed urllib Request from a signed_url function parameter. The direct literal-input heuristic does not follow this argument flow, and the excerpt does not establish who controls the signed URL or deployment egress.",
+      "recommended_action": "Retain as unknown applicability until caller/dataflow evidence is reviewed. Do not infer SSRF from tool agreement.",
+      "revision": "aa742fb31e2827d569b843e3600aeda2e0528e4b",
+      "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+      "source_ranges": [
+        [
+          860,
+          882
+        ]
+      ],
+      "source_sha256": "e1cabe64de10c01776093cc7034e95723bbe8b2580d9cdadeab5dc9fcea434ca",
+      "source_url": "https://github.com/langchain-ai/langgraph/blob/aa742fb31e2827d569b843e3600aeda2e0528e4b/libs/cli/langgraph_cli/deploy.py#L880",
+      "vulnerability_status": "not_established"
+    }
+  ],
+  "raw_source_or_secrets_reproduced": false,
+  "review_scope": "Small purposive review to distinguish actionable detector precision gaps from competitor predicate/scope differences. Not a full adjudication, independent ground truth or production accuracy sample.",
+  "reviewed_at_utc": "2026-09-20T02:32:18.389860+00:00",
+  "schema_version": "1.0",
+  "source_manifest": "../real-world/manifest.json",
+  "target_code_executed": false
+}

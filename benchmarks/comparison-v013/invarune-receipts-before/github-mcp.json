@@ -1,0 +1,124 @@
+{
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 1,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 136,
+      "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 12,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 7,
+      "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 0,
+      "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+    }
+  },
+  "baseline_git_revision": "317c2fee15109468b616a1955d7979aeea5800ea",
+  "byte_identical_reports": true,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "tmp/real-world-src/github-mcp",
+    "--output",
+    "tmp/comparison-v013/invarune-before/github-mcp",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "command_path_normalization": "Repository prefix removed from public receipt; full local invocation retained only in ignored raw receipt.",
+  "execution": {
+    "exit_code": 0,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "license": {
+    "path": "LICENSE",
+    "summary": "MIT",
+    "url": "https://github.com/github/github-mcp-server/blob/85598ba6e1256f7ebf4867b95d63b833c4549264/LICENSE"
+  },
+  "optional_judge_enabled": false,
+  "project": "github-mcp",
+  "repeated_runs": [
+    {
+      "elapsed_seconds": 0.282503,
+      "exit_code": 0,
+      "report_sha256": {
+        "report.html": "5d91d91ad4706437aad7d74d8f33c6f4ea480df6d0bd5bcacbca8f80347edc87",
+        "report.json": "ca35b13f41b31041a8d3d79ad9a4957d2ec65e647da04580487bbf05e1f6ce76",
+        "report.md": "ca4383f85af77108b865ac297a9bb9853599cffab63eeb1ee5f3cf2e4d84ca79",
+        "report.sarif": "3d3d79beb006a066347f8fa869268ffadc8f826b6c5ea61ce987ade6fc6299d0"
+      },
+      "run": 1,
+      "started_at_utc": "2026-09-20T02:26:39.079187+00:00",
+      "stderr": ""
+    },
+    {
+      "elapsed_seconds": 0.268969,
+      "exit_code": 0,
+      "report_sha256": {
+        "report.html": "5d91d91ad4706437aad7d74d8f33c6f4ea480df6d0bd5bcacbca8f80347edc87",
+        "report.json": "ca35b13f41b31041a8d3d79ad9a4957d2ec65e647da04580487bbf05e1f6ce76",
+        "report.md": "ca4383f85af77108b865ac297a9bb9853599cffab63eeb1ee5f3cf2e4d84ca79",
+        "report.sarif": "3d3d79beb006a066347f8fa869268ffadc8f826b6c5ea61ce987ade6fc6299d0"
+      },
+      "run": 2,
+      "started_at_utc": "2026-09-20T02:26:39.363115+00:00",
+      "stderr": ""
+    }
+  ],
+  "repository": "https://github.com/github/github-mcp-server",
+  "revision": "85598ba6e1256f7ebf4867b95d63b833c4549264",
+  "rule_counts": {
+    "AI025": 15
+  },
+  "scan_id": "00972ef8228d68447279fafd9198673cf7b2567ad0bcfd984f1e88ade008d8c5",
+  "scanner_working_directory": "tmp/comparison-v013/baseline-v012",
+  "schema_version": "1.0",
+  "source_bytes": 2092407,
+  "source_files": 163,
+  "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 2086786,
+    "bytes_read": 2086786,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 156,
+    "open_findings": 15,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 15,
+      "medium": 0
+    },
+    "suppressed_findings": 0
+  },
+  "target_code_executed": false,
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.12.0"
+  }
+}

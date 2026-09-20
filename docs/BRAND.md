@@ -36,8 +36,16 @@ Mint is an accent for dark surfaces; use deep teal for small text on light surfa
 
 Run `python3 scripts/build_brand_assets.py` with Pillow installed and Arial, Liberation Sans, or DejaVu Sans available. This optional authoring step is separate from the dependency-free scanner. The [PDF builder](PUBLISHING.md) draws the same polygon geometry directly into the document.
 
-Version 0.5.0 adds the `invarune` command while retaining `ai-security-scan`, `scan.py`, and `python3 -m ai_security_scan`. Both installed command names call the same implementation. The distribution name, repository address, JSON/SARIF machine tool name, rule IDs, and baseline format stay stable. Reports add a branded display name. Branding does not erase findings or change the deterministic severity gate.
+Version 0.5.0 added the `invarune` command while retaining `ai-security-scan`, `scan.py`, and `python3 -m ai_security_scan`. The installed command names call the same implementation. Reports use a branded display name. Branding does not erase findings or change the deterministic severity gate.
 
 The [name-screening record](BRAND_RESEARCH.md) documents dated searches, discarded names, and limitations. No trademark registration, domain purchase, or package-name reservation was performed.
 
 Version 0.11.0 promotes `invscan` as the primary command. `invarune` and `ai-security-scan` remain equivalent compatibility aliases; the product name remains Invarune by NimeshBuild.
+
+## Canonical public identity
+
+The repository is **[nimeshbuilds/invarune](https://github.com/nimeshbuilds/invarune)** and the documentation lives at **[nimeshbuilds.github.io/invarune](https://nimeshbuilds.github.io/invarune/)**. Use **Invarune by NimeshBuild** for the product, **Invarune** as its short name, and **`invscan`** in commands. The original repository address redirects through GitHub; project-site URLs do not receive that guarantee, so use the new documentation URL.
+
+The `agent-mcp-security-scan` Python distribution identifier, `ai_security_scan` import package, JSON/SARIF machine identifiers and legacy console aliases remain stable for existing integrations. They are compatibility identifiers, not alternate product names. Original report artifacts keep their recorded versions, source names and hashes.
+
+The [social preview card](assets/brand/invarune-social.png) uses the same original mark, colors and typography. Rebuild it with `python scripts/build_social_card.py` in the authoring environment. It is 1280 × 640 pixels and is included in website Open Graph metadata. It depicts product capabilities, not a certification or comparative accuracy claim.

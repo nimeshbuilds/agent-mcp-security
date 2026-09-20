@@ -1,0 +1,5 @@
+case_id,rule_id,before,after
+gap-reflection-python,AI003,false_negative,true_positive
+gap-shell-wrapper,AI019,false_negative,true_positive
+gap-yaml-alias,AI027,false_negative,true_positive
+gap-yaml-block-string,AI026,false_positive,true_negative

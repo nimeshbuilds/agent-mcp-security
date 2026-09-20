@@ -1,0 +1,36 @@
+/* Scoped to the benchmark page; charts carry their own portable SVG styling. */
+.md-typeset .ivb-dashboard { --ivb-accent: #59dec2; }
+.md-typeset .ivb-hero {
+  color: #edf9fc;
+  background: radial-gradient(ellipse at 100% 0, #19544f 0, transparent 53%), linear-gradient(130deg, #071b29, #0b2b3b);
+  border: 1px solid #285764;
+  border-radius: 1.1rem;
+  padding: clamp(1.4rem, 4vw, 2.7rem);
+  margin: .4rem 0 1.5rem;
+  overflow: hidden;
+}
+.md-typeset .ivb-hero h1 { color: #fff; font-size: clamp(1.9rem, 4vw, 2.8rem); line-height: 1.13; margin: .55rem 0 1rem; max-width: 17em; font-weight: 780; letter-spacing: -.045em; }
+.md-typeset .ivb-hero p:not(.ivb-kicker) { color: #c5dce2; max-width: 44rem; }
+.md-typeset .ivb-kicker { color: #79e5cf; font-size: .62rem; letter-spacing: .17em; font-weight: 750; }
+.md-typeset .ivb-hero .md-button { color: #d2fff4; border-color: #5abda9; border-radius: .35rem; padding: .55em .9em; margin: .35rem .35rem 0 0; font-size: .72rem; }
+.md-typeset .ivb-hero .md-button--primary { color: #072c33; background: #73e2cb; border-color: #73e2cb; }
+.md-typeset .ivb-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; padding-top: 1.7rem; margin-top: 1.2rem; border-top: 1px solid #37616b; }
+.md-typeset .ivb-stat strong { display: block; font-size: 1.8rem; line-height: 1.1; font-weight: 750; letter-spacing: -.04em; }
+.md-typeset .ivb-stat span { display: block; margin-top: .35rem; color: #b7d1d9; font-size: .64rem; line-height: 1.5; }
+.md-typeset .ivb-dashboard h2 { margin-top: 2.4rem; }
+.md-typeset .ivb-dashboard img[src*="assets/benchmarks/"] { width: 100%; height: auto; border-radius: .9rem; box-shadow: 0 .3rem 1.2rem #071b2912; }
+.md-typeset .ivb-chart { overflow-x: auto; margin: 1rem 0; border-radius: .9rem; }
+.md-typeset .ivb-chart p { margin: 0; }
+.md-typeset .ivb-chart img { display: block; min-width: 680px; }
+.md-typeset .ivb-capabilities { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-top: 1rem; }
+.md-typeset .ivb-capability { background: var(--md-code-bg-color); border: 1px solid var(--md-default-fg-color--lightest); border-radius: .65rem; padding: 1.05rem; }
+.md-typeset .ivb-capability h3 { margin: .5rem 0 .55rem; font-size: .95rem; letter-spacing: -.025em; }
+.md-typeset .ivb-capability p { font-size: .72rem; line-height: 1.65; }
+.md-typeset .ivb-number { color: #108579; font-size: .58rem; font-weight: 750; letter-spacing: .11em; }
+[data-md-color-scheme="slate"] .ivb-number { color: #79e5cf; }
+@media (max-width: 640px) {
+  .md-typeset .ivb-chart::before { content: "Scroll sideways to explore the full chart →"; display: block; position: sticky; left: 0; width: fit-content; padding: .5rem .25rem; font-size: .65rem; color: var(--md-default-fg-color--light); }
+  .md-typeset .ivb-stats { grid-template-columns: 1fr 1fr; gap: 1rem 1.4rem; }
+  .md-typeset .ivb-capabilities { grid-template-columns: 1fr; }
+  .md-typeset .ivb-hero h1 { font-size: 1.75rem; }
+}

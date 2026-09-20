@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block extrahead %}
+  {{ super() }}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Invarune by NimeshBuild">
+  <meta property="og:title" content="{{ ((page.title ~ ' · Invarune') if page and page.title else config.site_name) | e }}">
+  <meta property="og:description" content="{{ config.site_description | e }}">
+  <meta property="og:url" content="{{ page.canonical_url | e }}">
+  <meta property="og:image" content="{{ config.site_url }}docs/assets/brand/invarune-social.png">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="640">
+  <meta property="og:image:alt" content="Invarune by NimeshBuild. invscan: AI agents, MCP servers, source and built images.">
+  <meta name="twitter:card" content="summary_large_image">
+{% endblock %}

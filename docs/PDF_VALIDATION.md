@@ -1,5 +1,9 @@
 # PDF artifact validation
 
+## Current benchmark publication: v0.13
+
+The [updated benchmark PDF](../output/pdf/invarune-benchmark-v013.pdf) has **9 pages and 9 bookmarks**, with a clickable contents page, vector charts, source/finding comparison tables and the original Invarune mark. Every page was rendered with Poppler and visually inspected. All internal destinations resolve; the [hash-bound QA receipt](../benchmarks/validation-v013/pdf-receipt.json) records artifact/input hashes and link counts. This is an explanatory benchmark publication, not an editable operational scan report. Earlier PDF measurements below remain historical.
+
 Verified 19 September 2026 for the Invarune **0.9.0** document workflow. The expanded controlbook and comparative report were rebuilt with clickable contents, bookmarks, coverage charts, explicit deterministic/optional-review boundaries, configuration guidance and a human review/import workflow. Their original Invarune branding carries NimeshBuild attribution. No external organization's logo or full standard is reproduced.
 
 | Artifact | Pages | Bookmarks | Link annotations | Unique external URLs | Interactive fields |

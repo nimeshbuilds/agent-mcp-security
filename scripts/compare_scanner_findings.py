@@ -11,6 +11,7 @@ import hashlib
 import itertools
 import json
 from pathlib import Path
+import re
 import sys
 from urllib.parse import quote
 
@@ -220,7 +221,9 @@ def build(args):
     roots, inputs = {}, []
     for project in manifest["projects"]:
         pid = project["id"]
-        root = args.source_root / pid
+        # Tool outputs use absolute source paths even when a caller supplies a
+        # relative --source-root. Normalize against the same canonical root.
+        root = (args.source_root / pid).resolve()
         snapshot = json.loads((args.snapshots / (pid + ".json")).read_bytes())
         verify_snapshot(root, snapshot)
         roots[pid] = str(root.resolve())
@@ -271,7 +274,7 @@ def build(args):
         raise ValueError("Duplicate normalized observation identity")
     by_tool = {t: [x for x in observations if x["tool"] == t] for t in ("invarune", "semgrep", "bandit", "gitleaks")}
     pairs = [pairwise(by_tool[a], by_tool[b], a, b) for a, b in itertools.combinations(by_tool, 2)]
-    ledger = {"schema_version": "1.0", "experiment": "comparison-v010", "manifest_sha256": sha(manifest_raw),
+    ledger = {"schema_version": "1.0", "experiment": getattr(args, "experiment", "comparison-v010"), "manifest_sha256": sha(manifest_raw),
               "family_map_sha256": sha(canonical(mapping)), "observation_count": len(observations),
               "counts_by_tool": {t: len(v) for t, v in by_tool.items()}, "inputs": inputs,
               "label_status": "All observations are unreviewed; overlap is not correctness or exploitability ground truth.",
@@ -288,9 +291,8 @@ def build(args):
     return ledger, overlaps
 
 
-def adjudication_selection(ledger, overlaps, cap=120):
+def adjudication_selection(ledger, overlaps, cap=120, seed="comparison-v010-adjudication-2026-09-19-v1"):
     """Freeze a deterministic selection without reading any adjudication results."""
-    seed = "comparison-v010-adjudication-2026-09-19-v1"
     observations = ledger["observations"]
     by_id = {x["id"]: x for x in observations}
     locations = defaultdict(list)
@@ -365,6 +367,7 @@ def render_findings(ledger, overlaps):
 
 def parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("--experiment", default="comparison-v010", help="Explicit experiment identity; use a new output directory for a new experiment (default: comparison-v010)")
     p.add_argument("--manifest", type=Path, default=ROOT / "benchmarks/real-world/manifest.json")
     p.add_argument("--snapshots", type=Path, default=ROOT / "benchmarks/real-world/snapshots")
     p.add_argument("--tool-lock", type=Path, default=ROOT / "benchmarks/external-tools/tool-lock.json")
@@ -380,9 +383,12 @@ def parser():
 
 def main(argv=None):
     args = parser().parse_args(argv)
+    if not re.fullmatch(r"[a-z][a-z0-9-]{0,63}", args.experiment):
+        raise ValueError("Experiment identity must contain only lowercase letters, digits and hyphens")
     ledger, overlaps = build(args)
     selection_path = args.output / "adjudication-selection.json"
-    selection = adjudication_selection(ledger, overlaps)
+    seed = "comparison-v010-adjudication-2026-09-19-v1" if args.experiment == "comparison-v010" else args.experiment + "-adjudication-v1"
+    selection = adjudication_selection(ledger, overlaps, seed=seed)
     if selection_path.exists():
         original = json.loads(selection_path.read_bytes())
         if original["selected_observation_ids"] != selection["selected_observation_ids"]:

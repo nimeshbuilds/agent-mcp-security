@@ -1,0 +1,61 @@
+{
+  "command": [
+    "semgrep",
+    "scan",
+    "--config",
+    "{semgrep_rules}",
+    "--metrics=off",
+    "--disable-version-check",
+    "--disable-nosem",
+    "--no-git-ignore",
+    "--no-rewrite-rule-ids",
+    "--json",
+    "--quiet",
+    "--jobs",
+    "2",
+    "--timeout",
+    "10",
+    "--max-target-bytes",
+    "20000000",
+    "--output",
+    "{raw_output}/semgrep.json",
+    "{source}"
+  ],
+  "errors": [],
+  "files_reported_scanned": 386,
+  "finding_count": 2,
+  "findings": [
+    {
+      "end_line": 10,
+      "line": 10,
+      "path": "pydantic_ai_slim/pydantic_ai/format_prompt.py",
+      "rule_id": "python.lang.security.use-defused-xml.use-defused-xml",
+      "severity": "ERROR"
+    },
+    {
+      "end_line": 242,
+      "line": 242,
+      "path": "pydantic_ai_slim/pydantic_ai/messages.py",
+      "rule_id": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "severity": "WARNING"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 0,
+  "raw_report_sha256": "be3db778d03bb9cec6e88fccc7a4b77e466341bd71de5954e1342666178fb2dc",
+  "rule_counts": {
+    "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1": 1,
+    "python.lang.security.use-defused-xml.use-defused-xml": 1
+  },
+  "severity_counts": {
+    "ERROR": 1,
+    "WARNING": 1
+  },
+  "started_at_utc": "2026-09-20T02:28:08Z",
+  "status": "completed_with_findings",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "semgrep",
+  "wall_seconds": 9.163659
+}

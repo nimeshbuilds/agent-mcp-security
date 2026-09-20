@@ -15,7 +15,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INPUT = ROOT / 'benchmarks/comparison-v010'
 DEFAULT_OUTPUT = ROOT / 'output/pdf/invarune-finding-comparison-v010.pdf'
-REPO = 'https://github.com/nimeshbuilds/agent-mcp-security'
+REPO = 'https://github.com/nimeshbuilds/invarune'
 ONLINE = REPO + '/blob/main/benchmarks/comparison-v010/'
 TOOLS = ('invarune', 'semgrep', 'bandit', 'gitleaks')
 NAMES = {'invarune': 'Invarune', 'semgrep': 'Semgrep CE', 'bandit': 'Bandit', 'gitleaks': 'Gitleaks'}

@@ -1,0 +1,130 @@
+{
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 14,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 292,
+      "scope": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 124,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 4,
+      "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 325,
+      "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+    }
+  },
+  "baseline_git_revision": "317c2fee15109468b616a1955d7979aeea5800ea",
+  "byte_identical_reports": true,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "tmp/real-world-src/autogen",
+    "--output",
+    "tmp/comparison-v013/invarune-before/autogen",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "command_path_normalization": "Repository prefix removed from public receipt; full local invocation retained only in ignored raw receipt.",
+  "execution": {
+    "exit_code": 1,
+    "failure_threshold": "high",
+    "finding_gate_triggered": true
+  },
+  "license": {
+    "path": "LICENSE-CODE",
+    "summary": "MIT (code)",
+    "url": "https://github.com/microsoft/autogen/blob/027ecf0a379bcc1d09956d46d12d44a3ad9cee14/LICENSE-CODE"
+  },
+  "optional_judge_enabled": false,
+  "project": "autogen",
+  "repeated_runs": [
+    {
+      "elapsed_seconds": 1.577232,
+      "exit_code": 1,
+      "report_sha256": {
+        "report.html": "316b2864c031d380560d06fa76d65f5ab57f0c0e01c6da60c402c913a4bef2ac",
+        "report.json": "2103d1bb9ae7b9ad41ccbadeaca319b12d9110bbb3b19538736f916695003c84",
+        "report.md": "7f2f118545ef474f6e3a321a0db43d5a25572f400007b54d404edd7c53e3d587",
+        "report.sarif": "ee5b02c3f311fcc8fc8954bb33fc5fcb1cc2214bf6b4c7419af3457bb0726ba1"
+      },
+      "run": 1,
+      "started_at_utc": "2026-09-20T02:26:39.779983+00:00",
+      "stderr": ""
+    },
+    {
+      "elapsed_seconds": 1.592598,
+      "exit_code": 1,
+      "report_sha256": {
+        "report.html": "316b2864c031d380560d06fa76d65f5ab57f0c0e01c6da60c402c913a4bef2ac",
+        "report.json": "2103d1bb9ae7b9ad41ccbadeaca319b12d9110bbb3b19538736f916695003c84",
+        "report.md": "7f2f118545ef474f6e3a321a0db43d5a25572f400007b54d404edd7c53e3d587",
+        "report.sarif": "ee5b02c3f311fcc8fc8954bb33fc5fcb1cc2214bf6b4c7419af3457bb0726ba1"
+      },
+      "run": 2,
+      "started_at_utc": "2026-09-20T02:26:41.359299+00:00",
+      "stderr": ""
+    }
+  ],
+  "repository": "https://github.com/microsoft/autogen",
+  "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+  "rule_counts": {
+    "AI001": 2,
+    "AI005": 2,
+    "AI009": 1,
+    "AI010": 1,
+    "AI024": 4,
+    "AI025": 1,
+    "AI033": 2
+  },
+  "scan_id": "5f75e525e01b4ffd6a155b6d6fc1fc0ee2c86cd693a77ed7de0256b297f942f9",
+  "scanner_working_directory": "tmp/comparison-v013/baseline-v012",
+  "schema_version": "1.0",
+  "source_bytes": 4264776,
+  "source_files": 786,
+  "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 4232838,
+    "bytes_read": 4232838,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 759,
+    "open_findings": 13,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 5,
+      "info": 0,
+      "low": 5,
+      "medium": 3
+    },
+    "suppressed_findings": 0
+  },
+  "target_code_executed": false,
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.12.0"
+  }
+}

@@ -1,5 +1,7 @@
 # Invarune: real project scans and scanner comparison
 
+**Current release:** [visual benchmark dashboard](BENCHMARK_DASHBOARD.md), [fresh v0.13 execution evidence](../benchmarks/comparison-v013/README.md), and [updated benchmark PDF](../output/pdf/invarune-benchmark-v013.pdf). Earlier results below retain their original versions and scope.
+
 For the newer v0.10 work, see the [fresh finding-by-finding comparison](../benchmarks/comparison-v010/README.md), exhaustive observation ledger, frozen review selection and versioned scan receipts. Shared/tool-only matches are not vulnerability labels. The material below preserves the earlier experiment and its scope.
 
 ![Invarune by NimeshBuild](assets/brand/invarune-logo-light.svg)

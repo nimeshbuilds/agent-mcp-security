@@ -17,8 +17,8 @@ from urllib.parse import quote, unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 STAGE = ROOT / ".docs-build" / "content"
-REPO = "https://github.com/nimeshbuilds/agent-mcp-security"
-SITE_PREFIX = "/agent-mcp-security/"
+REPO = "https://github.com/nimeshbuilds/invarune"
+SITE_PREFIX = "/invarune/"
 PREFIXES = ("docs/", "benchmarks/", "examples/", "output/pdf/", "ai_security_scan/data/")
 EXTENSIONS = {".md", ".json", ".sarif", ".html", ".pdf", ".txt", ".csv", ".svg", ".png", ".css"}
 ROOT_FILES = {"README.md", "CONTRIBUTING.md", "NOTICE.md"}

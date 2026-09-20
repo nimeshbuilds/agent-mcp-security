@@ -1,0 +1,632 @@
+{
+  "added_total": 0,
+  "after_gaps": 15,
+  "after_total": 146,
+  "after_version": "0.13.0",
+  "before_gaps": 15,
+  "before_total": 149,
+  "before_version": "0.12.0",
+  "experiment": "comparison-v013",
+  "identity_added_total": 1,
+  "identity_removed_total": 4,
+  "measurement": "Pattern identity changes on identical public source bytes and scan scope; not vulnerability corrections or native-tool precision estimates.",
+  "projects": [
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "ca3bb7cecdc4d8f4522318c347a160fd2c39048d4eade5bef7ced668f819a97a",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 1003862,
+          "bytes_read": 1003862,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 86,
+          "open_findings": 61,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 59,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "before": {
+        "report_sha256": "e3394a443964ca2361e838ea9f0dec1c827f2351abb66596137efd6dfba5ccda",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 1003862,
+          "bytes_read": 1003862,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 86,
+          "open_findings": 61,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 59,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.12.0"
+        }
+      },
+      "project_id": "mcp-reference",
+      "removed": [],
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "revision": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+      "span_changes": [],
+      "unchanged_pattern_identities": 61
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "c91fc3f448be9e5f59c76023f83cef3f74f4bf2a394a3b92b7595b5f0e1f3a23",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 2086786,
+          "bytes_read": 2086786,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 156,
+          "open_findings": 15,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 15,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "before": {
+        "report_sha256": "ca35b13f41b31041a8d3d79ad9a4957d2ec65e647da04580487bbf05e1f6ce76",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 2086786,
+          "bytes_read": 2086786,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 156,
+          "open_findings": 15,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 15,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.12.0"
+        }
+      },
+      "project_id": "github-mcp",
+      "removed": [],
+      "repository": "https://github.com/github/github-mcp-server",
+      "revision": "85598ba6e1256f7ebf4867b95d63b833c4549264",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+      "span_changes": [],
+      "unchanged_pattern_identities": 15
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "552cc735104a435806fe76a345061d5b51541503f1d74cd78116ccd439ff0ef5",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 4232838,
+          "bytes_read": 4232838,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 759,
+          "open_findings": 11,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 4,
+            "info": 0,
+            "low": 4,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "before": {
+        "report_sha256": "2103d1bb9ae7b9ad41ccbadeaca319b12d9110bbb3b19538736f916695003c84",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 4232838,
+          "bytes_read": 4232838,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 759,
+          "open_findings": 13,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 5,
+            "info": 0,
+            "low": 5,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.12.0"
+        }
+      },
+      "project_id": "autogen",
+      "removed": [
+        {
+          "end_line": 179,
+          "finding_id": "5d062dd8c013df9eaaebf008",
+          "line": 179,
+          "path": "python/packages/autogen-ext/src/autogen_ext/tools/mcp/_workbench.py",
+          "rule_id": "AI010",
+          "severity": "high",
+          "title": "Credential-like literal in source or configuration"
+        },
+        {
+          "end_line": 1,
+          "finding_id": "74ba06ff19cb005e43a613c3",
+          "line": 1,
+          "path": "python/packages/autogen-studio/requirements.txt",
+          "rule_id": "AI025",
+          "severity": "low",
+          "title": "Direct dependency is not exactly pinned"
+        }
+      ],
+      "repository": "https://github.com/microsoft/autogen",
+      "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "span_changes": [],
+      "unchanged_pattern_identities": 11
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "e8a9e53438913b9a44ba27861c1ac37ffe7f7f10c8176dad3055850409165b90",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 9435467,
+          "bytes_read": 9435467,
+          "coverage_gaps": 10,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 967,
+          "open_findings": 27,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 25,
+            "info": 0,
+            "low": 0,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "before": {
+        "report_sha256": "7256fa36a97bb3566095b09924b92d28071ae4a9c56342f6537fbcdea7a1e6f6",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 9435467,
+          "bytes_read": 9435467,
+          "coverage_gaps": 10,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 967,
+          "open_findings": 28,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 26,
+            "info": 0,
+            "low": 0,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.12.0"
+        }
+      },
+      "project_id": "crewai",
+      "removed": [
+        {
+          "end_line": 63,
+          "finding_id": "13f0e8f8fbfab9dfb07a9c26",
+          "line": 63,
+          "path": "lib/crewai/src/crewai/rag/chromadb/config.py",
+          "rule_id": "AI010",
+          "severity": "high",
+          "title": "Credential-like literal in source or configuration"
+        }
+      ],
+      "repository": "https://github.com/crewAIInc/crewAI",
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "span_changes": [],
+      "unchanged_pattern_identities": 27
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "2aa85832eaa3332c6a207a9ca5e686ed1aa65e52de893147aa8007b9e58da55d",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 6378697,
+          "bytes_read": 6378697,
+          "coverage_gaps": 1,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 211,
+          "open_findings": 23,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 23,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "before": {
+        "report_sha256": "98bc96e92d20337d344fff81c263be7def36f3e9494500032504803a9363d5bb",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 6378697,
+          "bytes_read": 6378697,
+          "coverage_gaps": 1,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 211,
+          "open_findings": 23,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 23,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.12.0"
+        }
+      },
+      "project_id": "langgraph",
+      "removed": [],
+      "repository": "https://github.com/langchain-ai/langgraph",
+      "revision": "aa742fb31e2827d569b843e3600aeda2e0528e4b",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+      "span_changes": [],
+      "unchanged_pattern_identities": 23
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "80b7ef794cdc8499d684b981b0db7a5442cf145b1c68852d33e4fcf96c0db723",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 7487391,
+          "bytes_read": 7487391,
+          "coverage_gaps": 2,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 1233,
+          "open_findings": 9,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 2,
+            "info": 0,
+            "low": 4,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "before": {
+        "report_sha256": "e5dc1ecdc5c964a8056ff1fb5e72dea924e2816e86cd9af54aa409b73771fa77",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 7487391,
+          "bytes_read": 7487391,
+          "coverage_gaps": 2,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 1233,
+          "open_findings": 9,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 2,
+            "info": 0,
+            "low": 4,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.12.0"
+        }
+      },
+      "project_id": "openhands",
+      "removed": [],
+      "repository": "https://github.com/OpenHands/OpenHands",
+      "revision": "a07364828c8f202e7745c6bce3dcef3915ae7ac1",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+      "span_changes": [
+        {
+          "after": {
+            "end_line": 13,
+            "finding_id": "7f87dc68f3450f66df469bef",
+            "line": 12,
+            "path": "helm/agent-canvas/values.yaml",
+            "rule_id": "AI024",
+            "severity": "low",
+            "title": "Container image is not digest pinned"
+          },
+          "before": {
+            "end_line": 13,
+            "finding_id": "87b66aac49534c8539012230",
+            "line": 11,
+            "path": "helm/agent-canvas/values.yaml",
+            "rule_id": "AI024",
+            "severity": "low",
+            "title": "Container image is not digest pinned"
+          },
+          "classification": "same_rule_path_and_intersecting_span_with_changed_boundary",
+          "interpretation": "Source review confirms the same image declaration is reported; the span boundary changed. This is not a newly introduced or removed risk pattern."
+        }
+      ],
+      "unchanged_pattern_identities": 8
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "bd8e0ca90dd092b1323a3dae5c8d6141b783ad99cd5c3e0700ad6d95825629cc",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 8414725,
+          "bytes_read": 8414725,
+          "coverage_gaps": 2,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 386,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "before": {
+        "report_sha256": "4ed1c442d9dc0027ef48a5bc22babe25523577a4e784cc68125a2411213ce56e",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 8414725,
+          "bytes_read": 8414725,
+          "coverage_gaps": 2,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 386,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.12.0"
+        }
+      },
+      "project_id": "pydantic-ai",
+      "removed": [],
+      "repository": "https://github.com/pydantic/pydantic-ai",
+      "revision": "c4898abb54dc25ae6f6aef208a4c0661b30a455e",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+      "span_changes": [],
+      "unchanged_pattern_identities": 0
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "e6b2cc9c88dd363bb5e9fcd3237247b6f7c176652e072f225068495b0b4adaa2",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 3811079,
+          "bytes_read": 3811079,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 283,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "before": {
+        "report_sha256": "1b887e5c17be955aed33ce13f9df7f076412f9068602072423f0f6ebe4cce159",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 3811079,
+          "bytes_read": 3811079,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 283,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.12.0"
+        }
+      },
+      "project_id": "fastmcp",
+      "removed": [],
+      "repository": "https://github.com/PrefectHQ/fastmcp",
+      "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+      "span_changes": [],
+      "unchanged_pattern_identities": 0
+    }
+  ],
+  "removed_total": 3,
+  "root_cause_summary": [
+    {
+      "change": "Repeated-character documentation placeholder no longer reported as a credential-like value.",
+      "path": "python/packages/autogen-ext/src/autogen_ext/tools/mcp/_workbench.py",
+      "project_id": "autogen",
+      "rule_id": "AI010"
+    },
+    {
+      "change": "Local self-install reference no longer reported as a named unpinned dependency.",
+      "path": "python/packages/autogen-studio/requirements.txt",
+      "project_id": "autogen",
+      "rule_id": "AI025"
+    },
+    {
+      "change": "Environment-variable-name configuration field no longer reported as a literal credential.",
+      "path": "lib/crewai/src/crewai/rag/chromadb/config.py",
+      "project_id": "crewai",
+      "rule_id": "AI010"
+    },
+    {
+      "change": "The same image pinning declaration is reported; YAML preprocessing narrows the start line from11 to12 while the end line remains13. Verified directly against the pinned source.",
+      "path": "helm/agent-canvas/values.yaml",
+      "project_id": "openhands",
+      "rule_id": "AI024"
+    }
+  ],
+  "schema_version": "1.0",
+  "span_changes_total": 1
+}

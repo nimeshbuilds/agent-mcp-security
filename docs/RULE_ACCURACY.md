@@ -21,14 +21,16 @@ The corpus contains **113 labeled cases**: **105 regression cases** and **8 chal
 The project authored this synthetic corpus. It is not an independent industry benchmark, representative production sample, or exploitability test. Examples were selected to probe API semantics and known difficult boundaries, so percentages cannot be interpreted as production accuracy. Fixes were developed against some of these cases; this is a regression corpus, not a held-out evaluation. Use a separate labeled sample of your own repositories before setting organization-wide severity gates.
 
 - [Corpus, labels, rationale, and provenance](../benchmarks/static_accuracy.json)
-- [Current readable results, including every mismatch](../benchmarks/accuracy-current.md)
-- [Current JSON with per-rule confusion counts](../benchmarks/accuracy-current.json)
-- [Current scanner on unchanged 1.1.0 labels](../benchmarks/accuracy-previous-corpus.md), including the historical incorrect AI041 label
+- [Current paired before/after results and every mismatch](../benchmarks/comparison-v013/README.md)
+- [Historical v0.10 readable results](../benchmarks/accuracy-current.md)
+- [Current v0.13 JSON with per-rule confusion counts](../benchmarks/comparison-v013/accuracy-after.json)
+- [Frozen v0.12 baseline on identical labels](../benchmarks/comparison-v013/accuracy-before.json)
+- [Historical v0.10 scanner on unchanged 1.1.0 labels](../benchmarks/accuracy-previous-corpus.md), including the historical incorrect AI041 label
 - [Preserved v0.9.0 results on corpus 1.1.0](../benchmarks/accuracy-v090-current.md)
 - [Archived corpus version 1.1.0](../benchmarks/static_accuracy-v110.json)
 - [Archived corpus version 1.0.0](../benchmarks/static_accuracy-v100.json)
 - [Version 0.2.1 baseline against corpus 1.0.0](../benchmarks/accuracy-v021.json)
-- [Current scanner against the unchanged original 1.0.0 corpus](../benchmarks/accuracy-original-corpus.md), including its intentional AI011 mismatch and disagreement with the historical incorrect AI041 label ([JSON](../benchmarks/accuracy-original-corpus.json))
+- [Historical v0.10 scanner against the unchanged original 1.0.0 corpus](../benchmarks/accuracy-original-corpus.md), including its intentional AI011 mismatch and disagreement with the historical incorrect AI041 label ([JSON](../benchmarks/accuracy-original-corpus.json))
 
 ### Corpus version and comparison integrity
 
@@ -49,7 +51,16 @@ The [public-project scans](../benchmarks/real-world/README.md) are a separate de
 
 Precision is TP / (TP + FP), and recall is TP / (TP + FN). The unit is **explicitly labeled rule presence**, not confirmed vulnerabilities. Overall counts include the challenge cases. The default CI gate checks the supported regression subset and is not a claim of perfect overall accuracy. Parse errors are separate operational failures, never true negatives. The runtime-placeholder challenge expects no invented wildcard finding because its environment value is unavailable; production permissions remain unknown.
 
-## What changed
+
+## v0.13 fixes developed from benchmark evidence
+
+The [fresh comparison](../benchmarks/comparison-v013/README.md) freezes the original 113-case corpus and v0.12 implementation, then executes both versions independently. No label, case, pinned revision or exported source file was removed to improve the result. The [dashboard](BENCHMARK_DASHBOARD.md) presents the resulting confusion counts and remaining cases.
+
+Rules now recognize bounded literal `getattr` attributes, supported preceding or direct YAML literal anchors, and a direct shell `-c` argument supplied by a download substitution. YAML scalar bodies are treated as data for configuration-key checks. Within recognized block-mapping fields, unknown/forward/complex security-field aliases remain explicit coverage gaps. Paired tests cover shadowing, quoted scalar data, anchor redefinitions, malformed references, downloader output modes and inert shell strings/heredocs.
+
+Source review also refined three precise false-alarm patterns: local requirement paths are not named version ranges; explicit environment-variable-name fields with identifier values are not credential literals; recognized tokens with all-`x` placeholder payloads use the existing placeholder policy. Realistic literals and other repeated characters remain detectable. This does not broadly suppress documentation or prove that a deployed credential is safe.
+
+## Earlier detector changes
 
 The public-project regressions refine three narrow patterns. AI011 requires a plausible encoded body and still detects such material in Python docstrings and escaped strings; it does not validate a key cryptographically. AI010 recognizes two exact SDK dummy values (`api-key-not-set` and `codex-subscription-auth`) and requires both an error/message identifier role and a narrowly recognized error sentence before excluding an error label. Other literal credentials remain detectable. AI021 tracks the effective explicit root state of the default final Docker stage, including named-stage inheritance, later `USER` changes, line continuations and heredoc contents. External image defaults, variables and non-default build targets remain unproven. No broad docstring suppression or parameterized-SQL waiver was added.
 
@@ -73,7 +84,7 @@ Existing tests retain real local HTTP/TLS gateway checks, offline-only defaults,
 
 ## Remaining limitations
 
-The current report deliberately lists misses involving reflection, cross-function URL flow, JavaScript wrappers, YAML aliases, and nested shell expansion, plus false alarms involving YAML block-scalar text and a URL guard that would need path-sensitive constraint analysis. A source placeholder cannot establish its deployed value.
+The v0.13 paired run still lists misses involving cross-function URL flow and JavaScript wrapper propagation, plus a false alarm involving a URL equality guard that needs path-sensitive constraint analysis. The supported constant-reflection, preceding literal YAML anchor, scalar-body and direct downloaded shell-command cases now have bounded detectors and paired tests. Arbitrary reflection, full YAML semantics and general shell expansion remain outside those subsets. A source placeholder cannot establish its deployed value.
 
 Other unresolved cases include cross-module execution, dynamic imports, monkey patches and prototype mutation, complex heap aliases, full loop fixed-point analysis, uncommon JS/TS grammar, unsupported languages, deployment reachability, and sanitizer effectiveness. Generic secret heuristics may flag example data or miss unusual secrets. A rule firing on a dangerous API may be a correct pattern detection even when trusted inputs make exploitation impossible.
 

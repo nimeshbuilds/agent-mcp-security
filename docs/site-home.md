@@ -1,6 +1,6 @@
 <div class="inv-hero" markdown>
 
-<p class="inv-eyebrow">INVARUNE BY NIMESHBUILD · v0.12</p>
+<p class="inv-eyebrow">INVARUNE BY NIMESHBUILD · v0.13</p>
 
 # Evidence for agent security.
 
@@ -9,7 +9,7 @@ Inspect an AI agent or MCP server from its source code or built Linux image. Und
 **Deterministic scanning and `invscan --ask` work without agentic AI, model credentials or a subscription.** Enable the controlled AI analyst when you want additional advisory review.
 
 [Start with invscan](docs/QUICKSTART.md){ .md-button .md-button--primary }
-[Browse real reports & PDFs](docs/REPORT_LIBRARY.md){ .md-button }
+[Explore the benchmark dashboard](docs/BENCHMARK_DASHBOARD.md){ .md-button }
 
 </div>
 
@@ -37,7 +37,14 @@ invscan --help
 invscan --help-topic all
 ```
 
-[Install the CLI first](docs/QUICKSTART.md), or [download the verified v0.12 wheel](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0). Core scanning uses Python 3.9+ and no runtime packages. PDF creation and AI integrations are optional extras.
+[Install the CLI first](docs/QUICKSTART.md), or [download the v0.13 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.13.0). Core scanning uses Python 3.9+ and no runtime packages. PDF creation and AI integrations are optional extras.
+
+## Improvements you can inspect
+
+On the same 113 development fixtures, precision improved **96.49% → 98.31%** and recall **91.67% → 96.67%**. Four mismatches were corrected; three remain visible. The fresh public-project comparison preserves all inputs and coverage gaps. These percentages are fixture results, not production accuracy.
+
+[See the charts, source reports and exact comparison](docs/BENCHMARK_DASHBOARD.md){ .md-button .md-button--primary }
+[Download the updated benchmark PDF](output/pdf/invarune-benchmark-v013.pdf){ .md-button }
 
 ## Follow the path you need
 
@@ -65,7 +72,7 @@ invscan --help-topic all
 
     Download branded PDFs, follow finding-level comparison ledgers, and reproduce pinned public-project measurements.
 
-    [Report library](docs/REPORT_LIBRARY.md) · [Benchmark guide](docs/BENCHMARK_GUIDE.md) · [Accuracy limits](docs/RULE_ACCURACY.md)
+    [Visual dashboard](docs/BENCHMARK_DASHBOARD.md) · [Report library](docs/REPORT_LIBRARY.md) · [Benchmark guide](docs/BENCHMARK_GUIDE.md) · [Accuracy limits](docs/RULE_ACCURACY.md)
 
 - **Build on Invarune**
 
@@ -75,9 +82,9 @@ invscan --help-topic all
 
 - **Read the evidence behind this release**
 
-    v0.12 passed 793 local tests, a 53-step installed-CLI quickstart, and eight CI jobs. Each result has a recorded scope.
+    Inspect the current release validation and fresh before/after benchmark. Historical versions retain their original execution receipts.
 
-    [v0.12 validation](benchmarks/validation-v012/README.md) · [Quickstart receipt](benchmarks/quickstart-v012/README.md)
+    [v0.13 validation](benchmarks/validation-v013/README.md) · [Quickstart receipt](benchmarks/quickstart-v013/README.md)
 
 </div>
 

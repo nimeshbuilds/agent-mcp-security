@@ -23,7 +23,7 @@ Use topic terms or exact identifiers if a question has no match. Queries are bou
 | `invscan: command not found` | Activate the environment where you installed the package, or call `.venv/bin/invscan` (Windows: `.venv\Scripts\invscan.exe`). Follow the [quick start](QUICKSTART.md). |
 | `No module named ...` while generating a PDF | Install the PDF extra in the same environment: `python -m pip install '.[pdf]'` from the checkout. The base CLI does not include PDF packages. |
 | Wrong version after an upgrade | Run the environment's executable directly and check its version; a second installation may appear earlier on `PATH`. |
-| Clone fails | Use `https://github.com/nimeshbuilds/agent-mcp-security.git`. The public repository needs no GitHub login to clone; check network, proxy and Git configuration. |
+| Clone fails | Use `https://github.com/nimeshbuilds/invarune.git`. The public repository needs no GitHub login to clone; check network, proxy and Git configuration. |
 
 ## Exit codes are part of the result
 

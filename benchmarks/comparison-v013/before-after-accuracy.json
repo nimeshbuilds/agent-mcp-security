@@ -1,0 +1,175 @@
+{
+  "after": {
+    "accuracy_report": "accuracy-after.json",
+    "accuracy_report_sha256": "49bd49b0464b288beca29212d1b8be4f3b6c48ce5037a0da771bc2c829de9e38",
+    "analysis_error_cases": 0,
+    "by_suite": {
+      "challenge": {
+        "assertions": 8,
+        "false_negative": 2,
+        "false_negative_rate": 0.4,
+        "false_positive": 1,
+        "false_positive_rate": 0.333333,
+        "precision": 0.75,
+        "recall": 0.6,
+        "true_negative": 2,
+        "true_positive": 3
+      },
+      "regression": {
+        "assertions": 105,
+        "false_negative": 0,
+        "false_negative_rate": 0.0,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 50,
+        "true_positive": 55
+      }
+    },
+    "failed_case_ids": [
+      "gap-interprocedural-url",
+      "gap-js-wrapper-taint",
+      "gap-validated-user-url"
+    ],
+    "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+    "overall": {
+      "assertions": 113,
+      "false_negative": 2,
+      "false_negative_rate": 0.033333,
+      "false_positive": 1,
+      "false_positive_rate": 0.018868,
+      "precision": 0.983051,
+      "recall": 0.966667,
+      "true_negative": 52,
+      "true_positive": 58
+    },
+    "tool_version": "0.13.0"
+  },
+  "before": {
+    "accuracy_report": "accuracy-before.json",
+    "accuracy_report_sha256": "317df5794e85e17d4c5965023ff1fddfb708262bb94f5fb3f517f265994a6a94",
+    "analysis_error_cases": 0,
+    "by_suite": {
+      "challenge": {
+        "assertions": 8,
+        "false_negative": 5,
+        "false_negative_rate": 1.0,
+        "false_positive": 2,
+        "false_positive_rate": 0.666667,
+        "precision": 0.0,
+        "recall": 0.0,
+        "true_negative": 1,
+        "true_positive": 0
+      },
+      "regression": {
+        "assertions": 105,
+        "false_negative": 0,
+        "false_negative_rate": 0.0,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 50,
+        "true_positive": 55
+      }
+    },
+    "failed_case_ids": [
+      "gap-reflection-python",
+      "gap-interprocedural-url",
+      "gap-js-wrapper-taint",
+      "gap-yaml-alias",
+      "gap-yaml-block-string",
+      "gap-shell-wrapper",
+      "gap-validated-user-url"
+    ],
+    "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+    "overall": {
+      "assertions": 113,
+      "false_negative": 5,
+      "false_negative_rate": 0.083333,
+      "false_positive": 2,
+      "false_positive_rate": 0.037736,
+      "precision": 0.964912,
+      "recall": 0.916667,
+      "true_negative": 51,
+      "true_positive": 55
+    },
+    "tool_version": "0.12.0"
+  },
+  "changes": [
+    {
+      "after_detected": true,
+      "after_outcome": "true_positive",
+      "before_detected": false,
+      "before_outcome": "false_negative",
+      "case_id": "gap-reflection-python",
+      "expected": true,
+      "rule_id": "AI003"
+    },
+    {
+      "after_detected": true,
+      "after_outcome": "true_positive",
+      "before_detected": false,
+      "before_outcome": "false_negative",
+      "case_id": "gap-shell-wrapper",
+      "expected": true,
+      "rule_id": "AI019"
+    },
+    {
+      "after_detected": true,
+      "after_outcome": "true_positive",
+      "before_detected": false,
+      "before_outcome": "false_negative",
+      "case_id": "gap-yaml-alias",
+      "expected": true,
+      "rule_id": "AI027"
+    },
+    {
+      "after_detected": false,
+      "after_outcome": "true_negative",
+      "before_detected": true,
+      "before_outcome": "false_positive",
+      "case_id": "gap-yaml-block-string",
+      "expected": false,
+      "rule_id": "AI026"
+    }
+  ],
+  "corpus": {
+    "case_count": 113,
+    "path": "benchmarks/static_accuracy.json",
+    "sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3",
+    "version": "1.2.0"
+  },
+  "experiment": "comparison-v013",
+  "input_invariants": {
+    "identical_case_ids_and_labels": true,
+    "identical_corpus_sha256": true
+  },
+  "label_policy": "No assertion was removed, relabeled or moved out of the metric denominator. Challenge mismatches remain visible. New development regressions are separate tests, not extra successes added to this corpus.",
+  "remaining_mismatches": [
+    {
+      "case_id": "gap-interprocedural-url",
+      "detected": false,
+      "expected": true,
+      "outcome": "false_negative",
+      "rule_id": "AI014"
+    },
+    {
+      "case_id": "gap-js-wrapper-taint",
+      "detected": false,
+      "expected": true,
+      "outcome": "false_negative",
+      "rule_id": "AI014"
+    },
+    {
+      "case_id": "gap-validated-user-url",
+      "detected": true,
+      "expected": false,
+      "outcome": "false_positive",
+      "rule_id": "AI014"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": "Paired project-authored rule-presence accuracy on unchanged development-visible corpus bytes and labels. This is not production precision, recall or security assurance."
+}

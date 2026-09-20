@@ -1,5 +1,9 @@
 # Implementation validation
 
+## Current v0.13 release
+
+[Executed v0.13 validation](../benchmarks/validation-v013/README.md) covers benchmark-driven detector fixes, unchanged-corpus comparison, fresh pinned-project scans, the installed CLI quickstart, publication provenance and PDF/site QA. Historical counts below retain their original version scopes.
+
 Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This document records scanner implementation checks, not a security certification or a behavioral benchmark score.
 
 ## Current v0.12.0 results
@@ -22,7 +26,7 @@ The [fresh scan PDF and HTML](../examples/reports/invscan-v011/README.md) put pr
 
 ## Historical v0.10.0 results
 
-The portability follow-up at `ee493b1` passes **740 tests** locally (Python 3.12.14; Python 3.9.6 has 25 optional-PDF skips) and **all seven CI jobs**, including Windows, macOS, three Linux Python versions, actual Docker-built images, packaging and report-schema checks. Windows ran 740 tests with 33 explicit platform/optional-dependency skips and passed a **17-step fresh-environment quickstart** with PDF and gateway steps intentionally disabled. Repository LF attributes preserve hashed evidence across Git checkout settings; canonical benchmark roots fix Windows short-path and relative-path aliases without weakening source hash or child-symlink checks. A fresh `core.autocrlf=true` checkout matched all 433 committed files byte for byte, and preparation preserved the same 153 observations and 20 model payloads. No new model calls or production scanner changes occurred. [Portability receipt](../benchmarks/validation-v010/portability-receipt.json), [successful CI](https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185).
+The portability follow-up at `ee493b1` passes **740 tests** locally (Python 3.12.14; Python 3.9.6 has 25 optional-PDF skips) and **all seven CI jobs**, including Windows, macOS, three Linux Python versions, actual Docker-built images, packaging and report-schema checks. Windows ran 740 tests with 33 explicit platform/optional-dependency skips and passed a **17-step fresh-environment quickstart** with PDF and gateway steps intentionally disabled. Repository LF attributes preserve hashed evidence across Git checkout settings; canonical benchmark roots fix Windows short-path and relative-path aliases without weakening source hash or child-symlink checks. A fresh `core.autocrlf=true` checkout matched all 433 committed files byte for byte, and preparation preserved the same 153 observations and 20 model payloads. No new model calls or production scanner changes occurred. [Portability receipt](../benchmarks/validation-v010/portability-receipt.json), [successful CI](https://github.com/nimeshbuilds/invarune/actions/runs/35476883185).
 
 The release adds all-rule concrete remediation guidance, structured optional model fix advice, a corrected Inspector environment-value detector, fresh competitor comparisons and an executable quickstart validator. **736 tests passed** on Python 3.12.14; Python 3.9.6 passed with 25 explicit optional-PDF skips. Final coverage was 94.36% of statements and 89.46% of branches (92.77% combined). Measurements and artifact hashes are recorded in [v0.10 validation evidence](../benchmarks/validation-v010/README.md).
 
@@ -132,7 +136,7 @@ HTML reports from earlier releases were visually reviewed in a browser for vulne
 
 Eighteen generated SARIF reports (four vulnerable/safer/reviewed/image fixtures, eight pinned public projects, the scanner itself, four installed source/image scans with and without user dispositions, and one actual Codex CLI review of the vulnerable fixture) passed JSON Schema validation with jsonschema **4.26.0** against the official [OASIS SARIF 2.1.0 Errata 01 schema](https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json), SHA-256 `c3b4bb2d6093897483348925aaa73af03b3e3f4bd4ca38cef26dcb4212a2682e`. The repeatable validation script rejects a different schema hash and performs no network access.
 
-CI now includes Linux Python 3.9/3.12/3.14, macOS Python 3.12, Windows Python 3.12, a separate coverage/package/schema job, and an actual Docker-built-image integration job. Current run results are available in [GitHub Actions](https://github.com/nimeshbuilds/agent-mcp-security/actions).
+CI now includes Linux Python 3.9/3.12/3.14, macOS Python 3.12, Windows Python 3.12, a separate coverage/package/schema job, and an actual Docker-built-image integration job. Current run results are available in [GitHub Actions](https://github.com/nimeshbuilds/invarune/actions).
 
 ## CLI fixture results
 

@@ -1,5 +1,9 @@
 # Scenario test matrix
 
+## Current v0.13 release
+
+[Executed v0.13 validation](../benchmarks/validation-v013/README.md) covers benchmark-driven detector fixes, unchanged-corpus comparison, fresh pinned-project scans, the installed CLI quickstart, publication provenance and PDF/site QA. Historical counts below retain their original version scopes.
+
 This matrix records concrete scanner and controller behavior tested for version **0.10.0**. It is a finite regression suite, not a claim that every possible input, model, framework, or deployment has been tested. The prior v0.8.0 suite had 588 passing tests. Historical v0.9 and current v0.10 runs and dependency-specific skips are recorded in [implementation validation](VALIDATION.md). It uses synthetic secrets, repository fixtures, mocked provider responses, real bounded subprocesses and loopback HTTP/HTTPS. The automated suite never executes the target application or calls a live model. Separate empirical public-project, competitor and official CLI-provider checks are recorded below and in [implementation validation](VALIDATION.md).
 
 ## Reproducible scenario coverage

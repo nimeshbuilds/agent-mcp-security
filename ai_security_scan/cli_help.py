@@ -464,9 +464,9 @@ Custom JSON gateway configuration:
 """ + examples_reference() + """
 
 Detailed guides and controlbook (also in the repository):
-  https://github.com/nimeshbuilds/agent-mcp-security/blob/main/docs/CLI.md
+  https://github.com/nimeshbuilds/invarune/blob/main/docs/CLI.md
   Repository-relative paths below refer to the checkout, not installed files.
-  https://github.com/nimeshbuilds/agent-mcp-security/blob/main/docs/QUICKSTART.md
+  https://github.com/nimeshbuilds/invarune/blob/main/docs/QUICKSTART.md
   docs/IMAGE_SCANNING.md   Formats, extraction safety, budgets and image scopes.
   docs/JUDGE.md           API configuration and expected finding response schema.
   docs/ANALYST.md         Control response schema, citations and evidence routing.

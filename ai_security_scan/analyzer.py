@@ -12,6 +12,7 @@ import ipaddress
 import json
 import math
 import re
+import shlex
 from pathlib import PurePosixPath
 from urllib.parse import urlsplit
 
@@ -51,6 +52,8 @@ def _placeholder(value):
         return True
     if re.fullmatch(r"(?:x+|\*+|\.+|0+)", value, re.I):
         return True
+    if re.fullmatch(r"(?:gh[pousr]_|sk-(?:proj-)?)[xX]+", value):
+        return True
     if lowered.startswith(("replace_me", "replace-me", "your_api_key_here", "your-api-key-here", "example_", "dummy_")):
         return True
     return False
@@ -58,6 +61,11 @@ def _placeholder(value):
 
 def _credential_literal(key, value):
     if not _is_secret_key(key) or not isinstance(value, str) or _placeholder(value):
+        return False
+    # An explicit environment-variable-name field carries an identifier, not
+    # the credential value. Keep literal-looking secrets and other roles live.
+    if (re.search(r"(?:^|_)env_var(?:_name)?$", key)
+            and re.fullmatch(r"[A-Z_][A-Z0-9_]*", value)):
         return False
     # Both the identifier role and a narrow authentication error message must
     # agree. Never suppress a secret-shaped value merely because its name says
@@ -145,6 +153,20 @@ def _constant(node):
         return ast.literal_eval(node)
     except (ValueError, TypeError, SyntaxError, MemoryError, RecursionError):
         return None
+
+
+def _literal_attribute(node, charge, depth=0):
+    """Fold only small string literals/concatenations, never target expressions."""
+    charge()
+    if depth > 32:
+        return None
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value if len(node.value) <= 256 else None
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        left, right = _literal_attribute(node.left, charge, depth + 1), _literal_attribute(node.right, charge, depth + 1)
+        if left is not None and right is not None and len(left) + len(right) <= 256:
+            return left + right
+    return None
 
 
 def _is_literal(node):
@@ -456,6 +478,11 @@ class _PythonAnalyzer(ast.NodeVisitor):
             return value if isinstance(value, frozenset) else frozenset([value])
         if isinstance(node, ast.Attribute):
             return frozenset(name + "." + node.attr for name in (self.names(node.value) or [""]))
+        if (isinstance(node, ast.Call) and len(node.args) == 2 and not node.keywords
+                and self.names(node.func) & {"getattr", "builtins.getattr"}):
+            attribute = _literal_attribute(node.args[1], self._charge)
+            if attribute and attribute.isidentifier():
+                return frozenset(name + "." + attribute for name in self.names(node.args[0]) if name)
         return frozenset()
 
     def name(self, node):
@@ -1560,6 +1587,288 @@ def _js_analysis(findings, text):
     analyze(tokens)
 
 
+def _yaml_comment(value):
+    """Remove an unquoted YAML comment without evaluating scalar content."""
+    quote, index = None, 0
+    while index < len(value):
+        char = value[index]
+        if quote == '"' and char == "\\":
+            index += 2
+            continue
+        if quote == "'" and char == "'" and value[index:index + 2] == "''":
+            index += 2
+            continue
+        if char == quote:
+            quote = None
+        elif quote is None and char in "'\"":
+            quote = char
+        elif quote is None and char == "#" and (index == 0 or value[index - 1].isspace()):
+            return value[:index].rstrip()
+        index += 1
+    return value.rstrip()
+
+
+def _yaml_literal(value):
+    """A finite scalar/flat-sequence subset; no constructors, merges or recursion."""
+    if len(value) > 4096:
+        return False, None
+    if re.fullmatch(r"'(?:[^']|'')*'", value):
+        return True, value[1:-1].replace("''", "'")
+    try:
+        parsed = json.loads(value)
+    except (ValueError, RecursionError):
+        # Single-quoted YAML strings are not JSON. Recognize only a complete
+        # flat sequence of quoted strings, never Python literal evaluation.
+        quoted = r"(?:'(?:[^']|'')*'|\"(?:[^\"\\]|\\.)*\")"
+        if re.fullmatch(r"\[\s*(?:" + quoted + r"(?:\s*,\s*" + quoted + r")*\s*,?)?\s*\]", value):
+            values = [_yaml_literal(match.group()) for match in re.finditer(quoted, value)]
+            return (True, [item for valid, item in values]) if len(values) <= 256 and all(valid for valid, _ in values) else (False, None)
+        return False, None
+    scalar = lambda item: item is None or isinstance(item, (str, bool, int)) or isinstance(item, float) and math.isfinite(item)
+    if scalar(parsed) or isinstance(parsed, list) and len(parsed) <= 256 and all(scalar(item) for item in parsed):
+        return True, parsed
+    return False, None
+
+
+def _yaml_quote_closed(value, quote):
+    index = 0
+    while index < len(value):
+        if quote == '"' and value[index] == "\\":
+            index += 2
+        elif quote == "'" and value[index:index + 2] == "''":
+            index += 2
+        elif value[index] == quote:
+            return True
+        else:
+            index += 1
+    return False
+
+
+def _yaml_anchor_definitions(value):
+    # Mask quoted scalar characters before looking for node-property anchors.
+    # Unsupported sequence/flow/tagged definitions must invalidate old values.
+    masked, quote, index = list(value), None, 0
+    while index < len(value):
+        char = value[index]
+        if quote:
+            masked[index] = " "
+            if quote == '"' and char == "\\" or quote == "'" and value[index:index + 2] == "''":
+                if index + 1 < len(masked):
+                    masked[index + 1] = " "
+                index += 2
+                continue
+            if char == quote:
+                quote = None
+        elif char in "'\"":
+            quote, masked[index] = char, " "
+        index += 1
+    return re.findall(r"(?:^|[:\[,{\-])[ \t]*(?:![^ \t\[\]{},]+[ \t]+)?&([A-Za-z0-9_-]{1,128})(?=[ \t\[\]{},]|$)", "".join(masked))
+
+
+def _yaml_configuration(text):
+    """Mask scalar bodies and resolve only preceding, same-document literals.
+
+    Offsets never change. Unsupported aliases in recognized security fields
+    produce coverage diagnostics; arbitrary tags and alias graphs are not run.
+    """
+    key = r"(?P<key>[A-Za-z_][A-Za-z0-9_-]*|'(?:[^']|'')*'|\"(?:[^\"\\]|\\.)*\")"
+    entry = re.compile(r"^(?P<indent>[ ]*)(?P<sequence>-[ ]+)?" + key + r"[ ]*:[ \t]*(?P<value>.*)$")
+    block_header = re.compile(r"(?:(?:&[A-Za-z0-9_-]+|!!str)[ \t]+)*[|>](?:[+-]?[1-9]?|[1-9][+-]?)$")
+    anchors, fields, errors, output = {}, [], [], []
+    block_indent, quoted_scalar, offset = None, None, 0
+    sensitive = (_AUTH_DISABLED | _WILDCARD_PERMISSION_KEYS | _PASSTHROUGH_KEYS |
+                 {"verify", "verifyssl", "tlsverify", "rejectunauthorized", "autoapprove", "autoapproveall",
+                  "host", "debug", "privileged", "allowprivilegeescalation", "hostpid", "hostnetwork"})
+    for line_number, line in enumerate(text.splitlines(keepends=True), 1):
+        indent = len(line) - len(line.lstrip(" "))
+        if quoted_scalar:
+            if _yaml_quote_closed(line, quoted_scalar):
+                quoted_scalar = None
+            output.append("".join(char if char in "\r\n" else " " for char in line))
+            offset += len(line)
+            continue
+        if block_indent is not None and (not line.strip() or indent > block_indent):
+            output.append("".join(char if char in "\r\n" else " " for char in line))
+            offset += len(line)
+            continue
+        block_indent = None
+        content = _yaml_comment(line.rstrip("\r\n"))
+        if content.strip() in {"---", "..."}:
+            anchors.clear()
+        for name in _yaml_anchor_definitions(content):
+            if name not in anchors and len(anchors) >= 4096:
+                raise ValueError("YAML local anchor analysis exceeded its 4096-anchor budget; coverage is incomplete")
+            anchors[name] = (False, None)
+        match = entry.match(content)
+        anchor = None
+        if match:
+            anchor = re.match(r"(?P<tag>![^ \t]+[ \t]+)?&(?P<name>[A-Za-z0-9_-]{1,128})(?:[ \t]+(?P<value>.*))?$", match.group("value"))
+            if anchor:
+                if anchor.group("name") not in anchors and len(anchors) >= 4096:
+                    raise ValueError("YAML local anchor analysis exceeded its 4096-anchor budget; coverage is incomplete")
+                # A later unsupported anchor also replaces the previous value;
+                # retaining a former literal would create a false proof.
+                anchors[anchor.group("name")] = ((False, None) if anchor.group("tag") else
+                                                _yaml_literal((anchor.group("value") or "").strip()))
+            raw_scalar = re.sub(r"(?:(?:&[A-Za-z0-9_-]+|![^ \t]+)[ \t]+)+", "", match.group("value"), count=1)
+            if raw_scalar.startswith(("'", '"')) and not _yaml_quote_closed(raw_scalar[1:], raw_scalar[0]):
+                quoted_scalar = raw_scalar[0]
+        if match and block_header.fullmatch(match.group("value")):
+            block_indent = len(match.group("indent")) + len(match.group("sequence") or "")
+        elif re.fullmatch(r"[ ]*-[ ]+[|>](?:[+-]?[1-9]?|[1-9][+-]?)", content):
+            block_indent = indent
+        if match and anchor and block_indent is not None and _norm(match.group("key").strip("'\"")) in sensitive:
+            errors.append("YAML security-field block-scalar anchor at line %s is outside the bounded literal-anchor subset; review/runtime evidence is required." % line_number)
+        if match and block_indent is None:
+            raw = match.group("value")
+            alias = re.fullmatch(r"\*([A-Za-z0-9_-]{1,128})", raw)
+            field = _norm(match.group("key").strip("'\""))
+            if (alias or anchor) and field in sensitive:
+                valid, value = anchors.get(alias.group(1) if alias else anchor.group("name"), (False, None))
+                if valid:
+                    fields.append((field, value, offset + match.start("key"), offset + match.end()))
+                else:
+                    errors.append("YAML security-field anchor/alias at line %s could not be resolved by the bounded literal-anchor subset; review/runtime evidence is required." % line_number)
+        output.append(line)
+        offset += len(line)
+    return "".join(output), fields, errors
+
+
+def _yaml_alias_findings(findings, fields):
+    for key, value, start, end in fields:
+        if key in _WILDCARD_PERMISSION_KEYS and _has_star(value):
+            findings.offset("AI027", start, end, "high")
+        if key in _AUTH_DISABLED and value is False:
+            findings.offset("AI026", start, end)
+        if key in {"verify", "verifyssl", "tlsverify", "rejectunauthorized"} and value is False:
+            findings.offset("AI006", start, end, "high")
+        if key in _PASSTHROUGH_KEYS and value is True:
+            findings.offset("AI028", start, end, "high")
+        if key in {"autoapprove", "autoapproveall"} and _unrestricted_approval(value):
+            findings.offset("AI031", start, end, "high")
+        if key == "host" and value in ("0.0.0.0", "::"):
+            findings.offset("AI008", start, end, "high")
+        if key == "debug" and value is True:
+            findings.offset("AI009", start, end, "high")
+        if key in {"privileged", "allowprivilegeescalation"} and value is True:
+            findings.offset("AI022", start, end, "high")
+        if key in {"hostpid", "hostnetwork"} and value is True:
+            findings.offset("AI042", start, end, "high")
+
+
+def _shell_download_execution(findings, text):
+    """Recognize a whole shell -c argument supplied by one download expansion.
+
+    No shell parser/evaluator is invoked. Complex substitutions, redirections,
+    command lists and file-output downloads remain outside this narrow pattern.
+    """
+    pattern = re.compile(r"^[ \t]*(?:sudo[ \t]+)?(?:/(?:usr/)?bin/)?(?:sh|bash|zsh)[ \t]+-[efiluvx]*c[efiluvx]*[ \t]+(?P<quote>['\"]?)\$\((?P<download>[^()\r\n]{1,2000})\)(?P=quote)[ \t]*(?:#.*)?$", re.M)
+    # Only command-position lines outside quoted text and heredoc data. This is
+    # deliberately smaller than a shell grammar; it does not expand a script.
+    eligible, quote, heredocs, continued, offset = set(), None, [], False, 0
+    for line in text.splitlines(keepends=True):
+        if heredocs:
+            delimiter, strip_tabs = heredocs[0]
+            candidate = line.rstrip("\r\n")
+            if (candidate.lstrip("\t") if strip_tabs else candidate) == delimiter:
+                heredocs.pop(0)
+        else:
+            if quote is None and not continued:
+                eligible.add(offset)
+            continued = False
+            cursor = 0
+            while cursor < len(line):
+                char = line[cursor]
+                if quote != "'" and char == "\\":
+                    if line[cursor + 1:] in {"\n", "\r\n"}:
+                        continued = True
+                    cursor += 2
+                    continue
+                if char == quote:
+                    quote = None
+                elif quote is None and char in "'\"":
+                    quote = char
+                elif quote is None and char == "#" and (cursor == 0 or line[cursor - 1].isspace()):
+                    break
+                elif quote is None and line[cursor:cursor + 2] == "<<" and line[cursor:cursor + 3] != "<<<":
+                    declaration = re.match(r"<<(-?)[ \t]*(?:'([^'\r\n]+)'|\"([^\"\r\n]+)\"|([^\s;|&<>'\"]+))", line[cursor:])
+                    if declaration:
+                        heredocs.append((next(value for value in declaration.groups()[1:] if value), bool(declaration.group(1))))
+                        cursor += declaration.end()
+                        continue
+                cursor += 1
+        offset += len(line)
+    for match in pattern.finditer(text):
+        if match.start() not in eligible:
+            continue
+        try:
+            words = shlex.split(match.group("download"), comments=True, posix=True)
+        except ValueError:
+            continue
+        if not words or any(any(char in word for char in ";|&<>`") for word in words):
+            continue
+        executable = words[0]
+        if executable not in {"curl", "wget", "/bin/curl", "/usr/bin/curl", "/bin/wget", "/usr/bin/wget"}:
+            continue
+        command = executable.rsplit("/", 1)[-1]
+        if any(word in {"--help", "--version"} or word.startswith("--help=")
+               or command == "wget" and word == "--spider" for word in words[1:]):
+            continue
+        if not any(word.startswith(("http://", "https://", "$")) for word in words[1:]):
+            continue
+        stdout, uncertain, index = command == "curl", False, 1
+        while index < len(words):
+            word = words[index]
+            if command == "curl":
+                if word in {"--config", "-K", "--remote-name", "--remote-name-all"} or word.startswith(("--config=", "-K")):
+                    uncertain = True
+                if word.startswith("--output="):
+                    stdout = stdout and word.split("=", 1)[1] == "-"
+                elif word == "--output":
+                    index += 1
+                    stdout = stdout and index < len(words) and words[index] == "-"
+                elif word.startswith("-") and not word.startswith("--"):
+                    options = word[1:]
+                    for position, option in enumerate(options):
+                        if option in "hVOK":
+                            uncertain = True
+                            break
+                        if option in "AbcCdDeEFHmoPrtTuUwxyYzX":
+                            argument = options[position + 1:]
+                            if not argument:
+                                index += 1
+                                argument = words[index] if index < len(words) else ""
+                            if option == "o":
+                                stdout = stdout and argument == "-"
+                            # The rest of this word is an option argument,
+                            # never another short flag (e.g. -HAuthorization).
+                            break
+            else:
+                if word in {"--config", "-e", "--execute"} or word.startswith(("--config=", "--execute=", "-e")):
+                    uncertain = True
+                if word.startswith("--output-document="):
+                    stdout = word.split("=", 1)[1] == "-"
+                elif word == "--output-document":
+                    index += 1
+                    stdout = index < len(words) and words[index] == "-"
+                elif word.startswith("-") and not word.startswith("--"):
+                    for position, option in enumerate(word[1:], 1):
+                        if option in "hVe":
+                            uncertain = True
+                            break
+                        if option in "OoaPUTtwilDAXIQR":
+                            argument = word[position + 1:]
+                            if not argument:
+                                index += 1
+                                argument = words[index] if index < len(words) else ""
+                            if option == "O":
+                                stdout = argument == "-"
+                            break
+            index += 1
+        if stdout and not uncertain:
+            findings.offset("AI019", match.start(), match.end(), "high")
+
+
 def _generic_analysis(findings, text, path, suffix):
     clean = _strip_comments(text) if suffix in _JS_SUFFIXES or suffix == ".jsonc" else text
     _regex(findings, clean, "AI011", r"-----BEGIN (?:RSA |EC |DSA |OPENSSH |ENCRYPTED )?PRIVATE KEY-----", confidence="high",
@@ -1575,31 +1884,37 @@ def _generic_analysis(findings, text, path, suffix):
             _regex(findings, clean, "AI010", r"^\s*(?P<key>[A-Za-z_][A-Za-z0-9_-]{0,80})\s*[:=]\s*(?P<secret>[^\s'\"#][^\s#]{7,499})\s*(?:#.*)?$", re.M,
                    predicate=lambda match: _credential_literal(match.group("key"), match.group("secret")))
     # Standalone recognizable key formats supplement semantic key names.
-    _regex(findings, clean, "AI010", r"\b(?:AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{30,255}|sk-(?:proj-)?[A-Za-z0-9_-]{24,255})\b")
+    _regex(findings, clean, "AI010", r"\b(?:AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{30,255}|sk-(?:proj-)?[A-Za-z0-9_-]{24,255})\b",
+           predicate=lambda match: not _placeholder(match.group()))
     _regex(findings, clean, "AI010", r"\b(?:Authorization|authorization)['\"]?\s*[:=]\s*['\"]Bearer\s+(?P<secret>[A-Za-z0-9._~+/-]{12,500})['\"]",
            predicate=lambda match: not _placeholder(match.group("secret")))
     if suffix in _CONFIG_SUFFIXES or suffix in {".sh", ".bash", ".zsh", ".ps1"} or "dockerfile" in PurePosixPath(path).name.lower():
         _regex(findings, clean, "AI019", r"\b(?:curl|wget)\b[^\n|]{1,1000}\|\s*(?:sudo\s+)?(?:sh|bash|zsh)\b", confidence="high")
         _regex(findings, clean, "AI031", r"--(?:dangerously-skip-permissions|dangerously-bypass-approvals-and-sandbox|yolo)\b", confidence="high")
     _inspector_env_assignments(findings, clean, path, suffix)
+    if suffix in {".sh", ".bash", ".zsh"}:
+        _shell_download_execution(findings, clean)
     if suffix in {".yaml", ".yml", ".toml", ".ini", ".cfg", ".env"}:
-        _regex(findings, clean, "AI031", r"^\s*(?:autoApprove|auto_approve)\s*[:=]\s*(?:true\b|\[(?=[^\]\n]{0,1000}['\"]\*['\"])[^\]\n]{0,1000}\])", re.M, "high")
+        if suffix in {".yaml", ".yml"}:
+            clean, aliases, _ = _yaml_configuration(clean)
+            _yaml_alias_findings(findings, aliases)
+        _regex(findings, clean, "AI031", r"^[ \t]*(?:autoApprove|auto_approve)\s*[:=]\s*(?:true\b|\[(?=[^\]\n]{0,1000}['\"]\*['\"])[^\]\n]{0,1000}\])", re.M, "high")
         if suffix in {".yaml", ".yml"}:
             _regex(findings, clean, "AI031", r"^(?P<indent>[ \t]*)(?:autoApprove|auto_approve)\s*:\s*\n(?P<items>(?:(?P=indent)[ \t]*-[^\n]*(?:\n|$)){1,50})", re.M, "high",
-                   lambda match: bool(re.search(r"^\s*-\s*['\"]\*['\"]\s*(?:#.*)?$", match.group("items"), re.M)))
-        _regex(findings, clean, "AI006", r"^\s*(?:verify|verify_ssl|tls_verify|rejectUnauthorized)\s*[:=]\s*false\b", re.M | re.I, "high")
-        _regex(findings, clean, "AI026", r"^\s*(?:auth|authentication|require_auth|auth_enabled)\s*[:=]\s*false\b", re.M | re.I)
-        _regex(findings, clean, "AI028", r"^\s*(?:token_passthrough|allow_token_passthrough|forward_authorization)\s*[:=]\s*true\b", re.M | re.I, "high")
-        _regex(findings, clean, "AI027", r"^\s*(?:allowed_tools|permissions|allowed_resources)\s*[:=]\s*(?:\[\s*)?['\"]\*['\"]", re.M, "high")
-        _regex(findings, clean, "AI009", r"^\s*(?:debug|FLASK_DEBUG)\s*[:=]\s*(?:true|1)\b", re.M | re.I, "high")
-        _regex(findings, clean, "AI008", r"^\s*host\s*[:=]\s*['\"]?(?:0\.0\.0\.0|::)(?:['\"]|\s|$)", re.M, "high")
-        _regex(findings, clean, "AI022", r"^\s*(?:privileged|allowPrivilegeEscalation)\s*:\s*true\b", re.M, "high")
+                   lambda match: bool(re.search(r"^[ \t]*-\s*['\"]\*['\"]\s*(?:#.*)?$", match.group("items"), re.M)))
+        _regex(findings, clean, "AI006", r"^[ \t]*(?:verify|verify_ssl|tls_verify|rejectUnauthorized)\s*[:=]\s*false\b", re.M | re.I, "high")
+        _regex(findings, clean, "AI026", r"^[ \t]*(?:auth|authentication|require_auth|auth_enabled)\s*[:=]\s*false\b", re.M | re.I)
+        _regex(findings, clean, "AI028", r"^[ \t]*(?:token_passthrough|allow_token_passthrough|forward_authorization)\s*[:=]\s*true\b", re.M | re.I, "high")
+        _regex(findings, clean, "AI027", r"^[ \t]*(?:allowed_tools|permissions|allowed_resources)\s*[:=]\s*(?:\[\s*)?['\"]\*['\"]", re.M, "high")
+        _regex(findings, clean, "AI009", r"^[ \t]*(?:debug|FLASK_DEBUG)\s*[:=]\s*(?:true|1)\b", re.M | re.I, "high")
+        _regex(findings, clean, "AI008", r"^[ \t]*host\s*[:=]\s*['\"]?(?:0\.0\.0\.0|::)(?:['\"]|\s|$)", re.M, "high")
+        _regex(findings, clean, "AI022", r"^[ \t]*(?:privileged|allowPrivilegeEscalation)\s*:\s*true\b", re.M, "high")
         _regex(findings, clean, "AI023", r"(?:/var/run/docker\.sock|/run/(?:docker|containerd/containerd)\.sock)", confidence="high")
-        _regex(findings, clean, "AI042", r"^\s*(?:(?:network_mode|pid)\s*:\s*['\"]?host\b|(?:hostPID|hostNetwork)\s*:\s*true\b)", re.M, "high")
-        _regex(findings, clean, "AI024", r"^\s*image\s*:\s*['\"]?(?P<image>[^\s'\"#]+)", re.M, "low",
+        _regex(findings, clean, "AI042", r"^[ \t]*(?:(?:network_mode|pid)\s*:\s*['\"]?host\b|(?:hostPID|hostNetwork)\s*:\s*true\b)", re.M, "high")
+        _regex(findings, clean, "AI024", r"^[ \t]*image\s*:\s*['\"]?(?P<image>[^\s'\"#]+)", re.M, "low",
                lambda match: not re.search(r"@sha256:[a-fA-F0-9]{64}$", match.group("image")) and "${" not in match.group("image"))
         if "/.github/workflows/" in "/" + path.replace("\\", "/"):
-            _regex(findings, clean, "AI020", r"^\s*-?\s*uses\s*:\s*['\"]?(?P<action>[^\s'\"#]+)", re.M, "high",
+            _regex(findings, clean, "AI020", r"^[ \t]*-?\s*uses\s*:\s*['\"]?(?P<action>[^\s'\"#]+)", re.M, "high",
                    lambda match: not match.group("action").startswith(("./", "docker://")) and not re.search(r"@[a-fA-F0-9]{40}$", match.group("action")))
     if "dockerfile" in PurePosixPath(path).name.lower():
         _docker_final_root(findings, clean)
@@ -1617,6 +1932,10 @@ def _generic_analysis(findings, text, path, suffix):
             if not content or content.startswith(("#", "-", "\\")):
                 continue
             requirement = content.split(";", 1)[0].split(" #", 1)[0].strip().rstrip("\\").strip()
+            if requirement in {".", ".."} or requirement.startswith(("./", "../", ".\\", "..\\", "/")) or re.match(r"^[A-Za-z]:[\\/]", requirement):
+                # Local project paths are not named dependency version ranges.
+                # Their contents/provenance still need independent review.
+                continue
             if not re.match(r"^[A-Za-z0-9][A-Za-z0-9_.-]*(?:\[[^]]+\])?\s*==\s*[^*\s,]+(?:\s+--hash=\S+)*$", requirement):
                 findings.add("AI025", index, confidence="low")
 
@@ -1629,6 +1948,8 @@ def analyze_file_errors(path: str, text: str) -> list[str]:
             ast.parse(text, filename=path)
         elif suffix in {".json", ".jsonc"}:
             _load_source_json(_strip_comments(text) if suffix == ".jsonc" else text)
+        elif suffix in {".yaml", ".yml"}:
+            return _yaml_configuration(text)[2]
     except SyntaxError as error:
         return ["Python syntax could not be parsed at line %s: %s; AST-based checks were skipped." % (error.lineno or 1, error.msg)]
     except json.JSONDecodeError as error:

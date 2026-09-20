@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from build_controlbook import FONT, BOLD, clean
 
-REPO = "https://github.com/nimeshbuilds/agent-mcp-security"
+REPO = "https://github.com/nimeshbuilds/invarune"
 NAVY, TEAL, GREY = colors.HexColor("#0b1220"), colors.HexColor("#087e78"), colors.HexColor("#526276")
 LIGHT, LINE = colors.HexColor("#f2f6fa"), colors.HexColor("#d8e2ed")
 STYLE = {"body": ParagraphStyle("body", fontName=FONT, fontSize=10, leading=14, textColor=NAVY, spaceAfter=9),

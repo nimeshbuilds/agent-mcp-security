@@ -1,0 +1,234 @@
+{
+  "experiment": "comparison-v013",
+  "file_count": 32,
+  "files": [
+    {
+      "bytes": 529657,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/mcp-reference/report.json",
+      "project_id": "mcp-reference",
+      "sha256": "ca3bb7cecdc4d8f4522318c347a160fd2c39048d4eade5bef7ced668f819a97a"
+    },
+    {
+      "bytes": 945559,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/mcp-reference/report.html",
+      "project_id": "mcp-reference",
+      "sha256": "bb9398286adcf2489d8e874085cafae26190b50b0da55a235b5cd47f6e56c315"
+    },
+    {
+      "bytes": 334834,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/mcp-reference/report.md",
+      "project_id": "mcp-reference",
+      "sha256": "ff05270dff53518c33589031ea31edc70e0d1b2341f62b1a0f6c3cd7818cb74d"
+    },
+    {
+      "bytes": 511912,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/mcp-reference/report.sarif",
+      "project_id": "mcp-reference",
+      "sha256": "674795e4d9d1e560d099555b71233952db784732d2f054c3a458e6c75bf75876"
+    },
+    {
+      "bytes": 276310,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/github-mcp/report.json",
+      "project_id": "github-mcp",
+      "sha256": "c91fc3f448be9e5f59c76023f83cef3f74f4bf2a394a3b92b7595b5f0e1f3a23"
+    },
+    {
+      "bytes": 636522,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/github-mcp/report.html",
+      "project_id": "github-mcp",
+      "sha256": "575059614dc403251c0b459d2dc2aa1d160a3b82660df2f679e5eb9bad5f2ba3"
+    },
+    {
+      "bytes": 166446,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/github-mcp/report.md",
+      "project_id": "github-mcp",
+      "sha256": "e42311d4c5ca23e01dbd211d17ef486abb7f09510a1108ef72bba5e79f2dd3e7"
+    },
+    {
+      "bytes": 203255,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/github-mcp/report.sarif",
+      "project_id": "github-mcp",
+      "sha256": "88c5c050b4da4aa32657d4d01c2edde971162d07fd6b2d7863db1b195e21d92b"
+    },
+    {
+      "bytes": 531059,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/autogen/report.json",
+      "project_id": "autogen",
+      "sha256": "552cc735104a435806fe76a345061d5b51541503f1d74cd78116ccd439ff0ef5"
+    },
+    {
+      "bytes": 912955,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/autogen/report.html",
+      "project_id": "autogen",
+      "sha256": "3d9f8913fa8ae6ae6bde34deeeca206fbb5aaed3796cdc1801c99f3feccf5b32"
+    },
+    {
+      "bytes": 167656,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/autogen/report.md",
+      "project_id": "autogen",
+      "sha256": "ade6a54adb895e6ed584af140d0c81cb6252e2110f198bd7c1c8a1e87efc0dae"
+    },
+    {
+      "bytes": 179599,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/autogen/report.sarif",
+      "project_id": "autogen",
+      "sha256": "247aa950826f6326d5f224b3bc860defe497223906622e21c212fc547aa083b3"
+    },
+    {
+      "bytes": 709282,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/crewai/report.json",
+      "project_id": "crewai",
+      "sha256": "e8a9e53438913b9a44ba27861c1ac37ffe7f7f10c8176dad3055850409165b90"
+    },
+    {
+      "bytes": 1151314,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/crewai/report.html",
+      "project_id": "crewai",
+      "sha256": "68f2ffdc4ad813feb30eb6056f5dd442237e95dabc0b684aa74abde8ec10e9b1"
+    },
+    {
+      "bytes": 243296,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/crewai/report.md",
+      "project_id": "crewai",
+      "sha256": "8f39e7eb227eee3e83e7c923976a168a2df8cacb7cefb5aff463fde2bbcb13e7"
+    },
+    {
+      "bytes": 303281,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/crewai/report.sarif",
+      "project_id": "crewai",
+      "sha256": "28b2f323a882fd31cd9e6ed55c10cbea3998aca59d67f44930f1ca96431e36e4"
+    },
+    {
+      "bytes": 386934,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/langgraph/report.json",
+      "project_id": "langgraph",
+      "sha256": "2aa85832eaa3332c6a207a9ca5e686ed1aa65e52de893147aa8007b9e58da55d"
+    },
+    {
+      "bytes": 755497,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/langgraph/report.html",
+      "project_id": "langgraph",
+      "sha256": "a2e1f168ee2081f622620d1c306f6ba5cb1d27e61308c9f0461be973accf670c"
+    },
+    {
+      "bytes": 208047,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/langgraph/report.md",
+      "project_id": "langgraph",
+      "sha256": "387d6f8a6508100d2992225533b8b95b3a4248f9733d40c6517eaced6ea33471"
+    },
+    {
+      "bytes": 264325,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/langgraph/report.sarif",
+      "project_id": "langgraph",
+      "sha256": "2bcfdfcfde2411360275ac4628c8a72de33913637430083d400a5b5f77c11ec2"
+    },
+    {
+      "bytes": 517560,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/openhands/report.json",
+      "project_id": "openhands",
+      "sha256": "80b7ef794cdc8499d684b981b0db7a5442cf145b1c68852d33e4fcf96c0db723"
+    },
+    {
+      "bytes": 923216,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/openhands/report.html",
+      "project_id": "openhands",
+      "sha256": "33546664222f96f7870b4470622dae59238a016f1bfd4c6daeed44a49f113c64"
+    },
+    {
+      "bytes": 153858,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/openhands/report.md",
+      "project_id": "openhands",
+      "sha256": "cc769484997c567b23f7a35e5f0d472ba894661fe795ac575abf7f61358ac8f5"
+    },
+    {
+      "bytes": 165978,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/openhands/report.sarif",
+      "project_id": "openhands",
+      "sha256": "d02173b0da61b349eb5eb8ea662b5dbe9d2d2fc9634be84bf3e174cb463ed827"
+    },
+    {
+      "bytes": 235380,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/pydantic-ai/report.json",
+      "project_id": "pydantic-ai",
+      "sha256": "bd8e0ca90dd092b1323a3dae5c8d6141b783ad99cd5c3e0700ad6d95825629cc"
+    },
+    {
+      "bytes": 592420,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/pydantic-ai/report.html",
+      "project_id": "pydantic-ai",
+      "sha256": "55088daf7dbd514e24f98a40412fdecd75e5992a77f5dbc0556834ddcea2f5b4"
+    },
+    {
+      "bytes": 112280,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/pydantic-ai/report.md",
+      "project_id": "pydantic-ai",
+      "sha256": "0ba620a7b13137033bff1a67f8c1f528ff1569b791474cf2b1bcb05e058a8a9d"
+    },
+    {
+      "bytes": 104429,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/pydantic-ai/report.sarif",
+      "project_id": "pydantic-ai",
+      "sha256": "bb98753efc2efae369442535e0b66c93b5a8ca49e2ac76788b816404cbbfa2ec"
+    },
+    {
+      "bytes": 242786,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/fastmcp/report.json",
+      "project_id": "fastmcp",
+      "sha256": "e6b2cc9c88dd363bb5e9fcd3237247b6f7c176652e072f225068495b0b4adaa2"
+    },
+    {
+      "bytes": 597258,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/fastmcp/report.html",
+      "project_id": "fastmcp",
+      "sha256": "75db9805610dee18c1477f0187ba8dde6e32377a62d66e395d0e3234ba51f749"
+    },
+    {
+      "bytes": 110989,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/fastmcp/report.md",
+      "project_id": "fastmcp",
+      "sha256": "ea2056b7802f5f5d5cf7432ef187e62af627b41236e1858e4ff9bb87ae8487e7"
+    },
+    {
+      "bytes": 102924,
+      "matches_both_execution_receipts": true,
+      "path": "invarune-reports/fastmcp/report.sarif",
+      "project_id": "fastmcp",
+      "sha256": "c0f978d859c436e91f46caa7ce7c24504adeca0cb997eae680c6311f354a35e9"
+    }
+  ],
+  "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+  "scanner_version": "0.13.0",
+  "schema_version": "1.0",
+  "total_bytes": 13276818
+}

@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1207" role="img" aria-labelledby="title desc">
+<title id="title">Different tools expose different review work</title><desc id="desc">Every observed family is shown. Cell numbers are scanner observations, not unique vulnerabilities or tool quality scores.</desc>
+<rect width="1000" height="1207" rx="24" fill="#081d29"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="36" y="42" fill="#59dec2" font-size="13" font-weight="700" text-anchor="start" letter-spacing="2">INVARUNE  /  BENCHMARK LAB</text>
+<text x="36" y="81" fill="#edf9fc" font-size="28" font-weight="700" text-anchor="start" letter-spacing="0">Different tools expose different review work</text>
+<text x="36" y="113" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Observed families on this corpus · no intensity scale or winner ranking</text>
+<text x="556" y="158" fill="#59dec2" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">Invarune</text>
+<text x="678" y="158" fill="#edf9fc" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">Semgrep CE</text>
+<text x="800" y="158" fill="#edf9fc" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">Bandit</text>
+<text x="922" y="158" fill="#edf9fc" font-size="17" font-weight="700" text-anchor="middle" letter-spacing="0">Gitleaks</text>
+<rect x="27" y="166" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="185" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">archive extraction</text>
+<text x="556" y="185" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="185" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="185" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">6</text>
+<text x="922" y="185" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="214" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">assert statement</text>
+<text x="556" y="214" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="214" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="214" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">518</text>
+<text x="922" y="214" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="224" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="243" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">credential literal</text>
+<text x="556" y="243" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">24</text>
+<text x="678" y="243" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="243" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">27</text>
+<text x="922" y="243" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">3</text>
+<text x="38" y="272" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">cryptography import</text>
+<text x="556" y="272" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="272" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="272" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="922" y="272" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="282" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="301" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">debug enabled</text>
+<text x="556" y="301" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="678" y="301" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="301" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="922" y="301" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="330" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">dependency version range</text>
+<text x="556" y="330" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">60</text>
+<text x="678" y="330" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="330" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="922" y="330" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="340" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="359" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">dynamic code execution</text>
+<text x="556" y="359" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">3</text>
+<text x="678" y="359" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">3</text>
+<text x="800" y="359" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">3</text>
+<text x="922" y="359" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="388" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">dynamic outbound url</text>
+<text x="556" y="388" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="388" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">6</text>
+<text x="800" y="388" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">6</text>
+<text x="922" y="388" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="398" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="417" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">exception continue</text>
+<text x="556" y="417" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="417" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="417" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">10</text>
+<text x="922" y="417" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="446" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">exception pass</text>
+<text x="556" y="446" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="446" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="446" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">106</text>
+<text x="922" y="446" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="456" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="475" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">jwt signature bypass</text>
+<text x="556" y="475" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="678" y="475" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="475" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="922" y="475" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="504" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">partial executable path</text>
+<text x="556" y="504" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="504" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="504" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">50</text>
+<text x="922" y="504" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="514" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="533" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">permissive file mode</text>
+<text x="556" y="533" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="533" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="533" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="922" y="533" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="562" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">pickle family api</text>
+<text x="556" y="562" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">4</text>
+<text x="678" y="562" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">10</text>
+<text x="800" y="562" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">4</text>
+<text x="922" y="562" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="572" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="591" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">pickle import</text>
+<text x="556" y="591" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="591" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="591" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">6</text>
+<text x="922" y="591" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="620" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">process execution without shell</text>
+<text x="556" y="620" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="620" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="620" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="922" y="620" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="630" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="649" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">request timeout missing</text>
+<text x="556" y="649" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="649" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="649" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="922" y="649" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="678" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">secret logging</text>
+<text x="556" y="678" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">2</text>
+<text x="678" y="678" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="678" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="922" y="678" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="688" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="707" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">security randomness</text>
+<text x="556" y="707" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="707" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="707" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">19</text>
+<text x="922" y="707" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="736" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">sql construction</text>
+<text x="556" y="736" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">22</text>
+<text x="678" y="736" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="736" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">36</text>
+<text x="922" y="736" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="746" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="765" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">subprocess import</text>
+<text x="556" y="765" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="765" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="765" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">51</text>
+<text x="922" y="765" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="794" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">subprocess without shell</text>
+<text x="556" y="794" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="794" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="794" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">77</text>
+<text x="922" y="794" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="804" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="823" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">template autoescape disabled</text>
+<text x="556" y="823" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="823" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="823" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="922" y="823" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="852" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">temporary directory literal</text>
+<text x="556" y="852" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="852" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="852" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">2</text>
+<text x="922" y="852" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="862" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="881" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">unpinned container image</text>
+<text x="556" y="881" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">22</text>
+<text x="678" y="881" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="881" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="922" y="881" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="910" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">unsafe html rendering</text>
+<text x="556" y="910" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">5</text>
+<text x="678" y="910" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="910" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="922" y="910" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="920" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="939" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">weak hash algorithm</text>
+<text x="556" y="939" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="939" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">5</text>
+<text x="800" y="939" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">4</text>
+<text x="922" y="939" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="968" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">wildcard cors</text>
+<text x="556" y="968" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">2</text>
+<text x="678" y="968" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="968" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="922" y="968" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="978" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="997" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">wildcard listener</text>
+<text x="556" y="997" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="997" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="997" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="922" y="997" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="1026" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">xml parser api</text>
+<text x="556" y="1026" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="1026" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">3</text>
+<text x="800" y="1026" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">3</text>
+<text x="922" y="1026" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<rect x="27" y="1036" width="946" height="29" rx="0" fill="#102e3c"/>
+<text x="38" y="1055" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">xml parser import</text>
+<text x="556" y="1055" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="1055" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="1055" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">3</text>
+<text x="922" y="1055" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="38" y="1084" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">yaml object deserialization</text>
+<text x="556" y="1084" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="678" y="1084" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="800" y="1084" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
+<text x="922" y="1084" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="36" y="1132" fill="#aac4cd" font-size="14" font-weight="400" text-anchor="start" letter-spacing="0">A dash means no observation in this family. It is not a verified absence of risk or a missing-vulnerability label.</text>
+<path d="M36 1159H964" stroke="#294755"/>
+<text x="36" y="1185" fill="#aac4cd" font-size="13" font-weight="400" text-anchor="start" letter-spacing="0">All 32 observed families retained. Family semantics and rule packs differ; inspect the linked family map.</text>
+</g></svg>

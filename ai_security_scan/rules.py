@@ -3,7 +3,7 @@
 These rules find source evidence; they are not claims of exploitability or compliance.
 """
 
-RULESET_VERSION = "1.3.0"
+RULESET_VERSION = "1.4.0"
 
 _MCP = "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
 _OWASP = "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
@@ -72,8 +72,8 @@ RULES = [
     _rule("AI018", "MCP package runner resolves an unpinned artifact", "medium", "supply_chain",
           "An MCP launch configuration uses npx, uvx, or a similar ephemeral package runner without an exact package version. The executable artifact can change between launches.",
           "Pin an exact audited package version and lock or verify transitive artifacts. Prefer preinstalled verified tools in a controlled environment.", ["CWE-829"], [_MCP, _CISA]),
-    _rule("AI019", "Remote download piped directly to a shell", "high", "supply_chain",
-          "Downloaded content is directly piped to a shell. A changed or compromised remote artifact becomes executable without a visible integrity check.",
+    _rule("AI019", "Remote download executed directly by a shell", "high", "supply_chain",
+          "Downloaded content is directly piped to a shell or used as its command text. A changed or compromised remote artifact becomes executable without a visible integrity check.",
           "Fetch a versioned artifact, verify an independently trusted digest or signature, review it, and execute it under least privilege.", ["CWE-829"], [_CISA]),
     _rule("AI020", "GitHub Action reference is not pinned to a commit", "medium", "supply_chain",
           "A remote GitHub Action is referenced using a mutable tag, branch, or noncommit reference. Its code can change without a workflow diff.",

@@ -1,0 +1,132 @@
+{
+  "after": {
+    "overall": {
+      "assertions": 113,
+      "false_negative": 2,
+      "false_negative_rate": 0.033333,
+      "false_positive": 1,
+      "false_positive_rate": 0.018868,
+      "precision": 0.983051,
+      "recall": 0.966667,
+      "true_negative": 52,
+      "true_positive": 58
+    },
+    "tool_version": "0.13.0"
+  },
+  "before": {
+    "overall": {
+      "assertions": 113,
+      "false_negative": 5,
+      "false_negative_rate": 0.083333,
+      "false_positive": 2,
+      "false_positive_rate": 0.037736,
+      "precision": 0.964912,
+      "recall": 0.916667,
+      "true_negative": 51,
+      "true_positive": 55
+    },
+    "tool_version": "0.12.0"
+  },
+  "changed_assertions": [
+    {
+      "after": "true_positive",
+      "before": "false_negative",
+      "case_id": "gap-reflection-python",
+      "rule_id": "AI003"
+    },
+    {
+      "after": "true_positive",
+      "before": "false_negative",
+      "case_id": "gap-shell-wrapper",
+      "rule_id": "AI019"
+    },
+    {
+      "after": "true_positive",
+      "before": "false_negative",
+      "case_id": "gap-yaml-alias",
+      "rule_id": "AI027"
+    },
+    {
+      "after": "true_negative",
+      "before": "false_positive",
+      "case_id": "gap-yaml-block-string",
+      "rule_id": "AI026"
+    }
+  ],
+  "charts": {
+    "confusion.svg": {
+      "sha256": "49626e31f88a62b2020cc2161269a9e8eccb91d4eccfb3ae8b6a801938018683"
+    },
+    "family-footprint.svg": {
+      "sha256": "b6f435135bff1dcc78da7ad84aeb298b6239a67a27df4c7781a21e949f53db72"
+    },
+    "fixture-progress.svg": {
+      "sha256": "9e85b4969d0d673eaf55944ef95c23f9be09a3eab25bdfb3c11d1e08cb506868"
+    },
+    "overlap.svg": {
+      "sha256": "76caf2a8ad30c136fe2af79baf8a3016cd56f0da63512194ce3a15b83944fc52"
+    },
+    "source-coverage.svg": {
+      "sha256": "f69bfd3177e508dd15193434b676b932d94a84c1eea3e42eaf4540d0137e298d"
+    }
+  },
+  "comparison": "comparison-v013",
+  "fixture_corpus_sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3",
+  "generator": "scripts/build_benchmark_dashboard.py",
+  "inputs": {
+    "benchmarks/comparison-v013/accuracy-after.json": {
+      "bytes": 67940,
+      "sha256": "49bd49b0464b288beca29212d1b8be4f3b6c48ce5037a0da771bc2c829de9e38"
+    },
+    "benchmarks/comparison-v013/accuracy-before.json": {
+      "bytes": 68018,
+      "sha256": "317df5794e85e17d4c5965023ff1fddfb708262bb94f5fb3f517f265994a6a94"
+    },
+    "benchmarks/comparison-v013/baseline-identity.json": {
+      "bytes": 568,
+      "sha256": "8ca33faac8770a910638e53ac60188fc8be34087f00de74bd49bcc3864ee1c14"
+    },
+    "benchmarks/comparison-v013/before-after-accuracy.json": {
+      "bytes": 5109,
+      "sha256": "bf763bc4b484466a9ef632cff766331e66b687c5106e0774973e439d56ff0a79"
+    },
+    "benchmarks/comparison-v013/external-results/cisco-metadata.json": {
+      "bytes": 5745,
+      "sha256": "9d3cbc04da6b333f79419b1e04998d5c12ce0d6e84ed0ad87e31fc7cda788ccc"
+    },
+    "benchmarks/comparison-v013/observations.json": {
+      "bytes": 1687444,
+      "sha256": "668f465110aa4f47ea3a89df5cbf0a509b69980bfa9cebe5ffee8a601f221721"
+    },
+    "benchmarks/comparison-v013/overlaps.json": {
+      "bytes": 142370,
+      "sha256": "c4c4510045638675b37919f8c040a3661e420f44d7f1f57cbc023278c613713b"
+    },
+    "benchmarks/comparison-v013/run-status.json": {
+      "bytes": 20632,
+      "sha256": "1f63d714a1cbd5cf95f88ebef01a23ecc55f02400ef323a918fc412c218a83eb"
+    },
+    "benchmarks/static_accuracy.json": {
+      "bytes": 35282,
+      "sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3"
+    }
+  },
+  "interpretation": "Fixture counts use explicit development-visible rule-presence labels. Source observations and cross-tool overlap provide no confirmed-vulnerability, TP/FP or production-accuracy label.",
+  "metadata_track": {
+    "finding_count": 0,
+    "input_sha256": "277b150123d353b7f464db3535c2f7e1ac17ba860eff676662931a4267e19f2d",
+    "raw_result_sha256": "a320bce5bff07b88bc87977e34719ebbbf8dadd98f2e881b976e37800877852b",
+    "status": "completed_no_findings",
+    "tool": "cisco-ai-mcp-scanner",
+    "version": "4.8.4"
+  },
+  "observations_by_tool": {
+    "bandit": 938,
+    "gitleaks": 3,
+    "invarune": 146,
+    "semgrep": 27
+  },
+  "preview": false,
+  "product": "Invarune by NimeshBuild",
+  "schema_version": "1.0"
+}

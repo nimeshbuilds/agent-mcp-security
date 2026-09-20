@@ -2,6 +2,7 @@
 import importlib.util
 from pathlib import Path
 import unittest
+from unittest import mock
 
 SPEC = importlib.util.spec_from_file_location("scanner_comparison", Path(__file__).resolve().parents[1] / "scripts/compare_scanner_findings.py")
 COMPARE = importlib.util.module_from_spec(SPEC)
@@ -14,6 +15,22 @@ def obs(ident, line=10, end=10, family="dynamic_code_execution", mapped=True, pa
 
 
 class ScannerComparisonTests(unittest.TestCase):
+    def test_new_experiment_identity_and_selection_seed_leave_legacy_defaults_intact(self):
+        self.assertEqual(COMPARE.parser().parse_args([]).experiment, "comparison-v010")
+        self.assertEqual(COMPARE.parser().parse_args(["--experiment", "comparison-v013"]).experiment, "comparison-v013")
+        ledger = {"observations": [{**obs("s1"), "tool": "semgrep"}]}
+        legacy = COMPARE.adjudication_selection(ledger, {"pairs": []})
+        new = COMPARE.adjudication_selection(ledger, {"pairs": []}, seed="comparison-v013-adjudication-v1")
+        self.assertEqual(legacy["selection_id"], "comparison-v010-adjudication-2026-09-19-v1")
+        self.assertEqual(new["selection_id"], "comparison-v013-adjudication-v1")
+        self.assertEqual(new["selected_observation_ids"], legacy["selected_observation_ids"])
+
+    def test_invalid_experiment_identity_is_rejected_before_reading_inputs(self):
+        with mock.patch.object(COMPARE, "build", side_effect=AssertionError("Inputs must not be read")):
+            for identifier in ("../old", "", "comparison v013", "comparison_V013"):
+                with self.subTest(identifier=identifier), self.assertRaisesRegex(ValueError, "Experiment identity"):
+                    COMPARE.main(["--experiment", identifier])
+
     def test_exact_family_and_inclusive_overlap_matches(self):
         result = COMPARE.pairwise([obs("a", 10, 12)], [obs("b", 12, 14)], "a", "b")
         self.assertEqual(result["counts"]["one_to_one_pairs"], 1)
