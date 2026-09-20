@@ -7,6 +7,8 @@
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
 - **[Quick start: install and use invscan](docs/QUICKSTART.md)**
+- **[Documentation website](https://nimeshbuilds.github.io/agent-mcp-security/)** — searchable user guides, developer internals and benchmark evidence.
+- **[Report and PDF library](docs/REPORT_LIBRARY.md)** · **[Developer guide](CONTRIBUTING.md)**
 - **[Ask about security controls offline](docs/SECURITY_EXPLORER.md)**
 - **[Download the v0.12 CLI wheel and explorer examples](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0)**
 - **[New v0.11 scan report: fillable PDF, HTML and live AI example](examples/reports/invscan-v011/README.md)**

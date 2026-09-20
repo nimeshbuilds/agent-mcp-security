@@ -1,0 +1,1865 @@
+{
+  "audited_head": "6c0f4b818ffb03a8f40e6ceb29a1bcb504837bb1",
+  "blockers": [],
+  "completed_at_utc": "2026-09-20T01:36:14.164819+00:00",
+  "credential_file_inventory": {
+    "matching_historical_paths": [],
+    "sanitized_login_receipt_review": "Contains flags, provider, outcome and timeout only; OAuth URL/code, account identity and raw terminal output are omitted.",
+    "tracked_sanitized_login_receipt": "benchmarks/cli-providers/claude_login.json"
+  },
+  "finished_at_utc": "2026-09-20T01:31:48.485695+00:00",
+  "image_metadata": [
+    {
+      "metadata_has_host_path_or_email": false,
+      "metadata_keys": [],
+      "path": "docs/assets/brand/invarune-avatar.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "metadata_has_host_path_or_email": false,
+      "metadata_keys": [],
+      "path": "docs/assets/brand/invarune-banner.png",
+      "size": [
+        1600,
+        680
+      ]
+    },
+    {
+      "metadata_has_host_path_or_email": false,
+      "metadata_keys": [],
+      "path": "docs/assets/brand/invarune-mark.png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "metadata_has_host_path_or_email": false,
+      "metadata_keys": [],
+      "path": "docs/assets/controlbook-cover.png",
+      "size": [
+        745,
+        1053
+      ]
+    },
+    {
+      "metadata_has_host_path_or_email": false,
+      "metadata_keys": [
+        "dpi"
+      ],
+      "path": "docs/assets/invscan-v011-report-cover.png",
+      "size": [
+        1132,
+        1600
+      ]
+    }
+  ],
+  "kind": "read_only_prepublication_audit",
+  "licensing_and_notices": {
+    "notice": "NOTICE.md",
+    "observed_redistribution_blockers": [],
+    "original_project_license": "No open-source license selected; public visibility does not grant a reuse license. This is explicitly stated in NOTICE.md.",
+    "semgrep_rules": "The downloaded licensed Semgrep rule pack and unmodified raw outputs are ignored local files; no rule pack is tracked.",
+    "standards": "Catalog links and original engineering explanations are published; third-party full standards, external control workbooks and proprietary companion PDFs are not redistributed in this tree.",
+    "third_party_source_notices": "Eight pinned benchmark-project license notices are retained with the public source provenance."
+  },
+  "limitations": [
+    "A secret scanner and bounded manual review cannot prove that all secrets or private data are absent. No candidate credential was tested against a live service.",
+    "The audit covers the recorded commit, every remote branch/tag reachable at audit time, reachable history blobs/commit messages, the two recorded releases, and decoded PDF text/fields/metadata. Unreachable local Git objects, local ignored caches, GitHub Actions secrets/artifacts and unrelated external services are not publication inputs covered here.",
+    "Later file edits, new commits or changed release assets need an incremental audit.",
+    "PNG metadata was inspected; no OCR-based secret detection of raster image pixels was performed. The tracked PNGs are three brand assets and two generated report covers.",
+    "Publication licensing is recorded as repository metadata; this audit is not a legal determination or a grant of third-party rights."
+  ],
+  "pdfs": [
+    {
+      "bytes": 1333300,
+      "extracted_text_bytes": 210945,
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 119,
+      "path": "examples/reports/cli-claude-v010/report.pdf",
+      "sha256": "af4f08394d4108d992a3f78e808bc40557289ca120681829c11b875efa9c7877",
+      "status": "extracted"
+    },
+    {
+      "bytes": 1309387,
+      "extracted_text_bytes": 192022,
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 114,
+      "path": "examples/reports/invscan-v011/report.pdf",
+      "sha256": "bed01706affa81d4e8ba87c0372078a81b44a9a45ffb22305f7546b02c8a5b8d",
+      "status": "extracted"
+    },
+    {
+      "bytes": 1174174,
+      "extracted_text_bytes": 142250,
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 99,
+      "path": "examples/reports/review-workflow/source/final-pdf/report.pdf",
+      "sha256": "4a5e8353220064529e7f90428c45a1e6bc5d4dc0070f7e8a90954b9b5b5020d0",
+      "status": "extracted"
+    },
+    {
+      "bytes": 1155507,
+      "extracted_text_bytes": 141963,
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 99,
+      "path": "examples/reports/review-workflow/source/reviewed.pdf",
+      "sha256": "e0271c845ceabf47c64b14c804425b9b458a6ac5714ad5826559341145115e41",
+      "status": "extracted"
+    },
+    {
+      "bytes": 104090,
+      "extracted_text_bytes": 12895,
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 9,
+      "path": "output/pdf/invarune-benchmark-report.pdf",
+      "sha256": "1ea4c5e1ae9dede387ed7ebd787f7d73ca0129ee3d23d5012a90c4f1bb36f4d3",
+      "status": "extracted"
+    },
+    {
+      "bytes": 121392,
+      "extracted_text_bytes": 23071,
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 13,
+      "path": "output/pdf/invarune-finding-comparison-v010.pdf",
+      "sha256": "2159b8625bb2478a77cb8cf2fa0253006715662dc4957b33653dc0bbed150f72",
+      "status": "extracted"
+    },
+    {
+      "bytes": 331585,
+      "extracted_text_bytes": 105664,
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 71,
+      "path": "output/pdf/invarune-security-controlbook.pdf",
+      "sha256": "05ad8a5ae72f9ad4b72b555d224698d432d4bf4fe6780d883aa744bd87da16ca",
+      "status": "extracted"
+    },
+    {
+      "bytes": 1309387,
+      "extracted_text_bytes": 192022,
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 114,
+      "path": "releases/v0.11.0/report.pdf",
+      "sha256": "bed01706affa81d4e8ba87c0372078a81b44a9a45ffb22305f7546b02c8a5b8d",
+      "status": "extracted"
+    },
+    {
+      "bytes": 94534,
+      "extracted_text_bytes": 9707,
+      "extracted_text_contains_email_or_host_path": false,
+      "git_blob": "49b49e04a0d761dd105d9e468c5074f47d379a28",
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 6,
+      "path": "output/pdf/invarune-benchmark-report.pdf",
+      "scope": "historical_pdf",
+      "sha256": "9aa60a8ffd353a451aa3c2da2b7293b69c6f9f7ba6400fed60099126f6f98f78",
+      "status": "extracted"
+    },
+    {
+      "bytes": 312223,
+      "extracted_text_bytes": 96713,
+      "extracted_text_contains_email_or_host_path": false,
+      "git_blob": "596d2042a9791c730a32afc67bd8f777eddfed6a",
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 65,
+      "path": "output/pdf/invarune-security-controlbook.pdf",
+      "scope": "historical_pdf",
+      "sha256": "ecd12ee5d9c4ab70cfebe4f34db1a91747fa6d87df3ff4b97dc5af080d20061b",
+      "status": "extracted"
+    },
+    {
+      "bytes": 301921,
+      "extracted_text_bytes": 95137,
+      "extracted_text_contains_email_or_host_path": false,
+      "git_blob": "71e32be14b8124643e655ba0f0ff4debcbcceb5c",
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 65,
+      "path": "output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf",
+      "scope": "historical_pdf",
+      "sha256": "2c77748f93c4721d701494b8107969509c0091f960f6647a344d980a756a82cd",
+      "status": "extracted"
+    },
+    {
+      "bytes": 298939,
+      "extracted_text_bytes": 92904,
+      "extracted_text_contains_email_or_host_path": false,
+      "git_blob": "7a635bbf78557ed09be286fbd01f49e09ff639b3",
+      "metadata_contains_email_or_host_path": false,
+      "metadata_keys": [
+        "/Author",
+        "/CreationDate",
+        "/Creator",
+        "/Keywords",
+        "/ModDate",
+        "/Producer",
+        "/Subject",
+        "/Title",
+        "/Trapped"
+      ],
+      "pages": 64,
+      "path": "output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf",
+      "scope": "historical_pdf",
+      "sha256": "f580c742968fa6dfdc2d6953429c6b7781e2f02a7dbf47439c8fb0813d1b9f1c",
+      "status": "extracted"
+    }
+  ],
+  "privacy": "Secret values, raw scanner output, author email values, personal path matches and account identities are not included. Temporary scan inputs and redacted reports were removed after inspection.",
+  "public_benchmark_provenance": {
+    "exported_files_verified": 4120,
+    "manifest": "benchmarks/real-world/manifest.json",
+    "manifest_sha256": "8f0115f7f24d81a15dfbb9c67e555bd33f652f129b73b19277419a346e2a096e",
+    "projects": [
+      {
+        "files": 86,
+        "id": "mcp-reference",
+        "license_notice": "benchmarks/real-world/licenses/mcp-reference.txt",
+        "license_notice_sha256": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a",
+        "repository": "https://github.com/modelcontextprotocol/servers",
+        "revision": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+        "source_bytes_verified": true,
+        "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf"
+      },
+      {
+        "files": 163,
+        "id": "github-mcp",
+        "license_notice": "benchmarks/real-world/licenses/github-mcp.txt",
+        "license_notice_sha256": "9e48ecfa18e2b15169746a3c97beda4d1d6c6796097038498ca434ca7e0ccd44",
+        "repository": "https://github.com/github/github-mcp-server",
+        "revision": "85598ba6e1256f7ebf4867b95d63b833c4549264",
+        "source_bytes_verified": true,
+        "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c"
+      },
+      {
+        "files": 786,
+        "id": "autogen",
+        "license_notice": "benchmarks/real-world/licenses/autogen.txt",
+        "license_notice_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+        "repository": "https://github.com/microsoft/autogen",
+        "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+        "source_bytes_verified": true,
+        "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34"
+      },
+      {
+        "files": 968,
+        "id": "crewai",
+        "license_notice": "benchmarks/real-world/licenses/crewai.txt",
+        "license_notice_sha256": "28868731966f4aa37f02879839aabc797137e27ddde4e274ef9cf965f9a71774",
+        "repository": "https://github.com/crewAIInc/crewAI",
+        "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+        "source_bytes_verified": true,
+        "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f"
+      },
+      {
+        "files": 211,
+        "id": "langgraph",
+        "license_notice": "benchmarks/real-world/licenses/langgraph.txt",
+        "license_notice_sha256": "d9bb52f2e3540d60ff50d8f0f5b6ba649b7fd346948c4c3d086c8afb120763c7",
+        "repository": "https://github.com/langchain-ai/langgraph",
+        "revision": "aa742fb31e2827d569b843e3600aeda2e0528e4b",
+        "source_bytes_verified": true,
+        "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b"
+      },
+      {
+        "files": 1237,
+        "id": "openhands",
+        "license_notice": "benchmarks/real-world/licenses/openhands.txt",
+        "license_notice_sha256": "e1d1fa9f3a8d7bef24449d488fcd8f00f8f272cac297bb9bed161eb6175b876a",
+        "repository": "https://github.com/OpenHands/OpenHands",
+        "revision": "a07364828c8f202e7745c6bce3dcef3915ae7ac1",
+        "source_bytes_verified": true,
+        "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d"
+      },
+      {
+        "files": 386,
+        "id": "pydantic-ai",
+        "license_notice": "benchmarks/real-world/licenses/pydantic-ai.txt",
+        "license_notice_sha256": "bc0e89738f36944c8106e1947c3d69631f9c33b8f1bcb60ec4f89d677d2dfcf4",
+        "repository": "https://github.com/pydantic/pydantic-ai",
+        "revision": "c4898abb54dc25ae6f6aef208a4c0661b30a455e",
+        "source_bytes_verified": true,
+        "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30"
+      },
+      {
+        "files": 283,
+        "id": "fastmcp",
+        "license_notice": "benchmarks/real-world/licenses/fastmcp.txt",
+        "license_notice_sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+        "repository": "https://github.com/PrefectHQ/fastmcp",
+        "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+        "source_bytes_verified": true,
+        "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09"
+      }
+    ],
+    "raw_source_exports_tracked": false
+  },
+  "release_assets": [
+    {
+      "bytes": 191,
+      "name": "SHA256SUMS.txt",
+      "release_checksum_verified": null,
+      "sha256": "72b9b747eb1bbce235d5dfac77ae2851ff456fc8499f923a9ed4ab4dd8140385",
+      "tag": "v0.11.0"
+    },
+    {
+      "archive_members": 36,
+      "bytes": 272436,
+      "name": "agent_mcp_security_scan-0.11.0-py3-none-any.whl",
+      "release_checksum_verified": true,
+      "sha256": "540057b5a3010f8f46496834b3e4ee5165687cb80db8957bbe692d22b57caa4d",
+      "tag": "v0.11.0"
+    },
+    {
+      "bytes": 1309387,
+      "name": "report.pdf",
+      "release_checksum_verified": true,
+      "sha256": "bed01706affa81d4e8ba87c0372078a81b44a9a45ffb22305f7546b02c8a5b8d",
+      "tag": "v0.11.0"
+    },
+    {
+      "bytes": 279,
+      "name": "SHA256SUMS.txt",
+      "release_checksum_verified": null,
+      "sha256": "7af56b4c461b6356d015a396f057cc94ca6df93c376cbea280d998267aba13d7",
+      "tag": "v0.12.0"
+    },
+    {
+      "archive_members": 38,
+      "bytes": 294454,
+      "name": "agent_mcp_security_scan-0.12.0-py3-none-any.whl",
+      "release_checksum_verified": true,
+      "sha256": "4abcf9adc83f255bbf4457537af684ebedd1ed56b9579da75a098d30a77f087a",
+      "tag": "v0.12.0"
+    },
+    {
+      "bytes": 43811,
+      "name": "prompt-injection.json",
+      "release_checksum_verified": true,
+      "sha256": "74b005f20f53f52a96e5ed0dbbc8bbc85be2b819fbe63de7f3f1252cbb1e9b1c",
+      "tag": "v0.12.0"
+    },
+    {
+      "bytes": 9263,
+      "name": "topics.txt",
+      "release_checksum_verified": true,
+      "sha256": "85ded403b6805eb68c2f2a733431260382dcf43c38ac57236d6d6500e26326bd",
+      "tag": "v0.12.0"
+    }
+  ],
+  "remote_refs": [
+    {
+      "object": "6c0f4b818ffb03a8f40e6ceb29a1bcb504837bb1",
+      "object_in_audited_history": true,
+      "ref": "refs/heads/main"
+    },
+    {
+      "object": "17b1e7baa298821744ec0e89c9e04df7d8e18021",
+      "object_in_audited_history": true,
+      "ref": "refs/tags/v0.11.0"
+    },
+    {
+      "object": "d5fa868c56eee9b4879b8b3100daec9cb6fca64a",
+      "object_in_audited_history": true,
+      "ref": "refs/tags/v0.12.0"
+    }
+  ],
+  "repository": "https://github.com/nimeshbuilds/agent-mcp-security",
+  "scans": [
+    {
+      "binary_sha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+      "configuration": "[extend]\nuseDefault = true\n",
+      "duration_seconds": 1.188,
+      "engine": "gitleaks",
+      "execution_status": "completed",
+      "exit_code": 1,
+      "finding_count": 11,
+      "findings": [
+        {
+          "Commit": "",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 212,
+          "RuleID": "private-key",
+          "StartLine": 212,
+          "classification": "inert_synthetic_fixture",
+          "path": "benchmarks/static_accuracy.json",
+          "rationale": "The labeled ai011-risk development fixture deliberately contains a private-key marker. The original fixture has only a short dummy body; later versions repeat a single character as fabricated material. It is not a usable cryptographic key."
+        },
+        {
+          "Commit": "",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 222,
+          "RuleID": "private-key",
+          "StartLine": 212,
+          "classification": "inert_synthetic_fixture",
+          "path": "benchmarks/static_accuracy-v100.json",
+          "rationale": "The labeled ai011-risk development fixture deliberately contains a private-key marker. The original fixture has only a short dummy body; later versions repeat a single character as fabricated material. It is not a usable cryptographic key."
+        },
+        {
+          "Commit": "",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 212,
+          "RuleID": "private-key",
+          "StartLine": 212,
+          "classification": "inert_synthetic_fixture",
+          "path": "benchmarks/static_accuracy-v110.json",
+          "rationale": "The labeled ai011-risk development fixture deliberately contains a private-key marker. The original fixture has only a short dummy body; later versions repeat a single character as fabricated material. It is not a usable cryptographic key."
+        },
+        {
+          "Commit": "",
+          "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+          "EndLine": 138,
+          "RuleID": "generic-api-key",
+          "StartLine": 138,
+          "classification": "non_secret_pattern_match",
+          "path": "tests/test_inspector_auth_values.py",
+          "rationale": "Gitleaks generic-key pattern matched KEY variable formatting in a shell environment-prefix regression. No credential literal is present in this observation."
+        },
+        {
+          "Commit": "",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 18,
+          "RuleID": "private-key",
+          "StartLine": 17,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_real_world_regressions.py",
+          "rationale": "Private-key detector tests deliberately use header-only, placeholder, or repeated-character material, including string construction across test source. No usable key pair is represented."
+        },
+        {
+          "Commit": "",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 26,
+          "RuleID": "private-key",
+          "StartLine": 18,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_real_world_regressions.py",
+          "rationale": "Private-key detector tests deliberately use header-only, placeholder, or repeated-character material, including string construction across test source. No usable key pair is represented."
+        },
+        {
+          "Commit": "",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 35,
+          "RuleID": "private-key",
+          "StartLine": 34,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_real_world_regressions.py",
+          "rationale": "Private-key detector tests deliberately use header-only, placeholder, or repeated-character material, including string construction across test source. No usable key pair is represented."
+        },
+        {
+          "Commit": "",
+          "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+          "EndLine": 170,
+          "RuleID": "generic-api-key",
+          "StartLine": 170,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_image_assessment.py",
+          "rationale": "Retained-layer exposure tests deliberately use repeated-character private-key material and a synthetic token on a reserved example domain."
+        },
+        {
+          "Commit": "",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 169,
+          "RuleID": "private-key",
+          "StartLine": 169,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_image_assessment.py",
+          "rationale": "Retained-layer exposure tests deliberately use repeated-character private-key material and a synthetic token on a reserved example domain."
+        },
+        {
+          "Commit": "",
+          "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+          "EndLine": 99,
+          "RuleID": "generic-api-key",
+          "StartLine": 99,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_protocol_adversarial.py",
+          "rationale": "Redaction and loopback TLS tests deliberately use named synthetic canaries. TLS credentials are generated at test runtime in a temporary directory, and are not these tracked literals."
+        },
+        {
+          "Commit": "",
+          "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+          "EndLine": 304,
+          "RuleID": "generic-api-key",
+          "StartLine": 304,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_protocol_adversarial.py",
+          "rationale": "Redaction and loopback TLS tests deliberately use named synthetic canaries. TLS credentials are generated at test runtime in a temporary directory, and are not these tracked literals."
+        }
+      ],
+      "flags": [
+        "--ignore-gitleaks-allow",
+        "--redact=100",
+        "--max-archive-depth=3",
+        "--max-decode-depth=5",
+        "--timeout=180"
+      ],
+      "input_arguments": [
+        "dir",
+        "<temporary-audit>/tracked"
+      ],
+      "name": "tracked_head",
+      "redacted_raw_report_sha256": "bf6062fcaa1fbdc8217ef94beb5bffbf4697eeaaf8d2cd25498cd865a9f157fd",
+      "stderr_sha256": "0cb4109d8e4e9c43998a8c0bd869511f73a56713376b889b69afe1a307f99c75",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version": "8.30.1"
+    },
+    {
+      "binary_sha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+      "configuration": "[extend]\nuseDefault = true\n",
+      "duration_seconds": 1.4739,
+      "engine": "gitleaks",
+      "execution_status": "completed",
+      "exit_code": 1,
+      "finding_count": 12,
+      "findings": [
+        {
+          "Commit": "26ec0b3b1675ed1f573ab17426b9e4c41b5be647",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 212,
+          "RuleID": "private-key",
+          "StartLine": 212,
+          "classification": "inert_synthetic_fixture",
+          "path": "benchmarks/static_accuracy-v110.json",
+          "rationale": "The labeled ai011-risk development fixture deliberately contains a private-key marker. The original fixture has only a short dummy body; later versions repeat a single character as fabricated material. It is not a usable cryptographic key."
+        },
+        {
+          "Commit": "26ec0b3b1675ed1f573ab17426b9e4c41b5be647",
+          "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+          "EndLine": 138,
+          "RuleID": "generic-api-key",
+          "StartLine": 138,
+          "classification": "non_secret_pattern_match",
+          "path": "tests/test_inspector_auth_values.py",
+          "rationale": "Gitleaks generic-key pattern matched KEY variable formatting in a shell environment-prefix regression. No credential literal is present in this observation."
+        },
+        {
+          "Commit": "a41f8e2deb6afea7fa15578c787f6e87831d06a0",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 212,
+          "RuleID": "private-key",
+          "StartLine": 212,
+          "classification": "inert_synthetic_fixture",
+          "path": "benchmarks/static_accuracy.json",
+          "rationale": "The labeled ai011-risk development fixture deliberately contains a private-key marker. The original fixture has only a short dummy body; later versions repeat a single character as fabricated material. It is not a usable cryptographic key."
+        },
+        {
+          "Commit": "a41f8e2deb6afea7fa15578c787f6e87831d06a0",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 222,
+          "RuleID": "private-key",
+          "StartLine": 212,
+          "classification": "inert_synthetic_fixture",
+          "path": "benchmarks/static_accuracy-v100.json",
+          "rationale": "The labeled ai011-risk development fixture deliberately contains a private-key marker. The original fixture has only a short dummy body; later versions repeat a single character as fabricated material. It is not a usable cryptographic key."
+        },
+        {
+          "Commit": "a41f8e2deb6afea7fa15578c787f6e87831d06a0",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 169,
+          "RuleID": "private-key",
+          "StartLine": 169,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_image_assessment.py",
+          "rationale": "Retained-layer exposure tests deliberately use repeated-character private-key material and a synthetic token on a reserved example domain."
+        },
+        {
+          "Commit": "a41f8e2deb6afea7fa15578c787f6e87831d06a0",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 18,
+          "RuleID": "private-key",
+          "StartLine": 17,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_real_world_regressions.py",
+          "rationale": "Private-key detector tests deliberately use header-only, placeholder, or repeated-character material, including string construction across test source. No usable key pair is represented."
+        },
+        {
+          "Commit": "a41f8e2deb6afea7fa15578c787f6e87831d06a0",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 26,
+          "RuleID": "private-key",
+          "StartLine": 18,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_real_world_regressions.py",
+          "rationale": "Private-key detector tests deliberately use header-only, placeholder, or repeated-character material, including string construction across test source. No usable key pair is represented."
+        },
+        {
+          "Commit": "a41f8e2deb6afea7fa15578c787f6e87831d06a0",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 35,
+          "RuleID": "private-key",
+          "StartLine": 34,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_real_world_regressions.py",
+          "rationale": "Private-key detector tests deliberately use header-only, placeholder, or repeated-character material, including string construction across test source. No usable key pair is represented."
+        },
+        {
+          "Commit": "96e96734319a92ba5f7c47d0f0b30a0f4c31087f",
+          "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+          "EndLine": 158,
+          "RuleID": "generic-api-key",
+          "StartLine": 158,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_image_assessment.py",
+          "rationale": "Retained-layer exposure tests deliberately use repeated-character private-key material and a synthetic token on a reserved example domain."
+        },
+        {
+          "Commit": "3c6d0d609fdbb84cce2e32585a8e6a59bb3e5e06",
+          "Description": "Identified a Private Key, which may compromise cryptographic security and sensitive data encryption.",
+          "EndLine": 222,
+          "RuleID": "private-key",
+          "StartLine": 212,
+          "classification": "inert_synthetic_fixture",
+          "path": "benchmarks/static_accuracy.json",
+          "rationale": "The labeled ai011-risk development fixture deliberately contains a private-key marker. The original fixture has only a short dummy body; later versions repeat a single character as fabricated material. It is not a usable cryptographic key."
+        },
+        {
+          "Commit": "502fb1397721e3272f9f77c833f57e918b91c786",
+          "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+          "EndLine": 99,
+          "RuleID": "generic-api-key",
+          "StartLine": 99,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_protocol_adversarial.py",
+          "rationale": "Redaction and loopback TLS tests deliberately use named synthetic canaries. TLS credentials are generated at test runtime in a temporary directory, and are not these tracked literals."
+        },
+        {
+          "Commit": "502fb1397721e3272f9f77c833f57e918b91c786",
+          "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+          "EndLine": 304,
+          "RuleID": "generic-api-key",
+          "StartLine": 304,
+          "classification": "inert_synthetic_fixture",
+          "path": "tests/test_protocol_adversarial.py",
+          "rationale": "Redaction and loopback TLS tests deliberately use named synthetic canaries. TLS credentials are generated at test runtime in a temporary directory, and are not these tracked literals."
+        }
+      ],
+      "flags": [
+        "--ignore-gitleaks-allow",
+        "--redact=100",
+        "--max-archive-depth=3",
+        "--max-decode-depth=5",
+        "--timeout=180"
+      ],
+      "input_arguments": [
+        "git",
+        "<repository>",
+        "--log-opts=--all --full-history"
+      ],
+      "name": "all_reachable_git_history",
+      "redacted_raw_report_sha256": "38d5ac9f99c72890880c3e3f43b13324d13cb055af9024dc9bcf2fd475c4354f",
+      "stderr_sha256": "85141b194d10d7ca40b8ccf6e111bb1db6fab2e2257bced5779976a8f61afb17",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version": "8.30.1"
+    },
+    {
+      "binary_sha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+      "configuration": "[extend]\nuseDefault = true\n",
+      "duration_seconds": 0.2039,
+      "engine": "gitleaks",
+      "execution_status": "completed",
+      "exit_code": 0,
+      "finding_count": 0,
+      "findings": [],
+      "flags": [
+        "--ignore-gitleaks-allow",
+        "--redact=100",
+        "--max-archive-depth=3",
+        "--max-decode-depth=5",
+        "--timeout=180"
+      ],
+      "input_arguments": [
+        "dir",
+        "<temporary-audit>/release-assets"
+      ],
+      "name": "release_assets_and_archive_members",
+      "redacted_raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "stderr_sha256": "771bbe41a0446b8edc914515284fee34250bb231ba70311a22d68493746164bd",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version": "8.30.1"
+    },
+    {
+      "binary_sha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+      "configuration": "[extend]\nuseDefault = true\n",
+      "duration_seconds": 0.2746,
+      "engine": "gitleaks",
+      "execution_status": "completed",
+      "exit_code": 0,
+      "finding_count": 0,
+      "findings": [],
+      "flags": [
+        "--ignore-gitleaks-allow",
+        "--redact=100",
+        "--max-archive-depth=3",
+        "--max-decode-depth=5",
+        "--timeout=180"
+      ],
+      "input_arguments": [
+        "dir",
+        "<temporary-audit>/release-unpacked"
+      ],
+      "name": "release_wheel_members",
+      "redacted_raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "stderr_sha256": "23de3172f8075d740c30c95e969954572802530fed90be10138e3dde6265f428",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version": "8.30.1"
+    },
+    {
+      "binary_sha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+      "configuration": "[extend]\nuseDefault = true\n",
+      "duration_seconds": 0.2333,
+      "engine": "gitleaks",
+      "execution_status": "completed",
+      "exit_code": 0,
+      "finding_count": 0,
+      "findings": [],
+      "flags": [
+        "--ignore-gitleaks-allow",
+        "--redact=100",
+        "--max-archive-depth=3",
+        "--max-decode-depth=5",
+        "--timeout=180"
+      ],
+      "input_arguments": [
+        "dir",
+        "<temporary-audit>/pdf-text"
+      ],
+      "name": "pdf_extracted_text_and_fields",
+      "redacted_raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "stderr_sha256": "9f2d470e677592804a0638b9460dced78c2bc800cace3a7be682db439638c0f4",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version": "8.30.1"
+    },
+    {
+      "binary_sha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+      "configuration": "[extend]\nuseDefault = true\n",
+      "duration_seconds": 0.2451,
+      "engine": "gitleaks",
+      "execution_status": "completed",
+      "exit_code": 0,
+      "finding_count": 0,
+      "findings": [],
+      "flags": [
+        "--ignore-gitleaks-allow",
+        "--redact=100",
+        "--max-archive-depth=3",
+        "--max-decode-depth=5",
+        "--timeout=180"
+      ],
+      "name": "historical_pdf_extracted_text_and_fields",
+      "redacted_raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "version": "8.30.1"
+    },
+    {
+      "binary_sha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+      "configuration": "[extend]\nuseDefault = true\n",
+      "duration_seconds": 0.189,
+      "engine": "gitleaks",
+      "execution_status": "completed",
+      "exit_code": 0,
+      "finding_count": 0,
+      "findings": [],
+      "flags": [
+        "stdin",
+        "--ignore-gitleaks-allow",
+        "--redact=100",
+        "--max-decode-depth=5",
+        "--timeout=180"
+      ],
+      "input_sha256": "ed5ae8df82fc5a8ca86b3560897d20b43174cf293d63379dddf529d970da6b2e",
+      "name": "reachable_commit_messages",
+      "redacted_raw_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "version": "8.30.1"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": {
+    "head_tracked_bytes": 43852885,
+    "head_tracked_files": 497,
+    "historical_unique_paths": 498,
+    "reachable_blob_bytes": 60200257,
+    "reachable_commit_count": 22,
+    "reachable_unique_blobs": 861,
+    "tracked_symlinks_not_followed": [],
+    "unique_reachable_pdfs_text_extracted": 11
+  },
+  "started_at_utc": "2026-09-20T01:31:15.062871+00:00",
+  "status": "completed",
+  "summary": {
+    "confirmed_credentials": 0,
+    "historical_gitleaks_observations": 12,
+    "no_secret_values_retained_in_receipt": true,
+    "release_asset_checksum_mismatches": 0,
+    "release_asset_count": 7,
+    "sensitive_historical_credential_files": 0,
+    "tracked_gitleaks_observations": 11,
+    "unique_reachable_pdf_documents": 11,
+    "unresolved_secret_observations": 0
+  },
+  "supplemental_pattern_review": {
+    "authorization_code_url": {
+      "matches": [
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "7afc09119addd82dfd3e1a968863573099fef6ab",
+          "line_numbers": [
+            672
+          ],
+          "occurrences": 1,
+          "path": "benchmarks/static_accuracy-v100.json",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "7ed01de0e63e9e86ab8c4f81297b20694a526e4c",
+          "line_numbers": [
+            672
+          ],
+          "occurrences": 1,
+          "path": "benchmarks/static_accuracy-v110.json",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "b1c835a2c9ec5da5f8131e8d4005f5a6f9cf7bba",
+          "line_numbers": [
+            672
+          ],
+          "occurrences": 1,
+          "path": "benchmarks/static_accuracy.json",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "f3b694f6151ea2e06135e4950bc0fd511c3da4bc",
+          "line_numbers": [
+            170
+          ],
+          "occurrences": 1,
+          "path": "tests/test_image_assessment.py",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "355e2afae66756e4ef1e1656af4a6de0324ce019",
+          "line_numbers": [
+            206
+          ],
+          "occurrences": 1,
+          "path": "tests/test_rules.py",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "7afc09119addd82dfd3e1a968863573099fef6ab",
+          "line_numbers": [
+            672
+          ],
+          "occurrences": 1,
+          "path": "benchmarks/static_accuracy-v100.json",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "7ed01de0e63e9e86ab8c4f81297b20694a526e4c",
+          "line_numbers": [
+            672
+          ],
+          "occurrences": 1,
+          "path": "benchmarks/static_accuracy-v110.json",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "b1c835a2c9ec5da5f8131e8d4005f5a6f9cf7bba",
+          "line_numbers": [
+            672
+          ],
+          "occurrences": 1,
+          "path": "benchmarks/static_accuracy.json",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "f3b694f6151ea2e06135e4950bc0fd511c3da4bc",
+          "line_numbers": [
+            170
+          ],
+          "occurrences": 1,
+          "path": "tests/test_image_assessment.py",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "355e2afae66756e4ef1e1656af4a6de0324ce019",
+          "line_numbers": [
+            206
+          ],
+          "occurrences": 1,
+          "path": "tests/test_rules.py",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "133b4f7b39dcf893aeb8e77f991c738b6c3c25eb",
+          "line_numbers": [
+            170
+          ],
+          "occurrences": 1,
+          "path": "tests/test_image_assessment.py",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "6ddfb9e2a2e68bea63ce9675fa77f7a65e87010b",
+          "line_numbers": [
+            206
+          ],
+          "occurrences": 1,
+          "path": "tests/test_rules.py",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "b84cff2f935ed24ea43cf5500805d0b95bd87a62",
+          "line_numbers": [
+            158
+          ],
+          "occurrences": 1,
+          "path": "tests/test_image_assessment.py",
+          "rationale": "Detector regression URL on a reserved example domain; no actual OAuth authorization callback or issued token is present.",
+          "scope": "history_blob"
+        }
+      ],
+      "matching_documents_or_blobs": 13
+    },
+    "email_address": {
+      "matches": [
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "ff89af556282dcf399741c8c010b14064e6dcab5",
+          "line_numbers": [
+            1364,
+            1516,
+            1606,
+            2532,
+            2820,
+            8235,
+            39383
+          ],
+          "occurrences": 7,
+          "path": "examples/reports/cli-claude-v010/report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "head"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "2e59104ee899df0016caef54119eb65142f55346",
+          "line_numbers": [
+            680,
+            944,
+            1719,
+            2393,
+            3684,
+            11976,
+            17603,
+            19266,
+            28525,
+            32144,
+            38104,
+            40419,
+            41071,
+            44467,
+            45434,
+            45730,
+            48035,
+            48302
+          ],
+          "occurrences": 21,
+          "path": "examples/reports/invscan-v011/report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "head"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "0a930047a91ff7051193c5b0d878298b1e651dd8",
+          "line_numbers": [
+            1373,
+            1900,
+            12355,
+            13553,
+            14152,
+            18345,
+            35716,
+            44582,
+            44905
+          ],
+          "occurrences": 9,
+          "path": "examples/reports/review-workflow/source/final-pdf/report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "head"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "ed46c174d41f048418fd5e052b856cdef4488900",
+          "line_numbers": [
+            1392,
+            2061,
+            12393,
+            13591,
+            14190,
+            18383,
+            35754,
+            44620,
+            44943
+          ],
+          "occurrences": 9,
+          "path": "examples/reports/review-workflow/source/reviewed.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "head"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "977fe4b08de02c0698ff3b779189a66c2a61c4cf",
+          "line_numbers": [
+            27
+          ],
+          "occurrences": 1,
+          "path": "output/pdf/invarune-benchmark-report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "head"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "e75651d6b1504f46731d5fcb971d2aa81f2404b9",
+          "line_numbers": [
+            27,
+            934
+          ],
+          "occurrences": 2,
+          "path": "output/pdf/invarune-finding-comparison-v010.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "head"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "eb535dd5830ed88bdd9b1250cdb15ecbca5f8e32",
+          "line_numbers": [
+            3549,
+            3598,
+            3738,
+            3836,
+            3850,
+            3857,
+            3892
+          ],
+          "occurrences": 7,
+          "path": "output/pdf/invarune-security-controlbook.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "27754ef66d9a1c5f9f9b39e0fc8cc9c961439ea7",
+          "line_numbers": [
+            24
+          ],
+          "occurrences": 1,
+          "path": "tests/test_cli_login.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "b478b149ebe2aa9af69c9dda9ea6a063904efadd",
+          "line_numbers": [
+            166
+          ],
+          "occurrences": 1,
+          "path": "tests/test_judge.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "fcf124f33d8ef3b308875b79b48b286b496086e3",
+          "line_numbers": [
+            196
+          ],
+          "occurrences": 1,
+          "path": "tests/test_report_html.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "6f4a4b62a79ee425a07e6062d55d84cd81869a09",
+          "line_numbers": [
+            218
+          ],
+          "occurrences": 1,
+          "path": "tests/test_review_workspace.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "bca2e48650fed87b2058a598c22955a41855dd78",
+          "line_numbers": [
+            178
+          ],
+          "occurrences": 1,
+          "path": "tests/test_scanner.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "head"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "ff89af556282dcf399741c8c010b14064e6dcab5",
+          "line_numbers": [
+            1364,
+            1516,
+            1606,
+            2532,
+            2820,
+            8235,
+            39383
+          ],
+          "occurrences": 7,
+          "path": "examples/reports/cli-claude-v010/report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "2e59104ee899df0016caef54119eb65142f55346",
+          "line_numbers": [
+            680,
+            944,
+            1719,
+            2393,
+            3684,
+            11976,
+            17603,
+            19266,
+            28525,
+            32144,
+            38104,
+            40419,
+            41071,
+            44467,
+            45434,
+            45730,
+            48035,
+            48302
+          ],
+          "occurrences": 21,
+          "path": "examples/reports/invscan-v011/report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "0a930047a91ff7051193c5b0d878298b1e651dd8",
+          "line_numbers": [
+            1373,
+            1900,
+            12355,
+            13553,
+            14152,
+            18345,
+            35716,
+            44582,
+            44905
+          ],
+          "occurrences": 9,
+          "path": "examples/reports/review-workflow/source/final-pdf/report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "ed46c174d41f048418fd5e052b856cdef4488900",
+          "line_numbers": [
+            1392,
+            2061,
+            12393,
+            13591,
+            14190,
+            18383,
+            35754,
+            44620,
+            44943
+          ],
+          "occurrences": 9,
+          "path": "examples/reports/review-workflow/source/reviewed.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "977fe4b08de02c0698ff3b779189a66c2a61c4cf",
+          "line_numbers": [
+            27
+          ],
+          "occurrences": 1,
+          "path": "output/pdf/invarune-benchmark-report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "e75651d6b1504f46731d5fcb971d2aa81f2404b9",
+          "line_numbers": [
+            27,
+            934
+          ],
+          "occurrences": 2,
+          "path": "output/pdf/invarune-finding-comparison-v010.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "eb535dd5830ed88bdd9b1250cdb15ecbca5f8e32",
+          "line_numbers": [
+            3549,
+            3598,
+            3738,
+            3836,
+            3850,
+            3857,
+            3892
+          ],
+          "occurrences": 7,
+          "path": "output/pdf/invarune-security-controlbook.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "27754ef66d9a1c5f9f9b39e0fc8cc9c961439ea7",
+          "line_numbers": [
+            24
+          ],
+          "occurrences": 1,
+          "path": "tests/test_cli_login.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "b478b149ebe2aa9af69c9dda9ea6a063904efadd",
+          "line_numbers": [
+            166
+          ],
+          "occurrences": 1,
+          "path": "tests/test_judge.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "fcf124f33d8ef3b308875b79b48b286b496086e3",
+          "line_numbers": [
+            196
+          ],
+          "occurrences": 1,
+          "path": "tests/test_report_html.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "6f4a4b62a79ee425a07e6062d55d84cd81869a09",
+          "line_numbers": [
+            218
+          ],
+          "occurrences": 1,
+          "path": "tests/test_review_workspace.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "bca2e48650fed87b2058a598c22955a41855dd78",
+          "line_numbers": [
+            178
+          ],
+          "occurrences": 1,
+          "path": "tests/test_scanner.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "ad39d212c6ecd7e2244ce6e6cbb4b08ce8079d0b",
+          "line_numbers": [
+            170
+          ],
+          "occurrences": 1,
+          "path": "tests/test_report_html.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "49b49e04a0d761dd105d9e468c5074f47d379a28",
+          "line_numbers": [
+            27
+          ],
+          "occurrences": 1,
+          "path": "output/pdf/invarune-benchmark-report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "596d2042a9791c730a32afc67bd8f777eddfed6a",
+          "line_numbers": [
+            3344,
+            3456,
+            3498,
+            3652
+          ],
+          "occurrences": 4,
+          "path": "output/pdf/invarune-security-controlbook.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "bb7076eebc8ff952db274fa15584d4ffdca230d7",
+          "line_numbers": [
+            142
+          ],
+          "occurrences": 1,
+          "path": "tests/test_report_html.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "ae04f97ebfd9d5b301fa5d639a898be8e10aae55",
+          "line_numbers": [
+            178
+          ],
+          "occurrences": 1,
+          "path": "tests/test_scanner.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "71e32be14b8124643e655ba0f0ff4debcbcceb5c",
+          "line_numbers": [
+            3456,
+            3533,
+            3631,
+            3736,
+            3757
+          ],
+          "occurrences": 5,
+          "path": "output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "f7a3e308b9bd522c98ff477c9afdb1dfb144be97",
+          "line_numbers": [
+            175
+          ],
+          "occurrences": 1,
+          "path": "tests/test_scanner.py",
+          "rationale": "Mock account identity or synthetic URL credentials in regression tests; reserved example/test hosts and placeholders are used.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "git_blob": "7a635bbf78557ed09be286fbd01f49e09ff639b3",
+          "line_numbers": [
+            3434,
+            3525,
+            3602,
+            3714
+          ],
+          "occurrences": 5,
+          "path": "output/pdf/nimeshbuild-agent-mcp-security-controlbook.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "binary_pattern_collision",
+          "line_numbers": [
+            680,
+            944,
+            1719,
+            2393,
+            3684,
+            11976,
+            17603,
+            19266,
+            28525,
+            32144,
+            38104,
+            40419,
+            41071,
+            44467,
+            45434,
+            45730,
+            48035,
+            48302
+          ],
+          "occurrences": 21,
+          "path": "releases/v0.11.0/report.pdf",
+          "rationale": "Byte-level email regex matched compressed PDF bytes. Extracted page text, fields and document metadata had no email or host-path matches.",
+          "scope": "release_asset"
+        }
+      ],
+      "matching_documents_or_blobs": 33
+    },
+    "private_host_path": {
+      "matches": [
+        {
+          "classification": "public_repository_relative_path",
+          "git_blob": "859b41e44ea919289ea882ae4f216dd095e0b1bc",
+          "line_numbers": [
+            3244,
+            3251,
+            3258,
+            3265,
+            3272,
+            3279,
+            3286,
+            3293,
+            3300,
+            3307,
+            3314,
+            3321,
+            3328,
+            3335,
+            3342,
+            3349,
+            3356,
+            3363,
+            3370,
+            3377,
+            3384,
+            3405,
+            3447,
+            3454,
+            3461,
+            3468,
+            3475,
+            3482,
+            3489,
+            3496,
+            3503,
+            3510,
+            3517
+          ],
+          "occurrences": 33,
+          "path": "benchmarks/real-world/snapshots/openhands.json",
+          "rationale": "The substring /home/ occurs inside a relative upstream UI source path from the pinned public OpenHands export; it is not an absolute workstation home directory.",
+          "scope": "head"
+        },
+        {
+          "classification": "public_repository_relative_path",
+          "git_blob": "52cae881316288bf13e5cae5d833995b6835afa1",
+          "line_numbers": [
+            3161,
+            3167,
+            3173,
+            3179,
+            3185,
+            3191,
+            3197,
+            3203,
+            3209,
+            3215,
+            3221,
+            3227,
+            3233,
+            3239,
+            3245,
+            3251,
+            3257,
+            3263,
+            3269,
+            3275,
+            3281,
+            3287,
+            3293,
+            3299,
+            3305,
+            3311,
+            3317,
+            3323,
+            3329,
+            3335,
+            3341,
+            3347,
+            3353
+          ],
+          "occurrences": 33,
+          "path": "examples/reports/real-world/openhands/report.html",
+          "rationale": "The substring /home/ occurs inside a relative upstream UI source path from the pinned public OpenHands export; it is not an absolute workstation home directory.",
+          "scope": "head"
+        },
+        {
+          "classification": "public_repository_relative_path",
+          "git_blob": "79471f216e03df324792531d46ccf472e3a149cd",
+          "line_numbers": [
+            5741,
+            5747,
+            5753,
+            5759,
+            5765,
+            5771,
+            5777,
+            5783,
+            5789,
+            5795,
+            5801,
+            5807,
+            5813,
+            5819,
+            5825,
+            5831,
+            5837,
+            5843,
+            5849,
+            5855,
+            5861,
+            5867,
+            5873,
+            5879,
+            5885,
+            5891,
+            5897,
+            5903,
+            5909,
+            5915,
+            5921,
+            5927,
+            5933
+          ],
+          "occurrences": 33,
+          "path": "examples/reports/real-world/openhands/report.json",
+          "rationale": "The substring /home/ occurs inside a relative upstream UI source path from the pinned public OpenHands export; it is not an absolute workstation home directory.",
+          "scope": "head"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "69b7abbc59b0e1d4d7be0d303ec766d69c6d77d9",
+          "line_numbers": [
+            57,
+            67,
+            68,
+            69,
+            70
+          ],
+          "occurrences": 6,
+          "path": "tests/test_quickstart_validation.py",
+          "rationale": "Explicit synthetic Windows and POSIX fixture home paths exercise receipt sanitization.",
+          "scope": "head"
+        },
+        {
+          "classification": "public_repository_relative_path",
+          "git_blob": "859b41e44ea919289ea882ae4f216dd095e0b1bc",
+          "line_numbers": [
+            3244,
+            3251,
+            3258,
+            3265,
+            3272,
+            3279,
+            3286,
+            3293,
+            3300,
+            3307,
+            3314,
+            3321,
+            3328,
+            3335,
+            3342,
+            3349,
+            3356,
+            3363,
+            3370,
+            3377,
+            3384,
+            3405,
+            3447,
+            3454,
+            3461,
+            3468,
+            3475,
+            3482,
+            3489,
+            3496,
+            3503,
+            3510,
+            3517
+          ],
+          "occurrences": 33,
+          "path": "benchmarks/real-world/snapshots/openhands.json",
+          "rationale": "The substring /home/ occurs inside a relative upstream UI source path from the pinned public OpenHands export; it is not an absolute workstation home directory.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "public_repository_relative_path",
+          "git_blob": "52cae881316288bf13e5cae5d833995b6835afa1",
+          "line_numbers": [
+            3161,
+            3167,
+            3173,
+            3179,
+            3185,
+            3191,
+            3197,
+            3203,
+            3209,
+            3215,
+            3221,
+            3227,
+            3233,
+            3239,
+            3245,
+            3251,
+            3257,
+            3263,
+            3269,
+            3275,
+            3281,
+            3287,
+            3293,
+            3299,
+            3305,
+            3311,
+            3317,
+            3323,
+            3329,
+            3335,
+            3341,
+            3347,
+            3353
+          ],
+          "occurrences": 33,
+          "path": "examples/reports/real-world/openhands/report.html",
+          "rationale": "The substring /home/ occurs inside a relative upstream UI source path from the pinned public OpenHands export; it is not an absolute workstation home directory.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "public_repository_relative_path",
+          "git_blob": "79471f216e03df324792531d46ccf472e3a149cd",
+          "line_numbers": [
+            5741,
+            5747,
+            5753,
+            5759,
+            5765,
+            5771,
+            5777,
+            5783,
+            5789,
+            5795,
+            5801,
+            5807,
+            5813,
+            5819,
+            5825,
+            5831,
+            5837,
+            5843,
+            5849,
+            5855,
+            5861,
+            5867,
+            5873,
+            5879,
+            5885,
+            5891,
+            5897,
+            5903,
+            5909,
+            5915,
+            5921,
+            5927,
+            5933
+          ],
+          "occurrences": 33,
+          "path": "examples/reports/real-world/openhands/report.json",
+          "rationale": "The substring /home/ occurs inside a relative upstream UI source path from the pinned public OpenHands export; it is not an absolute workstation home directory.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "69b7abbc59b0e1d4d7be0d303ec766d69c6d77d9",
+          "line_numbers": [
+            57,
+            67,
+            68,
+            69,
+            70
+          ],
+          "occurrences": 6,
+          "path": "tests/test_quickstart_validation.py",
+          "rationale": "Explicit synthetic Windows and POSIX fixture home paths exercise receipt sanitization.",
+          "scope": "history_blob"
+        },
+        {
+          "classification": "inert_synthetic_fixture",
+          "git_blob": "f2df72d6739e78c14a467cce291456cb230d5d40",
+          "line_numbers": [
+            16,
+            26,
+            27,
+            28,
+            29
+          ],
+          "occurrences": 6,
+          "path": "tests/test_quickstart_validation.py",
+          "rationale": "Explicit synthetic Windows and POSIX fixture home paths exercise receipt sanitization.",
+          "scope": "history_blob"
+        }
+      ],
+      "matching_documents_or_blobs": 9
+    }
+  },
+  "verdict": "no_observed_credential_or_private_data_blocker"
+}

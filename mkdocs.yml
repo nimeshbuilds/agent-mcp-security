@@ -1,0 +1,121 @@
+site_name: Invarune · NimeshBuild
+site_description: Evidence for agent security. Use invscan, understand its controls, and inspect reproducible benchmark evidence.
+site_author: NimeshBuild
+site_url: https://nimeshbuilds.github.io/agent-mcp-security/
+repo_url: https://github.com/nimeshbuilds/agent-mcp-security
+repo_name: nimeshbuilds/agent-mcp-security
+edit_uri: ''
+docs_dir: .docs-build/content
+site_dir: site
+strict: true
+theme:
+  name: material
+  language: en
+  font: false
+  logo: docs/assets/brand/invarune-mark-dark.svg
+  favicon: docs/assets/brand/invarune-mark.png
+  palette:
+    - scheme: default
+      primary: custom
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+extra_css:
+  - docs/assets/site.css
+extra:
+  generator: false
+copyright: Invarune by NimeshBuild · Evidence for agent security
+not_in_nav: |
+  /benchmarks/**
+  /examples/**
+  /overview.md
+  /docs/PDF_VALIDATION.md
+  /docs/CLI_PROVIDER_RESEARCH.md
+  /docs/HEADROOM_RESEARCH.md
+  /docs/BRAND_RESEARCH.md
+  /docs/CSA_AND_CLOUD.md
+  /docs/MITIGATION_SOURCES.md
+validation:
+  nav:
+    omitted_files: warn
+  links:
+    not_found: warn
+    anchors: warn
+    absolute_links: warn
+    unrecognized_links: warn
+nav:
+  - Home: index.md
+  - Get started:
+      - Quick start: docs/QUICKSTART.md
+      - Ask about security, offline: docs/SECURITY_EXPLORER.md
+      - Complete CLI reference: docs/CLI.md
+      - Built image scans: docs/IMAGE_SCANNING.md
+      - Read your reports: docs/REPORTS.md
+      - Troubleshooting: docs/TROUBLESHOOTING.md
+  - Review & AI:
+      - Edit a report and rescan: docs/REVIEW_WORKFLOW.md
+      - Justifications and exclusions: docs/REVIEW_CONFIGURATION.md
+      - Fillable PDFs: docs/PDF_REVIEW.md
+      - Optional AI setup: docs/JUDGE.md
+      - Controlled analyst: docs/ANALYST.md
+      - Provider and login research: docs/CLI_PROVIDER_RESEARCH.md
+      - Headroom evidence: docs/HEADROOM_RESEARCH.md
+  - Controls & sources:
+      - Security checklist: docs/SECURITY_CHECKLIST.md
+      - Source-to-control map: docs/SOURCE_MAP.md
+      - Research and applicability: docs/RESEARCH.md
+      - Framework and benchmark landscape: docs/BENCHMARK_LANDSCAPE.md
+      - CSA and cloud controls: docs/CSA_AND_CLOUD.md
+      - Mitigation references: docs/MITIGATION_SOURCES.md
+  - Benchmarks & PDFs:
+      - Report and PDF library: docs/REPORT_LIBRARY.md
+      - Understand and reproduce benchmarks: docs/BENCHMARK_GUIDE.md
+      - Comparative results: docs/BENCHMARK_RESULTS.md
+      - Rule accuracy and limits: docs/RULE_ACCURACY.md
+      - Validation summary: docs/VALIDATION.md
+      - Test matrix: docs/TEST_MATRIX.md
+      - PDF verification: docs/PDF_VALIDATION.md
+  - Developers:
+      - Contributing: CONTRIBUTING.md
+      - Developer overview: docs/developer/index.md
+      - Architecture: docs/developer/architecture.md
+      - Extending controls and detectors: docs/developer/adding-checks.md
+      - Report and review contracts: docs/developer/reports-and-reviews.md
+      - Optional AI integration: docs/developer/ai-adapters.md
+      - Testing and releases: docs/developer/testing-and-releasing.md
+      - Documentation and publishing: docs/PUBLISHING.md
+  - About:
+      - Brand: docs/BRAND.md
+      - Name research: docs/BRAND_RESEARCH.md
+      - Publication and licensing: NOTICE.md

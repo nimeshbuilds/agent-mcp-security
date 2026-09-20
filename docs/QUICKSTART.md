@@ -8,7 +8,7 @@ Get your first report, explore its security controls, then add image scanning, o
 
 Want the CLI without a source checkout? The [v0.12.0 release](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.12.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. Its downloaded wheel was installed and verified in a fresh environment. The checkout route below also includes the example source and image fixtures used throughout this guide.
 
-Clone this repository using Git credentials that have access:
+Clone the public repository (no GitHub login required):
 
 ```sh
 git clone https://github.com/nimeshbuilds/agent-mcp-security.git
@@ -260,7 +260,7 @@ invscan --list-controls
 
 | Symptom | Next step |
 |---|---|
-| Cannot clone | Check Git credentials and access to the private repository. |
+| Cannot clone | Check the public repository URL, network/proxy and Git configuration; no GitHub login is required. |
 | `invscan` not found | Activate the step-1 environment or use its installed executable: `.venv/bin/invscan` or `.\.venv\Scripts\invscan.exe`. |
 | Exit 1 | Read the findings; the selected threshold was reached. |
 | Exit 2 | Read stderr and coverage/review gaps; correct the input, limit or provider problem. |

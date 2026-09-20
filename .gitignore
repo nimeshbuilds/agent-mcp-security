@@ -11,3 +11,6 @@ tmp/
 .DS_Store
 .coverage
 .coverage.*
+site/
+.docs-build/
+.venv-docs/

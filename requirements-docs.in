@@ -1,0 +1,3 @@
+# Documentation authoring only; the invscan CLI keeps zero core dependencies.
+mkdocs==1.6.1
+mkdocs-material==9.7.7

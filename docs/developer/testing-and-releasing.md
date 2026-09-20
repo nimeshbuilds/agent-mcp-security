@@ -1,0 +1,141 @@
+# Testing, packaging and release evidence
+
+Validate the behavior your change affects, then use the broader release workflow when producing a distributable build. Keep each result tied to its inputs: unit tests, synthetic accuracy labels, installed CLI checks, public-project comparisons and live model reviews measure different things.
+
+Commands below run from the repository root after the [development setup](../../CONTRIBUTING.md). Use new output directories for each run so earlier evidence remains intact. Nothing here requires executing an untrusted target repository.
+
+## Focused development checks
+
+| Changed area | Start with |
+|---|---|
+| Parser or detector | `tests.test_rules`, the relevant language-accuracy suite, `tests.test_security_boundaries` |
+| Traversal or path handling | `tests.test_scanner`, `tests.test_exclusion_identity`, `tests.test_analysis_profiles` |
+| Images | `tests.test_image_archive`, `tests.test_image_assessment`, `tests.test_image_runtime`, `tests.test_image_cli` |
+| Catalog and explorer | `tests.test_catalog`, `tests.test_catalog_explorer`, `tests.test_catalog_explorer_integration`, `tests.test_cli_usability` |
+| Exceptions/import | `tests.test_review_policy`, `tests.test_review_workspace`, `tests.test_review_roundtrip_cli` |
+| Report treatment and display | `tests.test_report_assessment`, `tests.test_remediation`, `tests.test_report_html`, `tests.test_report_pdf` |
+| AI protocol/evidence | `tests.test_judge_integration`, `tests.test_analyst_protocol`, `tests.test_evidence`, `tests.test_token_optimizer` |
+
+For example:
+
+```sh
+python -m unittest tests.test_catalog tests.test_catalog_explorer tests.test_catalog_explorer_integration -v
+python scripts/evaluate_accuracy.py --format markdown
+```
+
+The accuracy evaluator's default regression gate does not require every documented challenge case to pass. Read the reported false positives/negatives and suite denominators. Do not interpret an evaluator exit 0 as zero known mistakes. [Accuracy interpretation](../RULE_ACCURACY.md).
+
+## Full suite and optional dependencies
+
+```sh
+python -m unittest discover -s tests -v
+```
+
+The dependency-free installation can skip optional PDF cases explicitly. To exercise the richer environment, install the QA pins and AI extra in the development environment, then rerun:
+
+```sh
+python -m pip install -r requirements-qa.txt
+python -m pip install -e '.[ai]'
+python -m unittest discover -s tests -v
+```
+
+`requirements-qa.txt` includes the tested PDF libraries, coverage and JSON Schema validation. The `ai` extra includes the pinned Headroom dependency on Python 3.10+; Python 3.9 retains the tested fallback. Installation can contact the configured package index. Ordinary tests use inert fixtures, local HTTP servers and controlled subprocesses; they do not contact paid model providers.
+
+To capture branch coverage:
+
+```sh
+python -c "from pathlib import Path; Path('test-output').mkdir(exist_ok=True)"
+python -m coverage run --branch --source=ai_security_scan -m unittest discover -s tests -v
+python -m coverage report --show-missing
+python -m coverage json -o test-output/coverage.json
+```
+
+This measures the instrumented parent process; separately spawned CLI interpreters do not automatically contribute coverage. Statement/branch percentages are implementation exercise measurements, not evidence that all security scenarios were tested.
+
+## Installed workflows
+
+The most direct reproduction of the documented installation path is:
+
+```sh
+python scripts/validate_quickstart.py --output test-output/developer-quickstart
+```
+
+The validator creates a fresh local Git clone, overlays its explicitly listed current-worktree inputs, creates a new environment and installs the package. It checks all three installed aliases from outside the checkout, source/image fixtures, review configuration, PDF export/import, catalog examples and loopback gateways. The receipt lists the exact snapshot files and hashes. Uncommitted changes in listed inputs are intentionally included; do not label that snapshot a pristine commit without checking the receipt.
+
+On Python 3.10+ the full gateway portion verifies actual default Headroom use, captured JSON equality and preserved source evidence across finding/control requests. It does not log in, call a real model or start a target container. Package installation may use the network. `--skip-pdf` and `--skip-gateway` support narrower environments; disclose those omissions and their reduced step counts.
+
+For the installed five-format review contract, with `invscan` on PATH and PDF dependencies installed:
+
+```sh
+python scripts/validate_report_review.py --command invscan --output test-output/developer-report-review
+```
+
+Use a new empty directory. The helper runs source and archive scans, edits canonical user fields, imports the reports and validates bound decisions, summaries and statuses. Fixture findings intentionally produce nonzero scan exits; the helper checks those expected codes instead of treating every nonzero result as a harness failure.
+
+## Package and platform checks
+
+Build a wheel in a fresh output directory:
+
+```sh
+python -m pip wheel --no-deps --wheel-dir test-output/developer-wheels .
+```
+
+Install that wheel into another clean environment and run from outside the repository. Use the exact filename printed by the build, not an old wheel selected by a broad wildcard. Check `invscan`, `invarune` and `ai-security-scan`; all must dispatch to the same `cli:main`. Catalog JSON files are packaged through `tool.setuptools.package-data`, so test explorer and report generation after installation, not only import/version.
+
+[`tests.yml`](../../.github/workflows/tests.yml) currently separates eight jobs:
+
+- Unit/workflow jobs on Linux Python 3.9, 3.12 and 3.14, macOS Python 3.12 and Windows Python 3.12.
+- A Linux Python 3.12 installed Headroom/loopback quickstart job.
+- A package/schema job covering wheel installation, aliases, review formats and SARIF validation.
+- A Linux Docker built-image integration job.
+
+The Windows quickstart deliberately skips PDF and gateway portions; the other jobs cover those features. Do not present that narrowed Windows recipe as the full optional-integration run. Preserve `.gitattributes` LF rules: historical SHA-256 receipts bind literal bytes, and CRLF conversion can invalidate evidence even when text looks identical.
+
+The real image helper is Linux-oriented and needs a working Docker daemon:
+
+```sh
+python scripts/validate_image_scan.py
+```
+
+It builds an inert `FROM scratch` fixture with network disabled, exports/scans it and removes its temporary tag. It does not start the fixture container. Windows/macOS archive unit tests are useful but are not a substitute for this runtime/export integration.
+
+`scripts/validate_sarif.py` validates reports against the pinned OASIS SARIF schema supplied with `--schema`. The helper does not download it; the CI workflow records the official URL and exact expected SHA-256. Preserve that digest check when reproducing the schema job.
+
+## Research, PDF and model validation
+
+For a control-catalog change:
+
+```sh
+python scripts/sync_control_docs.py
+python scripts/build_controlbook.py
+python scripts/verify_controlbook.py
+```
+
+These update generated catalog documentation/PDF outputs; inspect the diffs. Text completeness checks do not establish readable page layout. Follow [PDF validation](../PDF_VALIDATION.md) for rendering, visual inspection and fillable-form requirements. PDF authoring dependencies in `requirements-pdf.txt` are distinct from the scanner's base runtime.
+
+For an existing comparison artifact's input bindings:
+
+```sh
+python scripts/build_finding_comparison_report.py --validate-only
+```
+
+This validates recorded comparison inputs; it does not rerun scanners or models. A new external comparison needs new versioned output paths, pinned repositories/tool versions, native results, normalized predicates and disclosed disagreements. Follow [benchmark results](../BENCHMARK_RESULTS.md) and the [comparison evidence](../../benchmarks/comparison-v010/README.md). Do not overwrite an old ledger or count missing tool output as a negative finding.
+
+Live model/official CLI checks are separate opt-in operations. Inspect the bounded helper first:
+
+```sh
+python scripts/validate_cli_providers.py --help
+```
+
+`--allow-live-requests` explicitly enables its real requests. Account authentication, entitlements, vendor versions and costs apply. A successful protocol/login check does not measure security judgment accuracy. A failed or unavailable provider stays recorded as such; it is not a successful adjudication. Source audits performed by an agent are not independent human ground truth. [Provider evidence](../CLI_PROVIDER_RESEARCH.md).
+
+## Assemble a reviewable release
+
+1. Freeze the intended code/catalog/docs snapshot. Run focused checks, the full suite, the accuracy regression gate and installed workflows appropriate to the change.
+2. Record commands, exit codes, optional skips, environment versions, source/input hashes and observed outcomes. Keep private paths, real credentials and proprietary evidence out of publication artifacts.
+3. Build/install the wheel outside the checkout, validate report schemas and review replay, and check generated PDFs visually when changed.
+4. Run the CI matrix for the actual candidate commit. A local run and a previous green commit do not stand in for that result.
+5. Follow [publishing](../PUBLISHING.md) for versioned distribution and artifact handling. Verify downloaded release assets against the published hashes and test the downloaded wheel, not just the local build.
+6. Link a new versioned receipt. Preserve prior receipts unchanged and state which measurements were reused versus freshly run.
+
+The [0.12.0 validation receipt](../../benchmarks/validation-v012/README.md) records 793 tests, a 53-step fresh-install quickstart and eight passing CI jobs, with platform skips and measurement limits. Those are results for its recorded revision. A documentation-only contribution does not create a new detector-accuracy measurement, and a future release should report its own observed counts.
