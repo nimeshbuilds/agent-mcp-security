@@ -71,3 +71,21 @@ The new **13-page finding comparison PDF** contains charts, clickable contents, 
 All **132 pages** were rendered with Poppler and visually inspected. Every internal link and outline destination resolves, all external links use HTTPS, and the scan PDF's extracted bound review workspace matches its JSON report. The comparison's source-hash appendix was adjusted to keep complete hashes and the reproduction instructions together on its final page. The PDFs have separate purposes: the comparison is a research document; only the operational scan report accepts review-form edits.
 
 [Exact artifact hashes, page/link/field counts and validation receipt](../benchmarks/validation-v010/pdf-receipt.json). This inspection does not establish every PDF viewer's editing behavior; the automated fresh-scan import workflow separately verifies actual field edits and re-export.
+
+## Version 0.11 decision-first scan report
+
+The fresh [Invarune 0.11 scan PDF](../examples/reports/invscan-v011/report.pdf) opens with the actual result, immediate concerns, observed locations and linked first actions. The priorities chart and complete findings follow before the configuration and methodology appendices. Each finding retains its concrete fix plan, conditional agent/MCP relevance, source references, mitigating layers and a link to its review fields. The [cover preview](assets/invscan-v011-report-cover.png) is rendered directly from this final PDF.
+
+All **114 pages** were rendered with Poppler and visually inspected in 19 contact sheets; the executive summary, priorities, finding details, configuration, optimization receipt and first review forms were also inspected at larger scale. No layout defects were observed. Word-bounds inspection found **zero words outside page boundaries**. All **336 internal links** resolve to valid pages, all **12 bookmarks** resolve to pages containing their named headings, and all **156 external link annotations** use HTTPS. Navigation was verified structurally, without claiming native PDF viewer interaction or rechecking external website availability.
+
+The document contains **143 bound review items**, **715 canonical fields** and **715 matching widgets**. Strict extraction reproduces the adjacent JSON workspace exactly, and both embedded JSON attachments match their corresponding report data. A disposable copy was edited at the first and last review items, changing all five fields for each with regenerated appearances; strict reimport preserved those ten changes and every other field and evidence binding. The published PDF remained unchanged. This verifies the supported pypdf workflow, not every third-party editor.
+
+This was an actual installed-CLI scan: **11 deterministic findings**, **two model finding answers** from two selected findings, **three additional advisory concerns**, and **nine open findings outside the model cap**. Full control review was not requested. The exit code remains **1** because the static finding gate triggered; model advice does not establish an implemented safeguard or confirmed vulnerability. The actual Headroom **0.37.0** receipt records evidence JSON reduced from **3,558 to 3,430 bytes**, saving **128 bytes** without fallback. Those figures exclude instructions, schemas and provider wrappers; model token and cost savings were not measured.
+
+The report was checked with Python **3.12.14**, ReportLab **4.4.9**, pypdf **6.10.0**, pdfplumber **0.11.9** and Poppler **26.05.0**. Its SHA-256 is:
+
+```text
+bed01706affa81d4e8ba87c0372078a81b44a9a45ffb22305f7546b02c8a5b8d
+```
+
+[Version 0.11 PDF validation receipt](../benchmarks/validation-v011/pdf-receipt.json) records the implementation fingerprint, exact artifact hashes, navigation destinations, form roundtrip and bounded inspection results. The earlier 0.9 and 0.10 artifacts and receipts above remain historical evidence.

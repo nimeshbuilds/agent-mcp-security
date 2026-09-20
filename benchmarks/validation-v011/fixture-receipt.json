@@ -1,0 +1,135 @@
+{
+  "cwd": "outside_checkout",
+  "implementation_sha256": "993d77b77bac8f0f4758ce931da596ce03eb31a36a4fec4302efb2da601ffb80",
+  "installed_cli": "invscan",
+  "scans": 8,
+  "targets": [
+    {
+      "exit_code": 1,
+      "fixture": "source",
+      "model_calls": 0,
+      "paired_outputs_identical": true,
+      "report_sha256": {
+        "report.html": "ba58eea8e96b0f6c039e4c948a28342265b1e09e74a9a1c3335390e4073955de",
+        "report.json": "265fb8b577f3877310cdb2a94bd7c2fd9c44223d59b4d1c3736df117f83078e7",
+        "report.md": "03d99054e3d988d6234f76dd379b9c38763db904cddb8735691da4cd8535f213",
+        "report.sarif": "5a2de5c4e6eed1d34ef21ab2393f7d39509eaf4f62b32b41b171f62146178e69"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 796,
+        "bytes_read": 796,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 3,
+        "open_findings": 11,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 8,
+          "info": 0,
+          "low": 1,
+          "medium": 2
+        },
+        "suppressed_findings": 0
+      }
+    },
+    {
+      "exit_code": 0,
+      "fixture": "safer",
+      "model_calls": 0,
+      "paired_outputs_identical": true,
+      "report_sha256": {
+        "report.html": "8d394208b4ad354b1fe5080fbd9609976ade89658d804ac22f424a148713cac4",
+        "report.json": "b0e485b6184eab2c395f83a4c0171f4fffade6e2a5a0ca461b5f162d224db9cb",
+        "report.md": "345732e446d0f599798b3d591029da5c066864ef1eb5825ec5cb0048dd9ae6e4",
+        "report.sarif": "1e5e4730f41cdc3faf28f6ce47791f94ef75a20ef81bfe05e4c5423c6d94d516"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 607,
+        "bytes_read": 607,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 2,
+        "open_findings": 0,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      }
+    },
+    {
+      "exit_code": 1,
+      "fixture": "reviewed",
+      "model_calls": 0,
+      "paired_outputs_identical": true,
+      "report_sha256": {
+        "report.html": "5af8bfc661d1c1c9a236a84dcf8b66e36c97ca012c22004606cce5cf9191ea67",
+        "report.json": "ad9bf05fb8b05d91d4e6fe13e73047ae5b19698a8c5c5a3f13bf3725481bac21",
+        "report.md": "60dbdf3a229106facd143c0910199daa735aa08e499ea0ebf518f5f93c817222",
+        "report.sarif": "f845f8a71af1e8510edf8b9340fb0179ff90613e90c0d5f4086815dc970dd9e3"
+      },
+      "summary": {
+        "assessment": "static_triage_only",
+        "bytes_charged": 796,
+        "bytes_read": 796,
+        "coverage_gaps": 0,
+        "disabled_findings": 1,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 3,
+        "justified_findings": 1,
+        "open_findings": 9,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 8,
+          "info": 0,
+          "low": 0,
+          "medium": 1
+        },
+        "suppressed_findings": 0
+      }
+    },
+    {
+      "exit_code": 1,
+      "fixture": "image",
+      "model_calls": 0,
+      "paired_outputs_identical": true,
+      "report_sha256": {
+        "report.html": "3a1d9bbb8c83b526a79ece84c8b85583b9ca6d48350baf7ff910acfda259f937",
+        "report.json": "76fd43e375a4eb6aa75c11ff6dc373c32492185bfba5c75a949dc3936a2c8094",
+        "report.md": "c0bcdb1e46ecc22bd1f1f90a1b0fb31c111e2c6dfe732251433c3576a7463873",
+        "report.sarif": "e7a85c7f1057c44bfcc32700fd87a49e04ca20e67a88ddfd8cb7b0f80e328e19"
+      },
+      "summary": {
+        "assessment": "static_image_triage_only",
+        "bytes_charged": 32,
+        "bytes_read": 32,
+        "coverage_gaps": 0,
+        "failed_read_bytes_charged": 0,
+        "files_scanned": 4,
+        "image_analysis_scope": "packaged_source_and_metadata",
+        "metadata_evidence_bytes": 157,
+        "open_findings": 3,
+        "packaged_files_inspected": 1,
+        "packaged_source_files_inspected": 1,
+        "scan_complete_within_selected_scope": true,
+        "severity_counts": {
+          "critical": 0,
+          "high": 3,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "suppressed_findings": 0
+      }
+    }
+  ],
+  "version": "0.11.0"
+}

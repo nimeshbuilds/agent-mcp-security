@@ -17,7 +17,7 @@ import time
 from urllib import error, parse, request
 
 
-ADAPTER_VERSION = "1.2.0"
+ADAPTER_VERSION = "1.3.0"
 CONFIG_LIMIT = 256 * 1024
 HTTP_PROVIDERS = {"openai_chat", "openai_responses", "anthropic", "gemini", "ollama", "custom"}
 CLI_PROVIDERS = {"codex_cli", "claude_cli", "grok_cli"}
@@ -194,10 +194,15 @@ def _validate_config(config):
     allowed = {"provider", "model", "endpoint", "api_key_env", "api_key_header", "api_key_prefix",
                "headers", "extra_body", "request_template", "response_path", "timeout_seconds",
                "max_request_bytes", "max_response_bytes", "max_output_tokens", "allow_insecure_http",
-               "ca_file", "anthropic_version"}
+               "ca_file", "anthropic_version", "token_optimizer"}
     if set(config) - allowed:
         raise JudgeError("Judge configuration has an unsupported field; see docs/JUDGE.md.")
     config = dict(config)
+    from .token_optimizer import validate_mode
+    try:
+        config["token_optimizer"] = validate_mode(config.get("token_optimizer", "headroom"))
+    except ValueError as exc:
+        raise JudgeError(str(exc)) from None
     provider = config.get("provider", "openai_chat")
     if not isinstance(provider, str):
         raise JudgeError("Judge provider must be a supported protocol name.")
@@ -298,20 +303,22 @@ def _expand(value, prompt, model, secrets):
     return value
 
 
-def _make_request(config, payload, secrets, instructions=INSTRUCTIONS):
+def _make_request(config, payload, secrets, instructions=INSTRUCTIONS, optimization_receipt=None):
     try:
-        return _build_request(config, payload, secrets, instructions)
+        return _build_request(config, payload, secrets, instructions, optimization_receipt)
     except (RecursionError, UnicodeError):
         raise JudgeError("Judge request contains excessive nesting or invalid text.") from None
 
 
-def _build_request(config, payload, secrets, instructions=INSTRUCTIONS):
+def _build_request(config, payload, secrets, instructions=INSTRUCTIONS, optimization_receipt=None):
+    from .token_optimizer import optimize_payload
     try:
-        data = json.dumps(payload, ensure_ascii=True, sort_keys=True, allow_nan=False)
+        data, receipt = optimize_payload(payload, config.get("token_optimizer", "headroom"),
+                                         max_bytes=config["max_request_bytes"])
     except (TypeError, ValueError, RecursionError):
-        raise JudgeError("Judge payload must contain only finite JSON data.") from None
-    if len(data.encode("utf-8")) > config["max_request_bytes"]:
-        raise JudgeError("Judge payload exceeds max_request_bytes; reduce findings or excerpts.")
+        raise JudgeError("Judge payload must contain finite JSON data within max_request_bytes before optimization.") from None
+    if optimization_receipt is not None:
+        optimization_receipt.update(receipt)
     untrusted = "UNTRUSTED_REPOSITORY_DATA_JSON:\n" + data
     prompt = instructions + "\n" + untrusted
     provider, model, limit = config["provider"], config["model"], config["max_output_tokens"]
@@ -570,11 +577,13 @@ def review(config, payload):
         ids.append(finding_id)
     secrets = set()
     cli_metadata = None
+    optimization_receipt = {}
     if config["provider"] in CLI_PROVIDERS:
         output, cli_metadata = _cli_output(config, payload, INSTRUCTIONS, "findings")
+        optimization_receipt = cli_metadata.get("token_optimization", {})
         response = {}
     else:
-        headers, body = _make_request(config, payload, secrets)
+        headers, body = _make_request(config, payload, secrets, optimization_receipt=optimization_receipt)
         response = _post_json(config, headers, body)
         _analyst_no_tools(response)
         output = _extract(config, response)
@@ -583,6 +592,7 @@ def review(config, payload):
                    "provider": config["provider"], "model": _safe_text(config["model"], secrets, 256),
                    "adapter_version": ADAPTER_VERSION, "findings_submitted": len(ids),
                    "data_policy": "Caller-supplied minimized payload; source excerpts require separate CLI opt-in."})
+    result["token_optimization"] = optimization_receipt
     reported_model = response.get("model", response.get("modelVersion"))
     if isinstance(reported_model, str):
         result["provider_reported_model"] = _safe_text(reported_model, secrets, 256)
@@ -796,11 +806,14 @@ def review_controls(config, payload):
     controls, evidence = _control_payload(payload)
     secrets = set()
     cli_metadata = None
+    optimization_receipt = {}
     if config["provider"] in CLI_PROVIDERS:
         output, cli_metadata = _cli_output(config, payload, ANALYST_INSTRUCTIONS, "controls")
+        optimization_receipt = cli_metadata.get("token_optimization", {})
         response = {}
     else:
-        headers, body = _make_request(config, payload, secrets, instructions=ANALYST_INSTRUCTIONS)
+        headers, body = _make_request(config, payload, secrets, instructions=ANALYST_INSTRUCTIONS,
+                                     optimization_receipt=optimization_receipt)
         if any(_safe_text(identifier, secrets, 256) != identifier for identifier in [*controls, *evidence]):
             raise JudgeError("Security analyst credentials overlap structural input IDs; safe provenance cannot be preserved.")
         response = _post_json(config, headers, body)
@@ -813,6 +826,7 @@ def review_controls(config, payload):
                    "controls_submitted": len(controls),
                    "checks_submitted": sum(len(control["checks"]) for control in controls.values()),
                    "data_policy": "Caller-supplied minimized evidence; code support is not runtime validation."})
+    result["token_optimization"] = optimization_receipt
     reported_model = response.get("model", response.get("modelVersion"))
     if isinstance(reported_model, str):
         result["provider_reported_model"] = _safe_text(reported_model, secrets, 256)

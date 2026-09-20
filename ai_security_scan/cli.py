@@ -8,7 +8,7 @@ from contextlib import ExitStack
 from pathlib import Path
 
 from . import __version__
-from .cli_help import DESCRIPTION, complete_reference
+from .cli_help import DESCRIPTION, HELP_TOPICS, complete_reference, examples_reference, topic_reference
 from .fs import read_confined
 from .report import atomic_write, write_reports
 from .scanner import SEVERITIES, load_baseline, load_controls, scan
@@ -18,12 +18,35 @@ from .security import redact, redact_object
 class HelpFormatter(argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescriptionHelpFormatter):
     """Keep examples readable while displaying configurable defaults."""
 
+    def _get_help_string(self, action):
+        # None is an unset parser value, not an effective source/config default.
+        if action.default is None:
+            return action.help
+        return super()._get_help_string(action)
+
+
+class ReferenceAction(argparse.Action):
+    """Help actions exit during argument parsing, before scan/config validation."""
+
+    def __call__(self, command, namespace, values, option_string=None):
+        if option_string == "--examples":
+            command._print_message(examples_reference() + "\n", sys.stdout)
+        elif values == "all":
+            command.print_help()
+        else:
+            command._print_message(topic_reference(values) + "\n", sys.stdout)
+        command.exit()
+
 
 def parser():
     p = argparse.ArgumentParser(
         description=DESCRIPTION, epilog=complete_reference(), add_help=False,
         allow_abbrev=False, formatter_class=HelpFormatter)
     p.add_argument("-h", "--help", action="help", help="Print this complete offline feature, configuration and example reference, then exit")
+    p.add_argument("--help-topic", choices=HELP_TOPICS, action=ReferenceAction,
+                   help="Print a focused offline guide with relevant examples, then exit; all is identical to --help")
+    p.add_argument("--examples", nargs=0, action=ReferenceAction,
+                   help="Print the complete copyable CLI example cookbook, then exit without scanning")
     p.add_argument("target", nargs="?", help="Repository directory; choose this OR --image OR --image-archive; omit for help/version/catalog commands")
     images = p.add_argument_group("Container image input (never starts the container)")
     image_input = images.add_mutually_exclusive_group()
@@ -71,6 +94,7 @@ def parser():
     judge.add_argument("--judge-mode", choices=("full", "findings"), default="full", help="full: finding triage plus every active control/check, including zero-finding scans; findings: one finding-triage request only")
     judge.add_argument("--judge-include-source", action="store_true", help="Add neighboring source to finding triage; full analyst separately sends bounded source excerpts")
     judge.add_argument("--judge-max-findings", type=int, default=100, help="Maximum open findings sent to finding triage (1-500)")
+    judge.add_argument("--token-optimizer", choices=("headroom", "compact", "off"), help="Optional-review prompt encoding; overrides judge JSON. Omitted inherits the config value or headroom. Lossless JSON compaction preserves all evidence and falls back to built-in compact; off keeps spaced JSON")
     judge.add_argument("--analyst-max-calls", type=int, default=12, help="Full control-review request budget (integer 0-100); triage uses one additional request. Zero leaves active controls unreviewed")
     judge.add_argument("--analyst-batch-size", type=int, default=6, help="Controls per analyst request (1-20)")
     judge.add_argument("--analyst-max-files", type=int, default=200, help="Full analyst evidence file budget (integer 0-20000); zero sends no source excerpts")
@@ -105,7 +129,7 @@ def _json_summary(report, target, report_paths):
     controls = report["controls"]
     judge = report.get("judge", {"enabled": False})
     analyst = report.get("analyst", {"enabled": False})
-    judge_summary = {key: judge[key] for key in ("enabled", "status", "mode", "advisory_only", "provider", "model", "cli", "selected_findings", "omitted_open_findings", "error") if key in judge}
+    judge_summary = {key: judge[key] for key in ("enabled", "status", "mode", "advisory_only", "provider", "model", "cli", "token_optimization", "selected_findings", "omitted_open_findings", "error") if key in judge}
     analyst_summary = {key: analyst[key] for key in ("enabled", "status", "advisory_only", "coverage") if key in analyst}
     policy = report.get("review_policy", {})
     counts = policy.get("counts", {})
@@ -171,6 +195,8 @@ def judge_payload(report, root, include_source=False, max_findings=100):
 def main(argv=None):
     p = parser()
     args = p.parse_args(argv)
+    if args.token_optimizer is not None and (not (args.judge_config or args.judge_cli) or args.login or args.list_rules or args.list_controls or args.explain_rule):
+        p.error("--token-optimizer requires an optional scan review with --judge-cli or --judge-config")
     if not math.isfinite(args.login_timeout) or not 1 <= args.login_timeout <= 900:
         p.error("--login-timeout must be finite and between 1 and 900 seconds")
     if args.login:
@@ -332,11 +358,13 @@ def main(argv=None):
                     config = validate_analyst_config({"provider": args.judge_cli + "_cli",
                         **{key: value for key, value in (("model", args.judge_model),
                            ("executable", args.judge_executable), ("timeout_seconds", args.judge_timeout),
-                           ("cli_home", args.judge_cli_home)) if value is not None}})
+                           ("cli_home", args.judge_cli_home), ("token_optimizer", args.token_optimizer)) if value is not None}})
+                if args.token_optimizer is not None:
+                    config = validate_analyst_config({**config, "token_optimizer": args.token_optimizer})
                 if args.judge_mode == "full":
                     config = validate_analyst_config(config)
                 effective_transport = redact_object({key: config[key] for key in (
-                    "provider", "model", "timeout_seconds", "max_request_bytes", "max_response_bytes", "max_output_tokens") if key in config})
+                    "provider", "model", "timeout_seconds", "max_request_bytes", "max_response_bytes", "max_output_tokens", "token_optimizer") if key in config})
                 interactive_login = config["provider"].endswith("_cli") and args.judge_login == "auto" and not (args.quiet or args.summary_json) and sys.stdin.isatty() and sys.stderr.isatty()
                 login_attempted = False
                 def authenticate():

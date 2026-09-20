@@ -193,6 +193,8 @@ _CSS = """
 
 
 _CSS += """
+.status-strip{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.status-strip>div{padding:15px 18px;border:1px solid var(--line);border-left:4px solid #238266;border-radius:9px;background:#fff}.status-strip>div:last-child{border-left-color:#8061a6}.status-strip span{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.status-strip strong{display:block;font-size:.95rem;margin:5px 0}.status-strip p{font-size:.8rem;margin:0}.priority-table th:first-child{width:12%}.priority-table th:nth-child(2){width:22%}.priority-table td{vertical-align:top}.priority-table td:last-child{min-width:230px}.priority-table .pill{margin-bottom:6px}.priority-table p{margin:7px 0 0}.priority-table a{font-weight:600}.priority-table .small{font-size:.8rem}
+@media(max-width:760px){.status-strip{grid-template-columns:1fr}.priority-table td:last-child{min-width:190px}}
 .chart{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}.chart svg{display:block;width:100%;height:auto}.chart h3{font-size:1rem}.chart-label{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#40516b}.chart-number{font:600 14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#142338}.visual-summary{margin:22px 0 14px}.review-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:22px 0}.review-flow li{margin:0;padding:22px;background:#fff;border:1px solid var(--line);border-top:4px solid #238266;border-radius:10px}.review-flow li:nth-child(2){border-top-color:#8061a6}.review-flow li:nth-child(3){border-top-color:#c19b4d}.review-flow span{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:9px}.review-flow h3{font-size:1.05rem}.review-flow p{font-size:.86rem;margin-bottom:0}.review-steps li{padding-left:5px}.review-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:22px 0 14px}.review-toolbar button{border:1px solid #12674f;border-radius:8px;padding:12px 18px;background:#12674f;color:#fff;font:600 .86rem -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer}.review-toolbar button:hover{background:#09533e}.review-toolbar button.secondary{background:#fff;color:#12674f}.review-toolbar button.secondary:hover{background:#edf7f3}.review-toolbar button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #8061a6;outline-offset:3px}.review-toolbar span{font-size:.8rem;color:var(--muted)}.review-editor{border-color:#c7cce9;background:#fcfbff}.review-editor summary{display:flex;justify-content:space-between;gap:10px;color:#584282;font-size:.86rem}.review-editor fieldset{border:0;padding:0;margin:0;min-width:0}.review-editor legend{font-weight:650;font-size:.9rem;margin-bottom:12px;overflow-wrap:anywhere;max-width:100%}.review-editor label{display:block;font-size:.8rem;font-weight:650;margin:13px 0 5px}.review-editor input,.review-editor select,.review-editor textarea{width:100%;min-width:0;max-width:100%;padding:10px 12px;border:1px solid #bac5d3;border-radius:6px;background:#fff;color:#243750;font:inherit;font-size:.85rem;line-height:1.5}.review-editor textarea{resize:vertical}.review-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.review-fields>div:last-child{grid-column:1/-1}.review-editor .small:last-child{margin:15px 0 0}.checklist .review-editor{counter-reset:none}.checklist .review-editor li{counter-increment:none}.review-editor .spacer{margin-top:10px}#review-save-status{overflow-wrap:anywhere}#configuration td:nth-child(2){min-width:150px}#method th:first-child{width:30%}#method th:nth-child(2){width:38%}
 @media(max-width:760px){.review-flow{grid-template-columns:1fr}.review-fields{grid-template-columns:1fr}.review-fields>div:last-child{grid-column:auto}.review-toolbar{align-items:stretch}.review-toolbar button{width:100%}.review-editor .details-body{padding:15px}.chart{padding:17px}.review-flow li{padding:18px}#configuration td:nth-child(2){min-width:90px}}
 @media print{.review-toolbar button,noscript{display:none}.review-flow{grid-template-columns:repeat(3,1fr)}.review-editor summary{color:#243750}.review-editor input,.review-editor select,.review-editor textarea{border-color:#c2cbd4}.chart,.review-flow li{break-inside:avoid}.review-editor{break-inside:auto}.review-editor textarea{min-height:60px}}
@@ -472,7 +474,7 @@ def _advisory(report):
         parts.append('</div>')
     elif judge.get("enabled"):
         parts.append('<p class="small"><strong>Control analyst:</strong> disabled.</p>')
-    parts.append('</div></section>')
+    parts.append('</div>' + _token_optimization(report) + '</section>')
     return "\n".join(parts)
 
 
@@ -501,6 +503,64 @@ def _advisory_summary(report):
     parts.append('<p>Advisory output cannot lower deterministic finding severity or establish control completion. '
                  '<a href="#advisory">Review optional-review coverage, errors, and request audit</a>.</p></div>')
     return "\n".join(parts)
+
+
+def _status_strip(report):
+    summary = report.get("summary", {})
+    judge, analyst = report.get("judge", {}), report.get("analyst", {})
+    static = "Incomplete selected scope" if summary.get("coverage_gaps", 0) else "Selected scope completed"
+    optional = "Disabled - no model review requested"
+    if judge.get("enabled") or analyst.get("enabled"):
+        optional = "Findings: " + str(judge.get("status", "unknown") if judge.get("enabled") else "disabled")
+        optional += " / Controls: " + str(analyst.get("status", "unknown") if analyst.get("enabled") else "disabled")
+    return ('<div class="status-strip" aria-label="Independent scan and review outcomes"><div><span>Deterministic layer</span><strong>'
+            + _escape(static) + '</strong><p>Observed evidence and fixes. <a href="#coverage">Inspect scope and limits</a>.</p></div>'
+            + '<div><span>Optional model layer</span><strong>' + _escape(optional)
+            + '</strong><p>Advisory interpretations remain separate. <a href="#advisory">Inspect actual review coverage</a>.</p></div></div>')
+
+
+def _priority_preview(actions, known_findings):
+    rows = []
+    for group in actions[:5]:
+        locations = []
+        for location in group.get("locations", [])[:2]:
+            label = str(location.get("path", "")) + ":" + str(location.get("line", ""))
+            if location.get("finding_id") in known_findings:
+                locations.append('<a href="#' + _anchor("finding", location["finding_id"]) + '">' + _escape(label) + '</a>')
+            else:
+                locations.append(_escape(label))
+        extra = len(group.get("locations", [])) - len(locations)
+        if extra > 0:
+            locations.append(_escape("+" + str(extra) + " more locations"))
+        rows.append('<tr><td>' + _pill(group.get("priority", "Review")) + '<br>' + _escape(group.get("count", 0)) + ' open</td><td>'
+                    + ('<br>'.join(locations) or 'See finding evidence') + '</td><td><a href="#' + _anchor("group", group.get("id", "")) + '">'
+                    + _escape(str(group.get("rule_id", "")) + " / " + str(group.get("title", "Finding group"))) + '</a><p class="small">'
+                    + _escape(group.get("immediate_action", "Review the linked evidence.")) + '</p></td></tr>')
+    return ('<div class="table-wrap"><table class="priority-table"><thead><tr><th>Priority / count</th><th>Observed locations</th>'
+            + '<th>Immediate concern and first action</th></tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div>')
+
+
+def _token_optimization(report):
+    judge, analyst = report.get("judge", {}), report.get("analyst", {})
+    records = []
+    if isinstance(judge.get("token_optimization"), dict):
+        records.append(("Finding request", judge["token_optimization"]))
+    for index, request in enumerate(analyst.get("requests", []), 1):
+        if isinstance(request.get("token_optimization"), dict):
+            records.append(("Control request " + str(index), request["token_optimization"]))
+    if not records:
+        return ""
+    rows = []
+    for label, record in records:
+        rows.append('<tr><td>' + _escape(label) + '</td><td>' + _escape(record.get("requested", "unknown")) + ' / '
+                    + _escape(record.get("engine", "unknown")) + '</td><td>' + _escape(record.get("status", "unknown"))
+                    + ('<br>' + _escape(record["fallback_reason"]) if record.get("fallback_reason") else '')
+                    + '</td><td>' + _escape(record.get("payload_bytes_before", 0)) + ' → ' + _escape(record.get("payload_bytes_after", 0))
+                    + '<br>' + _escape(record.get("bytes_saved", 0)) + ' bytes saved</td></tr>')
+    return ('<div class="panel spacer"><h3>Optional request payload optimization</h3><div class="table-wrap"><table><thead><tr>'
+            + '<th>Request</th><th>Requested / actual engine</th><th>Outcome</th><th>Evidence payload bytes</th></tr></thead><tbody>'
+            + ''.join(rows) + '</tbody></table></div><p class="small">These are measured evidence-JSON bytes, excluding instructions, response schemas and provider wrappers. '
+            + 'Token and cost savings were not measured. Evidence-preserving formatting does not validate a model interpretation.</p></div>')
 
 
 # Deterministic SVGs use numeric measurements from this report, never a risk score.
@@ -834,7 +894,7 @@ def html_report(report):
                           (metrics.get("affected_files", 0), "Files with open findings"),
                           (metrics.get("coverage_gaps", summary.get("coverage_gaps", 0)), "Recorded coverage gaps")):
         parts.append('<div class="metric"><strong>' + _escape(number) + '</strong><span>' + label + '</span></div>')
-    parts.append('</div><div class="severity-row" aria-label="Open findings by severity">')
+    parts.append('</div>' + _status_strip(report) + '<div class="severity-row" aria-label="Open findings by severity">')
     for severity in _SEVERITIES:
         parts.append('<div class="severity-cell">' + _pill(severity, True) + '<strong>' + _escape(summary.get("severity_counts", {}).get(severity, 0)) + '</strong></div>')
     parts += ['</div><p class="small">Inspected <strong>' + _escape(metrics.get("files_scanned", summary.get("files_scanned", 0)))
@@ -883,12 +943,9 @@ def html_report(report):
                          + ': ' + _escape(theme.get("open_findings", 0)) + '</span>')
         parts.append('</div>')
     if actions:
-        parts.append('<h3 class="spacer">Immediate concerns</h3><p class="small">' + _escape(assessment.get("priority_basis", "Prioritized from deterministic finding severity and status.")) + '</p><div class="action-preview">')
-        for group in actions[:5]:
-            parts.append('<article class="preview"><div class="badge-line"><span class="pill priority">' + _escape(group.get("priority", "Review")) + '</span>'
-                         + _pill(group.get("severity", "info"), True) + '</div><h3><a href="#' + _anchor("group", group.get("id", "")) + '">'
-                         + _escape(group.get("title", "Finding group")) + '</a></h3><p class="small">' + _escape(group.get("immediate_action", "Review the linked evidence.")) + '</p></article>')
-        parts.append('</div><p class="small">Showing ' + _escape(min(5, len(actions))) + ' of ' + _escape(len(actions))
+        parts.append('<h3 class="spacer">Immediate concerns</h3><p class="small">' + _escape(assessment.get("priority_basis", "Prioritized from deterministic finding severity and status.")) + '</p>')
+        parts.append(_priority_preview(actions, known_findings))
+        parts.append('<p class="small">Showing ' + _escape(min(5, len(actions))) + ' of ' + _escape(len(actions))
                      + ' open finding groups. <a href="#actions">Review every priority action and mitigation layer</a>.</p>')
     else:
         parts.append('<div class="empty"><strong>No open finding groups.</strong> Review any baseline or user-configured exceptions and complete the active coverage and control validation work below. An empty finding list does not demonstrate that a deployment is secure.</div>')

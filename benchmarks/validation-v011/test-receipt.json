@@ -1,0 +1,48 @@
+{
+  "coverage": {
+    "covered_branches": 3066,
+    "covered_lines": 6733,
+    "excluded_lines": 0,
+    "missing_branches": 356,
+    "missing_lines": 386,
+    "num_branches": 3422,
+    "num_partial_branches": 332,
+    "num_statements": 7119,
+    "percent_branches_covered": 89.59672706019872,
+    "percent_branches_covered_display": "90",
+    "percent_covered": 92.96081965657908,
+    "percent_covered_display": "93",
+    "percent_statements_covered": 94.5778901531114,
+    "percent_statements_covered_display": "95"
+  },
+  "coverage_scope": "Parent unit-test process; separately exercised subprocess entry points are not included. Execution coverage is not detector accuracy.",
+  "headroom_loopback_requests": 72,
+  "headroom_real_payloads": 20,
+  "headroom_sdk_cases": 1002,
+  "implementation_sha256": "993d77b77bac8f0f4758ce931da596ce03eb31a36a4fec4302efb2da601ffb80",
+  "native_cli_serialization_contracts": "Codex, Claude and Grok, both findings and controls, are exercised with bounded fake process output; actual limited live Codex is recorded separately.",
+  "quickstart_receipt_sha256": "151fde8d50867d68fc5de5852c2f69064bbd3fc724e22c3db538892c306c29e9",
+  "quickstart_steps": 43,
+  "schema_version": "1.0",
+  "unit_tests": {
+    "3.12.14": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "83a35f6a86855a7fa4067f537b0971a657c1a304266373ddc893a8a8c63cf519",
+      "run": 765,
+      "skipped": 0
+    },
+    "3.9.6": {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "80d17f7640cfdabd99b5a0bd51f0eb57dfb3b06e3f96ce2c087492411b74dadd",
+      "run": 765,
+      "skipped": 28
+    }
+  },
+  "version": "0.11.0",
+  "wheel": {
+    "filename": "agent_mcp_security_scan-0.11.0-py3-none-any.whl",
+    "sha256": "540057b5a3010f8f46496834b3e4ee5165687cb80db8957bbe692d22b57caa4d"
+  }
+}

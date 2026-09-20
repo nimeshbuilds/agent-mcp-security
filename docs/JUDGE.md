@@ -6,15 +6,31 @@ The default configured mode is **full**: one finding-triage request followed by 
 
 Use `--judge-mode findings` for the previous one-request scope: minimized findings, redacted evidence, and scan metadata. `--judge-include-source` adds bounded neighboring source excerpts to finding triage only; full analyst evidence is independent of that flag. Redaction reduces accidental disclosure; it cannot guarantee that all proprietary information or unusual secret formats are removed. Choose an endpoint approved for the data you send. Repository instructions are untrusted review material. The prompt states that boundary, but prompting alone cannot eliminate prompt injection; separate static findings, fixed evidence retrieval, strict output validation, and no tool dispatch are the enforcement boundaries.
 
+## Default evidence-JSON optimization
+
+When AI review is enabled, both finding triage and control review default to `token_optimizer: "headroom"`. Install `.[ai]` or `.[ai,pdf]` with Python 3.10+ to include the pinned Headroom 0.37.0 integration. Deterministic scans do not import or need Headroom. On Python 3.9 or without that extra, AI review still runs with explicitly reported built-in compaction.
+
+```sh
+invscan ./agent --judge-cli codex --token-optimizer headroom
+invscan ./agent --judge-config ./gateway.json --token-optimizer compact
+invscan ./agent --judge-cli claude --token-optimizer off
+```
+
+The CLI flag overrides a valid configuration's `token_optimizer` field. Accepted values are `headroom` (default), `compact` (built-in JSON whitespace compaction) and `off` (legacy JSON formatting). This option requires AI review; it does not enable a model by itself.
+
+Headroom is restricted to its pinned, local, lossless JSON-minification helper. Invarune checks the complete typed JSON structure independently before accepting it: every key, array order, number, boolean and source/citation string must survive unchanged. General Headroom compression, source summarization, ML models, proxy interception, memory, retrieval tools and provider-config rewriting are not invoked. System instructions, control selection, evidence bounds and deterministic findings stay unchanged. Missing/unsupported Headroom, malformed output, evidence changes, exceptions or byte inflation trigger a visible `builtin_compact` fallback. The integration uses a private upstream API, so release drift is explicitly rejected. [Primary-source research and actual SDK proof](HEADROOM_RESEARCH.md).
+
+Each successful request records the requested mode, actual engine, fallback reason, payload hashes and before/after UTF-8 byte counts in `token_optimization`. Reports show these fields for finding triage and individual control batches. They measure **evidence JSON only**, excluding instructions, response schemas and provider wrappers. Byte reduction is not a measured tokenizer reduction or a billing guarantee. Original request bounds still apply before compaction, and final transport bounds apply afterward. Failed requests may have no completed optimization receipt.
+
 ## Supported protocols
 
 Invarune also supports **official CLI transports**: `codex_cli`, `claude_cli`, and `grok_cli`. Their configuration and login behavior are separate from the HTTP fields below.
 
 ```sh
-invarune ./repository --judge-cli codex --judge-timeout 120
-invarune ./repository --judge-cli claude --judge-mode findings
-invarune ./repository --judge-cli grok
-invarune --login claude
+invscan ./repository --judge-cli codex --judge-timeout 120
+invscan ./repository --judge-cli claude --judge-mode findings
+invscan ./repository --judge-cli grok
+invscan --login claude
 ```
 
 An interactive scan uses `--judge-login auto` by default. It opens the vendor's official login when signed out, then resumes. An explicitly reported authentication expiry in either review stage can trigger one login and retry per scan. Control retries consume the control-call budget; completed batches are preserved. Login has its own `--login-timeout` (300 seconds, range 1–900), excluded from the analyst scheduling clock. Cancellation/failure preserves static reports and returns exit 2. `--judge-login never`, `--quiet`, `--summary-json` and noninteractive terminals never prompt. `--login PROVIDER` signs in directly through Invarune without scanning or creating reports.
@@ -27,7 +43,7 @@ Equivalent trusted JSON configuration:
 {"provider":"codex_cli","timeout_seconds":120}
 ```
 
-CLI JSON permits only `provider`, optional `model`, `executable`, `timeout_seconds` (default 60, range 0.1–300), `max_request_bytes` (default 524288), `max_response_bytes` (default 1048576), and Grok-only `cli_home`. Byte limits are integers from 1024 through 5242880. `executable` must be a trusted absolute executable path or a bare command name. Shell command files, relative paths, arbitrary extra arguments, HTTP configuration fields, and output-token budgets are rejected. The CLI flags `--judge-executable` and `--judge-cli-home` also work for standalone login; `--judge-model` and `--judge-timeout` require `--judge-cli`. When using JSON, put their equivalents inside that file.
+CLI JSON permits only `provider`, optional `model`, `executable`, `timeout_seconds` (default 60, range 0.1–300), `max_request_bytes` (default 524288), `max_response_bytes` (default 1048576), `token_optimizer` (default `headroom`), and Grok-only `cli_home`. Byte limits are integers from 1024 through 5242880. `executable` must be a trusted absolute executable path or a bare command name. Shell command files, relative paths, arbitrary extra arguments, HTTP configuration fields, and output-token budgets are rejected. The CLI flags `--judge-executable` and `--judge-cli-home` also work for standalone login; `--judge-model` and `--judge-timeout` require `--judge-cli`. When using JSON, put their equivalents inside that file.
 
 Minimum inspected versions are Codex 0.154.0, Claude Code 2.1.214 and official Grok Build 0.2.60. Version/help probes verify the required flags. The installed executable, vendor service and host administrator configuration remain trusted. Inference uses a private temporary working directory, restricted tools/customizations, bounded input/output and time, strict schemas and the existing citation validator. This is not OS-level containment or a provider-retention guarantee. POSIX inference cleanup targets the process group; Windows and interactive login cleanup target the direct child. No credential file is read or copied by Invarune, and API-key variables are not inherited. The official CLI manages its own login state, which can be subscription-backed or API-backed; Invarune cannot guarantee the billing plan.
 
@@ -167,6 +183,7 @@ Generic JSON API:
 | `extra_body` | Optional provider parameters. A top-level `null` removes a default field. Cannot override model, prompt, native tool, storage, or streaming fields. |
 | `request_template` | Custom-provider JSON request object. |
 | `response_path` | Custom-provider dotted extraction path. |
+| `token_optimizer` | `headroom` (default), `compact`, or `off`; applies to both review stages. Exact evidence preservation is checked independently; actual engine/fallback and byte counts are reported. |
 | `timeout_seconds` | Default 60; accepted 0.1–300. Socket timeout plus elapsed-time checks between response reads. Not a guaranteed wall-clock deadline for DNS resolution. |
 | `max_request_bytes` | Default 524288; accepted 1024–5242880. Excess input fails explicitly; findings are not silently dropped. |
 | `max_response_bytes` | Default 1048576; accepted 1024–5242880. Limits the complete HTTP response. |

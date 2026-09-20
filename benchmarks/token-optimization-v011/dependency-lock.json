@@ -1,0 +1,254 @@
+[
+  {
+    "name": "aiohappyeyeballs",
+    "version": "2.7.1"
+  },
+  {
+    "name": "aiohttp",
+    "version": "3.14.3"
+  },
+  {
+    "name": "aiosignal",
+    "version": "1.4.0"
+  },
+  {
+    "name": "annotated-types",
+    "version": "0.8.0"
+  },
+  {
+    "name": "anyio",
+    "version": "4.15.1"
+  },
+  {
+    "name": "ast-grep-cli",
+    "version": "0.45.3"
+  },
+  {
+    "name": "attrs",
+    "version": "26.1.0"
+  },
+  {
+    "name": "boto3",
+    "version": "1.43.98"
+  },
+  {
+    "name": "botocore",
+    "version": "1.43.98"
+  },
+  {
+    "name": "certifi",
+    "version": "2026.7.22"
+  },
+  {
+    "name": "charset-normalizer",
+    "version": "3.5.1"
+  },
+  {
+    "name": "click",
+    "version": "8.5.0"
+  },
+  {
+    "name": "distro",
+    "version": "1.9.0"
+  },
+  {
+    "name": "fastuuid",
+    "version": "0.14.0"
+  },
+  {
+    "name": "filelock",
+    "version": "4.0.1"
+  },
+  {
+    "name": "frozenlist",
+    "version": "1.8.0"
+  },
+  {
+    "name": "fsspec",
+    "version": "2026.9.0"
+  },
+  {
+    "name": "h11",
+    "version": "0.16.0"
+  },
+  {
+    "name": "headroom-ai",
+    "version": "0.37.0"
+  },
+  {
+    "name": "hf-xet",
+    "version": "1.6.0"
+  },
+  {
+    "name": "httpcore",
+    "version": "1.0.9"
+  },
+  {
+    "name": "httpx",
+    "version": "0.28.1"
+  },
+  {
+    "name": "huggingface_hub",
+    "version": "1.32.0"
+  },
+  {
+    "name": "idna",
+    "version": "3.20"
+  },
+  {
+    "name": "importlib_metadata",
+    "version": "8.9.0"
+  },
+  {
+    "name": "Jinja2",
+    "version": "3.1.6"
+  },
+  {
+    "name": "jiter",
+    "version": "0.17.0"
+  },
+  {
+    "name": "jmespath",
+    "version": "1.1.0"
+  },
+  {
+    "name": "jsonschema",
+    "version": "4.26.0"
+  },
+  {
+    "name": "jsonschema-specifications",
+    "version": "2025.9.1"
+  },
+  {
+    "name": "litellm",
+    "version": "1.101.0"
+  },
+  {
+    "name": "markdown-it-py",
+    "version": "4.2.0"
+  },
+  {
+    "name": "MarkupSafe",
+    "version": "3.0.3"
+  },
+  {
+    "name": "mdurl",
+    "version": "0.1.2"
+  },
+  {
+    "name": "multidict",
+    "version": "6.9.0"
+  },
+  {
+    "name": "openai",
+    "version": "2.54.0"
+  },
+  {
+    "name": "opentelemetry-api",
+    "version": "1.44.0"
+  },
+  {
+    "name": "packaging",
+    "version": "26.3"
+  },
+  {
+    "name": "propcache",
+    "version": "0.5.4"
+  },
+  {
+    "name": "pydantic",
+    "version": "2.13.5"
+  },
+  {
+    "name": "pydantic-settings",
+    "version": "2.15.0"
+  },
+  {
+    "name": "pydantic_core",
+    "version": "2.46.5"
+  },
+  {
+    "name": "Pygments",
+    "version": "2.21.0"
+  },
+  {
+    "name": "python-dateutil",
+    "version": "2.9.0.post0"
+  },
+  {
+    "name": "python-dotenv",
+    "version": "1.2.3"
+  },
+  {
+    "name": "PyYAML",
+    "version": "6.0.3"
+  },
+  {
+    "name": "referencing",
+    "version": "0.37.0"
+  },
+  {
+    "name": "regex",
+    "version": "2026.9.10"
+  },
+  {
+    "name": "requests",
+    "version": "2.34.2"
+  },
+  {
+    "name": "rich",
+    "version": "15.0.0"
+  },
+  {
+    "name": "rpds-py",
+    "version": "2026.6.3"
+  },
+  {
+    "name": "s3transfer",
+    "version": "0.19.2"
+  },
+  {
+    "name": "six",
+    "version": "1.17.0"
+  },
+  {
+    "name": "sniffio",
+    "version": "1.3.1"
+  },
+  {
+    "name": "tiktoken",
+    "version": "0.14.0"
+  },
+  {
+    "name": "tokenizers",
+    "version": "0.23.2"
+  },
+  {
+    "name": "tomlkit",
+    "version": "0.15.1"
+  },
+  {
+    "name": "tqdm",
+    "version": "4.70.1"
+  },
+  {
+    "name": "typing-inspection",
+    "version": "0.4.4"
+  },
+  {
+    "name": "typing_extensions",
+    "version": "4.16.0"
+  },
+  {
+    "name": "urllib3",
+    "version": "2.8.0"
+  },
+  {
+    "name": "yarl",
+    "version": "1.25.1"
+  },
+  {
+    "name": "zipp",
+    "version": "4.1.0"
+  }
+]

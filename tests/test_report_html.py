@@ -82,6 +82,32 @@ class HtmlReportTests(unittest.TestCase):
         self.report = scan(root)
         self.report["assessment"] = build_assessment(self.report)
 
+    def test_compact_priority_table_has_locations_counts_and_valid_internal_targets(self):
+        doc = Document(html_report(self.report))
+        text = ' '.join(doc.sections['summary'])
+        for term in ('Deterministic layer', 'Selected scope completed', 'Optional model layer', 'Disabled - no model review requested',
+                     'Priority / count', 'Observed locations', 'agent.py:2', '1 open'):
+            self.assertIn(term, text)
+        ids = {attrs['id'] for _, attrs in doc.tags if attrs.get('id')}
+        links = [attrs['href'][1:] for tag, attrs in doc.tags if tag == 'a' and attrs.get('href', '').startswith('#')]
+        self.assertTrue(all(target in ids for target in links))
+        self.assertTrue(any(tag == 'table' and attrs.get('class') == 'priority-table' for tag, attrs in doc.tags))
+
+    def test_optimization_receipt_is_escaped_and_keeps_actual_bytes_separate_from_tokens(self):
+        report = copy.deepcopy(self.report)
+        payload = '<img src=x onerror=alert(1)>'
+        report['judge'] = {'enabled': True, 'status': 'completed', 'token_optimization': {
+            'requested': 'headroom', 'engine': 'builtin_compact', 'status': 'fallback', 'fallback_reason': payload,
+            'payload_bytes_before': 1000, 'payload_bytes_after': 750, 'bytes_saved': 250, 'token_savings_measured': False}}
+        page = html_report(report)
+        doc = assert_trusted_script_boundary(self, page)
+        self.assertNotIn(payload, page)
+        text = ' '.join(doc.sections['advisory'])
+        for term in ('Optional request payload optimization', 'headroom / builtin_compact', '1000 → 750', '250 bytes saved',
+                     'Token and cost savings were not measured', payload):
+            self.assertIn(term, text)
+        self.assertNotIn('Optional request payload optimization', ' '.join(Document(html_report(self.report)).text))
+
     def test_executive_summary_and_all_evidence_are_visible_without_model(self):
         page = html_report(self.report)
         doc = Document(page)

@@ -197,8 +197,72 @@ class PDFReviewTests(unittest.TestCase):
         target = self.root / "schema.pdf"
         report_pdf.render_pdf(report, target)
         text = " ".join(" ".join(page.extract_text().split()) for page in self.pypdf.PdfReader(target).pages)
-        for term in ("Fixture needs validation", "Fixture validation explanation", "max_file_bytes: 98765", "scope-fixture", "judge_max_findings: 7", "max_layers: 23", '"selected_findings": 2', '"omitted_open_findings": 9', '"omitted_checks": 130', '"total_checks": 132'):
+        for term in ("Fixture needs validation", "Fixture validation explanation", "Max file bytes 98765", "scope-fixture", "Judge max findings 7", "Max layers 23", "2 selected; 9 outside cap", "130/132 requested checks", "Judge / Source context sent count 1"):
             self.assertIn(term, text)
+
+    def test_decision_first_layout_links_findings_controls_and_review_forms(self):
+        reader = self.pypdf.PdfReader(io.BytesIO(self.data))
+        first = " ".join(reader.pages[0].extract_text().split())
+        for term in ("Executive summary", "Immediate concerns", "Priority / count", "agent.py:1", "AI001", "Selected static scope completed", "Optional model review: disabled"):
+            self.assertIn(term, first)
+        sections = {item['/Title']: reader.get_destination_page_number(item) for item in reader.outline if isinstance(item, dict)}
+        self.assertLess(sections['Observed findings and mitigating layers'], sections['Scan configuration and scope'])
+        self.assertLess(sections['Observed findings and mitigating layers'], sections['Appendix / Deterministic rule inventory'])
+        self.assertLess(sections['Control checklist and evidence requirements'], sections['Interactive review workspace'])
+        page_ids = {page.indirect_reference.idnum for page in reader.pages}
+        destinations = []
+        for page in reader.pages:
+            for ref in page.get('/Annots', []):
+                annotation = ref.get_object()
+                if annotation.get('/Subtype') == '/Link' and '/Dest' in annotation:
+                    destinations.append(annotation['/Dest'])
+        self.assertGreater(len(destinations), 10)
+        self.assertTrue(all(destination[0].idnum in page_ids for destination in destinations))
+        text = ' '.join(page.extract_text() for page in reader.pages)
+        self.assertIn('Back to evidence', text)
+        self.assertIn('Record review for GOV-01:1', text)
+        self.assertEqual(report_pdf.extract_review_workspace(self.data), self.report['review_workspace'])
+
+    def test_request_optimization_reports_payload_bytes_and_fallback_without_token_claim(self):
+        report = copy.deepcopy(self.report)
+        record = {'requested': 'headroom', 'engine': 'builtin_compact', 'status': 'fallback',
+                  'fallback_reason': 'headroom_unavailable', 'payload_bytes_before': 1000,
+                  'payload_bytes_after': 800, 'bytes_saved': 200, 'token_savings_measured': False}
+        report['judge'] = {'enabled': True, 'status': 'completed', 'selected_findings': 1, 'token_optimization': record}
+        target = self.root / 'optimization.pdf'
+        report_pdf.render_pdf(report, target)
+        text = ' '.join(' '.join(page.extract_text().split()) for page in self.pypdf.PdfReader(target).pages)
+        for term in ('Optional request payload optimization', 'headroom / builtin_compact', 'headroom_unavailable', '1000 -> 800', '200 bytes saved', 'Token and cost savings were not measured'):
+            self.assertIn(term, text)
+        self.assertEqual(report_pdf.extract_review_workspace(target.read_bytes()), self.report['review_workspace'])
+
+    def test_pdf_keeps_zero_match_policy_reasons_and_stale_import_audit(self):
+        from ai_security_scan.assessment import build_assessment
+        from ai_security_scan.review_policy import apply_review_config
+        from ai_security_scan.review_workspace import build_workspace
+        reason = 'External deployment review. ' * 270 + 'End of complete retained rationale.'
+        report = apply_review_config(copy.deepcopy(self.report), {'schema_version': '1.0',
+            'rules': {'AI001': {'status': 'justified', 'reason': 'The detected fixture has a recorded owner exception.'},
+                      'AI041': {'status': 'disabled', 'reason': reason}}})
+        report['review_import'] = {'enabled': True, 'status': 'incomplete', 'incomplete': True,
+            'origin_scan_id': 'prior-fixture-scan', 'source_sha256': 'a' * 64,
+            'stale': [{'id': 'finding:stale-fixture', 'subject': 'Prior finding with changed source', 'decision': 'justified',
+                       'reason': 'Previous owner rationale is still visible.', 'reviewer': 'Fixture owner',
+                       'reason_for_status': 'Source evidence changed; exception was not applied.'}],
+            'counts': {'stale': 1}}
+        report['assessment'] = build_assessment(report)
+        report['review_workspace'] = build_workspace(report)
+        before = copy.deepcopy(report)
+        target = self.root / 'decision-audit.pdf'
+        report_pdf.render_pdf(report, target)
+        reader = self.pypdf.PdfReader(target)
+        text = ' '.join(' '.join(page.extract_text().split()) for page in reader.pages)
+        for term in ('Justified: 1', 'User decisions and imported review audit', 'rules / AI041 / disabled',
+                     'End of complete retained rationale.', 'Previous owner rationale is still visible.',
+                     'Source evidence changed; exception was not applied.', 'prior-fixture-scan'):
+            self.assertIn(term, text)
+        self.assertEqual(report_pdf.extract_review_workspace(target.read_bytes()), report['review_workspace'])
+        self.assertEqual(report, before)
 
     def test_missing_appearance_and_need_appearances_are_rejected(self):
         from pypdf.generic import BooleanObject, NameObject

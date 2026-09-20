@@ -4,7 +4,18 @@ Start with `report.html` for a navigable, branded review or `report.md` for a te
 
 The HTML file is self-contained: it needs no server, account, model, CDN, font download or internet connection. Its expandable sections and internal links use native browser behavior. A fixed CSP-hashed local JavaScript helper saves review fields through Download reviewed HTML; reading works without JavaScript. External source links open only when you choose them. Print styles expand finding and control details for printing, but a printed/flattened artifact is not the editable review input. Reports can contain sensitive paths and redacted source fragments; redaction is best-effort.
 
-Version 0.9 adds catalog/observation charts, methods and missed-scenario explanations, effective configuration and review fields. `--pdf` creates a fillable PDF with clickable contents and the same scan review data. HTML, Markdown, JSON, SARIF and this scan PDF can be passed to `--review-report` with a fresh code/image target. [See the complete review and rescan workflow](REVIEW_WORKFLOW.md).
+Version 0.11 makes the opening easier to act on. HTML separates the deterministic and optional-model outcomes in a compact status strip and lists immediate concerns in a table with priority, occurrence count, linked locations and the first action. The PDF starts with the executive summary and linked priority table on its first page. Detailed findings appear before configuration and the rule inventory; readable configuration and review-coverage tables replace dense JSON paragraphs. Each PDF finding links to its review form and relevant mitigation layers, and review cards link back to evidence. The control checklist appears before the form appendix.
+
+The charts, full fix plans, agent/MCP relevance, methods, blind spots, sources and editable review fields already present in v0.10 remain available. The new layout does not change findings, severity, SARIF gates or the bound review fields. `--pdf` creates a fillable PDF with clickable contents and the same scan review data. HTML, Markdown, JSON, SARIF and this scan PDF can be passed to `--review-report` with a fresh code/image target. [See the complete review and rescan workflow](REVIEW_WORKFLOW.md).
+
+For a new report using the installed short command:
+
+```sh
+invscan /path/to/agent-or-mcp --pdf --output ./initial-report
+invscan /path/to/agent-or-mcp --review-report ./reviewed-report.pdf --pdf --output ./reviewed-scan
+```
+
+PDF export/import requires the optional `pdf` extra. An existing `invarune` invocation remains supported. Save review edits in an AcroForm-compatible editor; do not print or flatten the PDF. Generate into a new output directory to preserve the earlier evidence.
 
 ## The opening assessment
 
@@ -85,6 +96,8 @@ With `--review-config`, the opening summary distinguishes **justified** and **di
 
 Whole-control and individual-check exceptions exclude checklist items only; related static findings stay open unless their rule or that individual finding has an explicit exception. The user-policy audit shows every configured entry, including rules with no matches. The full catalog remains visible separately from active counts. An all-exempt scan is labeled as configured exceptions rather than no patterns detected. Errors and coverage gaps retain precedence.
 
+The PDF opening separates accepted baseline, justified and disabled finding counts. Its **User decisions and imported review audit** appendix prints every configured reason, including rules with zero matches, and preserves applied, stale, not-redetected, out-of-scope and pending review records. Prior rationale is not removed when fresh evidence changes. The same decision fields remain bound to the capsule; the layout does not grant a new approval or turn a stale decision into an active exception.
+
 The optional analyst does not assess exempt checklist items or count them as missing answers. Responses for active subsets are mapped back to the original check IDs; the request receipt records the mapping. SARIF retains excepted findings as externally accepted suppressions with a distinct user-disposition property and rationale. See [review configuration](REVIEW_CONFIGURATION.md).
 
 ## Optional analyst and deterministic reporting
@@ -92,6 +105,10 @@ The optional analyst does not assess exempt checklist items or count them as mis
 The entire overview and mitigation catalog work with the model disabled. The `assessment` field is derived from static findings, scope, explicit user review/import states, export diagnostics and bundled guidance. It does not depend on the selected failure threshold, model verdict, or optional review completion. The report records the guidance catalog version and SHA-256 plus the source registry SHA-256 separately from the evidence scan ID.
 
 If enabled, the model's finding triage and control review appear in explicitly advisory sections. The executive area shows optional-review completion separately. An answered check does not mean it passed, and a completed review can still require runtime or human evidence. A failed or partial review leaves the static findings intact and retains the existing exit-code-2 behavior.
+
+When a request carries a `token_optimization` receipt, the human report shows the requested mode, actual engine, outcome/fallback and evidence-payload bytes before and after processing. The finding-stage record lives at `judge.token_optimization`; control-stage records live on `analyst.requests[]`. A fallback is displayed as a fallback, not a successful Headroom execution. Historical reports without these records do not receive invented optimization results.
+
+The byte counts cover evidence JSON only. They exclude instructions, response schemas and provider wrappers. **Token and cost savings are not measured** by these receipts, and byte reduction must not be called a percentage of model tokens saved. Recorded hashes and evidence-preservation checks describe the submitted representation; they do not establish model-review accuracy. Deterministic-only scans need no optimization engine or model call.
 
 `--summary-json` includes a compact assessment containing posture, metrics, and guidance provenance. The full finding groups, proposed layers, and their sources are in `report.json`. SARIF remains a static-findings format; it does not turn the proposed defenses into a risk reduction or compliance score.
 

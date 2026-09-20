@@ -2,11 +2,12 @@
 
 ![Invarune - Evidence for agent security](docs/assets/brand/invarune-banner.png)
 
-**Invarune** (IN-vuh-roon) is a Python CLI that inspects a codebase or built Linux container image, identifies selected security risks, and produces a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every active control through a deterministic evidence and validation layer, using native LLM APIs, a custom HTTP gateway, or an official Codex, Claude Code or Grok Build CLI. The model's judgment remains nondeterministic and advisory.
+**Invarune** (IN-vuh-roon) provides the `invscan` CLI to inspect a codebase or built Linux container image, identify selected security risks, and produce a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every active control through a deterministic evidence and validation layer, using native LLM APIs, a custom HTTP gateway, or an official Codex, Claude Code or Grok Build CLI. The model's judgment remains nondeterministic and advisory.
 
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
-- **[Quick start: get your first report](docs/QUICKSTART.md)**
+- **[Quick start: install and use invscan](docs/QUICKSTART.md)**
+- **[New v0.11 scan report: fillable PDF, HTML and live AI example](examples/reports/invscan-v011/README.md)**
 - [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
 - [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
 - [Built image scanning: Docker, Podman and OCI archives](docs/IMAGE_SCANNING.md)
@@ -14,7 +15,7 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Justified and disabled checks: review configuration](docs/REVIEW_CONFIGURATION.md)
 - [Accuracy methodology and known false positives/negatives](docs/RULE_ACCURACY.md)
 - [Fresh finding-by-finding competitor comparison](benchmarks/comparison-v010/README.md)
-- [Executed quickstart validation and receipts](benchmarks/quickstart-v010/README.md)
+- [Executed quickstart validation and receipts](benchmarks/quickstart-v011/README.md)
 - [Real-project reports and comparative scanner benchmark](docs/BENCHMARK_RESULTS.md)
 - [CLI subscription login, model defaults and live-test evidence](docs/CLI_PROVIDER_RESEARCH.md)
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
@@ -22,6 +23,14 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Judge setup and API compatibility](docs/JUDGE.md)
 - [Controlled security analyst: routing, evidence, budgets, and outcomes](docs/ANALYST.md)
 - [Machine-readable control catalog](ai_security_scan/data/controls.json)
+
+## Latest scan report
+
+[Open the redesigned scan report](examples/reports/invscan-v011/README.md): priorities and linked locations at the beginning, findings from page 4, concrete fixes and mitigating layers, readable scope/configuration/AI coverage, Headroom byte receipts, and editable justifications with an audit appendix. The actual example uses installed `invscan`, limited live Codex review and default Headroom. Its 2 selected finding answers, 9 unselected findings and unrequested control review are explicit.
+
+<p align="center"><a href="examples/reports/invscan-v011/report.pdf"><img src="docs/assets/invscan-v011-report-cover.png" alt="Invarune 0.11 scan report with linked security priorities" width="440"></a></p>
+
+The [43-step quickstart receipt](benchmarks/quickstart-v011/README.md) and [765-test validation evidence](benchmarks/validation-v011/README.md) record what was actually exercised. The controlbook below is the separate research/control reference.
 
 ## The Invarune controlbook
 
@@ -39,31 +48,40 @@ The expanded landscape includes CSA AICM/CCM and MAESTRO, CIS agent/MCP companio
 
 ## Run a scan
 
-Requires Python **3.9+**. No packages or API credentials are needed for a static scan. Run from this project's directory:
+Install once, then use **`invscan`** from any directory. From this checkout, create and activate an isolated environment (Python **3.9+**):
 
 ```sh
-python3 scan.py --help
-python3 scan.py /absolute/path/to/agent-or-mcp-repo --output ./scan-report
+python3 -m venv .venv
+. .venv/bin/activate
+pip install .
+invscan --help
+invscan --examples
+invscan /absolute/path/to/agent-or-mcp-repo --output ./scan-report
+invscan --image-archive ./agent-image.tar --output ./image-report
 ```
 
-`-h` / `--help` includes the complete offline feature reference: every flag/default/range, source and image behavior, exclusions, baselines, reports, optional analyst budgets, CLI login/model choices, all judge JSON fields, gateway configurations, and executable examples. The same reference ships in the installed CLI.
+On Windows PowerShell, create the environment with `py -3 -m venv .venv` and add its command directory to this terminal with `$env:Path = "$((Resolve-Path .venv\Scripts).Path);$env:Path"`. The subsequent `pip` and `invscan` commands are the same. [Quickstart](docs/QUICKSTART.md) includes a route without activation.
 
-To invoke it from any directory, use the absolute path to `scan.py`. You can also install the CLI using `python3 -m pip install .` and run `invarune`, or use `python3 -m ai_security_scan` from this directory. Installation may need build tooling; direct script execution needs only Python's standard library.
-
-The original `ai-security-scan` command remains a supported alias. The distribution name `agent-mcp-security-scan`, Python module `ai_security_scan`, report machine identifiers, and repository URL remain stable. See the [brand kit](docs/BRAND.md) and [dated name research](docs/BRAND_RESEARCH.md).
+For AI review with Headroom and fillable PDFs, use Python **3.10+** and install the optional features into that same environment:
 
 ```sh
-# Installed command, including complete offline help:
-invarune --help
-invarune /path/to/repo --output ./scan-report
-invarune --image-archive ./agent-image.tar --output ./image-report
+pip install '.[ai,pdf]'
+invscan ./my-agent --judge-cli codex --pdf --output ./review
+invscan --help-topic ai
+invscan --help-topic review
 ```
 
-[View the sample Markdown report](examples/reports/vulnerable/report.md) or [download the sample HTML report](examples/reports/vulnerable/report.html?raw=1) and open it locally. These are deliberately vulnerable fixtures, not a production assessment.
+`-h` / `--help` includes the complete offline reference: every flag/default/range, source and image behavior, exclusions, baselines, reports, analyst budgets, login/model choices, all judge JSON fields, gateway configurations and examples. `--help-topic` provides focused guides, and `--examples` gives copyable recipes. None of these help commands scan files, read provider configuration, log in or call a service.
+
+`invarune` and `ai-security-scan` remain compatible aliases of `invscan`. Direct `scan.py` and module invocation remain available for existing users. The distribution name `agent-mcp-security-scan`, report machine identifiers and repository URL stay stable. See the [brand kit](docs/BRAND.md).
+
+[View the sample Markdown report](examples/reports/v011/source/report.md) or [download the sample HTML report](examples/reports/v011/source/report.html?raw=1) and open it locally. These are deliberately vulnerable fixtures, not a production assessment.
 
 For real testing, see the [eight pinned public-project reports](benchmarks/real-world/README.md), the [external scanner comparison](benchmarks/external-tools/README.md), and the [branded benchmark PDF](output/pdf/invarune-benchmark-report.pdf). The same selected source bytes were offered to Invarune, Semgrep CE, Bandit and Gitleaks. Cisco MCP Scanner ran a separate partial metadata test. Findings, false-positive examples, parser gaps, commands, versions and hashes are published; observed counts are not confirmed vulnerabilities or a scanner ranking.
 
-Version **0.10.0** adds a sourced fix plan for every deterministic finding: agent/MCP relevance, applicability, concrete implementation changes, verification steps and remaining risk. The optional model can supply its own structured advice; missing model advice stays visible and cannot replace the static plan. [Guidance catalog](ai_security_scan/data/remediations.json), [report interpretation](docs/REPORTS.md).
+Version **0.11.0** makes `invscan` the primary command, adds topic help and an example gallery, and brings findings/action links to the front of the scan PDF. Optional AI review defaults to guarded Headroom JSON compaction, with exact evidence preservation and a visible built-in fallback. [Headroom research and measured limits](docs/HEADROOM_RESEARCH.md).
+
+Version **0.10.0** added a sourced fix plan for every deterministic finding: agent/MCP relevance, applicability, concrete implementation changes, verification steps and remaining risk. The optional model can supply its own structured advice; missing model advice stays visible and cannot replace the static plan. [Guidance catalog](ai_security_scan/data/remediations.json), [report interpretation](docs/REPORTS.md).
 
 The [fresh comparison](benchmarks/comparison-v010/README.md) and [13-page branded comparison PDF](output/pdf/invarune-finding-comparison-v010.pdf) publish every observed finding, shared and tool-only matches, execution gaps and a predefined adjudication sample. Its fixture-label results and any model judgments remain separate from confirmed production vulnerabilities. The [Claude-enabled example](examples/reports/cli-claude-v010/README.md) records the actual authentication failure; the [limited live Codex example](examples/reports/cli-codex-v010/README.md) demonstrates structured fix advice.
 
@@ -81,8 +99,8 @@ Every new report contains editable review data. Fill the HTML or PDF form, or ed
 
 ```sh
 python3 -m pip install '.[pdf]'
-invarune /path/to/repo --pdf --output ./initial-report
-invarune /path/to/repo --review-report ./reviewed-report.html --pdf --output ./final-report
+invscan /path/to/repo --pdf --output ./initial-report
+invscan /path/to/repo --review-report ./reviewed-report.html --pdf --output ./final-report
 ```
 
 Use the HTML **Download reviewed HTML** button to preserve form edits. Keep reports outside the source target and select the fresh code/image input explicitly. [Complete five-format review workflow](docs/REVIEW_WORKFLOW.md).
@@ -93,15 +111,15 @@ Exit codes are **0** when the selected scope completes and no open finding reach
 
 ```sh
 # Gate medium and higher findings; omit one generated directory.
-python3 scan.py /path/to/repo --fail-on medium --exclude 'generated/*'
+invscan /path/to/repo --fail-on medium --exclude 'generated/*'
 
 # Produce findings without a severity-based CI failure.
 # Incomplete scans and judge failures still return 2.
-python3 scan.py /path/to/repo --fail-on none
+invscan /path/to/repo --fail-on none
 
 # Inspect the full rule and control catalogs.
-python3 scan.py --list-rules
-python3 scan.py --list-controls
+invscan --list-rules
+invscan --list-controls
 ```
 
 ## Justify or disable selected checks
@@ -109,7 +127,7 @@ python3 scan.py --list-controls
 Use `--review-config ./trusted-review.json` with a source directory or image input. Rules, whole controls, and individual `CONTROL:INDEX` checklist items can be marked **justified** or **disabled**. Justification requires your reason. Both statuses are excluded from active counts, and rule exceptions are excluded from the findings gate; neither counts as a pass. Evidence and your reason remain in the reports. Checklist exceptions do not automatically waive mapped rule findings, and errors or coverage gaps still return exit 2.
 
 ```sh
-invarune /path/to/repo --review-config ./trusted-review.json --output ./scan-report
+invscan /path/to/repo --review-config ./trusted-review.json --output ./scan-report
 ```
 
 See the [complete schema, precedence and examples](docs/REVIEW_CONFIGURATION.md) and [illustrative configuration](examples/review-config.json) and [report with justified/disabled items](examples/reports/reviewed/report.md). The scanner never auto-loads a policy from the target repository. No numerical security score is calculated.
@@ -118,14 +136,14 @@ See the [complete schema, precedence and examples](docs/REVIEW_CONFIGURATION.md)
 
 ```sh
 # Existing local image; never starts the container.
-python3 scan.py --image my-agent:latest --output ./image-report
+invscan --image my-agent:latest --output ./image-report
 
 # Exported Docker-save or OCI archive; no runtime required.
-python3 scan.py --image-archive ./agent-image.tar --output ./image-report
+invscan --image-archive ./agent-image.tar --output ./image-report
 
 # Podman and explicit registry pulls are also supported.
-python3 scan.py --image my-mcp-server:latest --image-runtime podman
-python3 scan.py --image ghcr.io/example/agent:1.2.3 --pull
+invscan --image my-mcp-server:latest --image-runtime podman
+invscan --image ghcr.io/example/agent:1.2.3 --pull
 ```
 
 Image mode scans packaged supported source, configuration, image metadata, and credentials retained in deleted layers. It inventories OS/packages and stored permission signals. Native binary logic and package CVEs remain explicitly unassessed; a source-free image still receives a clearly labeled metadata report. Optional `--judge-config` adds the same controlled analyst. See [formats, budgets, scope and safety](docs/IMAGE_SCANNING.md).
@@ -136,13 +154,13 @@ No static scanner can guarantee zero false positives or false negatives. Our [pu
 
 ```sh
 # Machine-readable stdout, with complete reports still saved.
-python3 scan.py /path/to/repo --summary-json --fail-on medium --output ./scan-report
+invscan /path/to/repo --summary-json --fail-on medium --output ./scan-report
 
 # Quiet CI output; operational errors remain visible on stderr.
-python3 scan.py /path/to/repo --quiet
+invscan /path/to/repo --quiet
 
 # Explain a rule, its references, and mapped controls without scanning.
-python3 scan.py --explain-rule AI002
+invscan --explain-rule AI002
 
 # Run the labeled accuracy corpus without executing its fixture source.
 python3 scripts/evaluate_accuracy.py --format markdown
@@ -171,15 +189,15 @@ The report retains controls for authorization, tenant separation, consent/approv
 Use an existing official CLI subscription login, with no separate API key configured in Invarune:
 
 ```sh
-invarune /path/to/repo --judge-cli codex
-invarune /path/to/repo --judge-cli claude
-invarune /path/to/repo --judge-cli grok
+invscan /path/to/repo --judge-cli codex
+invscan /path/to/repo --judge-cli claude
+invscan /path/to/repo --judge-cli grok
 
 # Sign in directly through Invarune without scanning:
-invarune --login claude
+invscan --login claude
 
 # Unattended runs never prompt for login:
-invarune /path/to/repo --judge-cli codex --judge-login never --summary-json
+invscan /path/to/repo --judge-cli codex --judge-login never --summary-json
 ```
 
 Interactive scans launch the official login when needed and resume automatically. Cancellation or failure preserves deterministic reports. Invarune selects **`gpt-6-astra`**, **`opus`**, or **`grok-build`** as its respective security-review defaults; `--judge-model` overrides that choice. These are documented quality-focused defaults, not an independently measured model ranking. Vendor account/model access and usage limits apply. The CLI must already be installed; Invarune does not purchase credits or install/update it implicitly.
@@ -204,13 +222,13 @@ Create a trusted JSON configuration, for example:
 Set `SECURITY_JUDGE_API_KEY` using your shell or secret manager, then:
 
 ```sh
-python3 scan.py /path/to/repo --judge-config ./judge.json --output ./scan-report
+invscan /path/to/repo --judge-config ./judge.json --output ./scan-report
 
 # Increase the scheduling budget for slower models.
-python3 scan.py /path/to/repo --judge-config ./judge.json --analyst-time-budget 600
+invscan /path/to/repo --judge-config ./judge.json --analyst-time-budget 600
 
 # Narrow opt-in: finding triage only, without the all-control source review.
-python3 scan.py /path/to/repo --judge-config ./judge.json --judge-mode findings
+invscan /path/to/repo --judge-config ./judge.json --judge-mode findings
 ```
 
 With `--judge-config` or `--judge-cli`, **full review is the default**: one finding-triage request followed by the active checks from **66 controls / 132 checks**, including those with no findings. Even mapped static rules cannot establish a complete control pass, so every active control is queued. Explicit user dispositions in `--review-config` exclude named checklist items from that queue and its denominator; the original catalog remains visible for audit. A deterministic selector gathers bounded, redacted excerpts from unchanged files in the scan manifest. The model cannot choose files, execute code, use tools, change findings, or authorize actions.
@@ -241,11 +259,11 @@ Judge output is nondeterministic, including with deterministic-looking model set
 Baselines preserve findings in the report but remove accepted IDs from the severity gate. They must be intentionally supplied. A baseline candidate does not suppress the scan that creates it.
 
 ```sh
-python3 scan.py /path/to/repo --write-baseline ./baseline.json \
+invscan /path/to/repo --write-baseline ./baseline.json \
   --baseline-reason 'Reviewed exception; owner and expiry tracked in SEC-123'
 
 # Review the candidate file before using it in CI.
-python3 scan.py /path/to/repo --baseline ./baseline.json
+invscan /path/to/repo --baseline ./baseline.json
 ```
 
 Each entry requires a nonempty reason. The CLI candidate includes all current findings with the shared reason; remove unaccepted entries and make reasons specific. Stale IDs are reported. Approval, expiry, and compensating controls are human responsibilities, not inferred from the text. No source comment can silently disable a rule.
@@ -254,10 +272,10 @@ Each entry requires a nonempty reason. The CLI candidate includes all current fi
 
 ```sh
 # Deliberately vulnerable source; scan it, do not run it.
-python3 scan.py examples/vulnerable --output ./test-output/vulnerable --fail-on none
+invscan examples/vulnerable --output ./test-output/vulnerable --fail-on none
 
 # Small safer comparison fixture, not a complete secure application.
-python3 scan.py examples/safer --output ./test-output/safer
+invscan examples/safer --output ./test-output/safer
 
 # Includes mocked API adapters and a loopback HTTP transport test; no paid API calls.
 python3 -m unittest discover -s tests -v

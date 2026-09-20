@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0",
+  "date": "2026-09-19",
+  "method": "All-page Poppler raster rendering and contact-sheet visual inspection, selected-page larger-scale inspection, pypdf structure/navigation checks, pdfplumber word bounds, strict Invarune capsule extraction and regenerated-appearance edit/reimport probe.",
+  "environment": {
+    "python": "3.12.14",
+    "reportlab": "4.4.9",
+    "pypdf": "6.10.0",
+    "pdfplumber": "0.11.9",
+    "poppler": "pdftoppm version 26.05.0"
+  },
+  "artifact": {
+    "path": "examples/reports/invscan-v011/report.pdf",
+    "sha256": "bed01706affa81d4e8ba87c0372078a81b44a9a45ffb22305f7546b02c8a5b8d",
+    "json_sha256": "41b742b1e450b124f6f1b29f57cf35a79a19709640e27e71af6d7c9fb543d763",
+    "version": "0.11.0",
+    "implementation_sha256": "993d77b77bac8f0f4758ce931da596ce03eb31a36a4fec4302efb2da601ffb80",
+    "scan_id": "c1ba5410b8710dd9fbed73894eb74c7c7813cf78b6e3cecf80054db70682104c",
+    "pages": 114,
+    "all_pages_rendered_and_visually_inspected": true,
+    "visual_inspection": {
+      "contact_sheets": 19,
+      "pages_per_sheet": 6,
+      "larger_scale_pages": [
+        1,
+        3,
+        4,
+        33,
+        37,
+        43
+      ],
+      "observed_layout_defects": []
+    },
+    "words_outside_page_bounds": 0,
+    "form_fields": 715,
+    "widgets": 715,
+    "bound_review_items": 143,
+    "review_workspace_matches_json": true,
+    "embedded_report_matches_json": true,
+    "attachments": [
+      "invarune-report.json",
+      "invarune-review.json"
+    ],
+    "temporary_edit_roundtrip": {
+      "status": "passed",
+      "item_indexes": [
+        0,
+        142
+      ],
+      "fields_changed": 10,
+      "all_other_fields_and_bindings_preserved": true,
+      "appearances_regenerated": true,
+      "published_pdf_unchanged": true
+    },
+    "internal_links": 336,
+    "external_https_links": 156,
+    "unique_external_urls": 53,
+    "invalid_internal_destinations": 0,
+    "annotations_outside_page_bounds": 0,
+    "outline_entries": 12,
+    "outline_destinations": [
+      {
+        "title": "Executive summary",
+        "page": 1
+      },
+      {
+        "title": "Contents",
+        "page": 2
+      },
+      {
+        "title": "Priorities and first actions",
+        "page": 3
+      },
+      {
+        "title": "Observed findings and mitigating layers",
+        "page": 4
+      },
+      {
+        "title": "Optional advisory review and evidence",
+        "page": 17
+      },
+      {
+        "title": "Coverage gaps and required validation",
+        "page": 19
+      },
+      {
+        "title": "Control checklist and evidence requirements",
+        "page": 20
+      },
+      {
+        "title": "Scan configuration and scope",
+        "page": 32
+      },
+      {
+        "title": "Deterministic checks and optional review",
+        "page": 35
+      },
+      {
+        "title": "Coverage, misses and validation by area",
+        "page": 36
+      },
+      {
+        "title": "Appendix / Deterministic rule inventory",
+        "page": 40
+      },
+      {
+        "title": "Interactive review workspace",
+        "page": 43
+      }
+    ],
+    "cover_preview": "docs/assets/invscan-v011-report-cover.png"
+  },
+  "actual_scan_outcome": {
+    "exit_code": 1,
+    "static_findings": 11,
+    "judge_status": "completed",
+    "selected_findings": 2,
+    "model_finding_answers": 2,
+    "omitted_open_findings": 9,
+    "additional_model_concerns": 3,
+    "model_control_review_requested": false
+  },
+  "token_optimization": {
+    "bytes_saved": 128,
+    "engine": "headroom",
+    "evidence_preserved": true,
+    "fallback_reason": null,
+    "headroom_version": "0.37.0",
+    "original_payload_sha256": "1ad9a18de38edb0901b45af07916fb08f1ef5b875d01e4ad53878dee81183257",
+    "payload_bytes_after": 3430,
+    "payload_bytes_before": 3558,
+    "requested": "headroom",
+    "schema_version": "1.0",
+    "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+    "sent_payload_sha256": "6092d4e472abfc9ba6f6d2567219066dcdd97d1a0c67d9a420be70d440bab691",
+    "status": "optimized",
+    "token_savings_measured": false
+  },
+  "limitations": [
+    "Visual inspection and supported structural checks apply to this artifact and recorded environment; no native PDF viewer click/edit compatibility claim is made.",
+    "Navigation was checked structurally and against destination headings; external source availability was not re-tested by this PDF QA.",
+    "The edit/reimport probe used pypdf with regenerated appearances in a disposable copy; it does not verify every third-party editor.",
+    "Model findings and additional concerns remain unverified advisory output; only two findings were selected and nine remained outside the cap.",
+    "The 128-byte reduction measures the evidence JSON only, not model tokens, cost savings or security accuracy."
+  ]
+}

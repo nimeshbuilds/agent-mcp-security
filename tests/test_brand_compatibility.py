@@ -67,7 +67,7 @@ class BrandCompatibilityTests(unittest.TestCase):
 
     def test_primary_and_legacy_invocations_have_equivalent_reference_and_bare_version(self):
         references = []
-        for command in ("invarune", "ai-security-scan"):
+        for command in ("invscan", "invarune", "ai-security-scan"):
             for flag in ("-h", "--help", "--version"):
                 stdout, stderr = io.StringIO(), io.StringIO()
                 with self.subTest(command=command, flag=flag), \
@@ -85,7 +85,7 @@ class BrandCompatibilityTests(unittest.TestCase):
                 else:
                     self.assertIn("usage: " + command + " ", stdout.getvalue())
                     self.assertIn("compatible legacy alias", stdout.getvalue())
-                    self.assertIn("invarune --image-archive", stdout.getvalue())
+                    self.assertIn("invscan --image-archive", stdout.getvalue())
                     self.assertIn("Custom JSON gateway configuration:", stdout.getvalue())
                     references.append(stdout.getvalue().split(DISPLAY_NAME, 1)[1])
         self.assertTrue(all(value == references[0] for value in references))

@@ -384,8 +384,48 @@ def _render_pdf(report, path):
         "sub": ParagraphStyle("sub", fontName="Helvetica-Bold", fontSize=11, leading=14, textColor=teal, spaceAfter=7, keepWithNext=True),
     }
 
-    def para(value, style="body"):
-        return Paragraph(html.escape(_display(value)).replace("\n", "<br/>"), styles[style])
+    def bookmark_key(kind, value):
+        return kind + "-" + hashlib.sha256(str(value).encode("utf-8", "backslashreplace")).hexdigest()[:20]
+
+    def para(value, style="body", anchor=None):
+        markup = html.escape(_display(value)).replace("\n", "<br/>")
+        if anchor:
+            markup = '<a name="' + anchor + '"/>' + markup
+        return Paragraph(markup, styles[style])
+
+    def internal_link(destination, label):
+        return Paragraph('<link color="#087e78" href="#' + destination + '">' + html.escape(_display(label)) + '</link>', styles["small"])
+
+    def data_table(headers, rows, widths):
+        cells = [[para(item, "small") for item in headers]]
+        cells += [[item if isinstance(item, Flowable) else para(item, "small") for item in row] for row in rows]
+        result = Table(cells, colWidths=widths, repeatRows=1, hAlign="LEFT")
+        result.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, 0), pale),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 9),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 9), ("TOPPADDING", (0, 0), (-1, -1), 8),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+            ("LINEBELOW", (0, 0), (-1, 0), .7, teal),
+            ("LINEBELOW", (0, 1), (-1, -1), .3, colors.HexColor("#dbe3ec"))]))
+        return result
+
+    def readable(value):
+        if isinstance(value, bool):
+            return "Yes" if value else "No"
+        if value is None:
+            return "Not configured"
+        if isinstance(value, list) and all(not isinstance(item, (list, dict)) for item in value):
+            return ", ".join(str(item) for item in value) or "None"
+        return str(value)
+
+    def configuration_rows(value, prefix=""):
+        rows = []
+        for field, content in sorted(value.items()):
+            name = (prefix + " / " if prefix else "") + field.replace("_", " ").capitalize()
+            if isinstance(content, dict):
+                rows.extend(configuration_rows(content, name))
+            else:
+                rows.append((name, readable(content)))
+        return rows
 
     def source_link(url, label=None):
         try:
@@ -415,14 +455,22 @@ def _render_pdf(report, path):
 
         def draw(self):
             c, item = self.canv, self.item
+            c.bookmarkHorizontal(bookmark_key("review", item["id"]), 0, self.height)
             c.setFillColor(pale)
             c.roundRect(0, 0, 507, self.height, 6, fill=1, stroke=0)
             c.setFont("Helvetica-Bold", 9)
             c.setFillColor(teal)
-            c.drawString(12, 270, _display(str(item.get("id", self.index)))[:96])
+            label = "Finding review" if item.get("kind") == "finding" else ("Acceptance check review" if item.get("kind") == "check" else "Coverage gap review")
+            c.drawString(12, 270, label)
             c.setFont("Helvetica", 7)
             c.setFillColor(grey)
-            c.drawRightString(495, 270, _display(item.get("kind", "review")))
+            destination = "gaps"
+            if item.get("kind") == "finding":
+                destination = bookmark_key("finding", item["id"].split(":", 1)[1])
+            elif item.get("kind") == "check":
+                destination = bookmark_key("control", item["id"].split(":", 2)[1])
+            c.drawRightString(495, 270, "Back to evidence")
+            c.linkRect("Back to evidence", destination, (401, 267, 495, 280), relative=1, thickness=0)
             text = str(item.get("subject", ""))
             paragraph = para(text[:450] + (" [Full subject in capsule]" if len(text) > 450 else ""), "small")
             _, height = paragraph.wrap(483, 55)
@@ -542,6 +590,26 @@ def _render_pdf(report, path):
 
     summary = report.get("summary", {})
     assessment = report.get("assessment", {})
+    if not assessment:
+        from .assessment import build_assessment
+        assessment = build_assessment(report)
+    findings_by_id = {item["id"]: item for item in report.get("findings", [])}
+    review_by_id = {item["id"]: item for item in workspace["items"]}
+    actions = assessment.get("immediate_actions", [])
+
+    def action_table(limit=5):
+        rows = []
+        for action in actions[:limit]:
+            locations = action.get("locations", [])
+            location = locations[0] if locations else {}
+            label = str(location.get("path", "See evidence")) + (":" + str(location["line"]) if location.get("line") else "")
+            if len(locations) > 1:
+                label += " (+{} locations)".format(len(locations) - 1)
+            finding_id = location.get("finding_id") or next((item for item in action.get("finding_ids", []) if item in findings_by_id), None)
+            evidence = internal_link(bookmark_key("finding", finding_id), label) if finding_id in findings_by_id else para(label, "small")
+            rows.append((str(action.get("priority", "Review")) + " / " + str(action.get("rule_id", "")) + "\n" + str(action.get("count", 0)) + " open",
+                         evidence, str(action.get("title", "Review finding")) + "\n" + str(action.get("immediate_action", "Review the linked evidence."))))
+        return data_table(["Priority / count", "Observed location", "Immediate concern and first action"], rows, [76, 126, 305])
     posture = assessment.get("posture", {})
     posture_explanation = posture.get("explanation", "") if isinstance(posture, dict) else ""
     if isinstance(posture, dict):
@@ -552,23 +620,41 @@ def _render_pdf(report, path):
         review_notice = "Optional model review: finding stage {}; control stage {}.".format(
             judge.get("status", "unknown") if judge.get("enabled") else "disabled",
             analyst.get("status", "unknown") if analyst.get("enabled") else "disabled")
+        if judge.get("enabled"):
+            answered = report.get("advice_coverage", {}).get("finding_assessments")
+            review_notice += " " + (str(answered) + " model answers from " if answered is not None else "Finding scope: ")
+            review_notice += str(judge.get("selected_findings", 0)) + " selected findings; " + str(judge.get("omitted_open_findings", 0)) + " open findings outside the cap."
         if analyst.get("enabled"):
             review_notice += " {} acceptance checks remain unanswered.".format(analyst.get("coverage", {}).get("omitted_checks", 0))
         if report.get("execution", {}).get("exit_code") == 2:
             review_notice += " Requested work is incomplete. Inspect the recorded errors; no model judgment resolves the static findings."
-    story = [Spacer(1, 18), para("Security findings.\nHuman decisions.\nTraceable evidence.", "title"),
-             para("AI AGENT + MCP SECURITY REVIEW", "sub"), para("Scan " + str(report.get("scan_id", "")), "small"),
-             para(str(posture)), para(str(posture_explanation), "small"),
+    target = report.get("image", {}).get("display_target", report.get("target", "."))
+    if target == ".":
+        target = "Selected source directory; paths below are relative"
+    static_status = "Incomplete selected scope" if summary.get("coverage_gaps", 0) else "Selected static scope completed"
+    story = [Spacer(1, 8), heading("Executive summary", "summary"),
+             para("AI AGENT + MCP SECURITY REVIEW", "sub"),
+             para("Scope: " + str(target) + " | Invarune " + str(report.get("tool", {}).get("version", "")), "small"),
+             para(str(posture), "sub"), para(str(posture_explanation)),
              Metrics([("OPEN FINDINGS", int(summary.get("open_findings", 0))), ("COVERAGE GAPS", int(summary.get("coverage_gaps", 0))),
                       ("FILES EXAMINED", int(summary.get("files_scanned", 0)))]),
              para("Observed counts only. This is not an accuracy score or a security grade.", "small"),
-             para(review_notice),
-             Spacer(1, 12), para("This PDF contains interactive review fields and the exact bound review workspace as an attachment. Decisions are human assertions, not verified passes. Justified/disabled items are excluded from active denominators; gaps cannot be waived."),
-             para("Save an edited copy and import it through Invarune. The importer checks origin/evidence bindings, canonical form data, widget relationships and appearances. Changed source, stale appearances or ambiguous fields are rejected."), PageBreak(),
-             heading("Contents", "contents")]
+             para("Deterministic layer: " + static_status + ".", "small"), para(review_notice, "small")]
+    if any(summary.get(name, 0) for name in ("suppressed_findings", "justified_findings", "disabled_findings")) or report.get("review_policy", {}).get("enabled"):
+        story.append(para("Accepted baseline: {} | Justified: {} | Disabled: {} findings. User exceptions receive no pass credit and remain visible in the decision audit.".format(
+            summary.get("suppressed_findings", 0), summary.get("justified_findings", 0), summary.get("disabled_findings", 0)), "small"))
+    if actions:
+        story += [para("Immediate concerns", "sub"), action_table(),
+                  para("Showing {} of {} open finding groups. Locations link to evidence; every proposed fix needs verification.".format(min(5, len(actions)), len(actions)), "small")]
+    else:
+        story.append(para("No priority groups were supplied; review the observed findings below." if summary.get("open_findings", 0)
+                          else "No open finding groups. Review accepted exceptions, coverage limits and active controls before drawing a deployment conclusion."))
+    story += [internal_link("review", "Record a review decision and rescan"),
+              para("Justified and disabled are human decisions, not passes. The full review forms and all evidence remain in this report.", "small"),
+              para("Scan ID: " + str(report.get("scan_id", "")), "small"), PageBreak(), heading("Contents", "contents")]
     toc = TableOfContents()
     toc.levelStyles = [ParagraphStyle("TOC", fontName="Helvetica", fontSize=10, leading=19, textColor=teal)]
-    story += [toc, PageBreak(), heading("Executive summary", "summary"),
+    story += [toc, PageBreak(), heading("Priorities and first actions", "actions"),
               para(review_notice),
               para("Severity counts describe observed open patterns. They do not establish exploitability or an estimated probability of compromise."),
               Bars([(name.title(), int(summary.get("severity_counts", {}).get(name, 0))) for name in ("critical", "high", "medium", "low", "info")], "Severity counts use the existing scanner rules; no model or reviewer score is added.")]
@@ -577,32 +663,57 @@ def _render_pdf(report, path):
         story.append(para("Fix guidance: {}/{} findings have deterministic fix plans and agent/MCP context. Model fix plans: {}/{} finding assessments; {}/{} answered checks. Proposals require verification.".format(
             advice["static_fix_plans"], advice["static_findings"], advice["finding_fix_plans"], advice["finding_assessments"],
             advice["model_check_fix_plans"], advice["model_check_assessments"]), "small"))
-    for action in assessment.get("immediate_actions", [])[:8]:
-        story += [para(str(action.get("rule_id", "")) + " / " + str(action.get("title", "Review finding")), "sub"),
-                  para(action.get("immediate_action", "Validate the observed evidence and its deployment context."))]
-    story += [para("Review every detailed finding and gap below. Additional concerns can exist outside this bounded scan's supported syntax, files, budgets and execution context."), PageBreak(),
-              heading("Scan configuration and scope", "configuration")]
+    if actions:
+        story += [action_table(8), para("Showing {} of {} open finding groups in priority order. The complete findings follow.".format(min(8, len(actions)), len(actions)), "small")]
+    story += [para("Review every detailed finding and gap below. Additional concerns can exist outside this bounded scan's supported syntax, files, budgets and execution context.")]
+    configuration_start = len(story)
+    story += [PageBreak(), heading("Scan configuration and scope", "configuration")]
     for title, config in [("Source scope and limits", report.get("configuration", {})),
                           ("Invocation and optional-review budgets", report.get("run_configuration", {})),
                           ("Image limits", report.get("image", {}).get("limits", {}))]:
         story.append(para(title, "sub"))
         if not config:
             story.append(para("Not present for this scan.", "small"))
-        for key, value in sorted(config.items()):
-            story.append(para(str(key) + ": " + json.dumps(value, ensure_ascii=True, sort_keys=True), "small"))
+        if config:
+            story += [data_table(["Setting", "Configured value"], configuration_rows(config), [194, 313]), Spacer(1, 12)]
     story += [para("Source and image evidence are static. Image metadata, retained layers and packaged files do not reveal every runtime override or compiled program behavior."),
-              para("Tool provenance: " + json.dumps(report.get("tool", {}), sort_keys=True), "small"), PageBreak(),
+              para("Scanner provenance", "sub"), data_table(["Identity", "Recorded value"], configuration_rows(report.get("tool", {})), [194, 313]), PageBreak(),
               heading("Deterministic checks and optional review", "layers"),
               para("42 static source/configuration patterns", "sub"),
               para("Deterministic checks inspect bounded Python syntax and local value flow, JavaScript/TypeScript lexical structure, structured JSON, configuration settings, selected secret patterns and image metadata. Repeated stable input produces repeatable evidence; it does not guarantee zero false positives or negatives."),
               para("Optional security analyst", "sub"),
               para("If enabled, a model reviews selected findings and acceptance checks using bounded supplied evidence. Strict IDs, citations, response validation and tool restrictions constrain the protocol. Partial budgets, omitted answers and unavailable source/runtime evidence remain visible. Advice does not independently prove safety or erase static findings."),
-              para(json.dumps({"judge": {k: v for k, v in report.get("judge", {}).items() if k in {"enabled", "status", "provider", "model", "cli", "selected_findings", "omitted_open_findings", "source_context_requested", "source_context_sent_count", "source_context_skipped", "error"}}, "analyst": {k: v for k, v in report.get("analyst", {}).items() if k in {"enabled", "status", "summary", "coverage", "check_status_counts", "errors"}}}, ensure_ascii=True, sort_keys=True), "small"),
+              data_table(["Review layer", "Actual outcome / coverage"], [
+                  ("Finding review", readable(judge.get("status", "Disabled")) + "; " + str(judge.get("selected_findings", 0)) + " selected; " + str(judge.get("omitted_open_findings", 0)) + " outside cap"),
+                  ("Control review", readable(analyst.get("status", "Disabled")) + "; " + str(analyst.get("coverage", {}).get("reviewed_controls", 0)) + "/" + str(analyst.get("coverage", {}).get("total_controls", 0)) + " active controls answered"),
+                  ("Unanswered acceptance checks", str(analyst.get("coverage", {}).get("omitted_checks", 0)) + "/" + str(analyst.get("coverage", {}).get("total_checks", 0)) + " requested checks"),
+                  ("Control requests", str(analyst.get("coverage", {}).get("calls_made", 0)) + "/" + str(analyst.get("coverage", {}).get("call_budget", 0)) + " configured calls"),
+                  ("Finding-stage error", judge.get("error", "None recorded")),
+                  ("Control-stage errors", readable(analyst.get("errors", [])))], [160, 347]), Spacer(1, 12),
               para("What can be missed", "sub"),
               para("Cross-module/interprocedural flow, reflection, dynamic loaders, complex language syntax, templates before rendering, unsupported languages, compiled image behavior, runtime authentication/authorization, tenant isolation, egress policy, dependency CVEs and adaptive prompt injection require additional validation. A source declaration or proposed mitigation is not deployment evidence."),
               para("Human/runtime review workflow", "sub"), Workflow(),
               para("1. Review evidence and the immediate concern. 2. Record a decision, reason, reviewer, date and evidence reference. 3. Validate runtime or human-dependent controls in the applicable environment. 4. Save and import the edited PDF or equivalent JSON. 5. Resolve rejected/stale edits, then rescan. Gaps remain operationally incomplete; blank decisions retain existing scanner semantics."), PageBreak(),
               heading("Coverage, misses and validation by area", "methodology")]
+    review_audit = {"judge": {k: v for k, v in judge.items() if k in {"enabled", "status", "provider", "model", "cli", "selected_findings", "omitted_open_findings", "source_context_requested", "source_context_sent_count", "source_context_skipped", "error"}},
+                    "analyst": {k: v for k, v in analyst.items() if k in {"enabled", "status", "summary", "coverage", "check_status_counts", "errors"}}}
+    optimization = []
+    if isinstance(judge.get("token_optimization"), dict):
+        optimization.append(("Finding request", judge["token_optimization"]))
+    for index, request in enumerate(analyst.get("requests", []), 1):
+        if isinstance(request.get("token_optimization"), dict):
+            optimization.append(("Control request " + str(index), request["token_optimization"]))
+    if optimization:
+        optimization_rows = []
+        for label, record in optimization:
+            optimization_rows.append((label, str(record.get("requested", "unknown")) + " / " + str(record.get("engine", "unknown")),
+                str(record.get("status", "unknown")) + (" / " + str(record["fallback_reason"]) if record.get("fallback_reason") else ""),
+                str(record.get("payload_bytes_before", 0)) + " -> " + str(record.get("payload_bytes_after", 0)) + "\n" + str(record.get("bytes_saved", 0)) + " bytes saved"))
+        configuration_story_extra = [para("Optional request payload optimization", "sub"),
+            data_table(["Request", "Requested / actual engine", "Outcome", "Evidence payload bytes"], optimization_rows, [82, 129, 125, 171]),
+            para("These are measured evidence-JSON bytes, excluding instructions, response schemas and provider wrappers. Token and cost savings were not measured. Evidence-preserving formatting does not validate the model's interpretation.", "small")]
+    else:
+        configuration_story_extra = []
     from .methodology import build_methodology
     methodology = report.get("methodology") or build_methodology(report)
     catalog = methodology["catalog"]
@@ -615,17 +726,34 @@ def _render_pdf(report, path):
                            ("Can miss or misclassify", "can_miss_or_misclassify"), ("Validate elsewhere", "runtime_or_human_validation")]:
             block.append(para(label + ": " + area[key], "small"))
         story.append(KeepTogether(block))
-    story += [PageBreak(), heading("Deterministic rule inventory", "rules")]
+    configuration_story = story[configuration_start:]
+    configuration_story += configuration_story_extra
+    configuration_story += [para("Optional-review audit details", "sub"), data_table(["Recorded field", "Recorded value"], configuration_rows(review_audit), [194, 313])]
+    del story[configuration_start:]
+    rule_inventory = [PageBreak(), heading("Appendix / Deterministic rule inventory", "rules")]
     from .rules import RULES
     for rule in RULES:
-        story += [para(rule["id"] + " / " + rule["title"], "sub"), para(rule["description"], "small")]
+        rule_inventory += [para(rule["id"] + " / " + rule["title"], "sub"), para(rule["description"], "small")]
     story += [PageBreak(), heading("Observed findings and mitigating layers", "findings")]
     if not report.get("findings"):
         story.append(para("No selected static pattern was emitted. Review coverage gaps and control evidence before drawing a conclusion."))
-    for finding in report.get("findings", []):
-        story += [para("{} / {} / {}".format(finding["rule_id"], finding.get("severity", ""), finding.get("status", "")), "sub"),
+    severity_order = {name: index for index, name in enumerate(("critical", "high", "medium", "low", "info"))}
+    display_findings = sorted(report.get("findings", []), key=lambda item: (item.get("status") != "open", severity_order.get(item.get("severity"), 5), item["rule_id"], item.get("path", ""), item.get("line", 0), item["id"]))
+    for finding in display_findings:
+        story += [para("{} / {} / {}".format(finding["rule_id"], finding.get("severity", ""), finding.get("status", "")), "sub", bookmark_key("finding", finding["id"])),
                   para(finding.get("title", "")), para("{}:{}".format(finding.get("path", ""), finding.get("line", "")), "small"),
                   para(finding.get("evidence", ""), "small"), para(finding.get("remediation", ""), "small")]
+        if finding.get("suppression_reason"):
+            story.append(para("Accepted baseline reason: " + finding["suppression_reason"], "small"))
+        if finding.get("disposition"):
+            decision = finding["disposition"]
+            story.append(para("Human disposition: " + str(decision.get("status", "")) + " | Scope: " + str(decision.get("scope", ""))
+                              + " | Reason: " + str(decision.get("reason", "")) + ". This is an accepted exception, not a verified pass.", "small"))
+        if "finding:" + finding["id"] in review_by_id:
+            story.append(internal_link(bookmark_key("review", "finding:" + finding["id"]), "Record a decision, reason and reviewer for this finding"))
+        for group in assessment.get("finding_groups", []):
+            if finding["id"] in group.get("finding_ids", []) and group.get("defense_layers"):
+                story.append(internal_link(bookmark_key("layers", group["id"]), "Additional defenses: " + "; ".join(layer.get("title", layer.get("name", "Review layer")) for layer in group["defense_layers"])))
         advice = report.get("remediation", {}).get(finding.get("id"))
         if advice:
             story += [para("Fix plan and agent/MCP relevance", "sub"), para(advice["summary"], "small"),
@@ -642,8 +770,8 @@ def _render_pdf(report, path):
                 if link is not None:
                     story.append(link)
     for group in assessment.get("finding_groups", []):
-        for layer in group.get("defense_layers", []):
-            block = [para(str(group.get("rule_id", "")) + " / " + str(layer.get("name", layer.get("title", "Proposed mitigating layer"))), "sub"),
+        for layer_index, layer in enumerate(group.get("defense_layers", [])):
+            block = [para(str(group.get("rule_id", "")) + " / " + str(layer.get("name", layer.get("title", "Proposed mitigating layer"))), "sub", bookmark_key("layers", group["id"]) if layer_index == 0 else None),
                      para("Proposed control; effectiveness has not been verified.", "small")]
             for label, key in [("How it helps", "how_it_helps"), ("Evidence to obtain", "verification"), ("Remaining limit", "residual_limit")]:
                 if layer.get(key):
@@ -699,18 +827,24 @@ def _render_pdf(report, path):
         story.append(para("No operational gap was recorded within the selected scope. Unsupported runtime properties still require their own checks."))
     for gap in gaps:
         story.append(para(json.dumps(gap, ensure_ascii=True, sort_keys=True), "small"))
+    review_start = len(story)
     story += [PageBreak(), heading("Interactive review workspace", "review"),
               para("Every bound item below remains tied to its original evidence. Blank means unreviewed. Any nonblank decision requires a reason; justified/disabled also require a reviewer. Coverage gaps cannot be justified or disabled. Runtime/human decisions identify outstanding validation and are not passes."),
               para("Long fields scroll in compatible PDF viewers. Save with regenerated appearances. If your editor flattens the form or cannot preserve it, use the JSON review workspace instead.", "small")]
     for index, item in enumerate(workspace["items"]):
         story += [ReviewCard(index, item), Spacer(1, 12)]
+    review_story = story[review_start:]
+    del story[review_start:]
     story += [PageBreak(), heading("Control checklist and evidence requirements", "controls")]
     for control in report.get("controls", []):
-        block = [para(control["id"] + " / " + control["title"], "sub"),
+        block = [para(control["id"] + " / " + control["title"], "sub", bookmark_key("control", control["id"])),
                   para("Scanner status: " + str(control.get("status", "unknown")) + " | validation: " + str(control.get("validation", "")), "small")]
         dispositions = {item["check_index"]: item for item in control.get("check_dispositions", [])}
         for number, check in enumerate(control.get("checks", []), 1):
             block.append(para(str(number) + ". " + str(check), "small"))
+            review_id = "check:" + control["id"] + ":" + str(number)
+            if review_id in review_by_id:
+                block.append(internal_link(bookmark_key("review", review_id), "Record review for " + control["id"] + ":" + str(number)))
             disposition = dispositions.get(number, {})
             if disposition.get("status") in {"justified", "disabled"}:
                 block.append(para("Human disposition: " + disposition["status"] + " | Reason: " + disposition.get("reason", ""), "small"))
@@ -719,6 +853,47 @@ def _render_pdf(report, path):
             if link is not None:
                 block.append(link)
         story.append(KeepTogether(block))
+    policy = report.get("review_policy", {})
+    imported = report.get("review_import", {})
+    if policy.get("enabled") or imported.get("enabled"):
+        story += [PageBreak(), heading("User decisions and imported review audit", "decisions"),
+                  para("Justified and disabled items are human exceptions, not passes. Rule and individual-finding decisions may waive the corresponding finding gate; control/check decisions only change checklist review scope. Scan errors and coverage gaps remain unresolved.")]
+        if policy.get("enabled"):
+            counts = policy.get("counts", {})
+            rows = [(label, str(counts.get("active_" + name, 0)), str(counts.get("justified_" + name, 0)), str(counts.get("disabled_" + name, 0)))
+                    for label, name in (("Rules", "rules"), ("Controls", "controls"), ("Acceptance checks", "checks"))]
+            story += [data_table(["Scope", "Active", "Justified", "Disabled"], rows, [174, 111, 111, 111]),
+                      para("Mixed fully excepted controls and exact catalog counts remain in the complete accounting below. Exceptions contribute neither positive nor negative credit.", "small"),
+                      para("Policy SHA-256: " + str(policy.get("sha256", "not recorded")), "small")]
+            for scope, entries in sorted(policy.get("entries", {}).items()):
+                for identifier, entry in sorted(entries.items()):
+                    story += [para(str(scope) + " / " + str(identifier) + " / " + str(entry.get("status", "unknown")), "sub"),
+                              para("Reason: " + str(entry.get("reason", "No reason recorded.")), "small")]
+                    for field, value in sorted(entry.items()):
+                        if field not in {"status", "reason"}:
+                            story.append(para(field.replace("_", " ").capitalize() + ": " + readable(value), "small"))
+            story += [para("Complete policy accounting", "sub"), data_table(["Count", "Recorded value"], configuration_rows(counts), [310, 197])]
+        if imported.get("enabled"):
+            story += [para("Imported review / " + str(imported.get("status", "unknown")), "sub"),
+                      para("Previous scan: " + str(imported.get("origin_scan_id", "not recorded")) + " | Input SHA-256: " + str(imported.get("source_sha256", "not recorded")), "small"),
+                      para("Only matching current evidence receives an eligible disposition. Missing detections are not proof of a fix; stale, out-of-scope and pending validation records remain explicit.", "small")]
+            for field, title in (("applied", "Applied to matching evidence"), ("stale", "Stale evidence or catalog"),
+                                 ("not_redetected", "Not redetected; remediation not established"), ("out_of_scope", "Outside current scope"),
+                                 ("unresolved", "Pending review or validation")):
+                entries = imported.get(field, [])
+                story.append(para(title + " / " + str(len(entries)) + " records", "sub"))
+                if not entries:
+                    story.append(para("No records in this category.", "small"))
+                for entry in entries:
+                    story += [para(str(entry.get("subject", entry.get("id", "Review record"))), "sub"),
+                              para("Decision: " + str(entry.get("decision", "unreviewed")) + " | Item: " + str(entry.get("id", "")), "small"),
+                              para("Prior reason: " + str(entry.get("reason", "No reason recorded.")), "small")]
+                    for name, value in sorted(entry.items()):
+                        if name not in {"id", "subject", "decision", "reason"}:
+                            story.append(para(name.replace("_", " ").capitalize() + ": " + readable(value), "small"))
+            if imported.get("counts"):
+                story += [para("Import accounting", "sub"), data_table(["Count", "Recorded value"], configuration_rows(imported["counts"]), [310, 197])]
+    story += configuration_story + rule_inventory + review_story
     raw = io.BytesIO()
     document = Document(raw, pagesize=(595.276, 841.89), leftMargin=44, rightMargin=44, topMargin=66, bottomMargin=50,
                         title="Invarune | Evidence-bound agent and MCP security review", author="NimeshBuild")

@@ -20,7 +20,7 @@ The original geometric mark has two bounded sides and a central evidence diamond
 | [Avatar](assets/brand/invarune-avatar.png) | Square navy tile, 512 x 512 |
 | [Banner](assets/brand/invarune-banner.png) | Repository or presentation hero, 1600 x 680 |
 
-Use **Invarune** in prose, **invarune** for the command, and **by NimeshBuild** for parent-brand attribution. Keep at least one diamond-width of clear space around the standalone mark. Prefer a 24 px or larger mark. Preserve proportions and colors; use the supplied monochrome version when color is unavailable. The wordmark SVG uses Arial with Liberation Sans and sans-serif fallbacks; its lettering is editable text. The icon itself is entirely vector geometry.
+Use **Invarune** in prose, **invscan** for the command, and **by NimeshBuild** for parent-brand attribution. Keep at least one diamond-width of clear space around the standalone mark. Prefer a 24 px or larger mark. Preserve proportions and colors; use the supplied monochrome version when color is unavailable. The wordmark SVG uses Arial with Liberation Sans and sans-serif fallbacks; its lettering is editable text. The icon itself is entirely vector geometry.
 
 | Color | Hex | Purpose |
 |---|---|---|
@@ -39,3 +39,5 @@ Run `python3 scripts/build_brand_assets.py` with Pillow installed and Arial, Lib
 Version 0.5.0 adds the `invarune` command while retaining `ai-security-scan`, `scan.py`, and `python3 -m ai_security_scan`. Both installed command names call the same implementation. The distribution name, repository address, JSON/SARIF machine tool name, rule IDs, and baseline format stay stable. Reports add a branded display name. Branding does not erase findings or change the deterministic severity gate.
 
 The [name-screening record](BRAND_RESEARCH.md) documents dated searches, discarded names, and limitations. No trademark registration, domain purchase, or package-name reservation was performed.
+
+Version 0.11.0 promotes `invscan` as the primary command. `invarune` and `ai-security-scan` remain equivalent compatibility aliases; the product name remains Invarune by NimeshBuild.

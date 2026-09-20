@@ -8,6 +8,8 @@ See the [control checklist](SECURITY_CHECKLIST.md) and [research and source mapp
 
 Explicit user exceptions in `--review-config` retain `justified` or `disabled` checklist entries with their reason, but remove them from model requests, active totals and omitted-answer counts. They are not passes or model verdicts. Fully exempt controls require no evidence collection or control request. A partial control sends only active check text; request receipts map compact response indexes back to the original `CONTROL:INDEX` identities. User reasons are not added to analyst prompts. Source excerpts may still discuss related topics needed for active checks. See [review configuration](REVIEW_CONFIGURATION.md).
 
+Both review stages use the default guarded Headroom evidence-JSON optimizer when the AI extra is installed; `--token-optimizer compact` uses built-in compaction and `--token-optimizer off` retains legacy JSON formatting. The optimizer cannot omit controls, source strings or evidence fields, and cannot enable retrieval tools. Exact citations are checked against the same original evidence. Each completed control-request receipt records the actual engine, fallback and before/after payload bytes; these are not measured token or billing savings. [Configuration and limits](JUDGE.md#default-evidence-json-optimization), [upstream research](HEADROOM_RESEARCH.md).
+
 ## Run the review
 
 Create a trusted configuration using the protocol and exact endpoint your model service supports. [JUDGE.md](JUDGE.md) documents the supported native protocols, custom JSON gateway templates, credentials, request limits, and provider-specific options. The same configuration serves finding triage and control review.
@@ -15,7 +17,7 @@ Create a trusted configuration using the protocol and exact endpoint your model 
 With a valid configuration and its credential environment variables already set, run from the project directory:
 
 ```bash
-python3 scan.py /path/to/agent-or-mcp-repository \
+invscan /path/to/agent-or-mcp-repository \
   --judge-config /path/to/trusted-judge.json \
   --output ./security-report
 ```
@@ -25,7 +27,7 @@ python3 scan.py /path/to/agent-or-mcp-repository \
 To retain the earlier finding-triage behavior:
 
 ```bash
-python3 scan.py /path/to/agent-or-mcp-repository \
+invscan /path/to/agent-or-mcp-repository \
   --judge-config /path/to/trusted-judge.json \
   --judge-mode findings \
   --output ./finding-review
@@ -34,7 +36,7 @@ python3 scan.py /path/to/agent-or-mcp-repository \
 To run entirely offline, omit `--judge-config`:
 
 ```bash
-python3 scan.py /path/to/agent-or-mcp-repository --output ./static-report
+invscan /path/to/agent-or-mcp-repository --output ./static-report
 ```
 
 **Source transmission changes in full mode.** Full review sends bounded, redacted source excerpts selected for the controls, even without `--judge-include-source` and even when there are no findings. `--judge-include-source` controls additional neighboring source in the separate finding-triage request; it does not switch control-analyst evidence on or off. Choose an endpoint authorized to receive the repository's content.

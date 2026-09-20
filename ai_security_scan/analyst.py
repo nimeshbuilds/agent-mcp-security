@@ -229,7 +229,7 @@ def run_analyst(config, report, root, *, max_calls=12, batch_size=6,
             break
         request.update({key: response[key] for key in (
             "provider", "model", "provider_reported_model", "adapter_version", "protocol_version", "cli",
-            "controls_submitted", "checks_submitted", "omitted_controls", "omitted_checks") if key in response})
+            "controls_submitted", "checks_submitted", "omitted_controls", "omitted_checks", "token_optimization") if key in response})
         request["status"] = "completed"
         normalized = {item["control_id"]: item for item in response["control_assessments"]}
         for control in batch:

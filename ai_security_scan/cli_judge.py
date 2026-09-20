@@ -68,10 +68,15 @@ def validate_cli_config(config):
     if not isinstance(config, dict) or config.get("provider") not in CLI_PROVIDERS:
         raise CLIJudgeError("CLI judge provider must be codex_cli, claude_cli or grok_cli.")
     allowed = {"provider", "model", "executable", "timeout_seconds", "max_request_bytes",
-               "max_response_bytes", "cli_home"}
+               "max_response_bytes", "cli_home", "token_optimizer"}
     if set(config) - allowed:
         raise CLIJudgeError("CLI judge configuration contains unsupported fields; arbitrary arguments, API fields and token budgets are not accepted.")
     result = dict(config)
+    from .token_optimizer import validate_mode
+    try:
+        result["token_optimizer"] = validate_mode(result.get("token_optimizer", "headroom"))
+    except ValueError as exc:
+        raise CLIJudgeError(str(exc)) from None
     result["model"] = _text(result.get("model", DEFAULT_CLI_MODELS[result["provider"]]), "model", 256)
     if result["model"].startswith("-"):
         raise CLIJudgeError("CLI judge model must not begin with an option prefix.")
@@ -526,8 +531,11 @@ def run_cli(config, payload, instructions, stage="findings"):
     config = validate_cli_config(config)
     if stage not in {"findings", "controls"} or not isinstance(instructions, str):
         raise CLIJudgeError("CLI judge received an invalid review stage or instructions.")
+    from .token_optimizer import optimize_payload
+    deadline = time.monotonic() + config["timeout_seconds"]
     try:
-        serialized = json.dumps(payload, sort_keys=True, ensure_ascii=False, allow_nan=False)
+        serialized, optimization_receipt = optimize_payload(payload, config["token_optimizer"],
+            ensure_ascii=False, max_bytes=config["max_request_bytes"])
         prompt = (instructions + "\n\nUNTRUSTED EVIDENCE JSON:\n" + serialized).encode("utf-8")
     except (ValueError, UnicodeError, TypeError, RecursionError):
         raise CLIJudgeError("CLI judge payload is not valid UTF-8 JSON.") from None
@@ -535,7 +543,6 @@ def run_cli(config, payload, instructions, stage="findings"):
         raise CLIJudgeError("CLI judge request exceeded its byte limit.")
     executable = _executable(config)
     environment = _environment(config)
-    deadline = time.monotonic() + config["timeout_seconds"]
     with tempfile.TemporaryDirectory(prefix="invarune-judge-") as temporary:
         directory = Path(temporary).resolve()
         version = _probe(executable, config["provider"], directory, environment, deadline)
@@ -553,6 +560,7 @@ def run_cli(config, payload, instructions, stage="findings"):
                     "executable": Path(executable).name, "requested_model": config["model"],
                     "auth_mode": "cli_managed", "stage": stage, "arguments": safe_arguments,
                     "request_sha256": hashlib.sha256(prompt).hexdigest(), "request_bytes": len(prompt),
+                    "token_optimization": optimization_receipt,
                     "response_sha256": hashlib.sha256(raw).hexdigest(), "response_bytes": len(raw),
                     "repository_working_directory": False, "tools_policy": "disabled_for_advisory_review",
                     "isolation": "CLI capability restrictions; installed executable and administrator policy remain trusted",

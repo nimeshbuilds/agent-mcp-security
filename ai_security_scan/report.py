@@ -206,12 +206,34 @@ def workspace_markdown(report):
              "Edit only decision, reason, reviewer, reviewed_at and evidence_ref in the JSON block below. Keep IDs, bindings, subjects and origin unchanged. Save this Markdown file and pass it to a fresh scan with --review-report. JSON and SARIF expose the same editable fields; HTML provides a Download reviewed HTML button and optional PDF provides fillable fields.", "",
              "Allowed decisions: empty (no decision), justified, disabled, note, needs_runtime_validation, needs_human_review. Nonempty decisions need a reason; justified/disabled decisions also need a reviewer. Evidence references are plain text, never fetched or executed. Gap records cannot waive scan failures.", "",
              "Justifications are user exceptions, not validated passes. They are excluded from active counts without positive or negative credit. Evidence changes leave decisions unapplied and visible for re-review. Explicit pending runtime/human validation remains incomplete. A finding not detected on a fresh complete scan is not proof that a vulnerability was fixed.", "",
-             "Example: invarune /explicit/path/to/repository --review-report ./reviewed-report.md --output ./new-report", ""]
+             "Example: invscan /explicit/path/to/repository --review-report ./reviewed-report.md --output ./new-report", ""]
     if report.get("review_import"):
         lines += ["### Imported review audit", "", codeblock(json.dumps(report["review_import"], indent=2, sort_keys=True, ensure_ascii=True)), ""]
     lines += ["### Review fields", "", "<!-- INVARUNE_REVIEW_BEGIN -->", fence + "json", raw,
               fence, "<!-- INVARUNE_REVIEW_END -->", ""]
     return lines
+
+
+def token_optimization_markdown(report):
+    requests = []
+    finding = report.get("judge", {}).get("token_optimization")
+    if isinstance(finding, dict) and finding:
+        requests.append(("Finding triage", finding))
+    for index, request in enumerate(report.get("analyst", {}).get("requests", []), 1):
+        if isinstance(request.get("token_optimization"), dict) and request["token_optimization"]:
+            requests.append(("Control request " + str(index), request["token_optimization"]))
+    if not requests:
+        return []
+    lines = ["### Evidence-JSON optimization", "",
+             "All evidence values and exact source/citation strings are preserved. These byte counts exclude instructions, response schemas and provider wrappers; tokenizer savings and billing reductions were not measured.", "",
+             "| Request | Requested | Actual engine | Status / fallback | Before bytes | After bytes | Bytes saved |",
+             "|---|---|---|---|---:|---:|---:|"]
+    for label, item in requests:
+        values = [label, item.get("requested", "unknown"), item.get("engine", "unknown"),
+                  str(item.get("status", "unknown")) + (" / " + str(item["fallback_reason"]) if item.get("fallback_reason") else ""),
+                  item.get("payload_bytes_before", 0), item.get("payload_bytes_after", 0), item.get("bytes_saved", 0)]
+        lines.append("| " + " | ".join(md(str(value)) for value in values) + " |")
+    return lines + [""]
 
 
 def markdown(report):
@@ -340,6 +362,7 @@ def markdown(report):
     if report["coverage"]["unmatched_baseline_ids"]:
         lines += ["", "Unused baseline IDs: " + ", ".join(md(i) for i in report["coverage"]["unmatched_baseline_ids"])]
     lines += ["", "## Optional LLM judge", ""]
+    lines += token_optimization_markdown(report)
     judge = report["judge"]
     if not judge.get("enabled"):
         lines.append("Disabled. No LLM request was made.")

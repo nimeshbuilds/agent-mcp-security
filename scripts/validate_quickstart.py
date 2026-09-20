@@ -60,6 +60,31 @@ def replace_paths(text, replacements):
     return text
 
 
+def assert_optimizer_receipts(report, captured, expected_engine):
+    """Bind actual parsed HTTP evidence to each optimizer's pre-encoding digest."""
+    requests = [report["judge"], *report["analyst"]["requests"]]
+    require(len(requests) == len(captured), "Optimizer receipts do not cover every captured model request")
+    evidence = {item["evidence_id"]: item for item in report["analyst"]["evidence"]}
+    for request, sent in zip(requests, captured):
+        receipt = request["token_optimization"]
+        require(receipt["requested"] == "headroom" and receipt["engine"] == expected_engine,
+                "Requested default optimizer did not use the expected installed engine")
+        require(receipt["evidence_preserved"] is True, "Optimizer did not preserve evidence")
+        payload = sent["payload"]
+        original = json.dumps(payload, sort_keys=True, ensure_ascii=True).encode("utf-8")
+        require(hashlib.sha256(original).hexdigest() == receipt["original_payload_sha256"],
+                "Captured HTTP payload does not equal the original optimizer input")
+        require(len(original) == receipt["payload_bytes_before"], "Optimizer input byte count differs from the captured payload")
+        if "controls" in payload:
+            canonical = json.dumps(payload, sort_keys=True, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
+            require(hashlib.sha256(canonical).hexdigest() == request["payload_sha256"],
+                    "Captured control payload differs from the recorded analyst request")
+            for item in payload["evidence"]:
+                require(evidence.get(item["evidence_id"]) == item, "Captured evidence differs from report evidence")
+    return {"requests_verified": len(requests), "requested": "headroom", "engine": expected_engine,
+            "captured_payloads_equal_original_inputs": True, "source_evidence_exactly_preserved": True}
+
+
 def snapshot(source, checkout):
     """Overlay only explicit project inputs, so uncommitted release fixes are tested."""
     records = []
@@ -133,14 +158,19 @@ def validate(args, receipt):
         run("create_venv", [interpreter, "-m", "venv", str(environment)], timeout=180)
         bin_dir = environment / ("Scripts" if os.name == "nt" else "bin")
         python = bin_dir / ("python.exe" if os.name == "nt" else "python")
-        primary = bin_dir / ("invarune.exe" if os.name == "nt" else "invarune")
+        primary = bin_dir / ("invscan.exe" if os.name == "nt" else "invscan")
+        compatible = bin_dir / ("invarune.exe" if os.name == "nt" else "invarune")
         legacy = bin_dir / ("ai-security-scan.exe" if os.name == "nt" else "ai-security-scan")
         run("install_checkout", [str(python), "-m", "pip", "install", "."], cwd=checkout, timeout=300)
-        version_code = "import json,sys,platform,ai_security_scan,importlib.metadata as m;print(json.dumps({'python':platform.python_version(),'scanner':ai_security_scan.__version__,'distribution':m.version('agent-mcp-security-scan'),'executable':sys.executable},sort_keys=True))"
+        version_code = "import json,sys,platform,ai_security_scan,importlib.metadata as m;print(json.dumps({'python':platform.python_version(),'scanner':ai_security_scan.__version__,'distribution':m.version('agent-mcp-security-scan'),'executable':sys.executable,'module_file':ai_security_scan.__file__,'console_scripts':{e.name:e.value for e in m.distribution('agent-mcp-security-scan').entry_points if e.group=='console_scripts'}},sort_keys=True))"
         process, record = run("installed_versions", [str(python), "-c", version_code])
         receipt["versions"] = json.loads(clean(process.stdout))
         require(receipt["versions"]["scanner"] == receipt["versions"]["distribution"], "Installed version metadata differs from the module")
-        record["assertions"] = {"module_and_distribution_versions_match": True, "imported_outside_checkout": True}
+        require(receipt["versions"]["module_file"].startswith("<VENV>"), "Imported scanner did not come from the new virtual environment")
+        require(receipt["versions"]["console_scripts"] == {name: "ai_security_scan.cli:main" for name in ("invscan", "invarune", "ai-security-scan")},
+                "Installed metadata does not expose all three compatible CLI entry points")
+        record["assertions"] = {"module_and_distribution_versions_match": True, "imported_outside_checkout": True,
+                                "all_three_console_entries_match": True}
 
         def scan_case(identifier, command, target, expected, counts, extra=()):
             destination = work / "reports" / identifier
@@ -168,33 +198,55 @@ def validate(args, receipt):
         safe = [str(checkout / "examples" / "safer")]
         vulnerable = [str(checkout / "examples" / "vulnerable")]
         image = ["--image-archive", str(checkout / "examples" / "images" / "demo-agent.tar")]
-        scan_case("direct_safer", direct, safe, 0, {"files_scanned": 2, "open_findings": 0})
-        scan_case("direct_vulnerable", direct, vulnerable, 1, {"open_findings": 11})
-        scan_case("direct_image", direct, image, 1, {"open_findings": 3})
-        scan_case("direct_review_config", direct, vulnerable, 1, {"open_findings": 9, "justified_findings": 1, "disabled_findings": 1},
-                  ["--review-config", str(checkout / "examples" / "review-config.json")])
         references = []
-        for name, command in (("primary", primary), ("legacy", legacy)):
+        for name, command in (("primary", primary), ("compatible", compatible), ("legacy", legacy)):
             outputs = []
             for flag in ("-h", "--help"):
                 process, record = run("installed_" + name + "_" + flag.strip("-"), [str(command), flag])
                 require(not process.stderr, "Installed help wrote an unexpected diagnostic")
-                for text in ("--review-report", "--pdf", "--judge-cli", "--judge-config", "--image-archive", "Custom JSON gateway configuration:"):
+                for text in ("--review-report", "--pdf", "--judge-cli", "--judge-config", "--image-archive", "--help-topic", "--examples", "--token-optimizer", "Custom JSON gateway configuration:"):
                     require(text in process.stdout, "Installed help omits " + text)
                 outputs.append(process.stdout)
                 record["assertions"] = {"all_documented_feature_flags_present": True, "stderr_empty": True}
             require(outputs[0] == outputs[1], "Short and long help differ")
             _, destination, _ = scan_case("installed_" + name + "_safer", [str(command)], safe, 0, {"files_scanned": 2, "open_findings": 0})
             references.append({name: (destination / name).read_bytes() for name in ARTIFACTS})
-        require(references[0] == references[1], "Primary and legacy aliases produced different reports")
+        require(all(value == references[0] for value in references), "The three CLI aliases produced different reports")
         receipt["assertions"]["installed_alias_artifacts_identical"] = True
+        for identifier, arguments, required in (
+            ("installed_version", ["--version"], receipt["versions"]["scanner"]),
+            ("installed_image_help", ["--help-topic", "images"], "Container images without a source checkout:"),
+            ("installed_gateway_help", ["--help-topic", "gateways"], "Custom JSON gateway configuration:"),
+            ("installed_examples", ["--examples"], "invscan ./repository --review-report")):
+            process, record = run(identifier, [str(primary), *arguments])
+            require(required in process.stdout and not process.stderr, "Installed CLI documentation command is incomplete")
+            record["assertions"] = {"requested_content_present": True, "stderr_empty": True, "run_outside_checkout": True}
+        for identifier, arguments, count in (("installed_rules", ["--list-rules"], 42),
+                                              ("installed_controls", ["--list-controls"], 66),
+                                              ("installed_rule_explanation", ["--explain-rule", "AI002"], None)):
+            process, record = run(identifier, [str(primary), *arguments])
+            value = json.loads(process.stdout)
+            require(len(value) == count if count is not None else value["rule"]["id"] == "AI002", "Installed catalog differs from the documented catalog")
+            record["assertions"] = {"catalog_contract_verified": True, "run_outside_checkout": True}
+        scan_case("installed_vulnerable", [str(primary)], vulnerable, 1, {"open_findings": 11})
+        scan_case("installed_review_config", [str(primary)], vulnerable, 1,
+                  {"open_findings": 9, "justified_findings": 1, "disabled_findings": 1},
+                  ["--review-config", str(checkout / "examples" / "review-config.json")])
+        baseline = work / "reviewed-fixture-baseline.json"
+        scan_case("installed_baseline_candidate", [str(primary)], vulnerable, 1, {"open_findings": 11},
+                  ["--write-baseline", str(baseline), "--baseline-reason", "TEST ONLY: accepted inert fixture for workflow validation"])
+        # The fixture-only acceptance is explicit; production candidates require owner review.
+        scan_case("installed_baseline_accepted", [str(primary)], vulnerable, 0, {"open_findings": 0, "suppressed_findings": 11},
+                  ["--baseline", str(baseline)])
+        scan_case("direct_compatibility_safer", direct, safe, 0, {"files_scanned": 2, "open_findings": 0})
         _, _, record = scan_case("installed_image", [str(primary)], image, 1, {"open_findings": 3})
         record["assertions"]["run_outside_checkout"] = True
 
         if args.skip_pdf:
             receipt["coverage"]["pdf"] = "skipped_by_flag"
         else:
-            run("install_pdf_extra", [str(python), "-m", "pip", "install", ".[pdf]"], cwd=checkout, timeout=300)
+            run("install_pdf_extra" if args.skip_gateway else "install_ai_pdf_extras",
+                [str(python), "-m", "pip", "install", ".[pdf]" if args.skip_gateway else ".[ai,pdf]"], cwd=checkout, timeout=600)
             process, _ = run("pdf_dependency_versions", [str(python), "-c", "import importlib.metadata as m,json;print(json.dumps({n:m.version(n) for n in ['reportlab','pypdf']},sort_keys=True))"])
             receipt["versions"].update(json.loads(process.stdout))
             edit_script = work / "edit_review_pdf.py"
@@ -222,6 +274,17 @@ def validate(args, receipt):
         if args.skip_gateway:
             receipt["coverage"]["gateway"] = "skipped_by_flag"
         else:
+            if args.skip_pdf:
+                run("install_ai_extra", [str(python), "-m", "pip", "install", ".[ai]"], cwd=checkout, timeout=600)
+            version_code = "import importlib.metadata as m,json; print(json.dumps({'headroom-ai':next((d.version for d in m.distributions() if d.metadata['Name'].lower()=='headroom-ai'),None)}))"
+            process, version_record = run("ai_dependency_versions", [str(python), "-c", version_code])
+            receipt["versions"].update(json.loads(process.stdout))
+            supports_headroom = tuple(int(part) for part in receipt["versions"]["python"].split(".")[:2]) >= (3, 10)
+            require(receipt["versions"]["headroom-ai"] == ("0.37.0" if supports_headroom else None),
+                    "Installed optional AI dependency differs from the documented Python-version policy")
+            expected_engine = "headroom" if supports_headroom else "builtin_compact"
+            version_record["assertions"] = {"expected_optional_dependency_present": supports_headroom,
+                                            "expected_engine": expected_engine}
             spec = importlib.util.spec_from_file_location("invarune_quickstart_gateway", checkout / "tests" / "test_full_gateway_e2e.py")
             fixture = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(fixture)
@@ -239,6 +302,7 @@ def validate(args, receipt):
                 require(report["analyst"]["coverage"]["reviewed_controls"] == 66 and report["analyst"]["coverage"]["omitted_checks"] == 0,
                         "Loopback full review omitted active controls/checks")
                 require(report["analyst"]["check_status_counts"] == {"insufficient_evidence": 132}, "Fixture review must not create control passes")
+                record["assertions"]["token_optimization"] = assert_optimizer_receipts(report, captured, expected_engine)
                 record["assertions"].update(loopback_requests=12, control_requests=11, answered_checks=132, validated_controls=0,
                                              service="local HTTP fixture; no real model")
                 total_requests += len(captured)

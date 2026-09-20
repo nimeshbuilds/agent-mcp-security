@@ -1,0 +1,69 @@
+{
+  "version": "0.37.0",
+  "release_commit": "32d7ca4577d599b8a5f811ada74cf31504302c9d",
+  "inspected_main_commit": "67eb910e38b9879bb0bcbacdc36db69e36901075",
+  "metadata_url": "https://pypi.org/pypi/headroom-ai/0.37.0/json",
+  "requires_python": ">=3.10",
+  "base_dependencies": [
+    "tiktoken>=0.5.0",
+    "pydantic>=2.0.0",
+    "litellm<2.0,>=1.86.2; python_full_version < \"3.14\"",
+    "click>=8.3.3",
+    "rich>=13.0.0",
+    "opentelemetry-api>=1.24.0",
+    "ast-grep-cli!=0.44.1,>=0.30.0",
+    "pyyaml>=6.0",
+    "tomli>=2.0.0; python_full_version < \"3.11\"",
+    "tomlkit<1.0,>=0.13.0"
+  ],
+  "release_artifacts": [
+    {
+      "filename": "headroom_ai-0.37.0-cp310-abi3-macosx_10_12_x86_64.whl",
+      "bytes": 13799033,
+      "sha256": "d89fd5858e701ada53d01849f73039d891fad84d9eb370f952d56581962d9cf8",
+      "url": "https://files.pythonhosted.org/packages/56/cc/385712352911b7a482514902745cba802e03947850689a784b2d40764e06/headroom_ai-0.37.0-cp310-abi3-macosx_10_12_x86_64.whl",
+      "uploaded_at": "2026-08-27T21:50:58.970722Z",
+      "yanked": false
+    },
+    {
+      "filename": "headroom_ai-0.37.0-cp310-abi3-macosx_11_0_arm64.whl",
+      "bytes": 13780628,
+      "sha256": "b4392f68a8d02d74c62c1734cf5bf327511dcc72678f01669f44f0612944d59c",
+      "url": "https://files.pythonhosted.org/packages/47/21/8a87b66e83498da89404cdba4ced6397e84331047df9e11a9ea6f3510b29/headroom_ai-0.37.0-cp310-abi3-macosx_11_0_arm64.whl",
+      "uploaded_at": "2026-08-27T21:51:01.723337Z",
+      "yanked": false
+    },
+    {
+      "filename": "headroom_ai-0.37.0-cp310-abi3-manylinux_2_28_aarch64.whl",
+      "bytes": 13816313,
+      "sha256": "bc30d31a6b9336155d62bbdd99f3c2f6c5a1ed3882a8730ea0cd8ede4c40fa19",
+      "url": "https://files.pythonhosted.org/packages/c6/2e/8d1c60683c74ae2871270789e0af1acc93727a51189799e74529679d795c/headroom_ai-0.37.0-cp310-abi3-manylinux_2_28_aarch64.whl",
+      "uploaded_at": "2026-08-27T21:51:03.725823Z",
+      "yanked": false
+    },
+    {
+      "filename": "headroom_ai-0.37.0-cp310-abi3-manylinux_2_28_x86_64.whl",
+      "bytes": 13961835,
+      "sha256": "2efc5cdf681a10c5fc7a2a271a471179c409074537045f682b10e4d724976f46",
+      "url": "https://files.pythonhosted.org/packages/72/b8/16878cf4fe6fc390a0d22025b671468619db690ff14c1b103ace4b5e35f9/headroom_ai-0.37.0-cp310-abi3-manylinux_2_28_x86_64.whl",
+      "uploaded_at": "2026-08-27T21:51:05.842240Z",
+      "yanked": false
+    },
+    {
+      "filename": "headroom_ai-0.37.0-cp310-abi3-win_amd64.whl",
+      "bytes": 13903214,
+      "sha256": "e961f892786f7577e75f2c26229f11e2609fc007083dae24d336e76fc4c72e58",
+      "url": "https://files.pythonhosted.org/packages/c9/84/6803f3cc069dc8a6843c7ed8b155d1cf0c603a7467f58ffa24c5c399b8c9/headroom_ai-0.37.0-cp310-abi3-win_amd64.whl",
+      "uploaded_at": "2026-08-27T21:51:07.941072Z",
+      "yanked": false
+    },
+    {
+      "filename": "headroom_ai-0.37.0.tar.gz",
+      "bytes": 2842752,
+      "sha256": "7ffdecba91ce44dd02f1601499f6c935c47374b7cb6ec61e569b816a4bb78a26",
+      "url": "https://files.pythonhosted.org/packages/b6/17/10c3eb35dddb30055d84116444b7158d435758c4cfc161d7c206fb871782/headroom_ai-0.37.0.tar.gz",
+      "uploaded_at": "2026-08-27T21:51:09.995028Z",
+      "yanked": false
+    }
+  ]
+}

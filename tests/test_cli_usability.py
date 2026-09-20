@@ -64,6 +64,8 @@ class CliUsabilityTests(unittest.TestCase):
         command = parser()
         help_text = command.format_help()
         option_reference = " ".join(help_text.split("Invocation and mode selection:")[0].split())
+        self.assertNotIn("(default: None)", option_reference)
+        self.assertIn("Omitted inherits the config value or headroom.", option_reference)
         for action in command._actions:
             with self.subTest(option=action.dest):
                 self.assertTrue(action.help and action.help != argparse.SUPPRESS)
@@ -82,16 +84,102 @@ class CliUsabilityTests(unittest.TestCase):
         for endpoint in DEFAULT_ENDPOINTS.values():
             self.assertIn(endpoint, help_text)
 
+    def test_help_topics_are_focused_complete_and_offline(self):
+        from ai_security_scan.cli_help import HELP_TOPICS, _TOPIC_SECTIONS
+        with mock.patch("ai_security_scan.cli.scan", side_effect=AssertionError("Help must not scan")), \
+             mock.patch("ai_security_scan.judge.load_config", side_effect=AssertionError("Help must not load config")), \
+             mock.patch("subprocess.Popen", side_effect=AssertionError("Help must not spawn")), \
+             mock.patch("urllib.request.OpenerDirector.open", side_effect=AssertionError("Help must not use network")):
+            full = self.invoke("--help", scan=False)[1]
+            for topic in HELP_TOPICS:
+                with self.subTest(topic=topic):
+                    code, output, error = self.invoke("--judge-config", "does-not-exist.json", "--image", "absent:fixture",
+                                                       "--help-topic", topic, scan=False)
+                    self.assertEqual((code, error), (0, ""))
+                    if topic == "all":
+                        self.assertEqual(output, full)
+                    else:
+                        self.assertLess(len(output), len(full))
+                        for heading in _TOPIC_SECTIONS[topic]:
+                            self.assertIn(heading, output)
+                        self.assertIn("Examples:", output)
+                        self.assertIn("invscan ", output)
+            code, output, error = self.invoke("--examples", scan=False)
+            self.assertEqual((code, error), (0, ""))
+            self.assertTrue(output.startswith("Examples:\n"))
+            self.assertNotIn("positional arguments:", output)
+            self.assertIn(output.strip(), full)
+        self.assertFalse(self.output.exists())
+
+    def test_invalid_help_topic_and_optimizer_without_review_are_actionable_errors(self):
+        cases = (("--help-topic", "imaginary"), ("--help-topic",),
+                 ("--token-optimizer", "compact"), ("--list-rules", "--token-optimizer", "headroom"),
+                 ("--login", "claude", "--token-optimizer", "off"))
+        with mock.patch("ai_security_scan.cli.scan", side_effect=AssertionError("Invalid mode must not scan")), \
+             mock.patch("subprocess.Popen", side_effect=AssertionError("Invalid mode must not spawn")):
+            for arguments in cases:
+                with self.subTest(arguments=arguments):
+                    code, output, error = self.invoke(*arguments, scan=False)
+                    self.assertEqual((code, output), (2, ""))
+                    self.assertIn("error:", error)
+                    self.assertIn(arguments[0], error)
+
+    def test_cookbook_examples_cover_every_public_flag(self):
+        from ai_security_scan.cli_help import examples_reference
+        examples = examples_reference()
+        for action in parser()._actions:
+            if action.option_strings:
+                self.assertTrue(any(option in examples for option in action.option_strings), action.option_strings)
+
+    def test_source_budget_example_executes_with_expected_findings(self):
+        code, output, error = self.invoke("--max-file-bytes", "2000000", "--max-total-bytes", "100000000",
+                                           "--max-files", "40000", "--max-entries", "200000", "--summary-json")
+        self.assertEqual((code, error), (1, ""))
+        summary = json.loads(output)
+        self.assertEqual(summary["summary"]["open_findings"], 1)
+        self.assertEqual(summary["summary"]["coverage_gaps"], 0)
+        self.assertFalse(summary["optional_review"]["judge"]["enabled"])
+
+    def test_optimizer_flag_overrides_http_config_and_cli_defaults(self):
+        self.config.write_text(json.dumps({"provider": "openai_chat", "model": "test-model", "token_optimizer": "off"}), encoding="utf-8")
+        cases = ((["--judge-config", str(self.config)], "compact"),
+                 (["--judge-cli", "codex", "--judge-login", "never"], "off"))
+        for provider_arguments, mode in cases:
+            with self.subTest(mode=mode), mock.patch("ai_security_scan.judge.review", side_effect=triage_response) as review:
+                code, output, error = self.invoke(*provider_arguments, "--token-optimizer", mode, "--judge-mode", "findings", "--summary-json")
+            self.assertEqual(code, 1, error)
+            self.assertEqual(review.call_args.args[0]["token_optimizer"], mode)
+            self.assertEqual(self.report()["run_configuration"]["optional_review"]["effective_transport"]["token_optimizer"], mode)
+            self.assertEqual(json.loads(output)["summary"]["open_findings"], 1)
+
+    def test_summary_includes_actual_optimizer_receipt_without_changing_findings(self):
+        receipt = {"requested": "headroom", "engine": "builtin_compact", "status": "fallback",
+                   "fallback_reason": "headroom_not_installed", "evidence_preserved": True}
+        def response(config, payload):
+            return {**triage_response(config, payload), "token_optimization": receipt}
+        with mock.patch("ai_security_scan.judge.review", side_effect=response):
+            code, output, error = self.invoke("--judge-config", str(self.config), "--judge-mode", "findings", "--summary-json")
+        self.assertEqual(code, 1, error)
+        summary = json.loads(output)
+        self.assertEqual(summary["optional_review"]["judge"]["token_optimization"], receipt)
+        self.assertEqual(summary["summary"]["open_findings"], 1)
+
     def test_help_command_examples_parse_and_judge_json_examples_validate(self):
         from ai_security_scan.analyst import validate_limits
         from ai_security_scan.judge import load_config
         help_text = parser().format_help()
         examples = [shlex.split(line.strip())[1:] for line in help_text.split("Examples:\n", 1)[1].splitlines()
-                    if line.strip().startswith("invarune ")]
+                    if line.strip().startswith("invscan ")]
         self.assertGreaterEqual(len(examples), 20)
         for arguments in examples:
             with self.subTest(arguments=arguments):
-                args = parser().parse_args(arguments)
+                try:
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        args = parser().parse_args(arguments)
+                except SystemExit as exc:
+                    self.assertEqual(exc.code, 0)
+                    self.assertTrue(any(flag in arguments for flag in ("--help", "--help-topic", "--examples", "--version")))
+                    continue
                 catalog = args.list_rules or args.list_controls or args.explain_rule or args.login
                 self.assertEqual(sum(bool(value) for value in (args.target, args.image, args.image_archive)), 0 if catalog else 1)
                 self.assertFalse(args.judge_include_source and not (args.judge_config or args.judge_cli))

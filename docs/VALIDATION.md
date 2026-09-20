@@ -2,7 +2,15 @@
 
 Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This document records scanner implementation checks, not a security certification or a behavioral benchmark score.
 
-## Current v0.10.0 results
+## Current v0.11.0 results
+
+**765 tests passed** on Python 3.12.14; Python 3.9.6 ran the same suite with 28 explicit optional-PDF skips. Parent-process coverage measured 94.58% of statements and 89.60% of branches (92.96% combined). [Executed receipts](../benchmarks/validation-v011/README.md).
+
+The new `invscan` command, both compatibility aliases, complete offline help, focused topics and examples were exercised outside the checkout. A fresh clone/venv completed **43 quickstart steps**, including source/image scans, catalogs, baselines, actual PDF field edits and fresh justification import. **72 loopback calls across six protocols used actual Headroom 0.37.0**, with original-input hashes and exact source evidence verified. The standalone SDK proof adds 1,002 synthetic cases and 20 real payloads without runtime network/process calls. Byte reductions are measured; tokenizer and billing savings are not.
+
+The [fresh scan PDF and HTML](../examples/reports/invscan-v011/README.md) put priorities and linked evidence first, expose model scope and optimizer receipts, and preserve editable review data. Actual limited Codex review returned two finding assessments and three concerns with fix plans. Nine findings were outside the cap and controls were not requested. Static evidence and SARIF matched the AI-disabled scan. Claude remains unauthenticated. Historical v0.10 benchmarks and model attempts are retained below; no new real-project TP rate or exhaustive accuracy guarantee is claimed.
+
+## Historical v0.10.0 results
 
 The portability follow-up at `ee493b1` passes **740 tests** locally (Python 3.12.14; Python 3.9.6 has 25 optional-PDF skips) and **all seven CI jobs**, including Windows, macOS, three Linux Python versions, actual Docker-built images, packaging and report-schema checks. Windows ran 740 tests with 33 explicit platform/optional-dependency skips and passed a **17-step fresh-environment quickstart** with PDF and gateway steps intentionally disabled. Repository LF attributes preserve hashed evidence across Git checkout settings; canonical benchmark roots fix Windows short-path and relative-path aliases without weakening source hash or child-symlink checks. A fresh `core.autocrlf=true` checkout matched all 433 committed files byte for byte, and preparation preserved the same 153 observations and 20 model payloads. No new model calls or production scanner changes occurred. [Portability receipt](../benchmarks/validation-v010/portability-receipt.json), [successful CI](https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35476883185).
 

@@ -4,15 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-mcp-security-scan"
-version = "0.10.0"
+version = "0.11.0"
 description = "Invarune by NimeshBuild: deterministic AI agent and MCP source/image security triage with an optional advisory LLM analyst"
 requires-python = ">=3.9"
 dependencies = []
 
 [project.optional-dependencies]
+ai = ["headroom-ai==0.37.0; python_version >= '3.10'"]
 pdf = ["reportlab>=4.4.9,<5", "pypdf>=6.10.0,<7"]
 
 [project.scripts]
+invscan = "ai_security_scan.cli:main"
 invarune = "ai_security_scan.cli:main"
 ai-security-scan = "ai_security_scan.cli:main"
 

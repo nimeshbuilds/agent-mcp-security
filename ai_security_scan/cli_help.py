@@ -24,10 +24,16 @@ def complete_reference():
                                             break_long_words=False, break_on_hyphens=False) + "\n"
 
     return """Invocation and mode selection:
-  python3 scan.py [OPTIONS] TARGET
-  python3 -m ai_security_scan [OPTIONS] TARGET
-  invarune [OPTIONS] TARGET                       (after pip install .)
+  invscan [OPTIONS] TARGET                        (primary installed CLI)
+  invarune [OPTIONS] TARGET                       (compatible alias)
   ai-security-scan [OPTIONS] TARGET               (compatible legacy alias)
+  python3 -m ai_security_scan [OPTIONS] TARGET     (compatible module invocation)
+  python3 scan.py [OPTIONS] TARGET                (checkout-only fallback)
+  Install from the checkout: python -m pip install .
+  Optional AI optimizer and PDF support: python -m pip install '.[ai,pdf]'
+  Quick navigation: invscan --examples; invscan --help-topic images
+  Topic names: all, quickstart, source, images, reports, review, baseline, ai,
+  login, gateways, limits, exit-codes, catalog. --help includes every topic.
   Replace TARGET with --image REFERENCE or --image-archive PATH for image scans.
   Choose exactly one input. Catalog commands and --login need no target and write no reports.
   -h and --help print this complete reference; --version prints the version.
@@ -35,7 +41,7 @@ def complete_reference():
   or network. Full long-option spelling is required; abbreviations are rejected.
   Relative paths use the current working directory. Use an absolute scan.py path
   when running the script elsewhere. Python 3.9+ is required.
-  The invarune and ai-security-scan commands are equivalent. The ai_security_scan
+  The invscan, invarune and ai-security-scan commands are equivalent. The ai_security_scan
   module, distribution agent-mcp-security-scan, report schema and rule/finding IDs
   remain compatible. JSON tool.name and SARIF driver.name retain the stable
   agent-mcp-security-scan identifier; display_name/fullName carry the product brand.
@@ -280,6 +286,16 @@ Optional security analyst and data disclosure:
   Code support cannot establish runtime or manual control effectiveness.
   Requested review errors preserve deterministic reports. A failed control batch
   stops further batches; unanswered controls/checks remain explicit and exit 2.
+  Prompt token optimization defaults to headroom for enabled model review only.
+  Install the ai extra for Headroom 0.37.0 on Python 3.10+: pip install '.[ai]'.
+  The guarded profile performs lossless JSON compaction, preserving all evidence;
+  it does not summarize, remove source, start retrieval tools or run another model.
+  Missing/unsupported/failed Headroom falls back to built-in compact encoding with
+  a visible receipt. Python 3.9 uses that fallback. compact explicitly selects the
+  built-in encoder; off preserves spaced JSON. Savings vary by payload/tokenizer;
+  this is not a guaranteed token, cost or accuracy improvement.
+  --token-optimizer headroom|compact|off overrides the selected config for this run.
+  It requires --judge-cli or --judge-config. Deterministic scans never need it.
 
 Official CLI login integrations:
   --judge-cli codex|claude|grok runs an installed official vendor CLI with its own
@@ -346,6 +362,8 @@ Official CLI login integrations:
     max_request_bytes  Default 524288, integer 1024..5242880, full UTF-8 prompt.
     max_response_bytes Default 1048576, integer 1024..5242880, CLI output envelope.
     cli_home           Optional existing absolute Grok profile directory only.
+    token_optimizer    headroom (default), compact or off; same guarded behavior
+                       as --token-optimizer. The explicit CLI flag takes precedence.
   Unknown fields, API/gateway fields and token limits are rejected for CLI configs.
   --judge-model/--judge-timeout require --judge-cli. --judge-executable and the
   Grok-only --judge-cli-home also work with --login. Put corresponding fields
@@ -396,6 +414,8 @@ Judge protocols and HTTP endpoint configuration (JSON fields, not CLI flags):
                      explicit true. Remote endpoints should use HTTPS.
   ca_file            Optional PEM CA bundle; certificate/hostname checks stay on.
   anthropic_version  Default 2023-06-01 for the Anthropic protocol header.
+  token_optimizer    headroom (default), compact or off; lossless prompt encoding.
+                     --token-optimizer overrides this field for the selected run.
   Unknown config fields are rejected. No automatic retries, redirects, proxy-env
   routing, or credential acquisition. Responses requests set store=false; this is
   not an assurance about a provider's retention policy. Native Chat uses
@@ -415,54 +435,12 @@ Custom JSON gateway configuration:
    "request_template":{"model":"${MODEL}","input":"${PROMPT}","max_tokens":4096},
    "response_path":"result.outputs.0.text"}
 
-Examples:
-  # Fillable fifth report and explicit reviewed-report round trip.
-  invarune ./repository --pdf --output ./initial-report
-  invarune ./repository --review-report ./reviewed-report.html --pdf --output ./final-report
-  invarune --image-archive ./agent-image.tar --review-report ./reviewed-report.pdf --output ./final-image-report
-  # Explicit reviewed exceptions; all evidence and user reasons remain auditable.
-  invarune ./repository --review-config ./trusted-review.json --output ./reports
-  invarune --image-archive ./agent-image.tar --review-config ./trusted-review.json
-  # Offline source scan; output includes every control and explicit gaps.
-  invarune ./repository --output ./reports
-  # Docker local image; no source checkout, pull, or container start.
-  invarune --image my-agent:latest --output ./image-report
-  # Podman local image, or explicitly pull a registry image and select a platform.
-  invarune --image my-mcp-server:latest --image-runtime podman
-  invarune --image ghcr.io/example/agent:1.2.3 --pull --image-platform linux/amd64
-  # Export elsewhere, then scan an archive offline without Docker/Podman.
-  docker image save --output agent-image.tar my-agent:latest
-  invarune --image-archive ./agent-image.tar --output ./image-report
-  invarune --image-archive ./agent.oci.tar --image-platform linux/arm64
-  # Increase image and packaged-file budgets for larger artifacts.
-  invarune --image-archive ./agent-image.tar --image-max-unpacked-bytes 8000000000 --max-total-bytes 200000000
-  # Repeated exclusions, CI severity gating, and machine-readable stdout.
-  invarune ./repository --exclude 'generated/*' --exclude 'fixtures/*'
-  invarune ./repository --summary-json --fail-on medium --output ./reports
-  invarune ./repository --quiet --fail-on none
-  invarune ./repository --max-file-bytes 2000000 --max-total-bytes 100000000
-  # Create a candidate; review/edit it before accepting a baseline.
-  invarune ./repository --write-baseline ./candidate.json --baseline-reason 'Owner review required'
-  invarune ./repository --baseline ./reviewed.json --summary-json
-  # Offline catalogs and exact rule explanations, including source references.
-  invarune --list-rules
-  invarune --list-controls
-  invarune --explain-rule AI002
-  # Optional full analyst; trusted-judge.json follows the JSON examples above.
-  invarune ./repository --judge-config ./trusted-judge.json
-  invarune ./repository --judge-cli codex --judge-timeout 120
-  invarune --login claude
-  invarune ./repository --judge-cli claude --judge-login never --summary-json
-  invarune ./repository --judge-cli claude --judge-mode findings --judge-include-source
-  invarune ./repository --judge-cli grok --judge-cli-home /absolute/path/to/clean-grok-profile
-  invarune --image-archive ./agent-image.tar --judge-config ./trusted-judge.json
-  # Finding-only triage with explicitly requested neighboring source.
-  invarune ./repository --judge-config ./trusted-judge.json --judge-mode findings --judge-include-source
-  # Smaller full-review batches with larger call/time budgets.
-  invarune ./repository --judge-config ./trusted-judge.json --analyst-batch-size 3 --analyst-max-calls 24 --analyst-time-budget 600
+""" + examples_reference() + """
 
 Detailed guides and controlbook (also in the repository):
   https://github.com/nimeshbuilds/agent-mcp-security/blob/main/docs/CLI.md
+  Repository-relative paths below refer to the checkout, not installed files.
+  https://github.com/nimeshbuilds/agent-mcp-security/blob/main/docs/QUICKSTART.md
   docs/IMAGE_SCANNING.md   Formats, extraction safety, budgets and image scopes.
   docs/JUDGE.md           API configuration and expected finding response schema.
   docs/ANALYST.md         Control response schema, citations and evidence routing.
@@ -470,3 +448,103 @@ Detailed guides and controlbook (also in the repository):
   docs/RULE_ACCURACY.md and docs/VALIDATION.md     Tests, measured limits and gaps.
   output/pdf/invarune-security-controlbook.pdf   Branded controlbook.
 """
+
+
+# Each focused view is assembled from the same complete reference and cookbook.
+# Section boundaries deliberately exclude nested inventory/config subheadings.
+_TOPIC_SECTIONS = {
+    "quickstart": ("Invocation and mode selection:", "Reports, output modes, and Exit codes:"),
+    "source": ("Source analysis and selected scope:", "Exclusions, budgets, and reproducibility:"),
+    "images": ("Container images without a source checkout:", "Exclusions, budgets, and reproducibility:"),
+    "reports": ("Reports, output modes, and Exit codes:", "Exit codes:"),
+    "review": ("Editable report review and fresh scans:", "User review dispositions:"),
+    "baseline": ("Reviewed baselines:",),
+    "ai": ("Optional security analyst and data disclosure:",),
+    "login": ("Official CLI login integrations:",),
+    "gateways": ("Judge protocols and HTTP endpoint configuration (JSON fields, not CLI flags):",
+                 "OpenAI-compatible gateway configuration:", "Custom JSON gateway configuration:"),
+    "limits": ("Exclusions, budgets, and reproducibility:", "Container images without a source checkout:",
+               "Optional security analyst and data disclosure:"),
+    "exit-codes": ("Exit codes:",),
+    "catalog": ("Catalog inspection:",),
+}
+HELP_TOPICS = ("all", *_TOPIC_SECTIONS)
+
+_EXAMPLE_GROUPS = (
+    (("quickstart", "source"), "Start with deterministic scanning; no model or API key is needed.", (
+        "invscan --help", "invscan --help-topic images", "invscan --examples", "invscan --version",
+        "invscan ./repository --output ./reports",
+        "invscan ./repository --exclude 'generated/*' --exclude 'fixtures/*'")),
+    (("images",), "Scan a built Linux image without starting it or requiring source checkout.", (
+        "invscan --image my-agent:latest --output ./image-report",
+        "invscan --image my-mcp-server:latest --image-runtime podman --image-timeout 600",
+        "invscan --image ghcr.io/example/agent:1.2.3 --pull --image-platform linux/amd64",
+        "docker image save --output agent-image.tar my-agent:latest",
+        "invscan --image-archive ./agent-image.tar --output ./image-report",
+        "invscan --image-archive ./agent.oci.tar --image-platform linux/arm64")),
+    (("reports", "exit-codes"), "CI output and severity gates; none never hides scan/review failures.", (
+        "invscan ./repository --summary-json --fail-on medium --output ./reports",
+        "invscan ./repository --quiet --fail-on none")),
+    (("limits", "source"), "Increase selected-source limits; exhausted budgets remain coverage gaps.", (
+        "invscan ./repository --max-file-bytes 2000000 --max-total-bytes 100000000 --max-files 40000 --max-entries 200000",)),
+    (("limits", "images"), "Image limits are separate from packaged-file and optional analyst budgets.", (
+        "invscan --image-archive ./agent-image.tar --image-max-archive-bytes 4000000000 --image-max-unpacked-bytes 8000000000 --image-max-entries 1000000 --image-max-layers 300 --max-total-bytes 200000000",)),
+    (("review", "reports"), "Fillable fifth report and explicit reviewed-report round trips (PDF extra required).", (
+        "invscan ./repository --pdf --output ./initial-report",
+        "invscan ./repository --review-report ./reviewed-report.html --pdf --output ./final-report",
+        "invscan --image-archive ./agent-image.tar --review-report ./reviewed-report.pdf --output ./final-image-report",
+        "invscan ./repository --review-report ./reviewed-report.json --output ./final-json-review",
+        "invscan ./repository --review-report ./reviewed-report.md --output ./final-markdown-review",
+        "invscan ./repository --review-report ./reviewed-report.sarif --output ./final-sarif-review")),
+    (("review",), "Explicit trusted exceptions: justified and disabled never mean validated pass.", (
+        "invscan ./repository --review-config ./trusted-review.json --output ./reports",
+        "invscan --image-archive ./agent-image.tar --review-config ./trusted-review.json")),
+    (("baseline",), "Create a candidate; review/edit it before accepting individual finding exceptions.", (
+        "invscan ./repository --write-baseline ./candidate.json --baseline-reason 'Owner review required'",
+        "invscan ./repository --baseline ./reviewed.json --summary-json")),
+    (("catalog",), "Offline catalogs, exact rule explanations and primary source references.", (
+        "invscan --list-rules", "invscan --list-controls", "invscan --explain-rule AI002")),
+    (("ai", "login"), "Optional full security analyst through an installed, supported official vendor CLI.", (
+        "invscan ./repository --judge-cli codex --judge-timeout 120 --analyst-time-budget 600",
+        "invscan ./repository --judge-cli claude --judge-model opus --judge-login never --summary-json",
+        "invscan ./repository --judge-cli grok --judge-cli-home /absolute/path/to/clean-grok-profile",
+        "invscan --login claude --login-timeout 600",
+        "invscan --login codex --judge-executable /absolute/path/to/codex")),
+    (("ai", "gateways"), "API/native/custom gateway: trusted-judge.json follows the configuration examples.", (
+        "invscan ./repository --judge-config ./trusted-judge.json --analyst-time-budget 600",
+        "invscan --image-archive ./agent-image.tar --judge-config ./trusted-judge.json",
+        "invscan ./repository --judge-config ./trusted-judge.json --token-optimizer off")),
+    (("ai", "limits"), "Finding-only triage and independent full-review evidence/call budgets.", (
+        "invscan ./repository --judge-cli claude --judge-mode findings --judge-include-source --judge-max-findings 200",
+        "invscan ./repository --judge-config ./trusted-judge.json --analyst-batch-size 3 --analyst-max-calls 24 --analyst-time-budget 600",
+        "invscan ./repository --judge-config ./trusted-judge.json --analyst-max-files 400 --analyst-max-bytes 4000000 --analyst-max-chars 240000",
+        "invscan ./repository --judge-cli codex --token-optimizer compact")),
+)
+
+
+def examples_reference(topic=None):
+    lines = ["Examples:", "  Replace ./repository, image names, endpoints and reviewed files with your inputs.",
+             "  Paths are relative to your working directory. Quote paths containing spaces.",
+             "  Install optional support from the checkout: python -m pip install '.[ai,pdf]'.",
+             "  AI examples explicitly opt in to evidence disclosure and provider usage."]
+    for topics, description, commands in _EXAMPLE_GROUPS:
+        if topic is None or topic in topics:
+            lines.append("  # " + description)
+            lines.extend("  " + command for command in commands)
+    lines.append("  See invscan --help for all options, exact JSON schemas, defaults and limitations.")
+    return "\n".join(lines) + "\n"
+
+
+def topic_reference(topic):
+    if topic not in _TOPIC_SECTIONS:
+        raise ValueError("Unknown help topic: " + str(topic))
+    reference = complete_reference()
+    headings = {heading for values in _TOPIC_SECTIONS.values() for heading in values}
+    headings.update(("Examples:", "Detailed guides and controlbook (also in the repository):"))
+    positions = sorted((reference.index("\n" + heading) + 1 if "\n" + heading in reference else reference.index(heading), heading)
+                       for heading in headings)
+    sections = {heading: reference[start:positions[index + 1][0] if index + 1 < len(positions) else len(reference)].rstrip()
+                for index, (start, heading) in enumerate(positions)}
+    selected = "\n\n".join(sections[heading] for heading in _TOPIC_SECTIONS[topic])
+    return (DISPLAY_NAME + " — invscan help: " + topic + "\n\n" + selected + "\n\n" +
+            examples_reference(topic) + "\nOffline topics: " + ", ".join(HELP_TOPICS) + "\n")
