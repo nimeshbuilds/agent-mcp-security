@@ -2,7 +2,7 @@
 
 New to Invarune? Follow the [quick-start guide](QUICKSTART.md) for your first source or image report, optional AI review and expected results.
 
-`invscan` performs bounded, read-only source/image triage and writes standalone HTML, Markdown, JSON, and SARIF reports. Deterministic source-directory and image-archive scans need no model, credentials, network, or third-party Python package. Image references use the selected container runtime; registry pulls require `--pull`. The optional model analyst is enabled only with `--judge-config` or `--judge-cli`.
+`invscan` performs bounded, read-only agent/MCP/skill and built-image triage. By default results appear in the terminal without creating report files. Explicit `--report`, `--output` or `--pdf` requests standalone reports. Deterministic source-directory and image-archive scans need no model, credentials, network, or third-party Python package. Image references use the selected container runtime; registry pulls require `--pull`. The optional model analyst is enabled only with `--judge-config` or `--judge-cli`.
 
 The CLI identifies patterns that need review. A finding does not by itself prove exploitability, and no finding does not establish security, compliance, or complete control coverage. Consult the report's scope, skipped files, parse errors, limitations, and control statuses alongside its severity counts.
 
@@ -32,7 +32,7 @@ Long options require their complete spelling. Abbreviations such as `--judge-con
 
 ## Complete offline help
 
-Version 0.12.0 ships the complete reference in both `-h` and `--help`, including every option and default, the offline security explorer, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, review dispositions, editable five-format report import, optional PDF export, every judge configuration field, native/custom gateway JSON examples, and CLI examples including official login and model selection. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
+The installed CLI ships the complete reference in both `-h` and `--help`, including every option and default, the offline security explorer, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, review dispositions, editable five-format report import, optional PDF export, every judge configuration field, native/custom gateway JSON examples, and CLI examples including official login and model selection. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
 
 ```sh
 invscan --help
@@ -45,7 +45,7 @@ invscan --examples
 invscan --help > cli-help.txt
 ```
 
-`--help-topic` selects all, quickstart, source, images, reports, review, baseline, ai, login, gateways, limits, exit-codes, catalog or security. The security and catalog topics explain the same offline explorer. `--examples` prints the complete command cookbook; `--help-topic all` matches `--help`.
+`--help-topic` selects all, quickstart, source, scans, skills, images, reports, review, baseline, ai, login, gateways, limits, exit-codes, catalog or security. The security and catalog topics explain the same offline explorer. `--examples` prints the complete command cookbook; `--help-topic all` matches `--help`.
 
 Help exits 0 without scanning, unpacking images, starting runtime processes, loading a judge configuration, or contacting endpoints. `--version` prints the scanner version and exits. Tests check that every registered public option is documented, adapter/format inventories match implementation constants, example commands parse, and the displayed judge/baseline JSON is accepted by the actual loaders.
 
@@ -95,17 +95,24 @@ invscan ./repository --max-file-bytes 2000000 --max-total-bytes 100000000
 
 Glob matching is case-sensitive against relative paths; this is not a `.gitignore` parser. The scanner does not automatically interpret the target's `.gitignore` as a security policy. It does not install dependencies, execute target code, run the target's tests, probe deployed MCP endpoints, or query vulnerability feeds.
 
+## Select scans and inspect their algorithms
+
+Use `invscan --list-scans` or `invscan --explain-scan AI043` for every rule and control, deterministic algorithms, supported input forms, source organizations, fixes and limits. Add `--catalog-format json` for machine-readable inventory. These are standalone offline commands.
+
+`invscan TARGET --scans AI001,AI043 --scans AUTH-01` combines rule and control selectors. IDs are case-insensitive and deduplicated; unknown/empty IDs fail before scanning. Control selection enables its mapped rules and review plan; direct rule selection adds its mapped control plans without enabling additional rules. An unmapped control enables no static detectors. Shared bounded syntax, metadata and integrity checks still run and retain operational gaps. Reports, scoring, AI review and replay bindings record the exact selection. [Complete coverage guide](SCAN_COVERAGE.md).
+
 ## Reports and exit policy
 
 | Argument | Default | Meaning |
 | --- | --- | --- |
-| `--output PATH` | `scan-report` | Directory for `report.html`, `report.json`, `report.md`, and `report.sarif`, plus `report.pdf` when requested. |
-| `--pdf` | Disabled | Add a fillable PDF with charts, clickable contents and review fields; requires the optional `pdf` extra. Default formats stay dependency-free. |
+| `--output PATH` | Unset; terminal only | Directory for `report.html`, `report.json`, `report.md`, and `report.sarif`, plus `report.pdf` when requested. |
+| `--report [DIR]` | Unset; supplied without DIR uses `scan-report` | Write HTML, Markdown, JSON and SARIF; mutually exclusive with `--output`. |
+| `--pdf` | Disabled | Add a fillable PDF with charts, clickable contents and review fields; requires the optional `pdf` extra. Implies report output to `scan-report` when no output directory is supplied. Portable formats stay dependency-free. |
 | `--fail-on LEVEL` | `high` | Gate on open findings at or above `critical`, `high`, `medium`, `low`, or `info`. `none` disables this severity gate only. |
 | `--quiet` | Disabled | Suppress scan progress and human summaries. Operational and optional review errors remain on stderr. |
 | `--summary-json` | Disabled | Emit one JSON summary on stdout instead of the human summary. Diagnostics remain on stderr. |
 
-`--quiet` and `--summary-json` are mutually exclusive. Both keep the same findings, report artifacts, baseline handling, and exit gate as the default human output. Default deterministic runs with identical files, configuration, runtime, and scanner implementation are reproducible; enabling a model does not make model responses reproducible.
+`--quiet` and `--summary-json` are mutually exclusive. Both keep the same findings, baseline handling, and exit gate; reports are written only when explicitly requested. With no reporting flag, no report files are created. Default deterministic runs with identical files, configuration, runtime, and scanner implementation are reproducible; enabling a model does not make model responses reproducible.
 
 Open `report.html` locally for the complete branded report. It contains its styling, logo and a fixed CSP-hashed local script for saving review edits, with no external scripts/fonts/images or network requests. Reading and navigation work without the script; the Download reviewed HTML button needs it to preserve live form values. Markdown offers a portable equivalent, while JSON exposes the assessment for downstream automation. SARIF retains deterministic findings plus the editable review capsule.
 
@@ -194,7 +201,7 @@ Ask what the bundled catalog covers before running a scan. All explorer commands
 | `--ask QUERY` | Text | Bounded deterministic lookup using literal tokens and known aliases; quote multiword questions. |
 | `--explain-control ID` | Text | Why a control matters, its checks, partial static mappings, source organizations and other validation needs. |
 | `--explain-check CONTROL:INDEX` | Text | One acceptance check and its parent control context; index starts at 1. |
-| `--list-sources` | Text | The 75-entry source registry with provenance and scope limits. |
+| `--list-sources` | Text | The 76-entry source registry with provenance and scope limits. |
 | `--explain-source ID` | Text | Source details and control relationships, distinguishing primary citations from thematic alignment. |
 | `--list-rules` | Legacy JSON | Full deterministic rule metadata array. |
 | `--list-controls` | Legacy JSON | Full control array with acceptance checks, stable check IDs, rule mappings and sources. |
@@ -225,7 +232,7 @@ invscan --explain-control AUTH-01 --catalog-format json > ./auth-control.json
 
 Choose one catalog command. Explicit source/image inputs, scan options, model/login options and output controls such as `--quiet`, `--summary-json`, `--output` or `--pdf` are incompatible. Completed lookups, including no match, exit **0**; invalid input, unknown IDs in explain commands and incompatible options exit **2**. Neither exit is a security verdict.
 
-All **66 controls / 132 checks** are explained, but the **42 deterministic rules map partially to only 26 controls**. A mapped rule does not establish an individual check as passing. Runtime and owner validation remain necessary. Primary control citations, suggested thematic alignments and technical rule references are separate relationships; source versions and dates are stored research snapshots, not live verification or official compliance certification. See the [security explorer guide](SECURITY_EXPLORER.md) for a worked investigation.
+All **66 controls / 132 checks** are explained, but the **46 deterministic rules map partially to 30 controls**. A mapped rule does not establish an individual check as passing. Runtime and owner validation remain necessary. Primary control citations, suggested thematic alignments and technical rule references are separate relationships; source versions and dates are stored research snapshots, not live verification or official compliance certification. See the [security explorer guide](SECURITY_EXPLORER.md) for a worked investigation.
 
 ## Optional security analyst
 
@@ -240,7 +247,7 @@ All **66 controls / 132 checks** are explained, but the **42 deterministic rules
 | `--judge-login auto\|never` | `auto` | Automatic official login only on interactive terminals. Quiet/JSON/noninteractive scans never prompt. One login attempt per scan. |
 | `--login-timeout SECONDS` | `300` | Separate interactive login deadline, range 1–900. Excluded from analyst scheduling time. |
 | `--login codex\|claude\|grok` | Disabled | Standalone official login from Invarune; no target, scan, report or model request. Requires terminal output. |
-| `--judge-mode full\|findings` | `full` | Full mode triages findings and reviews every active control/check, including controls without static findings. Findings mode triages findings only. |
+| `--judge-mode full\|findings` | `full` | Full mode triages findings and reviews every active selected control/check, including controls without static findings. Findings mode triages findings only. |
 | `--judge-include-source` | Disabled | Add neighboring source to finding triage; requires `--judge-config` or `--judge-cli`. Full mode's separately bounded evidence selection does not depend on this flag. |
 | `--judge-max-findings N` | `100` | Open findings submitted to finding triage; accepts 1–500. All findings remain in the deterministic report. |
 | `--token-optimizer headroom\|compact\|off` | Config value, otherwise `headroom` | Lossless encoding of model evidence JSON; explicit flag overrides API or CLI JSON configuration. Requires `--judge-config` or `--judge-cli`. |

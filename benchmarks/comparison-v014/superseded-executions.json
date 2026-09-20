@@ -1,0 +1,1923 @@
+{
+  "accuracy_evaluations": [
+    {
+      "overall": {
+        "assertions": 113,
+        "false_negative": 2,
+        "false_negative_rate": 0.033333,
+        "false_positive": 1,
+        "false_positive_rate": 0.018868,
+        "precision": 0.983051,
+        "recall": 0.966667,
+        "true_negative": 52,
+        "true_positive": 58
+      },
+      "path": "accuracy-after.json",
+      "sha256": "4d8c0f5213eedb3879986665757e7f5e17689dd26417642df7fa8b2d62874a27"
+    },
+    {
+      "overall": {
+        "assertions": 331,
+        "false_negative": 3,
+        "false_negative_rate": 0.069767,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": 1.0,
+        "recall": 0.930233,
+        "true_negative": 288,
+        "true_positive": 40
+      },
+      "path": "accuracy-skills-tools.json",
+      "sha256": "90a10ab28ec2af73bf31529c30bda830a3aa06bb1ce789cead212a6908355b8d"
+    }
+  ],
+  "actual_source_cli_executions": 16,
+  "experiment": "comparison-v014",
+  "implementation_sha256": "a39899268ad9e6e8112c93d713500a9ae43d0f7dc782d2428b62466871cacb63",
+  "original_execution_receipt_sha256": "b44e6c5406f0210f1121a2af180eeca6cf90cff03d25a3b28de94a895d456d92",
+  "original_report_manifest": {
+    "experiment": "comparison-v014",
+    "file_count": 32,
+    "files": [
+      {
+        "bytes": 957502,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/mcp-reference/report.html",
+        "project_id": "mcp-reference",
+        "sha256": "a66eb153e25e81c7e7987aca3fc71bab69090f673153e99e9c1fb99321f489a8"
+      },
+      {
+        "bytes": 541537,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/mcp-reference/report.json",
+        "project_id": "mcp-reference",
+        "sha256": "6b22f2e7c46470942cce0be26a1f1d78224f82969cafd88e4521e9f558bf9458"
+      },
+      {
+        "bytes": 342855,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/mcp-reference/report.md",
+        "project_id": "mcp-reference",
+        "sha256": "fb36e6ee79e6d90046a6ca4a40b10faedf45db22eedc798eb16f1cce87360b74"
+      },
+      {
+        "bytes": 521012,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/mcp-reference/report.sarif",
+        "project_id": "mcp-reference",
+        "sha256": "67ad2e107bbc522d33cd9195d53ac4eda2bd876f164d4d81a864349cd139791e"
+      },
+      {
+        "bytes": 648465,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/github-mcp/report.html",
+        "project_id": "github-mcp",
+        "sha256": "805f8a44db685b22ae11dc5fd8890b422a46b573eec6d20572e7ac2eee29eaf9"
+      },
+      {
+        "bytes": 288190,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/github-mcp/report.json",
+        "project_id": "github-mcp",
+        "sha256": "a92fe3cb9f70df4932a6e9c68ffb77b7e6fdf9674f7fa51691056fede9134c1b"
+      },
+      {
+        "bytes": 174467,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/github-mcp/report.md",
+        "project_id": "github-mcp",
+        "sha256": "0ddb56e084ebc91a1cb4734d75ccd42ddca14ddf671303cc1f282ac6a73e7889"
+      },
+      {
+        "bytes": 212355,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/github-mcp/report.sarif",
+        "project_id": "github-mcp",
+        "sha256": "bc6035aee06ce63f34bdc5b754ecdb3933ba27818f06b36bc422bb8b0de81547"
+      },
+      {
+        "bytes": 924898,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/autogen/report.html",
+        "project_id": "autogen",
+        "sha256": "ff6e10200de67975c295cfcde0702c8230ed6e11410277cfa21c644d64e1fa41"
+      },
+      {
+        "bytes": 542938,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/autogen/report.json",
+        "project_id": "autogen",
+        "sha256": "6193f4db6b6c4c719cb6a3789eccfe2476bfb2ccb34ff1087fd32191ab437403"
+      },
+      {
+        "bytes": 175677,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/autogen/report.md",
+        "project_id": "autogen",
+        "sha256": "9d6b44d08fa7397aaab05fdb05ac0e6ebb9bcfad13ea36191838a50f03ee3d59"
+      },
+      {
+        "bytes": 188698,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/autogen/report.sarif",
+        "project_id": "autogen",
+        "sha256": "cd5a8c78d7e2e4324c3a6304bc9d7929cfc3535ef5f912c46fae9e61f95f2409"
+      },
+      {
+        "bytes": 1169006,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/crewai/report.html",
+        "project_id": "crewai",
+        "sha256": "d6a42a5a6ffa29a710ce243d96d594b11b53b07395923e0ddcb473ab2f543c63"
+      },
+      {
+        "bytes": 723183,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/crewai/report.json",
+        "project_id": "crewai",
+        "sha256": "aa14262e2a000ead3dca3238789b4dc3a3f8f7e115822679227e600097bddd0e"
+      },
+      {
+        "bytes": 252995,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/crewai/report.md",
+        "project_id": "crewai",
+        "sha256": "ca19cc09f4f1705d024aa6e9fd37697ef10b8f60b84f105912c719b038ac50e0"
+      },
+      {
+        "bytes": 314104,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/crewai/report.sarif",
+        "project_id": "crewai",
+        "sha256": "6d89686a65e276e339c60ccb3bd4012115b722c936404752f2a01564a5d8165a"
+      },
+      {
+        "bytes": 767442,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/langgraph/report.html",
+        "project_id": "langgraph",
+        "sha256": "c2f3d1fcc34322de1665abf2d9c449349bf92d81d5ddba22a2a224081f040152"
+      },
+      {
+        "bytes": 398816,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/langgraph/report.json",
+        "project_id": "langgraph",
+        "sha256": "ba43d6a4b0e39dcbeac3856c6b737e046ae9a0c978f97ba6270e7983a402370a"
+      },
+      {
+        "bytes": 216073,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/langgraph/report.md",
+        "project_id": "langgraph",
+        "sha256": "9511d710c6554035a00d79b2cf1d9629291e14f2fd3eef2ea460ba5cb12b19b5"
+      },
+      {
+        "bytes": 273427,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/langgraph/report.sarif",
+        "project_id": "langgraph",
+        "sha256": "a5064e3f23a9bb7726cbdd9ac098d566b3d9300e9db4627bd4edd98201c973f0"
+      },
+      {
+        "bytes": 940646,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/openhands/report.html",
+        "project_id": "openhands",
+        "sha256": "e742837c2bca32a021406e7066cf342318b6828ac47dc20dcf541fb09d231dde"
+      },
+      {
+        "bytes": 531170,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/openhands/report.json",
+        "project_id": "openhands",
+        "sha256": "eae0e9c057643f8c4a2b6f459c24b23b1118f7933c0b1a6596c2dde29b983ae7"
+      },
+      {
+        "bytes": 163326,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/openhands/report.md",
+        "project_id": "openhands",
+        "sha256": "6ec117f6e7c2195e0a6c22efc102a9ddf50fd5d5142dae97b92cd18e7a20b08d"
+      },
+      {
+        "bytes": 176749,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/openhands/report.sarif",
+        "project_id": "openhands",
+        "sha256": "5d96e86fadf58e71447da63a684617d0c52496ac193bb12dab556c3baf8759a1"
+      },
+      {
+        "bytes": 613110,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/pydantic-ai/report.html",
+        "project_id": "pydantic-ai",
+        "sha256": "774b6e9ec816718190c3932f8916cbd99bd4ebc9607c9fa79e18f4dac21f4b5c"
+      },
+      {
+        "bytes": 250382,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/pydantic-ai/report.json",
+        "project_id": "pydantic-ai",
+        "sha256": "aa3e0a0f67328e45ce8265dbf97b3e389da1505715ab892ab00d32a4f3381d73"
+      },
+      {
+        "bytes": 122917,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/pydantic-ai/report.md",
+        "project_id": "pydantic-ai",
+        "sha256": "fa4dfce7e633da4f90149bc953c14fe618717e0886ef9bfb1726463a00b784f9"
+      },
+      {
+        "bytes": 116172,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/pydantic-ai/report.sarif",
+        "project_id": "pydantic-ai",
+        "sha256": "daf4bf872498246f678eaeef33aab80d48ce44587a971b05bdecdb180b540b59"
+      },
+      {
+        "bytes": 612161,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/fastmcp/report.html",
+        "project_id": "fastmcp",
+        "sha256": "306eb7081fadadbf23cfe6e1010fd623969d793f55deaf6d427d0a84a93136ff"
+      },
+      {
+        "bytes": 255720,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/fastmcp/report.json",
+        "project_id": "fastmcp",
+        "sha256": "58a99d68280437bc6ef74c8da01b9aade3cd011abc560f19569c387625b865a2"
+      },
+      {
+        "bytes": 120024,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/fastmcp/report.md",
+        "project_id": "fastmcp",
+        "sha256": "866a0fc7c76f3b3142ca563635dc56c8ccd4783ff339eddd197fc1abb8c83930"
+      },
+      {
+        "bytes": 112892,
+        "matches_both_execution_receipts": true,
+        "path": "invarune-reports/fastmcp/report.sarif",
+        "project_id": "fastmcp",
+        "sha256": "e3992cac8e6ccf5cc80ef94f760e2761de77d9ba3cbe30f2e3c9aa961ed4cb08"
+      }
+    ],
+    "schema_version": "1.0",
+    "total_bytes": 13648909
+  },
+  "project_execution_receipts": [
+    {
+      "receipt": {
+        "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+        "analysis_profiles": {
+          "configuration_lexical": {
+            "files": 14,
+            "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+          },
+          "generic_text": {
+            "files": 292,
+            "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+          },
+          "javascript_lexical": {
+            "files": 124,
+            "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+          },
+          "json_structured": {
+            "files": 4,
+            "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+          },
+          "python_ast": {
+            "files": 325,
+            "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+          }
+        },
+        "byte_identical_reports": true,
+        "command": [
+          "python3",
+          "-m",
+          "ai_security_scan",
+          "tmp/real-world-src/autogen",
+          "--output",
+          "tmp/comparison-v014/invarune-after/autogen",
+          "--summary-json",
+          "--max-file-bytes",
+          "20000000",
+          "--max-total-bytes",
+          "300000000",
+          "--max-files",
+          "20000",
+          "--max-entries",
+          "100000",
+          "--fail-on",
+          "high"
+        ],
+        "execution": {
+          "exit_code": 1,
+          "failure_threshold": "high",
+          "finding_gate_triggered": true
+        },
+        "license": {
+          "path": "LICENSE-CODE",
+          "summary": "MIT (code)",
+          "url": "https://github.com/microsoft/autogen/blob/027ecf0a379bcc1d09956d46d12d44a3ad9cee14/LICENSE-CODE"
+        },
+        "optional_judge_enabled": false,
+        "project": "autogen",
+        "repeated_runs": [
+          {
+            "elapsed_seconds": 2.181775,
+            "exit_code": 1,
+            "report_sha256": {
+              "report.html": "ff6e10200de67975c295cfcde0702c8230ed6e11410277cfa21c644d64e1fa41",
+              "report.json": "6193f4db6b6c4c719cb6a3789eccfe2476bfb2ccb34ff1087fd32191ab437403",
+              "report.md": "9d6b44d08fa7397aaab05fdb05ac0e6ebb9bcfad13ea36191838a50f03ee3d59",
+              "report.sarif": "cd5a8c78d7e2e4324c3a6304bc9d7929cfc3535ef5f912c46fae9e61f95f2409"
+            },
+            "run": 1,
+            "started_at_utc": "2026-09-20T04:06:38.181463+00:00",
+            "stderr": ""
+          },
+          {
+            "elapsed_seconds": 2.072495,
+            "exit_code": 1,
+            "report_sha256": {
+              "report.html": "ff6e10200de67975c295cfcde0702c8230ed6e11410277cfa21c644d64e1fa41",
+              "report.json": "6193f4db6b6c4c719cb6a3789eccfe2476bfb2ccb34ff1087fd32191ab437403",
+              "report.md": "9d6b44d08fa7397aaab05fdb05ac0e6ebb9bcfad13ea36191838a50f03ee3d59",
+              "report.sarif": "cd5a8c78d7e2e4324c3a6304bc9d7929cfc3535ef5f912c46fae9e61f95f2409"
+            },
+            "run": 2,
+            "started_at_utc": "2026-09-20T04:06:40.365339+00:00",
+            "stderr": ""
+          }
+        ],
+        "repository": "https://github.com/microsoft/autogen",
+        "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+        "rule_counts": {
+          "AI001": 2,
+          "AI005": 2,
+          "AI009": 1,
+          "AI024": 4,
+          "AI033": 2
+        },
+        "scan_id": "c4bf686d18929818e49ea88219b461f8237725a41a2f9a5653ea9406bf48cc37",
+        "schema_version": "1.0",
+        "source_bytes": 4264776,
+        "source_files": 786,
+        "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 4232838,
+          "bytes_read": 4232838,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 759,
+          "open_findings": 11,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 4,
+            "info": 0,
+            "low": 4,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "target_code_executed": false,
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a39899268ad9e6e8112c93d713500a9ae43d0f7dc782d2428b62466871cacb63",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "receipt_sha256": "c33c62635b9bdf417841cf19c471c63584b5042fa6d8a4732419a66e8961fc94"
+    },
+    {
+      "receipt": {
+        "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+        "analysis_profiles": {
+          "configuration_lexical": {
+            "files": 18,
+            "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+          },
+          "generic_text": {
+            "files": 5,
+            "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+          },
+          "javascript_lexical": {
+            "files": 1,
+            "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+          },
+          "json_structured": {
+            "files": 17,
+            "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+          },
+          "python_ast": {
+            "files": 926,
+            "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+          }
+        },
+        "byte_identical_reports": true,
+        "command": [
+          "python3",
+          "-m",
+          "ai_security_scan",
+          "tmp/real-world-src/crewai",
+          "--output",
+          "tmp/comparison-v014/invarune-after/crewai",
+          "--summary-json",
+          "--max-file-bytes",
+          "20000000",
+          "--max-total-bytes",
+          "300000000",
+          "--max-files",
+          "20000",
+          "--max-entries",
+          "100000",
+          "--fail-on",
+          "high"
+        ],
+        "execution": {
+          "exit_code": 2,
+          "failure_threshold": "high",
+          "finding_gate_triggered": true
+        },
+        "license": {
+          "path": "LICENSE",
+          "summary": "MIT",
+          "url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/LICENSE"
+        },
+        "optional_judge_enabled": false,
+        "project": "crewai",
+        "repeated_runs": [
+          {
+            "elapsed_seconds": 4.592938,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "d6a42a5a6ffa29a710ce243d96d594b11b53b07395923e0ddcb473ab2f543c63",
+              "report.json": "aa14262e2a000ead3dca3238789b4dc3a3f8f7e115822679227e600097bddd0e",
+              "report.md": "ca19cc09f4f1705d024aa6e9fd37697ef10b8f60b84f105912c719b038ac50e0",
+              "report.sarif": "6d89686a65e276e339c60ccb3bd4012115b722c936404752f2a01564a5d8165a"
+            },
+            "run": 1,
+            "started_at_utc": "2026-09-20T04:06:42.571358+00:00",
+            "stderr": "Scan incomplete: 12 coverage gaps; see the coverage details.\n"
+          },
+          {
+            "elapsed_seconds": 4.632714,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "d6a42a5a6ffa29a710ce243d96d594b11b53b07395923e0ddcb473ab2f543c63",
+              "report.json": "aa14262e2a000ead3dca3238789b4dc3a3f8f7e115822679227e600097bddd0e",
+              "report.md": "ca19cc09f4f1705d024aa6e9fd37697ef10b8f60b84f105912c719b038ac50e0",
+              "report.sarif": "6d89686a65e276e339c60ccb3bd4012115b722c936404752f2a01564a5d8165a"
+            },
+            "run": 2,
+            "started_at_utc": "2026-09-20T04:06:47.167003+00:00",
+            "stderr": "Scan incomplete: 12 coverage gaps; see the coverage details.\n"
+          }
+        ],
+        "repository": "https://github.com/crewAIInc/crewAI",
+        "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+        "rule_counts": {
+          "AI001": 1,
+          "AI005": 1,
+          "AI010": 20,
+          "AI017": 1,
+          "AI036": 2,
+          "AI040": 2
+        },
+        "scan_id": "3437f95f898b0e7bcf87b8b01c06770771a3510bf9b4691939192630fe111cb7",
+        "schema_version": "1.0",
+        "source_bytes": 9460151,
+        "source_files": 968,
+        "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 9435467,
+          "bytes_read": 9435467,
+          "coverage_gaps": 12,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 967,
+          "open_findings": 27,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 25,
+            "info": 0,
+            "low": 0,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "target_code_executed": false,
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a39899268ad9e6e8112c93d713500a9ae43d0f7dc782d2428b62466871cacb63",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "receipt_sha256": "d2ce902d28ec1c4889f83bba677c01d715600260aa90f4e86b56458dc2547423"
+    },
+    {
+      "receipt": {
+        "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+        "analysis_profiles": {
+          "configuration_lexical": {
+            "files": 4,
+            "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+          },
+          "generic_text": {
+            "files": 1,
+            "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+          },
+          "javascript_lexical": {
+            "files": 0,
+            "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+          },
+          "json_structured": {
+            "files": 1,
+            "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+          },
+          "python_ast": {
+            "files": 277,
+            "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+          }
+        },
+        "byte_identical_reports": true,
+        "command": [
+          "python3",
+          "-m",
+          "ai_security_scan",
+          "tmp/real-world-src/fastmcp",
+          "--output",
+          "tmp/comparison-v014/invarune-after/fastmcp",
+          "--summary-json",
+          "--max-file-bytes",
+          "20000000",
+          "--max-total-bytes",
+          "300000000",
+          "--max-files",
+          "20000",
+          "--max-entries",
+          "100000",
+          "--fail-on",
+          "high"
+        ],
+        "execution": {
+          "exit_code": 2,
+          "failure_threshold": "high",
+          "finding_gate_triggered": false
+        },
+        "license": {
+          "path": "LICENSE",
+          "summary": "Apache-2.0",
+          "url": "https://github.com/PrefectHQ/fastmcp/blob/9c35c017cd89e4d50a9f512c8eafde68c301ec70/LICENSE"
+        },
+        "optional_judge_enabled": false,
+        "project": "fastmcp",
+        "repeated_runs": [
+          {
+            "elapsed_seconds": 1.78092,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "306eb7081fadadbf23cfe6e1010fd623969d793f55deaf6d427d0a84a93136ff",
+              "report.json": "58a99d68280437bc6ef74c8da01b9aade3cd011abc560f19569c387625b865a2",
+              "report.md": "866a0fc7c76f3b3142ca563635dc56c8ccd4783ff339eddd197fc1abb8c83930",
+              "report.sarif": "e3992cac8e6ccf5cc80ef94f760e2761de77d9ba3cbe30f2e3c9aa961ed4cb08"
+            },
+            "run": 1,
+            "started_at_utc": "2026-09-20T04:07:08.748758+00:00",
+            "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n"
+          },
+          {
+            "elapsed_seconds": 1.772295,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "306eb7081fadadbf23cfe6e1010fd623969d793f55deaf6d427d0a84a93136ff",
+              "report.json": "58a99d68280437bc6ef74c8da01b9aade3cd011abc560f19569c387625b865a2",
+              "report.md": "866a0fc7c76f3b3142ca563635dc56c8ccd4783ff339eddd197fc1abb8c83930",
+              "report.sarif": "e3992cac8e6ccf5cc80ef94f760e2761de77d9ba3cbe30f2e3c9aa961ed4cb08"
+            },
+            "run": 2,
+            "started_at_utc": "2026-09-20T04:07:10.530924+00:00",
+            "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n"
+          }
+        ],
+        "repository": "https://github.com/PrefectHQ/fastmcp",
+        "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+        "rule_counts": {},
+        "scan_id": "b1014e5ee1730f1456f1eadf44f02dd46564abf4a5a12431769919f5ac05098e",
+        "schema_version": "1.0",
+        "source_bytes": 3811079,
+        "source_files": 283,
+        "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 3811079,
+          "bytes_read": 3811079,
+          "coverage_gaps": 1,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 283,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "target_code_executed": false,
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a39899268ad9e6e8112c93d713500a9ae43d0f7dc782d2428b62466871cacb63",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "receipt_sha256": "d99147c12871bbfb9e936a1c5bffdaad9ddebaed8c3bbf5c8510194ec936099b"
+    },
+    {
+      "receipt": {
+        "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+        "analysis_profiles": {
+          "configuration_lexical": {
+            "files": 1,
+            "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+          },
+          "generic_text": {
+            "files": 136,
+            "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+          },
+          "javascript_lexical": {
+            "files": 12,
+            "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+          },
+          "json_structured": {
+            "files": 7,
+            "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+          },
+          "python_ast": {
+            "files": 0,
+            "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+          }
+        },
+        "byte_identical_reports": true,
+        "command": [
+          "python3",
+          "-m",
+          "ai_security_scan",
+          "tmp/real-world-src/github-mcp",
+          "--output",
+          "tmp/comparison-v014/invarune-after/github-mcp",
+          "--summary-json",
+          "--max-file-bytes",
+          "20000000",
+          "--max-total-bytes",
+          "300000000",
+          "--max-files",
+          "20000",
+          "--max-entries",
+          "100000",
+          "--fail-on",
+          "high"
+        ],
+        "execution": {
+          "exit_code": 0,
+          "failure_threshold": "high",
+          "finding_gate_triggered": false
+        },
+        "license": {
+          "path": "LICENSE",
+          "summary": "MIT",
+          "url": "https://github.com/github/github-mcp-server/blob/85598ba6e1256f7ebf4867b95d63b833c4549264/LICENSE"
+        },
+        "optional_judge_enabled": false,
+        "project": "github-mcp",
+        "repeated_runs": [
+          {
+            "elapsed_seconds": 0.305364,
+            "exit_code": 0,
+            "report_sha256": {
+              "report.html": "805f8a44db685b22ae11dc5fd8890b422a46b573eec6d20572e7ac2eee29eaf9",
+              "report.json": "a92fe3cb9f70df4932a6e9c68ffb77b7e6fdf9674f7fa51691056fede9134c1b",
+              "report.md": "0ddb56e084ebc91a1cb4734d75ccd42ddca14ddf671303cc1f282ac6a73e7889",
+              "report.sarif": "bc6035aee06ce63f34bdc5b754ecdb3933ba27818f06b36bc422bb8b0de81547"
+            },
+            "run": 1,
+            "started_at_utc": "2026-09-20T04:06:37.393698+00:00",
+            "stderr": ""
+          },
+          {
+            "elapsed_seconds": 0.313428,
+            "exit_code": 0,
+            "report_sha256": {
+              "report.html": "805f8a44db685b22ae11dc5fd8890b422a46b573eec6d20572e7ac2eee29eaf9",
+              "report.json": "a92fe3cb9f70df4932a6e9c68ffb77b7e6fdf9674f7fa51691056fede9134c1b",
+              "report.md": "0ddb56e084ebc91a1cb4734d75ccd42ddca14ddf671303cc1f282ac6a73e7889",
+              "report.sarif": "bc6035aee06ce63f34bdc5b754ecdb3933ba27818f06b36bc422bb8b0de81547"
+            },
+            "run": 2,
+            "started_at_utc": "2026-09-20T04:06:37.700724+00:00",
+            "stderr": ""
+          }
+        ],
+        "repository": "https://github.com/github/github-mcp-server",
+        "revision": "85598ba6e1256f7ebf4867b95d63b833c4549264",
+        "rule_counts": {
+          "AI025": 15
+        },
+        "scan_id": "ef6d08c603353fce28d63033c6fd8190cd2aa5a67579072f65341b4ce0bf0f92",
+        "schema_version": "1.0",
+        "source_bytes": 2092407,
+        "source_files": 163,
+        "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 2086786,
+          "bytes_read": 2086786,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 156,
+          "open_findings": 15,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 15,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "target_code_executed": false,
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a39899268ad9e6e8112c93d713500a9ae43d0f7dc782d2428b62466871cacb63",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "receipt_sha256": "b821030dc88c557783784a5e2fc937807d9b1934303b9e312b2b46fdca5d5153"
+    },
+    {
+      "receipt": {
+        "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+        "analysis_profiles": {
+          "configuration_lexical": {
+            "files": 15,
+            "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+          },
+          "generic_text": {
+            "files": 10,
+            "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+          },
+          "javascript_lexical": {
+            "files": 0,
+            "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+          },
+          "json_structured": {
+            "files": 3,
+            "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+          },
+          "python_ast": {
+            "files": 183,
+            "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+          }
+        },
+        "byte_identical_reports": true,
+        "command": [
+          "python3",
+          "-m",
+          "ai_security_scan",
+          "tmp/real-world-src/langgraph",
+          "--output",
+          "tmp/comparison-v014/invarune-after/langgraph",
+          "--summary-json",
+          "--max-file-bytes",
+          "20000000",
+          "--max-total-bytes",
+          "300000000",
+          "--max-files",
+          "20000",
+          "--max-entries",
+          "100000",
+          "--fail-on",
+          "high"
+        ],
+        "execution": {
+          "exit_code": 2,
+          "failure_threshold": "high",
+          "finding_gate_triggered": true
+        },
+        "license": {
+          "path": "LICENSE",
+          "summary": "MIT",
+          "url": "https://github.com/langchain-ai/langgraph/blob/aa742fb31e2827d569b843e3600aeda2e0528e4b/LICENSE"
+        },
+        "optional_judge_enabled": false,
+        "project": "langgraph",
+        "repeated_runs": [
+          {
+            "elapsed_seconds": 1.794847,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "c2f3d1fcc34322de1665abf2d9c449349bf92d81d5ddba22a2a224081f040152",
+              "report.json": "ba43d6a4b0e39dcbeac3856c6b737e046ae9a0c978f97ba6270e7983a402370a",
+              "report.md": "9511d710c6554035a00d79b2cf1d9629291e14f2fd3eef2ea460ba5cb12b19b5",
+              "report.sarif": "a5064e3f23a9bb7726cbdd9ac098d566b3d9300e9db4627bd4edd98201c973f0"
+            },
+            "run": 1,
+            "started_at_utc": "2026-09-20T04:06:51.919575+00:00",
+            "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n"
+          },
+          {
+            "elapsed_seconds": 1.795084,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "c2f3d1fcc34322de1665abf2d9c449349bf92d81d5ddba22a2a224081f040152",
+              "report.json": "ba43d6a4b0e39dcbeac3856c6b737e046ae9a0c978f97ba6270e7983a402370a",
+              "report.md": "9511d710c6554035a00d79b2cf1d9629291e14f2fd3eef2ea460ba5cb12b19b5",
+              "report.sarif": "a5064e3f23a9bb7726cbdd9ac098d566b3d9300e9db4627bd4edd98201c973f0"
+            },
+            "run": 2,
+            "started_at_utc": "2026-09-20T04:06:53.716152+00:00",
+            "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n"
+          }
+        ],
+        "repository": "https://github.com/langchain-ai/langgraph",
+        "revision": "aa742fb31e2827d569b843e3600aeda2e0528e4b",
+        "rule_counts": {
+          "AI005": 1,
+          "AI010": 2,
+          "AI036": 20
+        },
+        "scan_id": "372b5fcb6c309438d766368f1a8303314d194356bbb7e997f5d7bd8b854b1ab6",
+        "schema_version": "1.0",
+        "source_bytes": 6378697,
+        "source_files": 211,
+        "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 6378697,
+          "bytes_read": 6378697,
+          "coverage_gaps": 1,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 211,
+          "open_findings": 23,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 23,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "target_code_executed": false,
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a39899268ad9e6e8112c93d713500a9ae43d0f7dc782d2428b62466871cacb63",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "receipt_sha256": "7348dfb626f6d744b04ef23fb277125b94df0e2dbeb3b665c97ccb2eaaeb043b"
+    },
+    {
+      "receipt": {
+        "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+        "analysis_profiles": {
+          "configuration_lexical": {
+            "files": 10,
+            "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+          },
+          "generic_text": {
+            "files": 4,
+            "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+          },
+          "javascript_lexical": {
+            "files": 51,
+            "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+          },
+          "json_structured": {
+            "files": 12,
+            "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+          },
+          "python_ast": {
+            "files": 9,
+            "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+          }
+        },
+        "byte_identical_reports": true,
+        "command": [
+          "python3",
+          "-m",
+          "ai_security_scan",
+          "tmp/real-world-src/mcp-reference",
+          "--output",
+          "tmp/comparison-v014/invarune-after/mcp-reference",
+          "--summary-json",
+          "--max-file-bytes",
+          "20000000",
+          "--max-total-bytes",
+          "300000000",
+          "--max-files",
+          "20000",
+          "--max-entries",
+          "100000",
+          "--fail-on",
+          "high"
+        ],
+        "execution": {
+          "exit_code": 0,
+          "failure_threshold": "high",
+          "finding_gate_triggered": false
+        },
+        "license": {
+          "path": "LICENSE",
+          "summary": "Apache-2.0 transition / legacy MIT",
+          "url": "https://github.com/modelcontextprotocol/servers/blob/d73f99efbfd40c3aa1b61e88728b3d49fb52608f/LICENSE"
+        },
+        "optional_judge_enabled": false,
+        "project": "mcp-reference",
+        "repeated_runs": [
+          {
+            "elapsed_seconds": 0.272847,
+            "exit_code": 0,
+            "report_sha256": {
+              "report.html": "a66eb153e25e81c7e7987aca3fc71bab69090f673153e99e9c1fb99321f489a8",
+              "report.json": "6b22f2e7c46470942cce0be26a1f1d78224f82969cafd88e4521e9f558bf9458",
+              "report.md": "fb36e6ee79e6d90046a6ca4a40b10faedf45db22eedc798eb16f1cce87360b74",
+              "report.sarif": "67ad2e107bbc522d33cd9195d53ac4eda2bd876f164d4d81a864349cd139791e"
+            },
+            "run": 1,
+            "started_at_utc": "2026-09-20T04:06:36.805918+00:00",
+            "stderr": ""
+          },
+          {
+            "elapsed_seconds": 0.27287,
+            "exit_code": 0,
+            "report_sha256": {
+              "report.html": "a66eb153e25e81c7e7987aca3fc71bab69090f673153e99e9c1fb99321f489a8",
+              "report.json": "6b22f2e7c46470942cce0be26a1f1d78224f82969cafd88e4521e9f558bf9458",
+              "report.md": "fb36e6ee79e6d90046a6ca4a40b10faedf45db22eedc798eb16f1cce87360b74",
+              "report.sarif": "67ad2e107bbc522d33cd9195d53ac4eda2bd876f164d4d81a864349cd139791e"
+            },
+            "run": 2,
+            "started_at_utc": "2026-09-20T04:06:37.081078+00:00",
+            "stderr": ""
+          }
+        ],
+        "repository": "https://github.com/modelcontextprotocol/servers",
+        "revision": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+        "rule_counts": {
+          "AI007": 2,
+          "AI024": 14,
+          "AI025": 45
+        },
+        "scan_id": "cec2b336fae1fee4ec8dcabff2dceb4e0c15370525df91f1f6fc954ce1b605d4",
+        "schema_version": "1.0",
+        "source_bytes": 1003862,
+        "source_files": 86,
+        "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 1003862,
+          "bytes_read": 1003862,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 86,
+          "open_findings": 61,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 59,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "target_code_executed": false,
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a39899268ad9e6e8112c93d713500a9ae43d0f7dc782d2428b62466871cacb63",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "receipt_sha256": "56e13b672b564fd2853387aab285cf3a99f095076791f1f907cd147dcfd14a74"
+    },
+    {
+      "receipt": {
+        "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+        "analysis_profiles": {
+          "configuration_lexical": {
+            "files": 9,
+            "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+          },
+          "generic_text": {
+            "files": 1,
+            "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+          },
+          "javascript_lexical": {
+            "files": 1215,
+            "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+          },
+          "json_structured": {
+            "files": 8,
+            "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+          },
+          "python_ast": {
+            "files": 0,
+            "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+          }
+        },
+        "byte_identical_reports": true,
+        "command": [
+          "python3",
+          "-m",
+          "ai_security_scan",
+          "tmp/real-world-src/openhands",
+          "--output",
+          "tmp/comparison-v014/invarune-after/openhands",
+          "--summary-json",
+          "--max-file-bytes",
+          "20000000",
+          "--max-total-bytes",
+          "300000000",
+          "--max-files",
+          "20000",
+          "--max-entries",
+          "100000",
+          "--fail-on",
+          "high"
+        ],
+        "execution": {
+          "exit_code": 2,
+          "failure_threshold": "high",
+          "finding_gate_triggered": true
+        },
+        "license": {
+          "path": "LICENSE",
+          "summary": "MIT",
+          "url": "https://github.com/OpenHands/OpenHands/blob/a07364828c8f202e7745c6bce3dcef3915ae7ac1/LICENSE"
+        },
+        "optional_judge_enabled": false,
+        "project": "openhands",
+        "repeated_runs": [
+          {
+            "elapsed_seconds": 2.959085,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "e742837c2bca32a021406e7066cf342318b6828ac47dc20dcf541fb09d231dde",
+              "report.json": "eae0e9c057643f8c4a2b6f459c24b23b1118f7933c0b1a6596c2dde29b983ae7",
+              "report.md": "6ec117f6e7c2195e0a6c22efc102a9ddf50fd5d5142dae97b92cd18e7a20b08d",
+              "report.sarif": "5d96e86fadf58e71447da63a684617d0c52496ac193bb12dab556c3baf8759a1"
+            },
+            "run": 1,
+            "started_at_utc": "2026-09-20T04:06:55.724735+00:00",
+            "stderr": "Scan incomplete: 4 coverage gaps; see the coverage details.\n"
+          },
+          {
+            "elapsed_seconds": 2.962583,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "e742837c2bca32a021406e7066cf342318b6828ac47dc20dcf541fb09d231dde",
+              "report.json": "eae0e9c057643f8c4a2b6f459c24b23b1118f7933c0b1a6596c2dde29b983ae7",
+              "report.md": "6ec117f6e7c2195e0a6c22efc102a9ddf50fd5d5142dae97b92cd18e7a20b08d",
+              "report.sarif": "5d96e86fadf58e71447da63a684617d0c52496ac193bb12dab556c3baf8759a1"
+            },
+            "run": 2,
+            "started_at_utc": "2026-09-20T04:06:58.685808+00:00",
+            "stderr": "Scan incomplete: 4 coverage gaps; see the coverage details.\n"
+          }
+        ],
+        "repository": "https://github.com/OpenHands/OpenHands",
+        "revision": "a07364828c8f202e7745c6bce3dcef3915ae7ac1",
+        "rule_counts": {
+          "AI010": 2,
+          "AI024": 4,
+          "AI040": 3
+        },
+        "scan_id": "6cc3125fa06f7ba8f18975cd6fdc17c8f7f096bfdd52728687b737710e92a53c",
+        "schema_version": "1.0",
+        "source_bytes": 7520534,
+        "source_files": 1237,
+        "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 7487391,
+          "bytes_read": 7487391,
+          "coverage_gaps": 4,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 1233,
+          "open_findings": 9,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 2,
+            "info": 0,
+            "low": 4,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "target_code_executed": false,
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a39899268ad9e6e8112c93d713500a9ae43d0f7dc782d2428b62466871cacb63",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "receipt_sha256": "d8a80a30ebb4ac4bc2b7447211d800beb3590bb436d773d1863b9b8f2146c644"
+    },
+    {
+      "receipt": {
+        "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+        "analysis_profiles": {
+          "configuration_lexical": {
+            "files": 5,
+            "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+          },
+          "generic_text": {
+            "files": 1,
+            "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+          },
+          "javascript_lexical": {
+            "files": 0,
+            "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+          },
+          "json_structured": {
+            "files": 0,
+            "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+          },
+          "python_ast": {
+            "files": 380,
+            "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+          }
+        },
+        "byte_identical_reports": true,
+        "command": [
+          "python3",
+          "-m",
+          "ai_security_scan",
+          "tmp/real-world-src/pydantic-ai",
+          "--output",
+          "tmp/comparison-v014/invarune-after/pydantic-ai",
+          "--summary-json",
+          "--max-file-bytes",
+          "20000000",
+          "--max-total-bytes",
+          "300000000",
+          "--max-files",
+          "20000",
+          "--max-entries",
+          "100000",
+          "--fail-on",
+          "high"
+        ],
+        "execution": {
+          "exit_code": 2,
+          "failure_threshold": "high",
+          "finding_gate_triggered": false
+        },
+        "license": {
+          "path": "LICENSE",
+          "summary": "MIT",
+          "url": "https://github.com/pydantic/pydantic-ai/blob/c4898abb54dc25ae6f6aef208a4c0661b30a455e/LICENSE"
+        },
+        "optional_judge_enabled": false,
+        "project": "pydantic-ai",
+        "repeated_runs": [
+          {
+            "elapsed_seconds": 3.428101,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "774b6e9ec816718190c3932f8916cbd99bd4ebc9607c9fa79e18f4dac21f4b5c",
+              "report.json": "aa3e0a0f67328e45ce8265dbf97b3e389da1505715ab892ab00d32a4f3381d73",
+              "report.md": "fa4dfce7e633da4f90149bc953c14fe618717e0886ef9bfb1726463a00b784f9",
+              "report.sarif": "daf4bf872498246f678eaeef33aab80d48ce44587a971b05bdecdb180b540b59"
+            },
+            "run": 1,
+            "started_at_utc": "2026-09-20T04:07:01.800132+00:00",
+            "stderr": "Scan incomplete: 5 coverage gaps; see the coverage details.\n"
+          },
+          {
+            "elapsed_seconds": 3.433385,
+            "exit_code": 2,
+            "report_sha256": {
+              "report.html": "774b6e9ec816718190c3932f8916cbd99bd4ebc9607c9fa79e18f4dac21f4b5c",
+              "report.json": "aa3e0a0f67328e45ce8265dbf97b3e389da1505715ab892ab00d32a4f3381d73",
+              "report.md": "fa4dfce7e633da4f90149bc953c14fe618717e0886ef9bfb1726463a00b784f9",
+              "report.sarif": "daf4bf872498246f678eaeef33aab80d48ce44587a971b05bdecdb180b540b59"
+            },
+            "run": 2,
+            "started_at_utc": "2026-09-20T04:07:05.229526+00:00",
+            "stderr": "Scan incomplete: 5 coverage gaps; see the coverage details.\n"
+          }
+        ],
+        "repository": "https://github.com/pydantic/pydantic-ai",
+        "revision": "c4898abb54dc25ae6f6aef208a4c0661b30a455e",
+        "rule_counts": {},
+        "scan_id": "7652e03103e32e4f83e162677fd4a9ba233c667304afa9c3bcdf0fa887ea494c",
+        "schema_version": "1.0",
+        "source_bytes": 8414725,
+        "source_files": 386,
+        "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 8414725,
+          "bytes_read": 8414725,
+          "coverage_gaps": 5,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 386,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "target_code_executed": false,
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a39899268ad9e6e8112c93d713500a9ae43d0f7dc782d2428b62466871cacb63",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "receipt_sha256": "563d9db006d1694b7bdfcf6bee4af01dc1cd071d7b841beab7c25153bf502c93"
+    }
+  ],
+  "raw_artifacts": "Archived privately; current public final artifacts use the subsequently frozen implementation.",
+  "reason": "A terminal-output filename sanitization defect required a new production implementation freeze after these16actual source calls completed. Current final reports will come from a fresh rerun, not metadata edits.",
+  "schema_version": "1.0",
+  "shared_fixture_evaluation": {
+    "case_count": 10,
+    "external_run_receipts": [
+      {
+        "command": [
+          "semgrep",
+          "scan",
+          "--config",
+          "{semgrep_rules}",
+          "--metrics=off",
+          "--disable-version-check",
+          "--disable-nosem",
+          "--no-git-ignore",
+          "--no-rewrite-rule-ids",
+          "--json",
+          "--quiet",
+          "--jobs",
+          "2",
+          "--timeout",
+          "10",
+          "--max-target-bytes",
+          "20000000",
+          "--output",
+          "{raw_output}/semgrep.json",
+          "{source}"
+        ],
+        "errors": [],
+        "files_reported_scanned": 10,
+        "finding_count": 5,
+        "findings": [
+          {
+            "end_line": 1,
+            "line": 1,
+            "path": "ai001-risk/worker.py",
+            "rule_id": "python.lang.security.audit.eval-detected.eval-detected",
+            "severity": "WARNING"
+          },
+          {
+            "end_line": 2,
+            "line": 2,
+            "path": "ai002-risk/worker.py",
+            "rule_id": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+            "severity": "ERROR"
+          },
+          {
+            "end_line": 2,
+            "line": 2,
+            "path": "ai004-risk/worker.py",
+            "rule_id": "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load",
+            "severity": "ERROR"
+          },
+          {
+            "end_line": 2,
+            "line": 2,
+            "path": "ai005-risk/worker.py",
+            "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+            "severity": "WARNING"
+          },
+          {
+            "end_line": 2,
+            "line": 2,
+            "path": "ai006-risk/worker.py",
+            "rule_id": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
+            "severity": "ERROR"
+          }
+        ],
+        "output_parse_error": null,
+        "process_exit_code": 0,
+        "raw_report_sha256": "6c14ad4319f1de0319e801ad923c66c58329b5223bf9bbb47dbb6dedbd4e8583",
+        "rule_counts": {
+          "python.lang.security.audit.eval-detected.eval-detected": 1,
+          "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true": 1,
+          "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load": 1,
+          "python.lang.security.deserialization.pickle.avoid-pickle": 1,
+          "python.requests.security.disabled-cert-validation.disabled-cert-validation": 1
+        },
+        "severity_counts": {
+          "ERROR": 3,
+          "WARNING": 2
+        },
+        "started_at_utc": "2026-09-20T04:06:37Z",
+        "status": "completed_with_findings",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "tool": "semgrep",
+        "wall_seconds": 2.428251
+      },
+      {
+        "command": [
+          "bandit",
+          "-r",
+          "{source}",
+          "-c",
+          "{support}/bandit.yaml",
+          "--ignore-nosec",
+          "-f",
+          "json",
+          "-o",
+          "{raw_output}/bandit.json",
+          "-q"
+        ],
+        "errors": [],
+        "files_reported_scanned": 10,
+        "finding_count": 12,
+        "findings": [
+          {
+            "confidence": "HIGH",
+            "end_line": 1,
+            "line": 1,
+            "path": "ai001-risk/worker.py",
+            "rule_id": "B307",
+            "severity": "MEDIUM"
+          },
+          {
+            "confidence": "HIGH",
+            "end_line": 1,
+            "line": 1,
+            "path": "ai002-comparison/worker.py",
+            "rule_id": "B404",
+            "severity": "LOW"
+          },
+          {
+            "confidence": "HIGH",
+            "end_line": 2,
+            "line": 2,
+            "path": "ai002-comparison/worker.py",
+            "rule_id": "B603",
+            "severity": "LOW"
+          },
+          {
+            "confidence": "HIGH",
+            "end_line": 2,
+            "line": 2,
+            "path": "ai002-comparison/worker.py",
+            "rule_id": "B607",
+            "severity": "LOW"
+          },
+          {
+            "confidence": "HIGH",
+            "end_line": 1,
+            "line": 1,
+            "path": "ai002-risk/worker.py",
+            "rule_id": "B404",
+            "severity": "LOW"
+          },
+          {
+            "confidence": "HIGH",
+            "end_line": 2,
+            "line": 2,
+            "path": "ai002-risk/worker.py",
+            "rule_id": "B602",
+            "severity": "HIGH"
+          },
+          {
+            "confidence": "HIGH",
+            "end_line": 2,
+            "line": 2,
+            "path": "ai004-risk/worker.py",
+            "rule_id": "B506",
+            "severity": "MEDIUM"
+          },
+          {
+            "confidence": "HIGH",
+            "end_line": 1,
+            "line": 1,
+            "path": "ai005-risk/worker.py",
+            "rule_id": "B403",
+            "severity": "LOW"
+          },
+          {
+            "confidence": "HIGH",
+            "end_line": 2,
+            "line": 2,
+            "path": "ai005-risk/worker.py",
+            "rule_id": "B301",
+            "severity": "MEDIUM"
+          },
+          {
+            "confidence": "LOW",
+            "end_line": 2,
+            "line": 2,
+            "path": "ai006-comparison/worker.py",
+            "rule_id": "B113",
+            "severity": "MEDIUM"
+          },
+          {
+            "confidence": "LOW",
+            "end_line": 2,
+            "line": 2,
+            "path": "ai006-risk/worker.py",
+            "rule_id": "B113",
+            "severity": "MEDIUM"
+          },
+          {
+            "confidence": "HIGH",
+            "end_line": 2,
+            "line": 2,
+            "path": "ai006-risk/worker.py",
+            "rule_id": "B501",
+            "severity": "HIGH"
+          }
+        ],
+        "output_parse_error": null,
+        "process_exit_code": 1,
+        "raw_report_sha256": "37fca30524d00ee3231cf3dde487ee2f1f53b61a38c3bea398259dc17a2292f0",
+        "rule_counts": {
+          "B113": 2,
+          "B301": 1,
+          "B307": 1,
+          "B403": 1,
+          "B404": 2,
+          "B501": 1,
+          "B506": 1,
+          "B602": 1,
+          "B603": 1,
+          "B607": 1
+        },
+        "severity_counts": {
+          "HIGH": 2,
+          "LOW": 5,
+          "MEDIUM": 5
+        },
+        "started_at_utc": "2026-09-20T04:06:40Z",
+        "status": "completed_with_findings",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "tool": "bandit",
+        "wall_seconds": 0.072157
+      }
+    ],
+    "invarune_version": "0.14.0",
+    "parent_corpus_sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3",
+    "report_sha256": "3b2c5e909eb8ab61656033810a0b9b539146454c517abcfe4e2dd740a2215683",
+    "results": {
+      "bandit": {
+        "cases": [
+          {
+            "case_id": "ai001-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI001",
+            "mapped_rule_ids": [
+              "B307"
+            ],
+            "observed_rule_ids": [
+              "B307"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai001-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI001",
+            "mapped_rule_ids": [
+              "B307"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai002-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI002",
+            "mapped_rule_ids": [
+              "B602"
+            ],
+            "observed_rule_ids": [
+              "B404",
+              "B602"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai002-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI002",
+            "mapped_rule_ids": [
+              "B602"
+            ],
+            "observed_rule_ids": [
+              "B404",
+              "B603",
+              "B607"
+            ],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai004-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI004",
+            "mapped_rule_ids": [
+              "B506"
+            ],
+            "observed_rule_ids": [
+              "B506"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai004-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI004",
+            "mapped_rule_ids": [
+              "B506"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai005-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI005",
+            "mapped_rule_ids": [
+              "B301"
+            ],
+            "observed_rule_ids": [
+              "B301",
+              "B403"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai005-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI005",
+            "mapped_rule_ids": [
+              "B301"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai006-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI006",
+            "mapped_rule_ids": [
+              "B501"
+            ],
+            "observed_rule_ids": [
+              "B113",
+              "B501"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai006-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI006",
+            "mapped_rule_ids": [
+              "B501"
+            ],
+            "observed_rule_ids": [
+              "B113"
+            ],
+            "outcome": "true_negative"
+          }
+        ],
+        "counts": {
+          "false_negative": 0,
+          "false_positive": 0,
+          "scored_assertions": 10,
+          "true_negative": 5,
+          "true_positive": 5,
+          "unsupported": 0
+        }
+      },
+      "invarune": {
+        "cases": [
+          {
+            "case_id": "ai001-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI001",
+            "mapped_rule_ids": [
+              "AI001"
+            ],
+            "observed_rule_ids": [
+              "AI001"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai001-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI001",
+            "mapped_rule_ids": [
+              "AI001"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai002-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI002",
+            "mapped_rule_ids": [
+              "AI002"
+            ],
+            "observed_rule_ids": [
+              "AI002"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai002-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI002",
+            "mapped_rule_ids": [
+              "AI002"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai004-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI004",
+            "mapped_rule_ids": [
+              "AI004"
+            ],
+            "observed_rule_ids": [
+              "AI004"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai004-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI004",
+            "mapped_rule_ids": [
+              "AI004"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai005-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI005",
+            "mapped_rule_ids": [
+              "AI005"
+            ],
+            "observed_rule_ids": [
+              "AI005"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai005-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI005",
+            "mapped_rule_ids": [
+              "AI005"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai006-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI006",
+            "mapped_rule_ids": [
+              "AI006"
+            ],
+            "observed_rule_ids": [
+              "AI006"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai006-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI006",
+            "mapped_rule_ids": [
+              "AI006"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          }
+        ],
+        "counts": {
+          "false_negative": 0,
+          "false_positive": 0,
+          "scored_assertions": 10,
+          "true_negative": 5,
+          "true_positive": 5,
+          "unsupported": 0
+        }
+      },
+      "semgrep": {
+        "cases": [
+          {
+            "case_id": "ai001-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI001",
+            "mapped_rule_ids": [
+              "python.lang.security.audit.eval-detected.eval-detected"
+            ],
+            "observed_rule_ids": [
+              "python.lang.security.audit.eval-detected.eval-detected"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai001-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI001",
+            "mapped_rule_ids": [
+              "python.lang.security.audit.eval-detected.eval-detected"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai002-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI002",
+            "mapped_rule_ids": [
+              "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+            ],
+            "observed_rule_ids": [
+              "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai002-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI002",
+            "mapped_rule_ids": [
+              "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai004-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI004",
+            "mapped_rule_ids": [
+              "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load"
+            ],
+            "observed_rule_ids": [
+              "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai004-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI004",
+            "mapped_rule_ids": [
+              "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai005-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI005",
+            "mapped_rule_ids": [
+              "python.lang.security.deserialization.pickle.avoid-pickle"
+            ],
+            "observed_rule_ids": [
+              "python.lang.security.deserialization.pickle.avoid-pickle"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai005-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI005",
+            "mapped_rule_ids": [
+              "python.lang.security.deserialization.pickle.avoid-pickle"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          },
+          {
+            "case_id": "ai006-risk",
+            "detected": true,
+            "expected": true,
+            "invarune_rule_id": "AI006",
+            "mapped_rule_ids": [
+              "python.requests.security.disabled-cert-validation.disabled-cert-validation"
+            ],
+            "observed_rule_ids": [
+              "python.requests.security.disabled-cert-validation.disabled-cert-validation"
+            ],
+            "outcome": "true_positive"
+          },
+          {
+            "case_id": "ai006-comparison",
+            "detected": false,
+            "expected": false,
+            "invarune_rule_id": "AI006",
+            "mapped_rule_ids": [
+              "python.requests.security.disabled-cert-validation.disabled-cert-validation"
+            ],
+            "observed_rule_ids": [],
+            "outcome": "true_negative"
+          }
+        ],
+        "counts": {
+          "false_negative": 0,
+          "false_positive": 0,
+          "scored_assertions": 10,
+          "true_negative": 5,
+          "true_positive": 5,
+          "unsupported": 0
+        }
+      }
+    },
+    "scope": "Superseded candidate shared API-pattern development evaluation; excluded from the current final comparison."
+  },
+  "status": "superseded_not_current_comparison"
+}

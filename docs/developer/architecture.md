@@ -15,18 +15,19 @@ Paths below are relative to the repository root.
 | Image acquisition | `image_runtime.py` | `export_image()` |
 | Archive verification and reconstruction | `image_archive.py` | `materialize_image()` |
 | Image metadata and retained-layer assessment | `image_assessment.py`, `image_scan.py` | `assess_image()`, `scan_image()`, `_merge_assessment()` |
+| Executable scan inventory | `scan_catalog.py` | `describe_scans()`, `render_scans()`; precise rule coverage and review plans. |
 | Offline security explanations | `catalog.py`, `data/control_explanations.json` | `describe_catalog()`, `render_catalog()` |
 | Redaction and model evidence | `security.py`, `evidence.py` | `redact()`, `redact_object()`, `build_evidence()` |
 | Optional review | `judge.py`, `cli_judge.py`, `analyst.py` | HTTP/CLI transport, normalized responses, `run_analyst()` |
 | User exceptions and fresh review imports | `review_policy.py`, `review_workspace.py` | Policy validation, binding and conservative reapplication |
 | Remediation and executive interpretation | `remediation.py`, `assessment.py`, `methodology.py` | `build_remediation()`, `build_assessment()`, `build_methodology()` |
-| Portable and PDF reports | `report.py`, `report_html.py`, `report_pdf.py` | `write_reports()`, `html_report()`, `render_pdf()` |
+| Portable and PDF reports | `report.py`, `report_html.py`, `report_pdf.py` | `prepare_report()`, `write_reports()`, `html_report()`, `render_pdf()` |
 
 ## CLI coordination
 
-Help, version and catalog modes return before source/image acquisition or optional review. Catalog-only commands reject scan/judge/output options rather than silently ignoring them. Legacy `--list-rules`, `--list-controls` and `--explain-rule` retain their JSON defaults; the new explorer defaults to readable text.
+Help, version and catalog modes (including scan inventory) return before source/image acquisition or optional review. Catalog-only commands reject scan/judge/output options rather than silently ignoring them. Legacy `--list-rules`, `--list-controls` and `--explain-rule` retain their JSON defaults; the new explorer defaults to readable text.
 
-For a scan, `main()` validates combinations and limits, loads explicit review input and baselines, chooses one acquisition path, applies user dispositions to the completed static report, and then optionally requests advisory review. `write_reports()` adds methodology, remediation, advice coverage, the review workspace and executive assessment before writing the four portable formats. Optional PDF export is handled afterward. The final exit decision preserves operational incompleteness over severity gating.
+For a scan, `main()` resolves explicit rule/control selection and validates combinations and limits, loads explicit review input and baselines, chooses one acquisition path, applies user dispositions to the completed static report, and then optionally requests advisory review. `prepare_report()` adds methodology, remediation, advice coverage, optional review workspace, executive assessment and scope metrics in memory before presentation. `write_reports()` invokes that preparation when exporting. Without explicit report flags, the CLI renders the enriched result in the terminal without report artifacts; requested exports write four portable formats. Optional PDF export is handled afterward. The final exit decision preserves operational incompleteness over severity gating.
 
 ```text
 explicit source directory -> scanner.scan ----------------------+
@@ -95,3 +96,5 @@ The scan identity incorporates selected evidence, settings, controls, baseline a
 Preserve deterministic ordering and avoid implicit timestamps, machine-specific scratch paths or remote lookups in static results. A new module or code edit can legitimately change the implementation fingerprint even when detector outcomes remain the same. Optional model responses remain nondeterministic and are excluded from static finding decisions and review bindings.
 
 Continue with [adding checks](adding-checks.md), [report contracts](reports-and-reviews.md) or [AI adapter boundaries](ai-adapters.md).
+
+For scan inventory, selection semantics, terminal/export modes and metric formulas, see [scan inventory and selection](scan-inventory.md) and the generated [user coverage guide](../SCAN_COVERAGE.md).

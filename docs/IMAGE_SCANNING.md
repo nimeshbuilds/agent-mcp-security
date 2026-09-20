@@ -6,26 +6,26 @@ Version 0.4.0 accepts a built **Linux container image** without a source checkou
 
 ```sh
 # Existing local image; Docker must be installed and its daemon available.
-python3 scan.py --image my-agent:latest --output ./image-report
+invscan --image my-agent:latest --output ./image-report
 
 # Podman uses its own local image store.
-python3 scan.py --image my-mcp-server:latest --image-runtime podman
+invscan --image my-mcp-server:latest --image-runtime podman
 
 # Explicitly fetch an image from a registry before inspection.
-python3 scan.py --image ghcr.io/example/agent:1.2.3 --pull
+invscan --image ghcr.io/example/agent:1.2.3 --pull
 
 # Runtime-free, offline archive inspection.
 docker image save --output agent-image.tar my-agent:latest
-python3 scan.py --image-archive ./agent-image.tar --output ./image-report
+invscan --image-archive ./agent-image.tar --output ./image-report
 
 # OCI archive with more than one platform.
-python3 scan.py --image-archive ./agent.oci.tar --image-platform linux/arm64
+invscan --image-archive ./agent.oci.tar --image-platform linux/arm64
 
 # Optional model review adds the full control analyst to the image scan.
-python3 scan.py --image-archive ./agent-image.tar --judge-config ./trusted-judge.json
+invscan --image-archive ./agent-image.tar --judge-config ./trusted-judge.json
 
 # CI output and severity policy work for images too.
-python3 scan.py --image my-agent:latest --summary-json --fail-on medium
+invscan --image my-agent:latest --summary-json --fail-on medium
 ```
 
 Choose one source directory, `--image`, or `--image-archive`. The archive route needs only Python's standard library. Reference mode uses the trusted Docker or Podman executable and its configured daemon/connection; it performs **image save**, plus **image pull only when `--pull` is supplied**. A missing local image does not trigger an implicit pull. Registry authentication stays with the runtime's existing credential configuration; diagnostics are not echoed into reports. Runtime connections may themselves point to a remote daemon.

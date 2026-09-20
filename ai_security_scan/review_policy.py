@@ -172,6 +172,7 @@ def apply_review_config(report, policy, *, finding_dispositions=None):
     result = copy.deepcopy(report)
     # Executive summaries are derived from the final finding/control states.
     result.pop("assessment", None)
+    result.pop("scoring", None)
     findings = result.get("findings", [])
     for finding in findings:
         specific = normalized_findings.get(finding["id"])
@@ -181,7 +182,7 @@ def apply_review_config(report, policy, *, finding_dispositions=None):
             finding["status"] = item["status"]
             finding["disposition"] = _disposition(item, "finding" if specific else "rule", finding["id"] if specific else finding["rule_id"])
 
-    rule_ids = sorted(rule["id"] for rule in RULES)
+    rule_ids = sorted(result.get("configuration", {}).get("selected_rule_ids", [rule["id"] for rule in RULES]))
     controls = result.get("controls", [])
     counts = {"catalog_rules": len(rule_ids), "catalog_controls": len(controls),
               "catalog_checks": sum(len(control.get("checks", [])) for control in controls)}

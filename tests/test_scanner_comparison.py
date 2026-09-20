@@ -1,5 +1,6 @@
 """Comparative agreement is a location relation, never vulnerability ground truth."""
 import importlib.util
+import json
 from pathlib import Path
 import unittest
 from unittest import mock
@@ -30,6 +31,20 @@ class ScannerComparisonTests(unittest.TestCase):
             for identifier in ("../old", "", "comparison v013", "comparison_V013"):
                 with self.subTest(identifier=identifier), self.assertRaisesRegex(ValueError, "Experiment identity"):
                     COMPARE.main(["--experiment", identifier])
+
+    def test_report_bytes_must_match_every_recorded_execution(self):
+        report = {"scan_id": "same", "tool": {"version": "0.14.0"}, "findings": []}
+        raw = json.dumps(report).encode()
+        receipt = {"scan_id": "same", "tool": report["tool"], "repeated_runs": [
+            {"report_sha256": {"report.json": COMPARE.sha(raw)}},
+            {"report_sha256": {"report.json": COMPARE.sha(raw)}}]}
+        self.assertEqual(COMPARE.verified_invarune_report(raw, receipt), report)
+        altered = json.dumps({**report, "findings": [{"rule_id": "AI001"}]}).encode()
+        with self.assertRaisesRegex(ValueError, "recorded execution hashes"):
+            COMPARE.verified_invarune_report(altered, receipt)
+        for runs in ([], None, [{}], [{"report_sha256": []}], receipt["repeated_runs"] + [{}]):
+            with self.subTest(runs=runs), self.assertRaisesRegex(ValueError, "recorded execution hashes"):
+                COMPARE.verified_invarune_report(raw, {**receipt, "repeated_runs": runs})
 
     def test_exact_family_and_inclusive_overlap_matches(self):
         result = COMPARE.pairwise([obs("a", 10, 12)], [obs("b", 12, 14)], "a", "b")
@@ -85,6 +100,17 @@ class ScannerComparisonTests(unittest.TestCase):
         self.assertNotEqual(mapping["bandit:B404"]["family"], mapping["bandit:B602"]["family"])
         self.assertNotEqual(mapping["bandit:B603"]["family"], mapping["invarune:AI002"]["family"])
         self.assertEqual(mapping["bandit:B301"]["family"], mapping["invarune:AI005"]["family"])
+
+    def test_instruction_metadata_families_do_not_imply_runtime_exploitation(self):
+        mapping = COMPARE.rule_map()
+        families = {mapping["invarune:" + rule]["family"] for rule in ("AI043", "AI044", "AI045", "AI046")}
+        self.assertEqual(len(families), 4)
+        external = {item["family"] for key, item in mapping.items() if not key.startswith("invarune:")}
+        self.assertFalse(families & external)
+        self.assertIn("author intent", mapping["invarune:AI043"]["rationale"])
+        self.assertIn("not established", mapping["invarune:AI044"]["rationale"])
+        self.assertIn("no execution", mapping["invarune:AI045"]["rationale"])
+        self.assertIn("untrusted annotation", mapping["invarune:AI046"]["review_predicate"])
 
     def test_identity_stable_across_version_with_provenance_retained(self):
         project = {"id": "p", "repository": "https://github.com/example/repo", "revision": "a" * 40}

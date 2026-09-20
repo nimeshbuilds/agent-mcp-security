@@ -1,0 +1,51 @@
+{
+  "command": [
+    "gitleaks",
+    "dir",
+    "{source}",
+    "--config",
+    "{support}/gitleaks.toml",
+    "--gitleaks-ignore-path",
+    "{support}/empty-ignore",
+    "--ignore-gitleaks-allow",
+    "--redact=100",
+    "--no-banner",
+    "--no-color",
+    "--report-format",
+    "json",
+    "--report-path",
+    "{raw_output}/gitleaks.json",
+    "--timeout",
+    "300",
+    "--max-target-megabytes",
+    "20"
+  ],
+  "errors": [],
+  "files_reported_scanned": null,
+  "finding_count": 1,
+  "findings": [
+    {
+      "end_line": 5,
+      "line": 5,
+      "path": "libs/cli/langgraph_cli/constants.py",
+      "rule_id": "jwt",
+      "severity": "not_provided"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 1,
+  "raw_report_sha256": "7146267ff88714457cfbcf65e0487b680ecc27b2a7e0df57c3c9926f5ff249c5",
+  "rule_counts": {
+    "jwt": 1
+  },
+  "severity_counts": {
+    "not_provided": 1
+  },
+  "started_at_utc": "2026-09-20T04:03:24Z",
+  "status": "completed_with_findings",
+  "stderr_sha256": "62d90dc0e2d3ef0c9f3ce1ae431cc9535a33e0ebe876ee68ccd0065a558f77dc",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "gitleaks",
+  "wall_seconds": 0.362233
+}

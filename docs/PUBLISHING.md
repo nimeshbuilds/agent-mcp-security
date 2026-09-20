@@ -58,7 +58,7 @@ python3 scripts/build_benchmark_report.py
 
 The output is `output/pdf/invarune-security-controlbook.pdf`. The builder uses available Arial, Liberation Sans, or DejaVu Sans fonts and falls back to PDF-standard Helvetica. Font choice can affect layout; inspect the result on the build system. The Invarune wordmark and original geometric symbol use the same geometry and palette as the repository's brand assets. NimeshBuild remains the publisher attribution. No third-party logos are reproduced.
 
-The optional pinned authoring dependencies are a reproducible starting point, not a claim that those versions are the latest or universally appropriate. Review and update them for your build environment. The shipped PDF was generated using the bundled workspace runtime; exact runtime versions are recorded in `docs/PDF_VALIDATION.md`.
+The optional pinned authoring dependencies are a reproducible starting point, not a claim that those versions are the latest or universally appropriate. Review and update them for your build environment. The published PDFs have artifact-specific runtime and QA records in `docs/PDF_VALIDATION.md`.
 
 ## Verify the artifact
 

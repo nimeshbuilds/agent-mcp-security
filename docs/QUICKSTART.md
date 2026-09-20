@@ -2,11 +2,11 @@
 
 **NimeshBuild · Evidence for agent security**
 
-Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These checkout examples target **Invarune 0.13.0**. The primary command is **`invscan`**. Deterministic scans and catalog exploration need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
+Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These checkout examples target **Invarune 0.14.0**. The primary command is **`invscan`**. Deterministic scans and catalog exploration need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
 
 ## 1. Install the CLI and get your first report
 
-Want the CLI without a source checkout? The [v0.13.0 release](https://github.com/nimeshbuilds/invarune/releases/tag/v0.13.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. Its downloaded wheel was installed and verified in a fresh environment. The checkout route below also includes the example source and image fixtures used throughout this guide.
+Want the CLI without a source checkout? The [v0.14.0 release](https://github.com/nimeshbuilds/invarune/releases/tag/v0.14.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. The release includes the installed CLI and offline scan inventory. The checkout route below also includes the example source and image fixtures used throughout this guide.
 
 Clone the public repository (no GitHub login required):
 
@@ -35,7 +35,7 @@ $env:Path = "$((Resolve-Path .venv\Scripts).Path);$env:Path"
 invscan --version
 ```
 
-The PATH change applies to this terminal. Expect version **0.13.0** from the current checkout. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. The existing `invarune` and `ai-security-scan` commands are compatible aliases.
+The PATH change applies to this terminal. Expect version **0.14.0** from the current checkout. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. The existing `invarune` and `ai-security-scan` commands are compatible aliases.
 
 Run your first offline scan:
 
@@ -69,6 +69,22 @@ invscan --explain-source JOINT-AGENTIC
 ```
 
 `--ask` performs deterministic literal lookup, not generative chat. New commands default to readable text; add `--catalog-format json` for structured output. Use `--help-topic security` for the focused guide. Answers distinguish static rule mappings from required runtime/human validation and primary citations from thematic alignments. No lookup result establishes a security pass. [Worked examples, query limits and complete explorer guide](SECURITY_EXPLORER.md).
+
+## Choose terminal output, reports and individual scans
+
+```sh
+invscan --list-scans
+invscan --explain-scan AI043
+invscan examples/safer
+invscan examples/vulnerable --scans AI001,AI002
+invscan examples/vulnerable --scans GOV-01 --summary-json
+invscan ./my-skill --scans AGT-06 --report ./skill-report
+invscan examples/safer --report ./saved-report
+```
+
+The first two commands are offline explanations. Without `--report`, `--output` or `--pdf`, scans print results in the terminal and create no report files. A selected risky finding still returns exit 1. Selecting `GOV-01` requests its manual/AI review plan and **zero** static detectors; no finding is a pass. `--scans` accepts comma-separated IDs and repeated flags; `--scan` is an alias. `--report` without a directory uses `scan-report`; put it after the target. `--output DIR` remains supported. [Every scan, each algorithm, sources, scoring and limits](SCAN_COVERAGE.md).
+
+Skills are scanned as directory text: `SKILL.md`, conventional agent instruction files, bounded local Markdown references and associated supported source/configuration. Instructions are never executed. Remote references and arbitrary generated behavior are outside this static inspection; unresolved local Markdown references remain visible gaps.
 
 ## 2. Scan your code or built image
 
@@ -148,7 +164,7 @@ invscan --login claude
 
 Unattended, quiet and JSON-summary runs never prompt. Add `--judge-login never` to make that explicit. The official CLI must already be installed; account access and usage limits apply. Grok profiles must pass extension inspection. [Requirements, defaults and actual provider validation](CLI_PROVIDER_RESEARCH.md).
 
-**Enabled review defaults to full mode:** finding triage plus every active control/check, including controls with no findings. It sends bounded, redacted source excerpts to the selected service. A normal full catalog needs 11 control requests plus finding triage. Budgets or missing answers can leave an explicit incomplete result. Redaction is best-effort; enable review only for evidence you may send to that service.
+**Enabled review defaults to full mode:** finding triage plus every active selected control/check, including controls with no findings. It sends bounded, redacted source excerpts to the selected service. A normal full catalog needs 11 control requests plus finding triage. Budgets or missing answers can leave an explicit incomplete result. Redaction is best-effort; enable review only for evidence you may send to that service.
 
 For a smaller, findings-only review:
 

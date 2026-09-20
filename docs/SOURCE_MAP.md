@@ -1394,3 +1394,21 @@ Manufacturer responsibility for security outcomes, accountable development and s
 
 **Mapping notes:** Technical or engineering context for scanner rules AI006, AI008, AI009, AI010, AI011, AI018, AI019, AI021, AI022, AI023, AI024, AI025, AI030, AI033, AI035, AI036, AI039, AI042. Rule detection logic and severity are project-defined, not official publisher conformance tests.
 
+
+## AGENT-SKILLS-SPEC - Agent Skills specification
+
+[Primary source](https://agentskills.io/specification)
+
+**Publisher:** Agent Skills maintainers  
+**Kind:** Format specification  
+**Version/date:** Living specification / Undated living specification  
+**Accessed:** 2026-09-19
+
+SKILL.md metadata, Markdown instructions, optional scripts/references/assets and experimental allowed-tools declarations.
+
+**Limits:** Defines the skill format, not a security certification or maliciousness benchmark. Threat predicates and remediation are authored by Invarune; actual client permission enforcement varies.
+
+**Primary context for:** AGT-06.
+
+**Additional thematic alignment:** none assigned.
+

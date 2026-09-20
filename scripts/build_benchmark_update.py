@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the v0.13 benchmark publication from verified local execution receipts.
+"""Build a benchmark publication from verified local execution receipts.
 
 No target code, scanner, model or network call is executed by this builder.
 The historical v0.10 publication and its provenance contract remain unchanged.
@@ -114,6 +114,7 @@ def load(directory):
                 raise ValueError("Each project must have two byte-identical executions")
     old = {r["project"]: r for r in before_receipts}
     current_runs = {r["project_id"]: r for r in runs if r["tool"] == "invarune"}
+    catalog_counts = None
     for row in after_receipts:
         if any(row[key] != old[row["project"]][key] for key in ("revision", "source_manifest_sha256", "source_files", "source_bytes")):
             raise ValueError("Before/after public source inputs changed")
@@ -126,7 +127,37 @@ def load(directory):
             path = directory / "invarune-reports" / row["project"] / name
             if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
                 raise ValueError("Published source report differs from its repeated execution receipt")
-    data.update(hashes=hashes, directory=directory, before=before, after=after, before_receipts=before_receipts, after_receipts=after_receipts)
+        frozen_report = json.loads((directory / "invarune-reports" / row["project"] / "report.json").read_bytes())
+        counts = {"rules": len(frozen_report["coverage"]["rules_enabled"]), "controls": len(frozen_report["controls"]),
+                  "checks": sum(len(control["checks"]) for control in frozen_report["controls"]),
+                  "mapped_controls": sum(bool(control["automated_rule_ids"]) for control in frozen_report["controls"])}
+        if catalog_counts is not None and counts != catalog_counts:
+            raise ValueError("Published source reports used different selected catalog scopes")
+        catalog_counts = counts
+    if after['tool_version'].startswith('0.14.'):
+        name = 'skills-tools-accuracy.json'
+        raw = (directory / name).read_bytes()
+        skills = json.loads(raw)
+        corpus_raw = (ROOT / 'benchmarks/skills_tools_accuracy.json').read_bytes()
+        check_accuracy(skills, json.loads(corpus_raw), hashlib.sha256(corpus_raw).hexdigest())
+        if skills['tool_version'] != after['tool_version']:
+            raise ValueError('Skill/tool accuracy and source scanner versions disagree')
+        hashes[name] = hashlib.sha256(raw).hexdigest()
+        receipt_name = 'skills-tools-evaluation-receipt.json'
+        receipt_raw = (directory / receipt_name).read_bytes()
+        receipt = json.loads(receipt_raw)
+        failed = [case['id'] for case in skills['cases'] if any(a['outcome'] in ('false_positive', 'false_negative') for a in case['assertions'])]
+        if (receipt['experiment'] != ledger['experiment'] or receipt['tool_version'] != after['tool_version']
+                or receipt['implementation_sha256'] != pair['after']['implementation_sha256']
+                or receipt['report'] != {'path': name, 'sha256': hashes[name]}
+                or receipt['corpus'] != {'path': 'benchmarks/skills_tools_accuracy.json', 'sha256': skills['corpus_sha256'], 'version': skills['corpus_version']}
+                or receipt['case_count'] != skills['case_count'] or receipt['overall'] != skills['overall']
+                or receipt['analysis_error_cases'] != 0 or receipt['separate_denominator'] is not True
+                or sorted(receipt['failed_case_ids']) != sorted(failed)):
+            raise ValueError('Skill/tool evaluation receipt does not bind the final implementation and complete measured corpus')
+        hashes[receipt_name] = hashlib.sha256(receipt_raw).hexdigest()
+        data['skills'] = skills
+    data.update(hashes=hashes, directory=directory, before=before, after=after, before_receipts=before_receipts, after_receipts=after_receipts, catalog_counts=catalog_counts)
     return data
 
 
@@ -139,6 +170,9 @@ def build(data, output):
     from reportlab.pdfbase.ttfonts import TTFont
     from reportlab.platypus import BaseDocTemplate, Flowable, Frame, KeepTogether, PageBreak, PageTemplate, Paragraph, Spacer, Table, TableStyle
 
+    version = data["after"]["tool_version"]
+    catalog = data["catalog_counts"]
+    comparison_path = "/blob/main/benchmarks/" + data["observations.json"]["experiment"]
     navy, teal, mint = colors.HexColor("#0B1220"), colors.HexColor("#087E78"), colors.HexColor("#35E3B1")
     muted, paper, line = colors.HexColor("#536572"), colors.HexColor("#F2F6FA"), colors.HexColor("#D4E1E5")
     regular, bold = "Helvetica", "Helvetica-Bold"
@@ -206,7 +240,7 @@ def build(data, output):
                 (mark.moveTo if index == 0 else mark.lineTo)(x, y)
             mark.close(); canvas.setFillColor(fill); canvas.drawPath(mark, fill=1, stroke=0)
         canvas.setFillColor(teal); canvas.setFont(bold, 9); canvas.drawString(70, height - 30, "INVARUNE / NIMESHBUILD")
-        canvas.setFillColor(muted); canvas.setFont(regular, 7.5); canvas.drawRightString(width - 48, height - 30, "BENCHMARK EVIDENCE | v0.13")
+        canvas.setFillColor(muted); canvas.setFont(regular, 7.5); canvas.drawRightString(width - 48, height - 30, "BENCHMARK EVIDENCE | " + version)
         canvas.line(48, 40, width - 48, 40); canvas.drawString(48, 27, "Project-authored fixtures. Source observations are not confirmed vulnerabilities.")
         canvas.drawRightString(width - 48, 27, str(doc.page))
         canvas.linkURL(SITE + "docs/BENCHMARK_DASHBOARD/", (48, height - 37, 230, height - 23), relative=0)
@@ -222,40 +256,61 @@ def build(data, output):
     counts = Counter(r["tool"] for r in rows)
     scope_files = sum(r["source_files"] for r in data["after_receipts"])
     gaps = sum(r.get("coverage_gaps", 0) for r in runs if r["tool"] == "invarune")
-    story = [Spacer(1, 28), p("INVARUNE BY NIMESHBUILD", "h2"), heading("Better detection.<br/>Measured against the same evidence.", "summary")]
-    story[-1] = p("Better detection.<br/>Measured against the same evidence.", "h1"); story[-1].section_key = "summary"
+    story = [Spacer(1, 28), p("INVARUNE BY NIMESHBUILD", "h2"), heading("Broader inspection.<br/>Measured against the same evidence.", "summary")]
+    story[-1] = p("Broader inspection.<br/>Measured against the same evidence.", "h1"); story[-1].section_key = "summary"
     story += [p("Benchmark update / Invarune " + safe(after["tool_version"]), "h2"), p("The unchanged development-visible fixture corpus and eight pinned public projects were scanned again after targeted detector fixes. This publication records the measured changes, comparison scope and unresolved work."), Bars(before, after), Spacer(1, 14), table([["Unchanged fixture comparison", "Observed result"], ["Cases / original corpus", f"{after['case_count']} / {after['corpus_version']}"], ["Previously failing cases now correct", str(len(fixed))], ["New mismatches on previously correct cases", str(len(regressed))], ["Remaining labeled mismatches", str(len(remaining))], ["Pinned public-project scope", f"8 projects / {scope_files:,} exported files"], ["Current Invarune source observations / coverage gaps", f"{counts['invarune']} / {gaps}"]], [310, 189]), Spacer(1, 10), p("These percentages describe project-authored rule-presence labels used during development. They are not production accuracy, independent validation or a claim that Invarune is better than every scanner.", "small"), link("Interactive benchmark dashboard and downloadable evidence", SITE + "docs/BENCHMARK_DASHBOARD/")]
 
     story += [PageBreak(), heading("Read the evidence in layers", "contents")]
-    sections = [("Fixture accuracy and unchanged labels", "accuracy"), ("What was fixed and what still needs work", "fixes"), ("Source precision refinements", "source-fixes"), ("Fresh comparison on eight public projects", "projects"), ("Finding overlap and complementary coverage", "overlap"), ("Why use invscan in an agent/MCP review", "workflow"), ("Reproduce, validate and inspect the complete ledger", "provenance")]
+    sections = [("Fixture accuracy and unchanged labels", "accuracy"), ("What was fixed and what still needs work", "fixes"), ("Source scope and release additions", "source-fixes"), ("Fresh comparison on eight public projects", "projects"), ("Finding overlap and complementary coverage", "overlap"), ("Why use invscan in an agent/MCP review", "workflow"), ("Reproduce, validate and inspect the complete ledger", "provenance")]
     for title, key in sections:
         story.append(p('<a color="#087E78" href="#' + key + '">' + safe(title) + "</a>", "h2"))
     story += [Spacer(1, 20), table([["Evidence layer", "What it establishes"], ["Deterministic fixtures", "Agreement with explicitly authored rule-presence labels; supports regression and before/after analysis."], ["Public source observations", "Patterns reported by configured tools on exact pinned files; requires source and deployment review."], ["Optional model review", "Advisory judgments only when actually requested and completed; not a replacement for independent truth."], ["Runtime validation", "Still needed for authentication, reachability, tenant isolation, prompt-injection resistance and deployed safeguards."]], [135, 364]), p("All measurements in this update preserve target isolation: no upstream project code, service or exploit was executed. Tool support, parser warnings and incomplete work remain visible.", "small")]
 
-    story += [PageBreak(), heading("Fixture accuracy", "accuracy"), p(f"The before and after runs use the exact same {after['case_count']} cases, source bytes, paths and expected labels. Corpus SHA-256:", "body"), p(safe(after["corpus_sha256"]), "small"), Bars(before, after), Spacer(1, 14), table([["Outcome", "Before " + before["tool_version"], "After " + after["tool_version"]], ["True positive", b["true_positive"], a["true_positive"]], ["True negative", b["true_negative"], a["true_negative"]], ["False positive", b["false_positive"], a["false_positive"]], ["False negative", b["false_negative"], a["false_negative"]], ["Analysis errors", before["analysis_error_cases"], after["analysis_error_cases"]]], [249, 125, 125]), Spacer(1, 12), p("Precision = TP / (TP + FP). Recall = TP / (TP + FN). A true-positive label here means that the designated detector correctly recognized the fixture's specified source pattern. It is not an independently confirmed vulnerability."), p("All challenge failures remain in these denominators. Default regression gating is a narrower CI policy and must not be read as zero mistakes. Fixes were developed with knowledge of these cases; this is a transparent development benchmark, not a held-out test.", "small"), link("Before accuracy JSON", REPO + "/blob/main/benchmarks/comparison-v013/accuracy-before.json"), link("After accuracy JSON", REPO + "/blob/main/benchmarks/comparison-v013/accuracy-after.json")]
+    story += [PageBreak(), heading("Fixture accuracy", "accuracy"), p(f"The before and after runs use the exact same {after['case_count']} cases, source bytes, paths and expected labels. Corpus SHA-256:", "body"), p(safe(after["corpus_sha256"]), "small"), Bars(before, after), Spacer(1, 14), table([["Outcome", "Before " + before["tool_version"], "After " + after["tool_version"]], ["True positive", b["true_positive"], a["true_positive"]], ["True negative", b["true_negative"], a["true_negative"]], ["False positive", b["false_positive"], a["false_positive"]], ["False negative", b["false_negative"], a["false_negative"]], ["Analysis errors", before["analysis_error_cases"], after["analysis_error_cases"]]], [249, 125, 125]), Spacer(1, 12), p("Precision = TP / (TP + FP). Recall = TP / (TP + FN). A true-positive label here means that the designated detector correctly recognized the fixture's specified source pattern. It is not an independently confirmed vulnerability."), p("All challenge failures remain in these denominators. Default regression gating is a narrower CI policy and must not be read as zero mistakes. Fixes were developed with knowledge of these cases; this is a transparent development benchmark, not a held-out test.", "small"), link("Before accuracy JSON", REPO + comparison_path + "/accuracy-before.json"), link("After accuracy JSON", REPO + comparison_path + "/accuracy-after.json")]
 
-    story += [PageBreak(), heading("Fixes and remaining limits", "fixes"), p("Previously failing cases now agree with the unchanged label", "h2")]
+    story += [PageBreak(), heading("Fixes and remaining limits", "fixes"), p("Previously failing cases now agree with the unchanged label" if fixed else "No prior fixture outcome changed in this release", "h2")]
     fixes = {"gap-reflection-python": "Resolve a small literal or concatenated getattr attribute while respecting local shadowing.",
              "gap-yaml-alias": "Resolve a supported preceding same-document literal anchor without evaluating tags or general alias graphs.",
              "gap-yaml-block-string": "Mask YAML scalar contents before configuration-key checks; documentation is data.",
              "gap-shell-wrapper": "Recognize a direct downloaded command substitution passed as shell -c command text."}
-    story.append(table([["Fixture", "Bounded detector improvement"]] + [[c["id"], fixes.get(c["id"], c["rationale"])] for c in fixed], [177, 322]))
-    story += [p("Still unresolved on this corpus", "h2"), table([["Fixture", "Remaining mismatch"]] + [[c["id"], c["rationale"]] for c in remaining], [177, 322]), p("The release's paired and adversarial regression tests cover the supported interpretations and counterexamples. General interprocedural flow, dynamic runtime values, full YAML semantics and arbitrary shell expansion are not proven by these targeted changes. Review an uncertain finding in context instead of silently suppressing it.", "small"), link("Detailed change analysis and remaining gaps", REPO + "/blob/main/benchmarks/comparison-v013/README.md")]
+    if fixed:
+        story.append(table([["Fixture", "Bounded detector improvement"]] + [[c["id"], fixes.get(c["id"], c["rationale"])] for c in fixed], [177, 322]))
+    else:
+        story.append(p("The unchanged baseline cases retain their prior outcomes. The separate skill/tool measurements on the next page describe the added inspection scope; they do not increase the original corpus denominator."))
+    story += [p("Still unresolved on this corpus", "h2"), table([["Fixture", "Remaining mismatch"]] + [[c["id"], c["rationale"]] for c in remaining], [177, 322]), p("The release's paired and adversarial regression tests cover the supported interpretations and counterexamples. General interprocedural flow, dynamic runtime values, full YAML semantics and arbitrary shell expansion are not proven by these targeted changes. Review an uncertain finding in context instead of silently suppressing it.", "small"), link("Detailed change analysis and remaining gaps", REPO + comparison_path + "/README.md")]
 
     source_before = sum(r["summary"]["open_findings"] + r["summary"]["suppressed_findings"] for r in data["before_receipts"])
-    story += [PageBreak(), heading("Less noise on the same source", "source-fixes"),
-              p(f"On the same {scope_files:,} exported files, Invarune observations changed from {source_before} to {counts['invarune']}. The source review identified three narrowly defined false-alarm patterns. Their removal is a precision refinement, not evidence that the target projects fixed vulnerabilities."),
-              table([["Observed source role", "Detector correction"],
-                     ["AutoGen: local requirements dot path", "A local self-install path is no longer treated as an unpinned named dependency range."],
-                     ["CrewAI: api_key_env_var identifier", "An explicit environment-variable-name field with an uppercase identifier is distinguished from a literal credential value."],
-                     ["AutoGen: all-x token placeholder", "Recognized token formats now share the narrow all-x placeholder filter; realistic token-like literals remain review signals."]], [205, 294]),
-              Spacer(1, 14), p("Evidence spans also became more precise", "h2"),
-              p("An OpenHands image-reference observation moved its starting line from a preceding blank line onto the image field. The delta ledger records the old/new identities transparently; this is one location refinement, not a newly discovered risk."),
-              p("Coverage did not improve by dropping inputs", "h2"),
-              p(f"All eight pinned revisions, source manifests and scan budgets were held stable. Invarune examined {sum(r['summary']['files_scanned'] for r in data['after_receipts']):,} files, with {gaps} explicit coverage gaps. Unsupported extensions remain outside analysis. The benchmark preserves those limits instead of treating them as clean results."),
-              link("Exact source observation delta", REPO + "/blob/main/benchmarks/comparison-v013/source-delta.json"),
-              link("Scoped source review, rationale and pinned evidence", REPO + "/blob/main/benchmarks/comparison-v013/gap-review.json"),
-              link("Download all eight detailed source reports", SITE + "docs/BENCHMARK_DASHBOARD/")]
+    if version.startswith("0.13."):
+        story += [PageBreak(), heading("Less noise on the same source", "source-fixes"),
+                  p(f"On the same {scope_files:,} exported files, Invarune observations changed from {source_before} to {counts['invarune']}. The source review identified three narrowly defined false-alarm patterns. Their removal is a precision refinement, not evidence that the target projects fixed vulnerabilities."),
+                  table([["Observed source role", "Detector correction"],
+                         ["AutoGen: local requirements dot path", "A local self-install path is no longer treated as an unpinned named dependency range."],
+                         ["CrewAI: api_key_env_var identifier", "An explicit environment-variable-name field with an uppercase identifier is distinguished from a literal credential value."],
+                         ["AutoGen: all-x token placeholder", "Recognized token formats now share the narrow all-x placeholder filter; realistic token-like literals remain review signals."]], [205, 294]),
+                  Spacer(1, 14), p("Evidence spans also became more precise", "h2"),
+                  p("An OpenHands image-reference observation moved its starting line from a preceding blank line onto the image field. The delta ledger records the old/new identities transparently; this is one location refinement, not a newly discovered risk."),
+                  p("Coverage did not improve by dropping inputs", "h2"),
+                  p(f"All eight pinned revisions, source manifests and scan budgets were held stable. Invarune examined {sum(r['summary']['files_scanned'] for r in data['after_receipts']):,} files, with {gaps} explicit coverage gaps. Unsupported extensions remain outside analysis. The benchmark preserves those limits instead of treating them as clean results."),
+                  link("Exact source observation delta", REPO + comparison_path + "/source-delta.json"),
+                  link("Scoped source review, rationale and pinned evidence", REPO + comparison_path + "/gap-review.json"),
+                  link("Download all eight detailed source reports", SITE + "docs/BENCHMARK_DASHBOARD/")]
+    else:
+        skills = data['skills']
+        skill_counts = skills['overall']
+        skill_precision = 'unavailable' if skill_counts['precision'] is None else format(100 * skill_counts['precision'], '.2f') + '%'
+        skill_recall = 'unavailable' if skill_counts['recall'] is None else format(100 * skill_counts['recall'], '.2f') + '%'
+        story += [PageBreak(), heading("Skills, tools and honest scope", "source-fixes"),
+                  p(f"On the unchanged {scope_files:,} exported files, Invarune observations changed from {source_before} to {counts['invarune']}. The final scan retains {gaps} analysis gaps. New metadata inspection can expose additional unknowns without changing the finding count."),
+                  p("Four new deterministic checks", "h2"),
+                  table([["Rule", "Risk evidence"], ["AI043", "Explicit instruction-hierarchy overrides in supported skill/tool text."], ["AI044", "Sensitive-data transfer instructions with an explicit destination."], ["AI045", "Concealed actions and approval/security-boundary bypass directives."], ["AI046", "Literal read-only annotations contradicting destructive tool descriptions."]], [65, 434]),
+                  p("Separate measurement: " + str(skills['case_count']) + " cases / " + str(skill_counts['assertions']) + " rule-presence assertions. TP " + str(skill_counts['true_positive']) + "; TN " + str(skill_counts['true_negative']) + "; FP " + str(skill_counts['false_positive']) + "; FN " + str(skill_counts['false_negative']) + ". Precision " + skill_precision + "; recall " + skill_recall + ". All authored challenge misses remain in these denominators.", "small"),
+                  p("The separate skill/tool corpus is not added to the original 113 assertions. Each label describes a source pattern, not malicious authorship or exploitation. The public-source export excludes most skill documentation and cannot measure complete skill-package coverage."),
+                  link("Separate skill/tool measurement and known misses", REPO + comparison_path + "/skills-tools-accuracy.json"),
+                  link("Every scan: algorithms, controls, sources and uncertainty", SITE + "docs/SCAN_COVERAGE/"),
+                  p("Interpreting a score", "h2"),
+                  p("There is no overall security percentage. Findings use exact severity counts. Partial mapping reach = active selected controls with an active mapped rule / active selected controls. Optional AI answer coverage = uniquely answered active checks / active selected checks. Both are multiplied by 100; zero denominators are null. Neither is a control pass rate."),
+                  p("Exceptions receive no pass credit. AI may add advisory concerns or help investigate inconclusive evidence; it cannot clear static findings or coverage gaps. Missing runtime proof remains unresolved.", "small"),
+                  link("Exact source observation delta", REPO + comparison_path + "/source-delta.json")]
 
     story += [PageBreak(), heading("Eight projects. Fresh executions.", "projects"), p("The same exported first-party source/configuration bytes were offered to Invarune, Semgrep CE, Bandit and Gitleaks. Equal input does not make their languages, rule scope or supported inputs identical. Counts below are observations, not unique vulnerabilities.")]
     project_rows = [["Project", "Files", "Invarune", "Semgrep", "Bandit", "Gitleaks"]]
@@ -270,7 +325,7 @@ def build(data, output):
         selected = [r for r in runs if r["tool"] == tool]
         statuses = Counter(r["status"] for r in selected)
         tool_rows.append([LABELS[tool], ", ".join(sorted({r["version"] for r in selected})), counts[tool], "; ".join(f"{v} {k}" for k, v in sorted(statuses.items()))])
-    story += [table(tool_rows, [88, 80, 76, 255]), Spacer(1, 10), p(f"Invarune reports {gaps} coverage gaps. Those inputs are incomplete, not clean. Semgrep parser warnings, Bandit parser errors and unsupported exports are retained in the run-status receipts. All eight Invarune projects have two byte-identical repeated outputs under the recorded runtime and settings.", "small"), link("All normalized run statuses and coverage details", REPO + "/blob/main/benchmarks/comparison-v013/run-status.json")]
+    story += [table(tool_rows, [88, 80, 76, 255]), Spacer(1, 10), p(f"Invarune reports {gaps} coverage gaps. Those inputs are incomplete, not clean. Semgrep parser warnings, Bandit parser errors and unsupported exports are retained in the run-status receipts. All eight Invarune projects have two byte-identical repeated outputs under the recorded runtime and settings.", "small"), link("All normalized run statuses and coverage details", REPO + comparison_path + "/run-status.json")]
 
     story += [PageBreak(), heading("What overlaps - and what does not", "overlap"), p("A compatible family, the same pinned project/path and intersecting line spans are required for a match. One-to-one pairs require exactly one candidate on each side. Ambiguous and location-only relations remain separate; matching does not establish a true-positive label.")]
     overlap_rows = [["Compared with", "1:1 pairs", "Ambiguous edges", "Invarune unmatched", "Other tool unmatched"]]
@@ -278,15 +333,15 @@ def build(data, output):
         if pair["left_tool"] == "invarune":
             c = pair["counts"]
             overlap_rows.append([LABELS[pair["right_tool"]], c["one_to_one_pairs"], c["ambiguous_edges"], c["left_without_family_match"], c["right_without_family_match"]])
-    story += [table(overlap_rows, [111, 70, 90, 114, 114]), Spacer(1, 12), p("The complete ledger exposes what each scanner reported, the other-tool match candidates, exact pinned paths and rule-family predicates. A tool-only record may reflect useful additional scope, a differently defined rule, unsupported analysis, a false alarm or a genuine missed risk; count alone does not decide which."), p("Native findings remain review signals", "h2"), p("Broad source scanners can surface assertions, weak-hash uses, serialization APIs and import-only records. Invarune emphasizes selected agent/MCP configuration and execution risks with control/source mappings. Secret scanners, dependency/CVE scanners and runtime/adversarial tests add other evidence. No tool is awarded false positives merely because another tool lacks the same rule."), p("No new ground-truth percentage is claimed for public projects", "h2"), p("This deterministic rerun does not perform Claude adjudication or independent exploit validation. Earlier model-authentication failures remain historical failures, and earlier selected source audits remain separate evidence. Confirmed-vulnerability precision and public-project recall are unavailable."), link("Complete finding-by-finding ledger", REPO + "/blob/main/benchmarks/comparison-v013/FINDINGS.md"), link("Machine-readable overlap and unmatched sets", REPO + "/blob/main/benchmarks/comparison-v013/overlaps.json")]
+    story += [table(overlap_rows, [111, 70, 90, 114, 114]), Spacer(1, 12), p("The complete ledger exposes what each scanner reported, the other-tool match candidates, exact pinned paths and rule-family predicates. A tool-only record may reflect useful additional scope, a differently defined rule, unsupported analysis, a false alarm or a genuine missed risk; count alone does not decide which."), p("Native findings remain review signals", "h2"), p("Broad source scanners can surface assertions, weak-hash uses, serialization APIs and import-only records. Invarune emphasizes selected agent/MCP configuration and execution risks with control/source mappings. Secret scanners, dependency/CVE scanners and runtime/adversarial tests add other evidence. No tool is awarded false positives merely because another tool lacks the same rule."), p("No new ground-truth percentage is claimed for public projects", "h2"), p("This deterministic rerun does not perform Claude adjudication or independent exploit validation. Earlier model-authentication failures remain historical failures, and earlier selected source audits remain separate evidence. Confirmed-vulnerability precision and public-project recall are unavailable."), link("Complete finding-by-finding ledger", REPO + comparison_path + "/FINDINGS.md"), link("Machine-readable overlap and unmatched sets", REPO + comparison_path + "/overlaps.json")]
 
     story += [PageBreak(), heading("An agent/MCP review workflow", "workflow"), p("Invarune's value is the traceable review workflow around selected security checks. These are product capabilities documented and tested by this project, not a score against untested competitor editions.")]
-    story += [table([["Capability", "How to use the evidence"], ["Source or built Linux image", "Inspect supported source/configuration and image metadata without starting target code or a container. Compiled-only logic remains unassessed."], ["Offline control explorer", "Use invscan --ask and explain commands without a model, login or network. Each answer explains control meaning, sources and limits."], ["42 rules / 66 controls / 132 checks", "Rules partially map to 26 controls; the remaining controls and complete acceptance checks need other evidence. No inferred compliance pass."], ["Concrete remediation", "Reports connect findings to agent/MCP context, proposed fixes, verification steps and possible mitigating layers. Undeployed defenses do not lower risk automatically."], ["Optional bounded AI review", "Enable official CLI or API/gateway review explicitly. Deterministic validation constrains evidence/citations/budgets; model judgments stay advisory."], ["Review and justification roundtrip", "Carry edited supported report inputs into a fresh scan. Accepted justifications stay justified, excluded from the applicable scored denominator, and retain evidence bindings."]], [142, 357]), Spacer(1, 12), p("Use complementary runtime validation for MCP authorization, tenant separation, sandbox escape resistance, egress enforcement and prompt-injection task outcomes. A repository or image cannot establish the deployed identity, network policy or human approval process.", "small"), link("CLI quick start", SITE + "docs/QUICKSTART/"), link("Controls, benchmarks and primary source mappings", SITE + "docs/SOURCE_MAP/")]
+    story += [table([["Capability", "How to use the evidence"], ["Source or built Linux image", "Inspect supported source/configuration and image metadata without starting target code or a container. Compiled-only logic remains unassessed."], ["Offline control explorer", "Use invscan --ask and explain commands without a model, login or network. Each answer explains control meaning, sources and limits."], ["{rules} rules / {controls} controls / {checks} checks".format(**catalog), "Rules partially map to " + str(catalog["mapped_controls"]) + " controls; the remaining controls and complete acceptance checks need other evidence. No inferred compliance pass."], ["Concrete remediation", "Reports connect findings to agent/MCP context, proposed fixes, verification steps and possible mitigating layers. Undeployed defenses do not lower risk automatically."], ["Optional bounded AI review", "Enable official CLI or API/gateway review explicitly. Deterministic validation constrains evidence/citations/budgets; model judgments stay advisory."], ["Review and justification roundtrip", "Carry edited supported report inputs into a fresh scan. Accepted justifications stay justified, excluded from the applicable scored denominator, and retain evidence bindings."]], [142, 357]), Spacer(1, 12), p("Use complementary runtime validation for MCP authorization, tenant separation, sandbox escape resistance, egress enforcement and prompt-injection task outcomes. A repository or image cannot establish the deployed identity, network policy or human approval process.", "small"), link("CLI quick start", SITE + "docs/QUICKSTART/"), link("Controls, benchmarks and primary source mappings", SITE + "docs/SOURCE_MAP/")]
 
-    story += [PageBreak(), heading("Reproduce and audit the result", "provenance"), p("Every published count is derived from the linked local execution artifacts. The PDF builder rejects mismatched fixture hashes/labels, invalid ledger totals, overlap partition errors, mismatched scanner versions and changed before/after project inputs."), table([["Input", "SHA-256"]] + [[name, digest] for name, digest in data["hashes"].items() if "/" not in name], [169, 330]), Spacer(1, 12), p("Reproduction sequence", "h2"), p("1. Read the v0.13 benchmark README and exact tool/source lock.<br/>2. Recreate the pinned source exports and verify their manifests.<br/>3. Run the frozen baseline and final scanner independently; preserve both receipts.<br/>4. Run the recorded external versions and rule pack on the same exports.<br/>5. Regenerate the exhaustive observation/overlap ledger and fixture evaluations.<br/>6. Build the dashboard/PDF from those receipts, then render and visually inspect every page."), link("v0.13 reproduction protocol and tool configuration", REPO + "/blob/main/benchmarks/comparison-v013/README.md"), link("Source selection and pinned repositories", REPO + "/blob/main/benchmarks/real-world/manifest.json"), link("PDF and site authoring instructions", SITE + "docs/PUBLISHING/"), p("Invarune by NimeshBuild is an original engineering synthesis. Referenced publishers and compared projects do not endorse it. Third-party materials retain their own terms. Public repository visibility does not independently grant an open-source license.", "small")]
+    story += [PageBreak(), heading("Reproduce and audit the result", "provenance"), p("Every published count is derived from the linked local execution artifacts. The PDF builder rejects mismatched fixture hashes/labels, invalid ledger totals, overlap partition errors, mismatched scanner versions and changed before/after project inputs."), table([["Input", "SHA-256"]] + [[name, digest] for name, digest in data["hashes"].items() if "/" not in name], [169, 330]), Spacer(1, 12), p("Reproduction sequence", "h2"), p("1. Read this benchmark README and exact tool/source lock.<br/>2. Recreate the pinned source exports and verify their manifests.<br/>3. Run the frozen baseline and final scanner independently; preserve both receipts.<br/>4. Run the recorded external versions and rule pack on the same exports.<br/>5. Regenerate the exhaustive observation/overlap ledger and fixture evaluations.<br/>6. Build the dashboard/PDF from those receipts, then render and visually inspect every page."), link("Reproduction protocol and tool configuration", REPO + comparison_path + "/README.md"), link("Source selection and pinned repositories", REPO + "/blob/main/benchmarks/real-world/manifest.json"), link("PDF and site authoring instructions", SITE + "docs/PUBLISHING/"), p("Invarune by NimeshBuild is an original engineering synthesis. Referenced publishers and compared projects do not endorse it. Third-party materials retain their own terms. Public repository visibility does not independently grant an open-source license.", "small")]
 
     output.parent.mkdir(parents=True, exist_ok=True)
-    document = Doc(str(output), pagesize=A4, leftMargin=48, rightMargin=48, topMargin=60, bottomMargin=55, title="Invarune | Benchmark update v0.13", author="NimeshBuild", subject="Paired fixture improvement, fresh public-project scanner comparison, and traceable limits")
+    document = Doc(str(output), pagesize=A4, leftMargin=48, rightMargin=48, topMargin=60, bottomMargin=55, invariant=1, title="Invarune | Benchmark update " + version, author="NimeshBuild", subject="Paired fixture improvement, fresh public-project scanner comparison, and traceable limits")
     document.addPageTemplates(PageTemplate(id="brand", frames=[Frame(48, 55, A4[0] - 96, A4[1] - 115, leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)], onPage=chrome))
     document.build(story)
     return {"path": output.relative_to(ROOT).as_posix() if output.is_relative_to(ROOT) else output.name, "sha256": hashlib.sha256(output.read_bytes()).hexdigest(), "inputs": data["hashes"]}

@@ -1,0 +1,14 @@
+{
+  "tools": [
+    {
+      "name": "fixture_tool",
+      "description": "Delete all files.",
+      "inputSchema": {
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    }
+  ]
+}

@@ -10,6 +10,7 @@ from urllib.parse import quote, quote_from_bytes
 
 from . import DISPLAY_NAME
 from .assessment import build_assessment
+from .scoring import build_scoring, format_ratio
 
 
 def _unicode_text(value):
@@ -161,16 +162,38 @@ def executive_markdown(report, assessment):
     return lines
 
 
+def scoring_markdown(report):
+    scoring = report.get("scoring") or build_scoring(report)
+    static, ai = scoring["deterministic"], scoring["optional_ai"]
+    lines = ["## Metrics and how they are calculated", "", scoring["overall_security_score_reason"], "",
+             "| Measure | Result | What it means |", "|---|---|---|",
+             "| Open deterministic findings | " + str(static["open_findings"]) + " | Observed patterns requiring review; " + str(static["urgent_findings"]) + " critical/high. No severity weights or estimated compromise probability are assigned. |",
+             "| Partial deterministic mapping reach | " + format_ratio(static["mapping_reach"]) + " | Active selected controls with at least one active selected mapped rule. This is available partial coverage, not a pass rate. |",
+             "| Optional AI answer coverage | " + format_ratio(ai["answer_coverage"]) + " | Active selected checks with an actual model answer, including concerns and unknowns. This is review completion, not a pass rate. |", "",
+             "**Selected scope:** " + str(static["selected_rules"]) + " rules (" + str(static["active_rules"]) + " active), " + str(static["selected_controls"]) + " controls (" + str(static["active_controls"]) + " active), " + str(static["active_checks"]) + " active acceptance checks. " +
+             ("The selected static scope completed." if static["selected_scope_complete"] else "The selected static scope is incomplete.") + " Recorded coverage gaps: " + str(static["coverage_gaps"]) + ".", "",
+             "**Mapping formula:** " + md(static["mapping_reach_formula"]), "",
+             "**AI answer formula:** " + md(ai["answer_coverage_formula"]), "",
+             "**Optional AI:** " + ("enabled" if ai["enabled"] else "disabled") + "; finding stage " + md(ai["finding_review_status"]) + "; control stage " + md(ai["control_review_status"]) + ".", "",
+             "| Advisory check outcome | Count |", "|---|---:|"]
+    for state, count in ai["check_outcomes"].items():
+        lines.append("| " + md(state) + " | " + str(count) + " |")
+    lines += ["", md(ai["interpretation"]), "", md(scoring["exclusions"]), "", md(scoring["gate"]), ""]
+    return lines
+
+
 def methodology_markdown(report):
     from .methodology import build_methodology
     method = report.get("methodology") or build_methodology(report)
     catalog = method["catalog"]
     lines = ["## Methods, configuration and blind spots", "", md(method["purpose"]), "",
-             "| Catalog measure | Count |", "|---|---:|",
-             f"| Deterministic rules | {catalog['rules']} |",
-             f"| Controls with partial static mapping | {catalog['statically_mapped_controls']} |",
-             f"| Controls without static mapping | {catalog['controls_without_static_mapping']} |",
-             f"| Catalog acceptance checks | {catalog['checks']} |", "", md(method["interpretation"]), "",
+             "| Selected scope measure | Count |", "|---|---:|",
+             f"| Selected deterministic rules | {catalog['rules']} |",
+             f"| Selected controls with partial static mapping | {catalog['statically_mapped_controls']} |",
+             f"| Selected controls without static mapping | {catalog['controls_without_static_mapping']} |",
+             f"| Selected acceptance checks | {catalog['checks']} |",
+             f"| Rules available in the full catalog | {catalog.get('available_rules', catalog['rules'])} |",
+             f"| Controls available in the full catalog | {catalog.get('available_controls', catalog['controls'])} |", "", md(method["interpretation"]), "",
              "### How the layers operate", ""]
     lines += [str(index) + ". " + md(step) for index, step in enumerate(method["workflow"], 1)]
     lines += ["", "### What each layer can and cannot establish", ""]
@@ -239,12 +262,14 @@ def token_optimization_markdown(report):
 def markdown(report):
     summary = report["summary"]
     assessment = report.get("assessment") or build_assessment(report)
-    lines = ["# " + md(report["tool"].get("display_name", DISPLAY_NAME)), "", "AI agent and MCP security report", "", f"Scan ID: `{report['scan_id']}`", "", "This is static security triage, not certification or proof that a system is secure.", ""]
+    lines = ["# " + md(report["tool"].get("display_name", DISPLAY_NAME)), "", "AI agent, MCP and skill security report", "", f"Scan ID: `{report['scan_id']}`", "", "This is static security triage, not certification or proof that a system is secure.", ""]
     lines += ["## Contents", "", "- [Summary and immediate concerns](#executive-assessment)",
+              "- [Metrics and calculation](#metrics-and-how-they-are-calculated)",
               "- [Methods, configuration and blind spots](#methods-configuration-and-blind-spots)",
               "- [Editable review and fresh scan](#editable-review-and-fresh-scan)",
               "- [Scan details](#scan-details)", ""]
     lines += executive_markdown(report, assessment)
+    lines += scoring_markdown(report)
     lines += review_policy_markdown(report)
     lines += methodology_markdown(report)
     lines += ["## Scan details", "", f"Scanned **{summary['files_scanned']} files**; **{summary['open_findings']} open findings**, **{summary['suppressed_findings']} suppressed findings**, and **{summary['coverage_gaps']} coverage gaps**.", "", "| Critical | High | Medium | Low | Info |", "|---:|---:|---:|---:|---:|"]
@@ -387,9 +412,12 @@ def markdown(report):
 
 def sarif(report):
     from .rules import RULES
+    selected_rule_ids = set(report.get("configuration", {}).get("selected_rule_ids", [rule["id"] for rule in RULES]))
     descriptors = []
     for r in sorted(RULES, key=lambda r: r.get("id", r.get("rule_id", ""))):
         rid = r.get("id", r.get("rule_id"))
+        if rid not in selected_rule_ids:
+            continue
         descriptors.append({"id": rid, "shortDescription": {"text": r["title"]}, "fullDescription": {"text": r["description"]}, "help": {"text": r["remediation"]}, "properties": {"tags": ["security", r["category"]] + r.get("cwe", [])}})
     rule_index = {r["id"]: i for i, r in enumerate(descriptors)}
     results = []
@@ -421,6 +449,14 @@ def sarif(report):
     run["properties"] = ({"invarune_review_unavailable": report["review_workspace_unavailable"]}
                          if report.get("review_workspace_unavailable") else
                          {"invarune_review": report.get("review_workspace") or build_workspace(report)})
+    scoring = report.get("scoring") or build_scoring(report)
+    # SARIF remains a deterministic evidence artifact. Optional model judgments
+    # belong in JSON/HTML/Markdown/PDF and cannot alter SARIF gate evidence.
+    run["properties"]["invarune_metrics"] = {
+        "schema_version": scoring["schema_version"], "overall_security_score": None,
+        "overall_security_score_reason": scoring["overall_security_score_reason"],
+        "deterministic": scoring["deterministic"], "exclusions": scoring["exclusions"], "gate": scoring["gate"],
+    }
     if report.get("review_policy", {}).get("enabled"):
         run["properties"]["userReviewPolicy"] = report["review_policy"]
     if report.get("review_import"):
@@ -446,25 +482,36 @@ def atomic_write(path, text):
             os.unlink(temporary)
 
 
-def write_reports(report, output):
-    output = Path(output)
-    if output.is_symlink():
-        raise ValueError("Report directory must not be a symbolic link")
-    output = output.resolve()
+def prepare_report(report, *, include_workspace=True):
+    """Derive all report interpretation in memory, without writing any files."""
     from .methodology import build_methodology
     from .remediation import build_remediation
     from .review_workspace import build_workspace, ReviewWorkspaceLimitError, MAX_ITEMS, MAX_WORKSPACE_BYTES
     report = {**report, "methodology": build_methodology(report), "remediation": build_remediation(report)}
     report["advice_coverage"] = advice_coverage(report)
-    try:
-        report["review_workspace"] = build_workspace(report)
-        report.pop("review_workspace_unavailable", None)
-    except ReviewWorkspaceLimitError as exc:
+    if include_workspace:
+        try:
+            report["review_workspace"] = build_workspace(report)
+            report.pop("review_workspace_unavailable", None)
+        except ReviewWorkspaceLimitError as exc:
+            report.pop("review_workspace", None)
+            report["review_workspace_unavailable"] = {"reason": str(exc), "max_items": MAX_ITEMS,
+                                                       "max_workspace_bytes": MAX_WORKSPACE_BYTES}
+            report["execution"] = {**report.get("execution", {"failure_threshold": "none"}), "exit_code": 2}
+    else:
         report.pop("review_workspace", None)
-        report["review_workspace_unavailable"] = {"reason": str(exc), "max_items": MAX_ITEMS,
-                                                   "max_workspace_bytes": MAX_WORKSPACE_BYTES}
-        report["execution"] = {**report.get("execution", {"failure_threshold": "none"}), "exit_code": 2}
+        report.pop("review_workspace_unavailable", None)
     report["assessment"] = build_assessment(report)
+    report["scoring"] = build_scoring(report)
+    return report
+
+
+def write_reports(report, output):
+    output = Path(output)
+    if output.is_symlink():
+        raise ValueError("Report directory must not be a symbolic link")
+    output = output.resolve()
+    report = prepare_report(report)
     from .report_html import html_report
     atomic_write(output / "report.json", json.dumps(report, indent=2, sort_keys=True, ensure_ascii=True) + "\n")
     atomic_write(output / "report.md", markdown(report))

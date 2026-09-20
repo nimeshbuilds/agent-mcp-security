@@ -29,14 +29,14 @@ A missing source-code pattern is not a passed control. The optional LLM judge su
 - **dynamic**: execute authorized tests against a representative isolated system.
 - **manual**: assess architecture, operating procedures, and external evidence.
 
-The 42 implemented rules provide partial coverage of 26 controls. An empty `automated_rule_ids` list means no mapped static rule. A rule match does not establish that all acceptance checks under that control failed.
+The %d implemented rules provide partial coverage of %d controls. An empty `automated_rule_ids` list means no mapped static rule. A rule match does not establish that all acceptance checks under that control failed.
 
 ## Version and applicability
 
 HTTP OAuth checks apply to protected HTTP implementations. Stdio uses local process/credential controls. Record the actual MCP revision; 2026-07-28 and older session-based transports differ. Model instructions, tool annotations, advertised roots, and the judge are not enforcement boundaries. Verify host, server, operating-system, and downstream controls.
 
 ## Controls
-""" % (len(controls), sum(len(c["checks"]) for c in controls))
+""" % (len(controls), sum(len(c["checks"]) for c in controls), len({rule for c in controls for rule in c["automated_rule_ids"]}), sum(bool(c["automated_rule_ids"]) for c in controls))
     lines = [header]
     category = None
     for c in controls:

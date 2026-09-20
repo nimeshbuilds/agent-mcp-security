@@ -1,0 +1,666 @@
+{
+  "added_total": 0,
+  "after_gaps": 21,
+  "after_total": 146,
+  "after_version": "0.14.0",
+  "before_gaps": 15,
+  "before_total": 146,
+  "before_version": "0.13.0",
+  "experiment": "comparison-v014",
+  "identity_added_total": 0,
+  "identity_removed_total": 0,
+  "measurement": "Same pinned exported source bytes and compared static pattern identities. Counts are review observations, not confirmed vulnerabilities. New instruction-metadata scope adds explicit analysis limits.",
+  "projects": [
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "b5c86b649279edee8c65813308c2183ede7e33165534cb170903157174218f72",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 1003862,
+          "bytes_read": 1003862,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 86,
+          "open_findings": 61,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 59,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "before": {
+        "report_sha256": "ca3bb7cecdc4d8f4522318c347a160fd2c39048d4eade5bef7ced668f819a97a",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 1003862,
+          "bytes_read": 1003862,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 86,
+          "open_findings": 61,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 59,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "coverage_errors_added": [],
+      "coverage_errors_removed": [],
+      "examined_file_bytes_equal": true,
+      "identity_added": 0,
+      "identity_removed": 0,
+      "project_id": "mcp-reference",
+      "removed": [],
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "revision": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+      "span_changes": [],
+      "unchanged_pattern_identities": 61
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "5004afa32a42a049ee5c115f2765e85b243c4a6873b38d77b4040b1305bfda6f",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 2086786,
+          "bytes_read": 2086786,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 156,
+          "open_findings": 15,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 15,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "before": {
+        "report_sha256": "c91fc3f448be9e5f59c76023f83cef3f74f4bf2a394a3b92b7595b5f0e1f3a23",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 2086786,
+          "bytes_read": 2086786,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 156,
+          "open_findings": 15,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 15,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "coverage_errors_added": [],
+      "coverage_errors_removed": [],
+      "examined_file_bytes_equal": true,
+      "identity_added": 0,
+      "identity_removed": 0,
+      "project_id": "github-mcp",
+      "removed": [],
+      "repository": "https://github.com/github/github-mcp-server",
+      "revision": "85598ba6e1256f7ebf4867b95d63b833c4549264",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+      "span_changes": [],
+      "unchanged_pattern_identities": 15
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "7e4a8d1a59b9e81285b29638f08140fbb90b63062668545c8614a7c31fb6a73f",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 4232838,
+          "bytes_read": 4232838,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 759,
+          "open_findings": 11,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 4,
+            "info": 0,
+            "low": 4,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "before": {
+        "report_sha256": "552cc735104a435806fe76a345061d5b51541503f1d74cd78116ccd439ff0ef5",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 4232838,
+          "bytes_read": 4232838,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 759,
+          "open_findings": 11,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 4,
+            "info": 0,
+            "low": 4,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "coverage_errors_added": [],
+      "coverage_errors_removed": [],
+      "examined_file_bytes_equal": true,
+      "identity_added": 0,
+      "identity_removed": 0,
+      "project_id": "autogen",
+      "removed": [],
+      "repository": "https://github.com/microsoft/autogen",
+      "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "f9510dcf32b5c04bcdd0c476f8ecb8c7414b520ba9b8e29180d0bbabe2d3cd34",
+      "span_changes": [],
+      "unchanged_pattern_identities": 11
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "632aec58c3a522817c632667e9119f48985a57d968aef38b27f9830f0930143c",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 9435467,
+          "bytes_read": 9435467,
+          "coverage_gaps": 12,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 967,
+          "open_findings": 27,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 25,
+            "info": 0,
+            "low": 0,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "before": {
+        "report_sha256": "e8a9e53438913b9a44ba27861c1ac37ffe7f7f10c8176dad3055850409165b90",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 9435467,
+          "bytes_read": 9435467,
+          "coverage_gaps": 10,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 967,
+          "open_findings": 27,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 25,
+            "info": 0,
+            "low": 0,
+            "medium": 2
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "coverage_errors_added": [
+        {
+          "error": "Instruction-threat inspection is bounded to 1000000 characters for source metadata; remaining instruction/tool metadata needs review.",
+          "kind": "parse_error",
+          "path": "lib/crewai-tools/tool.specs.json"
+        },
+        {
+          "error": "Dynamic tool description at line 765 was not resolved; instruction-threat checks require literal metadata.",
+          "kind": "parse_error",
+          "path": "lib/crewai/src/crewai/tools/base_tool.py"
+        }
+      ],
+      "coverage_errors_removed": [],
+      "examined_file_bytes_equal": true,
+      "identity_added": 0,
+      "identity_removed": 0,
+      "project_id": "crewai",
+      "removed": [],
+      "repository": "https://github.com/crewAIInc/crewAI",
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+      "span_changes": [],
+      "unchanged_pattern_identities": 27
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "ea173a1515ad4e12e57c67a9ef2d7723baf6600bec2b6dc2b723e60e825e63ca",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 6378697,
+          "bytes_read": 6378697,
+          "coverage_gaps": 1,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 211,
+          "open_findings": 23,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 23,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "before": {
+        "report_sha256": "2aa85832eaa3332c6a207a9ca5e686ed1aa65e52de893147aa8007b9e58da55d",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 6378697,
+          "bytes_read": 6378697,
+          "coverage_gaps": 1,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 211,
+          "open_findings": 23,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 23,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "coverage_errors_added": [],
+      "coverage_errors_removed": [],
+      "examined_file_bytes_equal": true,
+      "identity_added": 0,
+      "identity_removed": 0,
+      "project_id": "langgraph",
+      "removed": [],
+      "repository": "https://github.com/langchain-ai/langgraph",
+      "revision": "aa742fb31e2827d569b843e3600aeda2e0528e4b",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "5882bb2ee8d695f6615d7942ce181a57729972990b4a722cdde3384d9798275b",
+      "span_changes": [],
+      "unchanged_pattern_identities": 23
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "1f58d73d2674f49c58d460b2b0bdf65c4f7d75dddb83f2792267e8eef05478b5",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 7487391,
+          "bytes_read": 7487391,
+          "coverage_gaps": 3,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 1233,
+          "open_findings": 9,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 2,
+            "info": 0,
+            "low": 4,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "before": {
+        "report_sha256": "80b7ef794cdc8499d684b981b0db7a5442cf145b1c68852d33e4fcf96c0db723",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 7487391,
+          "bytes_read": 7487391,
+          "coverage_gaps": 2,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 1233,
+          "open_findings": 9,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 2,
+            "info": 0,
+            "low": 4,
+            "medium": 3
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "coverage_errors_added": [
+        {
+          "error": "Instruction-threat inspection is bounded to 1000000 characters for source metadata; remaining instruction/tool metadata needs review.",
+          "kind": "parse_error",
+          "path": "src/i18n/translation.json"
+        }
+      ],
+      "coverage_errors_removed": [],
+      "examined_file_bytes_equal": true,
+      "identity_added": 0,
+      "identity_removed": 0,
+      "project_id": "openhands",
+      "removed": [],
+      "repository": "https://github.com/OpenHands/OpenHands",
+      "revision": "a07364828c8f202e7745c6bce3dcef3915ae7ac1",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+      "span_changes": [],
+      "unchanged_pattern_identities": 9
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "368618abfcef9df75844f8f02b4021a7bec826ac7f92b880b4bdb7a4868b0c1c",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 8414725,
+          "bytes_read": 8414725,
+          "coverage_gaps": 4,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 386,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "before": {
+        "report_sha256": "bd8e0ca90dd092b1323a3dae5c8d6141b783ad99cd5c3e0700ad6d95825629cc",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 8414725,
+          "bytes_read": 8414725,
+          "coverage_gaps": 2,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 386,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "coverage_errors_added": [
+        {
+          "error": "Dynamic tool description at line 296 was not resolved; instruction-threat checks require literal metadata.",
+          "kind": "parse_error",
+          "path": "pydantic_ai_slim/pydantic_ai/capabilities/capability.py"
+        },
+        {
+          "error": "Dynamic tool description at line 1245 was not resolved; instruction-threat checks require literal metadata.",
+          "kind": "parse_error",
+          "path": "pydantic_ai_slim/pydantic_ai/models/xai.py"
+        }
+      ],
+      "coverage_errors_removed": [],
+      "examined_file_bytes_equal": true,
+      "identity_added": 0,
+      "identity_removed": 0,
+      "project_id": "pydantic-ai",
+      "removed": [],
+      "repository": "https://github.com/pydantic/pydantic-ai",
+      "revision": "c4898abb54dc25ae6f6aef208a4c0661b30a455e",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+      "span_changes": [],
+      "unchanged_pattern_identities": 0
+    },
+    {
+      "added": [],
+      "after": {
+        "report_sha256": "6af64ba5d6b5d3724706d5547fe759e040f0d1b8520d40ff42f1267fcb21bc3a",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 3811079,
+          "bytes_read": 3811079,
+          "coverage_gaps": 1,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 283,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": false,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.14.0"
+        }
+      },
+      "before": {
+        "report_sha256": "e6b2cc9c88dd363bb5e9fcd3237247b6f7c176652e072f225068495b0b4adaa2",
+        "summary": {
+          "assessment": "static_triage_only",
+          "bytes_charged": 3811079,
+          "bytes_read": 3811079,
+          "coverage_gaps": 0,
+          "failed_read_bytes_charged": 0,
+          "files_scanned": 283,
+          "open_findings": 0,
+          "scan_complete_within_selected_scope": true,
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "info": 0,
+            "low": 0,
+            "medium": 0
+          },
+          "suppressed_findings": 0
+        },
+        "tool": {
+          "display_name": "Invarune by NimeshBuild",
+          "implementation_sha256": "8d56fcf24bb47474196842268b3512ce8df00a81a3371f7fce63757fa1a8f309",
+          "name": "agent-mcp-security-scan",
+          "python_version": "3.12.14",
+          "version": "0.13.0"
+        }
+      },
+      "coverage_errors_added": [
+        {
+          "error": "Dynamic tool description at line 1956 was not resolved; instruction-threat checks require literal metadata.",
+          "kind": "parse_error",
+          "path": "fastmcp_slim/fastmcp/server/server.py"
+        }
+      ],
+      "coverage_errors_removed": [],
+      "examined_file_bytes_equal": true,
+      "identity_added": 0,
+      "identity_removed": 0,
+      "project_id": "fastmcp",
+      "removed": [],
+      "repository": "https://github.com/PrefectHQ/fastmcp",
+      "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+      "source_and_scope_equal": true,
+      "source_manifest_sha256": "5db60dc72c8fd993ba832aa1d28bc9c6baf9bcdfc3d32dd234c7d5bae2bedf09",
+      "span_changes": [],
+      "unchanged_pattern_identities": 0
+    }
+  ],
+  "removed_total": 0,
+  "root_cause_summary": [
+    {
+      "change": "Newly surfaced instruction-inspection coverage limitation.",
+      "error": "Instruction-threat inspection is bounded to 1000000 characters for source metadata; remaining instruction/tool metadata needs review.",
+      "path": "lib/crewai-tools/tool.specs.json",
+      "project_id": "crewai"
+    },
+    {
+      "change": "Newly surfaced instruction-inspection coverage limitation.",
+      "error": "Dynamic tool description at line 765 was not resolved; instruction-threat checks require literal metadata.",
+      "path": "lib/crewai/src/crewai/tools/base_tool.py",
+      "project_id": "crewai"
+    },
+    {
+      "change": "Newly surfaced instruction-inspection coverage limitation.",
+      "error": "Instruction-threat inspection is bounded to 1000000 characters for source metadata; remaining instruction/tool metadata needs review.",
+      "path": "src/i18n/translation.json",
+      "project_id": "openhands"
+    },
+    {
+      "change": "Newly surfaced instruction-inspection coverage limitation.",
+      "error": "Dynamic tool description at line 296 was not resolved; instruction-threat checks require literal metadata.",
+      "path": "pydantic_ai_slim/pydantic_ai/capabilities/capability.py",
+      "project_id": "pydantic-ai"
+    },
+    {
+      "change": "Newly surfaced instruction-inspection coverage limitation.",
+      "error": "Dynamic tool description at line 1245 was not resolved; instruction-threat checks require literal metadata.",
+      "path": "pydantic_ai_slim/pydantic_ai/models/xai.py",
+      "project_id": "pydantic-ai"
+    },
+    {
+      "change": "Newly surfaced instruction-inspection coverage limitation.",
+      "error": "Dynamic tool description at line 1956 was not resolved; instruction-threat checks require literal metadata.",
+      "path": "fastmcp_slim/fastmcp/server/server.py",
+      "project_id": "fastmcp"
+    }
+  ],
+  "schema_version": "1.0",
+  "span_changes_total": 0
+}

@@ -14,14 +14,14 @@ from .security import redact
 
 SEVERITIES = ("critical", "high", "medium", "low", "info")
 EXCLUDED_DIRS = {".git", ".hg", ".svn", "node_modules", "vendor", ".venv", "venv", "__pycache__", ".mypy_cache", ".pytest_cache", ".tox", "dist", "build", "coverage", ".next", ".cache"}
-EXTENSIONS = {".py", ".pyi", ".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs", ".json", ".jsonc", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf", ".config", ".env", ".sh", ".bash", ".zsh", ".dockerfile", ".tf", ".hcl", ".pem", ".key", ".md", ".txt", ".xml", ".lock", ".go", ".rs", ".java", ".rb", ".php", ".cs"}
+EXTENSIONS = {".py", ".pyi", ".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs", ".json", ".jsonc", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf", ".config", ".env", ".sh", ".bash", ".zsh", ".dockerfile", ".tf", ".hcl", ".pem", ".key", ".md", ".mdc", ".txt", ".xml", ".lock", ".go", ".rs", ".java", ".rb", ".php", ".cs"}
 MANIFESTS = {"package.json", "package-lock.json", "pnpm-lock.yaml", "yarn.lock", "requirements.txt", "pyproject.toml", "uv.lock", "poetry.lock", "Pipfile", "Pipfile.lock", "go.mod", "go.sum", "Cargo.toml", "Cargo.lock"}
 ANALYSIS_PROFILES = {
     "python_ast": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof.",
     "javascript_lexical": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis.",
     "json_structured": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved.",
     "configuration_lexical": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved.",
-    "generic_text": "Generic secret, URL and applicable text signals only; language-specific execution and dataflow are not analyzed.",
+    "generic_text": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed.",
 }
 
 
@@ -118,9 +118,14 @@ def load_baseline(path):
     return out
 
 
-def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_total_bytes=50_000_000, max_files=20_000, max_entries=100_000, baseline=None, default_excluded_directories=None):
+def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_total_bytes=50_000_000, max_files=20_000, max_entries=100_000, baseline=None, default_excluded_directories=None, scans=None):
     from .analyzer import analyze_file, analyze_file_errors
     from .rules import RULES
+
+    from .selection import resolve_scan_selection
+    selection = resolve_scan_selection(scans)
+    selected_rules = set(selection["selected_rule_ids"])
+    selected_controls = set(selection["selected_control_ids"])
 
     original_root = Path(root).expanduser()
     if original_root.is_symlink():
@@ -139,6 +144,22 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     root_stat = root.stat()
     root_identity = (root_stat.st_dev, root_stat.st_ino)
     findings, skipped, errors, files = [], [], [], []
+    deferred_documents = {}
+
+    def inspect_source(rel, source, instruction_context=False):
+        for problem in analyze_file_errors(rel, source, instruction_context=instruction_context):
+            errors.append({"path": redact(rel), "error": redact(str(problem)), "kind": "parse_error"})
+        for finding in analyze_file(rel, source, instruction_context=instruction_context):
+            if finding["rule_id"] not in selected_rules:
+                continue
+            raw_evidence = finding.get("evidence", "")
+            identifier = _digest([finding["rule_id"], rel, finding["line"], raw_evidence])[:24]
+            evidence = "[REDACTED: credential-related source evidence; inspect this location locally]" if finding["rule_id"] in {"AI010", "AI011", "AI034"} else redact(raw_evidence)[:2000]
+            finding.update({"id": identifier, "finding_id": identifier, "path": redact(rel), "evidence": evidence, "status": "suppressed" if identifier in baseline else "open"})
+            if identifier in baseline:
+                finding["suppression_reason"] = redact(baseline[identifier])
+            findings.append(finding)
+
     bytes_read, bytes_charged, failed_read_bytes_charged, entries = 0, 0, 0, 0
     interrupted = False
     inventory = {"extensions": Counter(), "dependency_manifests": [], "agent_mcp_signals": []}
@@ -244,20 +265,24 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
                 signals = [term for term in signal_terms if term in source.lower()]
                 if signals:
                     inventory["agent_mcp_signals"].append({"path": redact(rel), "signals": signals})
-                for problem in analyze_file_errors(rel, source):
-                    errors.append({"path": redact(rel), "error": redact(str(problem)), "kind": "parse_error"})
-                for finding in analyze_file(rel, source):
-                    raw_evidence = finding.get("evidence", "")
-                    identifier = _digest([finding["rule_id"], rel, finding["line"], raw_evidence])[:24]
-                    evidence = "[REDACTED: credential-related source evidence; inspect this location locally]" if finding["rule_id"] in {"AI010", "AI011", "AI034"} else redact(raw_evidence)[:2000]
-                    finding.update({"id": identifier, "finding_id": identifier, "path": redact(rel), "evidence": evidence, "status": "suppressed" if identifier in baseline else "open"})
-                    if identifier in baseline:
-                        finding["suppression_reason"] = redact(baseline[identifier])
-                    findings.append(finding)
+                if path.suffix.lower() in {".md", ".mdc"}:
+                    deferred_documents[rel] = source
+                else:
+                    inspect_source(rel, source)
             except (OSError, ValueError, RuntimeError) as exc:
                 errors.append({"path": redact(rel), "error": type(exc).__name__ + " while reading or analyzing file", "kind": "analysis_error"})
         if interrupted:
             break
+    from .skill_scope import discover_skill_scope
+    contextual, skill_roots, skill_errors = discover_skill_scope(deferred_documents)
+    inventory["skill_manifests"] = [redact(path) for path in skill_roots]
+    inventory["skill_instruction_files"] = [redact(path) for path in sorted(contextual)]
+    errors.extend({**item, "path": redact(item["path"]), "error": redact(item["error"])} for item in skill_errors)
+    for rel, source in sorted(deferred_documents.items()):
+        try:
+            inspect_source(rel, source, instruction_context=rel in contextual)
+        except (OSError, ValueError, RuntimeError) as exc:
+            errors.append({"path": redact(rel), "error": type(exc).__name__ + " while analyzing skill/text file", "kind": "analysis_error"})
     if interrupted:
         errors.append({"path": ".", "error": "Traversal stopped at configured resource limit; additional files may be unscanned", "kind": "resource_limit"})
     if not files:
@@ -267,8 +292,10 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     findings = list(unique.values())
     controls = []
     catalog = load_controls()
-    rules_by_id = {r.get("id", r.get("rule_id")): r for r in RULES}
+    rules_by_id = {r["id"]: r for r in RULES if r["id"] in selected_rules}
     for control in catalog:
+        if control["id"] not in selected_controls:
+            continue
         mapped = sorted(set(control.get("automated_rule_ids", [])) & set(rules_by_id))
         matches = [f["id"] for f in findings if f["rule_id"] in mapped and f["status"] == "open"]
         suppressed_matches = [f["id"] for f in findings if f["rule_id"] in mapped and f["status"] == "suppressed"]
@@ -284,7 +311,7 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     counts = {severity: sum(f["severity"] == severity for f in active) for severity in SEVERITIES}
     coverage_gaps = len(errors) + sum(s["coverage_gap"] for s in skipped)
     summary = {"open_findings": len(active), "suppressed_findings": len(findings) - len(active), "severity_counts": counts, "files_scanned": len(files), "bytes_read": bytes_read, "bytes_charged": bytes_charged, "failed_read_bytes_charged": failed_read_bytes_charged, "coverage_gaps": coverage_gaps, "assessment": "static_triage_only", "scan_complete_within_selected_scope": coverage_gaps == 0}
-    config = {**limits, "exclude": sorted(set(exclude)), "default_excluded_directories": sorted(excluded_directories), "generated_outputs_and_judge_config_excluded": True,
+    config = {**limits, **selection, "exclude": sorted(set(exclude)), "default_excluded_directories": sorted(excluded_directories), "generated_outputs_and_judge_config_excluded": True,
               "explicit_exclusion_matching": "resolved_paths_and_snapshot_filesystem_identities",
               "explicit_exclusion_identity_scope": "Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports."}
     implementation = hashlib.sha256()
@@ -295,4 +322,4 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     # history. The product brand is separate, additive display metadata.
     tool = {"name": "agent-mcp-security-scan", "display_name": DISPLAY_NAME, "version": __version__, "python_version": platform.python_version(), "implementation_sha256": implementation.hexdigest()}
     deterministic_input = {"files": files, "config": config, "rules": RULES, "controls": catalog, "baseline": baseline, "tool": tool, "errors": errors, "skipped": skipped}
-    return {"schema_version": "1.0", "tool": tool, "scan_id": _digest(deterministic_input), "mode": "deterministic_static", "target": ".", "summary": summary, "configuration": config, "inventory": inventory, "files": files, "findings": findings, "controls": controls, "coverage": {"analysis_profiles": {name: {"files": sum(item["analysis_profile"] == name for item in files), "scope": description} for name, description in ANALYSIS_PROFILES.items()}, "errors": sorted(errors, key=lambda e: (e["path"], e["error"])), "skipped": sorted(skipped, key=lambda s: (s["path"], s["reason"])), "rules_enabled": sorted(rules_by_id), "unmatched_baseline_ids": sorted(set(baseline) - set(unique)), "limitations": ["Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.", "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.", "No dependencies are installed, target code executed, services contacted, or CVE feed queried.", "Default excluded directories and unsupported files remain outside the selected scan scope.", "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.", "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."]}, "judge": {"enabled": False}}
+    return {"schema_version": "1.0", "tool": tool, "scan_id": _digest(deterministic_input), "mode": "deterministic_static", "target": ".", "summary": summary, "configuration": config, "inventory": inventory, "files": files, "findings": findings, "controls": controls, "coverage": {"analysis_profiles": {name: {"files": sum(item["analysis_profile"] == name for item in files), "scope": description} for name, description in ANALYSIS_PROFILES.items()}, "errors": sorted(errors, key=lambda e: (e["path"], e["error"])), "skipped": sorted(skipped, key=lambda s: (s["path"], s["reason"])), "rules_enabled": sorted(rules_by_id), "selection": {**selection, "catalog_rules": len(RULES), "catalog_controls": len(catalog), "execution": "Selected rule findings and control review only; shared bounded file, syntax, metadata and integrity checks still run and preserve operational gaps."}, "unmatched_baseline_ids": sorted(set(baseline) - set(unique)), "limitations": ["Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.", "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.", "No dependencies are installed, target code executed, services contacted, or CVE feed queried.", "Default excluded directories and unsupported files remain outside the selected scan scope.", "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.", "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."]}, "judge": {"enabled": False}}

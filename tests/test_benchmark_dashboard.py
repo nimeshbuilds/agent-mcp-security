@@ -12,6 +12,51 @@ from scripts import build_benchmark_dashboard as B
 
 
 class BenchmarkDashboardTests(unittest.TestCase):
+    def current_args(self):
+        root = B.ROOT / 'benchmarks/comparison-v014'
+        return Namespace(comparison=root, before=root / 'accuracy-before.json',
+                         after=root / 'accuracy-after.json', corpus=B.ROOT / 'benchmarks/static_accuracy.json', preview=False)
+
+    def test_current_skill_chart_preserves_separate_denominators(self):
+        data = B.inputs_for(self.current_args())
+        self.assertEqual(data['current']['overall']['assertions'], 113)
+        self.assertEqual(data['skills']['overall']['assertions'], 331)
+        self.assertEqual(data['skills']['overall']['false_negative'], 3)
+        chart = B.skills_svg(data['skills'])
+        ET.fromstring(chart)
+        self.assertIn('81 cases / 331', chart)
+        self.assertIn('not added to the 113', chart)
+        self.assertEqual(data['catalog_counts'], {'rules': 46, 'controls': 66, 'checks': 132, 'mapped_controls': 30})
+        self.assertIn('46 deterministic rules map partially to 30 of 66 controls', B.page_text(data))
+        historical = B.ROOT / 'benchmarks/comparison-v013'
+        old = B.inputs_for(Namespace(comparison=historical, before=historical / 'accuracy-before.json',
+                                    after=historical / 'accuracy-after.json', corpus=self.corpus_path, preview=False))
+        self.assertEqual(old['catalog_counts'], {'rules': 42, 'controls': 66, 'checks': 132, 'mapped_controls': 26})
+        self.assertIn('42 deterministic rules map partially to 26 of 66 controls', B.page_text(old))
+
+    def test_skill_receipt_cannot_switch_hash_or_hide_misses(self):
+        original = B.load
+        for changed in ['implementation', 'report_hash', 'false_negative', 'source_report_hash', 'catalog_scope']:
+            def corrupt(path, inputs):
+                value = original(path, inputs)
+                if path.name == 'skills-tools-evaluation-receipt.json' and changed in {'implementation', 'report_hash', 'false_negative'}:
+                    value = copy.deepcopy(value)
+                    if changed == 'implementation':
+                        value['implementation_sha256'] = '0' * 64
+                    elif changed == 'report_hash':
+                        value['report']['sha256'] = '0' * 64
+                    else:
+                        value['overall']['false_negative'] = 0
+                elif changed == 'source_report_hash' and path.parent.name == 'invarune-receipts-after':
+                    value = copy.deepcopy(value)
+                    value['repeated_runs'][0]['report_sha256']['report.json'] = '0' * 64
+                elif changed == 'catalog_scope' and path.name == 'report.json' and path.parent.name == 'mcp-reference':
+                    value = copy.deepcopy(value)
+                    value['coverage']['rules_enabled'].pop()
+                return value
+            with self.subTest(changed=changed), patch.object(B, 'load', side_effect=corrupt), self.assertRaises(ValueError):
+                B.inputs_for(self.current_args())
+
     @classmethod
     def setUpClass(cls):
         cls.comparison = B.ROOT / "benchmarks/comparison-v010"
@@ -162,6 +207,9 @@ class BenchmarkDashboardTests(unittest.TestCase):
         self.assertIn("5 false-negative labels", page)
         provenance = json.loads(rendered[B.ASSETS / "dashboard-data.json"])
         self.assertIsNone(provenance["after"])
+        self.assertIsNone(provenance["catalog_counts"])
+        self.assertIn('Exact catalog totals are omitted', page)
+        self.assertNotIn('__RECORDED_CATALOG_CONTEXT__', page)
         self.assertEqual(provenance["observations_by_tool"], self.ledger["counts_by_tool"])
         for path, content in rendered.items():
             if path.suffix == ".svg":

@@ -1,0 +1,31 @@
+{
+  "command": [
+    "bandit",
+    "-r",
+    "{source}",
+    "-c",
+    "{support}/bandit.yaml",
+    "--ignore-nosec",
+    "-f",
+    "json",
+    "-o",
+    "{raw_output}/bandit.json",
+    "-q"
+  ],
+  "errors": [],
+  "files_reported_scanned": 0,
+  "finding_count": null,
+  "findings": [],
+  "output_parse_error": null,
+  "process_exit_code": 0,
+  "raw_report_sha256": "87c31c3a524751099bf11930446c73d1e60f0b137d575d01dae43527ca62967d",
+  "rule_counts": {},
+  "severity_counts": {},
+  "started_at_utc": "2026-09-20T04:02:56Z",
+  "status": "unsupported_no_python_files",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "bandit",
+  "wall_seconds": 0.074396
+}

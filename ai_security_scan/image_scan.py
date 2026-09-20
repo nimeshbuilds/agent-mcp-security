@@ -47,6 +47,8 @@ def _merge_assessment(report, assessment, materialized, evidence_root, baseline)
     report['inventory']['dependency_manifests'] = [_image_path(path) for path in report['inventory']['dependency_manifests']]
     for item in report['inventory']['agent_mcp_signals']:
         item['path'] = _image_path(item['path'])
+    for key in ('skill_manifests', 'skill_instruction_files'):
+        report['inventory'][key] = [_image_path(path) for path in report['inventory'].get(key, [])]
     metadata_bytes = 0
     for relative, content in sorted(assessment.get('evidence_files', {}).items()):
         rel = PurePosixPath(relative)
@@ -62,7 +64,8 @@ def _merge_assessment(report, assessment, materialized, evidence_root, baseline)
                                 **redact_object(metadata)})
         metadata_bytes += len(content)
     report['files'].sort(key=lambda item: item['path'])
-    report['findings'].extend(assessment.get('findings', []))
+    selected_rules = set(report['configuration']['selected_rule_ids'])
+    report['findings'].extend(item for item in assessment.get('findings', []) if item['rule_id'] in selected_rules)
     file_hashes = {item['path']: item['sha256'] for item in report['files']}
     unique = {}
     for finding in report['findings']:

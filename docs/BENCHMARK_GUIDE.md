@@ -1,10 +1,12 @@
 # Benchmark evidence guide
 
-**Current release:** [visual benchmark dashboard](BENCHMARK_DASHBOARD.md), [fresh v0.13 execution evidence](../benchmarks/comparison-v013/README.md), and [updated benchmark PDF](../output/pdf/invarune-benchmark-v013.pdf). Earlier results below retain their original versions and scope.
+**Current release:** [visual benchmark dashboard](BENCHMARK_DASHBOARD.md), [fresh v0.14 execution evidence](../benchmarks/comparison-v014/README.md), and [updated benchmark PDF](../output/pdf/invarune-benchmark-v014.pdf). Earlier results below retain their original versions and scope.
 
 The published experiments show what Invarune and selected tools observed on bounded inputs, where their outputs overlapped, and which questions remain unresolved. They do not establish a universal scanner ranking, zero false positives/negatives, or a count of confirmed exploitable vulnerabilities.
 
-Start with the [13-page finding comparison PDF](../output/pdf/invarune-finding-comparison-v010.pdf), then inspect the [complete 1,117-observation ledger](../benchmarks/comparison-v010/FINDINGS.md). The [earlier 9-page benchmark PDF](../output/pdf/invarune-benchmark-report.pdf) preserves the original 0.8 experiment. The [71-page controlbook](../output/pdf/invarune-security-controlbook.pdf) is the broader control/research reference; listed research attack suites were not all executed. The [report library](REPORT_LIBRARY.md) distinguishes every PDF and its version.
+Start with the [current nine-page benchmark PDF](../output/pdf/invarune-benchmark-v014.pdf) and [v0.14 finding ledger](../benchmarks/comparison-v014/FINDINGS.md): 146 Invarune source patterns and 21 explicit gaps across eight pinned projects, alongside the unchanged 113-assertion comparison and separate 81-case skill/tool evaluation. The [121-page controlbook](../output/pdf/invarune-security-controlbook.pdf) documents the current 46-rule catalog and broader controls; listed research attack suites were not all executed. The [report library](REPORT_LIBRARY.md) distinguishes versions and includes current deterministic, successful Codex and failed-Claude selected-skill reports.
+
+The detailed experiment walkthrough below is **historical v0.10 evidence**. Its [13-page finding comparison PDF](../output/pdf/invarune-finding-comparison-v010.pdf) and [1,117-observation ledger](../benchmarks/comparison-v010/FINDINGS.md) retain their original counts. The [earlier nine-page benchmark PDF](../output/pdf/invarune-benchmark-report.pdf) preserves the 0.8 experiment.
 
 ## Keep the evidence tracks separate
 
@@ -107,7 +109,7 @@ python3 scripts/adjudicate_scanner_findings.py --help
 
 Follow the [public-project export protocol](../benchmarks/real-world/README.md#reproduce-the-scans) to fetch exact commits and verify manifests. Follow the [external-tool reproduction guide](../benchmarks/external-tools/README.md#reproduce) for pinned installations and rule-pack checksums, then the [fresh comparison instructions](../benchmarks/comparison-v010/README.md#reproduce-or-inspect) for normalization, matching and provenance checks. The [adjudication guide](../benchmarks/comparison-v010/ADJUDICATION.md#reproduction) separates preparation, synthetic pipeline tests and explicit live review. Preparation is not a model answer.
 
-For current software behavior, use [0.12 validation](../benchmarks/validation-v012/README.md) and the [installed quickstart receipt](../benchmarks/quickstart-v012/README.md). Test/branch coverage measures executed implementation paths, not detection accuracy. The [Headroom experiment](../benchmarks/token-optimization-v011/README.md) measures evidence-JSON bytes and preservation, not model token costs or security effectiveness.
+For current software behavior, use [0.14 validation](../benchmarks/validation-v014/README.md) and the [61-step installed quickstart receipt](../benchmarks/quickstart-v014/README.md). Test/branch coverage measures executed implementation paths, not detection accuracy. The [Headroom experiment](../benchmarks/token-optimization-v011/README.md) measures evidence-JSON bytes and preservation, not model token costs or security effectiveness.
 
 ## Sources and reuse terms
 

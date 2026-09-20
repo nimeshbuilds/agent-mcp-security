@@ -166,6 +166,7 @@ class CliUsabilityTests(unittest.TestCase):
 
     def test_help_command_examples_parse_and_judge_json_examples_validate(self):
         from ai_security_scan.analyst import validate_limits
+        from ai_security_scan.cli import CATALOG_ACTIONS
         from ai_security_scan.judge import load_config
         help_text = parser().format_help()
         examples = [shlex.split(line.strip())[1:] for line in help_text.split("Examples:\n", 1)[1].splitlines()
@@ -180,7 +181,7 @@ class CliUsabilityTests(unittest.TestCase):
                     self.assertEqual(exc.code, 0)
                     self.assertTrue(any(flag in arguments for flag in ("--help", "--help-topic", "--examples", "--version")))
                     continue
-                catalog = args.list_rules or args.list_controls or args.explain_rule or args.list_topics or args.ask is not None or args.explain_control or args.explain_check or args.list_sources or args.explain_source or args.login
+                catalog = any(getattr(args, name) not in (None, False) for name, _ in CATALOG_ACTIONS) or args.login
                 self.assertEqual(sum(bool(value) for value in (args.target, args.image, args.image_archive)), 0 if catalog else 1)
                 self.assertFalse(args.judge_include_source and not (args.judge_config or args.judge_cli))
                 self.assertFalse(args.pull and not args.image)

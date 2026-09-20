@@ -33,7 +33,8 @@ _HEX = re.compile(r"[0-9a-f]{64}\Z")
 _FINDING_ID = re.compile(r"finding:[0-9a-f]{24}\Z")
 _DATE = re.compile(r"\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})?)?\Z")
 _CONFIG_KEYS = {"max_file_bytes", "max_total_bytes", "max_files", "max_entries", "exclude",
-                "default_excluded_directories", "generated_outputs_and_judge_config_excluded"}
+                "default_excluded_directories", "generated_outputs_and_judge_config_excluded",
+                "requested_scan_ids", "selected_rule_ids", "selected_control_ids"}
 _IMAGE_LIMIT_KEYS = {"max_archive_bytes", "max_unpacked_bytes", "max_layer_entries", "max_layers"}
 _ORIGIN_KEYS = {"scan_id", "tool", "target", "configuration", "image_limits", "manifest_sha256",
                 "catalog_sha256", "evidence_sha256", "scope_sha256"}
@@ -111,7 +112,7 @@ def _validate_configuration(value):
     if not isinstance(value, dict) or set(value) - _CONFIG_KEYS:
         raise ValueError("Invalid selected configuration in review origin")
     for key, item in value.items():
-        if key in {"exclude", "default_excluded_directories"}:
+        if key in {"exclude", "default_excluded_directories", "requested_scan_ids", "selected_rule_ids", "selected_control_ids"}:
             if not isinstance(item, list) or len(item) > 10000:
                 raise ValueError("Invalid review origin exclusion list")
             for entry in item:

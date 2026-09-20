@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
+from ai_security_scan.rules import RULES
 
 from ai_security_scan.review_policy import (
     DEFAULT_DISABLED_REASON, MAX_CONFIG_BYTES, MAX_REASON_CHARS,
@@ -39,8 +40,8 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertEqual(updated["findings"], report["findings"])
         self.assertEqual(updated["summary"]["open_findings"], 1)
         self.assertEqual(updated["review_policy"]["counts"], {
-            "catalog_rules": 42, "catalog_controls": 66, "catalog_checks": 132,
-            "active_rules": 42, "justified_rules": 0, "disabled_rules": 0,
+            "catalog_rules": len(RULES), "catalog_controls": 66, "catalog_checks": 132,
+            "active_rules": len(RULES), "justified_rules": 0, "disabled_rules": 0,
             "active_controls": 66, "justified_controls": 0, "disabled_controls": 0,
             "excluded_controls": 0, "mixed_excluded_controls": 0,
             "active_checks": 132, "justified_checks": 0, "disabled_checks": 0,
@@ -215,14 +216,14 @@ class ReviewPolicyTests(unittest.TestCase):
         for status in ("justified", "disabled"):
             policy = self.policy(rules={rule["id"]: {"status": status, "reason": "Reviewed scope exception"} for rule in RULES})
             result = apply_review_config(original, policy)
-            self.assertEqual(len(result["findings"]), 42)
+            self.assertEqual(len(result["findings"]), len(RULES))
             self.assertEqual({finding["status"] for finding in result["findings"]}, {status})
             self.assertEqual(result["summary"]["open_findings"], 0)
-            self.assertEqual(result["summary"][status + "_findings"], 42)
+            self.assertEqual(result["summary"][status + "_findings"], len(RULES))
             self.assertEqual(sum(result["summary"]["severity_counts"].values()), 0)
             self.assertEqual(result["coverage"]["rules_enabled"], [])
             self.assertEqual(result["review_policy"]["counts"]["active_rules"], 0)
-            self.assertEqual(result["review_policy"]["counts"][status + "_rules"], 42)
+            self.assertEqual(result["review_policy"]["counts"][status + "_rules"], len(RULES))
 
     def test_control_dispositions_never_waive_static_findings(self):
         original = scan(self.root)
@@ -238,7 +239,7 @@ class ReviewPolicyTests(unittest.TestCase):
             self.assertEqual(counts["excluded_controls"], 66)
             self.assertEqual(counts["mixed_excluded_controls"], 0)
             self.assertEqual(counts[status + "_checks"], 132)
-            self.assertEqual(counts["active_rules"], 42)
+            self.assertEqual(counts["active_rules"], len(RULES))
             for control, before in zip(result["controls"], original["controls"]):
                 self.assertEqual(control["status"], status)
                 self.assertEqual(control["static_status"], before["status"])

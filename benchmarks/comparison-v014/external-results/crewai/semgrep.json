@@ -1,0 +1,131 @@
+{
+  "command": [
+    "semgrep",
+    "scan",
+    "--config",
+    "{semgrep_rules}",
+    "--metrics=off",
+    "--disable-version-check",
+    "--disable-nosem",
+    "--no-git-ignore",
+    "--no-rewrite-rule-ids",
+    "--json",
+    "--quiet",
+    "--jobs",
+    "2",
+    "--timeout",
+    "10",
+    "--max-target-bytes",
+    "20000000",
+    "--output",
+    "{raw_output}/semgrep.json",
+    "{source}"
+  ],
+  "errors": [
+    {
+      "level": "warn",
+      "path": "lib/cli/src/crewai_cli/templates/crew/crew.py",
+      "type": "PartialParsing"
+    },
+    {
+      "level": "warn",
+      "path": "lib/cli/src/crewai_cli/templates/crew/main.py",
+      "type": "PartialParsing"
+    },
+    {
+      "level": "warn",
+      "path": "lib/cli/src/crewai_cli/templates/flow/main.py",
+      "type": "PartialParsing"
+    },
+    {
+      "level": "warn",
+      "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/__init__.py",
+      "type": "PartialParsing"
+    },
+    {
+      "level": "warn",
+      "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/tool.py",
+      "type": "PartialParsing"
+    }
+  ],
+  "files_reported_scanned": 968,
+  "finding_count": 8,
+  "findings": [
+    {
+      "end_line": 127,
+      "line": 125,
+      "path": "lib/crewai-core/src/crewai_core/version.py",
+      "rule_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 2,
+      "line": 2,
+      "path": "lib/crewai-tools/src/crewai_tools/rag/loaders/xml_loader.py",
+      "rule_id": "python.lang.security.use-defused-xml.use-defused-xml",
+      "severity": "ERROR"
+    },
+    {
+      "end_line": 9,
+      "line": 9,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "rule_id": "python.lang.security.use-defused-xml.use-defused-xml",
+      "severity": "ERROR"
+    },
+    {
+      "end_line": 87,
+      "line": 85,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "rule_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 164,
+      "line": 164,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "rule_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 309,
+      "line": 309,
+      "path": "lib/crewai/src/crewai/flow/runtime/_actions.py",
+      "rule_id": "python.lang.security.audit.exec-detected.exec-detected",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 152,
+      "line": 152,
+      "path": "lib/crewai/src/crewai/utilities/file_handler.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 166,
+      "line": 166,
+      "path": "lib/crewai/src/crewai/utilities/file_handler.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 0,
+  "raw_report_sha256": "fb7e92ea80d25590a819ffa6a2d4410a7eb087866fb323370d57986f3b102a2f",
+  "rule_counts": {
+    "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected": 3,
+    "python.lang.security.audit.exec-detected.exec-detected": 1,
+    "python.lang.security.deserialization.pickle.avoid-pickle": 2,
+    "python.lang.security.use-defused-xml.use-defused-xml": 2
+  },
+  "severity_counts": {
+    "ERROR": 2,
+    "WARNING": 6
+  },
+  "started_at_utc": "2026-09-20T04:03:04Z",
+  "status": "completed_with_analysis_errors",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "semgrep",
+  "wall_seconds": 10.121379
+}

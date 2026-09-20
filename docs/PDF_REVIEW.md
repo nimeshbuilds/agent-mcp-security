@@ -1,6 +1,6 @@
 # Fillable PDF security reviews
 
-Invarune can add a branded, interactive `report.pdf` to its normal HTML, Markdown, JSON and SARIF outputs. The default four reports still use only the Python standard library. PDF export and import require the optional extra:
+Invarune can add a branded, interactive `report.pdf` to its normal HTML, Markdown, JSON and SARIF outputs. The four portable report formats use only the Python standard library when explicitly requested. A scan without report flags prints results in the terminal; `--pdf` implies report exports. PDF export and import require the optional extra:
 
 ```sh
 # From this repository checkout, preferably in a virtual environment:
@@ -9,7 +9,7 @@ invarune ./agent-repository --pdf --output first-report
 invarune --image-archive agent-image.tar --pdf --output image-report
 ```
 
-The PDF opens with actual finding/gap/file counts and severity charts. It includes clickable contents and bookmarks, the sanitized scan configuration, deterministic versus optional analyst coverage, known miss scenarios, the complete 42-rule inventory, observed finding evidence and proposed mitigation layers, control-check text with source links, and interactive fields for every bound finding, check and coverage gap within the PDF item limit. Charts describe observed counts and catalog mappings; they are not accuracy scores, percent secure or verified control effectiveness.
+The PDF opens with actual finding/gap/file counts and severity charts. It includes clickable contents and bookmarks, the sanitized scan configuration, deterministic versus optional analyst coverage, known miss scenarios, the selected rule inventory from the 46-rule catalog, observed finding evidence and proposed mitigation layers, control-check text with source links, and interactive fields for every bound finding, check and coverage gap within the PDF item limit. Charts describe observed counts and catalog mappings; they are not accuracy scores, percent secure or verified control effectiveness.
 
 ## Edit, save and rescan
 

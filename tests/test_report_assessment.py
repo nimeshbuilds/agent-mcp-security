@@ -240,8 +240,8 @@ class AssessmentTests(unittest.TestCase):
                                        "finding_id": "fixture-" + rule["id"], "path": "agent.py", "line": index,
                                        "end_line": index, "status": "open", "confidence": "high", "evidence": "fixture"})
         result = build_assessment(report)
-        self.assertEqual(len(result["finding_groups"]), 42)
-        self.assertEqual(len(result["immediate_actions"]), 42)
+        self.assertEqual(len(result["finding_groups"]), len(RULES))
+        self.assertEqual(len(result["immediate_actions"]), len(RULES))
         for group in result["finding_groups"]:
             with self.subTest(rule=group["rule_id"]):
                 self.assertTrue(group["plausible_impact"])

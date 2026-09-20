@@ -17,10 +17,10 @@ The user workflow is documented in [reviewing and rescanning reports](../REVIEW_
 | `summary`, `coverage` | Active finding counts, selected-scope completeness, errors, skips and analysis limits. |
 | `review_policy`, `review_import`, `review_workspace` | Explicit user decisions, fresh binding audit and editable capsule. |
 | `judge`, `analyst` | Optional advisory results and their own coverage/failures. |
-| `methodology`, `assessment`, `remediation`, `advice_coverage` | Provenance, executive interpretation and treatment proposals. |
+| `methodology`, `assessment`, `remediation`, `advice_coverage`, `scoring` | Provenance, executive interpretation, treatment proposals and explicit scope/answer metrics; no universal security score. |
 | `run_configuration`, `execution` | Selected execution options and the resulting CLI gate, when populated by the coordinator. |
 
-[`report.write_reports()`](../../ai_security_scan/report.py) enriches a copy and writes `report.json`, `report.md`, `report.sarif` and `report.html`. `atomic_write()` uses a temporary sibling and replacement, rejects symlink output destinations and emits UTF-8/LF. Each file replacement is atomic; the four-file set is not a transaction. Do not describe a partly failed export as a complete bundle.
+[`report.prepare_report()`](../../ai_security_scan/report.py) enriches a copy in memory with methodology, remediation, assessment and scoring. The terminal path uses this without writing report artifacts. `report.write_reports()` prepares the report and writes `report.json`, `report.md`, `report.sarif` and `report.html`. `atomic_write()` uses a temporary sibling and replacement, rejects symlink output destinations and emits UTF-8/LF. Each file replacement is atomic; the four-file set is not a transaction. Do not describe a partly failed export as a complete bundle.
 
 The CLI requests [`report_pdf.render_pdf()`](../../ai_security_scan/report_pdf.py) separately when `--pdf` is enabled. An optional PDF failure preserves the four portable reports, adds export failure information and returns exit 2. If a review capsule exceeds its limits, reports are also preserved with `review_workspace_unavailable`; they must not advertise editable replay as available.
 

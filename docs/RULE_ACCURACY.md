@@ -2,6 +2,12 @@
 
 Invarune includes repeatable accuracy evaluation for its bounded Python, JavaScript/TypeScript and configuration checks. Determinism means repeatable results for stable inputs. It does **not** mean zero false positives or false negatives. The scanner identifies reviewable source patterns; it does not prove vulnerabilities or certify control effectiveness.
 
+## Current v0.14 scope
+
+The original 113 assertions remain unchanged and cover the original 42 rules; [fresh paired results](../benchmarks/comparison-v014/accuracy-after.json) preserve that denominator. The separate [skill/tool corpus](../benchmarks/skills_tools_accuracy.json) adds 81 cases and 331 explicit assertions, including safe/negated/quoted examples, supported obfuscation and deliberately unsupported semantic/language challenges. Its [actual evaluation](../benchmarks/comparison-v014/skills-tools-accuracy.json) and dedicated emitter-mutation tests cover AI043–AI046 without diluting the historical pair. Source-pattern truth does not establish malicious intent or exploitability.
+
+New integration tests cover selected source/image scans, zero-detector review plans, exact replay scope, terminal injection resistance, bounded local skill links and optional AI review of inconclusive syntax. These tests establish their specified cases; no finite suite guarantees zero false positives or negatives.
+
 ## Reproduce the measurements
 
 ```sh
@@ -16,15 +22,16 @@ python3 scripts/evaluate_accuracy.py --fail-on any
 python3 scripts/evaluate_accuracy.py --corpus /path/to/labeled-cases.json
 ```
 
-The corpus contains **113 labeled cases**: **105 regression cases** and **8 challenge cases**. Every one of the 42 rules has at least one positive and one comparison label. A case labels whether a particular rule should fire; unrelated detections are retained as unscored output. A comparison label is not a declaration that the application is secure.
+The corpus contains **113 labeled cases**: **105 regression cases** and **8 challenge cases**. Every one of the original 42 rules has at least one positive and one comparison label; AI043–AI046 use the separate skill/tool corpus described above. A case labels whether a particular rule should fire; unrelated detections are retained as unscored output. A comparison label is not a declaration that the application is secure.
 
 The project authored this synthetic corpus. It is not an independent industry benchmark, representative production sample, or exploitability test. Examples were selected to probe API semantics and known difficult boundaries, so percentages cannot be interpreted as production accuracy. Fixes were developed against some of these cases; this is a regression corpus, not a held-out evaluation. Use a separate labeled sample of your own repositories before setting organization-wide severity gates.
 
 - [Corpus, labels, rationale, and provenance](../benchmarks/static_accuracy.json)
-- [Current paired before/after results and every mismatch](../benchmarks/comparison-v013/README.md)
+- [Current v0.14 paired before/after results and every mismatch](../benchmarks/comparison-v014/README.md)
 - [Historical v0.10 readable results](../benchmarks/accuracy-current.md)
-- [Current v0.13 JSON with per-rule confusion counts](../benchmarks/comparison-v013/accuracy-after.json)
-- [Frozen v0.12 baseline on identical labels](../benchmarks/comparison-v013/accuracy-before.json)
+- [Current v0.14 JSON with per-rule confusion counts](../benchmarks/comparison-v014/accuracy-after.json)
+- [Frozen v0.13 baseline on identical labels](../benchmarks/comparison-v014/accuracy-before.json)
+- [Historical v0.12-to-v0.13 detector comparison](../benchmarks/comparison-v013/README.md)
 - [Historical v0.10 scanner on unchanged 1.1.0 labels](../benchmarks/accuracy-previous-corpus.md), including the historical incorrect AI041 label
 - [Preserved v0.9.0 results on corpus 1.1.0](../benchmarks/accuracy-v090-current.md)
 - [Archived corpus version 1.1.0](../benchmarks/static_accuracy-v110.json)
@@ -54,7 +61,7 @@ Precision is TP / (TP + FP), and recall is TP / (TP + FN). The unit is **explici
 
 ## v0.13 fixes developed from benchmark evidence
 
-The [fresh comparison](../benchmarks/comparison-v013/README.md) freezes the original 113-case corpus and v0.12 implementation, then executes both versions independently. No label, case, pinned revision or exported source file was removed to improve the result. The [dashboard](BENCHMARK_DASHBOARD.md) presents the resulting confusion counts and remaining cases.
+The [historical v0.13 comparison](../benchmarks/comparison-v013/README.md) froze the original 113-case corpus and v0.12 implementation, then executed both versions independently. No label, case, pinned revision or exported source file was removed to improve the result. The current [dashboard](BENCHMARK_DASHBOARD.md) presents the v0.13-to-v0.14 pair and remaining cases; the linked historical receipt retains the earlier improvement.
 
 Rules now recognize bounded literal `getattr` attributes, supported preceding or direct YAML literal anchors, and a direct shell `-c` argument supplied by a download substitution. YAML scalar bodies are treated as data for configuration-key checks. Within recognized block-mapping fields, unknown/forward/complex security-field aliases remain explicit coverage gaps. Paired tests cover shadowing, quoted scalar data, anchor redefinitions, malformed references, downloader output modes and inert shell strings/heredocs.
 
@@ -78,13 +85,13 @@ The CLI includes grouped help with defaults/examples, `--explain-rule ID` with c
 
 The unit suite adds adversarial pairs and transformations rather than relying only on one triggering snippet per rule. Python scope and branch tests include safer alternatives; JS tests include inert copies of risky-looking code and transformations that preserve executable behavior; configuration tests compare equivalent JSON formatting and package selector forms.
 
-A mutation check disables each of the 42 rule emitters in turn and verifies that a labeled positive fails. Another injects a false alarm and verifies the precision calculation and failure gate. These are whole-rule removal/injection mutations, not exhaustive mutation testing of every operator or branch. They prove that loss of a detector cannot silently pass the corpus, not that every implementation error is detectable.
+A mutation check for the original corpus disables each of its 42 rule emitters in turn and verifies that a labeled positive fails. Another injects a false alarm and verifies the precision calculation and failure gate. These are whole-rule removal/injection mutations, not exhaustive mutation testing of every operator or branch. They prove that loss of a detector cannot silently pass the corpus, not that every implementation error is detectable.
 
 Existing tests retain real local HTTP/TLS gateway checks, offline-only defaults, source confinement, byte budgets, redaction, strict optional analyst schemas, stable artifacts, and preservation of static findings when a model disagrees. No target fixture is executed by the scanner or accuracy evaluator.
 
 ## Remaining limitations
 
-The v0.13 paired run still lists misses involving cross-function URL flow and JavaScript wrapper propagation, plus a false alarm involving a URL equality guard that needs path-sensitive constraint analysis. The supported constant-reflection, preceding literal YAML anchor, scalar-body and direct downloaded shell-command cases now have bounded detectors and paired tests. Arbitrary reflection, full YAML semantics and general shell expansion remain outside those subsets. A source placeholder cannot establish its deployed value.
+The current v0.14 paired run retains the v0.13 misses involving cross-function URL flow and JavaScript wrapper propagation, plus the false alarm involving a URL equality guard that needs path-sensitive constraint analysis. Both versions produce 58 TP, 52 TN, 1 FP and 2 FN on these same 113 assertions; no new accuracy gain is claimed on that corpus. The supported constant-reflection, preceding literal YAML anchor, scalar-body and direct downloaded shell-command cases now have bounded detectors and paired tests. Arbitrary reflection, full YAML semantics and general shell expansion remain outside those subsets. A source placeholder cannot establish its deployed value.
 
 Other unresolved cases include cross-module execution, dynamic imports, monkey patches and prototype mutation, complex heap aliases, full loop fixed-point analysis, uncommon JS/TS grammar, unsupported languages, deployment reachability, and sanitizer effectiveness. Generic secret heuristics may flag example data or miss unusual secrets. A rule firing on a dangerous API may be a correct pattern detection even when trusted inputs make exploitation impossible.
 

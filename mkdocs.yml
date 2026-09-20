@@ -81,6 +81,7 @@ nav:
   - Get started:
       - Quick start: docs/QUICKSTART.md
       - Ask about security, offline: docs/SECURITY_EXPLORER.md
+      - Every scan and its coverage: docs/SCAN_COVERAGE.md
       - Complete CLI reference: docs/CLI.md
       - Built image scans: docs/IMAGE_SCANNING.md
       - Read your reports: docs/REPORTS.md
@@ -113,6 +114,7 @@ nav:
       - Contributing: CONTRIBUTING.md
       - Developer overview: docs/developer/index.md
       - Architecture: docs/developer/architecture.md
+      - Scan inventory and scope: docs/developer/scan-inventory.md
       - Extending controls and detectors: docs/developer/adding-checks.md
       - Report and review contracts: docs/developer/reports-and-reviews.md
       - Optional AI integration: docs/developer/ai-adapters.md

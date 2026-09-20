@@ -1,0 +1,723 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "toolExecutionNotifications": []
+        }
+      ],
+      "properties": {
+        "invarune_metrics": {
+          "deterministic": {
+            "active_checks": 12,
+            "active_controls": 6,
+            "active_rules": 4,
+            "coverage_gaps": 0,
+            "disabled_checks": 0,
+            "disabled_findings": 0,
+            "disabled_rules": 0,
+            "justified_checks": 0,
+            "justified_findings": 0,
+            "justified_rules": 0,
+            "mapping_reach": {
+              "denominator": 6,
+              "numerator": 6,
+              "percent": 100.0
+            },
+            "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+            "open_by_severity": {
+              "critical": 0,
+              "high": 3,
+              "info": 0,
+              "low": 0,
+              "medium": 1
+            },
+            "open_findings": 4,
+            "selected_controls": 6,
+            "selected_rules": 4,
+            "selected_scope_complete": true,
+            "suppressed_findings": 0,
+            "urgent_findings": 3
+          },
+          "exclusions": "Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.",
+          "gate": "The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.",
+          "overall_security_score": null,
+          "overall_security_score_reason": "No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.",
+          "schema_version": "1.0"
+        },
+        "invarune_review": {
+          "items": [
+            {
+              "binding_sha256": "27a89cc9004bad0c55becd55865d4d62117c72975756d5f50c83a9c8f7d975c0",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "finding:96b10fd3e28d169aec4202f0",
+              "kind": "finding",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AI043 Instruction-hierarchy override in agent-facing text \u2014 SKILL.md:6"
+            },
+            {
+              "binding_sha256": "a2d35729bd221095365ddffe4fba113bff01b5457a8cb23dc04d585b108c548b",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "finding:0ef223e5ba79ff454cd3532f",
+              "kind": "finding",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AI044 Sensitive-data transfer instruction \u2014 SKILL.md:8"
+            },
+            {
+              "binding_sha256": "9c551b0d2e872252f5d77e9b0ab71e8abc5d51aaa89ef4a30f6dde5258c1f35a",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "finding:25a65258ee63677ab41cca29",
+              "kind": "finding",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AI045 Covert action or approval-bypass instruction \u2014 SKILL.md:10"
+            },
+            {
+              "binding_sha256": "9a340677699811cc9422f53c1f47d9088b50cce0fba08ec8e9a9a651853b4789",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "finding:d6d0f54af555b66beabd3017",
+              "kind": "finding",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AI046 Read-only tool annotation contradicts a destructive description \u2014 tools.json:5"
+            },
+            {
+              "binding_sha256": "84cad69ed11c46cb22866f9646e603cbb9db67ea152548b936bfdc26a1509ebc",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:MCP-03:1",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "MCP-03:1 Inspect descriptions, schemas, resources, icons, and results for instructions that cross tool or user boundaries."
+            },
+            {
+              "binding_sha256": "3093f2ed06c3080e9ae4c06c10dd7d9c406bdff0e10d71ccd764a71c2f508edc",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:MCP-03:2",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "MCP-03:2 Never let readOnlyHint, destructiveHint, or other server claims replace independent authorization and approval policy."
+            },
+            {
+              "binding_sha256": "3084469eee9ce8ef10e1fb360e8f4589bc3bce4659aa7d12eb61e25c9e16bc9e",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:MCP-04:1",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "MCP-04:1 Bind tool approval to verified server identity and the reviewed tool definition or version."
+            },
+            {
+              "binding_sha256": "f5d8968b2245f1bbfe966836ba131d0fb401a0611a80567ffc3528a7d84a9ef8",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:MCP-04:2",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "MCP-04:2 Revalidate changes after reconnect/list updates; disambiguate collisions across servers without trusting display names."
+            },
+            {
+              "binding_sha256": "534c20c786860c3cce16f13d6cba7cdb4a94fe4060790b8a80ec5bd8e14ffa17",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:AGT-02:1",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AGT-02:1 Present actual recipient, target, arguments, data disclosure, and consequences for high-impact approval."
+            },
+            {
+              "binding_sha256": "1f430526f3092ead5cb52d1ec76335933827ce8e87332024c1cdcb2525899d22",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:AGT-02:2",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AGT-02:2 Invalidate approval if arguments or target change; test races, delayed retries, and approval reuse."
+            },
+            {
+              "binding_sha256": "184bfaf64bef0ecd791c8318208101f7a975b5aa246446a83ef6672487b4b285",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:AGT-03:1",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AGT-03:1 Track origin and trust level for web pages, documents, messages, OCR, tool results, and repository instructions."
+            },
+            {
+              "binding_sha256": "3ed08d50d20b5ba8b32b512b83722322ad425964d3fde61407f12a3f87927c11",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:AGT-03:2",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AGT-03:2 Test direct and indirect goal hijacking; formatting delimiters and prompt warnings alone are not access controls."
+            },
+            {
+              "binding_sha256": "f564ed32c8e88a44425d0786ed6dbdf9ad2517eb79a6ecb66c3ce758d6569122",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:AGT-06:1",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AGT-06:1 Inventory skill files, prompts, hooks, memory seed files, MCP configuration, and other executable workflow inputs."
+            },
+            {
+              "binding_sha256": "40687762e862eba880fad55e78d6ba4afe5b0d07b2930511c8f610ee9514f17b",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:AGT-06:2",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AGT-06:2 Require review for changes that add commands, access, or persistence; external repository text cannot become trusted policy."
+            },
+            {
+              "binding_sha256": "29d1ec7ef242583cd7e62735fe83237eedff78a37f953780084e760b9773a6e6",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:AGT-07:1",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AGT-07:1 Apply destination and data policies to URLs, searches, tickets, messages, uploads, and telemetry generated by agents."
+            },
+            {
+              "binding_sha256": "2adf34149cf4b2a0e79a963d1873a4377134d26b714236e0e1568035e1cf08ac",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:AGT-07:2",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "AGT-07:2 Use canary data to test encoded leakage and combinations of otherwise permitted tools."
+            }
+          ],
+          "kind": "invarune_review",
+          "origin": {
+            "catalog_sha256": "6cf14d276defd895985dc521fc4538e717c5cd7d576123e5c600da047aacab8f",
+            "configuration": {
+              "default_excluded_directories": [
+                ".cache",
+                ".git",
+                ".hg",
+                ".mypy_cache",
+                ".next",
+                ".pytest_cache",
+                ".svn",
+                ".tox",
+                ".venv",
+                "__pycache__",
+                "build",
+                "coverage",
+                "dist",
+                "node_modules",
+                "vendor",
+                "venv"
+              ],
+              "exclude": [],
+              "generated_outputs_and_judge_config_excluded": true,
+              "max_entries": 100000,
+              "max_file_bytes": 1000000,
+              "max_files": 20000,
+              "max_total_bytes": 50000000,
+              "requested_scan_ids": [
+                "AI043",
+                "AI044",
+                "AI045",
+                "AI046"
+              ],
+              "selected_control_ids": [
+                "AGT-02",
+                "AGT-03",
+                "AGT-06",
+                "AGT-07",
+                "MCP-03",
+                "MCP-04"
+              ],
+              "selected_rule_ids": [
+                "AI043",
+                "AI044",
+                "AI045",
+                "AI046"
+              ]
+            },
+            "evidence_sha256": "1a5ef324970419d4d6bb6a3be2b10fbd6e5e18bc551e92c8dda8a9f0c2322026",
+            "image_limits": {},
+            "manifest_sha256": "73545630efb5dd32c75c4b81cc808fc05ae692e71181dd03c292a57c7249b733",
+            "scan_id": "87ac8bbe89f404330b4c9e9dd394dd1d8429184c13fef4c6ed74ba6921314375",
+            "scope_sha256": "3dbfb9dffee4392e13ae5ed0a8cdef179e10083688f9fb40421e47191816c6da",
+            "target": {
+              "description": "Selected source directory; paths are relative.",
+              "kind": "source",
+              "platform": ""
+            },
+            "tool": {
+              "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+              "name": "agent-mcp-security-scan",
+              "version": "0.14.0"
+            }
+          },
+          "schema_version": "1.0"
+        }
+      },
+      "results": [
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "SKILL.md"
+                },
+                "region": {
+                  "endLine": 6,
+                  "startLine": 6
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A declared agent instruction or literal tool description explicitly asks the model to override existing higher-trust instructions. This is reviewable prompt-injection evidence, not proof that an agent follows it or that the package author is malicious. Agent/skill instruction text contains an explicit request to override higher-trust instructions; whether an agent follows it requires runtime validation. Remediation: Remove the override directive, keep tool metadata scoped to its function, and enforce instruction/data separation and sensitive-action policy outside the model. Test the exact text against the deployed agent with harmless canary actions. Agent/MCP relevance: A tool description or skill instruction can be inserted into model context before invocation; an override directive attempts to cross the boundary from external data into agent authority. Fix steps: 1. Quarantine the affected tool/skill revision until its override text has been reviewed; remove unrelated directives and reapprove the exact content hash. Verify: Identify the exact source revision and tool/skill owner; document disposition without executing untrusted instructions. 2. Replace the instruction with a factual description of inputs, outputs and side effects. Treat returned/retrieved text as data and enforce allowed operations in code outside the model. Verify: Replay the exact instruction in an isolated agent with harmless canary data and assert the policy-restricted action is denied. 3. Retest the reviewed revision with an isolated fixture and retain the authorization, metadata and runtime evidence. Verify: Replay the exact instruction in an isolated agent with harmless canary data and assert the policy-restricted action is denied."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "96b10fd3e28d169aec4202f0"
+          },
+          "properties": {
+            "agentMcpRemediation": {
+              "agent_mcp_relevance": "A tool description or skill instruction can be inserted into model context before invocation; an override directive attempts to cross the boundary from external data into agent authority.",
+              "applicability": [
+                "Inspect the original matched text and its declared agent/tool context. A pattern finding is not proof of author intent, exploitability or runtime behavior.",
+                "Confirm which client loads this artifact, its approval model and the implementation behind the named tool."
+              ],
+              "catalog_sha256": "c84549c21e817a405ab322163d97279213ca09e1e43a2d6d6f57e73615c2eca0",
+              "catalog_version": "1.0.0",
+              "control_ids": [
+                "MCP-03",
+                "AGT-03",
+                "AGT-06"
+              ],
+              "location": {
+                "image_context": "source",
+                "line": 6,
+                "path": "SKILL.md"
+              },
+              "residual_risk": [
+                "A removed literal phrase does not establish immunity to indirect, multilingual, encoded or dynamically generated prompt injection."
+              ],
+              "rule_id": "AI043",
+              "schema_version": "1.0",
+              "scope_note": "Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan. The scan does not establish that this code is on an active agent or MCP request path.",
+              "sources": [
+                {
+                  "id": "MCP-TOOLS",
+                  "relationship": "Supporting engineering guidance; the rule mapping and remediation plan are authored by Invarune.",
+                  "title": "MCP: Tools",
+                  "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+                },
+                {
+                  "id": "AGENT-SKILLS-SPEC",
+                  "relationship": "Supporting engineering guidance; the rule mapping and remediation plan are authored by Invarune.",
+                  "title": "Agent Skills specification",
+                  "url": "https://agentskills.io/specification"
+                }
+              ],
+              "steps": [
+                {
+                  "action": "Quarantine the affected tool/skill revision until its override text has been reviewed; remove unrelated directives and reapprove the exact content hash.",
+                  "title": "Review and contain the instruction boundary",
+                  "verification": "Identify the exact source revision and tool/skill owner; document disposition without executing untrusted instructions."
+                },
+                {
+                  "action": "Replace the instruction with a factual description of inputs, outputs and side effects. Treat returned/retrieved text as data and enforce allowed operations in code outside the model.",
+                  "title": "Enforce the intended operation",
+                  "verification": "Replay the exact instruction in an isolated agent with harmless canary data and assert the policy-restricted action is denied."
+                },
+                {
+                  "action": "Retest the reviewed revision with an isolated fixture and retain the authorization, metadata and runtime evidence.",
+                  "title": "Validate the deployed boundary",
+                  "verification": "Replay the exact instruction in an isolated agent with harmless canary data and assert the policy-restricted action is denied."
+                }
+              ],
+              "summary": "Remove instruction override requests from agent-facing metadata."
+            },
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI043",
+          "ruleIndex": 0
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "SKILL.md"
+                },
+                "region": {
+                  "endLine": 8,
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "An agent instruction or literal tool description combines an imperative transfer, a sensitive object and an explicit URL or email destination. Authorization, destination ownership, runtime access and actual disclosure are not established. Agent/skill instruction text requests a sensitive object and an explicit network destination in the same bounded instruction. Authorization, destination ownership and actual transfer remain unverified. Remediation: Remove credential collection from tool descriptions and skill instructions. Use a scoped credential broker, allowlist outbound destinations, redact tool inputs and require approval displaying the actual recipient and data before any sensitive disclosure. Agent/MCP relevance: An instruction that directs an agent to gather a credential or sensitive file and send it to a URL/email can turn an otherwise legitimate tool into a disclosure path. Fix steps: 1. Inspect the named data and destination with the owner. Remove unapproved transfer instructions; rotate real credentials only if exposure is established or credibly suspected. Verify: Identify the exact source revision and tool/skill owner; document disposition without executing untrusted instructions. 2. Use a broker that supplies audience-bound short-lived credentials without placing raw secrets in model context. Allowlist outbound recipients and show the exact payload/recipient for required approval. Verify: Use fake canary credentials and an isolated sink; verify an unapproved destination and encoded/piecemeal disclosure are blocked without transmitting real secrets. 3. Retest the reviewed revision with an isolated fixture and retain the authorization, metadata and runtime evidence. Verify: Use fake canary credentials and an isolated sink; verify an unapproved destination and encoded/piecemeal disclosure are blocked without transmitting real secrets."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "0ef223e5ba79ff454cd3532f"
+          },
+          "properties": {
+            "agentMcpRemediation": {
+              "agent_mcp_relevance": "An instruction that directs an agent to gather a credential or sensitive file and send it to a URL/email can turn an otherwise legitimate tool into a disclosure path.",
+              "applicability": [
+                "Inspect the original matched text and its declared agent/tool context. A pattern finding is not proof of author intent, exploitability or runtime behavior.",
+                "Confirm which client loads this artifact, its approval model and the implementation behind the named tool."
+              ],
+              "catalog_sha256": "c84549c21e817a405ab322163d97279213ca09e1e43a2d6d6f57e73615c2eca0",
+              "catalog_version": "1.0.0",
+              "control_ids": [
+                "MCP-03",
+                "AGT-06",
+                "AGT-07"
+              ],
+              "location": {
+                "image_context": "source",
+                "line": 8,
+                "path": "SKILL.md"
+              },
+              "residual_risk": [
+                "Static text cannot establish destination ownership, user consent, live egress enforcement or whether the sensitive object exists."
+              ],
+              "rule_id": "AI044",
+              "schema_version": "1.0",
+              "scope_note": "Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan. The scan does not establish that this code is on an active agent or MCP request path.",
+              "sources": [
+                {
+                  "id": "MCP-TOOLS",
+                  "relationship": "Supporting engineering guidance; the rule mapping and remediation plan are authored by Invarune.",
+                  "title": "MCP: Tools",
+                  "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+                },
+                {
+                  "id": "AGENT-SKILLS-SPEC",
+                  "relationship": "Supporting engineering guidance; the rule mapping and remediation plan are authored by Invarune.",
+                  "title": "Agent Skills specification",
+                  "url": "https://agentskills.io/specification"
+                }
+              ],
+              "steps": [
+                {
+                  "action": "Inspect the named data and destination with the owner. Remove unapproved transfer instructions; rotate real credentials only if exposure is established or credibly suspected.",
+                  "title": "Review and contain the instruction boundary",
+                  "verification": "Identify the exact source revision and tool/skill owner; document disposition without executing untrusted instructions."
+                },
+                {
+                  "action": "Use a broker that supplies audience-bound short-lived credentials without placing raw secrets in model context. Allowlist outbound recipients and show the exact payload/recipient for required approval.",
+                  "title": "Enforce the intended operation",
+                  "verification": "Use fake canary credentials and an isolated sink; verify an unapproved destination and encoded/piecemeal disclosure are blocked without transmitting real secrets."
+                },
+                {
+                  "action": "Retest the reviewed revision with an isolated fixture and retain the authorization, metadata and runtime evidence.",
+                  "title": "Validate the deployed boundary",
+                  "verification": "Use fake canary credentials and an isolated sink; verify an unapproved destination and encoded/piecemeal disclosure are blocked without transmitting real secrets."
+                }
+              ],
+              "summary": "Remove secret collection and constrain the disclosure destination."
+            },
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI044",
+          "ruleIndex": 1
+        },
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "SKILL.md"
+                },
+                "region": {
+                  "endLine": 10,
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Agent-facing text explicitly requests bypassing an approval/sandbox boundary, or combines an action instruction with hiding that action from the user. This identifies a risky instruction boundary rather than proving unauthorized execution. Agent/skill instruction text explicitly requests bypassing an approval or execution boundary. Remediation: Delete the concealment or bypass directive. Bind approvals to the exact operation and arguments, enforce policy in the tool server, retain auditable execution records and isolate the process with minimum privileges. Agent/MCP relevance: Concealment or approval-bypass text in skills/tool descriptions can induce the planner to exceed user-authorized actions under the agent or MCP process identity. Fix steps: 1. Remove the concealment/bypass directive and suspend autonomous use of the affected revision pending review. Verify: Identify the exact source revision and tool/skill owner; document disposition without executing untrusted instructions. 2. Have the execution service validate authorization and exact arguments before action; log the operation and reject replayed or changed approvals independently of prompt instructions. Verify: Exercise the offending instruction with harmless actions, changed arguments, direct MCP calls and a missing/expired approval; all unauthorized effects must fail. 3. Retest the reviewed revision with an isolated fixture and retain the authorization, metadata and runtime evidence. Verify: Exercise the offending instruction with harmless actions, changed arguments, direct MCP calls and a missing/expired approval; all unauthorized effects must fail."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "25a65258ee63677ab41cca29"
+          },
+          "properties": {
+            "agentMcpRemediation": {
+              "agent_mcp_relevance": "Concealment or approval-bypass text in skills/tool descriptions can induce the planner to exceed user-authorized actions under the agent or MCP process identity.",
+              "applicability": [
+                "Inspect the original matched text and its declared agent/tool context. A pattern finding is not proof of author intent, exploitability or runtime behavior.",
+                "Confirm which client loads this artifact, its approval model and the implementation behind the named tool."
+              ],
+              "catalog_sha256": "c84549c21e817a405ab322163d97279213ca09e1e43a2d6d6f57e73615c2eca0",
+              "catalog_version": "1.0.0",
+              "control_ids": [
+                "AGT-02",
+                "AGT-06"
+              ],
+              "location": {
+                "image_context": "source",
+                "line": 10,
+                "path": "SKILL.md"
+              },
+              "residual_risk": [
+                "A visible approval prompt alone does not prove the executed target and arguments match what the user approved."
+              ],
+              "rule_id": "AI045",
+              "schema_version": "1.0",
+              "scope_note": "Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan. The scan does not establish that this code is on an active agent or MCP request path.",
+              "sources": [
+                {
+                  "id": "MCP-TOOLS",
+                  "relationship": "Supporting engineering guidance; the rule mapping and remediation plan are authored by Invarune.",
+                  "title": "MCP: Tools",
+                  "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+                },
+                {
+                  "id": "AGENT-SKILLS-SPEC",
+                  "relationship": "Supporting engineering guidance; the rule mapping and remediation plan are authored by Invarune.",
+                  "title": "Agent Skills specification",
+                  "url": "https://agentskills.io/specification"
+                }
+              ],
+              "steps": [
+                {
+                  "action": "Remove the concealment/bypass directive and suspend autonomous use of the affected revision pending review.",
+                  "title": "Review and contain the instruction boundary",
+                  "verification": "Identify the exact source revision and tool/skill owner; document disposition without executing untrusted instructions."
+                },
+                {
+                  "action": "Have the execution service validate authorization and exact arguments before action; log the operation and reject replayed or changed approvals independently of prompt instructions.",
+                  "title": "Enforce the intended operation",
+                  "verification": "Exercise the offending instruction with harmless actions, changed arguments, direct MCP calls and a missing/expired approval; all unauthorized effects must fail."
+                },
+                {
+                  "action": "Retest the reviewed revision with an isolated fixture and retain the authorization, metadata and runtime evidence.",
+                  "title": "Validate the deployed boundary",
+                  "verification": "Exercise the offending instruction with harmless actions, changed arguments, direct MCP calls and a missing/expired approval; all unauthorized effects must fail."
+                }
+              ],
+              "summary": "Restore visible, binding consent for agent actions."
+            },
+            "confidence": "medium",
+            "severity": "high",
+            "status": "open"
+          },
+          "ruleId": "AI045",
+          "ruleIndex": 2
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tools.json"
+                },
+                "region": {
+                  "endLine": 5,
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The same literal tool definition sets readOnlyHint=true while its description explicitly directs deleting or changing data. Tool annotations are untrusted hints; the description does not prove what the implementation actually does. Structured tool description declares readOnlyHint=true but describes a destructive operation. Annotations are untrusted hints; inspect implementation and enforce authorization independently. Remediation: Inspect the implementation and correct its description and annotations together. Treat the tool as potentially mutating until verified, reapprove changed metadata and enforce write authorization independently of model decisions or annotation hints. Agent/MCP relevance: An MCP client may prioritize tools or reduce consent using annotations; an explicit destructive description paired with readOnlyHint=true exposes conflicting metadata at that trust boundary. Fix steps: 1. Temporarily handle the tool as potentially mutating; inspect its implementation and effective permissions before enabling autonomous calls. Verify: Identify the exact source revision and tool/skill owner; document disposition without executing untrusted instructions. 2. Correct readOnlyHint and the description together, version or hash the metadata, and reapprove changed definitions. Enforce read-only credentials or server-side mutation checks independently of the annotation. Verify: Run against a disposable fixture and compare its before/after state; verify direct unauthorized writes fail even when the client trusts readOnlyHint. 3. Retest the reviewed revision with an isolated fixture and retain the authorization, metadata and runtime evidence. Verify: Run against a disposable fixture and compare its before/after state; verify direct unauthorized writes fail even when the client trusts readOnlyHint."
+          },
+          "partialFingerprints": {
+            "agentMcpScan/v1": "d6d0f54af555b66beabd3017"
+          },
+          "properties": {
+            "agentMcpRemediation": {
+              "agent_mcp_relevance": "An MCP client may prioritize tools or reduce consent using annotations; an explicit destructive description paired with readOnlyHint=true exposes conflicting metadata at that trust boundary.",
+              "applicability": [
+                "Inspect the original matched text and its declared agent/tool context. A pattern finding is not proof of author intent, exploitability or runtime behavior.",
+                "Confirm which client loads this artifact, its approval model and the implementation behind the named tool."
+              ],
+              "catalog_sha256": "c84549c21e817a405ab322163d97279213ca09e1e43a2d6d6f57e73615c2eca0",
+              "catalog_version": "1.0.0",
+              "control_ids": [
+                "MCP-03",
+                "MCP-04"
+              ],
+              "location": {
+                "image_context": "source",
+                "line": 5,
+                "path": "tools.json"
+              },
+              "residual_risk": [
+                "A consistent description and annotation can still be dishonest; this check does not prove actual read-only behavior or detect all tool substitution."
+              ],
+              "rule_id": "AI046",
+              "schema_version": "1.0",
+              "scope_note": "Inspect the reported source location and its callers, change the implementation or effective configuration, then rebuild and rescan. The scan does not establish that this code is on an active agent or MCP request path.",
+              "sources": [
+                {
+                  "id": "MCP-TOOLS",
+                  "relationship": "Supporting engineering guidance; the rule mapping and remediation plan are authored by Invarune.",
+                  "title": "MCP: Tools",
+                  "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+                }
+              ],
+              "steps": [
+                {
+                  "action": "Temporarily handle the tool as potentially mutating; inspect its implementation and effective permissions before enabling autonomous calls.",
+                  "title": "Review and contain the instruction boundary",
+                  "verification": "Identify the exact source revision and tool/skill owner; document disposition without executing untrusted instructions."
+                },
+                {
+                  "action": "Correct readOnlyHint and the description together, version or hash the metadata, and reapprove changed definitions. Enforce read-only credentials or server-side mutation checks independently of the annotation.",
+                  "title": "Enforce the intended operation",
+                  "verification": "Run against a disposable fixture and compare its before/after state; verify direct unauthorized writes fail even when the client trusts readOnlyHint."
+                },
+                {
+                  "action": "Retest the reviewed revision with an isolated fixture and retain the authorization, metadata and runtime evidence.",
+                  "title": "Validate the deployed boundary",
+                  "verification": "Run against a disposable fixture and compare its before/after state; verify direct unauthorized writes fail even when the client trusts readOnlyHint."
+                }
+              ],
+              "summary": "Reconcile the read-only annotation, description and implementation."
+            },
+            "confidence": "medium",
+            "severity": "medium",
+            "status": "open"
+          },
+          "ruleId": "AI046",
+          "ruleIndex": 3
+        }
+      ],
+      "tool": {
+        "driver": {
+          "fullName": "Invarune by NimeshBuild",
+          "name": "agent-mcp-security-scan",
+          "rules": [
+            {
+              "fullDescription": {
+                "text": "A declared agent instruction or literal tool description explicitly asks the model to override existing higher-trust instructions. This is reviewable prompt-injection evidence, not proof that an agent follows it or that the package author is malicious."
+              },
+              "help": {
+                "text": "Remove the override directive, keep tool metadata scoped to its function, and enforce instruction/data separation and sensitive-action policy outside the model. Test the exact text against the deployed agent with harmless canary actions."
+              },
+              "id": "AI043",
+              "properties": {
+                "tags": [
+                  "security",
+                  "prompt_injection",
+                  "CWE-1427"
+                ]
+              },
+              "shortDescription": {
+                "text": "Instruction-hierarchy override in agent-facing text"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "An agent instruction or literal tool description combines an imperative transfer, a sensitive object and an explicit URL or email destination. Authorization, destination ownership, runtime access and actual disclosure are not established."
+              },
+              "help": {
+                "text": "Remove credential collection from tool descriptions and skill instructions. Use a scoped credential broker, allowlist outbound destinations, redact tool inputs and require approval displaying the actual recipient and data before any sensitive disclosure."
+              },
+              "id": "AI044",
+              "properties": {
+                "tags": [
+                  "security",
+                  "data_protection",
+                  "CWE-200"
+                ]
+              },
+              "shortDescription": {
+                "text": "Sensitive-data transfer instruction"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "Agent-facing text explicitly requests bypassing an approval/sandbox boundary, or combines an action instruction with hiding that action from the user. This identifies a risky instruction boundary rather than proving unauthorized execution."
+              },
+              "help": {
+                "text": "Delete the concealment or bypass directive. Bind approvals to the exact operation and arguments, enforce policy in the tool server, retain auditable execution records and isolate the process with minimum privileges."
+              },
+              "id": "AI045",
+              "properties": {
+                "tags": [
+                  "security",
+                  "agent_permissions",
+                  "CWE-862"
+                ]
+              },
+              "shortDescription": {
+                "text": "Covert action or approval-bypass instruction"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "The same literal tool definition sets readOnlyHint=true while its description explicitly directs deleting or changing data. Tool annotations are untrusted hints; the description does not prove what the implementation actually does."
+              },
+              "help": {
+                "text": "Inspect the implementation and correct its description and annotations together. Treat the tool as potentially mutating until verified, reapprove changed metadata and enforce write authorization independently of model decisions or annotation hints."
+              },
+              "id": "AI046",
+              "properties": {
+                "tags": [
+                  "security",
+                  "tool_integrity",
+                  "CWE-451"
+                ]
+              },
+              "shortDescription": {
+                "text": "Read-only tool annotation contradicts a destructive description"
+              }
+            }
+          ],
+          "version": "0.14.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

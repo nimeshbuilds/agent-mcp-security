@@ -17,6 +17,14 @@ invscan /path/to/agent-or-mcp --review-report ./reviewed-report.pdf --pdf --outp
 
 PDF export/import requires the optional `pdf` extra. An existing `invarune` invocation remains supported. Save review edits in an AcroForm-compatible editor; do not print or flatten the PDF. Generate into a new output directory to preserve the earlier evidence.
 
+## Read the result and its scores
+
+Start with open critical/high findings and their proposed fixes, then close coverage gaps. A zero-finding result is not a passed security assessment. `--scans` narrows every finding, control plan, report inventory and metric to the selected scope; shared parser/integrity failures remain visible.
+
+The scanner intentionally does **not** invent an overall security grade. `scoring.deterministic` contains exact active/justified/disabled counts and severity totals. Partial mapping reach is `100 × active selected controls with an active mapped rule / active selected controls`; this measures potential partial coverage, not passed checks. With optional AI, answer coverage is `100 × unique active selected checks with valid model answers / active selected checks`. Unknown and runtime-required answers count as answered, and are shown separately from code-supported answers and concerns. An empty denominator is null, never 100%. Exceptions receive no pass credit. Model opinions never lower static severity or clear the findings gate. [All formulas and outcomes](SCAN_COVERAGE.md).
+
+Without `--report`, `--output` or `--pdf`, these results appear in the terminal without report-file writes. Add `--report DIR` for the four portable editable formats or `--pdf` for a fillable PDF.
+
 ## The opening assessment
 
 The first section answers these questions:
@@ -61,7 +69,7 @@ The bundled [mitigation catalog](../ai_security_scan/data/mitigations.json) cove
 
 ## Per-finding fix plans and agent/MCP relevance
 
-Every observed finding receives a deterministic plan from the separate [remediation catalog](../ai_security_scan/data/remediations.json). Its 42 entries contain 126 concrete change-and-verification pairs. This guidance runs without an LLM, including for suppressed, justified and disabled findings retained for audit; displaying a plan does not reopen an exception or count it as an active concern.
+Every observed finding receives a deterministic plan from the separate [remediation catalog](../ai_security_scan/data/remediations.json). Its 46 entries contain concrete change-and-verification plans for every rule. This guidance runs without an LLM, including for suppressed, justified and disabled findings retained for audit; displaying a plan does not reopen an exception or count it as an active concern.
 
 Each plan records:
 

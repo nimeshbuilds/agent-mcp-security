@@ -1,8 +1,8 @@
 # Invarune controlled security analyst
 
-When optional LLM review is enabled, the scanner queues every active catalog control for a security analyst review, including controls with no deterministic findings. A deterministic controller selects evidence, schedules bounded requests, checks the response schema, and verifies citations. The analyst's interpretation remains nondeterministic and advisory.
+When optional LLM review is enabled, the scanner queues every active selected control for a security analyst review, including controls with no deterministic findings. A deterministic controller selects evidence, schedules bounded requests, checks the response schema, and verifies citations. The analyst's interpretation remains nondeterministic and advisory.
 
-The packaged catalog currently contains **66 controls and 132 acceptance checks**. By default all are queued because a static pattern scan cannot establish that a control is implemented correctly or effective in production. The analyst can identify code evidence, propose potential gaps, and specify the next verification steps. It cannot turn incomplete evidence into a security pass or perform runtime validation.
+The packaged catalog currently contains **66 controls and 132 acceptance checks**. Without `--scans`, all active controls are queued because a static pattern scan cannot establish that a control is implemented correctly or effective in production. The analyst can identify code evidence, propose potential gaps, and specify the next verification steps. It cannot turn incomplete evidence into a security pass or perform runtime validation.
 
 See the [control checklist](SECURITY_CHECKLIST.md) and [research and source mappings](RESEARCH.md) for the underlying control requirements. These are project-defined checks mapped to published guidance, not an official benchmark score or certification.
 
@@ -22,7 +22,7 @@ invscan /path/to/agent-or-mcp-repository \
   --output ./security-report
 ```
 
-`--judge-config` defaults to `--judge-mode full`. This performs one finding-triage request, followed by the bounded control analyst stage. The analyst examines all active catalog checks that fit its budgets, including when the static scan reports zero findings. A request can fail, be omitted by the model, or be skipped when a budget is exhausted; every unanswered check stays visible in the report.
+`--judge-config` defaults to `--judge-mode full`. This performs one finding-triage request, followed by the bounded control analyst stage. The analyst examines all active selected checks that fit its budgets, including when the static scan reports zero findings. A request can fail, be omitted by the model, or be skipped when a budget is exhausted; every unanswered check stays visible in the report.
 
 To retain the earlier finding-triage behavior:
 
@@ -49,6 +49,8 @@ invscan /path/to/agent-or-mcp-repository --output ./static-report
 4. Submit controls in stable batches. Each payload contains the acceptance checks, validation mode, source-reference URLs, static status, related rule/finding IDs, and only the excerpts selected for those controls.
 5. Validate every returned control/check identity, status, explanation, verification step, citation and any proposed action guidance. Derive citation paths and line numbers locally from the submitted evidence; reject model-supplied paths or line claims.
 6. Preserve accepted advice separately from the deterministic report. Fill omissions with explicit `insufficient_evidence` entries and leave runtime or human verification open.
+
+Files with deterministic analysis errors are prioritized after files with findings. For an eligible, manifest-hash-verified file with such an error, its first bounded excerpt receives a candidate boost for each selected control, even if it contains no keyword match. This gives the analyst an opportunity to review syntax or analysis uncertainty; it does not guarantee the excerpt fits the final evidence budget. Missing, unreadable, changed or excluded files cannot supply source evidence. Original deterministic gaps remain visible and continue to make the scan incomplete even if the model offers an explanation.
 
 Evidence selection is a bounded keyword-retrieval method. It is not whole-program analysis and can miss relevant implementations or select irrelevant context. A model can also misunderstand authentic evidence. **An exact quote establishes that text was present in a submitted excerpt; it does not establish that the interpretation is true.**
 

@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import tempfile
 import unittest
+from ai_security_scan.rules import RULES
 from unittest.mock import patch
 
 from ai_security_scan import cli
@@ -86,7 +87,7 @@ class ReviewRoundtripCLITests(unittest.TestCase):
                 report = json.loads((output / "report.json").read_text())
                 self.assertEqual(report["summary"]["open_findings"], 1)
                 self.assertEqual(report["summary"]["justified_findings"], 1)
-                self.assertEqual(report["review_policy"]["counts"]["active_rules"], 42)
+                self.assertEqual(report["review_policy"]["counts"]["active_rules"], len(RULES))
                 self.assertEqual(report["review_import"]["counts"]["applied"], 1)
                 self.assertFalse(report["review_import"]["incomplete"])
                 saved = next(value for value in report["review_workspace"]["items"] if value["id"] == item["id"])

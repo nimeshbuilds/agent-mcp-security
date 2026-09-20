@@ -2,7 +2,7 @@
 
 Reviewed: **19 September 2026**. Catalog version: **1.0.0**.
 
-[The mitigation catalog](../ai_security_scan/data/mitigations.json) adds a treatment plan for every one of Invarune's 42 deterministic rules. It contains 92 recommendations using 37 distinct defense-layer recipes. Each rule includes conditional impact, an immediate action, a suggested owner role, relevant Invarune controls, and registered primary sources. Each additional layer explains how it helps, how to test it, and what remains exposed.
+[The mitigation catalog](../ai_security_scan/data/mitigations.json) adds a treatment plan for every one of Invarune's 46 deterministic rules. It contains proposed, source-linked defense layers for each rule. Each rule includes conditional impact, an immediate action, a suggested owner role, relevant Invarune controls, and registered primary sources. Each additional layer explains how it helps, how to test it, and what remains exposed.
 
 These are independently written engineering recommendations. Source mappings explain the technical rationale or the relevant control family; they do not imply that a source publishes these exact recipes, endorses Invarune, or certifies the scanned system. The [source registry](../ai_security_scan/data/sources.json) retains each registered source's version, scope, and limitations.
 
@@ -32,7 +32,7 @@ The scanner does not execute these deployment tests. Run them in an authorized, 
 
 ## Technical checks and qualifications
 
-The following primary implementation references were also consulted for these recipes. They supplement the existing 75-source control registry; this change does not present them as additional benchmark coverage or claim that the scanner implements their complete requirements.
+The following primary implementation references were also consulted for these recipes. They supplement the 76-source control registry; this change does not present them as additional benchmark coverage or claim that the scanner implements their complete requirements.
 
 - **Container privileges:** [Kubernetes Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/) distinguishes privileged execution, host namespaces, user identity, capabilities, privilege escalation, and syscall controls. Consequently, `USER nonroot` alone is not treated as proof of containment. A source Dockerfile must be reconciled with its final build stage and effective deployment.
 - **SQL:** [OWASP SQL Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html) supports bound values, explicit choices for identifiers that cannot be bound as values, and least-privileged database access. Application authorization and database privileges remain different enforcement points.

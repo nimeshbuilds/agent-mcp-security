@@ -5,7 +5,7 @@ from . import DISPLAY_NAME
 
 
 DESCRIPTION = DISPLAY_NAME + """
-Read-only AI agent and MCP source or container-image security scan.
+Read-only AI agent, MCP server, skill and container-image security scan.
 Offline security explorer: ask about the bundled controls, checks and sources.
 Source/archive scans are offline unless --judge-config or --judge-cli is provided. No model,
 API key, or third-party Python package is required for deterministic scanning.
@@ -33,7 +33,7 @@ def complete_reference():
   Install from the checkout: python -m pip install .
   Optional AI optimizer and PDF support: python -m pip install '.[ai,pdf]'
   Quick navigation: invscan --examples; invscan --help-topic images
-  Topic names: all, quickstart, source, images, reports, review, baseline, ai,
+  Topic names: all, quickstart, source, scans, skills, images, reports, review, baseline, ai,
   login, gateways, limits, exit-codes, catalog, security. --help includes every topic.
   Replace TARGET with --image REFERENCE or --image-archive PATH for image scans.
   Choose exactly one input. Catalog commands and --login need no target and write no reports.
@@ -79,6 +79,61 @@ Exclusions, budgets, and reproducibility:
   Identical inputs/settings/runtime/scanner produce reproducible static reports.
   Optional model responses remain nondeterministic, even with temperature zero.
 
+Scan inventory and rule selection:
+  --list-scans prints every deterministic scan plus all control review plans.
+  --explain-scan ID explains one rule or control: exact predicate, algorithm,
+  applicable file profiles, limitations, AI review, fixes and source organizations.
+  These commands are offline catalog lookups. --catalog-format json gives their
+  machine-readable inventory; text is the default. No target or login is needed.
+  --scans ID[,ID...] (alias --scan) is repeatable and accepts case-insensitive
+  deterministic rule IDs (AI002) and control IDs (AUTH-01). IDs are deduplicated.
+  Rule selectors include their mapped controls; control selectors include their
+  mapped rules. Mixed selectors use the union. Unknown or empty IDs are errors.
+  A control with no mapped rules selects zero associated detectors and remains
+  a manual/runtime review requirement; it never silently runs every rule.
+  Only selected rule findings and selected controls appear in the result.
+  Shared parsing, source integrity, image safety checks and budget diagnostics
+  still run. Selection is scope, not a justification or proof of a clean target.
+  With optional full AI review, only active selected controls enter the analyst
+  plan. It can assess supported-check uncertainty and broader selected acceptance
+  criteria even with no findings, using available bounded source evidence.
+  Omit --scans to retain the complete default rule and control inventory.
+  Examples: invscan TARGET --scans AI002,AI032 --scans AI043
+            invscan TARGET --scan AUTH-01 --judge-cli claude
+
+Skill and tool instruction scanning:
+  Point TARGET to a skill directory, agent checkout or MCP implementation.
+  Recognized instruction names: SKILL.md, AGENTS.md, CLAUDE.md, GEMINI.md,
+  copilot-instructions.md (case-insensitive), plus *.instructions.md and *.mdc.
+  Markdown under skills/ or .skills/ and literal local Markdown references from
+  SKILL.md within its directory are included using already scanned files only.
+  Literal inline links (including spaced angle destinations), escaped punctuation
+  and full/collapsed/shortcut reference links are recognized within the skill root.
+  Local references have a shared 2048-reference budget; unresolved references
+  leave gaps. Remote reference content is never fetched.
+  Supported literal tool descriptors include structured JSON tool definitions,
+  Python tool decorator docstrings/description keywords and recognized JavaScript
+  tool registrations. Dynamic descriptions in recognized registration forms leave
+  explicit coverage limitations; indirect registrations may not be discovered.
+  AI043 detects bounded instruction-hierarchy override directives; AI044 detects
+  explicit sensitive-data transfer instructions with a destination; AI045 detects
+  concealment/approval-bypass instructions; AI046 checks a readOnlyHint=true tool
+  description for recognized destructive operations. Instructions are data:
+  skills are never installed, their commands never run, and tools never invoked.
+  Unicode normalization and one explicitly labelled bounded base64 layer support
+  these predicates; no recursive unpacking or arbitrary code execution occurs.
+  Instruction inspection is bounded to 262144 Markdown characters or 1000000
+  metadata-source characters, 2048 tool/instruction segments, 8192 characters
+  per segment and 32 labelled base64 values
+  of at most 8192 decoded bytes each. Exceeded bounds remain coverage gaps.
+  Supported instruction shell fences also receive applicable AI019 checks;
+  literal unrestricted skill tool grants receive AI027 checks. Packaged helper
+  scripts receive their normal Python/JavaScript/configuration checks.
+  Malicious intent and execution are not proven by a pattern. Quoted examples,
+  non-English paraphrases, remote tool output, dynamic construction, hidden behavior and
+  unsupported languages/encodings require more evidence. Full optional AI can
+  add context and cited hypotheses, but cannot prove a tool harmless or malicious.
+
 Container images without a source checkout:
   --image saves a local image with the selected trusted Docker/Podman executable.
   Docker needs its daemon; Podman uses its configured image store/connection.
@@ -119,8 +174,13 @@ Container images without a source checkout:
   wall-clock timeout; those phases use resource bounds.
 
 Reports, output modes, and Exit codes:
-  Every scan that produces reports writes report.html, report.json, report.md and
-  report.sarif to --output. Open report.html locally for the branded report; it is
+  A scan without --report, --output or --pdf prints its result in the terminal
+  and creates no report directory. --summary-json selects structured stdout.
+  --output DIR or --report [DIR] explicitly requests report files; --report with
+  no directory uses ./scan-report. --pdf also requests files in ./scan-report
+  unless an output directory is supplied. --output and --report are alternatives.
+  Reports include report.html, report.json, report.md and report.sarif.
+  Open report.html locally for the branded report; it is
   self-contained, works offline, and needs no external scripts, fonts or images.
   One fixed CSP-hashed local script saves HTML review edits; source/model text is
   never executed. Use Download reviewed HTML, not browser Save As, to save edits.
@@ -155,6 +215,23 @@ Reports, output modes, and Exit codes:
   Operational errors emit status=operational_error with --summary-json when possible.
   Argument syntax/combination errors use stderr and exit 2, without a JSON document.
   A completed summary may still contain findings and exit 1.
+
+Score interpretation:
+  overall_security_score is null: static counts and model opinions cannot supply
+  a defensible universal security percentage. Reports instead expose exact metrics:
+  deterministic open findings by severity; urgent = critical + high;
+  mapping reach = 100 * active selected controls with at least one active selected
+  mapped rule / active selected controls (partial rule availability, never a pass);
+  AI answer coverage = 100 * unique active selected checks with a valid received
+  model answer / active selected checks (answer completeness, never a pass).
+  Percentages are rounded to two decimals; zero denominators are not applicable
+  (null), never an automatic 100%. A model's explicit unknown counts as answered;
+  omitted or synthesized answers do not. Disabled AI has zero accepted answers.
+  Justified and disabled items leave active denominators without pass/fail credit.
+  Baseline exceptions stay visible outside open finding counts. Model review cannot
+  change deterministic severities, open counts or the severity gate. It adds separate
+  code-support, potential-gap, runtime/human-review and insufficient-evidence counts.
+  Fixture benchmark precision/recall are not a scanned application's security score.
 
 Exit codes:
   0  Selected scan scope completed below the configured open-finding threshold.
@@ -251,6 +328,7 @@ User review dispositions:
 Catalog inspection:
   Explore the bundled security catalog without a scan, target, provider config,
   login or model. No target files are read, source URLs fetched or reports written.
+  --list-scans and --explain-scan expose implemented scan predicates and review plans.
   --list-topics groups the control inventory by security subject and static mapping.
   --ask QUERY matches literal query tokens and aliases against the local catalog.
     Quote a multiword query, e.g. --ask 'What do you check for prompt injection?'.
@@ -276,8 +354,10 @@ Catalog inspection:
   IDs in explain commands are errors; --list-controls and --list-sources expose IDs.
   A completed lookup, including no match, exits 0. Invalid queries, unknown explain
   IDs and incompatible options exit 2. No catalog command produces a scan verdict.
-  The 42 rules map partially to 26 of 66 controls; all 132 acceptance checks remain
-  broader than static detection. No match or mapped rule establishes a control pass.
+  --list-scans reports live rule/control/check counts and exact coverage boundaries.
+  All acceptance checks remain broader than static patterns. No match or mapped
+  rule establishes a control pass. --scans selects actual requested scan scope;
+  --ask and catalog lookup alone do not execute or select a target scan.
   Source dates/versions/access limits are recorded snapshots, not live verification.
 
 Optional security analyst and data disclosure:
@@ -285,7 +365,7 @@ Optional security analyst and data disclosure:
   For file configuration use a trusted UTF-8 JSON file
   outside untrusted target repositories; it controls the recipient and requested
   environment variables. Config files are limited to 256 KiB and 64 nesting levels.
-  --judge-mode full (default) triages findings, then reviews every active catalog check,
+  --judge-mode full (default) triages findings, then reviews every active selected check,
   including those without findings. It sends bounded redacted source excerpts even
   when --judge-include-source is absent. --judge-mode findings sends finding triage
   only; --judge-include-source adds neighboring source to that stage.
@@ -310,7 +390,7 @@ Optional security analyst and data disclosure:
   no model tools/actions; custom gateways must disable their own server-side tools.
   No target files change and no deterministic finding/severity/gate is overridden.
   Code support cannot establish runtime or manual control effectiveness.
-  Requested review errors preserve deterministic reports. A failed control batch
+  Requested review errors preserve deterministic results. A failed control batch
   stops further batches; unanswered controls/checks remain explicit and exit 2.
   Prompt token optimization defaults to headroom for enabled model review only.
   Install the ai extra for Headroom 0.37.0 on Python 3.10+: pip install '.[ai]'.
@@ -471,6 +551,7 @@ Detailed guides and controlbook (also in the repository):
   docs/JUDGE.md           API configuration and expected finding response schema.
   docs/ANALYST.md         Control response schema, citations and evidence routing.
   docs/SECURITY_EXPLORER.md  Offline questions, control/check/source explanations.
+  docs/SCAN_COVERAGE.md    Every scan, algorithm, limit, control, source and metric.
   docs/SECURITY_CHECKLIST.md and docs/RESEARCH.md   Controls and primary sources.
   docs/RULE_ACCURACY.md and docs/VALIDATION.md     Tests, measured limits and gaps.
   output/pdf/invarune-security-controlbook.pdf   Branded controlbook.
@@ -482,8 +563,10 @@ Detailed guides and controlbook (also in the repository):
 _TOPIC_SECTIONS = {
     "quickstart": ("Invocation and mode selection:", "Reports, output modes, and Exit codes:"),
     "source": ("Source analysis and selected scope:", "Exclusions, budgets, and reproducibility:"),
+    "scans": ("Scan inventory and rule selection:", "Score interpretation:"),
+    "skills": ("Skill and tool instruction scanning:", "Scan inventory and rule selection:"),
     "images": ("Container images without a source checkout:", "Exclusions, budgets, and reproducibility:"),
-    "reports": ("Reports, output modes, and Exit codes:", "Exit codes:"),
+    "reports": ("Reports, output modes, and Exit codes:", "Score interpretation:", "Exit codes:"),
     "review": ("Editable report review and fresh scans:", "User review dispositions:"),
     "baseline": ("Reviewed baselines:",),
     "ai": ("Optional security analyst and data disclosure:",),
@@ -501,8 +584,18 @@ HELP_TOPICS = ("all", *_TOPIC_SECTIONS)
 _EXAMPLE_GROUPS = (
     (("quickstart", "source"), "Start with deterministic scanning; no model or API key is needed.", (
         "invscan --help", "invscan --help-topic images", "invscan --examples", "invscan --version",
+        "invscan ./repository", "invscan ./repository --report",
         "invscan ./repository --output ./reports",
         "invscan ./repository --exclude 'generated/*' --exclude 'fixtures/*'")),
+    (("scans", "catalog", "security"), "Discover exact scans and select only the requested rules or control review plans.", (
+        "invscan --list-scans", "invscan --list-scans --catalog-format json",
+        "invscan --explain-scan AI043", "invscan --explain-scan AUTH-01",
+        "invscan ./repository --scans AI002,AI032 --scans AI043",
+        "invscan ./repository --scan AUTH-01 --judge-cli claude")),
+    (("skills", "source"), "Inspect skill instructions and bundled scripts without installing or executing them.", (
+        "invscan ./my-skill", "invscan ./my-skill --report ./skill-report",
+        "invscan ./my-skill --scans AI043,AI044,AI045 --judge-cli claude",
+        "invscan --help-topic skills")),
     (("images",), "Scan a built Linux image without starting it or requiring source checkout.", (
         "invscan --image my-agent:latest --output ./image-report",
         "invscan --image my-mcp-server:latest --image-runtime podman --image-timeout 600",

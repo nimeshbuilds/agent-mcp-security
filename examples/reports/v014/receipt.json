@@ -1,0 +1,513 @@
+{
+  "execution": "Installed wheel from outside the checkout, public inert fixture, actual provider CLI calls; commands in README normalize absolute target/output paths.",
+  "fixture_files": {
+    "SKILL.md": "014c36bafca86a6df33da83bab4cb501e607ded31d43dcfa4dc4ce971aa8e4a7",
+    "tools.json": "f7dcf340cab7eedb97ed7f1f793c37f3cb714f48913446561ddc3f09d510b53c"
+  },
+  "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+  "invariants_verified": [
+    "Identical deterministic findings, controls, summary and deterministic metrics in all four runs.",
+    "Codex completed both finding triage and all twelve selected acceptance-check answers.",
+    "Claude actual missing-authentication error retained; no successful Claude review claimed.",
+    "First Codex timeout retained separately from completed retry."
+  ],
+  "pdf_export": "Explicit postscan PDF exports from recorded report JSON; no extra inference. Reporting format metadata and bound workspace regenerated.",
+  "recorded_at_utc": "2026-09-20T04:29:34.817036+00:00",
+  "runs": [
+    {
+      "artifacts": {
+        "report.html": {
+          "bytes": 149009,
+          "sha256": "f1843c9aeeab6a45ee870980034258a31a0f197481eb6810ea88f500d229682d"
+        },
+        "report.json": {
+          "bytes": 89429,
+          "sha256": "aa4bf5723f6d568d6b50f01324a5a7384abb304170bce0d61bb71e8396e6f3ce"
+        },
+        "report.md": {
+          "bytes": 54204,
+          "sha256": "a0d9749d4d906914a0a54b9ef03f4a352af4b17c98227049a23b2835f47cb886"
+        },
+        "report.pdf": {
+          "bytes": 229108,
+          "sha256": "b598d40eba6666ea9f04600468388886cfe9aa55413b68ce22c6d39a545a6db6"
+        },
+        "report.sarif": {
+          "bytes": 41642,
+          "sha256": "251579e91201a6a97217dfbe69795b86b7e8b37a3ece9b66899bff5edde9636f"
+        }
+      },
+      "cli_version": null,
+      "control_review_status": "disabled",
+      "exit_code": 1,
+      "finding_review_status": "disabled",
+      "findings": 4,
+      "headroom": {
+        "bytes_after": 0,
+        "bytes_before": 0,
+        "bytes_saved": 0,
+        "completed_payloads": 0,
+        "token_savings_measured": false
+      },
+      "model": null,
+      "optional_review_configuration": {
+        "analyst_limits": {
+          "batch_size": 6,
+          "max_bytes": 2000000,
+          "max_calls": 12,
+          "max_chars": 120000,
+          "max_files": 200,
+          "max_seconds": 180
+        },
+        "cli_login": "auto",
+        "cli_timeout_seconds": null,
+        "effective_transport": {},
+        "enabled": false,
+        "findings_limit": 100,
+        "include_finding_source": false,
+        "mode": "full",
+        "provider": null,
+        "transport_replay": "Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay."
+      },
+      "run": "skills-static",
+      "scoring": {
+        "deterministic": {
+          "active_checks": 12,
+          "active_controls": 6,
+          "active_rules": 4,
+          "coverage_gaps": 0,
+          "disabled_checks": 0,
+          "disabled_findings": 0,
+          "disabled_rules": 0,
+          "justified_checks": 0,
+          "justified_findings": 0,
+          "justified_rules": 0,
+          "mapping_reach": {
+            "denominator": 6,
+            "numerator": 6,
+            "percent": 100.0
+          },
+          "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+          "open_by_severity": {
+            "critical": 0,
+            "high": 3,
+            "info": 0,
+            "low": 0,
+            "medium": 1
+          },
+          "open_findings": 4,
+          "selected_controls": 6,
+          "selected_rules": 4,
+          "selected_scope_complete": true,
+          "suppressed_findings": 0,
+          "urgent_findings": 3
+        },
+        "exclusions": "Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.",
+        "gate": "The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.",
+        "optional_ai": {
+          "additional_concerns": 0,
+          "answer_coverage": {
+            "denominator": 12,
+            "numerator": 0,
+            "percent": 0.0
+          },
+          "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+          "changes_deterministic_result": false,
+          "check_outcomes": {
+            "insufficient_evidence": 0,
+            "needs_human_review": 0,
+            "needs_runtime_validation": 0,
+            "not_applicable_proposed": 0,
+            "not_reviewed": 12,
+            "potential_gap": 0,
+            "supported_by_code": 0
+          },
+          "control_review_status": "disabled",
+          "enabled": false,
+          "finding_review_status": "disabled",
+          "ignored_answer_records": 0,
+          "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+        },
+        "overall_security_score": null,
+        "overall_security_score_reason": "No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "artifacts": {
+        "report.html": {
+          "bytes": 166286,
+          "sha256": "fad63fff7462a0313339f93548cbdf121f4d1d81eeed39a1d7898d2c027ff2f6"
+        },
+        "report.json": {
+          "bytes": 102735,
+          "sha256": "83abb7ac9901e461bd7e236c222d059b0001739eb11ad1467c13b6e8f5687310"
+        },
+        "report.md": {
+          "bytes": 61144,
+          "sha256": "b6a4a47f35874302102b3dc7157f9390a0380d3e66e5a4359e6299d0b913bda7"
+        },
+        "report.pdf": {
+          "bytes": 246061,
+          "sha256": "01af71de019ab0e84c2bc9472171d2bc30eace6ad6ffb2dd0fa73ef8cba17210"
+        },
+        "report.sarif": {
+          "bytes": 41642,
+          "sha256": "251579e91201a6a97217dfbe69795b86b7e8b37a3ece9b66899bff5edde9636f"
+        }
+      },
+      "cli_version": null,
+      "control_review_status": "error",
+      "exit_code": 2,
+      "finding_review_status": "error",
+      "findings": 4,
+      "headroom": {
+        "bytes_after": 0,
+        "bytes_before": 0,
+        "bytes_saved": 0,
+        "completed_payloads": 0,
+        "token_savings_measured": false
+      },
+      "model": null,
+      "optional_review_configuration": {
+        "analyst_limits": {
+          "batch_size": 6,
+          "max_bytes": 2000000,
+          "max_calls": 2,
+          "max_chars": 120000,
+          "max_files": 200,
+          "max_seconds": 240.0
+        },
+        "cli_login": "never",
+        "cli_timeout_seconds": 120.0,
+        "effective_transport": {
+          "max_request_bytes": 524288,
+          "max_response_bytes": 1048576,
+          "model": "opus",
+          "provider": "claude_cli",
+          "timeout_seconds": 120.0,
+          "token_optimizer": "headroom"
+        },
+        "enabled": true,
+        "findings_limit": 100,
+        "include_finding_source": false,
+        "mode": "full",
+        "provider": null,
+        "transport_replay": "Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay."
+      },
+      "run": "skills-claude",
+      "scoring": {
+        "deterministic": {
+          "active_checks": 12,
+          "active_controls": 6,
+          "active_rules": 4,
+          "coverage_gaps": 0,
+          "disabled_checks": 0,
+          "disabled_findings": 0,
+          "disabled_rules": 0,
+          "justified_checks": 0,
+          "justified_findings": 0,
+          "justified_rules": 0,
+          "mapping_reach": {
+            "denominator": 6,
+            "numerator": 6,
+            "percent": 100.0
+          },
+          "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+          "open_by_severity": {
+            "critical": 0,
+            "high": 3,
+            "info": 0,
+            "low": 0,
+            "medium": 1
+          },
+          "open_findings": 4,
+          "selected_controls": 6,
+          "selected_rules": 4,
+          "selected_scope_complete": true,
+          "suppressed_findings": 0,
+          "urgent_findings": 3
+        },
+        "exclusions": "Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.",
+        "gate": "The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.",
+        "optional_ai": {
+          "additional_concerns": 0,
+          "answer_coverage": {
+            "denominator": 12,
+            "numerator": 0,
+            "percent": 0.0
+          },
+          "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+          "changes_deterministic_result": false,
+          "check_outcomes": {
+            "insufficient_evidence": 0,
+            "needs_human_review": 0,
+            "needs_runtime_validation": 0,
+            "not_applicable_proposed": 0,
+            "not_reviewed": 12,
+            "potential_gap": 0,
+            "supported_by_code": 0
+          },
+          "control_review_status": "error",
+          "enabled": true,
+          "finding_review_status": "error",
+          "ignored_answer_records": 0,
+          "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+        },
+        "overall_security_score": null,
+        "overall_security_score_reason": "No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "artifacts": {
+        "report.html": {
+          "bytes": 205911,
+          "sha256": "beac8f6388acecf39665293b7ddf93a6857f905483f0da8e01c0ad0932c7b35a"
+        },
+        "report.json": {
+          "bytes": 117584,
+          "sha256": "cf9ab687dfe2fd3f36f85658003a651dd3c519c420f0ec8c4fc018bc37b88bf7"
+        },
+        "report.md": {
+          "bytes": 80010,
+          "sha256": "aa1476044cbbc354786ac1e4f25970d6e4a560e4b19bc1b72ca38137f9d2ccbb"
+        },
+        "report.sarif": {
+          "bytes": 41642,
+          "sha256": "251579e91201a6a97217dfbe69795b86b7e8b37a3ece9b66899bff5edde9636f"
+        }
+      },
+      "cli_version": "0.154.0",
+      "control_review_status": "error",
+      "exit_code": 2,
+      "finding_review_status": "completed",
+      "findings": 4,
+      "headroom": {
+        "bytes_after": 6072,
+        "bytes_before": 6250,
+        "bytes_saved": 178,
+        "completed_payloads": 1,
+        "token_savings_measured": false
+      },
+      "model": "gpt-6-astra",
+      "optional_review_configuration": {
+        "analyst_limits": {
+          "batch_size": 6,
+          "max_bytes": 2000000,
+          "max_calls": 2,
+          "max_chars": 120000,
+          "max_files": 200,
+          "max_seconds": 240.0
+        },
+        "cli_login": "never",
+        "cli_timeout_seconds": 120.0,
+        "effective_transport": {
+          "max_request_bytes": 524288,
+          "max_response_bytes": 1048576,
+          "model": "gpt-6-astra",
+          "provider": "codex_cli",
+          "timeout_seconds": 120.0,
+          "token_optimizer": "headroom"
+        },
+        "enabled": true,
+        "findings_limit": 100,
+        "include_finding_source": false,
+        "mode": "full",
+        "provider": "codex_cli",
+        "transport_replay": "Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay."
+      },
+      "run": "skills-codex-attempt",
+      "scoring": {
+        "deterministic": {
+          "active_checks": 12,
+          "active_controls": 6,
+          "active_rules": 4,
+          "coverage_gaps": 0,
+          "disabled_checks": 0,
+          "disabled_findings": 0,
+          "disabled_rules": 0,
+          "justified_checks": 0,
+          "justified_findings": 0,
+          "justified_rules": 0,
+          "mapping_reach": {
+            "denominator": 6,
+            "numerator": 6,
+            "percent": 100.0
+          },
+          "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+          "open_by_severity": {
+            "critical": 0,
+            "high": 3,
+            "info": 0,
+            "low": 0,
+            "medium": 1
+          },
+          "open_findings": 4,
+          "selected_controls": 6,
+          "selected_rules": 4,
+          "selected_scope_complete": true,
+          "suppressed_findings": 0,
+          "urgent_findings": 3
+        },
+        "exclusions": "Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.",
+        "gate": "The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.",
+        "optional_ai": {
+          "additional_concerns": 0,
+          "answer_coverage": {
+            "denominator": 12,
+            "numerator": 0,
+            "percent": 0.0
+          },
+          "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+          "changes_deterministic_result": false,
+          "check_outcomes": {
+            "insufficient_evidence": 0,
+            "needs_human_review": 0,
+            "needs_runtime_validation": 0,
+            "not_applicable_proposed": 0,
+            "not_reviewed": 12,
+            "potential_gap": 0,
+            "supported_by_code": 0
+          },
+          "control_review_status": "error",
+          "enabled": true,
+          "finding_review_status": "completed",
+          "ignored_answer_records": 0,
+          "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+        },
+        "overall_security_score": null,
+        "overall_security_score_reason": "No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "artifacts": {
+        "report.html": {
+          "bytes": 247036,
+          "sha256": "e56d4317b649962c2e06c3efd346ab68fc950197b7a0aca19bb78f89891d7272"
+        },
+        "report.json": {
+          "bytes": 159033,
+          "sha256": "b31edff9e4e04c7ed07c9c3dc0a4a4da7458dd07618d4662d0990260493cf2bf"
+        },
+        "report.md": {
+          "bytes": 112276,
+          "sha256": "6788e95715bab0cd131ecdba595e80dbc72584e9882ab57032d441062e1de1bd"
+        },
+        "report.pdf": {
+          "bytes": 314850,
+          "sha256": "19bf5af728a9392299b944df39f1c9e60e909e91fb8f278d930debb700a3796c"
+        },
+        "report.sarif": {
+          "bytes": 41642,
+          "sha256": "251579e91201a6a97217dfbe69795b86b7e8b37a3ece9b66899bff5edde9636f"
+        }
+      },
+      "cli_version": "0.154.0",
+      "control_review_status": "completed",
+      "exit_code": 1,
+      "finding_review_status": "completed",
+      "findings": 4,
+      "headroom": {
+        "bytes_after": 16639,
+        "bytes_before": 17105,
+        "bytes_saved": 466,
+        "completed_payloads": 4,
+        "token_savings_measured": false
+      },
+      "model": "gpt-6-astra",
+      "optional_review_configuration": {
+        "analyst_limits": {
+          "batch_size": 2,
+          "max_bytes": 2000000,
+          "max_calls": 3,
+          "max_chars": 120000,
+          "max_files": 200,
+          "max_seconds": 900.0
+        },
+        "cli_login": "never",
+        "cli_timeout_seconds": 300.0,
+        "effective_transport": {
+          "max_request_bytes": 524288,
+          "max_response_bytes": 1048576,
+          "model": "gpt-6-astra",
+          "provider": "codex_cli",
+          "timeout_seconds": 300.0,
+          "token_optimizer": "headroom"
+        },
+        "enabled": true,
+        "findings_limit": 100,
+        "include_finding_source": false,
+        "mode": "full",
+        "provider": "codex_cli",
+        "transport_replay": "Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay."
+      },
+      "run": "skills-codex",
+      "scoring": {
+        "deterministic": {
+          "active_checks": 12,
+          "active_controls": 6,
+          "active_rules": 4,
+          "coverage_gaps": 0,
+          "disabled_checks": 0,
+          "disabled_findings": 0,
+          "disabled_rules": 0,
+          "justified_checks": 0,
+          "justified_findings": 0,
+          "justified_rules": 0,
+          "mapping_reach": {
+            "denominator": 6,
+            "numerator": 6,
+            "percent": 100.0
+          },
+          "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+          "open_by_severity": {
+            "critical": 0,
+            "high": 3,
+            "info": 0,
+            "low": 0,
+            "medium": 1
+          },
+          "open_findings": 4,
+          "selected_controls": 6,
+          "selected_rules": 4,
+          "selected_scope_complete": true,
+          "suppressed_findings": 0,
+          "urgent_findings": 3
+        },
+        "exclusions": "Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.",
+        "gate": "The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.",
+        "optional_ai": {
+          "additional_concerns": 0,
+          "answer_coverage": {
+            "denominator": 12,
+            "numerator": 12,
+            "percent": 100.0
+          },
+          "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+          "changes_deterministic_result": false,
+          "check_outcomes": {
+            "insufficient_evidence": 10,
+            "needs_human_review": 0,
+            "needs_runtime_validation": 0,
+            "not_applicable_proposed": 0,
+            "not_reviewed": 0,
+            "potential_gap": 2,
+            "supported_by_code": 0
+          },
+          "control_review_status": "completed",
+          "enabled": true,
+          "finding_review_status": "completed",
+          "ignored_answer_records": 0,
+          "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+        },
+        "overall_security_score": null,
+        "overall_security_score_reason": "No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.",
+        "schema_version": "1.0"
+      }
+    }
+  ],
+  "scanner_version": "0.14.0",
+  "schema_version": "1.0"
+}

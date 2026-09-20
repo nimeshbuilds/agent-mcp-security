@@ -18,7 +18,7 @@ class CatalogExplorerTests(unittest.TestCase):
         response = describe_catalog('controls')
         self.assertEqual(response['catalog']['controls'], 66)
         self.assertEqual(response['catalog']['checks'], 132)
-        self.assertEqual(response['catalog']['statically_mapped_controls'], 26)
+        self.assertEqual(response['catalog']['statically_mapped_controls'], sum(bool(item['automated_rule_ids']) for item in original))
         self.assertEqual([item['id'] for item in response['controls']], [item['id'] for item in original])
         for before, after in zip(original, response['controls']):
             with self.subTest(control=before['id']):
@@ -36,7 +36,7 @@ class CatalogExplorerTests(unittest.TestCase):
     def test_all_source_metadata_is_preserved_without_announcement_mapping_inference(self):
         originals = json.loads((DATA / 'sources.json').read_text())
         sources = describe_catalog('sources')['sources']
-        self.assertEqual(len(sources), 75)
+        self.assertEqual(len(sources), len(originals))
         for before, after in zip(originals, sources):
             for key, value in before.items():
                 self.assertEqual(after[key], value)
@@ -46,7 +46,7 @@ class CatalogExplorerTests(unittest.TestCase):
 
     def test_all_rules_preserve_detection_and_existing_remediation(self):
         response = describe_catalog('rules')
-        self.assertEqual(response['catalog']['rules'], 42)
+        self.assertEqual(response['catalog']['rules'], len(RULES))
         for before, after in zip(RULES, response['rules']):
             for key, value in before.items():
                 self.assertEqual(after[key], value)

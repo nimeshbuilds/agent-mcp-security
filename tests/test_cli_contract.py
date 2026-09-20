@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from ai_security_scan.rules import RULES
 from unittest import mock
 
 from ai_security_scan.cli import main
@@ -78,7 +79,7 @@ class CliContractTests(unittest.TestCase):
                 self.assertFalse(self.output.exists())
 
     def test_catalog_and_version_commands_do_not_scan(self):
-        for arguments, count in [(["--list-rules"], 42), (["--list-controls"], 66)]:
+        for arguments, count in [(["--list-rules"], len(RULES)), (["--list-controls"], 66)]:
             out = io.StringIO()
             with mock.patch("ai_security_scan.cli.scan", side_effect=AssertionError("Unexpected scan")), contextlib.redirect_stdout(out):
                 self.assertEqual(main(arguments), 0)

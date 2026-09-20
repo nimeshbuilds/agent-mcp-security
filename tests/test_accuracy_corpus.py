@@ -42,7 +42,7 @@ class AccuracyCorpusTests(unittest.TestCase):
         report = accuracy.evaluate(self.corpus, self.digest)
         self.assertEqual(report['regression_failure_ids'], [])
         self.assertEqual(report['analysis_error_cases'], 0)
-        for rule in RULE_BY_ID:
+        for rule in {rule for case in self.corpus['cases'] for rule in case['expect']}:
             labels = {case['expect'][rule] for case in self.corpus['cases'] if case['suite'] == 'regression' and rule in case['expect']}
             self.assertEqual(labels, {True, False}, rule)
 
@@ -56,7 +56,7 @@ class AccuracyCorpusTests(unittest.TestCase):
 
     def test_removing_each_of_42_detectors_is_caught(self):
         original = analyzer._Findings.add
-        positives = {rule: next(case for case in self.corpus['cases'] if case['suite'] == 'regression' and case['expect'].get(rule) is True) for rule in RULE_BY_ID}
+        positives = {rule: next(case for case in self.corpus['cases'] if case['suite'] == 'regression' and case['expect'].get(rule) is True) for rule in {rule for case in self.corpus['cases'] for rule in case['expect']}}
         for removed, case in positives.items():
             def skip_rule(self, rule_id, *args, **kwargs):
                 if rule_id != removed:

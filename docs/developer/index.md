@@ -1,6 +1,6 @@
 # Developer guide
 
-These guides explain how Invarune 0.12.0 works and how to change it without weakening its evidence or review boundaries. The installed entry point is `invscan`; `invarune` and `ai-security-scan` call the same `ai_security_scan.cli:main` function.
+These guides explain how Invarune works and how to change it without weakening its evidence or review boundaries. The installed entry point is `invscan`; `invarune` and `ai-security-scan` call the same `ai_security_scan.cli:main` function.
 
 The scanner, offline explorer and optional security analyst serve different purposes:
 
@@ -14,6 +14,7 @@ The scanner, offline explorer and optional security analyst serve different purp
 
 | Your change | Read first | Relevant entry points |
 |---|---|---|
+| Discover/select scans, change coverage docs | [Scan inventory and selection](scan-inventory.md) | `scan_catalog.describe_scans`, `scoring.build_scoring` |
 | Add or refine a detection | [Adding checks](adding-checks.md) | `analyzer.analyze_file`, `_Findings.add`, `rules.RULES` |
 | Add research/control content | [Adding checks](adding-checks.md#add-a-control-source-or-explanation) | `data/controls.json`, `data/sources.json`, `data/control_explanations.json` |
 | Explain a CLI or traversal result | [Architecture](architecture.md) | `cli.main`, `scanner.scan`, `fs.read_confined` |

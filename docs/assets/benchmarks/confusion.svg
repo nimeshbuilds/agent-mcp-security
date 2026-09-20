@@ -4,7 +4,7 @@
 <g font-family="Arial, Helvetica, sans-serif">
 <text x="36" y="42" fill="#59dec2" font-size="13" font-weight="700" text-anchor="start" letter-spacing="2">INVARUNE  /  BENCHMARK LAB</text>
 <text x="36" y="81" fill="#edf9fc" font-size="28" font-weight="700" text-anchor="start" letter-spacing="0">The full confusion counts</text>
-<text x="36" y="114" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Recorded after result · Invarune 0.13.0 · 113 assertions</text>
+<text x="36" y="114" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Recorded after result · Invarune 0.14.0 · 113 assertions</text>
 <rect x="36" y="145" width="224" height="119" rx="10" fill="#102e3c"/>
 <text x="55" y="176" fill="#59dec2" font-size="15" font-weight="700" text-anchor="start" letter-spacing="0">TP  true positive</text>
 <text x="55" y="232" fill="#edf9fc" font-size="47" font-weight="700" text-anchor="start" letter-spacing="0">58</text>

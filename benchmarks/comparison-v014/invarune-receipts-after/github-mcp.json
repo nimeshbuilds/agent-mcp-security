@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "project": "github-mcp",
+  "repository": "https://github.com/github/github-mcp-server",
+  "revision": "85598ba6e1256f7ebf4867b95d63b833c4549264",
+  "source_manifest_sha256": "30f542b1dc66f2cb0bff66f21ac43fefadd2a7182ad1a88ace5061751edd186c",
+  "license": {
+    "summary": "MIT",
+    "path": "LICENSE",
+    "url": "https://github.com/github/github-mcp-server/blob/85598ba6e1256f7ebf4867b95d63b833c4549264/LICENSE"
+  },
+  "source_files": 163,
+  "source_bytes": 2092407,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "tmp/real-world-src/github-mcp",
+    "--output",
+    "tmp/comparison-v014/invarune-after/github-mcp",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.14.0"
+  },
+  "scan_id": "d0330b4f58a2407a8528bc485c77906acf70f9f0b56bd88a83bd8774211fc05e",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 2086786,
+    "bytes_read": 2086786,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 156,
+    "open_findings": 15,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 15,
+      "medium": 0
+    },
+    "suppressed_findings": 0
+  },
+  "rule_counts": {
+    "AI025": 15
+  },
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 1,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 136,
+      "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 12,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 7,
+      "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 0,
+      "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+    }
+  },
+  "execution": {
+    "exit_code": 0,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "repeated_runs": [
+    {
+      "run": 1,
+      "started_at_utc": "2026-09-20T04:16:20.533123+00:00",
+      "elapsed_seconds": 0.342821,
+      "exit_code": 0,
+      "stderr": "",
+      "report_sha256": {
+        "report.html": "0a3304893b0a66005c1ecad65a7c437dc04d93fb12deccb4b7cfb62a783c0488",
+        "report.json": "5004afa32a42a049ee5c115f2765e85b243c4a6873b38d77b4040b1305bfda6f",
+        "report.md": "b07dbe0498230952ba71431535e04ea171cbd3ddaf22af934784952bd615125d",
+        "report.sarif": "72737728ac70460736705a48c8e68b651a82bd9ba347f21927ae8722c8b734d6"
+      }
+    },
+    {
+      "run": 2,
+      "started_at_utc": "2026-09-20T04:16:20.877865+00:00",
+      "elapsed_seconds": 0.37352,
+      "exit_code": 0,
+      "stderr": "",
+      "report_sha256": {
+        "report.html": "0a3304893b0a66005c1ecad65a7c437dc04d93fb12deccb4b7cfb62a783c0488",
+        "report.json": "5004afa32a42a049ee5c115f2765e85b243c4a6873b38d77b4040b1305bfda6f",
+        "report.md": "b07dbe0498230952ba71431535e04ea171cbd3ddaf22af934784952bd615125d",
+        "report.sarif": "72737728ac70460736705a48c8e68b651a82bd9ba347f21927ae8722c8b734d6"
+      }
+    }
+  ],
+  "byte_identical_reports": true,
+  "target_code_executed": false,
+  "optional_judge_enabled": false
+}

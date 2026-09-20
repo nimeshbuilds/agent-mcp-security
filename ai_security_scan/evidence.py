@@ -324,6 +324,7 @@ def build_evidence(report, root, *, max_files=200, max_bytes=2_000_000,
             rules_to_controls[rule].add(control["id"])
     for finding in report.get("findings", []):
         findings_by_path[finding["path"]].append(finding)
+    uncertain_paths = {item.get("path") for item in report.get("coverage", {}).get("errors", [])}
     inverse = _keyword_index(controls)
     candidates = defaultdict(list)
     sources = {}
@@ -364,6 +365,7 @@ def build_evidence(report, root, *, max_files=200, max_bytes=2_000_000,
         valid.append(item)
     valid.sort(key=lambda item: (
         -int(bool(findings_by_path.get(item["path"]))),
+        -int(item["path"] in uncertain_paths),
         -len(_tokens(item["path"]) & _PATH_PRIORITY), item["path"], item["sha256"]
     ))
     scanner_file_limit = report.get("configuration", {}).get("max_file_bytes", _MAX_FILE_BYTES)
@@ -436,6 +438,12 @@ def build_evidence(report, root, *, max_files=200, max_bytes=2_000_000,
                 # Findings are a location hint; the finding itself is supplied
                 # separately. A excerpt does not imply reproduction of it.
                 scores[cid] += 1000
+            if path in uncertain_paths and start == 0:
+                # A failed syntax stage cannot supply a rule finding. Give each
+                # selected review control a bounded first-excerpt opportunity;
+                # the model must still cite evidence or return an unknown.
+                for control in controls:
+                    scores[control["id"]] += 25
             if scores:
                 candidate_keys.add((path, start))
             for cid, score in scores.items():

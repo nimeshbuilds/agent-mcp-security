@@ -1,0 +1,47 @@
+{
+  "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+  "interpretation": "Executed implementation checks and development-visible fixtures. Not exhaustive scenario coverage, proof of zero false positives/negatives, or a universal scanner ranking.",
+  "logs": {
+    "v014-tests-py312.log": {
+      "sha256": "de46f980a631ebbc0e8f4413a65de1370efbdf41c9eaeed98f7b98eb45c6386b",
+      "tail": [
+        "----------------------------------------------------------------------",
+        "Ran 925 tests in 31.917s",
+        "",
+        "OK"
+      ]
+    },
+    "v014-tests-py39.log": {
+      "sha256": "d6b790363f72b35c3f435ef0ed3654c02242c39c304661f077e0919ced3c6851",
+      "tail": [
+        "----------------------------------------------------------------------",
+        "Ran 925 tests in 31.046s",
+        "",
+        "OK (skipped=30)"
+      ]
+    }
+  },
+  "quickstart": {
+    "path": "benchmarks/quickstart-v014/receipt.json",
+    "result": "passed",
+    "sha256": "4a11e054917633b52810043e31611270531ea59756cbcbabdc860332e7bc514c",
+    "steps": 61
+  },
+  "recorded_at_utc": "2026-09-20T04:34:49.971702+00:00",
+  "scanner_version": "0.14.0",
+  "schema_version": "1.0",
+  "tests": {
+    "python_3_12_14": {
+      "failed": 0,
+      "run": 925,
+      "skipped": 0
+    },
+    "python_3_9_6": {
+      "failed": 0,
+      "run": 925,
+      "skip_scope": "Optional PDF dependencies are not installed in the system Python environment.",
+      "skipped": 30
+    }
+  },
+  "wheel_package_files_match_checkout": 38
+}

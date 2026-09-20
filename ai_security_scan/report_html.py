@@ -147,6 +147,40 @@ def _review_policy(report):
     return "\n".join(parts)
 
 
+def _scoring(report):
+    from .scoring import build_scoring, format_ratio
+    result = report.get("scoring") or build_scoring(report)
+    static, ai = result["deterministic"], result["optional_ai"]
+    rows = [
+        ("Open deterministic findings", str(static["open_findings"]) + " (" + str(static["urgent_findings"]) + " critical/high)",
+         "Exact observed counts. No severity weights or estimated probability of compromise are assigned."),
+        ("Partial deterministic mapping reach", format_ratio(static["mapping_reach"]),
+         "Active selected controls with at least one active selected mapped rule. Partial availability, not a pass rate."),
+        ("Optional AI answer coverage", format_ratio(ai["answer_coverage"]),
+         "Active selected checks with an actual model answer, including concerns or explicit unknowns. Review completion, not a pass rate."),
+    ]
+    parts = ['<section id="scoring"><p class="eyebrow">Transparent measures</p><h2>Metrics and how they are calculated</h2>',
+             '<p class="note">' + _escape(result["overall_security_score_reason"]) + '</p>',
+             '<div class="table-wrap"><table><thead><tr><th>Measure</th><th>Result</th><th>Meaning</th></tr></thead><tbody>']
+    for label, value, explanation in rows:
+        parts.append('<tr><td>' + _escape(label) + '</td><td><strong>' + _escape(value) + '</strong></td><td>' + _escape(explanation) + '</td></tr>')
+    parts += ['</tbody></table></div><p><strong>Selected scope:</strong> ' + _escape(static["selected_rules"])
+              + ' rules (' + _escape(static["active_rules"]) + ' active), ' + _escape(static["selected_controls"])
+              + ' controls (' + _escape(static["active_controls"]) + ' active), ' + _escape(static["active_checks"]) + ' active acceptance checks.</p>',
+              '<p><strong>Static execution:</strong> ' + ('Selected scope completed' if static["selected_scope_complete"] else 'Selected scope incomplete')
+              + '; ' + _escape(static["coverage_gaps"]) + ' recorded coverage gaps.</p>',
+              '<h3>Optional AI outcomes</h3><p>Finding stage: ' + _escape(ai["finding_review_status"])
+              + '. Control stage: ' + _escape(ai["control_review_status"]) + '.</p>',
+              '<div class="table-wrap"><table><thead><tr><th>Advisory check outcome</th><th>Count</th></tr></thead><tbody>']
+    for status, count in ai["check_outcomes"].items():
+        parts.append('<tr><td>' + _escape(status) + '</td><td>' + _escape(count) + '</td></tr>')
+    parts += ['</tbody></table></div><p>' + _escape(ai["interpretation"]) + '</p>',
+              _details("Exact formulas, exclusions, and CI gate", '<p><strong>Mapping formula:</strong> ' + _escape(static["mapping_reach_formula"])
+                       + '</p><p><strong>AI answer formula:</strong> ' + _escape(ai["answer_coverage_formula"])
+                       + '</p><p>' + _escape(result["exclusions"]) + '</p><p>' + _escape(result["gate"]) + '</p>', opened=True), '</section>']
+    return "\n".join(parts)
+
+
 def _sources(sources, title="Guidance sources"):
     if not sources:
         return ""
@@ -591,22 +625,21 @@ def _bars(title, rows):
 
 
 def _visual_summary(report, assessment):
-    controls = report.get("controls", [])
-    mapped = sum(bool(control.get("automated_rule_ids")) for control in controls)
-    metrics = assessment.get("metrics", {})
-    analyst = report.get("analyst", {})
-    coverage = analyst.get("coverage", {})
-    active_checks = _count(metrics.get("active_checks", sum(len(control.get("checks", [])) for control in controls)))
-    answered = max(0, min(active_checks, _count(coverage.get("total_checks", active_checks)) - _count(coverage.get("omitted_checks", active_checks)))) if analyst.get("enabled") else 0
+    from .scoring import build_scoring
+    scoring = report.get("scoring") or build_scoring(report)
+    mapped = scoring["deterministic"]["mapping_reach"]["numerator"]
+    active_controls = scoring["deterministic"]["active_controls"]
+    active_checks = scoring["deterministic"]["active_checks"]
+    answered = scoring["optional_ai"]["answer_coverage"]["numerator"]
     findings = report.get("findings", [])
     rows = [(label, sum(finding.get("status") == state for finding in findings), color)
             for state, label, color in (("open", "Open findings", "#c26024"), ("suppressed", "Baseline suppressed", "#7a8595"),
                                        ("justified", "User justified", "#8061a6"), ("disabled", "User disabled", "#99a4b2"))]
     return ('<div class="coverage-grid visual-summary">' + _bars("Finding dispositions", rows)
             + _bars("Static control mapping", [("Partial static mapping", mapped, "#238266"),
-                                                  ("No mapped detector", len(controls) - mapped, "#99a4b2")])
-            + '</div><p class="small">The mapping chart counts catalog controls with at least one partial detector: '
-            + str(mapped) + '/' + str(len(controls)) + '. It is not a control pass rate or vulnerability-detection rate. '
+                                                  ("No mapped detector", active_controls - mapped, "#99a4b2")])
+            + '</div><p class="small">The mapping chart counts active selected controls with at least one active selected partial detector: '
+            + str(mapped) + '/' + str(active_controls) + '. It is not a control pass rate or vulnerability-detection rate. '
             + str(answered) + '/' + str(active_checks) + ' active acceptance checks received an optional model answer; an answer does not establish effectiveness.</p>')
 
 
@@ -879,10 +912,10 @@ def html_report(report):
              '<header class="masthead" id="top"><div class="wrap"><div class="brandrow"><div class="brand">' + _MARK
              + '<div><div class="brand-name">Invarune</div><div class="brand-by">by NimeshBuild</div></div></div>',
              '<div class="edition">Evidence for agent security<br>Scanner ' + _escape(tool.get("version", "")) + '</div></div>',
-             '<div class="hero"><h1>AI agent &amp; MCP security report</h1>',
+             '<div class="hero"><h1>AI agent, MCP &amp; skill security report</h1>',
              '<p>Findings, priorities, and evidence needed to verify safeguards.</p>',
              '<div class="hero-meta"><span>' + _escape(scope_label) + '</span><span>Scan ID: <code>' + _escape(report.get("scan_id", "")) + '</code></span></div></div></div></header>',
-             '<nav class="nav" aria-label="Report navigation"><div class="wrap"><a href="#summary">Executive summary</a><a href="#actions">Priority actions</a><a href="#findings">Finding evidence</a><a href="#review-workspace">Review and save</a><a href="#method">Methods and blind spots</a><a href="#configuration">Scan configuration</a><a href="#coverage">Coverage</a>'
+             '<nav class="nav" aria-label="Report navigation"><div class="wrap"><a href="#summary">Executive summary</a><a href="#scoring">Metrics and calculation</a><a href="#actions">Priority actions</a><a href="#findings">Finding evidence</a><a href="#review-workspace">Review and save</a><a href="#method">Methods and blind spots</a><a href="#configuration">Scan configuration</a><a href="#coverage">Coverage</a>'
              + ('<a href="#review-policy">User decisions</a>' if report.get("review_policy", {}).get("enabled") else '')
              + ('<a href="#image">Image scope</a>' if report.get("image") else '') + '<a href="#advisory">Optional review</a><a href="#controls">All controls</a></div></nav>',
              '<main class="wrap"><section id="summary"><p class="eyebrow">Start here</p><h2>Executive summary</h2>',
@@ -900,7 +933,7 @@ def html_report(report):
     parts += ['</div><p class="small">Inspected <strong>' + _escape(metrics.get("files_scanned", summary.get("files_scanned", 0)))
               + ' files</strong>; <strong>' + _escape(metrics.get("suppressed_findings", summary.get("suppressed_findings", 0)))
               + ' suppressed findings</strong> are retained below. <strong>' + _escape(metrics.get("controls_requiring_validation", len(controls)))
-              + ' active controls require validation</strong> from a catalog of ' + _escape(metrics.get("controls_total", len(controls)))
+              + ' active controls require validation</strong> out of ' + _escape(metrics.get("controls_total", len(controls))) + ' selected controls'
               + '; static pattern results do not establish control completion.</p>']
     if report.get("review_policy", {}).get("enabled"):
         parts.append('<p class="note warning"><strong>User review decisions:</strong> ' + _escape(metrics.get("active_rules", 0))
@@ -949,7 +982,7 @@ def html_report(report):
                      + ' open finding groups. <a href="#actions">Review every priority action and mitigation layer</a>.</p>')
     else:
         parts.append('<div class="empty"><strong>No open finding groups.</strong> Review any baseline or user-configured exceptions and complete the active coverage and control validation work below. An empty finding list does not demonstrate that a deployment is secure.</div>')
-    parts += ['</section>', _review_area(report, workspace), '<section id="actions"><div class="section-heading"><div><p class="eyebrow">Action plan</p><h2>Priority actions and defense layers</h2></div><a class="back" href="#top">Back to top</a></div>',
+    parts += ['</section>', _scoring(report), _review_area(report, workspace), '<section id="actions"><div class="section-heading"><div><p class="eyebrow">Action plan</p><h2>Priority actions and defense layers</h2></div><a class="back" href="#top">Back to top</a></div>',
               '<p>Each group connects observed evidence to a practical first action, an accountable team, and additional safeguards. These layers are <strong>proposed, not verified</strong>; they do not automatically reduce finding severity or remove the need to fix the underlying condition.</p>']
     if groups:
         parts.extend(_action(group, known_findings, known_controls) for group in groups)
@@ -967,7 +1000,7 @@ def html_report(report):
     if report.get("image"):
         parts.append(_image(report["image"]))
     parts += [_advisory(report), '<section id="controls"><div class="section-heading"><div><p class="eyebrow">Complete control checklist</p><h2>Controls and acceptance checks</h2></div><a class="back" href="#top">Back to top</a></div>',
-              '<p>All ' + _escape(len(controls)) + ' catalog controls appear below. Expand a control for acceptance checks, source guidance, mapped findings, and any optional analyst review.</p>',
+              '<p>All ' + _escape(len(controls)) + ' selected controls appear below. Expand a control for acceptance checks, source guidance, mapped findings, and any optional analyst review.</p>',
               '<p class="note">These are project-defined checks mapped to published guidance, not official benchmark scores. <code>no_pattern_detected</code> means only that the mapped detector did not fire. <code>findings_detected</code> requires investigation; it is not an automatic compliance failure.</p>']
     parts.extend(_control(control, advisory_controls.get(control.get("id")), known_findings, review_items) for control in controls)
     parts += ['</section><section id="provenance"><h2>Report provenance</h2><div class="panel"><p class="small">The executive assessment is derived deterministically from scan findings, scope, and the versioned mitigation guidance catalog. Optional model advice is shown separately.</p>',

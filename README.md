@@ -2,16 +2,17 @@
 
 ![Invarune by NimeshBuild — invscan for AI agents, MCP servers, source and built images](docs/assets/brand/invarune-social.png)
 
-**Invarune** (IN-vuh-roon) provides the `invscan` CLI to inspect a codebase or built Linux container image, identify selected security risks, and produce a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every active control through a deterministic evidence and validation layer, using native LLM APIs, a custom HTTP gateway, or an official Codex, Claude Code or Grok Build CLI. The model's judgment remains nondeterministic and advisory.
+**Invarune** (IN-vuh-roon) provides the `invscan` CLI to inspect an agent/MCP codebase, skill directory or built Linux container image, identify selected security risks, and produce a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every active control through a deterministic evidence and validation layer, using native LLM APIs, a custom HTTP gateway, or an official Codex, Claude Code or Grok Build CLI. The model's judgment remains nondeterministic and advisory.
 
-The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
+The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **46 deterministic rules provide partial static coverage of 30 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
+- **[Every scan: algorithms, source benchmarks, limits and optional AI coverage](docs/SCAN_COVERAGE.md)**
 - **[Quick start: install and use invscan](docs/QUICKSTART.md)**
 - **[Documentation website](https://nimeshbuilds.github.io/invarune/)** — searchable user guides, developer internals and benchmark evidence.
 - **[Visual benchmark dashboard](docs/BENCHMARK_DASHBOARD.md)** — fresh measurements, improvements, complementary tool coverage and reproducible evidence.
 - **[Report and PDF library](docs/REPORT_LIBRARY.md)** · **[Developer guide](CONTRIBUTING.md)**
 - **[Ask about security controls offline](docs/SECURITY_EXPLORER.md)**
-- **[Download the v0.13 CLI wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.13.0)**
+- **[Download the v0.14 CLI wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.14.0)**
 - **[Versioned scan example: fillable PDF, HTML and live AI review](examples/reports/invscan-v011/README.md)**
 - [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
 - [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
@@ -19,8 +20,8 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Complete CLI reference](docs/CLI.md)
 - [Justified and disabled checks: review configuration](docs/REVIEW_CONFIGURATION.md)
 - [Accuracy methodology and known false positives/negatives](docs/RULE_ACCURACY.md)
-- [Fresh finding-by-finding competitor comparison](benchmarks/comparison-v013/README.md)
-- [Executed quickstart validation and receipts](benchmarks/quickstart-v013/README.md)
+- [Fresh finding-by-finding competitor comparison](benchmarks/comparison-v014/README.md)
+- [Executed quickstart validation and receipts](benchmarks/quickstart-v014/README.md)
 - [Real-project reports and comparative scanner benchmark](docs/BENCHMARK_RESULTS.md)
 - [CLI subscription login, model defaults and live-test evidence](docs/CLI_PROVIDER_RESEARCH.md)
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
@@ -29,15 +30,30 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Controlled security analyst: routing, evidence, budgets, and outcomes](docs/ANALYST.md)
 - [Machine-readable control catalog](ai_security_scan/data/controls.json)
 
-## Measured improvement in v0.13
+## Choose exactly what to scan
 
-![Same-input fixture precision and recall before and after detector fixes](docs/assets/benchmarks/fixture-progress.svg)
+```sh
+invscan --list-scans
+invscan --explain-scan AI043
+invscan ./agent-or-mcp-repo
+invscan ./agent-or-mcp-repo --scans AI001,AI002 --scans AUTH-01
+invscan ./skill-directory --scans AGT-06 --report ./skill-report
+invscan --image-archive ./agent.tar --scans AI043,AI044,AI045,AI046
+```
 
-The unchanged **113-case, project-authored corpus** improved from **96.49% → 98.31% precision** and **91.67% → 96.67% recall**. Four failing cases now match their labels; two misses and one false alarm remain. These are development fixture results, not production accuracy.
+With no `--report`, `--output` or `--pdf`, the CLI prints findings, fixes, selected controls, coverage gaps and optional AI outcomes directly in the terminal and writes no report files. `--report [DIR]` saves four editable formats; `--pdf` adds the fillable PDF. Repeat `--scans` or comma-separate rule/control IDs. A control with no mapped detector remains an explicit review plan with zero static rules.
 
-Fresh scans cover the same **eight pinned public projects / 4,120 exported files**. Three reviewed source false alarms were removed; 146 observations and 15 coverage gaps remain. All 32 detailed source report files match two repeated executions. The comparison includes fresh Semgrep CE, Bandit, Gitleaks and a separate Cisco metadata run. Scope, unsupported inputs and every tool-only observation stay visible.
+Version **0.14** adds skill instructions and malicious-tool indicators, scoped reports, exact scoring formulas, and evidence routing for inconclusive static analysis. A detected directive is risk evidence, not proof of malicious authorship. Optional review examines selected active controls, including uncertain and unmapped checks, but cannot erase static findings or establish runtime safety. [Full scan matrix and scoring guide](docs/SCAN_COVERAGE.md).
 
-[Explore the visual dashboard](docs/BENCHMARK_DASHBOARD.md) · [Read the nine-page benchmark PDF](output/pdf/invarune-benchmark-v013.pdf) · [Inspect all 1,114 observations](benchmarks/comparison-v013/FINDINGS.md)
+## Measured results in v0.14
+
+![Same-input fixture outcomes before and after this release](docs/assets/benchmarks/fixture-progress.svg)
+
+The unchanged **113-assertion, project-authored corpus** retains **58 TP / 52 TN / 1 FP / 2 FN**: **98.31% precision** and **96.67% recall**. This release adds skill/tool inspection without claiming an improvement on that historical denominator. The separate **81-case / 331-assertion skill/tool corpus** records **40 TP / 288 TN / 0 FP / 3 FN**, with all known semantic/language misses retained.
+
+Fresh scans cover the same **eight pinned public projects / 4,120 exported files**: **146 observations and 21 explicit coverage gaps**. Six additional gaps expose dynamic descriptions and metadata outside configured analysis bounds. All 32 detailed source report files match two repeated executions. Fresh pinned Semgrep CE, Bandit, Gitleaks and separate Cisco metadata runs retain scope differences and tool-only findings. Public-project true-positive rates remain unknown without independent adjudication.
+
+[Explore the visual dashboard](docs/BENCHMARK_DASHBOARD.md) · [Updated benchmark PDF](output/pdf/invarune-benchmark-v014.pdf) · [Inspect all 1,114 observations](benchmarks/comparison-v014/FINDINGS.md) · [Historical v0.13 improvement](benchmarks/comparison-v013/README.md)
 
 ## Ask what the security checks cover
 
@@ -53,23 +69,23 @@ invscan --explain-source JOINT-AGENTIC
 invscan --explain-control AUTH-01 --catalog-format json
 ```
 
-These commands read the bundled catalog only. `--ask` is bounded deterministic token/alias lookup, not generative chat or a scan of your system. Answers explain why each control matters, its acceptance checks, partial static mappings, source organizations and validation limits. Primary control citations, thematic alignments and technical rule references remain distinct. The 42 rules still map partially to 26 controls; an explanation does not establish that a check passes.
+These commands read the bundled catalog only. `--ask` is bounded deterministic token/alias lookup, not generative chat or a scan of your system. Answers explain why each control matters, its acceptance checks, partial static mappings, source organizations and validation limits. Primary control citations, thematic alignments and technical rule references remain distinct. The 46 rules map partially to 30 controls; an explanation does not establish that a check passes.
 
 New explorer commands default to readable text. The existing `--list-rules`, `--list-controls` and `--explain-rule` retain their JSON defaults; `--catalog-format text` requests a readable view. No model or login is enabled. [Complete explorer guide](docs/SECURITY_EXPLORER.md), or run `invscan --help-topic security`.
 
-[Read versioned installed CLI answers](examples/security-explorer/README.md). Current version **0.13** passed **845 local tests**, a **53-step fresh-install quickstart**, and **all eight cross-platform CI jobs**. Its released wheel was downloaded back, hash-verified and installed in another fresh environment. [Current validation receipts](benchmarks/validation-v013/README.md).
+[Read versioned installed CLI answers](examples/security-explorer/README.md). Historical version **0.13** passed **845 local tests**, a **53-step fresh-install quickstart**, and **all eight cross-platform CI jobs**. Its released wheel was downloaded back, hash-verified and installed in another fresh environment. [Historical validation receipts](benchmarks/validation-v013/README.md).
 
-## Editable scan example (v0.11)
+## Editable scan examples (v0.14)
 
-[Open the redesigned scan report](examples/reports/invscan-v011/README.md): priorities and linked locations at the beginning, findings from page 4, concrete fixes and mitigating layers, readable scope/configuration/AI coverage, Headroom byte receipts, and editable justifications with an audit appendix. The actual example uses installed `invscan`, limited live Codex review and default Headroom. Its 2 selected finding answers, 9 unselected findings and unrequested control review are explicit.
+[Open the actual selected-skill reports](examples/reports/v014/README.md): four risky instruction patterns, concrete fixes and mitigating layers, selected control coverage, explicit metric formulas and editable justifications. The completed live Codex run retains all four deterministic findings and answers all twelve selected checks: two potential gaps and ten insufficient-evidence answers. Headroom's recorded payload reduction is 466 bytes across four completed calls; token savings are unmeasured.
 
-<p align="center"><a href="examples/reports/invscan-v011/report.pdf"><img src="docs/assets/invscan-v011-report-cover.png" alt="Invarune 0.11 scan report with linked security priorities" width="440"></a></p>
+<p align="center"><a href="examples/reports/v014/skills-codex/report.pdf"><img src="docs/assets/invscan-v014-report-cover.png" alt="Invarune 0.14 selected-skill report with live advisory review" width="440"></a></p>
 
-That v0.11 report's [43-step quickstart receipt](benchmarks/quickstart-v011/README.md), [765-test validation evidence](benchmarks/validation-v011/README.md) and [eight successful CI jobs](https://github.com/nimeshbuilds/invarune/actions/runs/35479443718) remain historical evidence. The v0.12 explorer does not change report rendering or detectors. The controlbook below is the separate research/control reference.
+The deterministic report, actual Claude sign-in failure and first Codex timeout remain available alongside the successful retry. These are narrow fixture demonstrations, not production vulnerability adjudication. The [older full-scope report](examples/reports/invscan-v011/README.md) remains historical evidence. The controlbook below is the separate research/control reference.
 
 ## The Invarune controlbook
 
-[Download the branded PDF](output/pdf/invarune-security-controlbook.pdf): **71 pages**, all **66 controls**, **132 acceptance checks**, **75 primary-source references**, **9 executable research benchmarks**, the **42-rule automation index**, and the controlled analyst workflow. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
+[Download the branded PDF](output/pdf/invarune-security-controlbook.pdf): **121 pages**, all **66 controls**, **132 acceptance checks**, **76 primary-source references**, **9 executable research benchmarks**, the **46-rule algorithm and remediation index**, and the controlled analyst workflow. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
 
 <p align="center"><a href="output/pdf/invarune-security-controlbook.pdf"><img src="docs/assets/controlbook-cover.png" alt="Invarune AI Agent and MCP Security Controlbook cover" width="380"></a></p>
 
@@ -114,7 +130,7 @@ invscan --help-topic review
 
 For real testing, see the [eight pinned public-project reports](benchmarks/real-world/README.md), the [external scanner comparison](benchmarks/external-tools/README.md), and the [branded benchmark PDF](output/pdf/invarune-benchmark-report.pdf). The same selected source bytes were offered to Invarune, Semgrep CE, Bandit and Gitleaks. Cisco MCP Scanner ran a separate partial metadata test. Findings, false-positive examples, parser gaps, commands, versions and hashes are published; observed counts are not confirmed vulnerabilities or a scanner ranking.
 
-Version **0.13.0** adds bounded Python reflection, YAML and shell-command refinements, source precision fixes, the branded benchmark dashboard, and the canonical Invarune repository/site. [Current validation](benchmarks/validation-v013/README.md).
+Version **0.13.0** adds bounded Python reflection, YAML and shell-command refinements, source precision fixes, the branded benchmark dashboard, and the canonical Invarune repository/site. [Historical validation](benchmarks/validation-v013/README.md).
 
 Version **0.12.0** added an offline security explorer: ask what the catalog checks, why a control matters and where its guidance came from. It explains all controls and checks without a target, model, login or network request. Install the [released 0.12.0 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.12.0) or the current checkout for these commands.
 
@@ -143,6 +159,8 @@ invscan /path/to/repo --review-report ./reviewed-report.html --pdf --output ./fi
 ```
 
 Use the HTML **Download reviewed HTML** button to preserve form edits. Keep reports outside the source target and select the fresh code/image input explicitly. [Complete five-format review workflow](docs/REVIEW_WORKFLOW.md).
+
+[Current v0.14 installed validation](benchmarks/validation-v014/README.md) records 925 tests and 61 actual quickstart steps.
 
 The report starts with what was found and what needs attention first. It groups repeated findings by rule, status, and image context, and distinguishes open concerns from accepted baseline exceptions. Critical/high findings lead the action plan; proposed layers such as isolation, scoped authorization, egress restrictions, approval checks, and monitoring include verification work and remaining limitations. A proposed layer is never treated as already deployed or used to lower the detected severity. The summary and action plan are generated without a model; optional advisory review remains separate. See the [report guide](docs/REPORTS.md) for interpretation and mitigation verification.
 

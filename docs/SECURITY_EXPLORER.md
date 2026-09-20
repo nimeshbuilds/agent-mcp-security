@@ -1,8 +1,8 @@
 # Offline security explorer
 
-Invarune **0.12.0** can explain the security catalog before you scan anything. Use `invscan --ask` to find relevant controls, checks, rules and sources; then open an exact item for its rationale and evidence requirements. The answers come from bundled data and deterministic lookup. No model, API key, provider configuration, login, network connection or target directory is needed.
+Invarune can explain the security catalog before you scan anything. Use `invscan --ask` to find relevant controls, checks, rules and sources; then open an exact item for its rationale and evidence requirements. The answers come from bundled data and deterministic lookup. No model, API key, provider configuration, login, network connection or target directory is needed.
 
-Install the [released 0.12.0 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.12.0) or follow the [quickstart](QUICKSTART.md) to install the checkout. The `invarune` and `ai-security-scan` aliases support the same flags. [Actual installed examples](../examples/security-explorer/README.md) show the resulting text and JSON.
+Follow the [quickstart](QUICKSTART.md) for the current release wheel or checkout installation. The `invarune` and `ai-security-scan` aliases support the same flags. [Actual installed examples](../examples/security-explorer/README.md) show the resulting text and JSON.
 
 ## Start with a security question
 
@@ -39,9 +39,9 @@ invscan --explain-control AGT-03
 invscan --explain-control TEST-01
 ```
 
-`AGT-03`, separating untrusted content from authoritative instructions, has partial static coverage through `AI032`. `TEST-01`, measuring prompt-injection security and useful task completion, requires dynamic testing and has no deterministic rule mapping. Merely recognizing an unsafe message-construction pattern cannot establish resistance to adversarial tool output, prove an authorization boundary works, or measure task success under attack.
+`AGT-03`, separating untrusted content from authoritative instructions, has partial static coverage through `AI032` (privileged message composition) and `AI043` (recognized instruction override patterns). `TEST-01`, measuring prompt-injection security and useful task completion, requires dynamic testing and has no deterministic rule mapping. Merely recognizing an unsafe message-construction pattern cannot establish resistance to adversarial tool output, prove an authorization boundary works, or measure task success under attack.
 
-The catalog explains **66 controls and 132 acceptance checks**. Its **42 rules provide partial static mappings to 26 controls**. Those are mapping counts, not pass rates. Even a mapped control still needs evidence for the complete acceptance check. Explorer output does not run the scanner, produce findings or mark any check as passed.
+The catalog explains **66 controls and 132 acceptance checks**. Its **46 rules provide partial static mappings to 30 controls**. Those are mapping counts, not pass rates. Even a mapped control still needs evidence for the complete acceptance check. Explorer output does not run the scanner, produce findings or mark any check as passed.
 
 ## Inspect where a control came from
 
@@ -53,7 +53,7 @@ invscan --explain-source CIS-MCP-2026
 invscan --explain-source NSA-AGENTIC
 ```
 
-The registry contains **75 sources** with organization, title, URL, kind, version/date, scope and limitations. Technical references attached to rules are identified separately. URLs are printed for follow-up reading; explorer commands do not open them or verify that the website has remained unchanged.
+The registry contains **76 sources** with organization, title, URL, kind, version/date, scope and limitations. Technical references attached to rules are identified separately. URLs are printed for follow-up reading; explorer commands do not open them or verify that the website has remained unchanged.
 
 | Relationship | Meaning | Example |
 | --- | --- | --- |
@@ -100,4 +100,6 @@ invscan /absolute/path/to/agent-or-mcp-repo --output ./scan-report
 invscan --image-archive ./agent-image.tar --output ./image-report
 ```
 
-A scan applies the supported deterministic rules to the selected source or image and writes the normal reports. Optional model review requires a separate explicit `--judge-cli` or `--judge-config` option on that scan. The explorer never enables it. Runtime and human checks remain visible in the [report workflow](REPORTS.md), and the [complete CLI reference](CLI.md) documents scope, budgets, exits and every option.
+A scan applies the selected deterministic rules to source, skills or an image. Results appear in the terminal unless `--report`, `--output` or `--pdf` requests files. Use `--list-scans` and `--explain-scan ID` for exact predicates, then `--scans AI002,AI043` to select specific scans; see the [complete coverage guide](SCAN_COVERAGE.md). Optional model review requires a separate explicit `--judge-cli` or `--judge-config` option on that scan. The explorer never enables it. Runtime and human checks remain visible in the [report workflow](REPORTS.md), and the [complete CLI reference](CLI.md) documents scope, budgets, exits and every option.
+
+The [complete executable scan inventory](SCAN_COVERAGE.md) also supports `invscan --list-scans`, `invscan --explain-scan AI043`, and rule/control selection through `--scans`. It includes skill and tool-metadata patterns, explicit algorithms and optional AI limits.

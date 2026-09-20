@@ -1,0 +1,284 @@
+{
+  "artifacts": {
+    "claude": {
+      "all_internal_destinations_valid": true,
+      "bookmarks": 13,
+      "bound_review_items": 16,
+      "byte_identical_example_copy": true,
+      "canonical_fields": 80,
+      "canonical_fields_widgets_and_appearances_consistent": true,
+      "deterministic_metrics": {
+        "active_checks": 12,
+        "active_controls": 6,
+        "active_rules": 4,
+        "coverage_gaps": 0,
+        "disabled_checks": 0,
+        "disabled_findings": 0,
+        "disabled_rules": 0,
+        "justified_checks": 0,
+        "justified_findings": 0,
+        "justified_rules": 0,
+        "mapping_reach": {
+          "denominator": 6,
+          "numerator": 6,
+          "percent": 100.0
+        },
+        "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+        "open_by_severity": {
+          "critical": 0,
+          "high": 3,
+          "info": 0,
+          "low": 0,
+          "medium": 1
+        },
+        "open_findings": 4,
+        "selected_controls": 6,
+        "selected_rules": 4,
+        "selected_scope_complete": true,
+        "suppressed_findings": 0,
+        "urgent_findings": 3
+      },
+      "embedded_full_report_matches_json": true,
+      "example_pdf": "examples/reports/v014/skills-claude/report.pdf",
+      "execution": {
+        "exit_code": 2,
+        "failure_threshold": "high",
+        "finding_gate_triggered": true
+      },
+      "internal_links": 71,
+      "optional_ai_metrics": {
+        "additional_concerns": 0,
+        "answer_coverage": {
+          "denominator": 12,
+          "numerator": 0,
+          "percent": 0.0
+        },
+        "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+        "changes_deterministic_result": false,
+        "check_outcomes": {
+          "insufficient_evidence": 0,
+          "needs_human_review": 0,
+          "needs_runtime_validation": 0,
+          "not_applicable_proposed": 0,
+          "not_reviewed": 12,
+          "potential_gap": 0,
+          "supported_by_code": 0
+        },
+        "control_review_status": "error",
+        "enabled": true,
+        "finding_review_status": "error",
+        "ignored_answer_records": 0,
+        "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+      },
+      "page_widgets": 80,
+      "pages": 31,
+      "pdf": "output/pdf/invarune-v014-skills-claude.pdf",
+      "pdf_sha256": "01af71de019ab0e84c2bc9472171d2bc30eace6ad6ffb2dd0fa73ef8cba17210",
+      "report_json": "examples/reports/v014/skills-claude/report.json",
+      "report_json_sha256": "83abb7ac9901e461bd7e236c222d059b0001739eb11ad1467c13b6e8f5687310",
+      "review_workspace_matches_json": true,
+      "unique_external_links": 8,
+      "visual_review": {
+        "clipping_or_overlap_found": false,
+        "contact_sheet_pages": 31,
+        "full_size_pages": [
+          1,
+          10,
+          24
+        ],
+        "rendered_pages": 31,
+        "renderer": "Poppler pdftoppm -scale-to 1000 -png",
+        "status": "passed"
+      }
+    },
+    "codex": {
+      "all_internal_destinations_valid": true,
+      "bookmarks": 13,
+      "bound_review_items": 16,
+      "byte_identical_example_copy": true,
+      "canonical_fields": 80,
+      "canonical_fields_widgets_and_appearances_consistent": true,
+      "deterministic_metrics": {
+        "active_checks": 12,
+        "active_controls": 6,
+        "active_rules": 4,
+        "coverage_gaps": 0,
+        "disabled_checks": 0,
+        "disabled_findings": 0,
+        "disabled_rules": 0,
+        "justified_checks": 0,
+        "justified_findings": 0,
+        "justified_rules": 0,
+        "mapping_reach": {
+          "denominator": 6,
+          "numerator": 6,
+          "percent": 100.0
+        },
+        "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+        "open_by_severity": {
+          "critical": 0,
+          "high": 3,
+          "info": 0,
+          "low": 0,
+          "medium": 1
+        },
+        "open_findings": 4,
+        "selected_controls": 6,
+        "selected_rules": 4,
+        "selected_scope_complete": true,
+        "suppressed_findings": 0,
+        "urgent_findings": 3
+      },
+      "embedded_full_report_matches_json": true,
+      "example_pdf": "examples/reports/v014/skills-codex/report.pdf",
+      "execution": {
+        "exit_code": 1,
+        "failure_threshold": "high",
+        "finding_gate_triggered": true
+      },
+      "internal_links": 71,
+      "optional_ai_metrics": {
+        "additional_concerns": 0,
+        "answer_coverage": {
+          "denominator": 12,
+          "numerator": 12,
+          "percent": 100.0
+        },
+        "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+        "changes_deterministic_result": false,
+        "check_outcomes": {
+          "insufficient_evidence": 10,
+          "needs_human_review": 0,
+          "needs_runtime_validation": 0,
+          "not_applicable_proposed": 0,
+          "not_reviewed": 0,
+          "potential_gap": 2,
+          "supported_by_code": 0
+        },
+        "control_review_status": "completed",
+        "enabled": true,
+        "finding_review_status": "completed",
+        "ignored_answer_records": 0,
+        "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+      },
+      "page_widgets": 80,
+      "pages": 39,
+      "pdf": "output/pdf/invarune-v014-skills-codex.pdf",
+      "pdf_sha256": "19bf5af728a9392299b944df39f1c9e60e909e91fb8f278d930debb700a3796c",
+      "report_json": "examples/reports/v014/skills-codex/report.json",
+      "report_json_sha256": "b31edff9e4e04c7ed07c9c3dc0a4a4da7458dd07618d4662d0990260493cf2bf",
+      "review_workspace_matches_json": true,
+      "unique_external_links": 8,
+      "visual_review": {
+        "clipping_or_overlap_found": false,
+        "contact_sheet_pages": 39,
+        "full_size_pages": [
+          1,
+          4,
+          12,
+          27,
+          32
+        ],
+        "rendered_pages": 39,
+        "renderer": "Poppler pdftoppm -scale-to 1000 -png",
+        "status": "passed"
+      }
+    },
+    "static": {
+      "all_internal_destinations_valid": true,
+      "bookmarks": 12,
+      "bound_review_items": 16,
+      "byte_identical_example_copy": true,
+      "canonical_fields": 80,
+      "canonical_fields_widgets_and_appearances_consistent": true,
+      "deterministic_metrics": {
+        "active_checks": 12,
+        "active_controls": 6,
+        "active_rules": 4,
+        "coverage_gaps": 0,
+        "disabled_checks": 0,
+        "disabled_findings": 0,
+        "disabled_rules": 0,
+        "justified_checks": 0,
+        "justified_findings": 0,
+        "justified_rules": 0,
+        "mapping_reach": {
+          "denominator": 6,
+          "numerator": 6,
+          "percent": 100.0
+        },
+        "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+        "open_by_severity": {
+          "critical": 0,
+          "high": 3,
+          "info": 0,
+          "low": 0,
+          "medium": 1
+        },
+        "open_findings": 4,
+        "selected_controls": 6,
+        "selected_rules": 4,
+        "selected_scope_complete": true,
+        "suppressed_findings": 0,
+        "urgent_findings": 3
+      },
+      "embedded_full_report_matches_json": true,
+      "example_pdf": "examples/reports/v014/skills-static/report.pdf",
+      "execution": {
+        "exit_code": 1,
+        "failure_threshold": "high",
+        "finding_gate_triggered": true
+      },
+      "internal_links": 69,
+      "optional_ai_metrics": {
+        "additional_concerns": 0,
+        "answer_coverage": {
+          "denominator": 12,
+          "numerator": 0,
+          "percent": 0.0
+        },
+        "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+        "changes_deterministic_result": false,
+        "check_outcomes": {
+          "insufficient_evidence": 0,
+          "needs_human_review": 0,
+          "needs_runtime_validation": 0,
+          "not_applicable_proposed": 0,
+          "not_reviewed": 12,
+          "potential_gap": 0,
+          "supported_by_code": 0
+        },
+        "control_review_status": "disabled",
+        "enabled": false,
+        "finding_review_status": "disabled",
+        "ignored_answer_records": 0,
+        "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+      },
+      "page_widgets": 80,
+      "pages": 27,
+      "pdf": "output/pdf/invarune-v014-skills-static.pdf",
+      "pdf_sha256": "b598d40eba6666ea9f04600468388886cfe9aa55413b68ce22c6d39a545a6db6",
+      "report_json": "examples/reports/v014/skills-static/report.json",
+      "report_json_sha256": "aa4bf5723f6d568d6b50f01324a5a7384abb304170bce0d61bb71e8396e6f3ce",
+      "review_workspace_matches_json": true,
+      "unique_external_links": 8,
+      "visual_review": {
+        "clipping_or_overlap_found": false,
+        "contact_sheet_pages": 27,
+        "full_size_pages": [
+          1,
+          4
+        ],
+        "rendered_pages": 27,
+        "renderer": "Poppler pdftoppm -scale-to 1000 -png",
+        "status": "passed"
+      }
+    }
+  },
+  "deterministic_findings_identical_across_modes": true,
+  "deterministic_metrics_identical_across_modes": true,
+  "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+  "scanner_version": "0.14.0",
+  "schema_version": "1.0",
+  "validation_scope": "Actual installed-CLI inert fixture scans exported through the report API. Complete-page visual QA, canonical form/widget/appearance verification, bound review-workspace and embedded-report equality, links and bookmarks. These example patterns are not a public vulnerability assessment. Claude authentication failed; no Claude model adjudication is claimed. Codex returned 12 valid advisory check answers (10 insufficient evidence, 2 potential gaps) plus four finding reviews; these are not independent truth labels or passes."
+}

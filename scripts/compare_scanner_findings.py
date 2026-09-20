@@ -52,6 +52,8 @@ FAMILIES = {
     "AI034": "credential_url_query", "AI035": "model_checkpoint_deserialization", "AI036": "sql_construction",
     "AI037": "archive_extraction", "AI038": "security_randomness", "AI039": "template_rendering",
     "AI040": "unsafe_html_rendering", "AI041": "authentication_disabled", "AI042": "host_namespace",
+    "AI043": "instruction_hierarchy_override", "AI044": "sensitive_transfer_instruction",
+    "AI045": "covert_or_approval_bypass_instruction", "AI046": "readonly_description_conflict",
 }
 
 BANDIT_FAMILIES = {
@@ -89,6 +91,10 @@ FAMILY_NOTES = {
     "dynamic_code_execution": "Dynamic eval/exec-style execution at the same source location; reachability and trust boundaries remain unverified.",
     "shell_execution": "Shell-enabled execution surface at the same location. Calls without a shell/imports are separate families.",
     "archive_extraction": "Archive extraction call at the same location; safe-filter inference differs by rule.",
+    "instruction_hierarchy_override": "Declared agent instruction or literal tool description requests overriding higher-trust instructions; static text evidence does not establish runtime compliance or author intent.",
+    "sensitive_transfer_instruction": "Agent-facing text combines a transfer directive, sensitive object and explicit destination; intended authorization and actual data disclosure are not established.",
+    "covert_or_approval_bypass_instruction": "Agent-facing instruction requests concealment of an action or bypass of an approval/sandbox boundary; no execution or policy bypass is demonstrated.",
+    "readonly_description_conflict": "A literal tool definition combines readOnlyHint=true with a destructive description; metadata disagreement does not establish the implementation's behavior.",
 }
 
 PREDICATE_NOTES = {
@@ -124,6 +130,10 @@ PREDICATE_NOTES = {
     "wildcard_listener": "A service listens on all interfaces; intended exposure, network policy and authentication determine risk.",
     "debug_enabled": "Debug behavior is enabled; evaluate reachable runtime configuration and exposed debugging features.",
     "jwt_signature_bypass": "JWT verification is explicitly bypassed; determine whether decoded data is subsequently trusted or independently verified.",
+    "instruction_hierarchy_override": "Verify that the cited text is an operative instruction on a declared agent-facing surface, rather than a negation, quotation or example; separately test the deployed agent's instruction boundary.",
+    "sensitive_transfer_instruction": "Verify the transfer directive, sensitive object and explicit destination occur in the same applicable agent instruction; review destination ownership and authorization before interpreting disclosure risk.",
+    "covert_or_approval_bypass_instruction": "Verify an operative action-concealment or approval/sandbox-bypass instruction, excluding negation and inert examples; runtime policy enforcement is separate evidence.",
+    "readonly_description_conflict": "Verify readOnlyHint=true and the destructive instruction belong to the same literal tool definition; inspect implementation and write authorization independently of the untrusted annotation.",
 }
 
 
@@ -211,6 +221,22 @@ def observation(project, tool, version, finding, run, raw_hash, mapping, duplica
     return item
 
 
+def verified_invarune_report(raw, receipt):
+    """Bind findings to the actual recorded execution bytes, not just metadata."""
+    runs = receipt.get("repeated_runs")
+    digest = sha(raw)
+    if (not isinstance(runs, list) or not runs
+            or any(not isinstance(run, dict)
+                   or not isinstance(run.get("report_sha256"), dict)
+                   or run.get("report_sha256", {}).get("report.json") != digest
+                   for run in runs)):
+        raise ValueError("Invarune report bytes differ from recorded execution hashes")
+    report = json.loads(raw)
+    if report["scan_id"] != receipt["scan_id"] or report["tool"] != receipt["tool"]:
+        raise ValueError("Invarune report differs from actual receipt")
+    return report
+
+
 def build(args):
     manifest_raw = args.manifest.read_bytes()
     manifest = json.loads(manifest_raw)
@@ -238,9 +264,7 @@ def build(args):
         if receipt["source_manifest_sha256"] != source_hash or receipt["revision"] != project["revision"]:
             raise ValueError("Invarune run source identity mismatch")
         raw = (args.invarune_reports / pid / "report.json").read_bytes()
-        report = json.loads(raw)
-        if report["scan_id"] != receipt["scan_id"] or report["tool"] != receipt["tool"]:
-            raise ValueError("Invarune report differs from actual receipt")
+        report = verified_invarune_report(raw, receipt)
         own = {"tool": "invarune", "version": report["tool"]["version"], "project_id": pid,
                "source_manifest_sha256": source_hash, "raw_report_sha256": sha(raw),
                "finding_count": report["summary"]["open_findings"], "errors": report["coverage"]["errors"],

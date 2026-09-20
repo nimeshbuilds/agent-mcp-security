@@ -17,6 +17,7 @@ from pathlib import PurePosixPath
 from urllib.parse import urlsplit
 
 from .rules import RULE_BY_ID
+from .threats import inspect_instructions
 
 
 _SOURCE_SUFFIXES = {".py", ".pyi", ".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"}
@@ -1940,7 +1941,7 @@ def _generic_analysis(findings, text, path, suffix):
                 findings.add("AI025", index, confidence="low")
 
 
-def analyze_file_errors(path: str, text: str) -> list[str]:
+def analyze_file_errors(path: str, text: str, instruction_context: bool = False) -> list[str]:
     """Return parse/coverage errors separately from vulnerabilities."""
     suffix = PurePosixPath(path).suffix.lower()
     try:
@@ -1956,10 +1957,11 @@ def analyze_file_errors(path: str, text: str) -> list[str]:
         return ["JSON could not be parsed at line %s: %s; structured configuration checks were skipped." % (error.lineno, error.msg)]
     except (ValueError, RecursionError, MemoryError) as error:
         return ["Source could not be parsed (%s); syntax-aware checks were skipped." % type(error).__name__]
-    return []
+    instruction_text = _strip_comments(text) if suffix == ".jsonc" else text
+    return inspect_instructions(path, instruction_text, _js_tokens, instruction_context)[1]
 
 
-def analyze_file(path: str, text: str) -> list[dict]:
+def analyze_file(path: str, text: str, instruction_context: bool = False) -> list[dict]:
     """Analyze one text file without reading imports, making requests, or executing it."""
     findings = _Findings(path, text)
     suffix = PurePosixPath(path).suffix.lower()
@@ -1981,4 +1983,15 @@ def analyze_file(path: str, text: str) -> list[dict]:
     if suffix in {".json", ".jsonc"}:
         _json_analysis(findings, _strip_comments(text) if suffix == ".jsonc" else text, path)
     _generic_analysis(findings, text, path, suffix)
+    instruction_text = _strip_comments(text) if suffix == ".jsonc" else text
+    threat_records, _, shell_blocks = inspect_instructions(path, instruction_text, _js_tokens, instruction_context)
+    for rule_id, line, confidence, detail in threat_records:
+        findings.add(rule_id, line, confidence=confidence, detail=detail)
+    for body, line in shell_blocks:
+        block_findings = _Findings(path, body)
+        _shell_download_execution(block_findings, body)
+        for item in block_findings.items:
+            findings.add(item["rule_id"], line + item["line"] - 1,
+                         line + item["end_line"] - 1, item["confidence"],
+                         "Found in an executable shell fence in agent/skill instructions; actual execution requires runtime validation.")
     return sorted(findings.items, key=lambda item: (item["line"], item["rule_id"]))

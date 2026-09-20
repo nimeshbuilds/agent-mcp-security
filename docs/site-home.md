@@ -1,10 +1,10 @@
 <div class="inv-hero" markdown>
 
-<p class="inv-eyebrow">INVARUNE BY NIMESHBUILD · v0.13</p>
+<p class="inv-eyebrow">INVARUNE BY NIMESHBUILD · v0.14</p>
 
 # Evidence for agent security.
 
-Inspect an AI agent or MCP server from its source code or built Linux image. Understand each finding, trace it to a control, and carry the evidence into review.
+Inspect an AI agent, MCP server or skill from its source code or built Linux image. Understand each finding, trace it to a control, and carry the evidence into review.
 
 **Deterministic scanning and `invscan --ask` work without agentic AI, model credentials or a subscription.** Enable the controlled AI analyst when you want additional advisory review.
 
@@ -16,8 +16,8 @@ Inspect an AI agent or MCP server from its source code or built Linux image. Und
 <div class="inv-stats">
 <div class="inv-stat"><strong>66</strong><span>project-defined controls</span></div>
 <div class="inv-stat"><strong>132</strong><span>acceptance checks</span></div>
-<div class="inv-stat"><strong>42</strong><span>deterministic detection rules</span></div>
-<div class="inv-stat"><strong>75</strong><span>source references</span></div>
+<div class="inv-stat"><strong>46</strong><span>deterministic detection rules</span></div>
+<div class="inv-stat"><strong>76</strong><span>source references</span></div>
 </div>
 
 ## One CLI, three starting points
@@ -26,8 +26,14 @@ Inspect an AI agent or MCP server from its source code or built Linux image. Und
 # Ask what the bundled security catalog covers, entirely offline.
 invscan --ask 'How is MCP authentication covered?'
 
-# Inspect a source checkout without running its code.
-invscan ./my-agent --output ./scan-report/source
+# List every scan and its exact deterministic/optional-AI scope.
+invscan --list-scans
+
+# Print findings and fixes in the terminal, without report files.
+invscan ./my-agent
+
+# Select skill/tool scans and save an editable report.
+invscan ./my-skill --scans AI043,AI044,AI045,AI046 --report ./skill-report
 
 # Inspect a Docker-save or OCI archive without starting a container.
 invscan --image-archive ./agent-image.tar --output ./scan-report/image
@@ -37,14 +43,14 @@ invscan --help
 invscan --help-topic all
 ```
 
-[Install the CLI first](docs/QUICKSTART.md), or [download the v0.13 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.13.0). Core scanning uses Python 3.9+ and no runtime packages. PDF creation and AI integrations are optional extras.
+[Install the CLI first](docs/QUICKSTART.md), or [download the v0.14 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.14.0). Core scanning uses Python 3.9+ and no runtime packages. PDF creation and AI integrations are optional extras.
 
 ## Improvements you can inspect
 
-On the same 113 development fixtures, precision improved **96.49% → 98.31%** and recall **91.67% → 96.67%**. Four mismatches were corrected; three remain visible. The fresh public-project comparison preserves all inputs and coverage gaps. These percentages are fixture results, not production accuracy.
+The unchanged **113-assertion** development corpus retains its known misses and false alarm. A separate **81-case / 331-assertion** skill/tool corpus tests direct malicious-instruction indicators and safe counterexamples, with three semantic/language misses retained. Fresh pinned-project reports show findings, additional analysis gaps, and the exact configuration. These are development measurements, not production accuracy or a universal tool ranking.
 
 [See the charts, source reports and exact comparison](docs/BENCHMARK_DASHBOARD.md){ .md-button .md-button--primary }
-[Download the updated benchmark PDF](output/pdf/invarune-benchmark-v013.pdf){ .md-button }
+[Download the updated benchmark PDF](output/pdf/invarune-benchmark-v014.pdf){ .md-button }
 
 ## Follow the path you need
 
@@ -60,7 +66,7 @@ On the same 113 development fixtures, precision improved **96.49% → 98.31%** a
 
     Explore what a check means, why it matters, which organizations discuss it, and what static evidence cannot prove.
 
-    [Offline explorer](docs/SECURITY_EXPLORER.md) · [Checklist](docs/SECURITY_CHECKLIST.md) · [Source map](docs/SOURCE_MAP.md)
+    [Every scan and algorithm](docs/SCAN_COVERAGE.md) · [Offline explorer](docs/SECURITY_EXPLORER.md) · [Checklist](docs/SECURITY_CHECKLIST.md) · [Source map](docs/SOURCE_MAP.md)
 
 - **Review and justify**
 
@@ -82,15 +88,15 @@ On the same 113 development fixtures, precision improved **96.49% → 98.31%** a
 
 - **Read the evidence behind this release**
 
-    v0.13 passed 845 local tests, a 53-step installed-CLI quickstart and all eight CI jobs. Its release assets were downloaded back and hash-verified.
+    Inspect the recorded tests, installed-CLI quickstart, repeated source scans, skill fixtures and publication checks for this release.
 
-    [v0.13 validation](benchmarks/validation-v013/README.md) · [Quickstart receipt](benchmarks/quickstart-v013/README.md)
+    [v0.14 validation](benchmarks/validation-v014/README.md) · [Quickstart receipt](benchmarks/quickstart-v014/README.md)
 
 </div>
 
 ## Know what a result can establish
 
-The 42 rules provide **partial static coverage of 26 of the 66 controls**. The other controls need operational, runtime or human evidence. A clean scan does not prove that an agent is secure, and catalog lookup does not assess your application.
+The 46 rules provide **partial static coverage of 30 of the 66 controls**. The other controls need operational, runtime or human evidence. A clean scan does not prove that an agent is secure, and catalog lookup does not assess your application.
 
 The optional model review is nondeterministic and advisory. Its deterministic wrapper limits evidence, validates citations and responses, enforces budgets, and records incomplete work. A model answer cannot silently convert missing evidence into a verified pass. [Coverage and review design](docs/ANALYST.md).
 

@@ -2192,6 +2192,192 @@
           ]
         }
       ]
+    },
+    {
+      "rule_id": "AI043",
+      "plausible_impact": "A tool description or skill instruction can be inserted into model context before invocation; an override directive attempts to cross the boundary from external data into agent authority.",
+      "immediate_action": "Quarantine the affected tool/skill revision until its override text has been reviewed; remove unrelated directives and reapprove the exact content hash.",
+      "suggested_owner": "Agent/MCP tool or skill owner",
+      "control_ids": [
+        "MCP-03",
+        "AGT-03",
+        "AGT-06"
+      ],
+      "source_ids": [
+        "MCP-TOOLS",
+        "AGENT-SKILLS-SPEC"
+      ],
+      "defense_layers": [
+        {
+          "id": "instruction-boundary",
+          "title": "Enforce effect and data policy outside model text",
+          "how_it_helps": "Replace the instruction with a factual description of inputs, outputs and side effects. Treat returned/retrieved text as data and enforce allowed operations in code outside the model.",
+          "verification": "Replay the exact instruction in an isolated agent with harmless canary data and assert the policy-restricted action is denied.",
+          "residual_limit": "A removed literal phrase does not establish immunity to indirect, multilingual, encoded or dynamically generated prompt injection.",
+          "control_ids": [
+            "MCP-03",
+            "AGT-03",
+            "AGT-06"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "AGENT-SKILLS-SPEC"
+          ]
+        },
+        {
+          "id": "artifact-review",
+          "title": "Review and bind the exact tool/skill revision",
+          "how_it_helps": "Pin or hash approved artifacts, review changed instructions and metadata, and require deliberate reapproval before use.",
+          "verification": "Modify a harmless tool description or skill instruction and verify the client rejects the stale approval.",
+          "residual_limit": "Artifact integrity preserves the approved bytes; it does not prove those bytes are safe or that remote dependencies stay unchanged.",
+          "control_ids": [
+            "MCP-04",
+            "AGT-06"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "AGENT-SKILLS-SPEC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI044",
+      "plausible_impact": "An instruction that directs an agent to gather a credential or sensitive file and send it to a URL/email can turn an otherwise legitimate tool into a disclosure path.",
+      "immediate_action": "Inspect the named data and destination with the owner. Remove unapproved transfer instructions; rotate real credentials only if exposure is established or credibly suspected.",
+      "suggested_owner": "Agent/MCP tool or skill owner",
+      "control_ids": [
+        "MCP-03",
+        "AGT-06",
+        "AGT-07"
+      ],
+      "source_ids": [
+        "MCP-TOOLS",
+        "AGENT-SKILLS-SPEC"
+      ],
+      "defense_layers": [
+        {
+          "id": "instruction-boundary",
+          "title": "Enforce effect and data policy outside model text",
+          "how_it_helps": "Use a broker that supplies audience-bound short-lived credentials without placing raw secrets in model context. Allowlist outbound recipients and show the exact payload/recipient for required approval.",
+          "verification": "Use fake canary credentials and an isolated sink; verify an unapproved destination and encoded/piecemeal disclosure are blocked without transmitting real secrets.",
+          "residual_limit": "Static text cannot establish destination ownership, user consent, live egress enforcement or whether the sensitive object exists.",
+          "control_ids": [
+            "MCP-03",
+            "AGT-06",
+            "AGT-07"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "AGENT-SKILLS-SPEC"
+          ]
+        },
+        {
+          "id": "artifact-review",
+          "title": "Review and bind the exact tool/skill revision",
+          "how_it_helps": "Pin or hash approved artifacts, review changed instructions and metadata, and require deliberate reapproval before use.",
+          "verification": "Modify a harmless tool description or skill instruction and verify the client rejects the stale approval.",
+          "residual_limit": "Artifact integrity preserves the approved bytes; it does not prove those bytes are safe or that remote dependencies stay unchanged.",
+          "control_ids": [
+            "MCP-04",
+            "AGT-06"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "AGENT-SKILLS-SPEC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI045",
+      "plausible_impact": "Concealment or approval-bypass text in skills/tool descriptions can induce the planner to exceed user-authorized actions under the agent or MCP process identity.",
+      "immediate_action": "Remove the concealment/bypass directive and suspend autonomous use of the affected revision pending review.",
+      "suggested_owner": "Agent/MCP tool or skill owner",
+      "control_ids": [
+        "AGT-02",
+        "AGT-06"
+      ],
+      "source_ids": [
+        "MCP-TOOLS",
+        "AGENT-SKILLS-SPEC"
+      ],
+      "defense_layers": [
+        {
+          "id": "instruction-boundary",
+          "title": "Enforce effect and data policy outside model text",
+          "how_it_helps": "Have the execution service validate authorization and exact arguments before action; log the operation and reject replayed or changed approvals independently of prompt instructions.",
+          "verification": "Exercise the offending instruction with harmless actions, changed arguments, direct MCP calls and a missing/expired approval; all unauthorized effects must fail.",
+          "residual_limit": "A visible approval prompt alone does not prove the executed target and arguments match what the user approved.",
+          "control_ids": [
+            "AGT-02",
+            "AGT-06"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "AGENT-SKILLS-SPEC"
+          ]
+        },
+        {
+          "id": "artifact-review",
+          "title": "Review and bind the exact tool/skill revision",
+          "how_it_helps": "Pin or hash approved artifacts, review changed instructions and metadata, and require deliberate reapproval before use.",
+          "verification": "Modify a harmless tool description or skill instruction and verify the client rejects the stale approval.",
+          "residual_limit": "Artifact integrity preserves the approved bytes; it does not prove those bytes are safe or that remote dependencies stay unchanged.",
+          "control_ids": [
+            "MCP-04",
+            "AGT-06"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "AGENT-SKILLS-SPEC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI046",
+      "plausible_impact": "A client may prioritize tools or reduce consent using annotations; an explicit destructive description paired with readOnlyHint=true exposes conflicting metadata at that trust boundary.",
+      "immediate_action": "Temporarily handle the tool as potentially mutating; inspect its implementation and effective permissions before enabling autonomous calls.",
+      "suggested_owner": "Agent/MCP tool or skill owner",
+      "control_ids": [
+        "MCP-03",
+        "MCP-04"
+      ],
+      "source_ids": [
+        "MCP-TOOLS"
+      ],
+      "defense_layers": [
+        {
+          "id": "instruction-boundary",
+          "title": "Enforce effect and data policy outside model text",
+          "how_it_helps": "Correct readOnlyHint and the description together, version or hash the metadata, and reapprove changed definitions. Enforce read-only credentials or server-side mutation checks independently of the annotation.",
+          "verification": "Run against a disposable fixture and compare its before/after state; verify direct unauthorized writes fail even when the client trusts readOnlyHint.",
+          "residual_limit": "A consistent description and annotation can still be dishonest; this check does not prove actual read-only behavior or detect all tool substitution.",
+          "control_ids": [
+            "MCP-03",
+            "MCP-04"
+          ],
+          "source_ids": [
+            "MCP-TOOLS"
+          ]
+        },
+        {
+          "id": "artifact-review",
+          "title": "Review and bind the exact tool/skill revision",
+          "how_it_helps": "Pin or hash approved artifacts, review changed instructions and metadata, and require deliberate reapproval before use.",
+          "verification": "Modify a harmless tool description or skill instruction and verify the client rejects the stale approval.",
+          "residual_limit": "Artifact integrity preserves the approved bytes; it does not prove those bytes are safe or that remote dependencies stay unchanged.",
+          "control_ids": [
+            "MCP-04",
+            "AGT-06"
+          ],
+          "source_ids": [
+            "MCP-TOOLS",
+            "AGENT-SKILLS-SPEC"
+          ]
+        }
+      ]
     }
   ]
 }

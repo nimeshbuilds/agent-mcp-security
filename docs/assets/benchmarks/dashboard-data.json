@@ -11,100 +11,160 @@
       "true_negative": 52,
       "true_positive": 58
     },
-    "tool_version": "0.13.0"
+    "tool_version": "0.14.0"
   },
   "before": {
     "overall": {
       "assertions": 113,
-      "false_negative": 5,
-      "false_negative_rate": 0.083333,
-      "false_positive": 2,
-      "false_positive_rate": 0.037736,
-      "precision": 0.964912,
-      "recall": 0.916667,
-      "true_negative": 51,
-      "true_positive": 55
+      "false_negative": 2,
+      "false_negative_rate": 0.033333,
+      "false_positive": 1,
+      "false_positive_rate": 0.018868,
+      "precision": 0.983051,
+      "recall": 0.966667,
+      "true_negative": 52,
+      "true_positive": 58
     },
-    "tool_version": "0.12.0"
+    "tool_version": "0.13.0"
   },
-  "changed_assertions": [
-    {
-      "after": "true_positive",
-      "before": "false_negative",
-      "case_id": "gap-reflection-python",
-      "rule_id": "AI003"
-    },
-    {
-      "after": "true_positive",
-      "before": "false_negative",
-      "case_id": "gap-shell-wrapper",
-      "rule_id": "AI019"
-    },
-    {
-      "after": "true_positive",
-      "before": "false_negative",
-      "case_id": "gap-yaml-alias",
-      "rule_id": "AI027"
-    },
-    {
-      "after": "true_negative",
-      "before": "false_positive",
-      "case_id": "gap-yaml-block-string",
-      "rule_id": "AI026"
-    }
-  ],
+  "catalog_counts": {
+    "checks": 132,
+    "controls": 66,
+    "mapped_controls": 30,
+    "rules": 46
+  },
+  "changed_assertions": [],
   "charts": {
     "confusion.svg": {
-      "sha256": "49626e31f88a62b2020cc2161269a9e8eccb91d4eccfb3ae8b6a801938018683"
+      "sha256": "8dce267a60dd766762860b11fc74c7cccb0db998ae604f687adaba0a5de2cdd6"
     },
     "family-footprint.svg": {
       "sha256": "b6f435135bff1dcc78da7ad84aeb298b6239a67a27df4c7781a21e949f53db72"
     },
     "fixture-progress.svg": {
-      "sha256": "9e85b4969d0d673eaf55944ef95c23f9be09a3eab25bdfb3c11d1e08cb506868"
+      "sha256": "dd68606b1210c8bc99c5c3e9ccc301008d6542de57ef29b8173e801e37d3a7c8"
     },
     "overlap.svg": {
       "sha256": "76caf2a8ad30c136fe2af79baf8a3016cd56f0da63512194ce3a15b83944fc52"
     },
+    "skills-tools.svg": {
+      "sha256": "c0dedc6ba367f10d3ca4fcdf4c37be91f1808418e6b81c9c300249f6b5d3eca7"
+    },
     "source-coverage.svg": {
-      "sha256": "f69bfd3177e508dd15193434b676b932d94a84c1eea3e42eaf4540d0137e298d"
+      "sha256": "9991b6b55ff9634ba3bffb31d633feebc4ff7b77e8fb0966660dbcb2ea784724"
     }
   },
-  "comparison": "comparison-v013",
+  "comparison": "comparison-v014",
   "fixture_corpus_sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3",
   "generator": "scripts/build_benchmark_dashboard.py",
   "inputs": {
-    "benchmarks/comparison-v013/accuracy-after.json": {
+    "benchmarks/comparison-v014/accuracy-after.json": {
+      "bytes": 69008,
+      "sha256": "4d8c0f5213eedb3879986665757e7f5e17689dd26417642df7fa8b2d62874a27"
+    },
+    "benchmarks/comparison-v014/accuracy-before.json": {
       "bytes": 67940,
       "sha256": "49bd49b0464b288beca29212d1b8be4f3b6c48ce5037a0da771bc2c829de9e38"
     },
-    "benchmarks/comparison-v013/accuracy-before.json": {
-      "bytes": 68018,
-      "sha256": "317df5794e85e17d4c5965023ff1fddfb708262bb94f5fb3f517f265994a6a94"
-    },
-    "benchmarks/comparison-v013/baseline-identity.json": {
+    "benchmarks/comparison-v014/baseline-identity.json": {
       "bytes": 568,
-      "sha256": "8ca33faac8770a910638e53ac60188fc8be34087f00de74bd49bcc3864ee1c14"
+      "sha256": "ee1fb67aff3f3a98af54c08fa3dd9736158ac2fcea658b0def15da83144ed542"
     },
-    "benchmarks/comparison-v013/before-after-accuracy.json": {
-      "bytes": 5109,
-      "sha256": "bf763bc4b484466a9ef632cff766331e66b687c5106e0774973e439d56ff0a79"
+    "benchmarks/comparison-v014/before-after-accuracy.json": {
+      "bytes": 3873,
+      "sha256": "75d97f72c4bc931904cc50b6670fc7d7162dcd199477a33efb5844723675b5a4"
     },
-    "benchmarks/comparison-v013/external-results/cisco-metadata.json": {
+    "benchmarks/comparison-v014/external-results/cisco-metadata.json": {
       "bytes": 5745,
-      "sha256": "9d3cbc04da6b333f79419b1e04998d5c12ce0d6e84ed0ad87e31fc7cda788ccc"
+      "sha256": "7c3c7db35722d8ed52f89faa8866ccfe9d2dcddf32ad5c7e117a147f24728299"
     },
-    "benchmarks/comparison-v013/observations.json": {
+    "benchmarks/comparison-v014/invarune-receipts-after/autogen.json": {
+      "bytes": 4161,
+      "sha256": "0269c7be519622b9cf63f72c2a13bf84cb4003b290a0861b9f91fd87bbfd5006"
+    },
+    "benchmarks/comparison-v014/invarune-receipts-after/crewai.json": {
+      "bytes": 4280,
+      "sha256": "ac336b53a42d87443c74c58dbd849fda96dd700a09e971f60a7f299ed9548c43"
+    },
+    "benchmarks/comparison-v014/invarune-receipts-after/fastmcp.json": {
+      "bytes": 4187,
+      "sha256": "3359972cbf5cb4598feef8cd3622e4008438c6ba70722893c48499c9c26d8a5b"
+    },
+    "benchmarks/comparison-v014/invarune-receipts-after/github-mcp.json": {
+      "bytes": 4101,
+      "sha256": "25dee3a87ac924c9a1d810cf204e6f7fca4072f545a804902e8729181bbdf48a"
+    },
+    "benchmarks/comparison-v014/invarune-receipts-after/langgraph.json": {
+      "bytes": 4249,
+      "sha256": "4bd0c28ef509c450c7b0ec7f834d6a8af699d587dbdbbb9003f4defb11876bf7"
+    },
+    "benchmarks/comparison-v014/invarune-receipts-after/mcp-reference.json": {
+      "bytes": 4181,
+      "sha256": "db733457b718cb098b6cb3c72a37f8d46ef43cc854e0d643da08e4485164d8ea"
+    },
+    "benchmarks/comparison-v014/invarune-receipts-after/openhands.json": {
+      "bytes": 4241,
+      "sha256": "f49d6ed34350e9d7caa06aec0058e3bbf949a1b8d7d1aeadfc73fc5a7dca46b3"
+    },
+    "benchmarks/comparison-v014/invarune-receipts-after/pydantic-ai.json": {
+      "bytes": 4197,
+      "sha256": "3e5208d10a8f5553da2f3b4926a2cd475d81eef59479b64963f2fd728e6deffc"
+    },
+    "benchmarks/comparison-v014/invarune-reports/autogen/report.json": {
+      "bytes": 542938,
+      "sha256": "7e4a8d1a59b9e81285b29638f08140fbb90b63062668545c8614a7c31fb6a73f"
+    },
+    "benchmarks/comparison-v014/invarune-reports/crewai/report.json": {
+      "bytes": 723246,
+      "sha256": "632aec58c3a522817c632667e9119f48985a57d968aef38b27f9830f0930143c"
+    },
+    "benchmarks/comparison-v014/invarune-reports/fastmcp/report.json": {
+      "bytes": 255720,
+      "sha256": "6af64ba5d6b5d3724706d5547fe759e040f0d1b8520d40ff42f1267fcb21bc3a"
+    },
+    "benchmarks/comparison-v014/invarune-reports/github-mcp/report.json": {
+      "bytes": 288190,
+      "sha256": "5004afa32a42a049ee5c115f2765e85b243c4a6873b38d77b4040b1305bfda6f"
+    },
+    "benchmarks/comparison-v014/invarune-reports/langgraph/report.json": {
+      "bytes": 398816,
+      "sha256": "ea173a1515ad4e12e57c67a9ef2d7723baf6600bec2b6dc2b723e60e825e63ca"
+    },
+    "benchmarks/comparison-v014/invarune-reports/mcp-reference/report.json": {
+      "bytes": 541537,
+      "sha256": "b5c86b649279edee8c65813308c2183ede7e33165534cb170903157174218f72"
+    },
+    "benchmarks/comparison-v014/invarune-reports/openhands/report.json": {
+      "bytes": 530487,
+      "sha256": "1f58d73d2674f49c58d460b2b0bdf65c4f7d75dddb83f2792267e8eef05478b5"
+    },
+    "benchmarks/comparison-v014/invarune-reports/pydantic-ai/report.json": {
+      "bytes": 249337,
+      "sha256": "368618abfcef9df75844f8f02b4021a7bec826ac7f92b880b4bdb7a4868b0c1c"
+    },
+    "benchmarks/comparison-v014/observations.json": {
       "bytes": 1687444,
-      "sha256": "668f465110aa4f47ea3a89df5cbf0a509b69980bfa9cebe5ffee8a601f221721"
+      "sha256": "f4665347052d4d0aa5a91ced89c755f3b9d89e0f7271db59eda8c1ad3b7a3355"
     },
-    "benchmarks/comparison-v013/overlaps.json": {
+    "benchmarks/comparison-v014/overlaps.json": {
       "bytes": 142370,
-      "sha256": "c4c4510045638675b37919f8c040a3661e420f44d7f1f57cbc023278c613713b"
+      "sha256": "7c9e5af99024852b3a7ca317cb1a5ffb316f5b5a413d9f056bf9719dde98c6d8"
     },
-    "benchmarks/comparison-v013/run-status.json": {
-      "bytes": 20632,
-      "sha256": "1f63d714a1cbd5cf95f88ebef01a23ecc55f02400ef323a918fc412c218a83eb"
+    "benchmarks/comparison-v014/run-status.json": {
+      "bytes": 22168,
+      "sha256": "f188c56ddcc14061deaf8c920bfd0758d327b96d28d784cb4d94d8caaed8a93d"
+    },
+    "benchmarks/comparison-v014/skills-tools-accuracy.json": {
+      "bytes": 93914,
+      "sha256": "90a10ab28ec2af73bf31529c30bda830a3aa06bb1ce789cead212a6908355b8d"
+    },
+    "benchmarks/comparison-v014/skills-tools-evaluation-receipt.json": {
+      "bytes": 2020,
+      "sha256": "a71bd9d30543381aab32e61ef692b284e4a6f232c50d980a3725ab0075f3764d"
+    },
+    "benchmarks/skills_tools_accuracy.json": {
+      "bytes": 37353,
+      "sha256": "9065690511251ff5668271b0426c41950fd5be3051f9f680df55fdacb0b72436"
     },
     "benchmarks/static_accuracy.json": {
       "bytes": 35282,
@@ -128,5 +188,20 @@
   },
   "preview": false,
   "product": "Invarune by NimeshBuild",
-  "schema_version": "1.0"
+  "schema_version": "1.0",
+  "skills": {
+    "case_count": 81,
+    "corpus_sha256": "9065690511251ff5668271b0426c41950fd5be3051f9f680df55fdacb0b72436",
+    "overall": {
+      "assertions": 331,
+      "false_negative": 3,
+      "false_negative_rate": 0.069767,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 0.930233,
+      "true_negative": 288,
+      "true_positive": 40
+    }
+  }
 }

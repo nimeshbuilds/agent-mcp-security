@@ -23,6 +23,11 @@ AREAS = (
      "A model can identify sensitive data flows and retention concerns when the supplied evidence explains their context.",
      "Encoded, split or runtime-fetched credentials can be missed; labels/test values can resemble secrets. Neither layer establishes whether a credential is live or redaction is complete.",
      "Verify secret stores, credential rotation, logging/retention policy, egress destinations and actual data-access permissions."),
+    ("Skills and malicious-tool indicators",
+     "Bounded skill instructions and tool metadata are inspected for explicit instruction hijacking, sensitive-data transfer, covert or approval-bypassing actions, and contradictory read-only declarations.",
+     "A model can review intent, indirect social engineering, skill reference context and tool behavior visible in retrieved evidence, including cases where syntax or supported patterns are inconclusive.",
+     "A pattern is risk evidence, not proof of malicious authorship. Obfuscation, remote references, external packages, omitted context and runtime behavior can evade either layer.",
+     "Inspect publisher provenance and the exact installed skill/tool; test consequential actions in an authorized isolated environment and verify effective permissions."),
     ("Built images and supply chain",
      "Image archives are reconstructed without starting containers; supported packaged source, metadata, retained credentials, stored permissions and package inventories are inspected.",
      "A model can interpret supplied image/source evidence, flag missing deployment context and propose verification work.",
@@ -37,12 +42,16 @@ AREAS = (
 
 
 def build_methodology(report):
+    from .scanner import load_controls
     controls = report.get("controls", [])
+    selected_ids = set(report.get("configuration", {}).get("selected_rule_ids", [rule["id"] for rule in RULES]))
+    selected_rules = [rule for rule in RULES if rule["id"] in selected_ids]
     mapped = sum(bool(c.get("automated_rule_ids")) for c in controls)
     return {
         "schema_version": "1.0",
-        "purpose": "Find repeatable security patterns and organize the remaining assurance work for agents, MCP servers and built images.",
-        "catalog": {"rules": len(RULES), "controls": len(controls),
+        "purpose": "Find repeatable security patterns and organize the remaining assurance work for agents, MCP servers, skills and built images.",
+        "catalog": {"rules": len(selected_rules), "controls": len(controls),
+                    "available_rules": len(RULES), "available_controls": len(load_controls()),
                     "checks": sum(len(c.get("checks", [])) for c in controls),
                     "statically_mapped_controls": mapped, "controls_without_static_mapping": len(controls) - mapped},
         "interpretation": "Mapping counts describe available checks, not percent secure, detection accuracy or validated control effectiveness.",
@@ -58,5 +67,5 @@ def build_methodology(report):
                    "can_miss_or_misclassify": misses, "runtime_or_human_validation": validation}
                   for area, deterministic, optional, misses, validation in AREAS],
         "rule_inventory": [{"id": rule["id"], "title": rule["title"], "severity": rule["severity"], "category": rule["category"]}
-                           for rule in sorted(RULES, key=lambda value: value["id"])],
+                           for rule in sorted(selected_rules, key=lambda value: value["id"])],
     }

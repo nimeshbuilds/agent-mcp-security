@@ -21,7 +21,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ("report.html", "report.md", "report.json", "report.sarif")
-SNAPSHOT_PATHS = ("ai_security_scan", "examples/safer", "examples/vulnerable", "examples/images",
+SNAPSHOT_PATHS = ("ai_security_scan", "examples/skills", "examples/safer", "examples/vulnerable", "examples/images",
                   "examples/judges", "examples/review-config.json", "tests", "scripts", "docs",
                   "scan.py", "pyproject.toml", "README.md", "requirements-qa.txt")
 EDIT_PDF = '''import json,sys
@@ -183,13 +183,15 @@ def validate(args, receipt):
             require(report["summary"]["coverage_gaps"] == 0, identifier + ": unexpected scope gap")
             for key, expected_value in counts.items():
                 require(report["summary"].get(key) == expected_value, identifier + ": unexpected " + key)
-            require(len(report["controls"]) == 66 and sum(len(control["checks"]) for control in report["controls"]) == 132,
-                    identifier + ": the full control catalog was not retained")
+            expected_controls = 1 if "--scans" in extra else 66
+            expected_checks = 2 if "--scans" in extra else 132
+            require(len(report["controls"]) == expected_controls and sum(len(control["checks"]) for control in report["controls"]) == expected_checks,
+                    identifier + ": the selected control catalog was not retained")
             if "--judge-config" not in extra:
                 require(not report["judge"]["enabled"] and not report["analyst"]["enabled"], identifier + ": model review was unexpectedly enabled")
             require(not any(finding["status"] == "pass" for finding in report["findings"]), identifier + ": finding became a manual pass")
             record["assertions"] = {"summary": {key: report["summary"].get(key) for key in counts}, "coverage_gaps": 0,
-                                    "catalog_controls": 66, "catalog_checks": 132,
+                                    "catalog_controls": expected_controls, "catalog_checks": expected_checks,
                                     "model_enabled": report["judge"]["enabled"], "report_exits_match_process": True}
             record["reports"] = {name: {"sha256": sha256(destination / name), "bytes": (destination / name).stat().st_size} for name in ARTIFACTS}
             return report, destination, record
@@ -204,7 +206,7 @@ def validate(args, receipt):
             for flag in ("-h", "--help"):
                 process, record = run("installed_" + name + "_" + flag.strip("-"), [str(command), flag])
                 require(not process.stderr, "Installed help wrote an unexpected diagnostic")
-                for text in ("--review-report", "--pdf", "--judge-cli", "--judge-config", "--image-archive", "--help-topic", "--examples", "--token-optimizer", "--ask", "--explain-control", "--catalog-format", "Custom JSON gateway configuration:"):
+                for text in ("--list-scans", "--explain-scan", "--scans", "--report", "--review-report", "--pdf", "--judge-cli", "--judge-config", "--image-archive", "--help-topic", "--examples", "--token-optimizer", "--ask", "--explain-control", "--catalog-format", "Custom JSON gateway configuration:"):
                     require(text in process.stdout, "Installed help omits " + text)
                 outputs.append(process.stdout)
                 record["assertions"] = {"all_documented_feature_flags_present": True, "stderr_empty": True}
@@ -221,7 +223,7 @@ def validate(args, receipt):
             process, record = run(identifier, [str(primary), *arguments])
             require(required in process.stdout and not process.stderr, "Installed CLI documentation command is incomplete")
             record["assertions"] = {"requested_content_present": True, "stderr_empty": True, "run_outside_checkout": True}
-        for identifier, arguments, count in (("installed_rules", ["--list-rules"], 42),
+        for identifier, arguments, count in (("installed_rules", ["--list-rules"], 46),
                                               ("installed_controls", ["--list-controls"], 66),
                                               ("installed_rule_explanation", ["--explain-rule", "AI002"], None)):
             process, record = run(identifier, [str(primary), *arguments])
@@ -240,7 +242,7 @@ def validate(args, receipt):
             require(not process.stderr and value["mode"] == "deterministic_catalog" and value["status"] == "ok",
                     identifier + ": catalog lookup failed")
             require(value["catalog"]["controls"] == 66 and value["catalog"]["checks"] == 132
-                    and value["catalog"]["rules"] == 42 and value["catalog"]["sources"] == 75,
+                    and value["catalog"]["rules"] == 46 and value["catalog"]["sources"] == 76,
                     identifier + ": catalog totals changed")
             require(bool(value[result_key]), identifier + ": catalog content missing")
             if expected_id:
@@ -260,6 +262,30 @@ def validate(args, receipt):
         require(value["status"] == "no_match" and value["total_matches"] == 0 and not value["results"],
                 "Unknown catalog topic must not invent an answer")
         record["assertions"] = {"no_invented_answer": True, "run_outside_checkout": True}
+        process, record = run("installed_terminal_default", [str(primary), *safe])
+        require("Terminal output only" in process.stdout and "Scanned 2 files" in process.stdout,
+                "Default terminal result missing")
+        require(not (outside / "scan-report").exists(), "Default invocation unexpectedly wrote reports")
+        record["assertions"] = {"terminal_only": True, "no_report_files": True}
+        process, record = run("installed_scan_inventory", [str(primary), "--list-scans", "--catalog-format", "json"])
+        inventory = json.loads(process.stdout)
+        require(len(inventory["scans"]) == 46 and len(inventory["controls"]) == 66, "Installed scan inventory incomplete")
+        process, record = run("installed_scan_explanation", [str(primary), "--explain-scan", "AI043"])
+        require("AI043" in process.stdout and "Sources:" in process.stdout, "Missing skill scan explanation")
+        process, record = run("installed_targeted_terminal", [str(primary), *vulnerable, "--scans", "ai001,AI002", "--summary-json"], expected=1)
+        targeted = json.loads(process.stdout)
+        require(targeted["scope"]["configuration"]["selected_rule_ids"] == ["AI001", "AI002"] and targeted["reports"] == {}, "Targeted scan scope/output mismatch")
+        process, record = run("installed_review_only_control", [str(primary), *vulnerable, "--scan", "GOV-01", "--summary-json"])
+        targeted = json.loads(process.stdout)
+        require(targeted["scoring"]["deterministic"]["selected_rules"] == 0 and targeted["summary"]["open_findings"] == 0, "Review-only selection restored unselected rules")
+        destination = work / "reports" / "explicit-report-flag"
+        process, record = run("installed_explicit_report", [str(primary), *safe, "--report", str(destination), "--summary-json"])
+        require(len(json.loads(process.stdout)["reports"]) == 4 and (destination / "report.json").is_file(), "Report flag did not write all four formats")
+        scan_case("installed_selected_image", [str(primary)], image, 0, {"open_findings": 0}, ["--scans", "AI001"])
+        process, record = run("installed_skill_fixture", [str(primary), str(checkout / "examples/skills/risky"), "--scans", "AI043,AI044,AI045,AI046", "--summary-json"], expected=1)
+        skill_result = json.loads(process.stdout)
+        require(skill_result["summary"]["open_findings"] == 4 and skill_result["summary"]["coverage_gaps"] == 0, "Installed skill fixture did not match its four named risks")
+        record["assertions"] = {"four_named_risk_patterns": True, "terminal_only": skill_result["reports"] == {}}
         scan_case("installed_vulnerable", [str(primary)], vulnerable, 1, {"open_findings": 11})
         scan_case("installed_review_config", [str(primary)], vulnerable, 1,
                   {"open_findings": 9, "justified_findings": 1, "disabled_findings": 1},

@@ -16,7 +16,7 @@ fresh static report + explicit user dispositions
                                   +-- judge.review_controls --> check assessments
 ```
 
-`--judge-config` or `--judge-cli` explicitly enables review. Full mode performs finding triage and then reviews every active acceptance check, including a zero-finding scan. Findings-only mode performs the triage stage. Static findings, severity, user exceptions and finding gates remain unchanged; failed or incomplete optional review has a separate exit-2 path.
+`--judge-config` or `--judge-cli` explicitly enables review. Full mode performs finding triage and then reviews every active selected acceptance check, including a zero-finding scan. Findings-only mode performs the triage stage. Static findings, severity, user exceptions and finding gates remain unchanged; failed or incomplete optional review has a separate exit-2 path.
 
 Finding triage normally sends selected open findings with redacted evidence and minimized metadata. `--judge-include-source` adds neighboring source for that stage. Full control review independently collects bounded source excerpts, so the absence of that flag does not mean full mode sends no source. User rationales are local audit data and must not become model instructions or evidence.
 

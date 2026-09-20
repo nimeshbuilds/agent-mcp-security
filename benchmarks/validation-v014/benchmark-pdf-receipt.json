@@ -1,0 +1,66 @@
+{
+  "all_internal_destinations_valid": true,
+  "bookmarks": 9,
+  "builder_sha256": "7a42ee1c7201f04394212ecbb050d217cd7e58b98987ccca80b766a02c032333",
+  "byte_identical_repeat_build": true,
+  "catalog_counts": {
+    "checks": 132,
+    "controls": 66,
+    "mapped_controls": 30,
+    "rules": 46
+  },
+  "dependencies": {
+    "pypdf": "6.19.0",
+    "reportlab": "4.5.1"
+  },
+  "expected_metric_text_present": true,
+  "historical_comparison_links_absent": true,
+  "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+  "inputs": {
+    "accuracy-after.json": "4d8c0f5213eedb3879986665757e7f5e17689dd26417642df7fa8b2d62874a27",
+    "accuracy-before.json": "49bd49b0464b288beca29212d1b8be4f3b6c48ce5037a0da771bc2c829de9e38",
+    "baseline-identity.json": "ee1fb67aff3f3a98af54c08fa3dd9736158ac2fcea658b0def15da83144ed542",
+    "before-after-accuracy.json": "75d97f72c4bc931904cc50b6670fc7d7162dcd199477a33efb5844723675b5a4",
+    "invarune-receipts-after/autogen.json": "0269c7be519622b9cf63f72c2a13bf84cb4003b290a0861b9f91fd87bbfd5006",
+    "invarune-receipts-after/crewai.json": "ac336b53a42d87443c74c58dbd849fda96dd700a09e971f60a7f299ed9548c43",
+    "invarune-receipts-after/fastmcp.json": "3359972cbf5cb4598feef8cd3622e4008438c6ba70722893c48499c9c26d8a5b",
+    "invarune-receipts-after/github-mcp.json": "25dee3a87ac924c9a1d810cf204e6f7fca4072f545a804902e8729181bbdf48a",
+    "invarune-receipts-after/langgraph.json": "4bd0c28ef509c450c7b0ec7f834d6a8af699d587dbdbbb9003f4defb11876bf7",
+    "invarune-receipts-after/mcp-reference.json": "db733457b718cb098b6cb3c72a37f8d46ef43cc854e0d643da08e4485164d8ea",
+    "invarune-receipts-after/openhands.json": "f49d6ed34350e9d7caa06aec0058e3bbf949a1b8d7d1aeadfc73fc5a7dca46b3",
+    "invarune-receipts-after/pydantic-ai.json": "3e5208d10a8f5553da2f3b4926a2cd475d81eef59479b64963f2fd728e6deffc",
+    "invarune-receipts-before/autogen.json": "1fa5e62eb100ab0ac29aabda35bbfb81eafe8df3885802c13f09b9ebb30a11b9",
+    "invarune-receipts-before/crewai.json": "a7c29a3fca2938fdffe8f588f856636952ef3d40bfdfc71d721190b446b76efe",
+    "invarune-receipts-before/fastmcp.json": "db153d8ef9f78016664e28f005176c3c335a844588bfaea2222a7fe14587c1d2",
+    "invarune-receipts-before/github-mcp.json": "39e4ef381f28b816df6bafb2535a2f96fea2e4de882a15271bac092a0a4a9409",
+    "invarune-receipts-before/langgraph.json": "f6fdcff6881c56c12f6a5ef43b84d19823fbbf2cb8372bfe967a089d66aec6a2",
+    "invarune-receipts-before/mcp-reference.json": "3667b3ac0394db0e14b40f4cef6a4d14c8b921a81535faf4b30394bf1046bdb5",
+    "invarune-receipts-before/openhands.json": "dfa0a0dd223562b9023446f78293245a846dbd1d11f5b60dcd4c6d29bfe3cd8c",
+    "invarune-receipts-before/pydantic-ai.json": "a4657ef69ba70497ba2327c90fcd718c758ab0e2191007f763e1409ea3f8c447",
+    "observations.json": "f4665347052d4d0aa5a91ced89c755f3b9d89e0f7271db59eda8c1ad3b7a3355",
+    "overlaps.json": "7c9e5af99024852b3a7ca317cb1a5ffb316f5b5a413d9f056bf9719dde98c6d8",
+    "run-status.json": "f188c56ddcc14061deaf8c920bfd0758d327b96d28d784cb4d94d8caaed8a93d",
+    "skills-tools-accuracy.json": "90a10ab28ec2af73bf31529c30bda830a3aa06bb1ce789cead212a6908355b8d",
+    "skills-tools-evaluation-receipt.json": "a71bd9d30543381aab32e61ef692b284e4a6f232c50d980a3725ab0075f3764d"
+  },
+  "internal_links": 7,
+  "pages": 9,
+  "pdf": "output/pdf/invarune-benchmark-v014.pdf",
+  "pdf_sha256": "e8c64b0d5ef02eb3abea1e88b0771a53bed5efef976e7f56c5453098dc04a850",
+  "scanner_version": "0.14.0",
+  "schema_version": "1.0",
+  "unique_external_links": 14,
+  "validation_scope": "Input/provenance validation, selected text and metric extraction, link/bookmark destinations, repeatable export and visual layout. Fixtures remain development-visible; no independent vulnerability truth or model adjudication claimed.",
+  "visual_review": {
+    "clipping_or_overlap_found": false,
+    "contact_sheet_pages": 9,
+    "full_size_pages": [
+      4,
+      5,
+      9
+    ],
+    "rendered_pages": 9,
+    "renderer": "Poppler pdftoppm -scale-to 1200 -png",
+    "status": "passed"
+  }
+}

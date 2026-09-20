@@ -1449,5 +1449,20 @@
     ],
     "mapping_notes": "Technical or engineering context for scanner rules AI006, AI008, AI009, AI010, AI011, AI018, AI019, AI021, AI022, AI023, AI024, AI025, AI030, AI033, AI035, AI036, AI039, AI042. Rule detection logic and severity are project-defined, not official publisher conformance tests.",
     "suggested_control_ids": []
+  },
+  {
+    "id": "AGENT-SKILLS-SPEC",
+    "organization": "Agent Skills maintainers",
+    "title": "Agent Skills specification",
+    "url": "https://agentskills.io/specification",
+    "kind": "Format specification",
+    "version": "Living specification",
+    "accessed": "2026-09-19",
+    "scope": "SKILL.md metadata, Markdown instructions, optional scripts/references/assets and experimental allowed-tools declarations.",
+    "limitations": "Defines the skill format, not a security certification or maliciousness benchmark. Threat predicates and remediation are authored by Invarune; actual client permission enforcement varies.",
+    "suggested_control_ids": [
+      "AGT-06"
+    ],
+    "date": "Undated living specification"
   }
 ]

@@ -1,0 +1,1933 @@
+{
+  "command": [
+    "bandit",
+    "-r",
+    "{source}",
+    "-c",
+    "{support}/bandit.yaml",
+    "--ignore-nosec",
+    "-f",
+    "json",
+    "-o",
+    "{raw_output}/bandit.json",
+    "-q"
+  ],
+  "errors": [
+    {
+      "path": "lib/cli/src/crewai_cli/templates/crew/crew.py",
+      "type": "syntax error while parsing AST from file"
+    },
+    {
+      "path": "lib/cli/src/crewai_cli/templates/crew/main.py",
+      "type": "syntax error while parsing AST from file"
+    },
+    {
+      "path": "lib/cli/src/crewai_cli/templates/flow/main.py",
+      "type": "syntax error while parsing AST from file"
+    },
+    {
+      "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/__init__.py",
+      "type": "syntax error while parsing AST from file"
+    },
+    {
+      "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/tool.py",
+      "type": "syntax error while parsing AST from file"
+    }
+  ],
+  "files_reported_scanned": 926,
+  "finding_count": 232,
+  "findings": [
+    {
+      "confidence": "HIGH",
+      "end_line": 29,
+      "line": 28,
+      "path": "lib/cli/src/crewai_cli/checkpoint_cli.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 303,
+      "line": 303,
+      "path": "lib/cli/src/crewai_cli/checkpoint_tui.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 5,
+      "line": 5,
+      "path": "lib/cli/src/crewai_cli/cli.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 96,
+      "line": 95,
+      "path": "lib/cli/src/crewai_cli/cli.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 134,
+      "line": 128,
+      "path": "lib/cli/src/crewai_cli/cli.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 134,
+      "line": 128,
+      "path": "lib/cli/src/crewai_cli/cli.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 84,
+      "line": 83,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 742,
+      "line": 741,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 800,
+      "line": 799,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 814,
+      "line": 813,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 820,
+      "line": 819,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 911,
+      "line": 910,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1048,
+      "line": 1047,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1067,
+      "line": 1066,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1080,
+      "line": 1079,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1410,
+      "line": 1409,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1498,
+      "line": 1497,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1616,
+      "line": 1615,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1888,
+      "line": 1887,
+      "path": "lib/cli/src/crewai_cli/crew_run_tui.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 3,
+      "line": 3,
+      "path": "lib/cli/src/crewai_cli/deploy/main.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 37,
+      "line": 37,
+      "path": "lib/cli/src/crewai_cli/deploy/validate.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "MEDIUM",
+      "end_line": 105,
+      "line": 92,
+      "path": "lib/cli/src/crewai_cli/deploy/validate.py",
+      "rule_id": "B105",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 180,
+      "line": 165,
+      "path": "lib/cli/src/crewai_cli/deploy/validate.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 786,
+      "line": 771,
+      "path": "lib/cli/src/crewai_cli/deploy/validate.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1,
+      "line": 1,
+      "path": "lib/cli/src/crewai_cli/evaluate_crew.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 31,
+      "line": 29,
+      "path": "lib/cli/src/crewai_cli/evaluate_crew.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 5,
+      "line": 5,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 49,
+      "line": 44,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 49,
+      "line": 44,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 62,
+      "line": 57,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 79,
+      "line": 79,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 79,
+      "line": 79,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 90,
+      "line": 86,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 90,
+      "line": 86,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 101,
+      "line": 96,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 101,
+      "line": 96,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 132,
+      "line": 126,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 132,
+      "line": 126,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 143,
+      "line": 143,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 143,
+      "line": 143,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 159,
+      "line": 155,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 188,
+      "line": 184,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 188,
+      "line": 184,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 200,
+      "line": 194,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 200,
+      "line": 194,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 211,
+      "line": 211,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 211,
+      "line": 211,
+      "path": "lib/cli/src/crewai_cli/git.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 2,
+      "line": 2,
+      "path": "lib/cli/src/crewai_cli/install_crew.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 69,
+      "line": 63,
+      "path": "lib/cli/src/crewai_cli/install_crew.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 6,
+      "line": 6,
+      "path": "lib/cli/src/crewai_cli/kickoff_flow.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 99,
+      "line": 99,
+      "path": "lib/cli/src/crewai_cli/kickoff_flow.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1,
+      "line": 1,
+      "path": "lib/cli/src/crewai_cli/plot_flow.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 23,
+      "line": 21,
+      "path": "lib/cli/src/crewai_cli/plot_flow.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1,
+      "line": 1,
+      "path": "lib/cli/src/crewai_cli/replay_from_task.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 25,
+      "line": 23,
+      "path": "lib/cli/src/crewai_cli/replay_from_task.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 7,
+      "line": 7,
+      "path": "lib/cli/src/crewai_cli/run_crew.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 486,
+      "line": 480,
+      "path": "lib/cli/src/crewai_cli/run_crew.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 771,
+      "line": 771,
+      "path": "lib/cli/src/crewai_cli/run_crew.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 6,
+      "line": 6,
+      "path": "lib/cli/src/crewai_cli/run_declarative_flow.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 557,
+      "line": 551,
+      "path": "lib/cli/src/crewai_cli/run_declarative_flow.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 358,
+      "line": 358,
+      "path": "lib/cli/src/crewai_cli/skills/main.py",
+      "rule_id": "B202",
+      "severity": "HIGH"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 458,
+      "line": 458,
+      "path": "lib/cli/src/crewai_cli/skills/main.py",
+      "rule_id": "B202",
+      "severity": "HIGH"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 468,
+      "line": 468,
+      "path": "lib/cli/src/crewai_cli/skills/main.py",
+      "rule_id": "B202",
+      "severity": "HIGH"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 5,
+      "line": 5,
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 96,
+      "line": 96,
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 96,
+      "line": 96,
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 116,
+      "line": 116,
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 119,
+      "line": 119,
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 158,
+      "line": 157,
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 166,
+      "line": 161,
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 166,
+      "line": 161,
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 291,
+      "line": 285,
+      "path": "lib/cli/src/crewai_cli/tools/main.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 1,
+      "line": 1,
+      "path": "lib/cli/src/crewai_cli/train_crew.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 22,
+      "line": 22,
+      "path": "lib/cli/src/crewai_cli/train_crew.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 2,
+      "line": 2,
+      "path": "lib/cli/src/crewai_cli/triggers/main.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 132,
+      "line": 127,
+      "path": "lib/cli/src/crewai_cli/triggers/main.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 132,
+      "line": 127,
+      "path": "lib/cli/src/crewai_cli/triggers/main.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 109,
+      "line": 108,
+      "path": "lib/crewai-core/src/crewai_core/settings.py",
+      "rule_id": "B112",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 117,
+      "line": 116,
+      "path": "lib/crewai-core/src/crewai_core/settings.py",
+      "rule_id": "B112",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 262,
+      "line": 261,
+      "path": "lib/crewai-core/src/crewai_core/settings.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 200,
+      "line": 199,
+      "path": "lib/crewai-core/src/crewai_core/telemetry.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 54,
+      "line": 53,
+      "path": "lib/crewai-core/src/crewai_core/tool_credentials.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 127,
+      "line": 125,
+      "path": "lib/crewai-core/src/crewai_core/version.py",
+      "rule_id": "B310",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 52,
+      "line": 52,
+      "path": "lib/crewai-files/src/crewai_files/cache/cleanup.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 217,
+      "line": 217,
+      "path": "lib/crewai-files/src/crewai_files/cache/cleanup.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 44,
+      "line": 44,
+      "path": "lib/crewai-files/src/crewai_files/uploaders/gemini.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 302,
+      "line": 300,
+      "path": "lib/crewai-tools/src/crewai_tools/adapters/crewai_rag_adapter.py",
+      "rule_id": "B112",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 165,
+      "line": 165,
+      "path": "lib/crewai-tools/src/crewai_tools/adapters/mcp_adapter.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 168,
+      "line": 168,
+      "path": "lib/crewai-tools/src/crewai_tools/adapters/mcp_adapter.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 168,
+      "line": 168,
+      "path": "lib/crewai-tools/src/crewai_tools/adapters/mcp_adapter.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 72,
+      "line": 71,
+      "path": "lib/crewai-tools/src/crewai_tools/generate_tool_specs.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 239,
+      "line": 238,
+      "path": "lib/crewai-tools/src/crewai_tools/rag/core.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 113,
+      "line": 112,
+      "path": "lib/crewai-tools/src/crewai_tools/rag/data_types.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 2,
+      "line": 2,
+      "path": "lib/crewai-tools/src/crewai_tools/rag/loaders/xml_loader.py",
+      "rule_id": "B405",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 43,
+      "line": 43,
+      "path": "lib/crewai-tools/src/crewai_tools/rag/loaders/xml_loader.py",
+      "rule_id": "B314",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 45,
+      "line": 45,
+      "path": "lib/crewai-tools/src/crewai_tools/rag/loaders/xml_loader.py",
+      "rule_id": "B314",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 87,
+      "line": 86,
+      "path": "lib/crewai-tools/src/crewai_tools/rag/loaders/youtube_video_loader.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 132,
+      "line": 131,
+      "path": "lib/crewai-tools/src/crewai_tools/rag/loaders/youtube_video_loader.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 9,
+      "line": 9,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "rule_id": "B405",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 87,
+      "line": 85,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "rule_id": "B310",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 95,
+      "line": 95,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "rule_id": "B314",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 164,
+      "line": 164,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/arxiv_paper_tool/arxiv_paper_tool.py",
+      "rule_id": "B310",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 60,
+      "line": 60,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/browserbase_load_tool/browserbase_load_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 62,
+      "line": 62,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/browserbase_load_tool/browserbase_load_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 62,
+      "line": 62,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/browserbase_load_tool/browserbase_load_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 92,
+      "line": 91,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/contextualai_query_tool/contextual_query_tool.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 176,
+      "line": 176,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/couchbase_tool/couchbase_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 178,
+      "line": 178,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/couchbase_tool/couchbase_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 178,
+      "line": 178,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/couchbase_tool/couchbase_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "MEDIUM",
+      "end_line": 353,
+      "line": 353,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/daytona_sandbox_tool/daytona_file_tool.py",
+      "rule_id": "B108",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 318,
+      "line": 318,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/db2_search_tool/db2_search_tool.py",
+      "rule_id": "B101",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 100,
+      "line": 100,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/exa_tools/exa_search_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 102,
+      "line": 102,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/exa_tools/exa_search_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 102,
+      "line": 102,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/exa_tools/exa_search_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 93,
+      "line": 93,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/firecrawl_crawl_website_tool/firecrawl_crawl_website_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 96,
+      "line": 96,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/firecrawl_crawl_website_tool/firecrawl_crawl_website_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 96,
+      "line": 96,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/firecrawl_crawl_website_tool/firecrawl_crawl_website_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 94,
+      "line": 94,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/firecrawl_scrape_website_tool/firecrawl_scrape_website_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 96,
+      "line": 96,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/firecrawl_scrape_website_tool/firecrawl_scrape_website_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 96,
+      "line": 96,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/firecrawl_scrape_website_tool/firecrawl_scrape_website_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 92,
+      "line": 92,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/firecrawl_search_tool/firecrawl_search_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 95,
+      "line": 95,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/firecrawl_search_tool/firecrawl_search_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 95,
+      "line": 95,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/firecrawl_search_tool/firecrawl_search_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 56,
+      "line": 52,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/generate_crewai_automation_tool/generate_crewai_automation_tool.py",
+      "rule_id": "B113",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 44,
+      "line": 44,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/linkup/linkup_search_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 46,
+      "line": 46,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/linkup/linkup_search_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 46,
+      "line": 46,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/linkup/linkup_search_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 116,
+      "line": 116,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/mongodb_vector_search_tool/vector_search.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 118,
+      "line": 118,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/mongodb_vector_search_tool/vector_search.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 118,
+      "line": 118,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/mongodb_vector_search_tool/vector_search.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 4,
+      "line": 4,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/multion_tool/multion_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 45,
+      "line": 45,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/multion_tool/multion_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 45,
+      "line": 45,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/multion_tool/multion_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 57,
+      "line": 57,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/mysql_search_tool/mysql_search_tool.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 204,
+      "line": 204,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/oxylabs_base_tool/oxylabs_base_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 207,
+      "line": 207,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/oxylabs_base_tool/oxylabs_base_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 207,
+      "line": 207,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/oxylabs_base_tool/oxylabs_base_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 20,
+      "line": 20,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/patronus_eval_tool/example.py",
+      "rule_id": "B311",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 69,
+      "line": 69,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/patronus_eval_tool/patronus_local_evaluator_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 72,
+      "line": 72,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/patronus_eval_tool/patronus_local_evaluator_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 72,
+      "line": 72,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/patronus_eval_tool/patronus_local_evaluator_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 110,
+      "line": 109,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/patronus_eval_tool/patronus_local_evaluator_tool.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 100,
+      "line": 100,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/scrapegraph_scrape_tool/scrapegraph_scrape_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 102,
+      "line": 102,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/scrapegraph_scrape_tool/scrapegraph_scrape_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 102,
+      "line": 102,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/scrapegraph_scrape_tool/scrapegraph_scrape_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 59,
+      "line": 59,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/scrapfly_scrape_website_tool/scrapfly_scrape_website_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 61,
+      "line": 61,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/scrapfly_scrape_website_tool/scrapfly_scrape_website_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 61,
+      "line": 61,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/scrapfly_scrape_website_tool/scrapfly_scrape_website_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 88,
+      "line": 88,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/selenium_scraping_tool/selenium_scraping_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 93,
+      "line": 90,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/selenium_scraping_tool/selenium_scraping_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 93,
+      "line": 90,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/selenium_scraping_tool/selenium_scraping_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 36,
+      "line": 36,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/serpapi_tool/serpapi_base_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 38,
+      "line": 38,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/serpapi_tool/serpapi_base_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 38,
+      "line": 38,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/serpapi_tool/serpapi_base_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 196,
+      "line": 196,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/singlestore_search_tool/singlestore_search_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 202,
+      "line": 199,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/singlestore_search_tool/singlestore_search_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 202,
+      "line": 199,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/singlestore_search_tool/singlestore_search_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 135,
+      "line": 135,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/snowflake_search_tool/snowflake_search_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 147,
+      "line": 138,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/snowflake_search_tool/snowflake_search_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 147,
+      "line": 138,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/snowflake_search_tool/snowflake_search_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 276,
+      "line": 275,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/snowflake_search_tool/snowflake_search_tool.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 280,
+      "line": 279,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/snowflake_search_tool/snowflake_search_tool.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 288,
+      "line": 287,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/snowflake_search_tool/snowflake_search_tool.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 2,
+      "line": 2,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/spider_tool/spider_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 107,
+      "line": 107,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/spider_tool/spider_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 107,
+      "line": 107,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/spider_tool/spider_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 257,
+      "line": 256,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/stagehand_tool/stagehand_tool.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 713,
+      "line": 712,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/stagehand_tool/stagehand_tool.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 98,
+      "line": 98,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_extractor_tool/tavily_extractor_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 111,
+      "line": 111,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_extractor_tool/tavily_extractor_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 111,
+      "line": 111,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_extractor_tool/tavily_extractor_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 63,
+      "line": 63,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_get_research_tool/tavily_get_research_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 80,
+      "line": 80,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_get_research_tool/tavily_get_research_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 80,
+      "line": 80,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_get_research_tool/tavily_get_research_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 99,
+      "line": 99,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_research_tool/tavily_research_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 116,
+      "line": 116,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_research_tool/tavily_research_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 116,
+      "line": 116,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_research_tool/tavily_research_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 126,
+      "line": 126,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_search_tool/tavily_search_tool.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 139,
+      "line": 139,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_search_tool/tavily_search_tool.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 139,
+      "line": 139,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/tavily_search_tool/tavily_search_tool.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 3,
+      "line": 3,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/weaviate_tool/vector_search.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 99,
+      "line": 99,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/weaviate_tool/vector_search.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 99,
+      "line": 99,
+      "path": "lib/crewai-tools/src/crewai_tools/tools/weaviate_tool/vector_search.py",
+      "rule_id": "B607",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 346,
+      "line": 345,
+      "path": "lib/crewai/src/crewai/agents/planner_observer.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 355,
+      "line": 354,
+      "path": "lib/crewai/src/crewai/agents/planner_observer.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 361,
+      "line": 360,
+      "path": "lib/crewai/src/crewai/agents/planner_observer.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 2016,
+      "line": 2015,
+      "path": "lib/crewai/src/crewai/crew.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 337,
+      "line": 336,
+      "path": "lib/crewai/src/crewai/crews/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 157,
+      "line": 156,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/first_time_trace_handler.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 13,
+      "line": 13,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 203,
+      "line": 202,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 220,
+      "line": 215,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 225,
+      "line": 224,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 244,
+      "line": 234,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B603",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 251,
+      "line": 250,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 258,
+      "line": 257,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 266,
+      "line": 265,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 271,
+      "line": 270,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 277,
+      "line": 276,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 307,
+      "line": 306,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B112",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 317,
+      "line": 316,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 333,
+      "line": 332,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 340,
+      "line": 339,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 349,
+      "line": 348,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 355,
+      "line": 354,
+      "path": "lib/crewai/src/crewai/events/listeners/tracing/utils.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 113,
+      "line": 111,
+      "path": "lib/crewai/src/crewai/events/utils/console_formatter.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 463,
+      "line": 462,
+      "path": "lib/crewai/src/crewai/experimental/agent_executor.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 489,
+      "line": 488,
+      "path": "lib/crewai/src/crewai/experimental/agent_executor.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 2619,
+      "line": 2618,
+      "path": "lib/crewai/src/crewai/flow/runtime/__init__.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 309,
+      "line": 309,
+      "path": "lib/crewai/src/crewai/flow/runtime/_actions.py",
+      "rule_id": "B102",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 48,
+      "line": 43,
+      "path": "lib/crewai/src/crewai/flow/skill.py",
+      "rule_id": "B701",
+      "severity": "HIGH"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 249,
+      "line": 248,
+      "path": "lib/crewai/src/crewai/hooks/dispatch.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 5,
+      "line": 5,
+      "path": "lib/crewai/src/crewai/mcp/transports/stdio.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "LOW",
+      "end_line": 160,
+      "line": 160,
+      "path": "lib/crewai/src/crewai/memory/storage/kickoff_task_outputs_storage.py",
+      "rule_id": "B608",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 89,
+      "line": 88,
+      "path": "lib/crewai/src/crewai/memory/storage/lancedb_storage.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 548,
+      "line": 547,
+      "path": "lib/crewai/src/crewai/memory/storage/lancedb_storage.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 592,
+      "line": 591,
+      "path": "lib/crewai/src/crewai/memory/storage/lancedb_storage.py",
+      "rule_id": "B112",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 669,
+      "line": 668,
+      "path": "lib/crewai/src/crewai/memory/storage/qdrant_edge_storage.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 353,
+      "line": 352,
+      "path": "lib/crewai/src/crewai/memory/unified_memory.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 795,
+      "line": 794,
+      "path": "lib/crewai/src/crewai/memory/unified_memory.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 114,
+      "line": 114,
+      "path": "lib/crewai/src/crewai/skills/cache.py",
+      "rule_id": "B202",
+      "severity": "HIGH"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 199,
+      "line": 199,
+      "path": "lib/crewai/src/crewai/skills/cache.py",
+      "rule_id": "B202",
+      "severity": "HIGH"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 209,
+      "line": 209,
+      "path": "lib/crewai/src/crewai/skills/cache.py",
+      "rule_id": "B202",
+      "severity": "HIGH"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 228,
+      "line": 220,
+      "path": "lib/crewai/src/crewai/telemetry/tracing/gen_ai_shapes.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 4,
+      "line": 4,
+      "path": "lib/crewai/src/crewai/utilities/file_handler.py",
+      "rule_id": "B403",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 166,
+      "line": 166,
+      "path": "lib/crewai/src/crewai/utilities/file_handler.py",
+      "rule_id": "B301",
+      "severity": "MEDIUM"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 246,
+      "line": 245,
+      "path": "lib/crewai/src/crewai/utilities/project_utils.py",
+      "rule_id": "B112",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 252,
+      "line": 251,
+      "path": "lib/crewai/src/crewai/utilities/project_utils.py",
+      "rule_id": "B112",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 207,
+      "line": 206,
+      "path": "lib/crewai/src/crewai/utilities/reasoning_handler.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 310,
+      "line": 309,
+      "path": "lib/crewai/src/crewai/utilities/reasoning_handler.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 340,
+      "line": 339,
+      "path": "lib/crewai/src/crewai/utilities/reasoning_handler.py",
+      "rule_id": "B110",
+      "severity": "LOW"
+    },
+    {
+      "confidence": "HIGH",
+      "end_line": 4,
+      "line": 4,
+      "path": "lib/crewai/src/crewai/utilities/reset_memories.py",
+      "rule_id": "B404",
+      "severity": "LOW"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 1,
+  "raw_report_sha256": "6195688f93c973f8eab92fad56fc9bf4d460e03931abbd2a12ff73bc719b4f98",
+  "rule_counts": {
+    "B101": 3,
+    "B102": 1,
+    "B105": 1,
+    "B108": 1,
+    "B110": 63,
+    "B112": 7,
+    "B113": 1,
+    "B202": 6,
+    "B301": 1,
+    "B310": 3,
+    "B311": 2,
+    "B314": 3,
+    "B403": 1,
+    "B404": 41,
+    "B405": 2,
+    "B603": 53,
+    "B607": 37,
+    "B608": 5,
+    "B701": 1
+  },
+  "severity_counts": {
+    "HIGH": 7,
+    "LOW": 210,
+    "MEDIUM": 15
+  },
+  "started_at_utc": "2026-09-20T04:03:14Z",
+  "status": "completed_with_analysis_errors",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "bandit",
+  "wall_seconds": 3.478332
+}

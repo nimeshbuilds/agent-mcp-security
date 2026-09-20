@@ -1,12 +1,16 @@
 # Implementation validation
 
-## Current v0.13 release
+## Current v0.14 release
+
+[Executed v0.14 validation](../benchmarks/validation-v014/README.md) records **925 tests**, a **61-step** fresh installed CLI quickstart, scope/replay/terminal hardening, two accuracy corpora and repeated public-project reports. Results and exceptions are versioned; earlier sections below remain historical.
+
+## Historical v0.13 release
 
 [Executed v0.13 validation](../benchmarks/validation-v013/README.md) covers benchmark-driven detector fixes, unchanged-corpus comparison, fresh pinned-project scans, the installed CLI quickstart, publication provenance and PDF/site QA. Historical counts below retain their original version scopes.
 
 Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This document records scanner implementation checks, not a security certification or a behavioral benchmark score.
 
-## Current v0.12.0 results
+## Historical v0.12.0 results
 
 **793 tests passed** on Python 3.12.14; Python 3.9.6 passed with 28 explicit optional-PDF skips. Parent-process coverage measured 94.71% of statements and 89.75% of branches (93.09% combined). The fresh-install quickstart passed **53 steps**, including ten new installed catalog/explorer checks. [Executed v0.12 receipts](../benchmarks/validation-v012/README.md).
 

@@ -11,19 +11,19 @@ Explore measured fixture outcomes, pinned source coverage and complementary scan
 [Compare review surfaces](#complementary-review-surfaces){ .md-button }
 [Read the method](BENCHMARK_GUIDE.md){ .md-button }
 
-[Download the benchmark PDF](../output/pdf/invarune-benchmark-v013.pdf){ .md-button }
+[Download the benchmark PDF](../output/pdf/invarune-benchmark-v014.pdf){ .md-button }
 
 
 <div class="ivb-stats">
 <div class="ivb-stat"><strong>8</strong><span>pinned public projects</span></div>
 <div class="ivb-stat"><strong>4,120</strong><span>shared source files offered</span></div>
 <div class="ivb-stat"><strong>113</strong><span>labeled development fixtures</span></div>
-<div class="ivb-stat"><strong>15</strong><span>Invarune analysis gaps retained</span></div>
+<div class="ivb-stat"><strong>21</strong><span>Invarune analysis gaps retained</span></div>
 </div>
 
 </div>
 
-**Recorded scope:** Invarune **0.13.0**; Semgrep CE **1.177.0**; Bandit **1.9.4**; Gitleaks **8.30.1**. The source comparison and fixture experiment have separate denominators. [Input hashes and chart data](assets/benchmarks/dashboard-data.json).
+**Recorded scope:** Invarune **0.14.0**; Semgrep CE **1.177.0**; Bandit **1.9.4**; Gitleaks **8.30.1**. The source comparison and fixture experiment have separate denominators. [Input hashes and chart data](assets/benchmarks/dashboard-data.json).
 
 ## Fixture progress
 
@@ -35,23 +35,14 @@ The before/after comparison uses the **same corpus bytes, case IDs, source text 
 
 </div>
 
-Invarune **0.12.0** → **0.13.0**. 4 case-level assertions changed outcome. [Before receipt](../benchmarks/comparison-v013/accuracy-before.json) · [After receipt](../benchmarks/comparison-v013/accuracy-after.json) · [Paired provenance](../benchmarks/comparison-v013/before-after-accuracy.json) · [Every changed assertion](assets/benchmarks/fixture-changes.csv).
+Invarune **0.13.0** → **0.14.0**. 0 case-level assertions changed outcome. [Before receipt](../benchmarks/comparison-v014/accuracy-before.json) · [After receipt](../benchmarks/comparison-v014/accuracy-after.json) · [Paired provenance](../benchmarks/comparison-v014/before-after-accuracy.json) · [Every changed assertion](assets/benchmarks/fixture-changes.csv).
 
 | Outcome | Before | After |
 | --- | ---: | ---: |
-| TP — true positive | 55 | 58 |
-| TN — true negative | 51 | 52 |
-| FP — false positive | 2 | 1 |
-| FN — false negative | 5 | 2 |
-
-### Inspect the changed cases
-
-| Fixture assertion | Rule | Before | After |
-| --- | --- | --- | --- |
-| `gap-reflection-python` | `AI003` | FN | TP |
-| `gap-shell-wrapper` | `AI019` | FN | TP |
-| `gap-yaml-alias` | `AI027` | FN | TP |
-| `gap-yaml-block-string` | `AI026` | FP | TN |
+| TP — true positive | 58 | 58 |
+| TN — true negative | 52 | 52 |
+| FP — false positive | 1 | 1 |
+| FN — false negative | 2 | 2 |
 
 Corpus **1.2.0** · SHA-256 `eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3`. Source/label revisions are not silently combined with this pair. [Corpus and rationale](../benchmarks/static_accuracy.json) · [Accuracy methodology and label corrections](RULE_ACCURACY.md).
 
@@ -71,7 +62,25 @@ Corpus **1.2.0** · SHA-256 `eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621
 | `gap-js-wrapper-taint` | `AI014` | FN |
 | `gap-validated-user-url` | `AI014` | FP |
 
-Read the exact source and authored rationale in the linked corpus before generalizing these outcomes. The [paired receipt](../benchmarks/comparison-v013/before-after-accuracy.json) retains every remaining mismatch.
+Read the exact source and authored rationale in the linked corpus before generalizing these outcomes. The [paired receipt](../benchmarks/comparison-v014/before-after-accuracy.json) retains every remaining mismatch.
+
+## Skills and malicious-tool indicators
+
+<div class="ivb-chart" markdown>
+
+![Separate skill/tool fixture outcomes](assets/benchmarks/skills-tools.svg)
+
+</div>
+
+The new **81-case / 331-assertion** corpus is separate from the unchanged 113-assertion comparison. It covers direct instruction hijacking, credential-transfer directives, concealed/approval-bypassing actions, contradictory tool annotations, safe counterexamples and obfuscation.
+
+All known misses remain visible. These authored risk-pattern labels do not establish malicious intent or deployed exploitability. The eight-project export excludes most skill documentation, so those source runs do not measure complete skill-package coverage. [Skill labels](../benchmarks/skills_tools_accuracy.json) · [Actual outcomes](../benchmarks/comparison-v014/skills-tools-accuracy.json) · [Every scan and its limits](SCAN_COVERAGE.md).
+
+| Known skill/tool miss | Why it remains |
+| --- | --- |
+| `challenge-multilingual-override` | An equivalent non-English override request is outside the English directive predicate; optional analyst/runtime review is needed. |
+| `challenge-semantic-exfiltration` | Semantically sensitive disclosure uses vocabulary and an action outside the explicit credential/transfer predicate; no false completeness claim. |
+| `challenge-indirect-override` | Indirect hierarchy takeover has no supported explicit override verb; contextual review is required. |
 
 ## Source coverage
 
@@ -83,7 +92,7 @@ Equal exported input does not mean equal language support, rule scope or success
 
 </div>
 
-[Exact run statuses](../benchmarks/comparison-v013/run-status.json) · [Pinned source manifest](../benchmarks/real-world/manifest.json) · [Readable comparison](../benchmarks/comparison-v013/README.md). No target application, MCP server, dependency install hook or exploit is executed by this source protocol. Optional model review is outside the deterministic comparison.
+[Exact run statuses](../benchmarks/comparison-v014/run-status.json) · [Pinned source manifest](../benchmarks/real-world/manifest.json) · [Readable comparison](../benchmarks/comparison-v014/README.md). No target application, MCP server, dependency install hook or exploit is executed by this source protocol. Optional model review is outside the deterministic comparison.
 
 ### Retain unsupported and partial runs
 
@@ -91,7 +100,7 @@ Every tool has 8 selected project inputs. These status counts describe the recor
 
 | Tool | Completed, no recorded analysis errors/gaps | Completed with errors/gaps | Unsupported | Other/incomplete |
 | --- | ---: | ---: | ---: | ---: |
-| Invarune | 4 | 4 | 0 | 0 |
+| Invarune | 3 | 5 | 0 | 0 |
 | Semgrep CE | 5 | 3 | 0 | 0 |
 | Bandit | 5 | 1 | 2 | 0 |
 | Gitleaks | 8 | 0 | 0 | 0 |
@@ -104,14 +113,14 @@ These are the final deterministic source scans behind this comparison. Each down
 
 | Pinned project | Review report | Machine-readable evidence |
 | --- | --- | --- |
-| MCP reference | [HTML](../benchmarks/comparison-v013/invarune-reports/mcp-reference/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v013/invarune-reports/mcp-reference/report.md) | [JSON](../benchmarks/comparison-v013/invarune-reports/mcp-reference/report.json) · [SARIF](../benchmarks/comparison-v013/invarune-reports/mcp-reference/report.sarif) |
-| GitHub MCP | [HTML](../benchmarks/comparison-v013/invarune-reports/github-mcp/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v013/invarune-reports/github-mcp/report.md) | [JSON](../benchmarks/comparison-v013/invarune-reports/github-mcp/report.json) · [SARIF](../benchmarks/comparison-v013/invarune-reports/github-mcp/report.sarif) |
-| AutoGen | [HTML](../benchmarks/comparison-v013/invarune-reports/autogen/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v013/invarune-reports/autogen/report.md) | [JSON](../benchmarks/comparison-v013/invarune-reports/autogen/report.json) · [SARIF](../benchmarks/comparison-v013/invarune-reports/autogen/report.sarif) |
-| CrewAI | [HTML](../benchmarks/comparison-v013/invarune-reports/crewai/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v013/invarune-reports/crewai/report.md) | [JSON](../benchmarks/comparison-v013/invarune-reports/crewai/report.json) · [SARIF](../benchmarks/comparison-v013/invarune-reports/crewai/report.sarif) |
-| LangGraph | [HTML](../benchmarks/comparison-v013/invarune-reports/langgraph/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v013/invarune-reports/langgraph/report.md) | [JSON](../benchmarks/comparison-v013/invarune-reports/langgraph/report.json) · [SARIF](../benchmarks/comparison-v013/invarune-reports/langgraph/report.sarif) |
-| OpenHands | [HTML](../benchmarks/comparison-v013/invarune-reports/openhands/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v013/invarune-reports/openhands/report.md) | [JSON](../benchmarks/comparison-v013/invarune-reports/openhands/report.json) · [SARIF](../benchmarks/comparison-v013/invarune-reports/openhands/report.sarif) |
-| Pydantic AI | [HTML](../benchmarks/comparison-v013/invarune-reports/pydantic-ai/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v013/invarune-reports/pydantic-ai/report.md) | [JSON](../benchmarks/comparison-v013/invarune-reports/pydantic-ai/report.json) · [SARIF](../benchmarks/comparison-v013/invarune-reports/pydantic-ai/report.sarif) |
-| FastMCP | [HTML](../benchmarks/comparison-v013/invarune-reports/fastmcp/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v013/invarune-reports/fastmcp/report.md) | [JSON](../benchmarks/comparison-v013/invarune-reports/fastmcp/report.json) · [SARIF](../benchmarks/comparison-v013/invarune-reports/fastmcp/report.sarif) |
+| MCP reference | [HTML](../benchmarks/comparison-v014/invarune-reports/mcp-reference/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v014/invarune-reports/mcp-reference/report.md) | [JSON](../benchmarks/comparison-v014/invarune-reports/mcp-reference/report.json) · [SARIF](../benchmarks/comparison-v014/invarune-reports/mcp-reference/report.sarif) |
+| GitHub MCP | [HTML](../benchmarks/comparison-v014/invarune-reports/github-mcp/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v014/invarune-reports/github-mcp/report.md) | [JSON](../benchmarks/comparison-v014/invarune-reports/github-mcp/report.json) · [SARIF](../benchmarks/comparison-v014/invarune-reports/github-mcp/report.sarif) |
+| AutoGen | [HTML](../benchmarks/comparison-v014/invarune-reports/autogen/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v014/invarune-reports/autogen/report.md) | [JSON](../benchmarks/comparison-v014/invarune-reports/autogen/report.json) · [SARIF](../benchmarks/comparison-v014/invarune-reports/autogen/report.sarif) |
+| CrewAI | [HTML](../benchmarks/comparison-v014/invarune-reports/crewai/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v014/invarune-reports/crewai/report.md) | [JSON](../benchmarks/comparison-v014/invarune-reports/crewai/report.json) · [SARIF](../benchmarks/comparison-v014/invarune-reports/crewai/report.sarif) |
+| LangGraph | [HTML](../benchmarks/comparison-v014/invarune-reports/langgraph/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v014/invarune-reports/langgraph/report.md) | [JSON](../benchmarks/comparison-v014/invarune-reports/langgraph/report.json) · [SARIF](../benchmarks/comparison-v014/invarune-reports/langgraph/report.sarif) |
+| OpenHands | [HTML](../benchmarks/comparison-v014/invarune-reports/openhands/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v014/invarune-reports/openhands/report.md) | [JSON](../benchmarks/comparison-v014/invarune-reports/openhands/report.json) · [SARIF](../benchmarks/comparison-v014/invarune-reports/openhands/report.sarif) |
+| Pydantic AI | [HTML](../benchmarks/comparison-v014/invarune-reports/pydantic-ai/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v014/invarune-reports/pydantic-ai/report.md) | [JSON](../benchmarks/comparison-v014/invarune-reports/pydantic-ai/report.json) · [SARIF](../benchmarks/comparison-v014/invarune-reports/pydantic-ai/report.sarif) |
+| FastMCP | [HTML](../benchmarks/comparison-v014/invarune-reports/fastmcp/report.html) · [Markdown](https://raw.githubusercontent.com/nimeshbuilds/invarune/main/benchmarks/comparison-v014/invarune-reports/fastmcp/report.md) | [JSON](../benchmarks/comparison-v014/invarune-reports/fastmcp/report.json) · [SARIF](../benchmarks/comparison-v014/invarune-reports/fastmcp/report.sarif) |
 
 ## Complementary review surfaces
 
@@ -123,7 +132,7 @@ Each cell below records observations in an explicit family. The display uses the
 
 </div>
 
-[Accessible family/count table](assets/benchmarks/family-counts.csv) · [Exact family definitions](../benchmarks/comparison-v013/rule-family-map.json) · [Every source observation](../benchmarks/comparison-v013/FINDINGS.md). All **1,114** observations remain separate records; their total is not a confirmed vulnerability count.
+[Accessible family/count table](assets/benchmarks/family-counts.csv) · [Exact family definitions](../benchmarks/comparison-v014/rule-family-map.json) · [Every source observation](../benchmarks/comparison-v014/FINDINGS.md). All **1,114** observations remain separate records; their total is not a confirmed vulnerability count.
 
 ### Where observations meet
 
@@ -133,11 +142,11 @@ Each cell below records observations in an explicit family. The display uses the
 
 </div>
 
-Matching requires the same project and source path, a compatible family and intersecting inclusive lines. No nearest-line heuristic is used. Multiple possible counterparts stay ambiguous. [All six pairwise comparisons](../benchmarks/comparison-v013/overlaps.json) retain the complete matched/unmatched accounting. Agreement is not a true-positive label, and lack of a counterpart is not a false-negative label.
+Matching requires the same project and source path, a compatible family and intersecting inclusive lines. No nearest-line heuristic is used. Multiple possible counterparts stay ambiguous. [All six pairwise comparisons](../benchmarks/comparison-v014/overlaps.json) retain the complete matched/unmatched accounting. Agreement is not a true-positive label, and lack of a counterpart is not a false-negative label.
 
 ### Separate MCP metadata track
 
-Cisco AI MCP Scanner **4.8.4** has a separate recorded YARA-only run on **14 literal tool names/descriptions** extracted from the MCP filesystem reference server. Recorded status: `completed_no_findings`; **0 reported findings**. [Metadata input, results and limits](../benchmarks/comparison-v013/external-results/cisco-metadata.json).
+Cisco AI MCP Scanner **4.8.4** has a separate recorded YARA-only run on **14 literal tool names/descriptions** extracted from the MCP filesystem reference server. Recorded status: `completed_no_findings`; **0 reported findings**. [Metadata input, results and limits](../benchmarks/comparison-v014/external-results/cisco-metadata.json).
 
 This is partial offline metadata, not a captured `tools/list` response or a complete MCP server assessment. Schemas are placeholders; computed descriptions, runtime behavior, other servers and Cisco’s API/model/behavioral analyzers were outside this track. A zero here does not establish tool safety and is not mixed into source-scanner accuracy or overlap.
 
@@ -150,7 +159,7 @@ These are product capabilities, not claims that another tool lacks them.
 <div class="ivb-capability" markdown>
 <span class="ivb-number">01 / CONTEXT</span>
 ### Agent and MCP control context
-42 deterministic rules map partially to 26 of 66 controls. All 132 acceptance checks retain their source context and remaining human/runtime evidence needs.
+Within this recorded scope, 46 deterministic rules map partially to 30 of 66 controls. All 132 acceptance checks retain their source context and remaining human/runtime evidence needs.
 [Explore the controls](SECURITY_EXPLORER.md)
 </div>
 
@@ -188,8 +197,8 @@ The deterministic scan runs without a model. Optional review uses bounded eviden
 
 | Evidence | Open it |
 | --- | --- |
-| Current source comparison | [Method and outcomes](../benchmarks/comparison-v013/README.md) · [full finding ledger](../benchmarks/comparison-v013/FINDINGS.md) |
-| Current benchmark PDF | [Download the Invarune 0.13 benchmark update](../output/pdf/invarune-benchmark-v013.pdf) |
+| Current source comparison | [Method and outcomes](../benchmarks/comparison-v014/README.md) · [full finding ledger](../benchmarks/comparison-v014/FINDINGS.md) |
+| Current benchmark PDF | [Download Invarune 0.14.0 benchmark update](../output/pdf/invarune-benchmark-v014.pdf) |
 | Fixture labels | [Corpus](../benchmarks/static_accuracy.json) · [changed assertions](assets/benchmarks/fixture-changes.csv) |
 | Dashboard provenance | [Input hashes, exact counters and interpretation](assets/benchmarks/dashboard-data.json) |
 | Benchmark reading guide | [Denominators, source audits, protocols and unknowns](BENCHMARK_GUIDE.md) |

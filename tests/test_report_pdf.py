@@ -30,6 +30,22 @@ class OptionalPDFDependencyTests(unittest.TestCase):
 
 @unittest.skipUnless(HAS_PDF, "Optional PDF extra is not installed")
 class PDFReviewTests(unittest.TestCase):
+    def test_metrics_formulas_and_selected_rule_appendix_are_visible(self):
+        from ai_security_scan.report import prepare_report
+        from ai_security_scan.scanner import scan
+        report = prepare_report(scan(self.root / "source", scans=["AI001"]))
+        destination = self.root / "selected-metrics.pdf"
+        report_pdf.render_pdf(report, destination)
+        reader = self.pypdf.PdfReader(destination)
+        text = " ".join(" ".join(page.extract_text().split()) for page in reader.pages)
+        self.assertIn("Metrics and calculation", text)
+        self.assertIn("100.00% (1/1)", text)
+        self.assertIn("0.00% (0/2)", text)
+        self.assertIn("unique active selected acceptance checks", text)
+        self.assertIn("1 selected deterministic rules (1 active)", text)
+        self.assertNotIn("AI002 /", text)
+        self.assertEqual(report_pdf.extract_review_workspace(destination.read_bytes()), report["review_workspace"])
+
     def test_failed_optional_review_is_visible_on_cover_and_executive_page(self):
         import pypdf
         report = copy.deepcopy(self.report)

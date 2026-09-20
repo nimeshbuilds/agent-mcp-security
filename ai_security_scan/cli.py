@@ -10,7 +10,7 @@ from pathlib import Path
 from . import __version__
 from .cli_help import DESCRIPTION, HELP_TOPICS, complete_reference, examples_reference, topic_reference
 from .fs import read_confined
-from .report import atomic_write, write_reports
+from .report import atomic_write, prepare_report, write_reports
 from .scanner import SEVERITIES, load_baseline, load_controls, scan
 from .security import redact, redact_object
 
@@ -20,7 +20,7 @@ CATALOG_ACTIONS = (
     ("explain_rule", "rule"), ("list_topics", "topics"),
     ("ask", "ask"), ("explain_control", "control"),
     ("explain_check", "check"), ("list_sources", "sources"),
-    ("explain_source", "source"),
+    ("explain_source", "source"), ("list_scans", "scans"), ("explain_scan", "scan"),
 )
 
 
@@ -76,7 +76,9 @@ def parser():
     scope.add_argument("--max-files", type=int, default=20_000, help="Maximum source/configuration files to scan")
     scope.add_argument("--max-entries", type=int, default=100_000, help="Maximum traversed file/directory entries")
     output = p.add_argument_group("Reports and CI output")
-    output.add_argument("--output", default="scan-report", help="Directory for report.html, report.json, report.md and report.sarif; creates parents and replaces existing report files")
+    output.add_argument("--output", help="Directory for report.html, report.json, report.md and report.sarif; creates parents and replaces existing report files")
+    output.add_argument("--report", nargs="?", const="scan-report", metavar="DIR", help="Save HTML, Markdown, JSON and SARIF reports; optional directory defaults to scan-report. Without --report, --output or --pdf, results appear only in the terminal")
+    scope.add_argument("--scans", "--scan", action="append", metavar="IDS", help="Select only these rule/control IDs; repeat or comma-separate, e.g. --scans AI001,AI043 --scans MCP-01. Use --list-scans to explore. A review-only control activates zero static rules; shared syntax/integrity checks still run")
     output.add_argument("--pdf", action="store_true", help="Also write a branded fillable report.pdf with charts, clickable navigation and review fields; requires the optional pdf extra. The default four formats need no extra packages")
     display = output.add_mutually_exclusive_group()
     display.add_argument("--quiet", action="store_true", help="Suppress scan progress and human summaries; errors remain on stderr")
@@ -112,6 +114,8 @@ def parser():
     judge.add_argument("--analyst-time-budget", type=float, default=180, help="Full analyst scheduling/time budget in seconds, finite >0 and <=3600; not a hard process deadline")
     catalog = p.add_argument_group("Catalog inspection (no scan or network)")
     mode = catalog.add_mutually_exclusive_group()
+    mode.add_argument("--list-scans", action="store_true", help="List every deterministic scan and control review plan with agent/MCP/skill scope, algorithms, limits and source benchmarks; offline text by default")
+    mode.add_argument("--explain-scan", metavar="ID", help="Explain a rule or control scan: what it detects, why it matters, remediation, benchmark sources, deterministic limits and optional AI review")
     mode.add_argument("--list-rules", action="store_true", help="Print all deterministic rule metadata as JSON")
     mode.add_argument("--list-controls", action="store_true", help="Print all control checks, stable CONTROL:INDEX check IDs, rule mappings, and sources as JSON")
     mode.add_argument("--explain-rule", metavar="ID", help="Print one rule's metadata, mapped controls, and interpretation as JSON")
@@ -153,6 +157,7 @@ def _json_summary(report, target, report_paths):
                        if not policy or any(check["status"] == "active" for check in control.get("check_dispositions", []))]
     return {"schema_version": "1.0", "type": "scan_summary", "status": "completed" if report["execution"]["exit_code"] != 2 else "incomplete",
             "tool": report["tool"], "scan_id": report["scan_id"], "summary": report["summary"],
+            "scoring": report["scoring"],
             "assessment": {key: report["assessment"][key] for key in ("posture", "metrics", "guidance")},
             "scope": {"target": report.get("image", {}).get("display_target", redact(str(target.resolve()))), "configuration": report["configuration"]},
             "coverage": {**report["coverage"], "total_controls": counts.get("active_controls", len(controls)),
@@ -230,7 +235,13 @@ def main(argv=None):
             p.error("catalog inspection does not accept a target directory or image")
         name, action = catalog_selection
         try:
-            if args.catalog_format != "text" and name == "list_rules":
+            if name in {"list_scans", "explain_scan"}:
+                from .scan_catalog import describe_scans, render_scans
+                value = describe_scans(None if name == "list_scans" else args.explain_scan)
+                if args.catalog_format != "json":
+                    print(render_scans(value))
+                    return 0
+            elif args.catalog_format != "text" and name == "list_rules":
                 from .rules import RULES
                 value = RULES
             elif args.catalog_format != "text" and name == "list_controls":
@@ -255,7 +266,7 @@ def main(argv=None):
     if not math.isfinite(args.login_timeout) or not 1 <= args.login_timeout <= 900:
         p.error("--login-timeout must be finite and between 1 and 900 seconds")
     if args.login:
-        if args.pdf or args.review_report or args.review_config:
+        if args.pdf or args.review_report or args.review_config or args.report is not None or args.output is not None or args.scans is not None:
             p.error("--login does not accept PDF or review-report/config options")
         if args.target or args.image or args.image_archive or args.judge_cli or args.judge_config or args.list_rules or args.list_controls or args.explain_rule:
             p.error("--login is a standalone command; omit scan input and judge selection")
@@ -307,11 +318,19 @@ def main(argv=None):
         validate_limits(**analyst_limits)
     except ValueError as exc:
         p.error(str(exc))
-    output = Path(args.output).expanduser()
+    if args.output is not None and args.report is not None:
+        p.error("choose --output DIR or --report [DIR], not both")
+    from .selection import resolve_scan_selection
+    try:
+        resolve_scan_selection(args.scans)
+    except ValueError as exc:
+        p.error(str(exc))
+    output_name = args.output if args.output is not None else args.report
+    output = Path(output_name or "scan-report").expanduser() if output_name is not None or args.pdf else None
     target = Path(args.target).expanduser() if args.target else Path(".")
-    if not image_mode and output.resolve() == target.resolve():
+    if not image_mode and output is not None and output.resolve() == target.resolve():
         p.error("--output must be separate from the repository root")
-    exclusions = [output.absolute()]
+    exclusions = [output.absolute()] if output is not None else []
     for name in (args.baseline, args.write_baseline, args.judge_config, args.review_config, args.review_report, args.judge_cli_home):
         if name:
             exclusions.append(Path(name).expanduser().absolute())
@@ -323,7 +342,7 @@ def main(argv=None):
         if args.review_report:
             from .review_workspace import apply_review_workspace, load_review_report
             review_path = Path(args.review_report).expanduser()
-            destinations = [output / name for name in ("report.html", "report.json", "report.md", "report.sarif", "report.pdf")]
+            destinations = [output / name for name in ("report.html", "report.json", "report.md", "report.sarif", "report.pdf")] if output is not None else []
             if args.write_baseline:
                 destinations.append(Path(args.write_baseline).expanduser())
             try:
@@ -337,7 +356,7 @@ def main(argv=None):
             from .review_policy import apply_review_config, load_review_config
             review_path = Path(args.review_config).expanduser()
             review_config = load_review_config(review_path)
-            destinations = [output / name for name in ("report.html", "report.json", "report.md", "report.sarif", "report.pdf")]
+            destinations = [output / name for name in ("report.html", "report.json", "report.md", "report.sarif", "report.pdf")] if output is not None else []
             if args.write_baseline:
                 destinations.append(Path(args.write_baseline).expanduser())
             try:
@@ -347,7 +366,7 @@ def main(argv=None):
             except RuntimeError as exc:
                 raise ValueError("Review configuration and output paths must not contain symbolic-link loops") from exc
         baseline = load_baseline(args.baseline) if args.baseline else None
-        scan_options = dict(exclude=args.exclude, output_paths=exclusions, max_file_bytes=args.max_file_bytes, max_total_bytes=args.max_total_bytes, max_files=args.max_files, max_entries=args.max_entries, baseline=baseline)
+        scan_options = dict(exclude=args.exclude, output_paths=exclusions, max_file_bytes=args.max_file_bytes, max_total_bytes=args.max_total_bytes, max_files=args.max_files, max_entries=args.max_entries, baseline=baseline, scans=args.scans)
         if image_mode:
             from .image_scan import scan_image
             report, target = resources.enter_context(scan_image(archive=args.image_archive, reference=args.image,
@@ -443,7 +462,7 @@ def main(argv=None):
                       or report.get("review_import", {}).get("incomplete", False))
         report["run_configuration"] = {
             "schema_version": "1.0",
-            "reporting": {"formats": ["html", "markdown", "json", "sarif"] + (["pdf"] if args.pdf else []), "failure_threshold": args.fail_on},
+            "reporting": {"formats": (["html", "markdown", "json", "sarif"] + (["pdf"] if args.pdf else [])) if output is not None else ["terminal"], "failure_threshold": args.fail_on},
             "optional_review": {"enabled": judge_enabled, "mode": args.judge_mode,
                 "provider": report.get("judge", {}).get("provider"), "findings_limit": args.judge_max_findings,
                 "include_finding_source": args.judge_include_source, "analyst_limits": analyst_limits,
@@ -455,9 +474,9 @@ def main(argv=None):
                 "platform": args.image_platform, "timeout_seconds": args.image_timeout}} if image_mode else {}),
         }
         report["execution"] = {"failure_threshold": args.fail_on, "finding_gate_triggered": bool(gate_triggered), "exit_code": 2 if incomplete else 1 if gate_triggered else 0}
-        report = write_reports(report, output)
+        report = write_reports(report, output) if output is not None else prepare_report(report, include_workspace=False)
         report_paths = {kind: str(output.resolve() / name) for kind, name in
-                        (("html", "report.html"), ("json", "report.json"), ("markdown", "report.md"), ("sarif", "report.sarif"))}
+                        (("html", "report.html"), ("json", "report.json"), ("markdown", "report.md"), ("sarif", "report.sarif"))} if output is not None else {}
         if args.pdf:
             try:
                 from .report_pdf import render_pdf
@@ -485,9 +504,9 @@ def main(argv=None):
     finally:
         resources.close()
     if not report["summary"]["scan_complete_within_selected_scope"]:
-        print("Scan incomplete: " + str(report["summary"]["coverage_gaps"]) + " coverage gaps; see report.json for details.", file=sys.stderr)
+        print("Scan incomplete: " + str(report["summary"]["coverage_gaps"]) + " coverage gaps; see the coverage details.", file=sys.stderr)
     if report["analyst"].get("status") in {"error", "incomplete"}:
-        print("Optional control analyst review is incomplete; see report.json for coverage and error details.", file=sys.stderr)
+        print("Optional control analyst review is incomplete; see the optional-review coverage and errors.", file=sys.stderr)
     if report.get("review_import", {}).get("incomplete"):
         print("Imported review needs follow-up: changed evidence or unresolved runtime/human validation remains; see the review audit.", file=sys.stderr)
     if report.get("review_workspace_unavailable"):
@@ -497,16 +516,7 @@ def main(argv=None):
         return report["execution"]["exit_code"]
     if args.quiet:
         return report["execution"]["exit_code"]
-    summary = report["summary"]
-    print(f"Scanned {summary['files_scanned']} files; {summary['open_findings']} open findings; {summary['coverage_gaps']} coverage gaps.")
-    if report.get("review_policy"):
-        counts = report["review_policy"]["counts"]
-        print(f"User dispositions: {summary['justified_findings']} justified and {summary['disabled_findings']} disabled findings; {counts['active_rules']} active rules; {counts['active_checks']} active checks, {counts['justified_checks']} justified, {counts['disabled_checks']} disabled. Excluded items are not passes.")
-    if report.get("image"):
-        print(f"Image scope: {summary['image_analysis_scope']}; {summary['packaged_source_files_inspected']} packaged source files inspected. Binary logic and package CVEs were not analyzed.")
-    print("Reports: " + str(output.resolve() / "report.html") + " (also Markdown, JSON and SARIF" + (", PDF" if "pdf" in report_paths else "") + ")")
-    if report["analyst"].get("enabled"):
-        coverage = report["analyst"]["coverage"]
-        print(f"Advisory analyst: {report['analyst']['status']}; {coverage['reviewed_controls']}/{coverage['total_controls']} controls reviewed; {coverage['omitted_checks']} unanswered checks. Code review does not establish runtime validation.")
+    from .terminal import render_terminal
+    print(render_terminal(report, report_paths))
     # Operational failure always takes precedence over the finding severity gate.
     return report["execution"]["exit_code"]

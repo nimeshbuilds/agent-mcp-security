@@ -615,6 +615,9 @@ def _render_pdf(report, path):
     if isinstance(posture, dict):
         posture = posture.get("title", posture.get("summary", posture.get("label", posture.get("status", "Static review required"))))
     judge, analyst = report.get("judge", {}), report.get("analyst", {})
+    from .scoring import build_scoring, format_ratio
+    scoring = report.get("scoring") or build_scoring(report)
+    static_metrics, ai_metrics = scoring["deterministic"], scoring["optional_ai"]
     review_notice = "Optional model review: disabled. Deterministic findings and fix guidance run independently."
     if judge.get("enabled") or analyst.get("enabled"):
         review_notice = "Optional model review: finding stage {}; control stage {}.".format(
@@ -633,7 +636,7 @@ def _render_pdf(report, path):
         target = "Selected source directory; paths below are relative"
     static_status = "Incomplete selected scope" if summary.get("coverage_gaps", 0) else "Selected static scope completed"
     story = [Spacer(1, 8), heading("Executive summary", "summary"),
-             para("AI AGENT + MCP SECURITY REVIEW", "sub"),
+             para("AI AGENT + MCP + SKILL SECURITY REVIEW", "sub"),
              para("Scope: " + str(target) + " | Invarune " + str(report.get("tool", {}).get("version", "")), "small"),
              para(str(posture), "sub"), para(str(posture_explanation)),
              Metrics([("OPEN FINDINGS", int(summary.get("open_findings", 0))), ("COVERAGE GAPS", int(summary.get("coverage_gaps", 0))),
@@ -666,6 +669,23 @@ def _render_pdf(report, path):
     if actions:
         story += [action_table(8), para("Showing {} of {} open finding groups in priority order. The complete findings follow.".format(min(8, len(actions)), len(actions)), "small")]
     story += [para("Review every detailed finding and gap below. Additional concerns can exist outside this bounded scan's supported syntax, files, budgets and execution context.")]
+    story += [PageBreak(), heading("Metrics and calculation", "scoring"),
+              para(scoring["overall_security_score_reason"]),
+              data_table(["Measure", "Result", "Interpretation"], [
+                  ("Open deterministic findings", str(static_metrics["open_findings"]) + " (" + str(static_metrics["urgent_findings"]) + " critical/high)",
+                   "Observed pattern counts. No severity weights or compromise probabilities are assigned."),
+                  ("Partial deterministic mapping reach", format_ratio(static_metrics["mapping_reach"]),
+                   "Active selected controls with an active selected mapped rule. Available partial coverage, not a pass rate."),
+                  ("Optional AI answer coverage", format_ratio(ai_metrics["answer_coverage"]),
+                   "Active selected checks with a model answer, including concerns and unknowns. Review completion, not safety.")], [145, 100, 262]),
+              para("Selected scope: {} rules ({} active); {} controls ({} active); {} active acceptance checks. {} recorded coverage gaps.".format(
+                  static_metrics["selected_rules"], static_metrics["active_rules"], static_metrics["selected_controls"],
+                  static_metrics["active_controls"], static_metrics["active_checks"], static_metrics["coverage_gaps"]), "small"),
+              para("Exact formulas", "sub"),
+              para(static_metrics["mapping_reach_formula"], "small"), para(ai_metrics["answer_coverage_formula"], "small"),
+              para("Advisory AI outcomes", "sub"),
+              data_table(["Check outcome", "Count"], [(status, str(count)) for status, count in ai_metrics["check_outcomes"].items()], [390, 117]),
+              para(ai_metrics["interpretation"], "small"), para(scoring["exclusions"], "small"), para(scoring["gate"], "small")]
     configuration_start = len(story)
     story += [PageBreak(), heading("Scan configuration and scope", "configuration")]
     for title, config in [("Source scope and limits", report.get("configuration", {})),
@@ -679,7 +699,7 @@ def _render_pdf(report, path):
     story += [para("Source and image evidence are static. Image metadata, retained layers and packaged files do not reveal every runtime override or compiled program behavior."),
               para("Scanner provenance", "sub"), data_table(["Identity", "Recorded value"], configuration_rows(report.get("tool", {})), [194, 313]), PageBreak(),
               heading("Deterministic checks and optional review", "layers"),
-              para("42 static source/configuration patterns", "sub"),
+              para(str(static_metrics["selected_rules"]) + " selected deterministic rules (" + str(static_metrics["active_rules"]) + " active)", "sub"),
               para("Deterministic checks inspect bounded Python syntax and local value flow, JavaScript/TypeScript lexical structure, structured JSON, configuration settings, selected secret patterns and image metadata. Repeated stable input produces repeatable evidence; it does not guarantee zero false positives or negatives."),
               para("Optional security analyst", "sub"),
               para("If enabled, a model reviews selected findings and acceptance checks using bounded supplied evidence. Strict IDs, citations, response validation and tool restrictions constrain the protocol. Partial budgets, omitted answers and unavailable source/runtime evidence remain visible. Advice does not independently prove safety or erase static findings."),
@@ -732,7 +752,11 @@ def _render_pdf(report, path):
     del story[configuration_start:]
     rule_inventory = [PageBreak(), heading("Appendix / Deterministic rule inventory", "rules")]
     from .rules import RULES
+    selected_rule_ids = set(report.get("configuration", {}).get("selected_rule_ids", [rule["id"] for rule in RULES]))
+    rule_inventory.append(para("Only selected rules appear here. User-justified and disabled selections remain recorded in the decision audit and do not earn pass credit.", "small"))
     for rule in RULES:
+        if rule["id"] not in selected_rule_ids:
+            continue
         rule_inventory += [para(rule["id"] + " / " + rule["title"], "sub"), para(rule["description"], "small")]
     story += [PageBreak(), heading("Observed findings and mitigating layers", "findings")]
     if not report.get("findings"):

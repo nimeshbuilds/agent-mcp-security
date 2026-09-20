@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "result": "passed",
+  "html_pages": 185,
+  "local_links_checked": 89385,
+  "search_entries": 5854,
+  "artifacts_preserved": 518,
+  "pdf_downloads": [
+    {
+      "path": "examples/reports/cli-claude-v010/report.pdf",
+      "sha256": "af4f08394d4108d992a3f78e808bc40557289ca120681829c11b875efa9c7877",
+      "bytes": 1333300
+    },
+    {
+      "path": "examples/reports/invscan-v011/report.pdf",
+      "sha256": "bed01706affa81d4e8ba87c0372078a81b44a9a45ffb22305f7546b02c8a5b8d",
+      "bytes": 1309387
+    },
+    {
+      "path": "examples/reports/review-workflow/source/final-pdf/report.pdf",
+      "sha256": "4a5e8353220064529e7f90428c45a1e6bc5d4dc0070f7e8a90954b9b5b5020d0",
+      "bytes": 1174174
+    },
+    {
+      "path": "examples/reports/review-workflow/source/reviewed.pdf",
+      "sha256": "e0271c845ceabf47c64b14c804425b9b458a6ac5714ad5826559341145115e41",
+      "bytes": 1155507
+    },
+    {
+      "path": "examples/reports/v014/skills-claude/report.pdf",
+      "sha256": "01af71de019ab0e84c2bc9472171d2bc30eace6ad6ffb2dd0fa73ef8cba17210",
+      "bytes": 246061
+    },
+    {
+      "path": "examples/reports/v014/skills-codex/report.pdf",
+      "sha256": "19bf5af728a9392299b944df39f1c9e60e909e91fb8f278d930debb700a3796c",
+      "bytes": 314850
+    },
+    {
+      "path": "examples/reports/v014/skills-static/report.pdf",
+      "sha256": "b598d40eba6666ea9f04600468388886cfe9aa55413b68ce22c6d39a545a6db6",
+      "bytes": 229108
+    },
+    {
+      "path": "output/pdf/invarune-benchmark-report.pdf",
+      "sha256": "1ea4c5e1ae9dede387ed7ebd787f7d73ca0129ee3d23d5012a90c4f1bb36f4d3",
+      "bytes": 104090
+    },
+    {
+      "path": "output/pdf/invarune-benchmark-v013.pdf",
+      "sha256": "2f6435ec0980637a02f8a8bcaa802fc97d404493427f3dd5e127269b2be1caf2",
+      "bytes": 94289
+    },
+    {
+      "path": "output/pdf/invarune-benchmark-v014.pdf",
+      "sha256": "e8c64b0d5ef02eb3abea1e88b0771a53bed5efef976e7f56c5453098dc04a850",
+      "bytes": 94330
+    },
+    {
+      "path": "output/pdf/invarune-finding-comparison-v010.pdf",
+      "sha256": "2159b8625bb2478a77cb8cf2fa0253006715662dc4957b33653dc0bbed150f72",
+      "bytes": 121392
+    },
+    {
+      "path": "output/pdf/invarune-security-controlbook.pdf",
+      "sha256": "59c27e53fba3939c9b0d425a52c8a94d5842db4907f11e1848916cffbba8729f",
+      "bytes": 554944
+    },
+    {
+      "path": "output/pdf/invarune-v014-skills-claude.pdf",
+      "sha256": "01af71de019ab0e84c2bc9472171d2bc30eace6ad6ffb2dd0fa73ef8cba17210",
+      "bytes": 246061
+    },
+    {
+      "path": "output/pdf/invarune-v014-skills-codex.pdf",
+      "sha256": "19bf5af728a9392299b944df39f1c9e60e909e91fb8f278d930debb700a3796c",
+      "bytes": 314850
+    },
+    {
+      "path": "output/pdf/invarune-v014-skills-static.pdf",
+      "sha256": "b598d40eba6666ea9f04600468388886cfe9aa55413b68ce22c6d39a545a6db6",
+      "bytes": 229108
+    }
+  ],
+  "errors": []
+}

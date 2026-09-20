@@ -32,6 +32,7 @@ Adding a rule involves more than an analyzer branch:
 
 | File | Required contribution |
 |---|---|
+| [`scan_catalog.py`](../../ai_security_scan/scan_catalog.py) | Exact predicate, algorithm, profiles/image contexts, blind spots and optional review boundary. Regenerate [complete coverage](../SCAN_COVERAGE.md). |
 | [`rules.py`](../../ai_security_scan/rules.py) | Unique stable rule ID, detection description, severity rationale, remediation and primary technical references. Coordinate the ruleset version with the release. |
 | [`data/controls.json`](../../ai_security_scan/data/controls.json) | Applicable `automated_rule_ids` mappings. These indicate partial control-level coverage, never proof of every acceptance check. |
 | [`data/mitigations.json`](../../ai_security_scan/data/mitigations.json) | Plausible impact, immediate action, proposed owner and independently verifiable defense layers. |
@@ -93,6 +94,8 @@ The explorer labels relationships as `primary_control_source`, `thematic_alignme
 
 ```sh
 python scripts/sync_control_docs.py
+python scripts/build_scan_coverage.py
+python scripts/build_scan_coverage.py --check
 python -m unittest tests.test_catalog tests.test_catalog_explorer tests.test_catalog_explorer_integration -v
 invscan --explain-control AUTH-01
 invscan --explain-check AUTH-01:1 --catalog-format json
@@ -100,3 +103,5 @@ invscan --explain-source MCP-AUTH
 ```
 
 Review generated documentation diffs and any changed counts. Finish with the relevant report tests and [release validation](testing-and-releasing.md); catalog edits can change review bindings even when rule detections stay the same.
+
+The [scan inventory and selection guide](scan-inventory.md) explains stable scan IDs, narrowed source/image/AI scope, terminal defaults and metric denominators.

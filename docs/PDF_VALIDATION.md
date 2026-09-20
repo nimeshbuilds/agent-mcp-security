@@ -1,14 +1,42 @@
 # PDF artifact validation
 
-## Current benchmark publication: v0.13
+## Current release: v0.14
+
+The current PDFs were regenerated from the **0.14.0** implementation and current catalogs. Their QA receipts identify exact artifact, source/input and builder hashes; they do not relabel historical scans as new measurements.
+
+| Artifact | Pages | Bookmarks | Internal links | Unique external URLs | Editable fields |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| [Current benchmark update](../output/pdf/invarune-benchmark-v014.pdf) | 9 | 9 | 7 | 14 | 0 |
+| [Current security controlbook](../output/pdf/invarune-security-controlbook.pdf) | 121 | 121 | 80 | 77 | 0 |
+| [Selected deterministic skill/tool scan](../examples/reports/v014/skills-static/report.pdf) | 27 | 12 | 69 | 8 | 80 |
+| [Selected Claude authentication-failure scan](../examples/reports/v014/skills-claude/report.pdf) | 31 | 13 | 71 | 8 | 80 |
+| [Selected successful Codex review](../examples/reports/v014/skills-codex/report.pdf) | 39 | 13 | 71 | 8 | 80 |
+
+All **227 pages** were rendered with Poppler and visually inspected at contact-sheet scale; selected dense, executive, finding and form pages were also inspected at full size. The receipts record no clipping or overlap. All internal destinations resolve. The benchmark and controlbook also reproduced byte-identically on repeat builds. These checks describe the recorded rendering environment, not every PDF viewer.
+
+The [benchmark QA receipt](../benchmarks/validation-v014/benchmark-pdf-receipt.json) binds the current eight-project comparison and separate skill/tool evaluation to the PDF. It checks expected metric text and the absence of misleading historical-comparison links. The measured 146 source patterns, 21 gaps and both fixture denominators remain separate; no independent production vulnerability truth or model adjudication is claimed.
+
+The [controlbook QA receipt](../benchmarks/validation-v014/controlbook-receipt.json) verifies **46 rule predicates, algorithms, limitations, agent/skill relevance and remediation**, plus **66 controls, 132 checks and 76 source records**. The current catalog maps rules partially to **30 controls**. These are documented coverage relationships, not passed controls. All control/check text and source links are present.
+
+The [selected scan PDF receipt](../benchmarks/validation-v014/skill-pdfs-receipt.json) verifies each PDF's **16 bound review items, 80 canonical fields and 80 matching widgets**, including supported appearances. Strict extraction reproduces the adjacent JSON review workspace and embedded full report exactly. The downloadable example copies match their corresponding output PDFs byte-for-byte.
+
+All three selected scan PDFs retain the same four deterministic findings (three high, one medium), six selected controls and twelve checks. The deterministic run has AI disabled and exits 1. Claude was requested but signed out: zero accepted answers, twelve unreviewed checks and exit 2. Its PDF does not claim successful Claude analysis. The [successful Codex PDF](../examples/reports/v014/skills-codex/report.pdf) and [HTML report](../examples/reports/v014/skills-codex/report.html) completed 12/12 selected answers, with ten insufficient-evidence answers and two potential gaps. Its exit remains 1 from the same static severity gate; answer completion does not establish a passed control. These are inert-fixture examples, not public vulnerability assessments. [Run details](../examples/reports/v014/README.md).
+
+Current PDF generation and structural checks used ReportLab **4.5.1** and pypdf **6.19.0**. The scanner implementation fingerprint for the current benchmark and skill reports is `a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1`. Exact PDF hashes are in the linked receipts.
+
+## Historical benchmark publication: v0.13
 
 The [updated benchmark PDF](../output/pdf/invarune-benchmark-v013.pdf) has **9 pages and 9 bookmarks**, with a clickable contents page, vector charts, source/finding comparison tables and the original Invarune mark. Every page was rendered with Poppler and visually inspected. All internal destinations resolve; the [hash-bound QA receipt](../benchmarks/validation-v013/pdf-receipt.json) records artifact/input hashes and link counts. This is an explanatory benchmark publication, not an editable operational scan report. Earlier PDF measurements below remain historical.
+
+## Historical v0.9 document workflow
+
+The counts and hashes in this section describe the former **0.9.0** documents, verified 19 September 2026. The controlbook at the current download path has since been replaced by the 121-page 0.14 edition above; the old 71-page counts and hash do not describe that current file.
 
 Verified 19 September 2026 for the Invarune **0.9.0** document workflow. The expanded controlbook and comparative report were rebuilt with clickable contents, bookmarks, coverage charts, explicit deterministic/optional-review boundaries, configuration guidance and a human review/import workflow. Their original Invarune branding carries NimeshBuild attribution. No external organization's logo or full standard is reproduced.
 
 | Artifact | Pages | Bookmarks | Link annotations | Unique external URLs | Interactive fields |
 |---|---:|---:|---:|---:|---:|
-| [Security controlbook](../output/pdf/invarune-security-controlbook.pdf) | 71 | 70 | 312 | 76 | 0 |
+| Historical 0.9 controlbook (superseded; current edition above) | 71 | 70 | 312 | 76 | 0 |
 | [Comparative benchmark report](../output/pdf/invarune-benchmark-report.pdf) | 9 | 8 | 37 | 20 | 0 |
 | [Actual source review roundtrip](../examples/reports/review-workflow/source/final-pdf/report.pdf) | 99 | 10 | 151 | 43 | 715 |
 

@@ -12,6 +12,7 @@ from ai_security_scan.image_scan import scan_image
 from ai_security_scan.report import markdown, sarif, write_reports
 from ai_security_scan.report_html import html_report
 from ai_security_scan.review_policy import apply_review_config
+from ai_security_scan.rules import RULES
 from ai_security_scan.scanner import scan
 from tests.image_fixtures import docker_archive
 from tests.test_report_html import Document, assert_trusted_script_boundary
@@ -45,7 +46,7 @@ class ReviewPolicyReportTests(unittest.TestCase):
         self.assertEqual((metrics["open_findings"], metrics["justified_findings"], metrics["disabled_findings"]), (1, 1, 1))
         self.assertEqual(metrics["suppressed_findings"], 0)
         self.assertEqual(metrics["urgent_findings"], 1)
-        self.assertEqual((metrics["active_rules"], metrics["justified_rules"], metrics["disabled_rules"]), (40, 1, 1))
+        self.assertEqual((metrics["active_rules"], metrics["justified_rules"], metrics["disabled_rules"]), (len(RULES) - 2, 1, 1))
         self.assertEqual((metrics["active_checks"], metrics["justified_checks"], metrics["disabled_checks"]), (127, 3, 2))
         self.assertEqual((metrics["controls_requiring_validation"], metrics["justified_controls"], metrics["disabled_controls"], metrics["excluded_controls"]), (64, 1, 0, 2))
         self.assertEqual(metrics["mixed_excluded_controls"], 1)
@@ -102,13 +103,13 @@ class ReviewPolicyReportTests(unittest.TestCase):
         md = markdown(report)
         doc = Document(html_report(report))
         summary = " ".join(doc.sections["summary"])
-        self.assertIn("40 active rules", summary)
+        self.assertIn(str(len(RULES) - 2) + " active rules", summary)
         self.assertIn("127 active acceptance checks", summary)
         self.assertIn("64 active controls require validation", summary)
         self.assertIn("not validated passes", summary)
         self.assertIn("review-policy", doc.sections)
         self.assertIn("Deployment exception with owner review.", " ".join(doc.sections["review-policy"]))
-        self.assertIn("| Rules | 40 | 1 | 1 | 0 | 42 |", md)
+        self.assertIn("| Rules | " + str(len(RULES) - 2) + " | 1 | 1 | 0 | " + str(len(RULES)) + " |", md)
         self.assertIn("| Controls | 64 | 1 | 0 | 1 | 66 |", md)
         self.assertIn("| Checks | 127 | 3 | 2 | 0 | 132 |", md)
         for content in (md, " ".join(doc.text)):

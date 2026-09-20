@@ -201,6 +201,37 @@ def check_pair(pair, before, after, before_hash, after_hash, corpus_path, baseli
         fail("Paired receipt hides or changes remaining labeled mismatches")
 
 
+def recorded_catalog_counts(directory, runs, inputs):
+    """Read selected catalog scope only from reports bound to actual executions."""
+    counts = None
+    for run in runs:
+        if run["tool"] != "invarune":
+            continue
+        project = run["project_id"]
+        receipt = load(directory / "invarune-receipts-after" / (project + ".json"), inputs)
+        path = directory / "invarune-reports" / project / "report.json"
+        report = load(path, inputs)
+        digest = inputs[path.resolve().relative_to(ROOT).as_posix()]["sha256"]
+        repeated = receipt.get("repeated_runs", [])
+        if (not repeated or any(item.get("report_sha256", {}).get("report.json") != digest for item in repeated)
+                or run["raw_report_sha256"] != digest or receipt["scan_id"] != report["scan_id"]
+                or receipt["tool"] != report["tool"] or receipt["source_manifest_sha256"] != run["source_manifest_sha256"]
+                or report["tool"]["version"] != run["version"]
+                or report["tool"]["implementation_sha256"] != run["implementation_sha256"]):
+            fail("Catalog source report differs from its recorded execution")
+        rules = set(report["coverage"]["rules_enabled"])
+        controls = report["controls"]
+        selected = {"rules": len(rules), "controls": len(controls),
+                    "checks": sum(len(control["checks"]) for control in controls),
+                    "mapped_controls": sum(bool(rules.intersection(control["automated_rule_ids"])) for control in controls)}
+        if counts is not None and selected != counts:
+            fail("Recorded source reports have inconsistent selected catalog scopes")
+        counts = selected
+    if counts is None:
+        fail("No recorded source report supplies catalog scope")
+    return counts
+
+
 def inputs_for(args):
     inputs = {}
     directory = args.comparison.resolve()
@@ -234,10 +265,34 @@ def inputs_for(args):
                    args.corpus.resolve().relative_to(ROOT).as_posix(), baseline, run_file["runs"])
         changes = [{"case_id": item["case_id"], "rule_id": item["rule_id"], "before": item["before_outcome"], "after": item["after_outcome"]}
                    for item in changed_assertions(before, after)]
-    return {"inputs": inputs, "directory": directory.relative_to(ROOT).as_posix(), "before_path": args.before.resolve().relative_to(ROOT).as_posix(),
+    data = {"inputs": inputs, "directory": directory.relative_to(ROOT).as_posix(), "before_path": args.before.resolve().relative_to(ROOT).as_posix(),
             "after_path": None if after is None else args.after.resolve().relative_to(ROOT).as_posix(), "before": before, "after": after,
             "current": after or before, "corpus": corpus, "ledger": ledger, "overlaps": overlaps, "runs": run_file["runs"], "changes": changes,
-            "pair": pair, "baseline": baseline, "metadata": metadata, "preview": args.preview}
+            "pair": pair, "baseline": baseline, "metadata": metadata, "preview": args.preview,
+            "catalog_counts": recorded_catalog_counts(directory, run_file["runs"], inputs) if after else None}
+    skills_path = directory / "skills-tools-accuracy.json"
+    if after and skills_path.exists():
+        skills = load(skills_path, inputs)
+        skills_corpus_path = ROOT / "benchmarks/skills_tools_accuracy.json"
+        skills_corpus = load(skills_corpus_path, inputs)
+        check_accuracy(skills, skills_corpus, sha(skills_corpus_path.read_bytes()))
+        if skills["tool_version"] != after["tool_version"]:
+            fail("Skill evidence uses a different scanner version")
+        skill_receipt = load(directory / "skills-tools-evaluation-receipt.json", inputs)
+        if (skill_receipt["implementation_sha256"] != pair["after"]["implementation_sha256"]
+                or skill_receipt["tool_version"] != after["tool_version"]
+                or skill_receipt.get("separate_denominator") is not True):
+            fail("Skill evaluation receipt does not bind the final implementation and separate scope")
+        if (skill_receipt["corpus"]["path"] != "benchmarks/skills_tools_accuracy.json"
+                or skill_receipt["corpus"]["sha256"] != sha(skills_corpus_path.read_bytes())
+                or skill_receipt["report"]["path"] != "skills-tools-accuracy.json"
+                or skill_receipt["report"]["sha256"] != sha(skills_path.read_bytes())
+                or skill_receipt["overall"] != skills["overall"]
+                or skill_receipt["case_count"] != skills["case_count"]):
+            fail("Skill receipt differs from recorded corpus/report bytes or counts")
+        data["skills"] = skills
+    return data
+
 
 
 def esc(value):
@@ -284,7 +339,7 @@ def fraction(numerator, denominator):
 
 def progress_svg(data):
     n = metric(data["before"], "assertions")
-    chart = SVG(530, "Same fixtures. Visible progress.", "Before and after outcomes on identical labeled corpus bytes. These are synthetic rule-presence labels, not production vulnerabilities.")
+    chart = SVG(530, "Same fixtures. Measured outcomes.", "Before and after outcomes on identical labeled corpus bytes. These are synthetic rule-presence labels, not production vulnerabilities.")
     chart.text(36, 113, "%s labeled assertions · corpus %s · identical source and expected labels" % (n, data["before"]["corpus_version"]), 16, MUTED)
     for index, report in enumerate((data["before"], data["after"])):
         x = 36 + 480 * index
@@ -454,7 +509,7 @@ Explore measured fixture outcomes, pinned source coverage and complementary scan
 
 '''
     if after:
-        text += '[Download the benchmark PDF](../output/pdf/invarune-benchmark-v013.pdf){ .md-button }\n\n'
+        text += '[Download the benchmark PDF](../output/pdf/invarune-benchmark-v' + after["tool_version"].replace(".", "")[:-1] + '.pdf){ .md-button }\n\n'
     text += '''
 <div class="ivb-stats">
 '''
@@ -496,6 +551,16 @@ The before/after comparison uses the **same corpus bytes, case IDs, source text 
         for item in sorted(data["pair"]["remaining_mismatches"], key=lambda row: (row["case_id"], row["rule_id"]))[:12]:
             text += '| `' + esc(item['case_id']) + '` | `' + esc(item['rule_id']) + '` | ' + SHORT[item['outcome']] + ' |\n'
         text += '\nRead the exact source and authored rationale in the linked corpus before generalizing these outcomes. The [paired receipt](' + comparison + '/before-after-accuracy.json) retains every remaining mismatch.\n\n'
+    if data.get("skills"):
+        skills = data["skills"]
+        text += "## Skills and malicious-tool indicators\n\n![Separate skill/tool fixture outcomes](assets/benchmarks/skills-tools.svg)\n\n"
+        text += ("The new **" + str(skills["case_count"]) + "-case / " + str(skills["overall"]["assertions"]) + "-assertion** corpus is separate from the unchanged 113-assertion comparison. It covers direct instruction hijacking, credential-transfer directives, concealed/approval-bypassing actions, contradictory tool annotations, safe counterexamples and obfuscation.\n\n")
+        text += ("All known misses remain visible. These authored risk-pattern labels do not establish malicious intent or deployed exploitability. The eight-project export excludes most skill documentation, so those source runs do not measure complete skill-package coverage. [Skill labels](../benchmarks/skills_tools_accuracy.json) · [Actual outcomes](" + comparison + "/skills-tools-accuracy.json) · [Every scan and its limits](SCAN_COVERAGE.md).\n\n")
+        text += "| Known skill/tool miss | Why it remains |\n| --- | --- |\n"
+        for case in skills["cases"]:
+            if any(a["outcome"] in {"false_positive", "false_negative"} for a in case["assertions"]):
+                text += "| `" + esc(case["id"]) + "` | " + esc(case["rationale"]) + " |\n"
+        text += "\n"
     text += '''## Source coverage
 
 Equal exported input does not mean equal language support, rule scope or successful analysis. The chart shows Invarune's examined-file inventory with coverage gaps alongside it. Neither the bar length nor a zero-gap count proves runtime control effectiveness.
@@ -543,7 +608,7 @@ These are product capabilities, not claims that another tool lacks them.
 <div class="ivb-capability" markdown>
 <span class="ivb-number">01 / CONTEXT</span>
 ### Agent and MCP control context
-42 deterministic rules map partially to 26 of 66 controls. All 132 acceptance checks retain their source context and remaining human/runtime evidence needs.
+__RECORDED_CATALOG_CONTEXT__
 [Explore the controls](SECURITY_EXPLORER.md)
 </div>
 
@@ -582,7 +647,7 @@ The deterministic scan runs without a model. Optional review uses bounded eviden
 '''
     text += '| Evidence | Open it |\n| --- | --- |\n| Current source comparison | [Method and outcomes](' + comparison + '/README.md) · [full finding ledger](' + comparison + '/FINDINGS.md) |\n'
     if after:
-        text += '| Current benchmark PDF | [Download the Invarune 0.13 benchmark update](../output/pdf/invarune-benchmark-v013.pdf) |\n'
+        text += '| Current benchmark PDF | [Download Invarune ' + after['tool_version'] + ' benchmark update](../output/pdf/invarune-benchmark-v' + after['tool_version'].replace('.', '')[:-1] + '.pdf) |\n'
     text += '| Fixture labels | [Corpus](../benchmarks/static_accuracy.json) · [changed assertions](assets/benchmarks/fixture-changes.csv) |\n| Dashboard provenance | [Input hashes, exact counters and interpretation](assets/benchmarks/dashboard-data.json) |\n| Benchmark reading guide | [Denominators, source audits, protocols and unknowns](BENCHMARK_GUIDE.md) |\n| Downloadable reference and scan reports | [PDF library](REPORT_LIBRARY.md) |\n\n'
     text += '''The dashboard builder reads local receipts and emits deterministic SVG, CSV and Markdown. It does not rerun scanners or invoke a model. Preserve original receipts and use fresh output locations for a new experiment.
 
@@ -595,6 +660,11 @@ Read the [publication and source notice](../NOTICE.md). The research is an engin
 
 </div>
 '''
+    counts = data.get("catalog_counts")
+    context = ("Within this recorded scope, {rules} deterministic rules map partially to {mapped_controls} of {controls} controls. "
+               "All {checks} acceptance checks retain their source context and remaining human/runtime evidence needs.").format(**counts) if counts else (
+                   "Rules provide partial static mappings to controls. Exact catalog totals are omitted because this preview has no bound final source report; acceptance checks still need human/runtime evidence.")
+    text = text.replace("__RECORDED_CATALOG_CONTEXT__", context)
     # Keep chart labels readable on narrow screens with local horizontal scrolling.
     lines = text.splitlines()
     for index, line in enumerate(lines):
@@ -603,12 +673,28 @@ Read the [publication and source notice](../NOTICE.md). The research is an engin
     return "\n".join(lines) + "\n"
 
 
+def skills_svg(report):
+    chart = SVG(435, "Skills and tools: direct evidence, explicit limits", "Separate development-visible corpus. Every safe and adversarial label remains in the denominator; not a maliciousness or production safety score.")
+    chart.text(36, 117, "%s cases / %s explicit rule-presence assertions" % (report["case_count"], report["overall"]["assertions"]), 19, MUTED)
+    for index, key in enumerate(OUTCOMES):
+        x = 36 + 236 * index
+        chart.rect(x, 148, 216, 142)
+        chart.text(x + 20, 183, SHORT[key], 18, COLORS[key], "700")
+        chart.text(x + 20, 248, report["overall"][key], 48, INK, "700")
+    chart.wrap(36, 329, "Known semantic and language misses remain in the result. Optional AI can investigate bounded evidence; its judgment is advisory and does not establish detection guarantees.", 110, 17)
+    return chart.finish("Separate fixture scope: not added to the 113-assertion before/after denominator.")
+
+
 def outputs(data):
     charts = {"fixture-progress.svg": progress_svg(data), "confusion.svg": confusion_svg(data), "source-coverage.svg": coverage_svg(data), "family-footprint.svg": families_svg(data), "overlap.svg": overlaps_svg(data)}
+    if data.get("skills"):
+        charts["skills-tools.svg"] = skills_svg(data["skills"])
     provenance = {"schema_version": "1.0", "product": "Invarune by NimeshBuild", "generator": "scripts/build_benchmark_dashboard.py", "preview": data["preview"],
                   "comparison": data["ledger"]["experiment"], "inputs": data["inputs"], "fixture_corpus_sha256": data["current"]["corpus_sha256"],
+                  "catalog_counts": data.get("catalog_counts"),
                   "before": {"tool_version": data["before"]["tool_version"], "overall": data["before"]["overall"]},
                   "after": None if data["after"] is None else {"tool_version": data["after"]["tool_version"], "overall": data["after"]["overall"]},
+                  "skills": {"case_count": data["skills"]["case_count"], "overall": data["skills"]["overall"], "corpus_sha256": data["skills"]["corpus_sha256"]} if data.get("skills") else None,
                   "changed_assertions": data["changes"], "observations_by_tool": data["ledger"]["counts_by_tool"],
                   "metadata_track": {key: data["metadata"][key] for key in ("tool", "version", "status", "finding_count", "input_sha256", "raw_result_sha256")},
                   "interpretation": "Fixture counts use explicit development-visible rule-presence labels. Source observations and cross-tool overlap provide no confirmed-vulnerability, TP/FP or production-accuracy label.",
@@ -623,9 +709,9 @@ def outputs(data):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
-    parser.add_argument("--comparison", type=Path, default=ROOT / "benchmarks/comparison-v013", help="Recorded comparison with observations, overlaps and run statuses")
-    parser.add_argument("--before", type=Path, default=ROOT / "benchmarks/comparison-v013/accuracy-before.json", help="Actual before accuracy report")
-    parser.add_argument("--after", type=Path, default=ROOT / "benchmarks/comparison-v013/accuracy-after.json", help="Actual after accuracy report; mandatory for final generation")
+    parser.add_argument("--comparison", type=Path, default=ROOT / "benchmarks/comparison-v014", help="Recorded comparison with observations, overlaps and run statuses")
+    parser.add_argument("--before", type=Path, default=ROOT / "benchmarks/comparison-v014/accuracy-before.json", help="Actual before accuracy report")
+    parser.add_argument("--after", type=Path, default=ROOT / "benchmarks/comparison-v014/accuracy-after.json", help="Actual after accuracy report; mandatory for final generation")
     parser.add_argument("--corpus", type=Path, default=ROOT / "benchmarks/static_accuracy.json", help="Exact unchanged corpus bound by both accuracy reports")
     parser.add_argument("--preview", action="store_true", help="Render a visibly labeled design preview without an after result; not final benchmark evidence")
     parser.add_argument("--check", action="store_true", help="Verify committed page/assets match the inputs without changing files")

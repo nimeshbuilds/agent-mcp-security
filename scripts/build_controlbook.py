@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import argparse
 from collections import OrderedDict
-from datetime import datetime
 import html
 import json
 from pathlib import Path
@@ -62,12 +61,17 @@ FONT, BOLD = fonts()
 class Book:
     def __init__(self, output, controls, sources, rules):
         self.controls, self.sources, self.rules = controls, sources, rules
+        from ai_security_scan import __version__
+        from ai_security_scan.scan_catalog import describe_scans
+        self.version = __version__
+        self.scan_catalog = describe_scans()
+        self.scans = self.scan_catalog["scans"]
         self.by_url = {s["url"]: s for s in sources}
         self.by_id = {s["id"]: s for s in sources}
         self.canvas = canvas.Canvas(str(output), pagesize=(W, H), pageCompression=1, invariant=1)
-        self.canvas.setTitle("Invarune | AI Agent & MCP Security Controlbook")
+        self.canvas.setTitle("Invarune | Agent, MCP & Skill Security Controlbook")
         self.canvas.setAuthor("NimeshBuild")
-        self.canvas.setSubject("Source-linked controls, benchmarks, and validation guidance for AI agents and MCP servers")
+        self.canvas.setSubject("Source-linked controls, deterministic algorithms, optional review and validation for agents, MCP servers and skills")
         self.canvas.setCreator("Invarune by NimeshBuild / ReportLab")
         self.page = 0
         self.page_map = []
@@ -142,9 +146,13 @@ class Book:
     def plan(self):
         from ai_security_scan.methodology import build_methodology
         self.methodology = build_methodology({"controls": self.controls})
-        self.specs = [("cover", None), ("contents", None), ("guide", None), ("sources", None), ("workflow", None),
-                      ("coverage", self.methodology["areas"][:2]), ("coverage", self.methodology["areas"][2:4]),
-                      ("coverage", self.methodology["areas"][4:]), ("configuration", None), ("review_flow", None), ("analyst", None)]
+        self.specs = [("cover", None), ("contents", None), ("guide", None), ("sources", None), ("workflow", None)]
+        # Bounded batches prevent a growing methodology from silently putting
+        # every remaining area on its last page. All destinations derive from
+        # this final plan, never hardcoded page numbers.
+        for index in range(0, len(self.methodology["areas"]), 2):
+            self.specs.append(("coverage", self.methodology["areas"][index:index + 2]))
+        self.specs += [("configuration", None), ("quickstart", None), ("scoring", None), ("review_flow", None), ("analyst", None)]
         benchmarks = [s for s in self.sources if "benchmark" in s.get("kind", "").lower() and not any(word in s.get("organization", "").lower() for word in ("cis", "center for internet"))]
         for i in range(0, len(benchmarks), 3):
             self.specs.append(("benchmarks", benchmarks[i:i + 3]))
@@ -156,29 +164,43 @@ class Book:
         self.rule_start = len(self.specs) + 1
         for i in range(0, len(self.rules), 14):
             self.specs.append(("rules", self.rules[i:i + 14]))
+        self.rule_detail_start = len(self.specs) + 1
+        self.rule_pages = {}
+        for rule in self.scans:
+            self.rule_pages[rule["id"]] = len(self.specs) + 1
+            self.specs.append(("rule_detail", rule))
         self.ref_start = len(self.specs) + 1
         for i in range(0, len(self.sources), 4):
             self.specs.append(("references", self.sources[i:i + 4]))
+        self.first_page = {}
+        for page, (kind, _) in enumerate(self.specs, 1):
+            self.first_page.setdefault(kind, page)
 
     def contents(self, _):
         y = self.start("Navigation", "Contents", "Click a row or use the PDF bookmarks to move through the complete source-linked controlbook.")
-        entries = [("Reading guide and assurance labels", 3), ("Source landscape", 4), ("Security review workflow", 5),
-                   ("Coverage, misses and validation - execution / identity", 6),
-                   ("Coverage, misses and validation - prompts / data", 7),
-                   ("Coverage, misses and validation - images / operations", 8),
-                   ("Scan configuration and optional review", 9), ("Human review and evidence-bound import", 10),
-                   ("Controlled security analyst", 11), ("Benchmarks and attack suites", 12)]
+        labels = {"guide": "Reading guide and assurance labels", "sources": "Source landscape", "workflow": "Security review workflow",
+                  "configuration": "Scan configuration and optional review", "quickstart": "CLI examples and selected scans",
+                  "scoring": "Transparent metrics and score calculation", "review_flow": "Human review and evidence-bound import",
+                  "analyst": "Controlled security analyst", "benchmarks": "Benchmarks and attack suites"}
+        entries = []
+        for page, (kind, content) in enumerate(self.specs, 1):
+            if kind == "coverage":
+                entries.append(("Coverage: " + " / ".join(area["area"].split(",")[0] for area in content), page))
+            elif kind in labels and page == self.first_page[kind]:
+                entries.append((labels[kind], page))
         entries += [(category, page) for category, page in self.category_pages.items()]
-        entries += [("42-rule static inventory", self.rule_start), ("Full primary-source directory", self.ref_start)]
+        entries += [(str(len(self.rules)) + "-rule clickable inventory", self.rule_start),
+                    ("Every scan: algorithm, limits, fixes and source mapping", self.rule_detail_start), ("Full primary-source directory", self.ref_start)]
+        spacing = min(26, (y - 66) / len(entries))
         for label, page in entries:
-            self.text(label, M, y, 9.5, INK)
+            self.text(label, M, y, 8.4, INK)
             self.canvas.setFont(BOLD, 9.5)
             self.canvas.setFillColor(TEAL)
             self.canvas.drawRightString(W - M, y, str(page))
             self.canvas.linkRect("", "page-%s" % page, (M, y - 6, W - M, y + 13), relative=0, thickness=0)
             self.canvas.setStrokeColor(LINE)
             self.canvas.line(M, y - 9, W - M, y - 9)
-            y -= 26
+            y -= spacing
         self.end()
 
     def coverage(self, areas):
@@ -207,7 +229,7 @@ class Book:
         y = self.start("Configuration", "Choose the evidence, then the limits", "The default scan is offline and deterministic. Optional review and PDF dependencies are selected explicitly.")
         rows = [("TARGET", "Source directory, local Docker/Podman image reference, or Docker-save/OCI archive. No target program or container is started."),
                 ("BOUNDS + EXCLUSIONS", "Declare file/byte/entry/image limits and exclusions. Unsupported syntax, truncated evidence and exhausted budgets remain visible gaps."),
-                ("DETERMINISTIC OUTPUT", "HTML, Markdown, JSON and SARIF are generated without LLM credentials. --pdf adds an interactive PDF when the optional pdf extra is installed."),
+                ("DETERMINISTIC OUTPUT", "Without --report/--output, results stay in the terminal. --report [DIR] or --output DIR saves HTML, Markdown, JSON and SARIF without LLM credentials; --pdf adds an interactive PDF."),
                 ("OPTIONAL ANALYST", "Select an API/custom gateway configuration or the official Codex, Claude Code or Grok Build CLI. Review can be full-control or findings-only, with explicit call/time/evidence bounds."),
                 ("USER DISPOSITIONS", "--review-config applies explicit rule/control/check exceptions. --review-report imports edited report fields into a fresh scan. Neither is automatically loaded from the target."),
                 ("EXIT + ASSURANCE", "The findings threshold is a policy gate, not a security grade. Operational gaps and required human/runtime validation remain incomplete. Justified is distinct from pass.")]
@@ -217,6 +239,42 @@ class Book:
             self.text(title, M + 12, y - 18, 8.6, TEAL, True)
             self.para(esc(body), M + 12, y - 27, CW - 24, 8.7, 12.2)
             y -= 80
+        self.end()
+
+    def quickstart(self, _):
+        y = self.start("CLI field guide", "Choose exactly what to inspect", "The invscan command works without an LLM. Inventory, explanations and control mappings are bundled for offline use.")
+        rows = [
+            ("DISCOVER", "invscan --list-scans", "List all deterministic rules and control review plans. Use --format json for automation and --help-all for the complete CLI guide."),
+            ("UNDERSTAND", "invscan --explain-scan AI043", "Show the predicate, algorithm, applicability, limits, remediation, mapped controls and source relationships for a rule. Control IDs work too."),
+            ("TERMINAL ONLY", "invscan ./my-agent", "Inspect supported source/configuration, agent instructions and skills. Without a report flag, no report directory is written."),
+            ("SELECT SCANS", "invscan ./my-agent --scans AI001,AI043 --scans MCP-03", "Rule IDs select their patterns and mapped control review; control IDs select their mapped rules/checks. Shared parsing and integrity gaps remain visible."),
+            ("WRITE REPORTS", "invscan ./my-agent --report ./results --pdf", "Save HTML, Markdown, JSON, SARIF and optional fillable PDF. PDF needs the pdf extra; deterministic output needs no model credentials."),
+            ("IMAGE + OPTIONAL REVIEW", "invscan --image-archive ./agent.tar --judge-cli claude", "Inspect a supported archive without starting the container. Optional full review uses bounded evidence; missing packaged source and unresolved runtime behavior stay unknown."),
+        ]
+        for label, command, detail in rows:
+            self.text(label, M, y, 8.4, TEAL, True)
+            y = self.para(esc(command), M, y - 9, CW, 10, 14, NAVY, True)
+            y = self.para(esc(detail), M, y - 7, CW, 8.8, 12.4) - 22
+        self.para("A control with no mapped detector remains explicitly unvalidated. --scans does not silently substitute all rules. --judge-mode findings narrows optional review to finding triage; full mode also reviews active selected checks, including zero-match and inconclusive evidence.", M, y, CW, 9, 12.6, GREY)
+        self.end()
+
+    def scoring(self, _):
+        y = self.start("Interpretation", "Metrics, not a security grade", "A percentage can describe review coverage. It cannot establish the chance that an agent, server or skill is secure.")
+        rows = [
+            ("DETERMINISTIC ATTENTION", "Count open findings by severity; urgent = critical + high. No arbitrary severity weights or probability of compromise are assigned. The finding gate uses the configured severity threshold."),
+            ("PARTIAL MAPPING REACH", "100 x active selected controls with at least one active selected mapped rule / active selected controls. This measures available partial rule coverage, not completed tests or passes."),
+            ("OPTIONAL AI ANSWER COVERAGE", "100 x unique active selected acceptance checks with a valid received model answer / active selected acceptance checks. Concerns and explicit unknowns count as answers; synthesized omissions do not."),
+            ("EMPTY SCOPE + EXCEPTIONS", "An empty denominator is null (not applicable), never 100%. Justified and disabled checks/rules are excluded from active denominators without positive or negative credit. Observed evidence and reasons remain visible."),
+            ("AI DOES NOT ERASE EVIDENCE", "AI-disabled means zero answered checks. Enabling AI cannot lower recorded severity, erase a deterministic finding or change the deterministic severity gate. Runtime/human validation stays open; model code support is advisory."),
+        ]
+        for label, detail in rows:
+            self.text(label, M, y, 8.6, TEAL, True)
+            y = self.para(esc(detail), M, y - 11, CW, 9.5, 13.4) - 22
+        mapped = self.scan_catalog['counts']['partially_mapped_controls']
+        y = self.para("<b>Worked example using this catalog</b><br/>With every control selected and no exceptions: " + str(mapped) + "/" + str(len(self.controls)) + " = " + format(100 * mapped / len(self.controls), '.2f') + "% partial mapping reach. That is not a security score. If 3 of 6 active checks receive valid model answers, answer coverage is 50% even when every answer says runtime validation is required.", M, y, CW, 10, 14) - 22
+        self.canvas.setFillColor(NAVY)
+        self.canvas.roundRect(M, y - 82, CW, 82, 6, fill=1, stroke=0)
+        self.para("<b>Read the final result in order</b><br/>1. Scope completion and coverage gaps. 2. Open critical/high concerns and fixes. 3. User exceptions and retained evidence. 4. Optional advice, actual answered checks and unknowns. 5. Required runtime/human validation. A clean pattern scan is never a validated pass.", M + 15, y - 12, CW - 30, 9.3, 13.4, WHITE)
         self.end()
 
     def review_flow(self, _):
@@ -253,13 +311,13 @@ class Book:
             c.setFillColor(MINT)
             c.circle(x, y, 5, fill=1, stroke=0)
         self.mark(M - 7, H - 98, 2, True)
-        self.text("SECURITY CONTROLBOOK  /  RESEARCH EDITION", M, H - 157, 9, MINT, True)
+        self.text("SECURITY CONTROLBOOK  /  SCANNER " + self.version, M, H - 157, 9, MINT, True)
         y = H - 198
         for line in ("AI Agent", "& MCP", "Security"):
             self.text(line, M - 2, y - 47, 53, WHITE, True)
             y -= 61
         self.text("Evidence for agent security.", M, y - 43, 19, MINT, True)
-        self.para("Source-linked controls for the systems that reason,<br/>use tools, and act.", M, y - 65, 420, 11, 16, colors.HexColor("#CFDCEB"))
+        self.para("Agents, MCP servers, skills and built images.<br/>Source-linked controls for systems that reason and act.", M, y - 65, 420, 11, 16, colors.HexColor("#CFDCEB"))
         y = 280
         for x, value, label in [(M, len(self.controls), "CONTROLS"), (M + 170, sum(len(c["checks"]) for c in self.controls), "ACCEPTANCE CHECKS"), (M + 340, len(self.rules), "STATIC RULES")]:
             self.text(str(value), x, y, 34, MINT, True)
@@ -270,6 +328,8 @@ class Book:
         self.text("RESEARCH SNAPSHOT  19 SEPTEMBER 2026", M, 69, 8.4, WHITE, True)
         self.text("github.com/nimeshbuilds/invarune", M, 50, 8, MINT)
         c.linkURL("https://github.com/nimeshbuilds/invarune", (M, 47, W - M, 63), relative=0)
+        c.bookmarkPage("page-1")
+        c.addOutlineEntry("Invarune controlbook / " + self.version, "page-1", level=0, closed=False)
         self.page_map.append({"page": self.page, "section": "Cover", "title": "Invarune | AI Agent & MCP Security"})
         c.showPage()
 
@@ -290,9 +350,10 @@ class Book:
             self.canvas.line(M, y - 10, W - M, y - 10)
             y -= 29
         y -= 12
-        y = self.para(f"<b>Controlled security analyst:</b> page 11<br/><b>Static-rule index:</b> page {self.rule_start} &nbsp; / &nbsp; <b>Full source directory:</b> page {self.ref_start}", M, y, CW, 9.5)
+        y = self.para(f"<b>Controlled security analyst:</b> page {self.first_page['analyst']}<br/><b>Static-rule index:</b> page {self.rule_start} &nbsp; / &nbsp; <b>Full source directory:</b> page {self.ref_start}", M, y, CW, 9.5)
         y -= 23
-        self.para("<b>Read the labels carefully.</b> A source link shows provenance or thematic alignment. It does not mean that every acceptance check is quoted from that source, or that a rule satisfies an entire external requirement. The applicability and limitations of each source appear in the directory.", M, y, CW, 9.8, 14)
+        y = self.para("<b>Read the labels carefully.</b> A source link shows provenance or thematic alignment. It does not mean that every acceptance check is quoted from that source, or that a rule satisfies an entire external requirement. The applicability and limitations of each source appear in the directory.", M, y, CW, 9.8, 14)
+        self.para("This controlbook is a reference, not a bound scan report. For editable findings and fresh-scan import, use the report created by invscan --report, then pass the edited artifact with --review-report.", M, y - 16, CW, 8.8, 12.4, GREY)
         self.end()
 
     def sources_page(self, _):
@@ -322,10 +383,10 @@ class Book:
         y = self.start("03 / Validation method", "Make every decision reviewable", "Keep deterministic signals, runtime evidence, human assessment, and LLM opinions separate.")
         blocks = [
             ("1", "Scope the system", "Record agent/server identity, tools, model and gateway versions, MCP revision, data classes, deployment, and who can influence each input. Include downstream side effects and credentials."),
-            ("2", "Run the static scan", "The CLI performs 42 selected checks. Keep findings, evidence, severity, confidence, remediation, exceptions, and coverage gaps. An absent pattern is not a passed control."),
+            ("2", "Run the static scan", "The CLI offers " + str(len(self.rules)) + " deterministic rules; --scans selects rules or controls. Keep findings, evidence, severity, confidence, remediation, exceptions, and coverage gaps. An absent pattern is not a passed control."),
             ("3", "Test the effective boundary", "Use isolated deployments, synthetic credentials, explicit canaries, and safe effect sinks. Verify identities, tenant boundaries, approvals, egress, cancellation, quotas, and audit records."),
             ("4", "Measure attacks and useful work", "Pin the benchmark, model, tools, settings, and attack budget. Report unauthorized actions and data leakage alongside benign task completion, false blocking, sample size, and repeated attempts."),
-            ("5", "Record a human disposition", "For every applicable control, retain owner, scope, evidence, result, review date, and any time-limited exception. Use validated, failed, not applicable with rationale, or not validated."),
+            ("5", "Record a human disposition", "Retain owner, scope, evidence and review date. Report decisions are justified, disabled, note, needs_runtime_validation or needs_human_review. Justified and disabled are exceptions, never validated passes."),
         ]
         for number, title, body in blocks:
             self.canvas.setFillColor(TEAL)
@@ -337,13 +398,13 @@ class Book:
         y -= 2
         self.canvas.setFillColor(NAVY)
         self.canvas.roundRect(M, y - 94, CW, 94, 7, fill=1, stroke=0)
-        self.para("<b>Optional controlled security analyst</b><br/>When enabled, every control receives an advisory review through deterministic evidence retrieval, bounded requests, strict schemas, and exact-quote checks. The LLM remains nondeterministic. Runtime and owner verification stay open; static findings and the severity gate remain intact. See page 5 for the review contract.", M + 16, y - 13, CW - 32, 9.5, 14, WHITE)
+        self.para("<b>Optional controlled security analyst</b><br/>When enabled in full mode, every active selected check is queued through deterministic retrieval, bounded requests, strict schemas and exact-quote checks. Missing answers remain unreviewed. The LLM remains nondeterministic; runtime and owner verification stay open. Static findings and the severity gate remain intact. Review contract: page " + str(self.first_page['analyst']) + ".", M + 16, y - 13, CW - 32, 9.5, 14, WHITE)
         self.end()
 
     def analyst(self, _):
         y = self.start("03 / Validation method / continued", "Controlled security analyst", "Deterministic boundaries around nondeterministic expertise. Source review produces advice; it does not establish deployed security.")
         stages = [
-            ("01", "Route every unresolved control", "Static rules provide partial evidence, so full mode queues all 66 controls and 132 acceptance checks, including controls with no findings. An empty pattern scan never closes a control."),
+            ("01", "Route every active selected check", "Static rules provide partial evidence. Full mode queues active selected checks, including controls with no matches or no mapped rule. With the full catalog and no exceptions, this is " + str(len(self.controls)) + " controls / " + str(sum(len(c['checks']) for c in self.controls)) + " checks. An empty scan never closes a control."),
             ("02", "Collect evidence deterministically", "Read only unchanged files in the scan manifest. Check file hashes and path confinement, exclude credential files, redact excerpts, and select bounded context using fixed control terms and finding locations."),
             ("03", "Run the bounded analyst", "Use the configured model or custom JSON gateway. Fixed batches and call, size, and time budgets constrain review. Repository content is untrusted; no model-directed reads, local tools, or target execution occur."),
             ("04", "Validate the response contract", "Require known control/check IDs, allowed statuses, and exact evidence quotes for support, gaps, or proposed non-applicability. Derive file and line metadata from submitted excerpts. Reject malformed or fabricated output."),
@@ -357,7 +418,7 @@ class Book:
         y -= 18
         self.canvas.setFillColor(NAVY)
         self.canvas.roundRect(M, y - 96, CW, 96, 7, fill=1, stroke=0)
-        self.para("<b>Default review envelope</b><br/>11 control batches of 6, within a 12-call cap, plus one finding-triage request. Evidence: at most 200 files / 2 MB; 240 excerpts / 120,000 characters; four excerpts per control. The 180-second scheduling budget is not a hard process deadline. Full mode sends source excerpts even with zero findings. Use --judge-mode findings for finding-only review.", M + 15, y - 11, CW - 30, 9, 12.6, WHITE)
+        self.para("<b>Default full-catalog review envelope</b><br/>11 control batches of 6 within a 12-call cap, plus finding triage; a selected subset can be smaller. Evidence: at most 200 files / 2 MB; 240 excerpts / 120,000 characters; four excerpts per control. The 180-second scheduling budget is not a hard deadline. Full mode sends source even with zero findings. Use --judge-mode findings for finding-only review.", M + 15, y - 11, CW - 30, 9, 12.6, WHITE)
         self.end()
 
     def benchmarks(self, items):
@@ -435,8 +496,35 @@ class Book:
             self.text(r["id"], M + 4, y - 18, 9.5, NAVY, True)
             self.text(r["severity"].upper(), M + 67, y - 18, 8, TEAL, True)
             self.para(esc(r["title"]), M + 140, y - 5, CW - 148, 9.1, 12)
+            c.linkRect("", "page-%s" % self.rule_pages[r["id"]], (M, y - 32, W - M, y), relative=0, thickness=0)
             y -= 39
         self.para("The machine-readable catalog maps these rules to selected controls. A rule match requires investigation. A suppressed finding remains visible as an accepted exception; an unmapped or untested control remains unvalidated.", M, y - 6, CW, 9.2, 13, GREY)
+        self.end()
+
+    def rule_detail(self, rule):
+        y = self.start("06 / Exact scan contract / " + rule["id"], rule["title"],
+                       rule["id"] + " / " + rule["severity"].upper() + " / " + rule["category"].replace('_', ' '))
+        sections = [
+            ("WHAT THE DETERMINISTIC RULE DETECTS", rule["what_it_detects"]),
+            ("ALGORITHM + SUPPORTED PATHS", rule["deterministic"]["algorithm"] + ". Profiles: " + ", ".join(rule["deterministic"]["analysis_profiles"]) + ". Image evidence contexts: " + ", ".join(rule["image_contexts"]) + "."),
+            ("WHY THIS MATTERS FOR AGENTS, MCP AND SKILLS", rule["why_it_matters"]),
+            ("CAN MISS OR MISCLASSIFY", rule["deterministic"]["limits"]),
+            ("OPTIONAL AI REVIEW", rule["optional_ai_review"]["finding_triage"] + " " + rule["optional_ai_review"]["broader_review"]),
+            ("HOW TO FIX OR VALIDATE", rule["remediation"]),
+        ]
+        for label, value in sections:
+            self.text(label, M, y, 8.0, TEAL, True)
+            y = self.para(esc(value), M, y - 9, CW, 9.1, 12.7) - 16
+        mapped = ", ".join(control["id"] for control in rule["controls"]) or "No mapped control"
+        y = self.para("<b>Partial control mappings:</b> " + esc(mapped) + ". A mapping does not satisfy the full control.", M, y, CW, 8.7, 12.2) - 12
+        groups = OrderedDict()
+        for source in rule["sources"]:
+            groups.setdefault(source["relationship"], []).append(source)
+        for relation, sources in groups.items():
+            links = " / ".join("<link href='" + esc(source["url"]) + "' color='#087E78'>" + esc(source["id"]) + "</link>" for source in sources)
+            y = self.para("<b>" + esc(relation.replace('_', ' ').capitalize()) + ":</b> " + links, M, y, CW, 8.0, 11.3) - 7
+        y = self.para("<b>Explore:</b> " + esc(rule["commands"]["explain"]) + "<br/><b>Run:</b> " + esc(rule["commands"]["select"]), M, y - 4, CW, 8.6, 12.1) - 8
+        self.para("Full per-check requirements and runtime/human evidence remain in the mapped control cards. Model interpretation is advisory; citations confirm quoted text, not correctness. Nothing on this page establishes malicious intent or exploitability.", M, y, CW, 8.1, 11.4, GREY)
         self.end()
 
     def references(self, items):
@@ -462,7 +550,8 @@ class Book:
     def build(self):
         handlers = {"cover": self.cover, "contents": self.contents, "guide": self.guide, "sources": self.sources_page, "workflow": self.workflow,
                     "coverage": self.coverage, "configuration": self.configuration, "review_flow": self.review_flow,
-                    "analyst": self.analyst, "benchmarks": self.benchmarks, "controls": self.control_pages, "rules": self.rules_page, "references": self.references}
+                    "analyst": self.analyst, "benchmarks": self.benchmarks, "controls": self.control_pages, "rules": self.rules_page,
+                    "rule_detail": self.rule_detail, "quickstart": self.quickstart, "scoring": self.scoring, "references": self.references}
         for kind, content in self.specs:
             handlers[kind](content)
         self.canvas.save()

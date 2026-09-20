@@ -17,7 +17,7 @@ A missing source-code pattern is not a passed control. The optional LLM judge su
 - **dynamic**: execute authorized tests against a representative isolated system.
 - **manual**: assess architecture, operating procedures, and external evidence.
 
-The 42 implemented rules provide partial coverage of 26 controls. An empty `automated_rule_ids` list means no mapped static rule. A rule match does not establish that all acceptance checks under that control failed.
+The 46 implemented rules provide partial coverage of 30 controls. An empty `automated_rule_ids` list means no mapped static rule. A rule match does not establish that all acceptance checks under that control failed.
 
 ## Version and applicability
 
@@ -258,7 +258,7 @@ Primary context: [MCP-TOOLS: MCP: Tools](https://modelcontextprotocol.io/specifi
 
 Additional thematic alignment: OWASP-AISVS-C10. See the source map for limits; these are not exact external clause mappings.
 
-Partial static rules: none; review/runtime evidence required.
+Partial static rules: AI043, AI044, AI046.
 
 #### MCP-04 - Detect tool substitution and metadata changes
 
@@ -271,7 +271,7 @@ Primary context: [OWASP-MCP10: OWASP MCP Top 10](https://owasp.org/projects/mcp-
 
 Additional thematic alignment: OWASP-AISVS-C10. See the source map for limits; these are not exact external clause mappings.
 
-Partial static rules: none; review/runtime evidence required.
+Partial static rules: AI046.
 
 #### MCP-05 - Protect state handles and legacy sessions
 
@@ -368,7 +368,7 @@ Primary context: [OWASP-AGENT-CS: AI Agent Security Cheat Sheet](https://cheatsh
 
 Additional thematic alignment: CSA-SCOPING, OWASP-AISVS-C9. See the source map for limits; these are not exact external clause mappings.
 
-Partial static rules: AI031.
+Partial static rules: AI031, AI045.
 
 #### AGT-03 - Separate untrusted content from authoritative instructions
 
@@ -379,7 +379,7 @@ Validation: **hybrid**.
 
 Primary context: [OWASP-LLM2026: OWASP GenAI LLM Top 10 2026](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/).
 
-Partial static rules: AI032.
+Partial static rules: AI032, AI043.
 
 #### AGT-04 - Protect retrieval and persistent memory
 
@@ -414,11 +414,11 @@ Validation: **hybrid**.
 - [ ] Inventory skill files, prompts, hooks, memory seed files, MCP configuration, and other executable workflow inputs.
 - [ ] Require review for changes that add commands, access, or persistence; external repository text cannot become trusted policy.
 
-Primary context: [MITRE-ATLAS: ATLAS tactics, techniques, mitigations and case-study data](https://github.com/mitre-atlas/atlas-data); [NCSC-SECURE-AI: Guidelines for secure AI system development](https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development).
+Primary context: [MITRE-ATLAS: ATLAS tactics, techniques, mitigations and case-study data](https://github.com/mitre-atlas/atlas-data); [NCSC-SECURE-AI: Guidelines for secure AI system development](https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development); [AGENT-SKILLS-SPEC: Agent Skills specification](https://agentskills.io/specification).
 
 Additional thematic alignment: AIUC1-Q3-2026. See the source map for limits; these are not exact external clause mappings.
 
-Partial static rules: none; review/runtime evidence required.
+Partial static rules: AI043, AI044, AI045.
 
 #### AGT-07 - Prevent sensitive context leaving through legitimate tools
 
@@ -429,7 +429,7 @@ Validation: **dynamic**.
 
 Primary context: [OWASP-MCP-CS: MCP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html).
 
-Partial static rules: none; review/runtime evidence required.
+Partial static rules: AI044.
 
 
 ### Execution and application security

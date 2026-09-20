@@ -1,6 +1,10 @@
 # Scenario test matrix
 
-## Current v0.13 release
+## Current v0.14 release
+
+[Current validation](../benchmarks/validation-v014/README.md) adds 46-rule inventory, skills/tool metadata, explicit selection, terminal output, scoring and fresh reports. See `test_instruction_threats.py`, `test_skill_scope_edges.py`, `test_scan_selection.py`, `test_scan_inventory.py` and `test_scoring_metrics.py`. Historical scopes below retain their original denominators.
+
+## Historical v0.13 release
 
 [Executed v0.13 validation](../benchmarks/validation-v013/README.md) covers benchmark-driven detector fixes, unchanged-corpus comparison, fresh pinned-project scans, the installed CLI quickstart, publication provenance and PDF/site QA. Historical counts below retain their original version scopes.
 

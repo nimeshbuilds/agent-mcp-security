@@ -411,7 +411,11 @@
       "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
       "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
     ],
-    "automated_rule_ids": [],
+    "automated_rule_ids": [
+      "AI043",
+      "AI044",
+      "AI046"
+    ],
     "source_ids": [
       "MCP-TOOLS",
       "OWASP-MCP-CS"
@@ -432,7 +436,9 @@
     "sources": [
       "https://owasp.org/projects/mcp-top-10"
     ],
-    "automated_rule_ids": [],
+    "automated_rule_ids": [
+      "AI046"
+    ],
     "source_ids": [
       "OWASP-MCP10"
     ],
@@ -601,7 +607,8 @@
       "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"
     ],
     "automated_rule_ids": [
-      "AI031"
+      "AI031",
+      "AI045"
     ],
     "source_ids": [
       "OWASP-AGENT-CS"
@@ -624,7 +631,8 @@
       "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
     ],
     "automated_rule_ids": [
-      "AI032"
+      "AI032",
+      "AI043"
     ],
     "source_ids": [
       "OWASP-LLM2026"
@@ -684,12 +692,18 @@
     "validation": "hybrid",
     "sources": [
       "https://github.com/mitre-atlas/atlas-data",
-      "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development"
+      "https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development",
+      "https://agentskills.io/specification"
     ],
-    "automated_rule_ids": [],
+    "automated_rule_ids": [
+      "AI043",
+      "AI044",
+      "AI045"
+    ],
     "source_ids": [
       "MITRE-ATLAS",
-      "NCSC-SECURE-AI"
+      "NCSC-SECURE-AI",
+      "AGENT-SKILLS-SPEC"
     ],
     "alignment_source_ids": [
       "AIUC1-Q3-2026"
@@ -707,7 +721,9 @@
     "sources": [
       "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html"
     ],
-    "automated_rule_ids": [],
+    "automated_rule_ids": [
+      "AI044"
+    ],
     "source_ids": [
       "OWASP-MCP-CS"
     ],

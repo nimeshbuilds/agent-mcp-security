@@ -1,0 +1,49 @@
+{
+  "acceptance_checks": 132,
+  "all_control_text_present": true,
+  "all_scan_algorithms_predicates_limits_remediation_present": true,
+  "all_source_links_present": true,
+  "bookmarks": 121,
+  "builder_sha256": "226edf7c1a202d66ecb1173ecb76374e3e2bd4eafbc1dc7aef8cb5f468829429",
+  "byte_identical_repeat_build": true,
+  "catalog_sha256": {
+    "controls.json": "b31a63dc9ed13c8453fde1d7a6c5143a8b9f8850d9c760fc6be28a260e242e04",
+    "sources.json": "e053d373173c13c2793eff067727c721af64bab4db2d4f8564d86dc9e3ebe4fd"
+  },
+  "controls": 66,
+  "dependencies": {
+    "pypdf": "6.19.0",
+    "reportlab": "4.5.1"
+  },
+  "internal_links": 80,
+  "pages": 121,
+  "partially_mapped_controls": 30,
+  "pdf": "output/pdf/invarune-security-controlbook.pdf",
+  "pdf_bytes": 554944,
+  "pdf_sha256": "59c27e53fba3939c9b0d425a52c8a94d5842db4907f11e1848916cffbba8729f",
+  "scan_catalog_sha256": "1f2e4547382fb73fd97bade48a9a608569fbcaf4c5ed83152a3eb1bb07d75033",
+  "scanner_version": "0.14.0",
+  "schema_version": "1.0",
+  "sources": 76,
+  "static_rules": 46,
+  "unique_external_links": 77,
+  "validation_scope": "All control/check text, rule predicates/algorithms/limits/relevance/remediation/commands, source links and internal destinations; all rendered pages visually inspected at contact-sheet scale plus selected full-size pages. No scanner accuracy or compliance claim.",
+  "verifier_sha256": "aaeb1515da6ed5ef8799a62d4c1511d81c96e4673b35aa7f59db3605f86df6e6",
+  "visual_review": {
+    "clipping_or_overlap_found": false,
+    "contact_sheet_page_count": 121,
+    "contact_sheets": 5,
+    "final_renders_match_reviewed_renders": true,
+    "full_size_pages": [
+      2,
+      3,
+      12,
+      87,
+      102
+    ],
+    "render_hash_manifest_sha256": "8e04db75269c5ece55b2e1abfb5361126e3c2e4f4368803fba25c30dadb798e2",
+    "rendered_page_count": 121,
+    "renderer": "Poppler pdftoppm -scale-to 900 -png",
+    "status": "passed"
+  }
+}

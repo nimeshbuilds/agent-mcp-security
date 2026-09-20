@@ -1,0 +1,69 @@
+{
+  "analysis_error_cases": 0,
+  "by_suite": {
+    "challenge": {
+      "assertions": 12,
+      "false_negative": 3,
+      "false_negative_rate": 1.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": null,
+      "recall": 0.0,
+      "true_negative": 9,
+      "true_positive": 0
+    },
+    "regression": {
+      "assertions": 319,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 279,
+      "true_positive": 40
+    }
+  },
+  "case_count": 81,
+  "command": [
+    "python",
+    "scripts/evaluate_accuracy.py",
+    "--corpus",
+    "benchmarks/skills_tools_accuracy.json",
+    "--output",
+    "benchmarks/comparison-v014/skills-tools-accuracy.json",
+    "--fail-on",
+    "none"
+  ],
+  "corpus": {
+    "path": "benchmarks/skills_tools_accuracy.json",
+    "sha256": "9065690511251ff5668271b0426c41950fd5be3051f9f680df55fdacb0b72436",
+    "version": "1.0.0"
+  },
+  "experiment": "comparison-v014",
+  "failed_case_ids": [
+    "challenge-multilingual-override",
+    "challenge-semantic-exfiltration",
+    "challenge-indirect-override"
+  ],
+  "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+  "overall": {
+    "assertions": 331,
+    "false_negative": 3,
+    "false_negative_rate": 0.069767,
+    "false_positive": 0,
+    "false_positive_rate": 0.0,
+    "precision": 1.0,
+    "recall": 0.930233,
+    "true_negative": 288,
+    "true_positive": 40
+  },
+  "report": {
+    "path": "skills-tools-accuracy.json",
+    "sha256": "90a10ab28ec2af73bf31529c30bda830a3aa06bb1ce789cead212a6908355b8d"
+  },
+  "schema_version": "1.0",
+  "scope": "New project-authored skills/tool instruction evidence corpus, evaluated separately from the unchanged113-assertion paired benchmark. No production prevalence, model robustness, malicious-author or confirmed-exploit claim.",
+  "separate_denominator": true,
+  "tool_version": "0.14.0"
+}

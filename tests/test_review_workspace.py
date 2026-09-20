@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
+from ai_security_scan.rules import RULES
 from unittest import mock
 
 from ai_security_scan.image_scan import scan_image
@@ -73,7 +74,7 @@ class ReviewWorkspaceTests(unittest.TestCase):
         finding = next(item for item in result["findings"] if "finding:" + item["id"] == selected["id"])
         self.assertEqual(finding["disposition"]["scope"], "finding")
         self.assertEqual(finding["human_review"]["reviewer"], "Security reviewer")
-        self.assertEqual(result["review_policy"]["counts"]["active_rules"], 42)
+        self.assertEqual(result["review_policy"]["counts"]["active_rules"], len(RULES))
         self.assertEqual(result["review_import"]["counts"]["applied"], 1)
         self.assertFalse(result["review_import"]["incomplete"])
         self.assertEqual(result["review_workspace"]["items"][0]["decision"], "justified")

@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from ai_security_scan.rules import RULES
 from unittest import mock
 
 from ai_security_scan.cli import main, parser
@@ -176,7 +177,7 @@ class ReviewPolicyCliTests(unittest.TestCase):
         report = self.report()
         self.assertEqual(json.loads(stdout)["coverage"]["total_checks"], 0)
         self.assertEqual(json.loads(stdout)["coverage"]["statically_mapped_controls"], 0)
-        self.assertEqual(json.loads(stdout)["coverage"]["catalog_statically_mapped_controls"], 26)
+        self.assertEqual(json.loads(stdout)["coverage"]["catalog_statically_mapped_controls"], sum(bool(c["automated_rule_ids"]) for c in load_controls()))
         self.assertEqual(report["analyst"]["coverage"]["omitted_checks"], 0)
         self.assertEqual(report["analyst"]["coverage"]["validated_controls"], 0)
         self.assertEqual(sum(len(c["check_assessments"]) for c in report["analyst"]["control_assessments"]), 132)
