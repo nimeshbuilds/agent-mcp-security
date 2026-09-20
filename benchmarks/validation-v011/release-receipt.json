@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "release_url": "https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.11.0",
+  "tag": "v0.11.0",
+  "target_commit": "17b1e7baa298821744ec0e89c9e04df7d8e18021",
+  "assets": [
+    {
+      "name": "agent_mcp_security_scan-0.11.0-py3-none-any.whl",
+      "sha256": "540057b5a3010f8f46496834b3e4ee5165687cb80db8957bbe692d22b57caa4d",
+      "download_matches_published_local_artifact": true
+    },
+    {
+      "name": "report.pdf",
+      "sha256": "bed01706affa81d4e8ba87c0372078a81b44a9a45ffb22305f7546b02c8a5b8d",
+      "download_matches_published_local_artifact": true
+    }
+  ],
+  "installed_downloaded_wheel": true,
+  "python": "3.12.14",
+  "executed_outside_checkout": true,
+  "commands": [
+    {
+      "command": "invscan --version",
+      "exit_code": 0,
+      "stderr_empty": true
+    },
+    {
+      "command": "invscan --help",
+      "exit_code": 0,
+      "stderr_empty": true
+    },
+    {
+      "command": "invscan --examples",
+      "exit_code": 0,
+      "stderr_empty": true
+    },
+    {
+      "command": "invscan <checkout>/examples/safer --output <checkout>/tmp/v011-release-scan --summary-json",
+      "exit_code": 0,
+      "stderr_empty": true
+    }
+  ],
+  "notes": [
+    "Installed published wheel in a fresh virtual environment with no optional packages. No model or target application was executed.",
+    "Help, examples and safer source scan passed; comprehensive installation, image and review validation is recorded separately."
+  ]
+}

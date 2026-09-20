@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "implementation_sha256": "993d77b77bac8f0f4758ce931da596ce03eb31a36a4fec4302efb2da601ffb80",
+  "commit": "17b1e7baa298821744ec0e89c9e04df7d8e18021",
+  "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718",
+  "status": "completed",
+  "conclusion": "success",
+  "started_at": "2026-09-20T00:41:51Z",
+  "completed_at": "2026-09-20T00:45:13Z",
+  "jobs": [
+    {
+      "name": "built-image-integration",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718/job/105994457659",
+      "startedAt": "2026-09-20T00:41:54Z",
+      "completedAt": "2026-09-20T00:42:06Z"
+    },
+    {
+      "name": "headroom-integration",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718/job/105994457725",
+      "startedAt": "2026-09-20T00:41:54Z",
+      "completedAt": "2026-09-20T00:42:35Z"
+    },
+    {
+      "name": "package-and-schema",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718/job/105994457743",
+      "startedAt": "2026-09-20T00:41:54Z",
+      "completedAt": "2026-09-20T00:45:12Z"
+    },
+    {
+      "name": "tests (windows-latest, 3.12)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718/job/105994457745",
+      "startedAt": "2026-09-20T00:41:53Z",
+      "completedAt": "2026-09-20T00:44:04Z"
+    },
+    {
+      "name": "tests (ubuntu-latest, 3.12)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718/job/105994457759",
+      "startedAt": "2026-09-20T00:41:54Z",
+      "completedAt": "2026-09-20T00:42:33Z"
+    },
+    {
+      "name": "tests (ubuntu-latest, 3.14)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718/job/105994457787",
+      "startedAt": "2026-09-20T00:41:54Z",
+      "completedAt": "2026-09-20T00:42:37Z"
+    },
+    {
+      "name": "tests (macos-latest, 3.12)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718/job/105994457823",
+      "startedAt": "2026-09-20T00:41:59Z",
+      "completedAt": "2026-09-20T00:43:13Z"
+    },
+    {
+      "name": "tests (ubuntu-latest, 3.9)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718/job/105994457886",
+      "startedAt": "2026-09-20T00:41:54Z",
+      "completedAt": "2026-09-20T00:42:55Z"
+    }
+  ],
+  "windows": {
+    "tests_run": 765,
+    "explicit_platform_optional_dependency_skips": 36,
+    "quickstart_steps": 28,
+    "quickstart_skips": [
+      "pdf",
+      "gateway"
+    ]
+  },
+  "linux_headroom_integration": {
+    "quickstart_steps": 36,
+    "quickstart_skips": [
+      "pdf"
+    ],
+    "actual_headroom_version": "0.37.0",
+    "loopback_calls": 72,
+    "protocols": 6
+  },
+  "local_published_sarif_validation": {
+    "schema": "OASIS SARIF 2.1.0 Errata 01",
+    "schema_sha256": "c3b4bb2d6093897483348925aaa73af03b3e3f4bd4ca38cef26dcb4212a2682e",
+    "reports": [
+      "examples/reports/invscan-v011/report.sarif",
+      "examples/reports/v011/image/report.sarif",
+      "examples/reports/v011/reviewed/report.sarif",
+      "examples/reports/v011/safer/report.sarif",
+      "examples/reports/v011/source/report.sarif"
+    ],
+    "status": "passed"
+  },
+  "log_sha256": {
+    "v011-windows-ci.log": "fa2195ca8a645e74977383ff91ebf0fb9c20993f8749fa8aedccc7a13364c430",
+    "v011-headroom-ci.log": "75422a869129f3e0767293b5b734e8f0521bb8e7eee0f4c3a135c40e4c742fd7"
+  },
+  "limits": [
+    "CI success establishes the recorded implementation workflows on the selected environments, not exhaustive detection accuracy.",
+    "Headroom loopback requests do not test a live vendor or billing savings.",
+    "This receipt binds the implementation commit; subsequent publication-only documentation changes do not change scanner behavior."
+  ]
+}

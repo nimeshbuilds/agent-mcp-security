@@ -7,6 +7,7 @@
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
 - **[Quick start: install and use invscan](docs/QUICKSTART.md)**
+- **[Download the CLI wheel and sample PDF](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.11.0)**
 - **[New v0.11 scan report: fillable PDF, HTML and live AI example](examples/reports/invscan-v011/README.md)**
 - [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
 - [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
@@ -30,7 +31,7 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 
 <p align="center"><a href="examples/reports/invscan-v011/report.pdf"><img src="docs/assets/invscan-v011-report-cover.png" alt="Invarune 0.11 scan report with linked security priorities" width="440"></a></p>
 
-The [43-step quickstart receipt](benchmarks/quickstart-v011/README.md) and [765-test validation evidence](benchmarks/validation-v011/README.md) record what was actually exercised. The controlbook below is the separate research/control reference.
+The [43-step quickstart receipt](benchmarks/quickstart-v011/README.md), [765-test validation evidence](benchmarks/validation-v011/README.md) and [eight successful CI jobs](https://github.com/nimeshbuilds/agent-mcp-security/actions/runs/35479443718) record what was actually exercised. The published wheel was downloaded back, hash-checked and installed in another fresh environment. The controlbook below is the separate research/control reference.
 
 ## The Invarune controlbook
 
@@ -95,7 +96,7 @@ Generated files:
 | `report.sarif` | SARIF 2.1.0 findings for compatible code-review and CI consumers; runtime/manual checklist details remain in Markdown/JSON |
 | `report.pdf` (with `--pdf`) | Branded fillable scan report with charts, clickable contents, coverage explanations and user review fields; requires the optional `pdf` extra |
 
-Every new report contains editable review data. Fill the HTML or PDF form, or edit the designated JSON fields in Markdown/JSON/SARIF, then pass the saved file to a fresh scan. User justifications stay distinct from validated passes; changed evidence and pending runtime validation remain explicit.
+Reports within the documented review-size limits contain editable review data. Fill the HTML or PDF form, or edit the designated JSON fields in Markdown/JSON/SARIF, then pass the saved file to a fresh scan. User justifications stay distinct from validated passes; changed evidence and pending runtime validation remain explicit. If the complete review workspace cannot be exported, static reports remain available with an explicit error and exit 2.
 
 ```sh
 python3 -m pip install '.[pdf]'

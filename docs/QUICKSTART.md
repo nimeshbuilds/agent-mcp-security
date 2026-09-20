@@ -6,6 +6,8 @@ Get your first report, then add image scanning, optional AI review or accepted e
 
 ## 1. Install the CLI and get your first report
 
+Want the CLI without a source checkout? The [v0.11.0 release](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.11.0) provides a downloadable wheel, checksums and installation commands. Its downloaded wheel was installed and verified in a fresh environment. The checkout route below also includes the example source and image fixtures used throughout this guide.
+
 Clone this repository using Git credentials that have access:
 
 ```sh
@@ -174,7 +176,7 @@ Expect **9 open, 1 justified and 1 disabled finding**, with exit 1 because other
 
 ## 6. Review a report, then scan again
 
-Every new operational report carries the same review fields. In HTML, enter a decision, reason and reviewer, then click **Download reviewed HTML**. JSON, Markdown and SARIF expose the same fields in their review capsule. Use `needs_runtime_validation` when deployment testing is still required; use `justified` only to record your accepted exception.
+Operational reports within the documented review-size limits carry the same review fields. If a complete review workspace cannot be exported, static reports remain available with an explicit error and exit 2. In HTML, enter a decision, reason and reviewer, then click **Download reviewed HTML**. JSON, Markdown and SARIF expose the same fields in their review capsule. Use `needs_runtime_validation` when deployment testing is still required; use `justified` only to record your accepted exception.
 
 ```sh
 invscan examples/vulnerable --review-report ./reviewed-report.html --output ./scan-report/final
