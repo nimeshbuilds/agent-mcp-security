@@ -6,6 +6,7 @@ from . import DISPLAY_NAME
 
 DESCRIPTION = DISPLAY_NAME + """
 Read-only AI agent and MCP source or container-image security scan.
+Offline security explorer: ask about the bundled controls, checks and sources.
 Source/archive scans are offline unless --judge-config or --judge-cli is provided. No model,
 API key, or third-party Python package is required for deterministic scanning.
 Image references use Docker/Podman; only --pull explicitly fetches an image.
@@ -33,7 +34,7 @@ def complete_reference():
   Optional AI optimizer and PDF support: python -m pip install '.[ai,pdf]'
   Quick navigation: invscan --examples; invscan --help-topic images
   Topic names: all, quickstart, source, images, reports, review, baseline, ai,
-  login, gateways, limits, exit-codes, catalog. --help includes every topic.
+  login, gateways, limits, exit-codes, catalog, security. --help includes every topic.
   Replace TARGET with --image REFERENCE or --image-archive PATH for image scans.
   Choose exactly one input. Catalog commands and --login need no target and write no reports.
   -h and --help print this complete reference; --version prints the version.
@@ -248,11 +249,36 @@ User review dispositions:
   ID exceptions; its existing status remains suppressed. Exit 0 is not a pass.
 
 Catalog inspection:
-  --list-rules prints the rule array with severity, remediation, CWE and sources.
-  --list-controls prints all controls, acceptance checks, check IDs, rule mappings and sources.
-  --explain-rule ID prints one rule, mapped controls and interpretation limits.
-  These three commands are mutually exclusive and reject target/image inputs,
-  --quiet and --summary-json. Unknown rule IDs are errors. No reports are written.
+  Explore the bundled security catalog without a scan, target, provider config,
+  login or model. No target files are read, source URLs fetched or reports written.
+  --list-topics groups the control inventory by security subject and static mapping.
+  --ask QUERY matches literal query tokens and aliases against the local catalog.
+    Quote a multiword query, e.g. --ask 'What do you check for prompt injection?'.
+    Queries accept at most 1000 characters and return at most 8 ranked matches.
+    Ranking is lexical relevance, not confidence, risk or detection accuracy.
+    This is deterministic lookup, not generative chat or analysis of your system.
+    Unsupported/no-match questions remain explicit; try --list-topics or exact IDs.
+  --explain-control ID explains why a control matters, all acceptance checks,
+    mapped deterministic rules, source organizations and required other evidence.
+  --explain-check ID explains one CONTROL:INDEX check; indexes start at 1.
+  --list-sources prints the bundled source registry, organizations and limitations.
+  --explain-source ID shows provenance and linked controls, keeping primary control
+    citations distinct from suggested thematic alignment. Neither proves compliance.
+  --list-rules prints the legacy rule array with severity, remediation, CWE and sources.
+  --list-controls prints the legacy controls, check IDs, rule mappings and sources.
+  --explain-rule ID prints the legacy rule, mapped controls and interpretation limits.
+  --catalog-format text|json selects catalog output; it requires a catalog command.
+    New commands default to readable text. Existing --list-rules, --list-controls
+    and --explain-rule keep their existing default JSON. Choose text for their
+    readable explanations; choose json with a new command for structured output.
+  Choose one catalog command. Catalog modes reject explicit target/image, scan,
+  model/login and output options, including --quiet and --summary-json. Unknown
+  IDs in explain commands are errors; --list-controls and --list-sources expose IDs.
+  A completed lookup, including no match, exits 0. Invalid queries, unknown explain
+  IDs and incompatible options exit 2. No catalog command produces a scan verdict.
+  The 42 rules map partially to 26 of 66 controls; all 132 acceptance checks remain
+  broader than static detection. No match or mapped rule establishes a control pass.
+  Source dates/versions/access limits are recorded snapshots, not live verification.
 
 Optional security analyst and data disclosure:
   No LLM call occurs without --judge-config PATH or --judge-cli PROVIDER.
@@ -444,6 +470,7 @@ Detailed guides and controlbook (also in the repository):
   docs/IMAGE_SCANNING.md   Formats, extraction safety, budgets and image scopes.
   docs/JUDGE.md           API configuration and expected finding response schema.
   docs/ANALYST.md         Control response schema, citations and evidence routing.
+  docs/SECURITY_EXPLORER.md  Offline questions, control/check/source explanations.
   docs/SECURITY_CHECKLIST.md and docs/RESEARCH.md   Controls and primary sources.
   docs/RULE_ACCURACY.md and docs/VALIDATION.md     Tests, measured limits and gaps.
   output/pdf/invarune-security-controlbook.pdf   Branded controlbook.
@@ -467,6 +494,7 @@ _TOPIC_SECTIONS = {
                "Optional security analyst and data disclosure:"),
     "exit-codes": ("Exit codes:",),
     "catalog": ("Catalog inspection:",),
+    "security": ("Catalog inspection:",),
 }
 HELP_TOPICS = ("all", *_TOPIC_SECTIONS)
 
@@ -502,8 +530,15 @@ _EXAMPLE_GROUPS = (
     (("baseline",), "Create a candidate; review/edit it before accepting individual finding exceptions.", (
         "invscan ./repository --write-baseline ./candidate.json --baseline-reason 'Owner review required'",
         "invscan ./repository --baseline ./reviewed.json --summary-json")),
-    (("catalog",), "Offline catalogs, exact rule explanations and primary source references.", (
-        "invscan --list-rules", "invscan --list-controls", "invscan --explain-rule AI002")),
+    (("catalog", "security"), "Offline security questions and exact control/check/source explanations; no scan or model.", (
+        "invscan --help-topic security", "invscan --list-topics",
+        "invscan --ask 'What do you check for prompt injection?'",
+        "invscan --ask 'MCP authentication' --catalog-format json",
+        "invscan --ask 'What NSA and CISA guidance do you use?'",
+        "invscan --explain-control AUTH-01", "invscan --explain-check AUTH-01:1",
+        "invscan --list-sources", "invscan --explain-source JOINT-AGENTIC",
+        "invscan --list-rules", "invscan --list-controls", "invscan --explain-rule AI002",
+        "invscan --explain-rule AI002 --catalog-format text")),
     (("ai", "login"), "Optional full security analyst through an installed, supported official vendor CLI.", (
         "invscan ./repository --judge-cli codex --judge-timeout 120 --analyst-time-budget 600",
         "invscan ./repository --judge-cli claude --judge-model opus --judge-login never --summary-json",
@@ -524,9 +559,12 @@ _EXAMPLE_GROUPS = (
 
 def examples_reference(topic=None):
     lines = ["Examples:", "  Replace ./repository, image names, endpoints and reviewed files with your inputs.",
-             "  Paths are relative to your working directory. Quote paths containing spaces.",
-             "  Install optional support from the checkout: python -m pip install '.[ai,pdf]'.",
-             "  AI examples explicitly opt in to evidence disclosure and provider usage."]
+             "  Paths are relative to your working directory. Quote paths containing spaces."]
+    if topic in ("catalog", "security"):
+        lines.append("  Catalog examples need no target, optional packages, model, login or network.")
+    else:
+        lines.extend(("  Install optional support from the checkout: python -m pip install '.[ai,pdf]'.",
+                      "  AI examples explicitly opt in to evidence disclosure and provider usage."))
     for topics, description, commands in _EXAMPLE_GROUPS:
         if topic is None or topic in topics:
             lines.append("  # " + description)

@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "version": "0.12.0",
+  "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+  "python": "3.12.14",
+  "installed_wheel": "agent_mcp_security_scan-0.12.0-py3-none-any.whl",
+  "wheel_sha256": "4abcf9adc83f255bbf4457537af684ebedd1ed56b9579da75a098d30a77f087a",
+  "fresh_environment": true,
+  "run_outside_checkout": true,
+  "installed_module_confirmed": true,
+  "model_review_enabled": false,
+  "paired_commands": 7,
+  "all_three_aliases_match": true,
+  "records": [
+    {
+      "file": "examples/security-explorer/topics.txt",
+      "arguments": [
+        "--list-topics"
+      ],
+      "exit_code": 0,
+      "sha256": "85ded403b6805eb68c2f2a733431260382dcf43c38ac57236d6d6500e26326bd",
+      "bytes": 9263,
+      "repeated_outputs_identical": true
+    },
+    {
+      "file": "examples/security-explorer/prompt-injection.txt",
+      "arguments": [
+        "--ask",
+        "What do you check for prompt injection?"
+      ],
+      "exit_code": 0,
+      "sha256": "d71c166d9f6951c73d446de95454460142c09cf5fee9483b4b684b2e0a148d98",
+      "bytes": 21856,
+      "repeated_outputs_identical": true
+    },
+    {
+      "file": "examples/security-explorer/prompt-injection.json",
+      "arguments": [
+        "--ask",
+        "What do you check for prompt injection?",
+        "--catalog-format",
+        "json"
+      ],
+      "exit_code": 0,
+      "sha256": "74b005f20f53f52a96e5ed0dbbc8bbc85be2b819fbe63de7f3f1252cbb1e9b1c",
+      "bytes": 43811,
+      "repeated_outputs_identical": true
+    },
+    {
+      "file": "examples/security-explorer/authentication.txt",
+      "arguments": [
+        "--explain-control",
+        "AUTH-01"
+      ],
+      "exit_code": 0,
+      "sha256": "d6d0c8fc092b18aa0b25b7e46150a28440623ced8f077632c0a378ee735fdbe8",
+      "bytes": 7450,
+      "repeated_outputs_identical": true
+    },
+    {
+      "file": "examples/security-explorer/authorization-check.txt",
+      "arguments": [
+        "--explain-check",
+        "AUTH-02:2"
+      ],
+      "exit_code": 0,
+      "sha256": "0069b54dfbda0564a8c1344ebbc881caeb703df87e0404867d7767c2e5bcd20e",
+      "bytes": 9480,
+      "repeated_outputs_identical": true
+    },
+    {
+      "file": "examples/security-explorer/mitre-atlas.txt",
+      "arguments": [
+        "--explain-source",
+        "MITRE-ATLAS"
+      ],
+      "exit_code": 0,
+      "sha256": "06751622d5d2aa34460aeb19d891a6252b1ff4cd1266a8fad6f0e7f571105b11",
+      "bytes": 2291,
+      "repeated_outputs_identical": true
+    },
+    {
+      "file": "examples/security-explorer/benchmarks.txt",
+      "arguments": [
+        "--ask",
+        "benchmarks"
+      ],
+      "exit_code": 0,
+      "sha256": "afb0dd8823e5ef93c91cf07a7d57a58d8e988d595dd8c9e8afce50f0fe4204a3",
+      "bytes": 9341,
+      "repeated_outputs_identical": true
+    }
+  ],
+  "catalog_files": {
+    "sources.json": "cb7d62fe5f3b856a424ddc3b7afa986563a48b5ec2104423055a91fe290d5142",
+    "controls.json": "ecf1007f0280021e35a1544043eae58978038511589ca22df9653a3417988b00",
+    "mitigations.json": "dadde42b9b4e7f65d34d897f716649ed0b49b1fc561e5e45a9eadbac43c5eed1",
+    "control_explanations.json": "aea11867525bc7f488dcb22494af365261566a4b625ee319abf3843f8b8e8c71",
+    "remediations.json": "6ea5b70b817f35b68352ce9b7b443b1c01139ba7b94ee2631f5db5ef7521b96e"
+  },
+  "limitations": [
+    "These are executed catalog lookups, not security scans or runtime validation.",
+    "Source metadata is the bundled research snapshot, not a new fetch of the linked websites.",
+    "Unit tests separately reject network/config/scan/login/process/report side effects in catalog execution."
+  ]
+}

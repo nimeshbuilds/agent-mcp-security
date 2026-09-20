@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "version": "0.12.0",
+  "implementation_sha256": "e2980c182d71dbe78b1acfb9057adcf8568c1a9738a8f7abc8073287644843d2",
+  "unit_tests": {
+    "3.12.14": {
+      "run": 793,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "log_sha256": "5d9e0a542c54906037344189f895e0f1f3fe70ae01153e1744d8563cc606c05c"
+    },
+    "3.9.6": {
+      "run": 793,
+      "skipped": 28,
+      "failures": 0,
+      "errors": 0,
+      "log_sha256": "924072c808d6997d3c00fab6eb8a5c45e9c6ddc11002d1e754dba8c10a4c3030"
+    }
+  },
+  "coverage": {
+    "covered_lines": 7104,
+    "num_statements": 7501,
+    "percent_covered": 93.09414620987322,
+    "percent_covered_display": "93",
+    "missing_lines": 397,
+    "excluded_lines": 0,
+    "percent_statements_covered": 94.70737235035328,
+    "percent_statements_covered_display": "95",
+    "num_branches": 3620,
+    "num_partial_branches": 345,
+    "covered_branches": 3249,
+    "missing_branches": 371,
+    "percent_branches_covered": 89.7513812154696,
+    "percent_branches_covered_display": "90"
+  },
+  "coverage_scope": "Parent unit-test process; subprocess entry points separately exercised. Execution coverage is not detector accuracy.",
+  "quickstart": {
+    "steps": 53,
+    "status": "passed",
+    "receipt_sha256": "c54941ed1044e330ae80329351d01f3c4e5442ab4251ee236974377f1c4763d8",
+    "snapshot_files": 162,
+    "snapshot_sha256": "0a5a95f78eb91218a021280c6f407d100148474ecc9a65dcaede5d953d410eb4",
+    "snapshot_file_hashes_matched_at_verification": true,
+    "note": "Publication-only documentation and receipts may be updated after this frozen snapshot; production fingerprint remains authoritative."
+  },
+  "wheel": {
+    "filename": "agent_mcp_security_scan-0.12.0-py3-none-any.whl",
+    "sha256": "4abcf9adc83f255bbf4457537af684ebedd1ed56b9579da75a098d30a77f087a"
+  },
+  "catalog": {
+    "controls": 66,
+    "acceptance_checks": 132,
+    "rules": 42,
+    "sources": 75,
+    "topics": 9,
+    "partially_mapped_controls": 26
+  },
+  "help": {
+    "public_option_spellings": 59,
+    "cookbook_commands": 50
+  },
+  "detector_changes": false,
+  "model_calls_for_this_feature_validation": 0
+}

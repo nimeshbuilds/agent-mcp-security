@@ -15,6 +15,15 @@ from .scanner import SEVERITIES, load_baseline, load_controls, scan
 from .security import redact, redact_object
 
 
+CATALOG_ACTIONS = (
+    ("list_rules", "rules"), ("list_controls", "controls"),
+    ("explain_rule", "rule"), ("list_topics", "topics"),
+    ("ask", "ask"), ("explain_control", "control"),
+    ("explain_check", "check"), ("list_sources", "sources"),
+    ("explain_source", "source"),
+)
+
+
 class HelpFormatter(argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescriptionHelpFormatter):
     """Keep examples readable while displaying configurable defaults."""
 
@@ -106,6 +115,13 @@ def parser():
     mode.add_argument("--list-rules", action="store_true", help="Print all deterministic rule metadata as JSON")
     mode.add_argument("--list-controls", action="store_true", help="Print all control checks, stable CONTROL:INDEX check IDs, rule mappings, and sources as JSON")
     mode.add_argument("--explain-rule", metavar="ID", help="Print one rule's metadata, mapped controls, and interpretation as JSON")
+    mode.add_argument("--list-topics", action="store_true", help="Explore every AI security control by topic, with deterministic coverage and next commands; offline text by default")
+    mode.add_argument("--ask", metavar="QUERY", help="Ask about an AI security topic, rule, control, organization or benchmark using deterministic catalog lookup; quote the question. No model or scan; at most 1000 characters")
+    mode.add_argument("--explain-control", metavar="ID", help="Explain a control, why it matters for agents/MCP, acceptance checks, actual static coverage and organization/source provenance")
+    mode.add_argument("--explain-check", metavar="CONTROL:INDEX", help="Explain one acceptance check and its parent control; rule mappings are control-level, not proof that this check is automated")
+    mode.add_argument("--list-sources", action="store_true", help="List the bundled organization, guidance and benchmark source registry with versions, dates, links and applicability limits")
+    mode.add_argument("--explain-source", metavar="ID", help="Explain a catalog source and its actual control/rule relationships; thematic alignment is not an official compliance crosswalk")
+    catalog.add_argument("--catalog-format", choices=("text", "json"), help="Catalog output only: new exploration commands default to readable text; existing --list-rules/--list-controls/--explain-rule preserve JSON unless text is selected")
     authentication = p.add_argument_group("Official CLI authentication (interactive, optional)")
     authentication.add_argument("--login", choices=("codex", "claude", "grok"), help="Sign in through an official CLI directly from Invarune, then exit; requires an interactive terminal and no scan target or reports")
     p.add_argument("--version", action="version", version=__version__, help="Print scanner version and exit without scanning or model calls")
@@ -194,9 +210,48 @@ def judge_payload(report, root, include_source=False, max_findings=100):
 
 def main(argv=None):
     p = parser()
-    args = p.parse_args(argv)
-    if args.token_optimizer is not None and (not (args.judge_config or args.judge_cli) or args.login or args.list_rules or args.list_controls or args.explain_rule):
+    arguments = sys.argv[1:] if argv is None else list(argv)
+    args = p.parse_args(arguments)
+    catalog_selection = next(((name, action) for name, action in CATALOG_ACTIONS
+                              if getattr(args, name) is not None and getattr(args, name) is not False), None)
+    catalog_mode = catalog_selection is not None
+    if args.catalog_format is not None and not catalog_mode:
+        p.error("--catalog-format requires a catalog command such as --ask or --explain-control")
+    if args.token_optimizer is not None and (not (args.judge_config or args.judge_cli) or args.login or catalog_mode):
         p.error("--token-optimizer requires an optional scan review with --judge-cli or --judge-config")
+    if catalog_mode:
+        allowed = {"--" + name.replace("_", "-") for name, _ in CATALOG_ACTIONS} | {"--catalog-format"}
+        known = {option for action in p._actions for option in action.option_strings}
+        supplied = {argument.split("=", 1)[0] for argument in arguments if argument.split("=", 1)[0] in known}
+        conflicts = sorted(supplied - allowed)
+        if conflicts:
+            p.error("catalog inspection is offline and standalone; omit scan, model, login and output options: " + ", ".join(conflicts))
+        if args.target:
+            p.error("catalog inspection does not accept a target directory or image")
+        name, action = catalog_selection
+        try:
+            if args.catalog_format != "text" and name == "list_rules":
+                from .rules import RULES
+                value = RULES
+            elif args.catalog_format != "text" and name == "list_controls":
+                value = [{**control, "check_ids": [control["id"] + ":" + str(index)
+                          for index in range(1, len(control["checks"]) + 1)]}
+                         for control in load_controls()]
+            elif args.catalog_format != "text" and name == "explain_rule":
+                value = _rule_explanation(args.explain_rule)
+            else:
+                from .catalog import describe_catalog, render_catalog
+                selected = getattr(args, name)
+                value = describe_catalog(action, None if selected is True else selected)
+                if args.catalog_format != "json":
+                    print(render_catalog(value))
+                    return 0
+            print(json.dumps(value, indent=2, sort_keys=True))
+        except ValueError as exc:
+            p.error(str(exc))
+        except OSError:
+            p.error("Unable to read the bundled security catalog; reinstall Invarune from a verified package.")
+        return 0
     if not math.isfinite(args.login_timeout) or not 1 <= args.login_timeout <= 900:
         p.error("--login-timeout must be finite and between 1 and 900 seconds")
     if args.login:
@@ -218,29 +273,7 @@ def main(argv=None):
             return 2
         print("Signed in through the official " + args.login + " CLI. Invarune does not store authentication tokens.")
         return 0
-    catalog_mode = args.list_rules or args.list_controls or args.explain_rule is not None
     image_mode = args.image is not None or args.image_archive is not None
-    if catalog_mode and (args.pdf or args.review_report):
-        p.error("--pdf and --review-report apply to scans, not catalog inspection")
-    if catalog_mode and (args.target or image_mode):
-        p.error("catalog inspection does not accept a target directory or image")
-    if catalog_mode and (args.quiet or args.summary_json):
-        p.error("--quiet and --summary-json apply to scans; catalog commands already emit JSON")
-    if args.list_rules:
-        from .rules import RULES
-        print(json.dumps(RULES, indent=2, sort_keys=True))
-        return 0
-    if args.list_controls:
-        print(json.dumps([{**control, "check_ids": [control["id"] + ":" + str(index)
-                         for index in range(1, len(control["checks"]) + 1)]}
-                         for control in load_controls()], indent=2, sort_keys=True))
-        return 0
-    if args.explain_rule is not None:
-        try:
-            print(json.dumps(_rule_explanation(args.explain_rule), indent=2, sort_keys=True))
-        except ValueError as exc:
-            p.error(str(exc))
-        return 0
     if args.target and image_mode:
         p.error("choose a target directory or an image, not both")
     if not args.target and not image_mode:

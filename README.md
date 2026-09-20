@@ -7,7 +7,8 @@
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **42 deterministic rules provide partial static coverage of 26 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
 - **[Quick start: install and use invscan](docs/QUICKSTART.md)**
-- **[Download the CLI wheel and sample PDF](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.11.0)**
+- **[Ask about security controls offline](docs/SECURITY_EXPLORER.md)**
+- **[Download the released v0.11 CLI wheel and sample PDF](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.11.0)**
 - **[New v0.11 scan report: fillable PDF, HTML and live AI example](examples/reports/invscan-v011/README.md)**
 - [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
 - [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
@@ -24,6 +25,24 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Judge setup and API compatibility](docs/JUDGE.md)
 - [Controlled security analyst: routing, evidence, budgets, and outcomes](docs/ANALYST.md)
 - [Machine-readable control catalog](ai_security_scan/data/controls.json)
+
+## Ask what the security checks cover
+
+```sh
+invscan --list-topics
+invscan --ask 'What do you check for prompt injection?'
+invscan --ask 'How is MCP authentication covered?'
+invscan --ask 'What NSA and CISA guidance do you use?'
+invscan --explain-control AUTH-01
+invscan --explain-check AUTH-01:1
+invscan --list-sources
+invscan --explain-source JOINT-AGENTIC
+invscan --explain-control AUTH-01 --catalog-format json
+```
+
+These commands read the bundled catalog only. `--ask` is bounded deterministic token/alias lookup, not generative chat or a scan of your system. Answers explain why each control matters, its acceptance checks, partial static mappings, source organizations and validation limits. Primary control citations, thematic alignments and technical rule references remain distinct. The 42 rules still map partially to 26 controls; an explanation does not establish that a check passes.
+
+New explorer commands default to readable text. The existing `--list-rules`, `--list-controls` and `--explain-rule` retain their JSON defaults; `--catalog-format text` requests a readable view. No model or login is enabled. [Complete explorer guide](docs/SECURITY_EXPLORER.md), or run `invscan --help-topic security`.
 
 ## Latest scan report
 
@@ -80,7 +99,9 @@ invscan --help-topic review
 
 For real testing, see the [eight pinned public-project reports](benchmarks/real-world/README.md), the [external scanner comparison](benchmarks/external-tools/README.md), and the [branded benchmark PDF](output/pdf/invarune-benchmark-report.pdf). The same selected source bytes were offered to Invarune, Semgrep CE, Bandit and Gitleaks. Cisco MCP Scanner ran a separate partial metadata test. Findings, false-positive examples, parser gaps, commands, versions and hashes are published; observed counts are not confirmed vulnerabilities or a scanner ranking.
 
-Version **0.11.0** makes `invscan` the primary command, adds topic help and an example gallery, and brings findings/action links to the front of the scan PDF. Optional AI review defaults to guarded Headroom JSON compaction, with exact evidence preservation and a visible built-in fallback. [Headroom research and measured limits](docs/HEADROOM_RESEARCH.md).
+Version **0.12.0** adds an offline security explorer to the current checkout: ask what the catalog checks, why a control matters and where its guidance came from. It explains all controls and checks without a target, model, login or network request. The published 0.11.0 wheel and report examples above predate this feature; install the current checkout for the new commands.
+
+Version **0.11.0** made `invscan` the primary command, added topic help and an example gallery, and brought findings/action links to the front of the scan PDF. Optional AI review defaults to guarded Headroom JSON compaction, with exact evidence preservation and a visible built-in fallback. [Headroom research and measured limits](docs/HEADROOM_RESEARCH.md).
 
 Version **0.10.0** added a sourced fix plan for every deterministic finding: agent/MCP relevance, applicability, concrete implementation changes, verification steps and remaining risk. The optional model can supply its own structured advice; missing model advice stays visible and cannot replace the static plan. [Guidance catalog](ai_security_scan/data/remediations.json), [report interpretation](docs/REPORTS.md).
 

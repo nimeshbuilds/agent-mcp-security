@@ -1,0 +1,105 @@
+Invarune security explorer — offline deterministic catalog
+
+66 controls / 132 acceptance checks / 42 rules / 75 sources
+26 controls have partial static rule mappings; no control or check is declared passed.
+
+Offline catalog lookup only: no target scan, model call, endpoint probe or runtime validation.
+
+AUTH-01 — Authenticate protected operations on every request
+Category: Identity and authorization
+What it is: Require verified authentication at every protected operation, including alternate routes and retries.
+Why it matters: A single reachable bypass can expose tools even when the normal client login succeeds.
+AI agent / MCP context: Distinguish protected remote HTTP operations from local stdio boundaries; test missing, malformed, revoked and expired credentials on the actual transport.
+Acceptance checks (hybrid; not automated passes):
+  AUTH-01:1 — Trace authentication to every protected HTTP entry point, including tool calls, subscriptions, and retries.
+  AUTH-01:2 — Verify missing, expired, revoked, or malformed credentials cannot invoke a protected operation.
+Deterministic coverage: partial
+Mapped rules identify the specific patterns described below. Their absence does not validate this control or either acceptance check.
+Control-level mapping only; no per-check automated pass is inferred. A built image can omit source and does not reveal deployed identity, policy or runtime behavior.
+AI026 — Authentication explicitly disabled [high]
+  Detects: An MCP or server configuration explicitly disables an authentication-related control. Local stdio servers may rely on an operating-system boundary; assess the actual transport and exposure.
+  Remediation: For remote protected resources, require authenticated clients and scoped per-tool authorization. Document local-only trust boundaries and protect launch configuration.
+  CWE: CWE-306
+  A recognized source pattern is a review signal, not proof of reachable exploitation, complete data flow, runtime protection or an acceptance-check pass.
+  Partial control mappings: AUTH-01
+MCP-SECURITY — MCP Security Best Practices
+  Relationship: rule_technical_reference
+  Organization: Model Context Protocol maintainers
+  Version: 2026-07-28
+  Kind: Protocol security guidance
+  Date: 2026-07-28
+  Accessed: 2026-09-19
+  Url: https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices
+  Scope: Confused deputy, token forwarding, discovery SSRF, local launch, URL handling and registration trust.
+  Limitations: Companion guidance is not a production assurance result. Use this moved documentation path rather than the older specification path.
+AI041 — MCP inspector authorization explicitly disabled [high]
+  Detects: The MCP inspector's authorization safeguard is explicitly disabled. A reachable inspector may provide access to connected tools and their privileges.
+  Remediation: Retain inspector authentication and restrict its listeners and origins to a controlled development environment.
+  CWE: CWE-306
+  A recognized source pattern is a review signal, not proof of reachable exploitation, complete data flow, runtime protection or an acceptance-check pass.
+  Partial control mappings: AUTH-01
+MCP-SECURITY — MCP Security Best Practices
+  Relationship: rule_technical_reference
+  Organization: Model Context Protocol maintainers
+  Version: 2026-07-28
+  Kind: Protocol security guidance
+  Date: 2026-07-28
+  Accessed: 2026-09-19
+  Url: https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices
+  Scope: Confused deputy, token forwarding, discovery SSRF, local launch, URL handling and registration trust.
+  Limitations: Companion guidance is not a production assurance result. Use this moved documentation path rather than the older specification path.
+Control sources and thematic alignments:
+MCP-AUTH — MCP: Authorization
+  Relationship: primary_control_source
+  Organization: Model Context Protocol maintainers
+  Version: 2026-07-28
+  Kind: Protocol specification
+  Date: 2026-07-28
+  Accessed: 2026-09-19
+  Url: https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization
+  Scope: HTTP authorization, protected-resource discovery, audience restrictions and OAuth responsibilities.
+  Limitations: HTTP authorization is optional in the protocol; protected applications still need suitable controls. Stdio uses a different credential model.
+CSA-AGENT-IAM — Agentic AI Identity and Access Management: A New Approach
+  Relationship: thematic_alignment
+  Organization: Cloud Security Alliance
+  Version: Publication dated 2025-08-18
+  Kind: architecture guidance
+  Date: 2025-08-18
+  Accessed: 2026-09-19
+  Url: https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach
+  Scope: Agent identity profiles, lifecycle governance, delegation, policy enforcement, and revocation.
+  Limitations: Proposed architecture; technology choices such as decentralized identifiers are not universal deployment requirements.
+CIS-MCP-2026 — Model Context Protocol (MCP) Companion Guide
+  Relationship: thematic_alignment
+  Organization: Center for Internet Security
+  Version: v1.0 / CIS Controls v8.1
+  Kind: implementation guidance
+  Date: 2026-04-20
+  Accessed: 2026-09-19
+  Url: https://www.cisecurity.org/insights/white-papers/controls-v8-1-model-context-protocol-companion-guide
+  Document url: https://storage.pardot.com/799323/1776872497Zw9RMQnm/CIS_Controls_v8.1_Model_Context_Protocol_Companion_Guide_April_2026.pdf
+  Scope: Security across MCP hosts, clients, servers, gateways, and connected systems.
+  Limitations: Official 82-page PDF reviewed; reconcile protocol-era details with deployed MCP. CIS CC BY-NC-ND terms apply to original guide.
+OWASP-AISVS-C10 — AISVS 1.0 C10 - Model Context Protocol Security
+  Relationship: thematic_alignment
+  Organization: OWASP
+  Version: 1.0, C10
+  Kind: verification requirements
+  Date: 2026-06
+  Accessed: 2026-09-19
+  Url: https://github.com/OWASP/AISVS/blob/main/1.0/en/0x10-C10-MCP-Security.md
+  Scope: MCP integrity, authorization, transport, schemas, and tool-change review.
+  Limitations: Application policy may exceed protocol requirements. Legacy initialize/session references require deployed-version interpretation; no full conformity claimed.
+
+Interpretation and source relationships:
+Invarune-authored engineering explanations and acceptance checks; source links provide provenance and context.
+primary_control_source identifies the catalog's original source context; thematic_alignment is broader relevance; rule_technical_reference supports a detector or remediation. None is an official clause-level compliance crosswalk.
+Mapped rules offer partial source/configuration pattern coverage of a control, not proof of any individual acceptance check. No finding does not mean pass.
+Image scans inspect packaged source/configuration, image metadata and supported retained-layer evidence. Binary-only logic, deployed controls, CVE exposure and publisher trust are not established.
+
+Run a scan separately:
+  invscan TARGET --output ./scan-report
+  invscan --image-archive ./agent-image.tar --output ./image-report
+These scan commands run the applicable deterministic rules within selected scope. Catalog search does not scan or select rules. User exceptions and scope limits remain explicit.
+More: invscan --list-topics; invscan --list-controls --catalog-format text; invscan --help
+

@@ -2,11 +2,11 @@
 
 **NimeshBuild · Evidence for agent security**
 
-Get your first report, then add image scanning, optional AI review or accepted exceptions. These examples target **Invarune 0.11.0**. The primary command is **`invscan`**. Deterministic scans need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
+Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These checkout examples target **Invarune 0.12.0**. The primary command is **`invscan`**. Deterministic scans and catalog exploration need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
 
 ## 1. Install the CLI and get your first report
 
-Want the CLI without a source checkout? The [v0.11.0 release](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.11.0) provides a downloadable wheel, checksums and installation commands. Its downloaded wheel was installed and verified in a fresh environment. The checkout route below also includes the example source and image fixtures used throughout this guide.
+Want the previously released CLI without a source checkout? The [v0.11.0 release](https://github.com/nimeshbuilds/agent-mcp-security/releases/tag/v0.11.0) provides a downloadable wheel, checksums and installation commands. Its downloaded wheel was installed and verified in a fresh environment. The new offline explorer requires **0.12.0 from the current checkout**; the 0.11.0 wheel does not include those commands. The checkout route below also includes the example source and image fixtures used throughout this guide.
 
 Clone this repository using Git credentials that have access:
 
@@ -35,7 +35,7 @@ $env:Path = "$((Resolve-Path .venv\Scripts).Path);$env:Path"
 invscan --version
 ```
 
-The PATH change applies to this terminal. Expect version **0.11.0**. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. The existing `invarune` and `ai-security-scan` commands are compatible aliases.
+The PATH change applies to this terminal. Expect version **0.12.0** from the current checkout. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. The existing `invarune` and `ai-security-scan` commands are compatible aliases.
 
 Run your first offline scan:
 
@@ -52,6 +52,23 @@ invscan examples/vulnerable --output ./scan-report/quickstart-vulnerable
 ```
 
 Expect **11 open findings and exit 1**. This is the intended findings gate, not a scanner crash. The deliberately unsafe fixture is inspected as text, never run. [Preview its published report](../examples/reports/v011/source/report.md).
+
+### Explore what the checks mean
+
+These commands inspect the bundled reference without scanning files, loading provider configuration, logging in or calling a model:
+
+```sh
+invscan --list-topics
+invscan --ask 'What do you check for prompt injection?'
+invscan --ask 'How is MCP authentication covered?'
+invscan --ask 'What NSA and CISA guidance do you use?'
+invscan --explain-control AUTH-01
+invscan --explain-check AUTH-01:1
+invscan --list-sources
+invscan --explain-source JOINT-AGENTIC
+```
+
+`--ask` performs deterministic literal lookup, not generative chat. New commands default to readable text; add `--catalog-format json` for structured output. Use `--help-topic security` for the focused guide. Answers distinguish static rule mappings from required runtime/human validation and primary citations from thematic alignments. No lookup result establishes a security pass. [Worked examples, query limits and complete explorer guide](SECURITY_EXPLORER.md).
 
 ## 2. Scan your code or built image
 
@@ -219,7 +236,7 @@ Installed `invarune` and `ai-security-scan` accept the same flags and produce th
 
 ## Reproduce the quickstart validation
 
-The [executed quickstart receipt](../benchmarks/quickstart-v011/README.md) records command exits, fixture counts, package versions, and exact source-file hashes. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
+The [executed 0.11 quickstart receipt](../benchmarks/quickstart-v011/README.md) records that version's command exits, fixture counts, package versions, and exact source-file hashes; it predates the new explorer commands. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
 
 ```sh
 python3 scripts/validate_quickstart.py --output test-output/quickstart
@@ -235,6 +252,7 @@ Fixture success validates these workflows. It does not measure production detect
 invscan --help
 invscan --help-topic images
 invscan --help-topic gateways
+invscan --help-topic security
 invscan --examples
 invscan --explain-rule AI002
 invscan --list-controls

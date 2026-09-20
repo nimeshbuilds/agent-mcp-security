@@ -114,16 +114,39 @@ jobs:
                   assert '--help-topic' in result.stdout
                   assert '--examples' in result.stdout
                   assert '--token-optimizer' in result.stdout
+                  assert '--ask' in result.stdout
+                  assert '--explain-control' in result.stdout
+                  assert '--catalog-format' in result.stdout
                   outputs.append(result.stdout)
               assert outputs[0] == outputs[1]
               references.append(outputs[0].split('Invarune by NimeshBuild', 1)[1])
-              for topic in ('ai', 'review', 'images', 'gateways'):
+              for topic in ('ai', 'review', 'images', 'gateways', 'security'):
                   result = subprocess.run([command, '--help-topic', topic], capture_output=True, text=True, check=True)
                   assert 'invscan' in result.stdout and not result.stderr
               examples = subprocess.run([command, '--examples'], capture_output=True, text=True, check=True)
               assert '--token-optimizer' in examples.stdout and '--image-archive' in examples.stdout
           assert all(item == references[0] for item in references[1:])
           print('Both installed commands include the same complete offline reference.')
+          PY
+      - name: Verify the installed deterministic security explorer
+        working-directory: ${{ runner.temp }}
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          for command in ('invscan', 'invarune', 'ai-security-scan'):
+              for arguments, key, identifier in (
+                  (['--explain-control', 'AUTH-01'], 'control', 'AUTH-01'),
+                  (['--explain-check', 'AUTH-01:1'], 'check', 'AUTH-01:1'),
+                  (['--explain-source', 'MITRE-ATLAS'], 'source', 'MITRE-ATLAS')):
+                  result = subprocess.run([command, *arguments, '--catalog-format', 'json'], capture_output=True, text=True, check=True)
+                  value = json.loads(result.stdout)
+                  assert not result.stderr and value[key]['id'] == identifier
+                  assert value['mode'] == 'deterministic_catalog'
+              result = subprocess.run([command, '--ask', 'prompt injection'], capture_output=True, text=True, check=True)
+              assert not result.stderr and 'AGT-03' in result.stdout
+              result = subprocess.run([command, '--list-sources', '--catalog-format', 'json'], capture_output=True, text=True, check=True)
+              assert len(json.loads(result.stdout)['sources']) == 75
+          print('All installed aliases expose grounded offline catalog explanations.')
           PY
       - name: Verify all five installed report review formats on source and image fixtures
         working-directory: ${{ runner.temp }}

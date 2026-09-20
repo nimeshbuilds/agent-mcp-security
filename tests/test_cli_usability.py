@@ -180,7 +180,7 @@ class CliUsabilityTests(unittest.TestCase):
                     self.assertEqual(exc.code, 0)
                     self.assertTrue(any(flag in arguments for flag in ("--help", "--help-topic", "--examples", "--version")))
                     continue
-                catalog = args.list_rules or args.list_controls or args.explain_rule or args.login
+                catalog = args.list_rules or args.list_controls or args.explain_rule or args.list_topics or args.ask is not None or args.explain_control or args.explain_check or args.list_sources or args.explain_source or args.login
                 self.assertEqual(sum(bool(value) for value in (args.target, args.image, args.image_archive)), 0 if catalog else 1)
                 self.assertFalse(args.judge_include_source and not (args.judge_config or args.judge_cli))
                 self.assertFalse(args.pull and not args.image)

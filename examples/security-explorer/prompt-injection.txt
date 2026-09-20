@@ -1,0 +1,316 @@
+Invarune security explorer — offline deterministic catalog
+
+66 controls / 132 acceptance checks / 42 rules / 75 sources
+26 controls have partial static rule mappings; no control or check is declared passed.
+
+Offline catalog lookup only: no target scan, model call, endpoint probe or runtime validation.
+
+Query: What do you check for prompt injection?
+Deterministic literal words and curated aliases; stable weighted field ranking, not an LLM answer or vulnerability assessment.
+Showing 8 of 24 catalog matches.
+
+Match TEST-01 [control; fields: aliases, title]
+Explore: invscan --explain-control TEST-01
+TEST-01 — Measure prompt-injection security and useful task completion
+Category: Security validation
+What it is: Measure adversarial safety alongside authorized task completion in representative workflows.
+Why it matters: A defense that blocks every useful action can appear safe, while a model-only score misses tool side effects.
+AI agent / MCP context: Run paired benign and hostile external-content cases and record attacker success, useful-task success, false blocks and unauthorized effects.
+Acceptance checks (dynamic; not automated passes):
+  TEST-01:1 — Run paired benign and adversarial workflows with representative tools and attacker-controlled external content.
+  TEST-01:2 — Record attacker success, authorized task success, blocked benign actions, and the observed unauthorized side effect.
+Deterministic coverage: not_automated
+No deterministic rule is mapped to this control. Establish it using the listed checks and human, deployment or runtime evidence.
+Control-level mapping only; no per-check automated pass is inferred. A built image can omit source and does not reveal deployed identity, policy or runtime behavior.
+Control sources and thematic alignments:
+BENCH-AGENTDOJO — AgentDojo
+  Relationship: primary_control_source
+  Organization: ETH Zurich / Invariant Labs
+  Version: NeurIPS 2024; living repository
+  Kind: executable research benchmark
+  Date: 2024
+  Accessed: 2026-09-19
+  Url: https://github.com/ethz-spylab/agentdojo
+  Paper url: https://arxiv.org/abs/2406.13352
+  Scope: Indirect prompt injection and legitimate task utility in tool workflows.
+  Limitations: Simulated suites and evolving API; adapt to production tools and policies. Not executed here.
+BENCH-INJECAGENT — InjecAgent
+  Relationship: primary_control_source
+  Organization: UIUC Kang Lab
+  Version: 2024 research; living repository
+  Kind: executable research benchmark
+  Date: 2024
+  Accessed: 2026-09-19
+  Url: https://github.com/uiuc-kang-lab/InjecAgent
+  Paper url: https://arxiv.org/abs/2403.02691
+  Scope: Malicious tool-result scenarios for tool-integrated agents.
+  Limitations: Fixed cases are not an adaptive attacker or production permission test. Not executed here.
+MITRE-ATLAS-202609 — MITRE ATLAS content release v2026.09
+  Relationship: thematic_alignment
+  Organization: MITRE
+  Version: v2026.09
+  Kind: threat taxonomy
+  Date: 2026-09-15
+  Accessed: 2026-09-19
+  Url: https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09
+  Scope: Versioned AI adversary techniques, mitigations, and case studies for threat modeling and test selection.
+  Limitations: A threat knowledge base, not a security score or evidence that mapped controls are effective.
+
+Match AGT-03 [control; fields: agent_mcp_context, aliases, checks]
+Explore: invscan --explain-control AGT-03
+AGT-03 — Separate untrusted content from authoritative instructions
+Category: Agent behavior and context
+What it is: Preserve the distinction between trusted instructions and externally controlled content.
+Why it matters: Retrieved text, tool results or repository files can try to redirect the agent's objective or authority.
+AI agent / MCP context: Track provenance across documents, OCR and messages; delimiters help interpretation but cannot enforce tool permissions or stop every indirect injection.
+Acceptance checks (hybrid; not automated passes):
+  AGT-03:1 — Track origin and trust level for web pages, documents, messages, OCR, tool results, and repository instructions.
+  AGT-03:2 — Test direct and indirect goal hijacking; formatting delimiters and prompt warnings alone are not access controls.
+Deterministic coverage: partial
+Mapped rules identify the specific patterns described below. Their absence does not validate this control or either acceptance check.
+Control-level mapping only; no per-check automated pass is inferred. A built image can omit source and does not reveal deployed identity, policy or runtime behavior.
+AI032 — External data inserted into privileged LLM instructions [medium]
+  Detects: A system or developer message contains an obvious external-input expression. Untrusted data may be interpreted as privileged instructions; local analysis cannot establish exploitability.
+  Remediation: Keep trusted instructions separate from untrusted content, label provenance, enforce tool policy outside the model, and test indirect prompt injection and sensitive-action approval.
+  CWE: CWE-1427
+  A recognized source pattern is a review signal, not proof of reachable exploitation, complete data flow, runtime protection or an acceptance-check pass.
+  Partial control mappings: AGT-03
+OWASP-LLM2026 — OWASP GenAI LLM Top 10 2026
+  Relationship: rule_technical_reference
+  Organization: OWASP GenAI Security Project
+  Version: 2026 edition
+  Kind: Threat prioritization
+  Date: 2026-08-03
+  Accessed: 2026-09-19
+  Url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+  Scope: Security risks of LLM-powered applications and their connected data and execution paths.
+  Limitations: Do not silently transfer category numbering from the 2025 edition. Date follows the displayed page rather than next-day UTC metadata.
+Control sources and thematic alignments:
+OWASP-LLM2026 — OWASP GenAI LLM Top 10 2026
+  Relationship: primary_control_source
+  Organization: OWASP GenAI Security Project
+  Version: 2026 edition
+  Kind: Threat prioritization
+  Date: 2026-08-03
+  Accessed: 2026-09-19
+  Url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+  Scope: Security risks of LLM-powered applications and their connected data and execution paths.
+  Limitations: Do not silently transfer category numbering from the 2025 edition. Date follows the displayed page rather than next-day UTC metadata.
+
+Match TEST-02 [control; fields: aliases, why_it_matters]
+Explore: invscan --explain-control TEST-02
+TEST-02 — Test adaptively and repeat scenarios
+Category: Security validation
+What it is: Repeat and vary adversarial scenarios under a stated attacker budget.
+Why it matters: A single fixed prompt or aggregate average can hide failures that appear with another placement or attempt.
+AI agent / MCP context: Record model and harness versions, modalities, sample counts and per-scenario uncertainty when retesting changed defenses.
+Acceptance checks (dynamic; not automated passes):
+  TEST-02:1 — Vary payload wording, placement, modality, attacker knowledge, and attempts; rerun after changing defenses.
+  TEST-02:2 — Report per-scenario outcomes, sample counts, attack budget, uncertainty, and model/harness versions instead of only an average.
+Deterministic coverage: not_automated
+No deterministic rule is mapped to this control. Establish it using the listed checks and human, deployment or runtime evidence.
+Control-level mapping only; no per-check automated pass is inferred. A built image can omit source and does not reveal deployed identity, policy or runtime behavior.
+Control sources and thematic alignments:
+NIST-HIJACK-EVAL — Technical Blog: Strengthening AI Agent Hijacking Evaluations
+  Relationship: primary_control_source
+  Organization: NIST
+  Version: Technical blog
+  Kind: Evaluation research
+  Date: 2025-01-17
+  Accessed: 2026-09-19
+  Url: https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations
+  Scope: Adaptive attacks, repeated attempts and scenario-specific evaluation of agent hijacking.
+  Limitations: Research methodology does not establish production assurance or a certification; report the tested harness and attack budget.
+MITRE-ATLAS-202609 — MITRE ATLAS content release v2026.09
+  Relationship: thematic_alignment
+  Organization: MITRE
+  Version: v2026.09
+  Kind: threat taxonomy
+  Date: 2026-09-15
+  Accessed: 2026-09-19
+  Url: https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09
+  Scope: Versioned AI adversary techniques, mitigations, and case studies for threat modeling and test selection.
+  Limitations: A threat knowledge base, not a security score or evidence that mapped controls are effective.
+
+Match MCP-03 [control; fields: aliases]
+Explore: invscan --explain-control MCP-03
+MCP-03 — Treat descriptions and annotations as untrusted
+Category: MCP protocol and tools
+What it is: Treat tool descriptions, annotations, resources and results as untrusted claims.
+Why it matters: A malicious server can present instructions or safety hints that influence tool selection or approval.
+AI agent / MCP context: Inspect cross-tool instructions and keep readOnlyHint and destructiveHint separate from independent host authorization and approval.
+Acceptance checks (hybrid; not automated passes):
+  MCP-03:1 — Inspect descriptions, schemas, resources, icons, and results for instructions that cross tool or user boundaries.
+  MCP-03:2 — Never let readOnlyHint, destructiveHint, or other server claims replace independent authorization and approval policy.
+Deterministic coverage: not_automated
+No deterministic rule is mapped to this control. Establish it using the listed checks and human, deployment or runtime evidence.
+Control-level mapping only; no per-check automated pass is inferred. A built image can omit source and does not reveal deployed identity, policy or runtime behavior.
+Control sources and thematic alignments:
+MCP-TOOLS — MCP: Tools
+  Relationship: primary_control_source
+  Organization: Model Context Protocol maintainers
+  Version: 2026-07-28
+  Kind: Protocol specification
+  Date: 2026-07-28
+  Accessed: 2026-09-19
+  Url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  Scope: Tool input/output schemas, identity, annotations, access controls and implementation responsibilities.
+  Limitations: Descriptions and annotations are untrusted metadata; they do not enforce read-only behavior or least privilege.
+OWASP-MCP-CS — MCP Security Cheat Sheet
+  Relationship: primary_control_source
+  Organization: OWASP Cheat Sheet Series
+  Version: Living document
+  Kind: Implementation guidance
+  Date: Living document
+  Accessed: 2026-09-19
+  Url: https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html
+  Scope: Practical defenses for MCP identity, tools, data boundaries, operations and exposure.
+  Limitations: Reconcile version-sensitive recommendations against the actual deployed MCP revision; it is secondary to normative protocol requirements.
+OWASP-AISVS-C10 — AISVS 1.0 C10 - Model Context Protocol Security
+  Relationship: thematic_alignment
+  Organization: OWASP
+  Version: 1.0, C10
+  Kind: verification requirements
+  Date: 2026-06
+  Accessed: 2026-09-19
+  Url: https://github.com/OWASP/AISVS/blob/main/1.0/en/0x10-C10-MCP-Security.md
+  Scope: MCP integrity, authorization, transport, schemas, and tool-change review.
+  Limitations: Application policy may exceed protocol requirements. Legacy initialize/session references require deployed-version interpretation; no full conformity claimed.
+
+Match AI032 [rule; fields: category, remediation]
+Explore: invscan --explain-rule AI032
+AI032 — External data inserted into privileged LLM instructions [medium]
+  Detects: A system or developer message contains an obvious external-input expression. Untrusted data may be interpreted as privileged instructions; local analysis cannot establish exploitability.
+  Remediation: Keep trusted instructions separate from untrusted content, label provenance, enforce tool policy outside the model, and test indirect prompt injection and sensitive-action approval.
+  CWE: CWE-1427
+  A recognized source pattern is a review signal, not proof of reachable exploitation, complete data flow, runtime protection or an acceptance-check pass.
+  Partial control mappings: AGT-03
+  Agent/MCP relevance: External text inserted into a system/developer message is promoted into the same channel as trusted agent policy. A retrieved document or tool response may then steer planning and sensitive tool arguments.
+  Applicability: Trace whether the interpolated value is actually external, configuration-owned or a deliberately trusted instruction; this local pattern does not prove a successful prompt injection.
+  Applicability: Moving content to a lower-trust message reduces instruction confusion but does not guarantee the model will ignore adversarial content.
+  Fix — Separate instruction construction from data: Keep system/developer templates fixed and application-owned. Put user, retrieval and tool text in the appropriate data/user/tool channel, preserving source labels and a clear distinction between instructions and quoted content.
+  Verify: Inject instruction-like text into a retrieved fixture and verify the message assembly never places it in a privileged role.
+  Fix — Validate decisions outside the model: Enforce allowed tools, argument schemas, tenant ownership, destinations and sensitive-action approval at the execution boundary regardless of the model output.
+  Verify: Use adversarial external content that asks for an unauthorized tool or data export; confirm server-side policy blocks the effect even if the model requests it.
+  Fix — Test realistic indirect injection paths: Run a separate bounded adversarial evaluation across documents, memory and MCP results, including source spoofing and multi-step attempts. Record model/version, prompts, outcomes and observed effects.
+  Verify: Verify both legitimate task completion and absence of forbidden side effects using an instrumented test harness; do not grade solely from a model claim of refusal.
+  Remaining risk: Delimiters, provenance labels and system prompts are not complete injection defenses; model behavior and workflow composition require ongoing tests.
+OWASP-LLM2026 — OWASP GenAI LLM Top 10 2026
+  Relationship: rule_technical_reference
+  Organization: OWASP GenAI Security Project
+  Version: 2026 edition
+  Kind: Threat prioritization
+  Date: 2026-08-03
+  Accessed: 2026-09-19
+  Url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+  Scope: Security risks of LLM-powered applications and their connected data and execution paths.
+  Limitations: Do not silently transfer category numbering from the 2025 edition. Date follows the displayed page rather than next-day UTC metadata.
+OWASP-AGENT-CS — AI Agent Security Cheat Sheet
+  Relationship: rule_technical_reference
+  Organization: OWASP Cheat Sheet Series
+  Version: Living document
+  Kind: Implementation guidance
+  Date: Living document
+  Accessed: 2026-09-19
+  Url: https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html
+  Scope: Agent policies, isolation, context, tools and operational security testing.
+  Limitations: General implementation guidance requires architecture-specific interpretation and runtime evidence.
+OWASP-LLM2026 — OWASP GenAI LLM Top 10 2026
+  Relationship: rule_technical_reference
+  Organization: OWASP GenAI Security Project
+  Version: 2026 edition
+  Kind: Threat prioritization
+  Date: 2026-08-03
+  Accessed: 2026-09-19
+  Url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+  Scope: Security risks of LLM-powered applications and their connected data and execution paths.
+  Limitations: Do not silently transfer category numbering from the 2025 edition. Date follows the displayed page rather than next-day UTC metadata.
+MCP-TOOLS — MCP: Tools
+  Relationship: rule_technical_reference
+  Organization: Model Context Protocol maintainers
+  Version: 2026-07-28
+  Kind: Protocol specification
+  Date: 2026-07-28
+  Accessed: 2026-09-19
+  Url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  Scope: Tool input/output schemas, identity, annotations, access controls and implementation responsibilities.
+  Limitations: Descriptions and annotations are untrusted metadata; they do not enforce read-only behavior or least privilege.
+
+Match TEST-08 [control; fields: checks]
+Explore: invscan --explain-control TEST-08
+TEST-08 — Evaluate the optional security judge itself
+Category: Security validation
+What it is: Evaluate the optional security reviewer as another untrusted, fallible component.
+Why it matters: A model may accept repository instructions, invent evidence or emit malformed judgments.
+AI agent / MCP context: Use labeled cases and hostile inputs, validate identifiers/citations/output shape, preserve deterministic findings and report omissions and model variability.
+Acceptance checks (dynamic; not automated passes):
+  TEST-08:1 — Treat repository text and model verdicts as untrusted; test prompt injection, fabricated locations, invalid JSON, and timeouts.
+  TEST-08:2 — Compare against labeled cases, retain deterministic results, document model variability, and never equate a judge approval with control validation.
+Deterministic coverage: not_automated
+No deterministic rule is mapped to this control. Establish it using the listed checks and human, deployment or runtime evidence.
+Control-level mapping only; no per-check automated pass is inferred. A built image can omit source and does not reveal deployed identity, policy or runtime behavior.
+Control sources and thematic alignments:
+NIST-HIJACK-EVAL — Technical Blog: Strengthening AI Agent Hijacking Evaluations
+  Relationship: primary_control_source
+  Organization: NIST
+  Version: Technical blog
+  Kind: Evaluation research
+  Date: 2025-01-17
+  Accessed: 2026-09-19
+  Url: https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations
+  Scope: Adaptive attacks, repeated attempts and scenario-specific evaluation of agent hijacking.
+  Limitations: Research methodology does not establish production assurance or a certification; report the tested harness and attack budget.
+NIST-GENAI — Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile
+  Relationship: primary_control_source
+  Organization: NIST
+  Version: AI 600-1
+  Kind: Risk-management profile
+  Date: 2024-07
+  Accessed: 2026-09-19
+  Url: https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf
+  Scope: GenAI information security, privacy, data, evaluation and human interaction risks.
+  Limitations: Broader than agent/MCP security; selected mappings do not cover the whole profile. NIST records public release on July 26, 2024.
+
+Match BENCH-AGENTDOJO [source; fields: scope]
+Explore: invscan --explain-source BENCH-AGENTDOJO
+BENCH-AGENTDOJO — AgentDojo
+  Organization: ETH Zurich / Invariant Labs
+  Version: NeurIPS 2024; living repository
+  Kind: executable research benchmark
+  Date: 2024
+  Accessed: 2026-09-19
+  Url: https://github.com/ethz-spylab/agentdojo
+  Paper url: https://arxiv.org/abs/2406.13352
+  Scope: Indirect prompt injection and legitimate task utility in tool workflows.
+  Limitations: Simulated suites and evolving API; adapt to production tools and policies. Not executed here.
+  Existing control mappings: TEST-01 [primary_control_source]
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+
+Match BENCH-BIPIA [source; fields: scope]
+Explore: invscan --explain-source BENCH-BIPIA
+BENCH-BIPIA — BIPIA
+  Organization: Microsoft / Jingwei Yi and coauthors
+  Version: 2023 initial paper; living repository
+  Kind: executable research benchmark
+  Date: 2023
+  Accessed: 2026-09-19
+  Url: https://github.com/microsoft/BIPIA
+  Paper url: https://arxiv.org/abs/2312.14197
+  Scope: Indirect prompt injection in external email, web, table, summarization, and code content.
+  Limitations: External-content robustness, not full agent/MCP transport security; some datasets require separate licensed acquisition. Not executed here.
+  Existing control mappings: none recorded
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+Narrow the literal query or select an exact ID to explore other matches.
+
+Interpretation and source relationships:
+Invarune-authored engineering explanations and acceptance checks; source links provide provenance and context.
+primary_control_source identifies the catalog's original source context; thematic_alignment is broader relevance; rule_technical_reference supports a detector or remediation. None is an official clause-level compliance crosswalk.
+Mapped rules offer partial source/configuration pattern coverage of a control, not proof of any individual acceptance check. No finding does not mean pass.
+Image scans inspect packaged source/configuration, image metadata and supported retained-layer evidence. Binary-only logic, deployed controls, CVE exposure and publisher trust are not established.
+
+Run a scan separately:
+  invscan TARGET --output ./scan-report
+  invscan --image-archive ./agent-image.tar --output ./image-report
+These scan commands run the applicable deterministic rules within selected scope. Catalog search does not scan or select rules. User exceptions and scope limits remain explicit.
+More: invscan --list-topics; invscan --list-controls --catalog-format text; invscan --help
+

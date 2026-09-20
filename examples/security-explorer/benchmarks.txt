@@ -1,0 +1,144 @@
+Invarune security explorer — offline deterministic catalog
+
+66 controls / 132 acceptance checks / 42 rules / 75 sources
+26 controls have partial static rule mappings; no control or check is declared passed.
+
+Offline catalog lookup only: no target scan, model call, endpoint probe or runtime validation.
+
+Query: benchmarks
+Deterministic literal words and curated aliases; stable weighted field ranking, not an LLM answer or vulnerability assessment.
+Showing 8 of 18 catalog matches.
+
+Match CIS-MCP-BENCH-1 [source; fields: aliases, kind, limitations, scope, title]
+Explore: invscan --explain-source CIS-MCP-BENCH-1
+CIS-MCP-BENCH-1 — CIS MCP Server Benchmark 1.0.0 - official catalog listing
+  Organization: Center for Internet Security
+  Version: MCP Server 1.0.0
+  Kind: configuration benchmark
+  Date: Publication date not stated in reviewed listing
+  Accessed: 2026-09-19
+  Url: https://www.cisecurity.org/cis-benchmarks
+  Scope: Catalog identifies an MCP server configuration benchmark; select related platform benchmarks for actual deployment.
+  Limitations: Version/catalog verified only. Official full-benchmark download presents a registration form; full controls not reviewed, reproduced, or implemented.
+  Supporting URLs: ["https://www.cisecurity.org/benchmark/ai-benchmarks", "https://learn.cisecurity.org/benchmarks"]
+  Existing control mappings: none recorded
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+
+Match BENCH-MCP-SAFETY [source; fields: aliases, kind]
+Explore: invscan --explain-source BENCH-MCP-SAFETY
+BENCH-MCP-SAFETY — MCP-SafetyBench
+  Organization: Xuanjun Zong and coauthors
+  Version: Paper v2; living repository
+  Kind: executable research benchmark
+  Date: 2026-03-05
+  Accessed: 2026-09-19
+  Url: https://github.com/xjzzzzzzzz/MCPSafety
+  Paper url: https://arxiv.org/abs/2512.15163v2
+  Scope: Multi-turn, cross-server safety evaluation using real MCP servers in five domains and 20 attack types.
+  Limitations: Service state, harness assumptions, and task selection affect reproducibility; not protocol authorization certification. Not executed here.
+  Existing control mappings: none recorded
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+
+Match BENCH-MCPSECBENCH [source; fields: aliases, kind]
+Explore: invscan --explain-source BENCH-MCPSECBENCH
+BENCH-MCPSECBENCH — MCPSecBench
+  Organization: AIS2Lab
+  Version: 2025 research; living repository
+  Kind: executable research benchmark
+  Date: 2025
+  Accessed: 2026-09-19
+  Url: https://github.com/AIS2Lab/MCPSecBench
+  Paper url: https://arxiv.org/abs/2508.13220
+  Scope: MCP security playground and attack scenarios across protocol surfaces.
+  Limitations: Environment/client-specific research workflows; not arbitrary-repository auditing or current-spec conformance. Not executed here.
+  Existing control mappings: TEST-03 [primary_control_source]
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+
+Match BENCH-MSB [source; fields: aliases, kind]
+Explore: invscan --explain-source BENCH-MSB
+BENCH-MSB — MCP Security Bench (MSB)
+  Organization: Dongsen Zhang and coauthors
+  Version: Paper v2; ICLR 2026; living repository
+  Kind: executable research benchmark
+  Date: 2026-03-24
+  Accessed: 2026-09-19
+  Url: https://github.com/dongsenzhang/MSB
+  Paper url: https://arxiv.org/abs/2510.15994v2
+  Scope: Real MCP tool attacks across planning, invocation, and response handling with a security/utility trade-off metric.
+  Limitations: Distinct from MCPSecBench; selected tools, domains, agents, and code revisions bound results. Not executed here.
+  Existing control mappings: none recorded
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+
+Match BENCH-AGENTDOJO [source; fields: kind]
+Explore: invscan --explain-source BENCH-AGENTDOJO
+BENCH-AGENTDOJO — AgentDojo
+  Organization: ETH Zurich / Invariant Labs
+  Version: NeurIPS 2024; living repository
+  Kind: executable research benchmark
+  Date: 2024
+  Accessed: 2026-09-19
+  Url: https://github.com/ethz-spylab/agentdojo
+  Paper url: https://arxiv.org/abs/2406.13352
+  Scope: Indirect prompt injection and legitimate task utility in tool workflows.
+  Limitations: Simulated suites and evolving API; adapt to production tools and policies. Not executed here.
+  Existing control mappings: TEST-01 [primary_control_source]
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+
+Match BENCH-AGENTDYN [source; fields: kind]
+Explore: invscan --explain-source BENCH-AGENTDYN
+BENCH-AGENTDYN — AgentDyn
+  Organization: SaFo-Lab / Hao Li and coauthors
+  Version: Paper v3; living repository
+  Kind: executable research benchmark
+  Date: 2026-05-07
+  Accessed: 2026-09-19
+  Url: https://github.com/SaFo-Lab/AgentDyn
+  Paper url: https://arxiv.org/abs/2602.03117v3
+  Scope: Dynamic open-ended tasks and helpful third-party instructions expose over-blocking by injection defenses.
+  Limitations: Extends AgentDojo and inherits harness assumptions; avoid double-counting identical scenarios. Not executed here.
+  Existing control mappings: none recorded
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+
+Match BENCH-AGENTHARM [source; fields: kind]
+Explore: invscan --explain-source BENCH-AGENTHARM
+BENCH-AGENTHARM — AgentHarm
+  Organization: Gray Swan AI / UK AI Safety Institute and coauthors
+  Version: ICLR 2025; living Inspect Evals implementation
+  Kind: executable research benchmark
+  Date: 2025
+  Accessed: 2026-09-19
+  Url: https://github.com/UKGovernmentBEIS/inspect_evals/blob/main/src/inspect_evals/agentharm/README.md
+  Paper url: https://arxiv.org/abs/2410.09024
+  Scope: Harmful multi-step user requests and jailbreaks with corresponding benign tasks.
+  Limitations: Different threat model from indirect injection. Grading can use LLMs; public subsets, scoring revisions, and safety/security-use license apply. Not executed here.
+  Existing control mappings: none recorded
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+
+Match BENCH-ASB [source; fields: kind]
+Explore: invscan --explain-source BENCH-ASB
+BENCH-ASB — Agent Security Bench (ASB)
+  Organization: Agent Security Bench authors / agiresearch
+  Version: ICLR 2025; living repository
+  Kind: executable research benchmark
+  Date: 2025
+  Accessed: 2026-09-19
+  Url: https://github.com/agiresearch/ASB
+  Paper url: https://arxiv.org/abs/2410.02644
+  Scope: Multiple agent scenarios and attack/defense evaluation methods.
+  Limitations: Match harness, agent, and tools; published scores do not transfer automatically. Not executed here.
+  Existing control mappings: TEST-04 [primary_control_source]
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+Narrow the literal query or select an exact ID to explore other matches.
+
+Interpretation and source relationships:
+Invarune-authored engineering explanations and acceptance checks; source links provide provenance and context.
+primary_control_source identifies the catalog's original source context; thematic_alignment is broader relevance; rule_technical_reference supports a detector or remediation. None is an official clause-level compliance crosswalk.
+Mapped rules offer partial source/configuration pattern coverage of a control, not proof of any individual acceptance check. No finding does not mean pass.
+Image scans inspect packaged source/configuration, image metadata and supported retained-layer evidence. Binary-only logic, deployed controls, CVE exposure and publisher trust are not established.
+
+Run a scan separately:
+  invscan TARGET --output ./scan-report
+  invscan --image-archive ./agent-image.tar --output ./image-report
+These scan commands run the applicable deterministic rules within selected scope. Catalog search does not scan or select rules. User exceptions and scope limits remain explicit.
+More: invscan --list-topics; invscan --list-controls --catalog-format text; invscan --help
+

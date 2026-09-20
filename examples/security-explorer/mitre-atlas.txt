@@ -1,0 +1,31 @@
+Invarune security explorer — offline deterministic catalog
+
+66 controls / 132 acceptance checks / 42 rules / 75 sources
+26 controls have partial static rule mappings; no control or check is declared passed.
+
+Offline catalog lookup only: no target scan, model call, endpoint probe or runtime validation.
+
+MITRE-ATLAS — ATLAS tactics, techniques, mitigations and case-study data
+  Organization: MITRE
+  Version: Living official repository
+  Kind: Threat knowledge base
+  Date: Living repository
+  Accessed: 2026-09-19
+  Url: https://github.com/mitre-atlas/atlas-data
+  Scope: Threat modeling, adversarial AI attack paths and security-test scenario design.
+  Limitations: Pin a content release and commit for exact IDs. Content and schema versions differ; this scanner does not calculate an ATLAS security score.
+  Existing control mappings: GOV-02 [primary_control_source], AGT-06 [primary_control_source]
+  Backlinks use only existing control mappings, exact-URL detector references and explicit remediation source IDs. Suggested catalog mappings remain suggestions; announcements, drafts and catalog-only listings retain their recorded limitations.
+
+Interpretation and source relationships:
+Invarune-authored engineering explanations and acceptance checks; source links provide provenance and context.
+primary_control_source identifies the catalog's original source context; thematic_alignment is broader relevance; rule_technical_reference supports a detector or remediation. None is an official clause-level compliance crosswalk.
+Mapped rules offer partial source/configuration pattern coverage of a control, not proof of any individual acceptance check. No finding does not mean pass.
+Image scans inspect packaged source/configuration, image metadata and supported retained-layer evidence. Binary-only logic, deployed controls, CVE exposure and publisher trust are not established.
+
+Run a scan separately:
+  invscan TARGET --output ./scan-report
+  invscan --image-archive ./agent-image.tar --output ./image-report
+These scan commands run the applicable deterministic rules within selected scope. Catalog search does not scan or select rules. User exceptions and scope limits remain explicit.
+More: invscan --list-topics; invscan --list-controls --catalog-format text; invscan --help
+

@@ -32,19 +32,20 @@ Long options require their complete spelling. Abbreviations such as `--judge-con
 
 ## Complete offline help
 
-Version 0.11.0 ships the complete reference in both `-h` and `--help`, including every option and default, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, review dispositions, editable five-format report import, optional PDF export, every judge configuration field, native/custom gateway JSON examples, and CLI examples including official login and model selection. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
+Version 0.12.0 ships the complete reference in both `-h` and `--help`, including every option and default, the offline security explorer, numeric ranges, all input modes, supported file types and default exclusions, image formats and limits, report/exit behavior, baselines, review dispositions, editable five-format report import, optional PDF export, every judge configuration field, native/custom gateway JSON examples, and CLI examples including official login and model selection. The reference is included in the installed wheel; a source checkout or internet connection is not needed to read it.
 
 ```sh
 invscan --help
 invscan --help-topic images
 invscan --help-topic gateways
+invscan --help-topic security
 invscan --examples
 
 # Save the complete reference for review or offline distribution.
 invscan --help > cli-help.txt
 ```
 
-`--help-topic` selects all, quickstart, source, images, reports, review, baseline, ai, login, gateways, limits, exit-codes or catalog. `--examples` prints the complete command cookbook; `--help-topic all` matches `--help`.
+`--help-topic` selects all, quickstart, source, images, reports, review, baseline, ai, login, gateways, limits, exit-codes, catalog or security. The security and catalog topics explain the same offline explorer. `--examples` prints the complete command cookbook; `--help-topic all` matches `--help`.
 
 Help exits 0 without scanning, unpacking images, starting runtime processes, loading a judge configuration, or contacting endpoints. `--version` prints the scanner version and exits. Tests check that every registered public option is documented, adapter/format inventories match implementation constants, example commands parse, and the displayed judge/baseline JSON is accepted by the actual loaders.
 
@@ -183,19 +184,48 @@ invscan ./repository --baseline ./reviewed-baseline.json --summary-json
 
 The candidate writer includes all current findings. Review it before using it as an accepted baseline. An accepted finding is a documented decision, not evidence that the pattern is harmless. IDs depend on rule, relative path, line, and source evidence, so code changes can require a new review. Reports expose unmatched baseline IDs; unused exceptions do not silently remove different findings. Baseline files and the optional judge configuration are excluded from target scanning automatically.
 
-## Rule and control inspection
+## Offline security explorer and catalog inspection
 
-These commands do not scan files, call a model, or require a target:
+Ask what the bundled catalog covers before running a scan. All explorer commands work offline without a target, model, provider configuration or login. They read packaged catalog data only, do not fetch source URLs and do not write scan reports. A lookup is not an assessment of your code or deployment.
+
+| Argument | Default output | Meaning |
+| --- | --- | --- |
+| `--list-topics` | Text | Control inventory grouped by security subject, with partial static mapping indicators. |
+| `--ask QUERY` | Text | Bounded deterministic lookup using literal tokens and known aliases; quote multiword questions. |
+| `--explain-control ID` | Text | Why a control matters, its checks, partial static mappings, source organizations and other validation needs. |
+| `--explain-check CONTROL:INDEX` | Text | One acceptance check and its parent control context; index starts at 1. |
+| `--list-sources` | Text | The 75-entry source registry with provenance and scope limits. |
+| `--explain-source ID` | Text | Source details and control relationships, distinguishing primary citations from thematic alignment. |
+| `--list-rules` | Legacy JSON | Full deterministic rule metadata array. |
+| `--list-controls` | Legacy JSON | Full control array with acceptance checks, stable check IDs, rule mappings and sources. |
+| `--explain-rule ID` | Legacy JSON | Rule metadata, mapped controls, sources and interpretation limits. |
+| `--catalog-format text\|json` | Per-command above | Select output for one catalog command; cannot be used alone or with a scan. |
 
 ```sh
+invscan --list-topics
+invscan --ask 'What do you check for prompt injection?'
+invscan --ask 'MCP authentication' --catalog-format json
+invscan --ask 'What NSA and CISA guidance do you use?'
+invscan --explain-control AUTH-01
+invscan --explain-check AUTH-01:1
+invscan --list-sources
+invscan --explain-source JOINT-AGENTIC
+invscan --explain-rule AI002 --catalog-format text
+
+# Existing JSON consumers keep their original defaults and shapes.
 invscan --list-rules > ./rules.json
 invscan --list-controls > ./controls.json
 invscan --explain-rule AI002 > ./AI002.json
+
+# New commands provide deterministic rich JSON when explicitly selected.
+invscan --explain-control AUTH-01 --catalog-format json > ./auth-control.json
 ```
 
-`--list-rules` preserves the full JSON rule array. `--list-controls` preserves the full JSON catalog array, including acceptance checks and primary-source mappings. `--explain-rule ID` emits rule metadata, severity, description, remediation, CWE references, rule source links, ruleset version, mapped control IDs, the mapped control records and their sources, and an explicit interpretation limit.
+`--ask` accepts at most **1,000 characters** and returns at most **eight ranked matches**. Ranking reflects literal catalog relevance, not confidence, exploitability or detector accuracy. It is not generative chat and cannot answer arbitrary security questions or inspect a repository. No-match responses are explicit; use `--list-topics`, narrower terms or exact IDs. Empty, invalid and oversized queries are errors.
 
-The three inspection modes are mutually exclusive, reject unknown rule IDs, and cannot be combined with a target, `--quiet`, or `--summary-json`. Their JSON output is already their result; they do not write scan report artifacts.
+Choose one catalog command. Explicit source/image inputs, scan options, model/login options and output controls such as `--quiet`, `--summary-json`, `--output` or `--pdf` are incompatible. Completed lookups, including no match, exit **0**; invalid input, unknown IDs in explain commands and incompatible options exit **2**. Neither exit is a security verdict.
+
+All **66 controls / 132 checks** are explained, but the **42 deterministic rules map partially to only 26 controls**. A mapped rule does not establish an individual check as passing. Runtime and owner validation remain necessary. Primary control citations, suggested thematic alignments and technical rule references are separate relationships; source versions and dates are stored research snapshots, not live verification or official compliance certification. See the [security explorer guide](SECURITY_EXPLORER.md) for a worked investigation.
 
 ## Optional security analyst
 

@@ -2,7 +2,13 @@
 
 Validated on **2026-09-19** with **Python 3.9.6 and Python 3.12.14**. This document records scanner implementation checks, not a security certification or a behavioral benchmark score.
 
-## Current v0.11.0 results
+## Current v0.12.0 results
+
+**793 tests passed** on Python 3.12.14; Python 3.9.6 passed with 28 explicit optional-PDF skips. Parent-process coverage measured 94.71% of statements and 89.75% of branches (93.09% combined). The fresh-install quickstart passed **53 steps**, including ten new installed catalog/explorer checks. [Executed v0.12 receipts](../benchmarks/validation-v012/README.md).
+
+The offline explorer explains all 66 controls and 132 acceptance checks, including each control's rationale and agent/MCP context. Tests preserve all 75 source records, exact primary/thematic relationships and 42 rule references. Case-normalized lexical search, unknown IDs, input bounds, JSON compatibility and no-scan/model/login/network/output behavior are verified. Seven installed-wheel example commands reproduced identical outputs and all three CLI aliases matched. No detector rule, benchmark accuracy result, source mapping or report renderer changed. [Actual explorer outputs](../examples/security-explorer/README.md).
+
+## Historical v0.11.0 results
 
 **765 tests passed** on Python 3.12.14; Python 3.9.6 ran the same suite with 28 explicit optional-PDF skips. Parent-process coverage measured 94.58% of statements and 89.60% of branches (92.96% combined). [Executed receipts](../benchmarks/validation-v011/README.md).
 

@@ -1,0 +1,113 @@
+Invarune security explorer — offline deterministic catalog
+
+66 controls / 132 acceptance checks / 42 rules / 75 sources
+26 controls have partial static rule mappings; no control or check is declared passed.
+
+Offline catalog lookup only: no target scan, model call, endpoint probe or runtime validation.
+
+governance — Governance (6 controls, 12 checks)
+  GOV-01 — Inventory every agent, MCP server, tool, and model [human/runtime evidence; no mapped rule]
+  GOV-02 — Model trust boundaries and attack paths [human/runtime evidence; no mapped rule]
+  GOV-03 — Define authorized use and accountable owners [human/runtime evidence; no mapped rule]
+  GOV-04 — Maintain evidence and risk exceptions [human/runtime evidence; no mapped rule]
+  GOV-05 — Reassess changes in autonomy and integrations [human/runtime evidence; no mapped rule]
+  GOV-06 — Assign shared security responsibilities across AI providers [human/runtime evidence; no mapped rule]
+  Try: invscan --ask 'What is GOV-01?'
+  Try: invscan --ask 'governance'
+identity-authorization — Identity and authorization (9 controls, 18 checks)
+  AUTH-01 — Authenticate protected operations on every request [partial static patterns: AI026, AI041]
+  AUTH-02 — Authorize the exact action and target [partial static patterns: AI027]
+  AUTH-03 — Validate access-token cryptography and claims [partial static patterns: AI017]
+  AUTH-04 — Prevent token passthrough and confused deputy use [partial static patterns: AI028]
+  AUTH-05 — Constrain credential lifetime and exposure [partial static patterns: AI010, AI011, AI030, AI034]
+  AUTH-06 — Bind OAuth flows and validate redirects [partial static patterns: AI038]
+  AUTH-07 — Secure OAuth discovery and registration [human/runtime evidence; no mapped rule]
+  AUTH-08 — Bind delegation to identity, scope, and expiry [human/runtime evidence; no mapped rule]
+  AUTH-09 — Manage agent identity enrollment and retirement [human/runtime evidence; no mapped rule]
+  Try: invscan --ask 'What is AUTH-01?'
+  Try: invscan --ask 'identity and authorization'
+mcp-protocol-tools — MCP protocol and tools (10 controls, 20 checks)
+  MCP-01 — Validate transport exposure and origin [partial static patterns: AI006, AI007, AI008, AI029]
+  MCP-02 — Validate tool arguments and results [human/runtime evidence; no mapped rule]
+  MCP-03 — Treat descriptions and annotations as untrusted [human/runtime evidence; no mapped rule]
+  MCP-04 — Detect tool substitution and metadata changes [human/runtime evidence; no mapped rule]
+  MCP-05 — Protect state handles and legacy sessions [partial static patterns: AI038]
+  MCP-06 — Constrain sampling and returned model context [human/runtime evidence; no mapped rule]
+  MCP-07 — Secure elicitation and URL interactions [human/runtime evidence; no mapped rule]
+  MCP-08 — Enforce filesystem isolation independently of roots [partial static patterns: AI015]
+  MCP-09 — Constrain local server launch and inherited environment [partial static patterns: AI018, AI031]
+  MCP-10 — Apply version-aware metadata, caching, and cancellation [human/runtime evidence; no mapped rule]
+  Try: invscan --ask 'What is MCP-01?'
+  Try: invscan --ask 'mcp'
+agent-behavior-context — Agent behavior and context (7 controls, 14 checks)
+  AGT-01 — Enforce action policy outside the model [partial static patterns: AI027, AI031]
+  AGT-02 — Bind approval to the action executed [partial static patterns: AI031]
+  AGT-03 — Separate untrusted content from authoritative instructions [partial static patterns: AI032]
+  AGT-04 — Protect retrieval and persistent memory [human/runtime evidence; no mapped rule]
+  AGT-05 — Keep objectives and authority bounded across agents [human/runtime evidence; no mapped rule]
+  AGT-06 — Protect agent configuration and skills [human/runtime evidence; no mapped rule]
+  AGT-07 — Prevent sensitive context leaving through legitimate tools [human/runtime evidence; no mapped rule]
+  Try: invscan --ask 'What is AGT-01?'
+  Try: invscan --ask 'agents'
+execution-application-security — Execution and application security (7 controls, 14 checks)
+  EXEC-01 — Prevent shell and command injection [partial static patterns: AI002, AI003, AI012]
+  EXEC-02 — Constrain generated-code execution [partial static patterns: AI001, AI013]
+  EXEC-03 — Parameterize database and query operations [partial static patterns: AI036]
+  EXEC-04 — Constrain file and archive access [partial static patterns: AI015, AI016, AI037]
+  EXEC-05 — Prevent SSRF and unsafe network destinations [partial static patterns: AI014]
+  EXEC-06 — Reject unsafe parsing and deserialization [partial static patterns: AI004, AI005, AI035]
+  EXEC-07 — Render model and tool output safely [partial static patterns: AI039, AI040]
+  Try: invscan --ask 'What is EXEC-01?'
+  Try: invscan --ask 'application security'
+data-privacy — Data and privacy (6 controls, 12 checks)
+  DATA-01 — Detect and remove embedded credentials [partial static patterns: AI010, AI011, AI030, AI034]
+  DATA-02 — Minimize data sent to models and gateways [human/runtime evidence; no mapped rule]
+  DATA-03 — Protect logs, traces, and error responses [partial static patterns: AI009, AI033]
+  DATA-04 — Track provenance and integrity of AI data [human/runtime evidence; no mapped rule]
+  DATA-05 — Enforce retention and deletion across copies [human/runtime evidence; no mapped rule]
+  DATA-06 — Protect stored data and keys [human/runtime evidence; no mapped rule]
+  Try: invscan --ask 'What is DATA-01?'
+  Try: invscan --ask 'data security'
+supply-chain — Supply chain (6 controls, 12 checks)
+  SUP-01 — Pin and inventory executable dependencies [partial static patterns: AI018, AI024, AI025]
+  SUP-02 — Check vulnerability and maintenance exposure [human/runtime evidence; no mapped rule]
+  SUP-03 — Verify artifact identity and provenance [partial static patterns: AI019, AI024, AI035]
+  SUP-04 — Protect build, release, and configuration changes [partial static patterns: AI020]
+  SUP-05 — Harden runtime isolation and deployment defaults [partial static patterns: AI021, AI022, AI023, AI031, AI042]
+  SUP-06 — Separate and protect model development environments [human/runtime evidence; no mapped rule]
+  Try: invscan --ask 'What is SUP-01?'
+  Try: invscan --ask 'supply chain'
+operations-resilience — Operations and resilience (6 controls, 12 checks)
+  OPS-01 — Produce attributable audit events [human/runtime evidence; no mapped rule]
+  OPS-02 — Bound work, spending, and concurrency [human/runtime evidence; no mapped rule]
+  OPS-03 — Make cancellation and shutdown effective [human/runtime evidence; no mapped rule]
+  OPS-04 — Fail safely and prevent duplicate side effects [human/runtime evidence; no mapped rule]
+  OPS-05 — Monitor behavior and support rollback [human/runtime evidence; no mapped rule]
+  OPS-06 — Practice incident response and disclosure [human/runtime evidence; no mapped rule]
+  Try: invscan --ask 'What is OPS-01?'
+  Try: invscan --ask 'operations'
+security-validation — Security validation (9 controls, 18 checks)
+  TEST-01 — Measure prompt-injection security and useful task completion [human/runtime evidence; no mapped rule]
+  TEST-02 — Test adaptively and repeat scenarios [human/runtime evidence; no mapped rule]
+  TEST-03 — Exercise MCP authentication and protocol abuse [human/runtime evidence; no mapped rule]
+  TEST-04 — Verify cross-tenant and cross-agent isolation [human/runtime evidence; no mapped rule]
+  TEST-05 — Test approval, policy, and sandbox bypass [human/runtime evidence; no mapped rule]
+  TEST-06 — Verify conventional application security [human/runtime evidence; no mapped rule]
+  TEST-07 — Validate resource exhaustion and observability [human/runtime evidence; no mapped rule]
+  TEST-08 — Evaluate the optional security judge itself [human/runtime evidence; no mapped rule]
+  TEST-09 — Evaluate model-layer attacks for hosted or customized models [human/runtime evidence; no mapped rule]
+  Try: invscan --ask 'What is TEST-01?'
+  Try: invscan --ask 'testing'
+
+Interpretation and source relationships:
+Invarune-authored engineering explanations and acceptance checks; source links provide provenance and context.
+primary_control_source identifies the catalog's original source context; thematic_alignment is broader relevance; rule_technical_reference supports a detector or remediation. None is an official clause-level compliance crosswalk.
+Mapped rules offer partial source/configuration pattern coverage of a control, not proof of any individual acceptance check. No finding does not mean pass.
+Image scans inspect packaged source/configuration, image metadata and supported retained-layer evidence. Binary-only logic, deployed controls, CVE exposure and publisher trust are not established.
+
+Run a scan separately:
+  invscan TARGET --output ./scan-report
+  invscan --image-archive ./agent-image.tar --output ./image-report
+These scan commands run the applicable deterministic rules within selected scope. Catalog search does not scan or select rules. User exceptions and scope limits remain explicit.
+More: invscan --list-topics; invscan --list-controls --catalog-format text; invscan --help
+

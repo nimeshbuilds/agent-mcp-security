@@ -204,7 +204,7 @@ def validate(args, receipt):
             for flag in ("-h", "--help"):
                 process, record = run("installed_" + name + "_" + flag.strip("-"), [str(command), flag])
                 require(not process.stderr, "Installed help wrote an unexpected diagnostic")
-                for text in ("--review-report", "--pdf", "--judge-cli", "--judge-config", "--image-archive", "--help-topic", "--examples", "--token-optimizer", "Custom JSON gateway configuration:"):
+                for text in ("--review-report", "--pdf", "--judge-cli", "--judge-config", "--image-archive", "--help-topic", "--examples", "--token-optimizer", "--ask", "--explain-control", "--catalog-format", "Custom JSON gateway configuration:"):
                     require(text in process.stdout, "Installed help omits " + text)
                 outputs.append(process.stdout)
                 record["assertions"] = {"all_documented_feature_flags_present": True, "stderr_empty": True}
@@ -228,6 +228,38 @@ def validate(args, receipt):
             value = json.loads(process.stdout)
             require(len(value) == count if count is not None else value["rule"]["id"] == "AI002", "Installed catalog differs from the documented catalog")
             record["assertions"] = {"catalog_contract_verified": True, "run_outside_checkout": True}
+        for identifier, arguments, result_key, expected_id in (
+            ("installed_security_topics", ["--list-topics"], "topics", None),
+            ("installed_security_question", ["--ask", "What do you check for prompt injection?"], "results", None),
+            ("installed_control_explanation", ["--explain-control", "AUTH-01"], "control", "AUTH-01"),
+            ("installed_check_explanation", ["--explain-check", "AUTH-01:1"], "check", "AUTH-01:1"),
+            ("installed_source_registry", ["--list-sources"], "sources", None),
+            ("installed_source_explanation", ["--explain-source", "MITRE-ATLAS"], "source", "MITRE-ATLAS")):
+            process, record = run(identifier, [str(primary), *arguments, "--catalog-format", "json"])
+            value = json.loads(process.stdout)
+            require(not process.stderr and value["mode"] == "deterministic_catalog" and value["status"] == "ok",
+                    identifier + ": catalog lookup failed")
+            require(value["catalog"]["controls"] == 66 and value["catalog"]["checks"] == 132
+                    and value["catalog"]["rules"] == 42 and value["catalog"]["sources"] == 75,
+                    identifier + ": catalog totals changed")
+            require(bool(value[result_key]), identifier + ": catalog content missing")
+            if expected_id:
+                require(value[result_key]["id"] == expected_id, identifier + ": wrong catalog identity")
+            record["assertions"] = {"catalog_identity_and_content_verified": True,
+                                     "run_outside_checkout": True, "stderr_empty": True}
+        for identifier, arguments, required in (
+            ("installed_security_help", ["--help-topic", "security"], "--ask"),
+            ("installed_security_question_text", ["--ask", "prompt injection"], "AGT-03"),
+            ("installed_rule_explanation_text", ["--explain-rule", "AI002", "--catalog-format", "text"], "EXEC-01")):
+            process, record = run(identifier, [str(primary), *arguments])
+            require(required in process.stdout and not process.stderr, identifier + ": readable explanation missing")
+            record["assertions"] = {"requested_content_present": True, "run_outside_checkout": True,
+                                     "stderr_empty": True}
+        process, record = run("installed_unknown_security_question", [str(primary), "--ask", "zzzinvscannoknowntopiczz", "--catalog-format", "json"])
+        value = json.loads(process.stdout)
+        require(value["status"] == "no_match" and value["total_matches"] == 0 and not value["results"],
+                "Unknown catalog topic must not invent an answer")
+        record["assertions"] = {"no_invented_answer": True, "run_outside_checkout": True}
         scan_case("installed_vulnerable", [str(primary)], vulnerable, 1, {"open_findings": 11})
         scan_case("installed_review_config", [str(primary)], vulnerable, 1,
                   {"open_findings": 9, "justified_findings": 1, "disabled_findings": 1},

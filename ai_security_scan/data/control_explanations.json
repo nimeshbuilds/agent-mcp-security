@@ -1,0 +1,854 @@
+{
+  "schema_version": "1.0",
+  "catalog_version": "1.0.0",
+  "reviewed_at": "2026-09-19",
+  "interpretation": "Invarune-authored explanations of the existing engineering controls. Source relationships are contextual provenance or thematic alignment, not official clause-level compliance mappings. No model, scan or runtime validation occurs when exploring this catalog.",
+  "controls": [
+    {
+      "id": "GOV-01",
+      "what_it_is": "Maintain a reconciled inventory of the components that can read data, make decisions or execute actions.",
+      "why_it_matters": "An unregistered tool or endpoint can inherit access without a responsible owner or security review.",
+      "agent_mcp_context": "Include the deployed agent harness, model revision, MCP transport and exposed tools; a repository dependency list alone is not the running inventory.",
+      "aliases": [
+        "asset inventory",
+        "shadow ai",
+        "discovery",
+        "ownership"
+      ]
+    },
+    {
+      "id": "GOV-02",
+      "what_it_is": "Describe where identities, data and authority cross between components, then trace possible attack paths.",
+      "why_it_matters": "A harmless-looking input can become a privileged action after several tool or delegation steps.",
+      "agent_mcp_context": "Trace user content through model context, memory, MCP calls, gateways and downstream services using their actual credentials.",
+      "aliases": [
+        "threat modeling",
+        "trust boundaries",
+        "attack paths",
+        "maestro"
+      ]
+    },
+    {
+      "id": "GOV-03",
+      "what_it_is": "Define the permitted purpose and consequences of autonomous actions and name the accountable owner.",
+      "why_it_matters": "An agent can act within its technical permissions while still performing an unauthorized business operation.",
+      "agent_mcp_context": "Document which actions require approval, which outcomes are forbidden and who handles irreversible effects or uncertainty.",
+      "aliases": [
+        "acceptable use",
+        "accountability",
+        "authorized purpose",
+        "business policy"
+      ]
+    },
+    {
+      "id": "GOV-04",
+      "what_it_is": "Keep dated evidence and explicitly governed exceptions for each applicable safeguard.",
+      "why_it_matters": "An undocumented acceptance or expired exception can conceal an untested boundary for later releases.",
+      "agent_mcp_context": "Record evidence, owner, expiry and compensating safeguards separately from scanner findings; justified is a decision, not proof of protection.",
+      "aliases": [
+        "risk acceptance",
+        "exceptions",
+        "justification",
+        "evidence management"
+      ]
+    },
+    {
+      "id": "GOV-05",
+      "what_it_is": "Reassess the complete system when models, tools, data sources or autonomy change.",
+      "why_it_matters": "A previously reviewed component can gain new authority through a new integration or configuration.",
+      "agent_mcp_context": "A model benchmark result does not establish the safety of the harness, MCP tool inventory, credentials and deployment acting together.",
+      "aliases": [
+        "change review",
+        "integration review",
+        "autonomy changes"
+      ]
+    },
+    {
+      "id": "GOV-06",
+      "what_it_is": "Assign each security responsibility across suppliers and the customer-operated components.",
+      "why_it_matters": "A safeguard can remain unimplemented when every party assumes another provider owns it.",
+      "agent_mcp_context": "Check which model, gateway, cloud, harness and MCP protections are inherited and which depend on your tenant configuration.",
+      "aliases": [
+        "shared responsibility",
+        "provider assurance",
+        "supplier assurance"
+      ]
+    },
+    {
+      "id": "AUTH-01",
+      "what_it_is": "Require verified authentication at every protected operation, including alternate routes and retries.",
+      "why_it_matters": "A single reachable bypass can expose tools even when the normal client login succeeds.",
+      "agent_mcp_context": "Distinguish protected remote HTTP operations from local stdio boundaries; test missing, malformed, revoked and expired credentials on the actual transport.",
+      "aliases": [
+        "authentication",
+        "auth",
+        "login",
+        "missing token",
+        "inspector",
+        "dangerously omit auth",
+        "authentication vs authorization",
+        "authentication versus authorization",
+        "mcp authentication"
+      ]
+    },
+    {
+      "id": "AUTH-02",
+      "what_it_is": "Authorize the exact identity, tenant, operation and resource immediately before the action.",
+      "why_it_matters": "Being logged in does not grant permission to every tool or every other user's objects.",
+      "agent_mcp_context": "MCP tool names, object identifiers and agent-generated arguments must pass server-side policy for each invocation.",
+      "aliases": [
+        "authorization",
+        "authz",
+        "permissions",
+        "least privilege",
+        "rbac",
+        "abac",
+        "deny by default",
+        "authentication vs authorization",
+        "authentication versus authorization"
+      ]
+    },
+    {
+      "id": "AUTH-03",
+      "what_it_is": "Verify access-token signatures and required claims using trusted keys and explicit algorithms.",
+      "why_it_matters": "Decoded claims can be forged or valid for a different service if validation is incomplete.",
+      "agent_mcp_context": "Reject wrong audience, issuer, scope or expiry before an agent or MCP operation uses the token's claims.",
+      "aliases": [
+        "jwt",
+        "signature verification",
+        "access tokens",
+        "issuer",
+        "audience"
+      ]
+    },
+    {
+      "id": "AUTH-04",
+      "what_it_is": "Keep caller authorization distinct from downstream service credentials.",
+      "why_it_matters": "A proxy may otherwise lend its broader identity to a caller or forward tokens to an unintended recipient.",
+      "agent_mcp_context": "Use credentials intended for the MCP resource and separately authorized downstream access instead of arbitrary inbound-token forwarding.",
+      "aliases": [
+        "token passthrough",
+        "confused deputy",
+        "token forwarding",
+        "audience binding"
+      ]
+    },
+    {
+      "id": "AUTH-05",
+      "what_it_is": "Limit credential scope and lifetime and prevent unnecessary copies or disclosure.",
+      "why_it_matters": "A leaked long-lived token can preserve an agent's access after the original task or session ends.",
+      "agent_mcp_context": "Review refresh-token storage, rotation, revocation and credentials in prompts, URLs, process arguments, browser code and diagnostic output.",
+      "aliases": [
+        "credential lifetime",
+        "rotation",
+        "revocation",
+        "short lived credentials",
+        "secrets"
+      ]
+    },
+    {
+      "id": "AUTH-06",
+      "what_it_is": "Bind an OAuth authorization response to the intended transaction and registered redirect.",
+      "why_it_matters": "A valid-looking callback can be replayed or redirected into the wrong client or authorization flow.",
+      "agent_mcp_context": "Validate PKCE S256, issuer, redirect and transaction binding; an MCP client login button alone proves none of those properties.",
+      "aliases": [
+        "oauth",
+        "pkce",
+        "redirect uri",
+        "authorization code",
+        "csrf"
+      ]
+    },
+    {
+      "id": "AUTH-07",
+      "what_it_is": "Constrain OAuth metadata discovery and client registration to trusted, bounded inputs.",
+      "why_it_matters": "Fetching attacker-chosen metadata can cross an internal network boundary before authentication completes.",
+      "agent_mcp_context": "Review discovery and client metadata URLs, redirects, response sizes and registration policy for the deployed MCP authorization flow.",
+      "aliases": [
+        "oauth discovery",
+        "dynamic client registration",
+        "metadata urls",
+        "discovery ssrf"
+      ]
+    },
+    {
+      "id": "AUTH-08",
+      "what_it_is": "Carry authenticated delegation identity and bound the authority passed to another agent.",
+      "why_it_matters": "Text that names a trusted initiator must not create that initiator's privileges.",
+      "agent_mcp_context": "Limit delegation scope, depth, duration and audiences and prevent a child agent from expanding its own grant.",
+      "aliases": [
+        "delegation",
+        "agent identity",
+        "impersonation",
+        "scope escalation"
+      ]
+    },
+    {
+      "id": "AUTH-09",
+      "what_it_is": "Govern agent identity creation, sponsorship and retirement as a workload lifecycle.",
+      "why_it_matters": "Stale identities can retain credentials, registrations or cached grants after their sponsor or deployment disappears.",
+      "agent_mcp_context": "Test replacement, sponsor departure and compromise across the agent, MCP service and downstream permissions rather than deleting only one local account.",
+      "aliases": [
+        "identity lifecycle",
+        "enrollment",
+        "retirement",
+        "deprovisioning",
+        "sponsor"
+      ]
+    },
+    {
+      "id": "MCP-01",
+      "what_it_is": "Constrain network exposure and verify the origin and transport of MCP HTTP traffic.",
+      "why_it_matters": "An unintended browser origin, interface or unverified TLS connection can reach or impersonate a service.",
+      "agent_mcp_context": "Check HTTP Origin handling, local binding, remote TLS and deployed proxy behavior; a wildcard bind alone does not establish exploitability.",
+      "aliases": [
+        "mcp transport",
+        "origin",
+        "cors",
+        "dns rebinding",
+        "tls",
+        "https",
+        "network exposure"
+      ]
+    },
+    {
+      "id": "MCP-02",
+      "what_it_is": "Validate tool inputs and outputs against schemas and semantic limits.",
+      "why_it_matters": "Well-formed JSON can still request an unauthorized target, consume excessive resources or carry misleading results.",
+      "agent_mcp_context": "Enforce tool-specific ranges, sizes, nesting and unknown-field policy before execution; validate structured results and sanitized errors afterward.",
+      "aliases": [
+        "tool arguments",
+        "schema validation",
+        "input validation",
+        "structured output"
+      ]
+    },
+    {
+      "id": "MCP-03",
+      "what_it_is": "Treat tool descriptions, annotations, resources and results as untrusted claims.",
+      "why_it_matters": "A malicious server can present instructions or safety hints that influence tool selection or approval.",
+      "agent_mcp_context": "Inspect cross-tool instructions and keep readOnlyHint and destructiveHint separate from independent host authorization and approval.",
+      "aliases": [
+        "tool poisoning",
+        "tool descriptions",
+        "annotations",
+        "prompt injection",
+        "untrusted metadata"
+      ]
+    },
+    {
+      "id": "MCP-04",
+      "what_it_is": "Bind approved tools to verified server identity and reviewed definitions, and recheck changes.",
+      "why_it_matters": "A tool can keep its display name while changing its arguments or effects after approval.",
+      "agent_mcp_context": "Check reconnects, list updates, version changes and collisions between servers; a familiar name is not a verified implementation.",
+      "aliases": [
+        "rug pull",
+        "tool substitution",
+        "metadata drift",
+        "name collision"
+      ]
+    },
+    {
+      "id": "MCP-05",
+      "what_it_is": "Authorize state handles and, where applicable, legacy session resumption.",
+      "why_it_matters": "Possession of a handle can become unauthorized access if ownership, tenant or expiry checks are missing.",
+      "agent_mcp_context": "The selected MCP revision determines session behavior; a legacy session identifier must never substitute for caller authentication.",
+      "aliases": [
+        "session hijacking",
+        "state handles",
+        "replay",
+        "session id"
+      ]
+    },
+    {
+      "id": "MCP-06",
+      "what_it_is": "Apply host policy and user control to server-requested sampling and shared context.",
+      "why_it_matters": "An untrusted server may induce access to unrelated conversations or recursive model consumption.",
+      "agent_mcp_context": "Bound sampling context, model selection and tool access independently of the server's request and test budget amplification.",
+      "aliases": [
+        "sampling",
+        "context sharing",
+        "recursive model calls"
+      ]
+    },
+    {
+      "id": "MCP-07",
+      "what_it_is": "Constrain elicitation requests and visibly identify URL interactions.",
+      "why_it_matters": "An apparently helpful workflow can collect credentials or direct a user to an attacker-controlled destination.",
+      "agent_mcp_context": "Use the selected protocol revision's form and URL rules; test cancellation, unsolicited requests, phishing links and replayed completion state.",
+      "aliases": [
+        "elicitation",
+        "url mode",
+        "form mode",
+        "phishing",
+        "credential collection"
+      ]
+    },
+    {
+      "id": "MCP-08",
+      "what_it_is": "Enforce actual filesystem permissions independently of declared MCP roots.",
+      "why_it_matters": "Roots describe intended scope but cannot prevent a server process from accessing other paths.",
+      "agent_mcp_context": "Validate paths and symlink behavior at access time, and constrain the process identity so a claimed workspace boundary is enforceable.",
+      "aliases": [
+        "mcp roots",
+        "filesystem roots",
+        "workspace confinement",
+        "path traversal"
+      ]
+    },
+    {
+      "id": "MCP-09",
+      "what_it_is": "Approve local server executables and constrain their inherited environment and process access.",
+      "why_it_matters": "Launching a stdio server can give package code the host user's credentials and filesystem access.",
+      "agent_mcp_context": "Pin launch artifacts, use argument arrays and a minimal environment, separate protocol stdout from logs, and restrict process-spawn proxies.",
+      "aliases": [
+        "stdio",
+        "server launch",
+        "inherited environment",
+        "npx",
+        "uvx",
+        "local mcp"
+      ]
+    },
+    {
+      "id": "MCP-10",
+      "what_it_is": "Apply the deployed protocol revision's capability, stream, cache and cancellation rules.",
+      "why_it_matters": "Assuming another revision's handshake or state model can leave authorization context inconsistent.",
+      "agent_mcp_context": "Test metadata and header consistency, cache separation and request continuation across the actual MCP revision rather than applying legacy session assumptions universally.",
+      "aliases": [
+        "protocol version",
+        "capabilities",
+        "cache",
+        "streaming",
+        "cancellation"
+      ]
+    },
+    {
+      "id": "AGT-01",
+      "what_it_is": "Enforce trusted action policy at the tool execution boundary outside the model.",
+      "why_it_matters": "An instruction-following model can be redirected; its refusal or approval is not an access-control decision.",
+      "agent_mcp_context": "An injected prompt must not select privileged credentials, disable policy or expand available MCP capabilities.",
+      "aliases": [
+        "policy enforcement",
+        "guardrails",
+        "outside model",
+        "least privilege"
+      ]
+    },
+    {
+      "id": "AGT-02",
+      "what_it_is": "Bind human approval to the precise action that will execute.",
+      "why_it_matters": "A changed recipient, argument or delayed retry can exceed what the person approved.",
+      "agent_mcp_context": "Show concrete data disclosure and consequences, invalidate approval after changes, and test reuse and time-of-check/time-of-use races.",
+      "aliases": [
+        "human approval",
+        "human in the loop",
+        "approval binding",
+        "toctou"
+      ]
+    },
+    {
+      "id": "AGT-03",
+      "what_it_is": "Preserve the distinction between trusted instructions and externally controlled content.",
+      "why_it_matters": "Retrieved text, tool results or repository files can try to redirect the agent's objective or authority.",
+      "agent_mcp_context": "Track provenance across documents, OCR and messages; delimiters help interpretation but cannot enforce tool permissions or stop every indirect injection.",
+      "aliases": [
+        "prompt injection",
+        "indirect injection",
+        "system prompt",
+        "instruction hierarchy",
+        "goal hijacking"
+      ]
+    },
+    {
+      "id": "AGT-04",
+      "what_it_is": "Protect retrieval and persistent memory at both read and update boundaries.",
+      "why_it_matters": "Poisoned memory can influence later sessions, and incomplete retrieval filters can expose another tenant's data.",
+      "agent_mcp_context": "Enforce document and memory ACLs, retain provenance and verify deletion, stale context and cross-tenant vector retrieval.",
+      "aliases": [
+        "memory poisoning",
+        "rag",
+        "retrieval",
+        "vector database",
+        "persistent memory"
+      ]
+    },
+    {
+      "id": "AGT-05",
+      "what_it_is": "Keep delegated goals and privileges bounded across multi-agent handoffs.",
+      "why_it_matters": "A chain of agents can amplify authority, lose the original objective or accept impersonated messages.",
+      "agent_mcp_context": "Authenticate senders, validate handoff schemas and allowed transitions, and test cascading failures and conflicting instructions.",
+      "aliases": [
+        "multi agent",
+        "handoffs",
+        "delegated objectives",
+        "agent messages"
+      ]
+    },
+    {
+      "id": "AGT-06",
+      "what_it_is": "Protect the configuration and workflow files that define agent behavior.",
+      "why_it_matters": "A changed skill, hook or seed file can silently add commands, access or persistence.",
+      "agent_mcp_context": "Inventory and review prompts, skills, memory seeds and MCP configuration; external repository instructions cannot become trusted host policy automatically.",
+      "aliases": [
+        "skills",
+        "hooks",
+        "configuration poisoning",
+        "repository instructions",
+        "agent rules"
+      ]
+    },
+    {
+      "id": "AGT-07",
+      "what_it_is": "Apply data and destination policy to otherwise legitimate tool calls.",
+      "why_it_matters": "An allowed message, search or upload tool can still move sensitive context to an unauthorized recipient.",
+      "agent_mcp_context": "Test combined and encoded leakage paths using canary data, including URLs, tickets, telemetry and sequences of permitted actions.",
+      "aliases": [
+        "exfiltration",
+        "data leakage",
+        "canary data",
+        "egress",
+        "legitimate tools"
+      ]
+    },
+    {
+      "id": "EXEC-01",
+      "what_it_is": "Keep untrusted values out of shell syntax and constrain allowed command arguments.",
+      "why_it_matters": "Agent-generated text may become a command or option rather than inert data.",
+      "agent_mcp_context": "Use fixed executables and validated argument arrays; test shell syntax, substitutions, hostile filenames and option injection at the same tool entry point.",
+      "aliases": [
+        "shell injection",
+        "command injection",
+        "subprocess",
+        "os system"
+      ]
+    },
+    {
+      "id": "EXEC-02",
+      "what_it_is": "Constrain any feature that evaluates generated code in a disposable execution environment.",
+      "why_it_matters": "A model or tool result reaching an interpreter gains the process's effective authority.",
+      "agent_mcp_context": "Review eval, exec, templates and notebook tools, then enforce filesystem, network, CPU and time limits independently of the generated program.",
+      "aliases": [
+        "code execution",
+        "eval",
+        "exec",
+        "sandbox",
+        "generated code",
+        "notebook",
+        "execfile"
+      ]
+    },
+    {
+      "id": "EXEC-03",
+      "what_it_is": "Parameterize query values and constrain permitted query shapes and database identities.",
+      "why_it_matters": "Generated queries can escape an intended object or operation even when the database connection is authorized.",
+      "agent_mcp_context": "Review SQL and other query languages, separate read/write identities and test the agent's reachable query path.",
+      "aliases": [
+        "sql injection",
+        "parameterized queries",
+        "database",
+        "nosql",
+        "graph query"
+      ]
+    },
+    {
+      "id": "EXEC-04",
+      "what_it_is": "Constrain file, archive and temporary-file operations at the moment of access.",
+      "why_it_matters": "Traversal, overwrite and link races can move data or execution beyond the approved workspace.",
+      "agent_mcp_context": "Review uploads, downloads, extraction and temporary files; test absolute paths, symlinks, alternate encodings and secret-directory access.",
+      "aliases": [
+        "path traversal",
+        "archive extraction",
+        "zip slip",
+        "temporary files",
+        "symlink",
+        "mcp roots"
+      ]
+    },
+    {
+      "id": "EXEC-05",
+      "what_it_is": "Restrict actual network destinations, including DNS resolution and redirects.",
+      "why_it_matters": "A user-selected URL can turn an agent tool into a route to internal services or cloud metadata.",
+      "agent_mcp_context": "Validate schemes and addresses at connection time and test loopback, private and link-local IPv4/IPv6 and redirects into those ranges.",
+      "aliases": [
+        "ssrf",
+        "server side request forgery",
+        "cloud metadata",
+        "dns",
+        "redirect"
+      ]
+    },
+    {
+      "id": "EXEC-06",
+      "what_it_is": "Use data-only parsers with explicit type and resource bounds.",
+      "why_it_matters": "Object construction or parser expansion can execute code or exhaust a tool process.",
+      "agent_mcp_context": "Inspect pickle, YAML and XML paths used by agents or MCP tools; trusted artifact provenance and byte/nesting limits require separate evidence.",
+      "aliases": [
+        "deserialization",
+        "pickle",
+        "yaml",
+        "xml",
+        "xxe",
+        "parser limits"
+      ]
+    },
+    {
+      "id": "EXEC-07",
+      "what_it_is": "Render model and tool output using context-appropriate escaping and safe URL handling.",
+      "why_it_matters": "Untrusted output can become executable content in a browser, terminal or exported document.",
+      "agent_mcp_context": "Review HTML/Markdown rendering, DOM sinks, SVG, terminal escapes and spreadsheet formulas for each output format.",
+      "aliases": [
+        "xss",
+        "output handling",
+        "html",
+        "markdown",
+        "dom",
+        "csv injection"
+      ]
+    },
+    {
+      "id": "DATA-01",
+      "what_it_is": "Locate embedded credential-like material and investigate its real exposure.",
+      "why_it_matters": "Source, fixtures or built artifacts may distribute a usable credential beyond its intended audience.",
+      "agent_mcp_context": "Confirm whether a detected value is real with the owner; rotate exposed credentials and address reachable history as well as the current file.",
+      "aliases": [
+        "secret scanning",
+        "hardcoded credentials",
+        "private keys",
+        "api key"
+      ]
+    },
+    {
+      "id": "DATA-02",
+      "what_it_is": "Minimize and authorize data sent to each model or gateway recipient.",
+      "why_it_matters": "Prompts and tool outputs may disclose information under a provider's processing or retention terms.",
+      "agent_mcp_context": "Map code, memory and tool-result disclosure, document allowed data classes and destination policy, and redact before transmission where required.",
+      "aliases": [
+        "privacy",
+        "data minimization",
+        "model gateway",
+        "retention",
+        "training use"
+      ]
+    },
+    {
+      "id": "DATA-03",
+      "what_it_is": "Prevent logs, traces and error messages from becoming secondary data leaks.",
+      "why_it_matters": "Diagnostic paths can retain credentials and private prompts even when normal responses are sanitized.",
+      "agent_mcp_context": "Test provider failures and exceptions as well as success paths; restrict trace storage, dashboards and exports.",
+      "aliases": [
+        "logging",
+        "tracing",
+        "debug",
+        "error messages",
+        "secret redaction"
+      ]
+    },
+    {
+      "id": "DATA-04",
+      "what_it_is": "Track the origin, transformations and integrity of the data that drives AI behavior.",
+      "why_it_matters": "Poisoned or stale retrieval and training inputs can outlive the event that introduced them.",
+      "agent_mcp_context": "Maintain owner/version evidence for datasets, corpora and memory seeds and demonstrate quarantine, removal and replacement of unexpected content.",
+      "aliases": [
+        "data provenance",
+        "data integrity",
+        "poisoning",
+        "corpus",
+        "dataset"
+      ]
+    },
+    {
+      "id": "DATA-05",
+      "what_it_is": "Apply retention and deletion across derived and replicated data.",
+      "why_it_matters": "Deleting a source record may leave retrievable embeddings, cached prompts or provider-held copies.",
+      "agent_mcp_context": "Test expiry and removal across memory, caches, artifacts, backups and dependent access grants rather than checking one database row.",
+      "aliases": [
+        "deletion",
+        "retention",
+        "embeddings",
+        "right to erase",
+        "backups"
+      ]
+    },
+    {
+      "id": "DATA-06",
+      "what_it_is": "Protect stored data with restricted identities, key separation and tested access controls.",
+      "why_it_matters": "Encryption settings alone cannot stop an authorized but overprivileged agent identity from reading data.",
+      "agent_mcp_context": "Verify tenant and operational-role boundaries, key rotation and backup access together with storage and transport configuration.",
+      "aliases": [
+        "encryption",
+        "key management",
+        "storage security",
+        "kms",
+        "tenant data"
+      ]
+    },
+    {
+      "id": "SUP-01",
+      "what_it_is": "Record and constrain the executable versions and immutable artifacts used by the system.",
+      "why_it_matters": "A floating dependency or runtime install can change the code behind an approved agent or MCP server.",
+      "agent_mcp_context": "Review effective lockfiles, images, models and plugins and flag package sources or remote scripts outside approved release paths.",
+      "aliases": [
+        "dependency pinning",
+        "lockfile",
+        "sbom",
+        "digest",
+        "versions"
+      ]
+    },
+    {
+      "id": "SUP-02",
+      "what_it_is": "Assess known vulnerabilities and maintenance status in the resolved dependencies.",
+      "why_it_matters": "An apparently clean source scan can still ship a vulnerable or unsupported library or base image.",
+      "agent_mcp_context": "Use appropriate advisory tooling, record database age and resolved versions, and assess reachability and fix availability; this scanner does not query CVE feeds.",
+      "aliases": [
+        "cve",
+        "vulnerability scanning",
+        "dependency audit",
+        "sca",
+        "maintenance"
+      ]
+    },
+    {
+      "id": "SUP-03",
+      "what_it_is": "Verify artifact identity, publisher trust and build provenance before enabling it.",
+      "why_it_matters": "A valid digest can identify malicious bytes just as precisely as trusted bytes.",
+      "agent_mcp_context": "Check signatures, publisher identity and origin for server packages and model artifacts, including model-loader serialization behavior.",
+      "aliases": [
+        "provenance",
+        "artifact signing",
+        "slsa",
+        "model signing",
+        "integrity"
+      ]
+    },
+    {
+      "id": "SUP-04",
+      "what_it_is": "Protect the build and release path and the credentials it can access.",
+      "why_it_matters": "Untrusted changes to workflows or agent configuration may execute with deployment authority.",
+      "agent_mcp_context": "Review CI permissions, action references, build scripts and promotion controls, especially contributions that can alter approved tool policies.",
+      "aliases": [
+        "ci cd",
+        "github actions",
+        "release security",
+        "build pipeline"
+      ]
+    },
+    {
+      "id": "SUP-05",
+      "what_it_is": "Use restrictive runtime identities and deployment boundaries around agent execution.",
+      "why_it_matters": "Root, privileged mounts or runtime sockets can turn a tool compromise into broader host access.",
+      "agent_mcp_context": "Separate execution from control-plane credentials and audit storage; test capabilities, network policy and management exposure in the actual deployment.",
+      "aliases": [
+        "container security",
+        "docker socket",
+        "privileged",
+        "nonroot",
+        "isolation",
+        "built image"
+      ]
+    },
+    {
+      "id": "SUP-06",
+      "what_it_is": "Separate training, evaluation and production authority when developing models.",
+      "why_it_matters": "An untrusted training job or altered adapter could replace an approved production artifact.",
+      "agent_mcp_context": "Protect datasets, weights, registries and release permissions independently and demonstrate that development identities cannot promote arbitrary model state.",
+      "aliases": [
+        "fine tuning",
+        "training security",
+        "ml pipeline",
+        "model development"
+      ]
+    },
+    {
+      "id": "OPS-01",
+      "what_it_is": "Produce an attributable and protected history of security-relevant actions.",
+      "why_it_matters": "Without correlated identities and outcomes, an agent incident may be impossible to reconstruct.",
+      "agent_mcp_context": "Record the initiator, delegated identity, tool/version, necessary redacted argument context, policy decision and outcome, and prevent the agent from erasing that evidence.",
+      "aliases": [
+        "audit trail",
+        "attribution",
+        "correlation",
+        "security logs"
+      ]
+    },
+    {
+      "id": "OPS-02",
+      "what_it_is": "Enforce resource and spending budgets across the complete unit of work.",
+      "why_it_matters": "Loops, retries and child agents can multiply consumption beyond a per-request limit.",
+      "agent_mcp_context": "Bound iterations, calls, tokens, bytes, elapsed time and concurrency with server-enforced accounting that survives delegation and retries.",
+      "aliases": [
+        "rate limits",
+        "cost",
+        "budget",
+        "denial of service",
+        "resource exhaustion",
+        "runaway agents"
+      ]
+    },
+    {
+      "id": "OPS-03",
+      "what_it_is": "Make cancellation revoke future work and stop consequential effects.",
+      "why_it_matters": "Stopping a user interface does not necessarily cancel queued actions, child processes or usable credentials.",
+      "agent_mcp_context": "Measure stop latency and test whether disconnected or cancelled MCP/agent requests can still commit side effects.",
+      "aliases": [
+        "kill switch",
+        "cancellation",
+        "shutdown",
+        "stop mechanism"
+      ]
+    },
+    {
+      "id": "OPS-04",
+      "what_it_is": "Keep failure and recovery paths from widening authority or repeating side effects.",
+      "why_it_matters": "A timeout, fallback or retry can execute an action twice or bypass a failed policy check.",
+      "agent_mcp_context": "Deny or escalate on identity/approval failures and test idempotency, partial commits and alternate-model or tool paths.",
+      "aliases": [
+        "fail closed",
+        "idempotency",
+        "retries",
+        "fallback",
+        "transaction safety"
+      ]
+    },
+    {
+      "id": "OPS-05",
+      "what_it_is": "Detect unusual behavior and restore trusted system state after harmful changes.",
+      "why_it_matters": "Unexpected destinations or scope growth can remain invisible until many automated actions have occurred.",
+      "agent_mcp_context": "Seed observable events to verify alerts, and test rollback of prompts, models, tools, policies and poisoned memory.",
+      "aliases": [
+        "monitoring",
+        "alerts",
+        "rollback",
+        "anomaly detection"
+      ]
+    },
+    {
+      "id": "OPS-06",
+      "what_it_is": "Prepare and exercise an incident response process for agent-specific failures.",
+      "why_it_matters": "Stopping an agent without revoking credentials or preserving evidence may leave the compromise active.",
+      "agent_mcp_context": "Practice isolation, owner notification, recovery and approved disclosure channels while protecting sensitive investigation data.",
+      "aliases": [
+        "incident response",
+        "recovery",
+        "disclosure",
+        "credential revocation"
+      ]
+    },
+    {
+      "id": "TEST-01",
+      "what_it_is": "Measure adversarial safety alongside authorized task completion in representative workflows.",
+      "why_it_matters": "A defense that blocks every useful action can appear safe, while a model-only score misses tool side effects.",
+      "agent_mcp_context": "Run paired benign and hostile external-content cases and record attacker success, useful-task success, false blocks and unauthorized effects.",
+      "aliases": [
+        "prompt injection",
+        "agentdojo",
+        "injecagent",
+        "paired evaluation",
+        "attack success rate"
+      ]
+    },
+    {
+      "id": "TEST-02",
+      "what_it_is": "Repeat and vary adversarial scenarios under a stated attacker budget.",
+      "why_it_matters": "A single fixed prompt or aggregate average can hide failures that appear with another placement or attempt.",
+      "agent_mcp_context": "Record model and harness versions, modalities, sample counts and per-scenario uncertainty when retesting changed defenses.",
+      "aliases": [
+        "adaptive testing",
+        "red teaming",
+        "repeated trials",
+        "prompt injection",
+        "attack budget"
+      ]
+    },
+    {
+      "id": "TEST-03",
+      "what_it_is": "Exercise authentication and protocol abuse against the actual MCP revision in an isolated environment.",
+      "why_it_matters": "Correct-looking source does not establish how a deployed transport handles hostile peers or malformed state.",
+      "agent_mcp_context": "Test wrong-audience tokens, origins, malicious servers and protocol inputs with sanitized request/response evidence.",
+      "aliases": [
+        "mcp security benchmark",
+        "mcpsecbench",
+        "msb",
+        "mcp safetybench",
+        "protocol fuzzing"
+      ]
+    },
+    {
+      "id": "TEST-04",
+      "what_it_is": "Test isolation using distinct principals across every stateful surface.",
+      "why_it_matters": "An authorization check may work on objects but fail on caches, memory, subscriptions or resumed work.",
+      "agent_mcp_context": "Attempt cross-user and cross-agent access after delegation, reconnect, concurrency and revocation, retaining denied-access evidence.",
+      "aliases": [
+        "cross tenant",
+        "tenant isolation",
+        "cross agent",
+        "idor",
+        "bola"
+      ]
+    },
+    {
+      "id": "TEST-05",
+      "what_it_is": "Test forbidden-action boundaries across approvals, policy and sandbox alternatives.",
+      "why_it_matters": "A safeguard on one execution path may be bypassed through a different tool, retry or child agent.",
+      "agent_mcp_context": "Use explicit canaries and verify consistent enforcement after hostile content, tool substitution and delayed execution.",
+      "aliases": [
+        "sandbox escape",
+        "approval bypass",
+        "policy bypass",
+        "canary actions"
+      ]
+    },
+    {
+      "id": "TEST-06",
+      "what_it_is": "Apply conventional application security validation to the interfaces agents can reach.",
+      "why_it_matters": "AI-specific controls do not replace ordinary access control, injection prevention or dependency review.",
+      "agent_mcp_context": "Combine language-aware analysis, secrets/dependency tools and authorized integration tests against reachable application behavior.",
+      "aliases": [
+        "sast",
+        "application security",
+        "dast",
+        "penetration testing",
+        "code scanning"
+      ]
+    },
+    {
+      "id": "TEST-07",
+      "what_it_is": "Exercise resource exhaustion and validate the supporting telemetry and shutdown path.",
+      "why_it_matters": "A quota can fail operationally if slow peers, stream floods or unavailable dependencies defeat accounting or alerts.",
+      "agent_mcp_context": "Test oversized traffic, recursive work and repeated failures together with attribution, cancellation and leakage prevention.",
+      "aliases": [
+        "load testing",
+        "resource exhaustion",
+        "stream floods",
+        "observability testing"
+      ]
+    },
+    {
+      "id": "TEST-08",
+      "what_it_is": "Evaluate the optional security reviewer as another untrusted, fallible component.",
+      "why_it_matters": "A model may accept repository instructions, invent evidence or emit malformed judgments.",
+      "agent_mcp_context": "Use labeled cases and hostile inputs, validate identifiers/citations/output shape, preserve deterministic findings and report omissions and model variability.",
+      "aliases": [
+        "security judge",
+        "llm judge",
+        "false positives",
+        "false negatives",
+        "detector accuracy"
+      ]
+    },
+    {
+      "id": "TEST-09",
+      "what_it_is": "Evaluate model-layer threats when hosting, acquiring or customizing models.",
+      "why_it_matters": "Behavioral triggers, extraction or training-data disclosure may not be visible in application source patterns.",
+      "agent_mcp_context": "Set explicit attacker access and query budgets, identify the tested model/adapters and retain measured limits before promoting a new model.",
+      "aliases": [
+        "backdoor",
+        "model extraction",
+        "training data leakage",
+        "membership inference",
+        "model security"
+      ]
+    }
+  ]
+}

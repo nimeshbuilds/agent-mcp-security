@@ -1,0 +1,142 @@
+Invarune security explorer — offline deterministic catalog
+
+66 controls / 132 acceptance checks / 42 rules / 75 sources
+26 controls have partial static rule mappings; no control or check is declared passed.
+
+Offline catalog lookup only: no target scan, model call, endpoint probe or runtime validation.
+
+AUTH-02:2 — Deny by default; test read-only callers against write tools and object identifiers owned by another user.
+This is an acceptance criterion to validate. Listed rules map to its parent control and are not proof that this individual check is automated or satisfied.
+Parent control context:
+AUTH-02 — Authorize the exact action and target
+Category: Identity and authorization
+What it is: Authorize the exact identity, tenant, operation and resource immediately before the action.
+Why it matters: Being logged in does not grant permission to every tool or every other user's objects.
+AI agent / MCP context: MCP tool names, object identifiers and agent-generated arguments must pass server-side policy for each invocation.
+Acceptance checks (hybrid; not automated passes):
+  AUTH-02:1 — Check user/agent identity, tenant, tool, target object, and requested operation immediately before execution.
+  AUTH-02:2 — Deny by default; test read-only callers against write tools and object identifiers owned by another user.
+Deterministic coverage: partial
+Mapped rules identify the specific patterns described below. Their absence does not validate this control or either acceptance check.
+Control-level mapping only; no per-check automated pass is inferred. A built image can omit source and does not reveal deployed identity, policy or runtime behavior.
+AI027 — Wildcard tool or permission authorization [high]
+  Detects: An authorization or tool allowlist explicitly grants a wildcard or all-tools capability. This may give an agent broader authority than its task requires.
+  Remediation: Replace wildcard grants with named tools and constrained resources; enforce authorization server-side for each call and require approval for sensitive effects.
+  CWE: CWE-732
+  A recognized source pattern is a review signal, not proof of reachable exploitation, complete data flow, runtime protection or an acceptance-check pass.
+  Partial control mappings: AUTH-02, AGT-01
+MCP-SECURITY — MCP Security Best Practices
+  Relationship: rule_technical_reference
+  Organization: Model Context Protocol maintainers
+  Version: 2026-07-28
+  Kind: Protocol security guidance
+  Date: 2026-07-28
+  Accessed: 2026-09-19
+  Url: https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices
+  Scope: Confused deputy, token forwarding, discovery SSRF, local launch, URL handling and registration trust.
+  Limitations: Companion guidance is not a production assurance result. Use this moved documentation path rather than the older specification path.
+OWASP-LLM2026 — OWASP GenAI LLM Top 10 2026
+  Relationship: rule_technical_reference
+  Organization: OWASP GenAI Security Project
+  Version: 2026 edition
+  Kind: Threat prioritization
+  Date: 2026-08-03
+  Accessed: 2026-09-19
+  Url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+  Scope: Security risks of LLM-powered applications and their connected data and execution paths.
+  Limitations: Do not silently transfer category numbering from the 2025 edition. Date follows the displayed page rather than next-day UTC metadata.
+Control sources and thematic alignments:
+JOINT-AGENTIC — Careful adoption of agentic AI services
+  Relationship: primary_control_source
+  Organization: ASD ACSC, CISA, NSA, CCCS, NCSC-NZ, NCSC-UK
+  Version: Joint guidance
+  Kind: Government guidance
+  Date: 2026-05-01
+  Accessed: 2026-09-19
+  Url: https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/careful-adoption-of-agentic-ai-services
+  Scope: Agent privileges, identity, trust boundaries, autonomy, oversight, supply chain and accountable operation.
+  Limitations: ASD publication date; NSA announced it on April 30. Recommendations require system-specific implementation and evidence; this is not an executable benchmark.
+MCP-TOOLS — MCP: Tools
+  Relationship: primary_control_source
+  Organization: Model Context Protocol maintainers
+  Version: 2026-07-28
+  Kind: Protocol specification
+  Date: 2026-07-28
+  Accessed: 2026-09-19
+  Url: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+  Scope: Tool input/output schemas, identity, annotations, access controls and implementation responsibilities.
+  Limitations: Descriptions and annotations are untrusted metadata; they do not enforce read-only behavior or least privilege.
+CSA-AICM — AI Controls Matrix v1.1
+  Relationship: thematic_alignment
+  Organization: Cloud Security Alliance
+  Version: 1.1
+  Kind: control framework and assessment questionnaire
+  Date: 2026-06-22
+  Accessed: 2026-09-19
+  Url: https://cloudsecurityalliance.org/artifacts/ai-controls-matrix-v1-1
+  Scope: 247 control objectives across 18 domains; AI service roles, lifecycle safeguards, and AI-CAIQ supplier assessment.
+  Limitations: Release page verified; complete workbook not reviewed or reproduced. Engineering alignment only; no exact AICM control mapping or certification claim.
+CSA-AGENT-IAM — Agentic AI Identity and Access Management: A New Approach
+  Relationship: thematic_alignment
+  Organization: Cloud Security Alliance
+  Version: Publication dated 2025-08-18
+  Kind: architecture guidance
+  Date: 2025-08-18
+  Accessed: 2026-09-19
+  Url: https://cloudsecurityalliance.org/artifacts/agentic-ai-identity-and-access-management-a-new-approach
+  Scope: Agent identity profiles, lifecycle governance, delegation, policy enforcement, and revocation.
+  Limitations: Proposed architecture; technology choices such as decentralized identifiers are not universal deployment requirements.
+CSA-SCOPING — Enhancing the Agentic AI Security Scoping Matrix: A Multi-Dimensional Approach
+  Relationship: thematic_alignment
+  Organization: Cloud Security Alliance
+  Version: Publication dated 2025-12-16
+  Kind: risk-scoping guidance
+  Date: 2025-12-16
+  Accessed: 2026-09-19
+  Url: https://cloudsecurityalliance.org/blog/2025/12/16/enhancing-the-agentic-ai-security-scoping-matrix-a-multi-dimensional-approach
+  Scope: Access capability and risk exposure across identity, data, logging, agent controls, boundaries, and orchestration.
+  Limitations: CSA commentary extends an AWS framework. Scoping does not provide measured attack resistance.
+CIS-MCP-2026 — Model Context Protocol (MCP) Companion Guide
+  Relationship: thematic_alignment
+  Organization: Center for Internet Security
+  Version: v1.0 / CIS Controls v8.1
+  Kind: implementation guidance
+  Date: 2026-04-20
+  Accessed: 2026-09-19
+  Url: https://www.cisecurity.org/insights/white-papers/controls-v8-1-model-context-protocol-companion-guide
+  Document url: https://storage.pardot.com/799323/1776872497Zw9RMQnm/CIS_Controls_v8.1_Model_Context_Protocol_Companion_Guide_April_2026.pdf
+  Scope: Security across MCP hosts, clients, servers, gateways, and connected systems.
+  Limitations: Official 82-page PDF reviewed; reconcile protocol-era details with deployed MCP. CIS CC BY-NC-ND terms apply to original guide.
+OWASP-AISVS-C9 — AISVS 1.0 C9 - Orchestration and Agentic Security
+  Relationship: thematic_alignment
+  Organization: OWASP
+  Version: 1.0, C9
+  Kind: verification requirements
+  Date: 2026-06
+  Accessed: 2026-09-19
+  Url: https://github.com/OWASP/AISVS/blob/main/1.0/en/0x10-C09-Orchestration-and-Agentic-Action.md
+  Scope: Agent execution budgets, approval, isolation, identity, delegation, and shutdown.
+  Limitations: Selected context mappings, not full AISVS conformance. Apply verification levels and preserve version-qualified identifiers.
+OWASP-AISVS-C10 — AISVS 1.0 C10 - Model Context Protocol Security
+  Relationship: thematic_alignment
+  Organization: OWASP
+  Version: 1.0, C10
+  Kind: verification requirements
+  Date: 2026-06
+  Accessed: 2026-09-19
+  Url: https://github.com/OWASP/AISVS/blob/main/1.0/en/0x10-C10-MCP-Security.md
+  Scope: MCP integrity, authorization, transport, schemas, and tool-change review.
+  Limitations: Application policy may exceed protocol requirements. Legacy initialize/session references require deployed-version interpretation; no full conformity claimed.
+
+Interpretation and source relationships:
+Invarune-authored engineering explanations and acceptance checks; source links provide provenance and context.
+primary_control_source identifies the catalog's original source context; thematic_alignment is broader relevance; rule_technical_reference supports a detector or remediation. None is an official clause-level compliance crosswalk.
+Mapped rules offer partial source/configuration pattern coverage of a control, not proof of any individual acceptance check. No finding does not mean pass.
+Image scans inspect packaged source/configuration, image metadata and supported retained-layer evidence. Binary-only logic, deployed controls, CVE exposure and publisher trust are not established.
+
+Run a scan separately:
+  invscan TARGET --output ./scan-report
+  invscan --image-archive ./agent-image.tar --output ./image-report
+These scan commands run the applicable deterministic rules within selected scope. Catalog search does not scan or select rules. User exceptions and scope limits remain explicit.
+More: invscan --list-topics; invscan --list-controls --catalog-format text; invscan --help
+
