@@ -1,0 +1,90 @@
+{
+  "after": {
+    "coverage_gaps": 0,
+    "exit_code": 0,
+    "finding_status": "justified",
+    "justified_findings": 1,
+    "open_findings": 0
+  },
+  "assertions": {
+    "browser_displayed_original_snapshot_until_rescan": true,
+    "download_was_created_by_actual_button": true,
+    "justified_is_distinct_from_pass": true,
+    "no_DOM_script_mutation_or_capsule_editing": true,
+    "reviewer_reason_and_reference_preserved": true,
+    "stable_finding_identity": true,
+    "unchanged_evidence_severity_and_location": true
+  },
+  "before": {
+    "exit_code": 1,
+    "finding_status": "open",
+    "open_findings": 1
+  },
+  "browser": "Chrome",
+  "browser_transport": "CUA Chrome extension",
+  "display_path_note": "Actual run used ignored temporary output paths; the same generated file was edited in Chrome, downloaded to the default Downloads directory, and copied unchanged for CLI import. No existing Downloads files were altered or deleted.",
+  "limitations": [
+    "This validates a current Chrome browser path and one finding justification; it does not establish every browser or interactive PDF viewer behaves identically.",
+    "A justification is a recorded reviewer exception, not proof of remediation or a control pass.",
+    "The downloaded HTML report was used directly; browser Save As was not used."
+  ],
+  "local_artifacts_sha256": {
+    "invarune-reviewed.html": "08f04d1d268fadde3e33406c7e2addeaa6d443b27c07721d5a24325ea78d90a3",
+    "original/report.html": "3319f37bd7c035d0854c7fa21f2699a10b19621626c5ae5ff2405e011b9bb10b",
+    "original/report.json": "44a2a5fc8b1f9b434a4e08da3de8a114159fb77bf4debf4f54ac342710b21a5f",
+    "reviewed/report.html": "6cd58e1c437f022807b9f132085e33294643bbd0f955fd9ed08c7eb9c1e54f5c",
+    "reviewed/report.json": "8fa34a7eb1e38cb36cd793b2fb5f523ed5d2fe86a4ebf244a33a48654f7dd8dc"
+  },
+  "original_scan_command": [
+    "invscan",
+    "examples/vulnerable",
+    "--scans",
+    "AI002",
+    "--report",
+    "scan-report/scenarios/08-html-original"
+  ],
+  "recorded_at_utc": "2026-09-24T17:37:59.205524+00:00",
+  "report_transport": "Temporary loopback-only HTTP server",
+  "review_record": {
+    "decision": "justified",
+    "evidence_ref": "examples/vulnerable/agent.py:9",
+    "reason": "Scenario 08 HTML UI test only: this inert example is retained for scanner training and is never executed or deployed.",
+    "reviewed_at": "",
+    "reviewer": "Scenario validation"
+  },
+  "reviewed_scan_command": [
+    "invscan",
+    "examples/vulnerable",
+    "--scans",
+    "AI002",
+    "--review-report",
+    "invarune-reviewed.html",
+    "--report",
+    "scan-report/scenarios/08-html-reviewed"
+  ],
+  "scanner": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.15.0"
+  },
+  "scenario": 8,
+  "schema_version": "1.0",
+  "scope": "Real browser form editing, Download reviewed HTML button, and installed CLI re-import against the same explicit source fixture and selected rule. Source fixture code was never executed.",
+  "selected_scans": [
+    "AI002"
+  ],
+  "source_fixture": "examples/vulnerable",
+  "status": "passed",
+  "ui_actions": [
+    "Opened the generated HTML report in a new Chrome tab",
+    "Expanded Record your review for AI002 at agent.py:9",
+    "Selected Justified by reviewer",
+    "Entered reason, reviewer, and evidence reference through visible form fields",
+    "Confirmed the visible 1 of 3 items have a review decision status",
+    "Clicked Download reviewed HTML",
+    "Confirmed the visible Reviewed HTML downloaded message",
+    "Located the single newly downloaded invarune-reviewed.html and imported that exact file through invscan --review-report"
+  ]
+}

@@ -73,6 +73,17 @@ python scripts/validate_report_review.py --command invscan --output test-output/
 
 Use a new empty directory. The helper runs source and archive scans, edits canonical user fields, imports the reports and validates bound decisions, summaries and statuses. Fixture findings intentionally produce nonzero scan exits; the helper checks those expected codes instead of treating every nonzero result as a harness failure.
 
+## Keep the scenario guide executable
+
+The [ten-scenario guide](../SCENARIOS.md) is backed by [a command manifest](../../examples/scenarios/scenarios.json) and [an installed-workflow validator](../../scripts/validate_scenarios.py). The validator checks documented command blocks against the manifest before running them, then records observed exit codes, evidence assertions and explicit external prerequisites. A new CLI option must be mapped into the guide; an option's presence in the coverage table alone does not establish live service compatibility.
+
+```sh
+python scripts/validate_scenarios.py --check-docs-only
+python scripts/validate_scenarios.py --output test-output/scenarios
+```
+
+Use a fresh output directory. The default scenario run installs optional PDF/AI dependencies in a new environment and exercises inert fixtures plus a loopback gateway. It does not authenticate to a real provider or pull a registry image. The separately recorded live CLI experiment and runtime prerequisites retain their own scope. [Recorded scenario results](../../benchmarks/scenarios-v015/README.md).
+
 ## Package and platform checks
 
 Build a wheel in a fresh output directory:
@@ -83,14 +94,15 @@ python -m pip wheel --no-deps --wheel-dir test-output/developer-wheels .
 
 Install that wheel into another clean environment and run from outside the repository. Use the exact filename printed by the build, not an old wheel selected by a broad wildcard. Check `invscan`, `invarune` and `ai-security-scan`; all must dispatch to the same `cli:main`. Catalog JSON files are packaged through `tool.setuptools.package-data`, so test explorer and report generation after installation, not only import/version.
 
-[`tests.yml`](../../.github/workflows/tests.yml) currently separates eight jobs:
+[`tests.yml`](../../.github/workflows/tests.yml) currently separates ten jobs:
 
 - Unit/workflow jobs on Linux Python 3.9, 3.12 and 3.14, macOS Python 3.12 and Windows Python 3.12.
 - A Linux Python 3.12 installed Headroom/loopback quickstart job.
 - A package/schema job covering wheel installation, aliases, review formats and SARIF validation.
 - A Linux Docker built-image integration job.
+- Two complete installed scenario-guide jobs on Linux and Windows, including PDF and six local gateway protocols.
 
-The Windows quickstart deliberately skips PDF and gateway portions; the other jobs cover those features. Do not present that narrowed Windows recipe as the full optional-integration run. Preserve `.gitattributes` LF rules: historical SHA-256 receipts bind literal bytes, and CRLF conversion can invalidate evidence even when text looks identical.
+The older Windows quickstart step deliberately skips PDF and gateway portions; the separate full scenario-guide job exercises both on Windows. Do not present that narrowed Windows recipe as the full optional-integration run. Preserve `.gitattributes` LF rules: historical SHA-256 receipts bind literal bytes, and CRLF conversion can invalidate evidence even when text looks identical.
 
 The real image helper is Linux-oriented and needs a working Docker daemon:
 

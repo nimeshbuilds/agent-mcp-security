@@ -27,6 +27,7 @@ jobs:
         run: python -m pip install -r requirements-docs.txt
       - name: Validate benchmark data and chart provenance
         run: |
+          python scripts/validate_scenarios.py --check-docs-only
           python scripts/build_scan_coverage.py --check
           python scripts/build_benchmark_dashboard.py --check
           python scripts/build_benchmark_update.py --validate-only

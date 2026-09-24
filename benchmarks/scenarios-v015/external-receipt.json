@@ -1,0 +1,224 @@
+{
+  "container_runtimes": {
+    "docker": {
+      "daemon_available": false,
+      "fresh_built_image_tested": false,
+      "installed": false
+    },
+    "podman": {
+      "daemon_available": false,
+      "fresh_built_image_tested": false,
+      "installed": false
+    }
+  },
+  "explicit_omissions": [
+    "No fresh local Docker/Podman-built image: neither runtime is installed.",
+    "Claude live inference and browser sign-in: the installed CLI is logged out.",
+    "Grok live inference and browser sign-in: the current profile fails the restricted extension/instruction preflight.",
+    "No claim that all API providers or external account configurations were live-tested."
+  ],
+  "finished_at_utc": "2026-09-24T17:31:20.270673+00:00",
+  "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+  "live_codex_scenario": {
+    "analyst_status": "completed",
+    "check_status_counts": {
+      "insufficient_evidence": 1,
+      "potential_gap": 1
+    },
+    "command": [
+      "invscan",
+      "examples/investigation/context-tools",
+      "--scans",
+      "EXEC-05",
+      "--judge-cli",
+      "codex",
+      "--judge-login",
+      "never",
+      "--judge-timeout",
+      "180",
+      "--analyst-batch-size",
+      "1",
+      "--analyst-max-calls",
+      "3",
+      "--analyst-time-budget",
+      "600",
+      "--analyst-investigation-rounds",
+      "2",
+      "--report",
+      "scan-report/scenarios/10-codex",
+      "--summary-json"
+    ],
+    "control_review_calls": 2,
+    "default_model_used": true,
+    "deterministic_findings_and_summary_equal_baseline": true,
+    "elapsed_seconds": 73.335,
+    "exit_code": 0,
+    "finding_triage_calls": 1,
+    "finished_at_utc": "2026-09-24T17:30:04.545539+00:00",
+    "followup_evidence": [
+      {
+        "end_line": 41,
+        "fixture_file": "delivery.py",
+        "new_characters_charged": 324,
+        "purpose": "counterevidence",
+        "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+        "start_line": 13,
+        "status": "served"
+      }
+    ],
+    "generated_formats": [
+      "report.html",
+      "report.json",
+      "report.md",
+      "report.sarif"
+    ],
+    "headroom": {
+      "bytes_after": 13096,
+      "bytes_before": 13524,
+      "bytes_saved": 428,
+      "cost_savings_measured": false,
+      "engine": "headroom",
+      "evidence_preserved": true,
+      "optimized_calls": 3,
+      "token_savings_measured": false,
+      "version": "0.37.0"
+    },
+    "investigation": {
+      "enabled": true,
+      "excerpt_characters_used": 1471,
+      "max_rounds_per_batch": 2,
+      "protocol": "manifest_snapshot_ranges_v1",
+      "requests_attempted": 1,
+      "requests_denied": 0,
+      "requests_served": 1,
+      "rounds_completed": 1,
+      "snapshot_files_offered": 2,
+      "snapshot_files_omitted": 0,
+      "structured_analysis_checks": 2
+    },
+    "judge_status": "completed",
+    "limits": [
+      "Model answers and number of follow-up ranges may vary on another run.",
+      "CLI subscriptions, service availability, account entitlement and provider defaults are external prerequisites.",
+      "These CLI capability restrictions rely on a trusted installed executable and administrator policy; they are not an OS sandbox.",
+      "Zero static findings in the selected control do not establish that the fixture is secure."
+    ],
+    "local_report_files_sha256": {
+      "report.html": "3981a85184f3a329b4a7f3113a08a0cfda6a338095f453faa0f53bdbcfaeff71",
+      "report.json": "5713a815e5a19bd22a9a7eca258b3503f27bb13d8576504b983e9b61e4326d91",
+      "report.md": "dfc5c731cdd32c68112a25109347bec5434e5d2436d193c836c913f6c34d3a67",
+      "report.sarif": "35c24d16383d634dd0bfed9fac7c96e0e6c870fad74dd051798d951827171c54"
+    },
+    "model": "gpt-6-astra",
+    "path_note": "Actual command used absolute fixture/output paths from outside checkout; public command shows equivalent portable paths. Report artifacts remain local; no source fixture was executed.",
+    "scenario": 10,
+    "source_files_sha256": {
+      "agent.py": "3f8ad0be3946f65cce7217f596f63de4fa2bde0cd62d8f397702d7bd83c1c199",
+      "delivery.py": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c"
+    },
+    "source_fixture": "examples/investigation/context-tools",
+    "started_at_utc": "2026-09-24T17:28:51.210301+00:00",
+    "status": "passed",
+    "summary": {
+      "assessment": "static_triage_only",
+      "bytes_charged": 1243,
+      "bytes_read": 1243,
+      "coverage_gaps": 0,
+      "failed_read_bytes_charged": 0,
+      "files_scanned": 2,
+      "open_findings": 0,
+      "scan_complete_within_selected_scope": true,
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "info": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "suppressed_findings": 0
+    },
+    "total_calls": 3
+  },
+  "prior_built_image_validation": {
+    "commit": "2a79751a4d49152dfc0a1031d9a06f84ac9bf7d7",
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "job": {
+      "completedAt": "2026-09-24T02:20:15Z",
+      "conclusion": "success",
+      "name": "built-image-integration",
+      "startedAt": "2026-09-24T02:20:02Z",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805/job/107466429155"
+    },
+    "kind": "prior CI evidence; not a fresh local test",
+    "receipt": "benchmarks/validation-v015/ci-receipt.json",
+    "receipt_sha256": "5ae414d9971a285f44a6aeb68850a25073993b41f8ba0613ed118d63ce1c96d7",
+    "script": "scripts/validate_image_scan.py",
+    "script_sha256": "44908014390485ed51d469417b485d60e6029dd635f680b2c3464450775488a4",
+    "verified_features": [
+      "Scratch image built with networking disabled; no target container started",
+      "Local runtime image reference and saved archive agree",
+      "Packaged Python source inspected",
+      "Runtime configuration and retained layer synthetic credentials detected and redacted",
+      "Review justifications preserve finding identities",
+      "Binary-only image honestly reports metadata-only scope"
+    ]
+  },
+  "providers": {
+    "claude": {
+      "default_model": "opus",
+      "installed": true,
+      "live_inference_tested": false,
+      "logged_in": false,
+      "verification": "official_cli_status",
+      "version": "2.1.214"
+    },
+    "codex": {
+      "default_model": "gpt-6-astra",
+      "installed": true,
+      "live_inference_tested": true,
+      "logged_in": true,
+      "verification": "official_cli_status",
+      "version": "0.154.0"
+    },
+    "grok": {
+      "default_model": "grok-build",
+      "installed": true,
+      "live_inference_tested": false,
+      "preflight": "unavailable",
+      "sanitized_reason": "Grok CLI has active extensions or external instructions (hooks, plugins, skills). Use a dedicated clean GROK_HOME signed in with the official CLI; no credentials are copied by Invarune.",
+      "version": "0.2.60"
+    }
+  },
+  "recorded_at_utc": "2026-09-24T17:28:16.376288+00:00",
+  "scanner_version": "0.15.0",
+  "schema_version": "1.0",
+  "scope": "External prerequisites and installed CLI end-to-end validation for the ten scenario guide. This fresh local test submitted only an authored inert two-file fixture to Codex. Provider judgments are advisory, not accuracy ground truth. No login flow or target code was executed.",
+  "unavailable_provider_scans": [
+    {
+      "control_review_calls": 0,
+      "deterministic_findings_and_summary_preserved": true,
+      "exit_code": 2,
+      "interactive_login_tested": false,
+      "judge_login": "never",
+      "judge_status": "error",
+      "live_inference_tested": false,
+      "provider": "claude",
+      "report_generated": true,
+      "sanitized_error": "CLI sign-in is missing or expired. Run invarune --login with the selected provider, or use an interactive scan for automatic login. Deterministic results are preserved.",
+      "status": "expected_fail_closed"
+    },
+    {
+      "control_review_calls": 0,
+      "deterministic_findings_and_summary_preserved": true,
+      "exit_code": 2,
+      "interactive_login_tested": false,
+      "judge_login": "never",
+      "judge_status": "error",
+      "live_inference_tested": false,
+      "provider": "grok",
+      "report_generated": true,
+      "sanitized_error": "Grok CLI has active extensions or external instructions (hooks, plugins, skills). Use a dedicated clean GROK_HOME signed in with the official CLI; no credentials are copied by Invarune. Deterministic results are preserved.",
+      "status": "expected_fail_closed"
+    }
+  ]
+}

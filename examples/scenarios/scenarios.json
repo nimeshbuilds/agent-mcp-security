@@ -1,0 +1,1186 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Executed documentation journeys, not accuracy or runtime assurance.",
+  "scenarios": [
+    {
+      "id": "01",
+      "title": "Install, discover and ask offline",
+      "steps": [
+        {
+          "id": "version",
+          "argv": [
+            "{cli}",
+            "--version"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "0.15.0"
+          ]
+        },
+        {
+          "id": "full_help",
+          "argv": [
+            "{cli}",
+            "--help"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "--analyst-investigation-rounds",
+            "--image-archive"
+          ]
+        },
+        {
+          "id": "short_help",
+          "argv": [
+            "{cli}",
+            "-h"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "--review-report"
+          ]
+        },
+        {
+          "id": "all_help",
+          "argv": [
+            "{cli}",
+            "--help-topic",
+            "all"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "Custom JSON gateway configuration:"
+          ]
+        },
+        {
+          "id": "cookbook",
+          "argv": [
+            "{cli}",
+            "--examples"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "invscan"
+          ]
+        },
+        {
+          "id": "inventory",
+          "argv": [
+            "{cli}",
+            "--list-scans",
+            "--catalog-format",
+            "json"
+          ],
+          "expected_exit": 0
+        },
+        {
+          "id": "rule",
+          "argv": [
+            "{cli}",
+            "--explain-scan",
+            "AI043"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "AI043"
+          ]
+        },
+        {
+          "id": "rules",
+          "argv": [
+            "{cli}",
+            "--list-rules"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "AI047"
+          ]
+        },
+        {
+          "id": "controls",
+          "argv": [
+            "{cli}",
+            "--list-controls"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "GOV-01"
+          ]
+        },
+        {
+          "id": "rule_alias",
+          "argv": [
+            "{cli}",
+            "--explain-rule",
+            "AI002"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "AI002"
+          ]
+        },
+        {
+          "id": "topics",
+          "argv": [
+            "{cli}",
+            "--list-topics"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "prompt"
+          ]
+        },
+        {
+          "id": "question",
+          "argv": [
+            "{cli}",
+            "--ask",
+            "How do you check prompt injection?"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "AGT-03"
+          ]
+        },
+        {
+          "id": "control",
+          "argv": [
+            "{cli}",
+            "--explain-control",
+            "AUTH-01"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "AUTH-01"
+          ]
+        },
+        {
+          "id": "check",
+          "argv": [
+            "{cli}",
+            "--explain-check",
+            "AUTH-01:1"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "AUTH-01:1"
+          ]
+        },
+        {
+          "id": "sources",
+          "argv": [
+            "{cli}",
+            "--list-sources"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "MITRE-ATLAS"
+          ]
+        },
+        {
+          "id": "source",
+          "argv": [
+            "{cli}",
+            "--explain-source",
+            "MITRE-ATLAS"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "MITRE-ATLAS"
+          ]
+        },
+        {
+          "id": "invarune",
+          "argv": [
+            "{invarune}",
+            "--version"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "0.15.0"
+          ]
+        },
+        {
+          "id": "ai-security-scan",
+          "argv": [
+            "{ai-security-scan}",
+            "--version"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "0.15.0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "title": "Scan source and generate every report",
+      "steps": [
+        {
+          "id": "terminal",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "Scanned 2 files",
+            "Terminal output only"
+          ],
+          "no_reports_created": true
+        },
+        {
+          "id": "source_reports",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--report",
+            "{work}/02-source",
+            "--pdf",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/02-source/report.json",
+          "report_equals": {
+            "summary.open_findings": 11,
+            "summary.coverage_gaps": 0,
+            "judge.enabled": false,
+            "analyst.enabled": false,
+            "scoring.overall_security_score": null
+          },
+          "report_formats": [
+            "html",
+            "md",
+            "json",
+            "sarif",
+            "pdf"
+          ]
+        },
+        {
+          "id": "output_alias",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--output",
+            "{work}/02-safe",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{work}/02-safe/report.json",
+          "report_equals": {
+            "summary.open_findings": 0
+          }
+        },
+        {
+          "id": "default_report",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--report",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{cwd}/scan-report/report.json",
+          "report_equals": {
+            "summary.open_findings": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "title": "Select checks and find malicious skills or tools",
+      "steps": [
+        {
+          "id": "selected_rules",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--scans",
+            "AI001,AI002",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "stdout_json_equals": {
+            "scope.configuration.selected_rule_ids": [
+              "AI001",
+              "AI002"
+            ],
+            "reports": {}
+          }
+        },
+        {
+          "id": "manual_control",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--scan",
+            "GOV-01",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "stdout_json_equals": {
+            "scoring.deterministic.selected_rules": 0,
+            "summary.open_findings": 0,
+            "scoring.deterministic.active_checks": 2
+          }
+        },
+        {
+          "id": "skill_metadata",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/skills/risky",
+            "--scans",
+            "AI043,AI044,AI045,AI046",
+            "--report",
+            "{work}/03-skills",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/03-skills/report.json",
+          "report_equals": {
+            "summary.open_findings": 4,
+            "summary.coverage_gaps": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "title": "Constrain scope and recognize incomplete scans",
+      "steps": [
+        {
+          "id": "bounded_scope",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--exclude",
+            "requirements.txt",
+            "--exclude",
+            "Dockerfile",
+            "--max-file-bytes",
+            "1000000",
+            "--max-total-bytes",
+            "5000000",
+            "--max-files",
+            "100",
+            "--max-entries",
+            "1000",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "stdout_json_equals": {
+            "summary.coverage_gaps": 0,
+            "scope.configuration.exclude": [
+              "Dockerfile",
+              "requirements.txt"
+            ]
+          }
+        },
+        {
+          "id": "file_budget",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--max-file-bytes",
+            "10",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "expected_exit": 2,
+          "stdout_json_equals": {
+            "execution.exit_code": 2,
+            "scoring.deterministic.selected_scope_complete": false
+          }
+        },
+        {
+          "id": "total_budget",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--max-total-bytes",
+            "10",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "expected_exit": 2,
+          "stdout_json_equals": {
+            "execution.exit_code": 2,
+            "scoring.deterministic.selected_scope_complete": false
+          }
+        },
+        {
+          "id": "count_budget",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--max-files",
+            "1",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "expected_exit": 2,
+          "stdout_json_equals": {
+            "execution.exit_code": 2,
+            "scoring.deterministic.selected_scope_complete": false
+          }
+        },
+        {
+          "id": "entry_budget",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--max-entries",
+            "1",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "expected_exit": 2,
+          "stdout_json_equals": {
+            "execution.exit_code": 2,
+            "scoring.deterministic.selected_scope_complete": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "title": "Inspect built image archives without running them",
+      "steps": [
+        {
+          "id": "image_archive",
+          "argv": [
+            "{cli}",
+            "--image-archive",
+            "{repo}/examples/images/demo-agent.tar",
+            "--image-platform",
+            "linux/amd64",
+            "--image-max-archive-bytes",
+            "10000000",
+            "--image-max-unpacked-bytes",
+            "20000000",
+            "--image-max-entries",
+            "1000",
+            "--image-max-layers",
+            "10",
+            "--report",
+            "{work}/05-image",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/05-image/report.json",
+          "report_equals": {
+            "summary.open_findings": 3,
+            "image.container_started": false
+          }
+        },
+        {
+          "id": "selected_image",
+          "argv": [
+            "{cli}",
+            "--image-archive",
+            "{repo}/examples/images/demo-agent.tar",
+            "--scans",
+            "AI001",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "stdout_json_equals": {
+            "summary.open_findings": 0
+          }
+        },
+        {
+          "id": "image_help",
+          "argv": [
+            "{cli}",
+            "--help-topic",
+            "images"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "--image-runtime",
+            "--pull",
+            "--image-timeout"
+          ]
+        },
+        {
+          "id": "archive_limit",
+          "argv": [
+            "{cli}",
+            "--image-archive",
+            "{repo}/examples/images/demo-agent.tar",
+            "--image-max-archive-bytes",
+            "1",
+            "--summary-json"
+          ],
+          "expected_exit": 2,
+          "stdout_json_equals": {
+            "exit_code": 2,
+            "status": "operational_error"
+          }
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "title": "Use CI gates and reviewed baselines",
+      "steps": [
+        {
+          "id": "quiet_gate",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--quiet"
+          ],
+          "expected_exit": 1,
+          "stdout_empty": true
+        },
+        {
+          "id": "disabled_gate",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "stdout_json_equals": {
+            "summary.open_findings": 11,
+            "execution.finding_gate_triggered": false
+          }
+        },
+        {
+          "id": "write_baseline",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--write-baseline",
+            "{work}/06-baseline.json",
+            "--baseline-reason",
+            "TEST ONLY: accepted inert documentation fixture; not production approval.",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "stdout_json_equals": {
+            "summary.open_findings": 11
+          }
+        },
+        {
+          "id": "apply_baseline",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--baseline",
+            "{work}/06-baseline.json",
+            "--report",
+            "{work}/06-baselined",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{work}/06-baselined/report.json",
+          "report_equals": {
+            "summary.open_findings": 0,
+            "summary.suppressed_findings": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "title": "Keep justified and disabled exceptions auditable",
+      "steps": [
+        {
+          "id": "policy",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--review-config",
+            "{repo}/examples/review-config.json",
+            "--report",
+            "{work}/07-policy",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/07-policy/report.json",
+          "report_equals": {
+            "summary.open_findings": 9,
+            "summary.justified_findings": 1,
+            "summary.disabled_findings": 1,
+            "review_policy.counts.justified_checks": 1,
+            "review_policy.counts.disabled_controls": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "title": "Rescan edited reports in all five formats",
+      "steps": [
+        {
+          "id": "prepare",
+          "argv": [
+            "{python}",
+            "{repo}/examples/scenarios/prepare_reviews.py",
+            "--initial",
+            "{work}/02-source",
+            "--output",
+            "{work}/08-edited",
+            "--stale-target",
+            "{work}/08-changed-source"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "\"decisions\": 2"
+          ]
+        },
+        {
+          "id": "replay_html",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--review-report",
+            "{work}/08-edited/reviewed.html",
+            "--report",
+            "{work}/08-final-html",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/08-final-html/report.json",
+          "report_equals": {
+            "summary.open_findings": 10,
+            "summary.justified_findings": 1,
+            "review_policy.counts.justified_checks": 1,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "judge.enabled": false,
+            "analyst.enabled": false
+          }
+        },
+        {
+          "id": "replay_md",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--review-report",
+            "{work}/08-edited/reviewed.md",
+            "--report",
+            "{work}/08-final-md",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/08-final-md/report.json",
+          "report_equals": {
+            "summary.open_findings": 10,
+            "summary.justified_findings": 1,
+            "review_policy.counts.justified_checks": 1,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "judge.enabled": false,
+            "analyst.enabled": false
+          }
+        },
+        {
+          "id": "replay_json",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--review-report",
+            "{work}/08-edited/reviewed.json",
+            "--report",
+            "{work}/08-final-json",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/08-final-json/report.json",
+          "report_equals": {
+            "summary.open_findings": 10,
+            "summary.justified_findings": 1,
+            "review_policy.counts.justified_checks": 1,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "judge.enabled": false,
+            "analyst.enabled": false
+          }
+        },
+        {
+          "id": "replay_sarif",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--review-report",
+            "{work}/08-edited/reviewed.sarif",
+            "--report",
+            "{work}/08-final-sarif",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/08-final-sarif/report.json",
+          "report_equals": {
+            "summary.open_findings": 10,
+            "summary.justified_findings": 1,
+            "review_policy.counts.justified_checks": 1,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "judge.enabled": false,
+            "analyst.enabled": false
+          }
+        },
+        {
+          "id": "replay_pdf",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--review-report",
+            "{work}/08-edited/reviewed.pdf",
+            "--report",
+            "{work}/08-final-pdf",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/08-final-pdf/report.json",
+          "report_equals": {
+            "summary.open_findings": 10,
+            "summary.justified_findings": 1,
+            "review_policy.counts.justified_checks": 1,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "judge.enabled": false,
+            "analyst.enabled": false
+          }
+        },
+        {
+          "id": "stale_review",
+          "argv": [
+            "{cli}",
+            "{work}/08-changed-source",
+            "--review-report",
+            "{work}/08-edited/reviewed.json",
+            "--report",
+            "{work}/08-stale",
+            "--summary-json"
+          ],
+          "expected_exit": 2,
+          "report": "{work}/08-stale/report.json",
+          "report_equals": {
+            "review_import.incomplete": true,
+            "review_import.counts.stale": 2,
+            "review_import.counts.applied": 0
+          }
+        },
+        {
+          "id": "runtime_pending",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--review-report",
+            "{work}/08-edited/runtime-pending.json",
+            "--fail-on",
+            "none",
+            "--report",
+            "{work}/08-runtime-pending",
+            "--summary-json"
+          ],
+          "expected_exit": 2,
+          "report": "{work}/08-runtime-pending/report.json",
+          "report_equals": {
+            "review_import.incomplete": true,
+            "review_import.counts.unresolved": 1,
+            "review_import.counts.applied": 1,
+            "execution.finding_gate_triggered": false,
+            "summary.open_findings": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "title": "Exercise API gateways, optimization and bounded investigation",
+      "steps": [
+        {
+          "id": "gateway_server",
+          "argv": [
+            "{python}",
+            "{repo}/examples/scenarios/local_gateway.py",
+            "--output",
+            "{work}/09-gateway"
+          ],
+          "expected_exit": 0,
+          "background": true,
+          "ready_file": "{work}/09-gateway/ready.json"
+        },
+        {
+          "id": "api_custom",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "{work}/09-gateway/custom.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "{work}/09-custom",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{work}/09-custom/report.json",
+          "report_equals": {
+            "summary.open_findings": 0,
+            "analyst.enabled": true,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.check_status_counts.insufficient_evidence": 2
+          },
+          "optimizer": "headroom"
+        },
+        {
+          "id": "api_openai_chat",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "{work}/09-gateway/openai_chat.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "{work}/09-openai_chat",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{work}/09-openai_chat/report.json",
+          "report_equals": {
+            "summary.open_findings": 0,
+            "analyst.enabled": true,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.check_status_counts.insufficient_evidence": 2
+          },
+          "optimizer": "headroom"
+        },
+        {
+          "id": "api_openai_responses",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "{work}/09-gateway/openai_responses.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "{work}/09-openai_responses",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{work}/09-openai_responses/report.json",
+          "report_equals": {
+            "summary.open_findings": 0,
+            "analyst.enabled": true,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.check_status_counts.insufficient_evidence": 2
+          },
+          "optimizer": "headroom"
+        },
+        {
+          "id": "api_anthropic",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "{work}/09-gateway/anthropic.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "{work}/09-anthropic",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{work}/09-anthropic/report.json",
+          "report_equals": {
+            "summary.open_findings": 0,
+            "analyst.enabled": true,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.check_status_counts.insufficient_evidence": 2
+          },
+          "optimizer": "headroom"
+        },
+        {
+          "id": "api_gemini",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "{work}/09-gateway/gemini.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "{work}/09-gemini",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{work}/09-gemini/report.json",
+          "report_equals": {
+            "summary.open_findings": 0,
+            "analyst.enabled": true,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.check_status_counts.insufficient_evidence": 2
+          },
+          "optimizer": "headroom"
+        },
+        {
+          "id": "api_ollama",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "{work}/09-gateway/ollama.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "{work}/09-ollama",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{work}/09-ollama/report.json",
+          "report_equals": {
+            "summary.open_findings": 0,
+            "analyst.enabled": true,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.check_status_counts.insufficient_evidence": 2
+          },
+          "optimizer": "headroom"
+        },
+        {
+          "id": "investigation",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/investigation/context-tools",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "{work}/09-gateway/investigation.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-investigation-rounds",
+            "1",
+            "--analyst-max-files",
+            "10",
+            "--analyst-max-bytes",
+            "100000",
+            "--analyst-max-chars",
+            "20000",
+            "--analyst-time-budget",
+            "60",
+            "--token-optimizer",
+            "compact",
+            "--report",
+            "{work}/09-investigation",
+            "--summary-json"
+          ],
+          "expected_exit": 0,
+          "report": "{work}/09-investigation/report.json",
+          "report_equals": {
+            "summary.open_findings": 0,
+            "analyst.investigation.requests_served": 1,
+            "analyst.investigation.rounds_completed": 1
+          },
+          "optimizer": "builtin_compact"
+        },
+        {
+          "id": "findings_only",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/vulnerable",
+            "--judge-config",
+            "{work}/09-gateway/custom.json",
+            "--judge-mode",
+            "findings",
+            "--judge-include-source",
+            "--judge-max-findings",
+            "1",
+            "--token-optimizer",
+            "off",
+            "--report",
+            "{work}/09-findings",
+            "--summary-json"
+          ],
+          "expected_exit": 1,
+          "report": "{work}/09-findings/report.json",
+          "report_equals": {
+            "analyst.enabled": false,
+            "judge.enabled": true,
+            "judge.omitted_open_findings": 10,
+            "judge.selected_findings": 1,
+            "summary.open_findings": 11
+          }
+        },
+        {
+          "id": "exhausted_ai_budget",
+          "argv": [
+            "{cli}",
+            "{repo}/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "{work}/09-gateway/custom.json",
+            "--analyst-max-calls",
+            "0",
+            "--report",
+            "{work}/09-exhausted",
+            "--summary-json"
+          ],
+          "expected_exit": 2,
+          "report": "{work}/09-exhausted/report.json",
+          "report_equals": {
+            "analyst.status": "incomplete",
+            "execution.exit_code": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Use authenticated provider CLIs and seamless interactive login",
+      "steps": [
+        {
+          "id": "login_help",
+          "argv": [
+            "{cli}",
+            "--help-topic",
+            "login"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "--login",
+            "--judge-login"
+          ]
+        },
+        {
+          "id": "ai_help",
+          "argv": [
+            "{cli}",
+            "--help-topic",
+            "ai"
+          ],
+          "expected_exit": 0,
+          "stdout_contains": [
+            "--judge-cli",
+            "--judge-executable",
+            "--judge-model",
+            "--judge-cli-home"
+          ]
+        }
+      ]
+    }
+  ],
+  "feature_scenarios": {
+    "--analyst-batch-size": "09",
+    "--analyst-investigation-rounds": "09",
+    "--analyst-max-bytes": "09",
+    "--analyst-max-calls": "09",
+    "--analyst-max-chars": "09",
+    "--analyst-max-files": "09",
+    "--analyst-time-budget": "09",
+    "--ask": "01",
+    "--baseline": "06",
+    "--baseline-reason": "06",
+    "--catalog-format": "01",
+    "--examples": "01",
+    "--exclude": "04",
+    "--explain-check": "01",
+    "--explain-control": "01",
+    "--explain-rule": "01",
+    "--explain-scan": "01",
+    "--explain-source": "01",
+    "--fail-on": "06",
+    "--help": "01",
+    "--help-topic": "01",
+    "--image": "05",
+    "--image-archive": "05",
+    "--image-max-archive-bytes": "05",
+    "--image-max-entries": "05",
+    "--image-max-layers": "05",
+    "--image-max-unpacked-bytes": "05",
+    "--image-platform": "05",
+    "--image-runtime": "05",
+    "--image-timeout": "05",
+    "--judge-cli": "10",
+    "--judge-cli-home": "10",
+    "--judge-config": "09",
+    "--judge-executable": "10",
+    "--judge-include-source": "09",
+    "--judge-login": "10",
+    "--judge-max-findings": "09",
+    "--judge-mode": "09",
+    "--judge-model": "10",
+    "--judge-timeout": "10",
+    "--list-controls": "01",
+    "--list-rules": "01",
+    "--list-scans": "01",
+    "--list-sources": "01",
+    "--list-topics": "01",
+    "--login": "10",
+    "--login-timeout": "10",
+    "--max-entries": "04",
+    "--max-file-bytes": "04",
+    "--max-files": "04",
+    "--max-total-bytes": "04",
+    "--output": "02",
+    "--pdf": "02",
+    "--pull": "05",
+    "--quiet": "06",
+    "--report": "02",
+    "--review-config": "07",
+    "--review-report": "08",
+    "--scan": "03",
+    "--scans": "03",
+    "--summary-json": "06",
+    "--token-optimizer": "09",
+    "--version": "01",
+    "--write-baseline": "06",
+    "-h": "01",
+    "target": "02"
+  }
+}

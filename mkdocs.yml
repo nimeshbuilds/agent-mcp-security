@@ -80,6 +80,7 @@ nav:
   - Home: index.md
   - Get started:
       - Quick start: docs/QUICKSTART.md
+      - Ten tested scenarios: docs/SCENARIOS.md
       - Ask about security, offline: docs/SECURITY_EXPLORER.md
       - Every scan and its coverage: docs/SCAN_COVERAGE.md
       - Complete CLI reference: docs/CLI.md

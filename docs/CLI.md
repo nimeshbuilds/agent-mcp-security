@@ -201,7 +201,7 @@ Ask what the bundled catalog covers before running a scan. All explorer commands
 | `--ask QUERY` | Text | Bounded deterministic lookup using literal tokens and known aliases; quote multiword questions. |
 | `--explain-control ID` | Text | Why a control matters, its checks, partial static mappings, source organizations and other validation needs. |
 | `--explain-check CONTROL:INDEX` | Text | One acceptance check and its parent control context; index starts at 1. |
-| `--list-sources` | Text | The 76-entry source registry with provenance and scope limits. |
+| `--list-sources` | Text | The 78-entry source registry with provenance and scope limits. |
 | `--explain-source ID` | Text | Source details and control relationships, distinguishing primary citations from thematic alignment. |
 | `--list-rules` | Legacy JSON | Full deterministic rule metadata array. |
 | `--list-controls` | Legacy JSON | Full control array with acceptance checks, stable check IDs, rule mappings and sources. |

@@ -4,6 +4,8 @@
 
 Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These checkout examples target **Invarune 0.15.0**. The primary command is **`invscan`**. Deterministic scans and catalog exploration need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
 
+Continue with [ten end-to-end scenarios](SCENARIOS.md) for feature-by-feature recipes, expected results and executable validation covering source, skills, images, CI, review imports and optional AI.
+
 ## 1. Install the CLI and get your first report
 
 Want the CLI without a source checkout? The [v0.15.0 release](https://github.com/nimeshbuilds/invarune/releases/tag/v0.15.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. The release includes the installed CLI and offline scan inventory. The checkout route below also includes the example source and image fixtures used throughout this guide.

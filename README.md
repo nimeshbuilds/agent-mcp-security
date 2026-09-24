@@ -45,6 +45,8 @@ With no `--report`, `--output` or `--pdf`, the CLI prints findings, fixes, selec
 
 Version **0.15** strengthens bounded source flow, registered tool entrypoints, malicious instructions inside schemas, explicit read-only/write-effect conflicts and world-writable workspace checks. Optional AI review can request missing context from captured snapshots, seek counterevidence and record its reasoning limits. A detected directive is risk evidence, not proof of malicious authorship. Optional review examines selected active controls, including uncertain and unmapped checks, but cannot erase static findings or establish runtime safety. [Full scan matrix and scoring guide](docs/SCAN_COVERAGE.md).
 
+Walk through [ten end-to-end scenarios](docs/SCENARIOS.md) after the [quick start](docs/QUICKSTART.md): every CLI feature group, copyable commands, expected exits, and recorded validation.
+
 ## Measured results in v0.15
 
 ![Same-input fixture outcomes before and after this release](docs/assets/benchmarks/fixture-progress.svg)

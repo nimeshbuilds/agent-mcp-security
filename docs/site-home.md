@@ -60,7 +60,7 @@ Trace registered tool inputs through bounded source analysis, inspect malicious 
 
     Install, scan source or an image, interpret exit codes, and read immediate concerns and fixes.
 
-    [Quick start](docs/QUICKSTART.md) · [CLI reference](docs/CLI.md) · [Troubleshooting](docs/TROUBLESHOOTING.md)
+    [Quick start](docs/QUICKSTART.md) · [Ten tested scenarios](docs/SCENARIOS.md) · [CLI reference](docs/CLI.md) · [Troubleshooting](docs/TROUBLESHOOTING.md)
 
 - **Understand the controls**
 
