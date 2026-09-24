@@ -48,25 +48,7 @@ invscan --ask 'How do you check prompt injection?'
 </div>
 
 </div>
-## 3. Find the available scans
-
-<div class="inv-step" markdown="1">
-
-List the rules and find **AI043** in the output.
-
-<!-- invscan-step:01:rules -->
-```sh
-invscan --list-rules
-```
-
-<div class="inv-result" markdown="1">
-
-**You should see** **47 deterministic rules.** A listed rule describes a supported risk pattern; the list is not a guarantee of complete security coverage.
-
-</div>
-
-</div>
-## 4. Understand one scan
+## 3. Understand one scan
 
 <div class="inv-step" markdown="1">
 
@@ -84,7 +66,7 @@ invscan --explain-scan AI043
 </div>
 
 </div>
-## 5. Read the control behind a security requirement
+## 4. Read the control behind a security requirement
 
 <div class="inv-step" markdown="1">
 
@@ -113,6 +95,19 @@ invscan --explain-check AUTH-01:1
 
 <details class="inv-option" markdown="1">
 <summary>Find topics, list every control, or export the scan inventory</summary>
+
+The legacy rule inventory is a detailed JSON listing. Use it when you want all rule records for automation or deeper inspection:
+
+<!-- invscan-step:01:rules -->
+```sh
+invscan --list-rules
+```
+
+<div class="inv-result" markdown="1">
+
+**You should see** **47 rule records in JSON**, including AI043. A listed rule describes a supported risk pattern, not complete security coverage.
+
+</div>
 
 List the available plain-English topics:
 

@@ -19,7 +19,7 @@
   "documentation_inputs": {
     "files": {
       "docs/SCENARIOS.md": "15aafd2f448f999134d2f073a3860afa2415c2362b8a6dae0278d1003f1140b9",
-      "docs/walkthroughs/01-explore.md": "3d4681ff9d26ef8015ea667c21bc1ef93d6a2a85c37d5653e5b5bf66d3b95f4c",
+      "docs/walkthroughs/01-explore.md": "86a60fc1fce6922ebad2d52ef9772f8e50badf3106890205da8de07e0f9757e2",
       "docs/walkthroughs/02-source.md": "9aa90a339ef5079dff5425bd9dd722747a564548d36f3bce107c22933e867b8e",
       "docs/walkthroughs/03-skills.md": "a4a4f53b25bad503a9dd943d9f2a119eee087a4e9c5d31cc5eeaa5c4aba1112a",
       "docs/walkthroughs/04-scope.md": "6730bd8c82d410015dcc5d33a3d723e23bab3822bd6b3e099712475db3e03821",
@@ -31,7 +31,7 @@
       "docs/walkthroughs/10-provider-cli.md": "d9c191d1f7d967bd0069cdd9a55863ac4505141e2ea3f34a466a2ecf54d797e8",
       "docs/walkthroughs/setup.md": "1deb5f237205acc838a314fa0910c91c44c881946c4050fe3b9ef87c6a85a0d9"
     },
-    "sha256": "fe4e58c428298e33d2e261aebc6ec0eab622cd8d060bdfb62c7cf45e4cedd343"
+    "sha256": "607a22cce59cf6904d31452c4794c8dc3c9d2347a5c8754f9a387d31cc7ffca2"
   },
   "external_scope": {
     "interactive_html_editing": "Scripted form/capsule edits tested; no actual browser interaction claimed.",
@@ -204,7 +204,7 @@
   },
   "manifest_sha256": "9a8ba9c2cee6b338962d485e897962ae82868d9bca0b8da3a5cbf114ac39c640",
   "purpose": "Executed documentation journeys on inert fixtures, not detector accuracy or production assurance.",
-  "recorded_at_utc": "2026-09-24T19:08:18.495262+00:00",
+  "recorded_at_utc": "2026-09-24T19:13:53.553413+00:00",
   "scenarios": [
     {
       "id": "01",
@@ -523,7 +523,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "f0e6684d4b4424c4d17992e13a8c8379f89f0e2a9371e3fa2b1ed11cbabe72be"
+          "stdout_sha256": "81208adb6a173a53a5480f9e11a5aea02c6b608db9261cea215601faeb28951f"
         },
         {
           "asserted_report_fields": {
@@ -549,7 +549,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "f27e7c2a7c39e7f42f0969ab0b5e73556369677e22894ef8f0b0284532a38727"
+          "stdout_sha256": "b02b28888594c024821c781f28eba5f400dc3405ae7d2bd7dee41e10d042338c"
         },
         {
           "asserted_report_fields": {
@@ -574,7 +574,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "e27918ecb2fcf312af7d20512c1b460d38cf7cc55ad4f44ed9e191870e0f7950"
+          "stdout_sha256": "5df54c3fb58344e80232638761d36a0cc20be3f9c4589319816209950be7794a"
         }
       ],
       "title": "Scan source and generate every report"
@@ -598,7 +598,7 @@
           "id": "selected_rules",
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "cdb682ad9fcb87e5e748380c8010ccee0ce7a24d1c1b02c9ddd446d4cc55ce3f"
+          "stdout_sha256": "551f781a5ea36ddbb96507031b68b395bda1b590ad8a21294397cb76307ddbf9"
         },
         {
           "command": [
@@ -615,7 +615,7 @@
           "id": "manual_control",
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "24f440245b37179e8d19df1968a0e0818349c566c622a9f24d7801f6d121c6f1"
+          "stdout_sha256": "07fd4f756e402ee4a157ad22bf87032c7fb89cdff32e45618c93c63471b61382"
         },
         {
           "asserted_report_fields": {
@@ -644,7 +644,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "b51d8ae039bed237bad43200e80361f3d85359fbb894989c568fa48b78f03bf5"
+          "stdout_sha256": "073ffe5aab18eee11e98d47c205f7c395ba7b575f77edc0b2ba89803fe2f3b20"
         }
       ],
       "title": "Select checks and find malicious skills or tools"
@@ -680,7 +680,7 @@
           "id": "bounded_scope",
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "3d639c4c41cf8d6d29dc33b75c150ff388a2dd0bfb04ea6156862f79812ef1af"
+          "stdout_sha256": "d95e77bd659d2d70d4a0fd754bd8000f2f1d15db27d40521f975d30c6bf162da"
         },
         {
           "command": [
@@ -699,7 +699,7 @@
           "id": "file_budget",
           "status": "passed",
           "stderr": "Scan incomplete: 3 coverage gaps; see the coverage details.\n",
-          "stdout_sha256": "6658ca541713ecb8822c4e38826d171f0c3ba7a1d27ca8aae261fee7db25b40c"
+          "stdout_sha256": "5db1a653a2bdabdf0a64e11161901e69a64c5f9d1af41706271674604fa82756"
         },
         {
           "command": [
@@ -718,7 +718,7 @@
           "id": "total_budget",
           "status": "passed",
           "stderr": "Scan incomplete: 3 coverage gaps; see the coverage details.\n",
-          "stdout_sha256": "49c7a43d9a7b8e340f2eb1ff8450b27a1a37cc933a53c4e6bd3241537e55e22a"
+          "stdout_sha256": "db891e9305280ea07a2ecc4b723c2d5300d129bef0b7702e216aa2aba9cd55f1"
         },
         {
           "command": [
@@ -737,7 +737,7 @@
           "id": "count_budget",
           "status": "passed",
           "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n",
-          "stdout_sha256": "9602967767ca8dacb839f6b0115009f882e527b397e8ad912a285e77c950547e"
+          "stdout_sha256": "26be53a3f2ec82c3420e250781b5e72a7765a0d038aaf2f9d72b053b9d854580"
         },
         {
           "command": [
@@ -756,7 +756,7 @@
           "id": "entry_budget",
           "status": "passed",
           "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n",
-          "stdout_sha256": "50f89368b8b06789405db92501b69c628fb1acc29f8e6d23afa12754ed5c7800"
+          "stdout_sha256": "38b9df49c1c83777fe5afbaf9b1f01e59047682ec94f47d7aec2c66d3c5c83e5"
         }
       ],
       "title": "Constrain scope and recognize incomplete scans"
@@ -801,7 +801,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "c19d4e3ad9b8af8ff6c7c7a35801a97e15afab5643ddf211b84a1e53b9172b0a"
+          "stdout_sha256": "d9cc9506a8a8f3858c6899b128c020707bfc80543a2a5c276b2c8d6c30c494fd"
         },
         {
           "command": [
@@ -891,7 +891,7 @@
           "id": "disabled_gate",
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "08081f55e353ec5bb15e54570c6bda25dde2aa71dce8f9f4624f74e9f203cd17"
+          "stdout_sha256": "b8b1a83fca26e2a70e3a2bf75065bde1249f154a1d20000706936c648b2cf9e5"
         },
         {
           "command": [
@@ -910,7 +910,7 @@
           "id": "write_baseline",
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "03d5b5e7fd38f6c4ac0931b94e0f6a0d6a2522d7e5372e9eb08ac3b362014818"
+          "stdout_sha256": "4d0a6aa7a802b24353e22eb46d7b0f0082346350d80ed2f5caf924907b91fcb6"
         },
         {
           "asserted_report_fields": {
@@ -939,7 +939,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "ca76a3894f4fe410bcc728e27bcf39d7970439c4e47ec6c64d5f4eab32d2e21a"
+          "stdout_sha256": "68613fb3bafb5017f30ce178f5b4671eaaa21133ba03c8b9719fa157dbfc4ed1"
         }
       ],
       "title": "Use CI gates and reviewed baselines"
@@ -978,7 +978,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "d2186aae7ebe976ec107a291fdd6275cc7c97c3465b2248bb991ea2e1a732e0d"
+          "stdout_sha256": "faeeec1994364aca31d7a2c0106bb40bf4cce8d54ff0ceff99e12ac2e28544d2"
         }
       ],
       "title": "Keep justified and disabled exceptions auditable"
@@ -1040,7 +1040,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "5dc349530d89ca9ddb58d396a3084ee3d106346204efc636ed98b1bcba3df22a"
+          "stdout_sha256": "f17a240bf0d7b11af6fc9314d3f2999b0b19723495705f7b48c56b04a0079278"
         },
         {
           "asserted_report_fields": {
@@ -1075,7 +1075,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "5e821009adaf3be4979f2ec1a01e0ae2f97debd82b6bb34811178f798b32f307"
+          "stdout_sha256": "2dd98f91ea9b959f6d57c2f0ea2a45bdf5c3181fdd2f1a4c57d11f13ad8eb82b"
         },
         {
           "asserted_report_fields": {
@@ -1110,7 +1110,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "ccc1b6810685287584c47114d5fe9ac11cff5d42c1641b35435f0c7b68577447"
+          "stdout_sha256": "ff5ff07ba53fce5e7a66fd417248bba3e9a4a4972ec25491dc35f475f7939df4"
         },
         {
           "asserted_report_fields": {
@@ -1145,7 +1145,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "8738ba6a39455ef9017a979fb3007c20cb57f6208d109d9de2da67c8d876816a"
+          "stdout_sha256": "89398889f7991cbdd701b8a96be5bbae01b2a749bf135ef3ecb451a60290df14"
         },
         {
           "asserted_report_fields": {
@@ -1180,7 +1180,7 @@
           },
           "status": "passed",
           "stderr": "",
-          "stdout_sha256": "47c5522e9aea9aad47a01983cde598dfbb9aca3103f524c4848745499aabdf22"
+          "stdout_sha256": "4d490ffde1b0f846a113b76cd28675d5caf926d89181d0be7ea9daa54b7a35a7"
         },
         {
           "asserted_report_fields": {
@@ -1210,7 +1210,7 @@
           },
           "status": "passed",
           "stderr": "Imported review needs follow-up: changed evidence or unresolved runtime/human validation remains; see the review audit.\n",
-          "stdout_sha256": "a48d9b3dd059cf2140bfdf871c0286bc31c20c3a4f08ea88a358bc169c5650e2"
+          "stdout_sha256": "2c4b362f16a2f098aa557e6e5d9c6d39608cd4b1d4772c3ff0afd4e81a98a3cc"
         },
         {
           "asserted_report_fields": {
@@ -1244,7 +1244,7 @@
           },
           "status": "passed",
           "stderr": "Imported review needs follow-up: changed evidence or unresolved runtime/human validation remains; see the review audit.\n",
-          "stdout_sha256": "dca5392dfe102b2333e304a0a8d644c76fafa7dbed730d1e50b48e7fa9ff6b55"
+          "stdout_sha256": "1878c31109ad8034e256afb9a81c0e206a8d23a40cb476c26a70c61809249c51"
         }
       ],
       "title": "Rescan edited reports in all five formats"
@@ -1306,7 +1306,7 @@
           },
           "status": "passed",
           "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
-          "stdout_sha256": "3bf70f585ca0676d92eccaac183c1810244fd238c3fafd9c57efe01a3a39ab39"
+          "stdout_sha256": "01588e8b53f667308474726d5463ee60dfe34a34d74dab8782ade1830c1f13e3"
         },
         {
           "asserted_report_fields": {
@@ -1346,7 +1346,7 @@
           },
           "status": "passed",
           "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
-          "stdout_sha256": "d09a2dfa8797d20a15ccd44ca48c932b504e2f6a2e7e3c2d1eeacac56a73ce17"
+          "stdout_sha256": "d45d872cf63bd3310203646441ad75eb49c2e375ebb768b72b28a66bfd310fc9"
         },
         {
           "asserted_report_fields": {
@@ -1386,7 +1386,7 @@
           },
           "status": "passed",
           "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
-          "stdout_sha256": "08f9236ab2053d994a40382ea9bf156024ce18329710634b610a11cf61b9fa57"
+          "stdout_sha256": "cf8e77151446d2c50ae53ad202dce334bae9871a4a5a3f01b692b2c3e8f5ba31"
         },
         {
           "asserted_report_fields": {
@@ -1426,7 +1426,7 @@
           },
           "status": "passed",
           "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
-          "stdout_sha256": "d37c7967308f91de0cc54b0bc7230b36099e167150baeef35ab411c79d89b5ae"
+          "stdout_sha256": "af084776b7bcd22a45182f0a0dbee25482be2fdfee1e98b608d6b536c73b8901"
         },
         {
           "asserted_report_fields": {
@@ -1466,7 +1466,7 @@
           },
           "status": "passed",
           "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
-          "stdout_sha256": "cf2f59ec024e6ac6038f2057e924b35e90940327a3e34469f208db539c571967"
+          "stdout_sha256": "dc2225f7534b0a69bfa8db68784114b8336710425f57fdb190c9459a491445bf"
         },
         {
           "asserted_report_fields": {
@@ -1506,7 +1506,7 @@
           },
           "status": "passed",
           "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
-          "stdout_sha256": "0997a9c3e65a9ff1662181217cda45f2281e36c3a5394f8ffd9c1bffacab1b41"
+          "stdout_sha256": "11eee4ce0e515008c74ff2fe7d969e2f7b397a93559b72228f015089c7d852e1"
         },
         {
           "asserted_report_fields": {
@@ -1555,7 +1555,7 @@
           },
           "status": "passed",
           "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
-          "stdout_sha256": "9e138f89c51a985586d0969766c57c488994d707935675260062bd6ef68f8654"
+          "stdout_sha256": "0098df3540135c4656223744d3001387c63f16cdce11a33c3b16093c5576cc0d"
         },
         {
           "asserted_report_fields": {
@@ -1594,7 +1594,7 @@
           },
           "status": "passed",
           "stderr": "Optional LLM review enabled: sending redacted open findings to the configured provider/service. Redaction is best-effort.\n",
-          "stdout_sha256": "b56589933e3b7b461e37fe9a3aa9afa20e6f7a17779ac560d5c82883abb1d2ae"
+          "stdout_sha256": "787c1df5206ac401ec4141b65970f90127fb1f430b8b11f2162fbd973ce39ab3"
         },
         {
           "asserted_report_fields": {
@@ -1627,7 +1627,7 @@
           },
           "status": "passed",
           "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\nOptional control analyst review is incomplete; see the optional-review coverage and errors.\n",
-          "stdout_sha256": "b5c33f6909d31f6208079d15c0b9eec76c73928edfd86c9a59ac72713d3881ca"
+          "stdout_sha256": "8953631fb2e0163101bf6b7bd23c6bfea5705dc730ae2d57163fbb8c1053dabc"
         }
       ],
       "title": "Exercise API gateways, optimization and bounded investigation"
@@ -2131,7 +2131,7 @@
       },
       {
         "path": "docs/assets/scenarios.css",
-        "sha256": "95edc2384c7c9819951c3fb53a51450290b69386adb5d3d4949be8630d6aa95e"
+        "sha256": "c54d901dfd0c13236b3848d1304748923faced4112d5f7e172d807c5b944c198"
       },
       {
         "path": "docs/assets/site.css",
@@ -2179,7 +2179,7 @@
       },
       {
         "path": "docs/walkthroughs/01-explore.md",
-        "sha256": "3d4681ff9d26ef8015ea667c21bc1ef93d6a2a85c37d5653e5b5bf66d3b95f4c"
+        "sha256": "86a60fc1fce6922ebad2d52ef9772f8e50badf3106890205da8de07e0f9757e2"
       },
       {
         "path": "docs/walkthroughs/02-source.md",
@@ -2766,8 +2766,8 @@
         "sha256": "d7faaa09047023274d8d4019a24c4f99480d90ccbccb8de7acf901e3a00b48b2"
       }
     ],
-    "sha256": "43a1b925b3ca2c869a134eb566943bb0d3d58ab27bb49115d00bdcf5361c5e21"
+    "sha256": "f89f024e458b4f0a660c565bb718a069be7e62ba5fd0e0f9fd45c519161c2112"
   },
-  "source_commit": "b1dc6d362ac1d2e79337ebab83c987880c6d395f",
+  "source_commit": "65380c990c0f83b0b32e847c80cf2bc84eb6cdd9",
   "status": "passed"
 }

@@ -12,7 +12,7 @@
   "walkthroughs": [
     {
       "scenario": "01",
-      "step_cards": 5,
+      "step_cards": 4,
       "result_panels": 7,
       "copy_buttons": 18,
       "optional_sections": 4,
