@@ -1,0 +1,1013 @@
+{
+  "ci_job_count": 8,
+  "ci_log_sha256": "5e56b68ca96a03a74c6899f782685dda86987034a7e0040ceaa8097c88f49522",
+  "commit": "2a79751a4d49152dfc0a1031d9a06f84ac9bf7d7",
+  "documentation_workflow": {
+    "conclusion": "success",
+    "headSha": "2a79751a4d49152dfc0a1031d9a06f84ac9bf7d7",
+    "jobs": [
+      {
+        "completedAt": "2026-09-24T02:21:24Z",
+        "conclusion": "success",
+        "databaseId": 107466429329,
+        "name": "build",
+        "startedAt": "2026-09-24T02:20:02Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:20:04Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:20:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:07Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-09-24T02:20:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:09Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 3,
+            "startedAt": "2026-09-24T02:20:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:16Z",
+            "conclusion": "success",
+            "name": "Install pinned documentation tooling",
+            "number": 4,
+            "startedAt": "2026-09-24T02:20:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:17Z",
+            "conclusion": "success",
+            "name": "Validate benchmark data and chart provenance",
+            "number": 5,
+            "startedAt": "2026-09-24T02:20:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:17Z",
+            "conclusion": "success",
+            "name": "Stage indexed documentation and public artifacts",
+            "number": 6,
+            "startedAt": "2026-09-24T02:20:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:41Z",
+            "conclusion": "success",
+            "name": "Build with strict links and anchors",
+            "number": 7,
+            "startedAt": "2026-09-24T02:20:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:17Z",
+            "conclusion": "success",
+            "name": "Verify links, search and unchanged artifact bytes",
+            "number": 8,
+            "startedAt": "2026-09-24T02:20:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:18Z",
+            "conclusion": "success",
+            "name": "Configure GitHub Pages",
+            "number": 9,
+            "startedAt": "2026-09-24T02:21:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:21Z",
+            "conclusion": "success",
+            "name": "Upload Pages artifact",
+            "number": 10,
+            "startedAt": "2026-09-24T02:21:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:21Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 19,
+            "startedAt": "2026-09-24T02:21:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:21Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 20,
+            "startedAt": "2026-09-24T02:21:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:21Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 21,
+            "startedAt": "2026-09-24T02:21:21Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791758/job/107466429329"
+      },
+      {
+        "completedAt": "2026-09-24T02:21:35Z",
+        "conclusion": "success",
+        "databaseId": 107466740905,
+        "name": "deploy",
+        "startedAt": "2026-09-24T02:21:27Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:21:28Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:21:27Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:34Z",
+            "conclusion": "success",
+            "name": "Deploy documentation",
+            "number": 2,
+            "startedAt": "2026-09-24T02:21:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:34Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 3,
+            "startedAt": "2026-09-24T02:21:34Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791758/job/107466740905"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791758"
+  },
+  "fresh_installed_quickstarts": {
+    "headroom-integration": {
+      "explicit_omissions": [
+        "PDF workflow (--skip-pdf)"
+      ],
+      "status": "passed",
+      "steps": 56
+    },
+    "tests (windows-latest, 3.12)": {
+      "explicit_omissions": [
+        "PDF workflow (--skip-pdf)",
+        "Gateway integrations (--skip-gateway)"
+      ],
+      "status": "passed",
+      "steps": 48
+    }
+  },
+  "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+  "raw_gh_json_sha256": {
+    "ci": "97c0ef87e652ce5970745116a43bbd2f36cfb60766f2c3a099260509141899d7",
+    "pages": "b9d860cf1b06cd2ba285abc3f82dd2eb76c6066f38e8359cf09b9e2d8c90ebbe"
+  },
+  "recorded_at_utc": "2026-09-24T02:26:50.222861+00:00",
+  "result": "passed",
+  "scanner_version": "0.15.0",
+  "schema_version": "1.0",
+  "scope": "Actual GitHub Actions results for this exact implementation commit. Eight test/integration jobs and both Pages build/deploy jobs succeeded. Each counted suite includes explicit optional-dependency/platform skips. Quickstart profiles have different omissions and denominators; live model judgments and production target behavior are not tested by these workflows.",
+  "test_workflow": {
+    "conclusion": "success",
+    "headSha": "2a79751a4d49152dfc0a1031d9a06f84ac9bf7d7",
+    "jobs": [
+      {
+        "completedAt": "2026-09-24T02:20:15Z",
+        "conclusion": "success",
+        "databaseId": 107466429155,
+        "name": "built-image-integration",
+        "startedAt": "2026-09-24T02:20:02Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:20:03Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:20:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:06Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-09-24T02:20:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:06Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 3,
+            "startedAt": "2026-09-24T02:20:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:14Z",
+            "conclusion": "success",
+            "name": "Inspect actual Docker-built artifacts without starting containers",
+            "number": 4,
+            "startedAt": "2026-09-24T02:20:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:14Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 7,
+            "startedAt": "2026-09-24T02:20:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:15Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 8,
+            "startedAt": "2026-09-24T02:20:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:15Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 9,
+            "startedAt": "2026-09-24T02:20:15Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805/job/107466429155"
+      },
+      {
+        "completedAt": "2026-09-24T02:20:47Z",
+        "conclusion": "success",
+        "databaseId": 107466429469,
+        "name": "headroom-integration",
+        "startedAt": "2026-09-24T02:20:02Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:20:04Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:20:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:07Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-09-24T02:20:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:07Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 3,
+            "startedAt": "2026-09-24T02:20:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:44Z",
+            "conclusion": "success",
+            "name": "Verify installed invscan and actual Headroom on all six loopback protocols",
+            "number": 4,
+            "startedAt": "2026-09-24T02:20:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:44Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 7,
+            "startedAt": "2026-09-24T02:20:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:45Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 8,
+            "startedAt": "2026-09-24T02:20:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:45Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 9,
+            "startedAt": "2026-09-24T02:20:45Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805/job/107466429469"
+      },
+      {
+        "completedAt": "2026-09-24T02:21:05Z",
+        "conclusion": "success",
+        "databaseId": 107466429495,
+        "name": "tests (ubuntu-latest, 3.14)",
+        "startedAt": "2026-09-24T02:20:04Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:20:05Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:20:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:08Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-09-24T02:20:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:08Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 3,
+            "startedAt": "2026-09-24T02:20:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:02Z",
+            "conclusion": "success",
+            "name": "Run offline and loopback integration tests",
+            "number": 4,
+            "startedAt": "2026-09-24T02:20:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:02Z",
+            "conclusion": "success",
+            "name": "Check labeled static rule accuracy",
+            "number": 5,
+            "startedAt": "2026-09-24T02:21:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:02Z",
+            "conclusion": "success",
+            "name": "Scan safer comparison fixture",
+            "number": 6,
+            "startedAt": "2026-09-24T02:21:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:02Z",
+            "conclusion": "skipped",
+            "name": "Validate the installed Windows quickstart in a fresh environment",
+            "number": 7,
+            "startedAt": "2026-09-24T02:21:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:02Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 13,
+            "startedAt": "2026-09-24T02:21:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:02Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 14,
+            "startedAt": "2026-09-24T02:21:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:02Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-09-24T02:21:02Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805/job/107466429495"
+      },
+      {
+        "completedAt": "2026-09-24T02:21:04Z",
+        "conclusion": "success",
+        "databaseId": 107466429523,
+        "name": "tests (ubuntu-latest, 3.12)",
+        "startedAt": "2026-09-24T02:20:02Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:20:03Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:20:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:06Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-09-24T02:20:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:06Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 3,
+            "startedAt": "2026-09-24T02:20:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:01Z",
+            "conclusion": "success",
+            "name": "Run offline and loopback integration tests",
+            "number": 4,
+            "startedAt": "2026-09-24T02:20:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:01Z",
+            "conclusion": "success",
+            "name": "Check labeled static rule accuracy",
+            "number": 5,
+            "startedAt": "2026-09-24T02:21:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:01Z",
+            "conclusion": "success",
+            "name": "Scan safer comparison fixture",
+            "number": 6,
+            "startedAt": "2026-09-24T02:21:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:01Z",
+            "conclusion": "skipped",
+            "name": "Validate the installed Windows quickstart in a fresh environment",
+            "number": 7,
+            "startedAt": "2026-09-24T02:21:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:01Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 13,
+            "startedAt": "2026-09-24T02:21:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:01Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 14,
+            "startedAt": "2026-09-24T02:21:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:01Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-09-24T02:21:01Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805/job/107466429523"
+      },
+      {
+        "completedAt": "2026-09-24T02:24:13Z",
+        "conclusion": "success",
+        "databaseId": 107466429528,
+        "name": "package-and-schema",
+        "startedAt": "2026-09-24T02:20:02Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:20:04Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:20:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:06Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-09-24T02:20:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:06Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 3,
+            "startedAt": "2026-09-24T02:20:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:10Z",
+            "conclusion": "success",
+            "name": "Install optional QA tools",
+            "number": 4,
+            "startedAt": "2026-09-24T02:20:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:23:07Z",
+            "conclusion": "success",
+            "name": "Measure branch and line coverage",
+            "number": 5,
+            "startedAt": "2026-09-24T02:20:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:23:08Z",
+            "conclusion": "success",
+            "name": "Show coverage evidence",
+            "number": 6,
+            "startedAt": "2026-09-24T02:23:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:23:11Z",
+            "conclusion": "success",
+            "name": "Build and install the wheel without target dependencies",
+            "number": 7,
+            "startedAt": "2026-09-24T02:23:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:23:12Z",
+            "conclusion": "success",
+            "name": "Verify installed primary and legacy source commands from outside the checkout",
+            "number": 8,
+            "startedAt": "2026-09-24T02:23:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:23:14Z",
+            "conclusion": "success",
+            "name": "Verify comprehensive help ships in the installed package",
+            "number": 9,
+            "startedAt": "2026-09-24T02:23:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:23:16Z",
+            "conclusion": "success",
+            "name": "Verify the installed deterministic security explorer",
+            "number": 10,
+            "startedAt": "2026-09-24T02:23:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:24:09Z",
+            "conclusion": "success",
+            "name": "Verify all five installed report review formats on source and image fixtures",
+            "number": 11,
+            "startedAt": "2026-09-24T02:23:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:24:09Z",
+            "conclusion": "success",
+            "name": "Exercise installed image scanner without a container runtime",
+            "number": 12,
+            "startedAt": "2026-09-24T02:24:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:24:11Z",
+            "conclusion": "success",
+            "name": "Verify installed review dispositions for source and image inputs",
+            "number": 13,
+            "startedAt": "2026-09-24T02:24:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:24:11Z",
+            "conclusion": "success",
+            "name": "Validate generated SARIF against the pinned OASIS schema",
+            "number": 14,
+            "startedAt": "2026-09-24T02:24:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:24:11Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 27,
+            "startedAt": "2026-09-24T02:24:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:24:11Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 28,
+            "startedAt": "2026-09-24T02:24:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:24:11Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 29,
+            "startedAt": "2026-09-24T02:24:11Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805/job/107466429528"
+      },
+      {
+        "completedAt": "2026-09-24T02:21:17Z",
+        "conclusion": "success",
+        "databaseId": 107466429594,
+        "name": "tests (ubuntu-latest, 3.9)",
+        "startedAt": "2026-09-24T02:20:03Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:20:04Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:20:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:07Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-09-24T02:20:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:15Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 3,
+            "startedAt": "2026-09-24T02:20:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:14Z",
+            "conclusion": "success",
+            "name": "Run offline and loopback integration tests",
+            "number": 4,
+            "startedAt": "2026-09-24T02:20:15Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:14Z",
+            "conclusion": "success",
+            "name": "Check labeled static rule accuracy",
+            "number": 5,
+            "startedAt": "2026-09-24T02:21:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:14Z",
+            "conclusion": "success",
+            "name": "Scan safer comparison fixture",
+            "number": 6,
+            "startedAt": "2026-09-24T02:21:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:14Z",
+            "conclusion": "skipped",
+            "name": "Validate the installed Windows quickstart in a fresh environment",
+            "number": 7,
+            "startedAt": "2026-09-24T02:21:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:14Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 13,
+            "startedAt": "2026-09-24T02:21:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:14Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 14,
+            "startedAt": "2026-09-24T02:21:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:14Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-09-24T02:21:14Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805/job/107466429594"
+      },
+      {
+        "completedAt": "2026-09-24T02:22:26Z",
+        "conclusion": "success",
+        "databaseId": 107466429681,
+        "name": "tests (windows-latest, 3.12)",
+        "startedAt": "2026-09-24T02:20:02Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:20:04Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:20:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:12Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-09-24T02:20:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:13Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 3,
+            "startedAt": "2026-09-24T02:20:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:54Z",
+            "conclusion": "success",
+            "name": "Run offline and loopback integration tests",
+            "number": 4,
+            "startedAt": "2026-09-24T02:20:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:55Z",
+            "conclusion": "success",
+            "name": "Check labeled static rule accuracy",
+            "number": 5,
+            "startedAt": "2026-09-24T02:21:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:55Z",
+            "conclusion": "success",
+            "name": "Scan safer comparison fixture",
+            "number": 6,
+            "startedAt": "2026-09-24T02:21:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:22:22Z",
+            "conclusion": "success",
+            "name": "Validate the installed Windows quickstart in a fresh environment",
+            "number": 7,
+            "startedAt": "2026-09-24T02:21:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:22:22Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 13,
+            "startedAt": "2026-09-24T02:22:22Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:22:25Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 14,
+            "startedAt": "2026-09-24T02:22:22Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:22:25Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-09-24T02:22:25Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805/job/107466429681"
+      },
+      {
+        "completedAt": "2026-09-24T02:21:48Z",
+        "conclusion": "success",
+        "databaseId": 107466429709,
+        "name": "tests (macos-latest, 3.12)",
+        "startedAt": "2026-09-24T02:20:11Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-24T02:20:13Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-24T02:20:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:18Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 2,
+            "startedAt": "2026-09-24T02:20:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:20:19Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 3,
+            "startedAt": "2026-09-24T02:20:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:44Z",
+            "conclusion": "success",
+            "name": "Run offline and loopback integration tests",
+            "number": 4,
+            "startedAt": "2026-09-24T02:20:19Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:45Z",
+            "conclusion": "success",
+            "name": "Check labeled static rule accuracy",
+            "number": 5,
+            "startedAt": "2026-09-24T02:21:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:45Z",
+            "conclusion": "success",
+            "name": "Scan safer comparison fixture",
+            "number": 6,
+            "startedAt": "2026-09-24T02:21:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:45Z",
+            "conclusion": "skipped",
+            "name": "Validate the installed Windows quickstart in a fresh environment",
+            "number": 7,
+            "startedAt": "2026-09-24T02:21:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:45Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+            "number": 13,
+            "startedAt": "2026-09-24T02:21:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:46Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "number": 14,
+            "startedAt": "2026-09-24T02:21:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-24T02:21:46Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-09-24T02:21:46Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805/job/107466429709"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/nimeshbuilds/invarune/actions/runs/35946791805"
+  },
+  "unit_suites": {
+    "package-and-schema": {
+      "elapsed_seconds": 175.812,
+      "errors": 0,
+      "failures": 0,
+      "skip_reasons": {
+        "Case-alias regression requires a case-insensitive filesystem": 3,
+        "Filesystem is case sensitive": 1
+      },
+      "skipped": 4,
+      "suite_count": 1016
+    },
+    "tests (macos-latest, 3.12)": {
+      "elapsed_seconds": 84.249,
+      "errors": 0,
+      "failures": 0,
+      "skip_reasons": {
+        "Optional PDF dependencies absent": 2,
+        "Optional PDF extra is not installed": 30
+      },
+      "skipped": 32,
+      "suite_count": 1016
+    },
+    "tests (ubuntu-latest, 3.12)": {
+      "elapsed_seconds": 53.895,
+      "errors": 0,
+      "failures": 0,
+      "skip_reasons": {
+        "Case-alias regression requires a case-insensitive filesystem": 3,
+        "Filesystem is case sensitive": 1,
+        "Optional PDF dependencies absent": 2,
+        "Optional PDF extra is not installed": 30
+      },
+      "skipped": 36,
+      "suite_count": 1016
+    },
+    "tests (ubuntu-latest, 3.14)": {
+      "elapsed_seconds": 52.367,
+      "errors": 0,
+      "failures": 0,
+      "skip_reasons": {
+        "Case-alias regression requires a case-insensitive filesystem": 3,
+        "Filesystem is case sensitive": 1,
+        "Optional PDF dependencies absent": 2,
+        "Optional PDF extra is not installed": 30
+      },
+      "skipped": 36,
+      "suite_count": 1016
+    },
+    "tests (ubuntu-latest, 3.9)": {
+      "elapsed_seconds": 58.026,
+      "errors": 0,
+      "failures": 0,
+      "skip_reasons": {
+        "Case-alias regression requires a case-insensitive filesystem": 3,
+        "Filesystem is case sensitive": 1,
+        "Optional PDF dependencies absent": 2,
+        "Optional PDF extra is not installed": 30
+      },
+      "skipped": 36,
+      "suite_count": 1016
+    },
+    "tests (windows-latest, 3.12)": {
+      "elapsed_seconds": 97.87,
+      "errors": 0,
+      "failures": 0,
+      "skip_reasons": {
+        "Case-alias regression requires a case-insensitive filesystem": 3,
+        "FIFO requires POSIX": 1,
+        "FIFO test requires POSIX": 1,
+        "Optional PDF dependencies absent": 2,
+        "Optional PDF extra is not installed": 30,
+        "Pinned root identities require directory descriptors": 2,
+        "Process group lifecycle is POSIX specific": 1
+      },
+      "skipped": 40,
+      "suite_count": 1016
+    }
+  }
+}
