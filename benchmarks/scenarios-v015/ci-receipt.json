@@ -1,0 +1,193 @@
+{
+  "commit": "588a40831e597d5837f54112e65bde637d83d794",
+  "conclusion": "success",
+  "evidence_basis": "Completed GitHub Actions job metadata and actual job-log summaries. Raw CI logs are not republished. No scenario receipt artifact was uploaded by this workflow.",
+  "installed_review_roundtrips": {
+    "initial_scans": 2,
+    "job_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517516",
+    "reviewed_scans": 10
+  },
+  "jobs": [
+    {
+      "conclusion": "success",
+      "name": "package-and-schema",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517516"
+    },
+    {
+      "conclusion": "success",
+      "name": "tests (windows-latest, 3.12)",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517637"
+    },
+    {
+      "conclusion": "success",
+      "name": "documentation-scenarios (windows-latest)",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517658"
+    },
+    {
+      "conclusion": "success",
+      "name": "headroom-integration",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517779"
+    },
+    {
+      "conclusion": "success",
+      "name": "tests (ubuntu-latest, 3.9)",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517814"
+    },
+    {
+      "conclusion": "success",
+      "name": "documentation-scenarios (ubuntu-latest)",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517836"
+    },
+    {
+      "conclusion": "success",
+      "name": "tests (ubuntu-latest, 3.14)",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517846"
+    },
+    {
+      "conclusion": "success",
+      "name": "tests (ubuntu-latest, 3.12)",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517875"
+    },
+    {
+      "conclusion": "success",
+      "name": "tests (macos-latest, 3.12)",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517934"
+    },
+    {
+      "conclusion": "success",
+      "name": "built-image-integration",
+      "status": "completed",
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517996"
+    }
+  ],
+  "recorded_at_utc": "2026-09-24T17:52:24.920986+00:00",
+  "run_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482",
+  "scenario_jobs": [
+    {
+      "conclusion": "success",
+      "host": "ubuntu-latest",
+      "job_name": "documentation-scenarios (ubuntu-latest)",
+      "job_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517836",
+      "scope": "Fresh-clone/fresh-venv installed CLI journeys; scripted loopback API responses. No live provider login, inference, or target/container execution in these scenario jobs.",
+      "summary_from_actual_job_log": {
+        "scenarios": 10,
+        "status": "passed",
+        "steps": 59
+      }
+    },
+    {
+      "conclusion": "success",
+      "host": "windows-latest",
+      "job_name": "documentation-scenarios (windows-latest)",
+      "job_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517658",
+      "scope": "Fresh-clone/fresh-venv installed CLI journeys; scripted loopback API responses. No live provider login, inference, or target/container execution in these scenario jobs.",
+      "summary_from_actual_job_log": {
+        "scenarios": 10,
+        "status": "passed",
+        "steps": 59
+      }
+    }
+  ],
+  "schema_version": "1.0",
+  "separate_validation": "Real Codex inference, logged-out/blocked vendor paths and browser-driven HTML editing are separate local receipts, not part of the 59-step Linux/Windows scenario totals.",
+  "unit_test_jobs": [
+    {
+      "conclusion": "success",
+      "executed_not_skipped": 992,
+      "job_name": "tests (macos-latest, 3.12)",
+      "job_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517934",
+      "seconds": 86.587,
+      "skip_reasons": [
+        "Optional PDF dependencies absent",
+        "Optional PDF extra is not installed"
+      ],
+      "skipped": 32,
+      "unittest_reported_tests": 1024
+    },
+    {
+      "conclusion": "success",
+      "executed_not_skipped": 984,
+      "job_name": "tests (windows-latest, 3.12)",
+      "job_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517637",
+      "seconds": 100.295,
+      "skip_reasons": [
+        "Case-alias regression requires a case-insensitive filesystem",
+        "FIFO requires POSIX",
+        "FIFO test requires POSIX",
+        "Optional PDF dependencies absent",
+        "Optional PDF extra is not installed",
+        "Pinned root identities require directory descriptors",
+        "Process group lifecycle is POSIX specific"
+      ],
+      "skipped": 40,
+      "unittest_reported_tests": 1024
+    },
+    {
+      "conclusion": "success",
+      "executed_not_skipped": 988,
+      "job_name": "tests (ubuntu-latest, 3.9)",
+      "job_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517814",
+      "seconds": 57.907,
+      "skip_reasons": [
+        "Case-alias regression requires a case-insensitive filesystem",
+        "Filesystem is case sensitive",
+        "Optional PDF dependencies absent",
+        "Optional PDF extra is not installed"
+      ],
+      "skipped": 36,
+      "unittest_reported_tests": 1024
+    },
+    {
+      "conclusion": "success",
+      "executed_not_skipped": 988,
+      "job_name": "tests (ubuntu-latest, 3.12)",
+      "job_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517875",
+      "seconds": 44.307,
+      "skip_reasons": [
+        "Case-alias regression requires a case-insensitive filesystem",
+        "Filesystem is case sensitive",
+        "Optional PDF dependencies absent",
+        "Optional PDF extra is not installed"
+      ],
+      "skipped": 36,
+      "unittest_reported_tests": 1024
+    },
+    {
+      "conclusion": "success",
+      "executed_not_skipped": 988,
+      "job_name": "tests (ubuntu-latest, 3.14)",
+      "job_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517846",
+      "seconds": 41.402,
+      "skip_reasons": [
+        "Case-alias regression requires a case-insensitive filesystem",
+        "Filesystem is case sensitive",
+        "Optional PDF dependencies absent",
+        "Optional PDF extra is not installed"
+      ],
+      "skipped": 36,
+      "unittest_reported_tests": 1024
+    },
+    {
+      "conclusion": "success",
+      "executed_not_skipped": 1020,
+      "job_name": "package-and-schema",
+      "job_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36036417482/job/107757517516",
+      "seconds": 173.349,
+      "skip_reasons": [
+        "Case-alias regression requires a case-insensitive filesystem",
+        "Filesystem is case sensitive"
+      ],
+      "skipped": 4,
+      "unittest_reported_tests": 1024
+    }
+  ]
+}

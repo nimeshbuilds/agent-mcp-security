@@ -23,6 +23,8 @@ The final run verified all 11 tagged documentation blocks and all 65 flag spelli
 
 Eight focused regression tests passed for documentation drift, exact flag boundaries, typed assertions and scripted gateway behavior. The source-code detector implementation remains unchanged. The receipt binds the guide snapshot at execution time; subsequent validation-result prose does not change its tested command blocks.
 
+**Fresh Linux and Windows execution also passed:** each scenario job completed all **10 scenarios / 59 steps** at commit `588a408`. The [CI receipt](ci-receipt.json) records the exact run, job links and execution summaries. [Open the GitHub Actions run and logs](https://github.com/nimeshbuilds/invarune/actions/runs/36036417482). The separate Docker integration job also passed; no provider login or live inference is attributed to these scenario jobs.
+
 
 The [command manifest](../../examples/scenarios/scenarios.json) defines exact arguments, expected exits and assertions for every tagged recipe. The [validator](../../scripts/validate_scenarios.py) checks command drift and assigns every current CLI option to a scenario. The fresh local Git clone overlays the explicitly inventoried current-worktree inputs before installation; its base commit and file hashes are recorded. Installed commands execute from a separate directory containing only copied inert examples and report-editing helpers, with no importable scanner source package.
 

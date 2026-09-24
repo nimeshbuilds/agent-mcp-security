@@ -313,6 +313,8 @@ The full validator needs Git and Python 3.10+, creates a fresh clone/environment
 
 **Executed locally on 24 September 2026:** all **10 scenarios / 59 command steps passed** from a fresh installation, including **17 actual HTTP requests across six loopback protocols**, one requested evidence follow-up, and Headroom 0.37.0. Eight focused regression tests verify the guide/manifest contract and fixture behavior. [Exact commands, input hashes, assertions and dependency versions](../benchmarks/scenarios-v015/receipt.json).
 
+**Executed on Linux and Windows:** both fresh-install scenario jobs passed all **10 scenarios / 59 steps** at commit `588a408`. The [CI receipt](../benchmarks/scenarios-v015/ci-receipt.json) links the exact jobs and their execution summaries; the [GitHub Actions run](https://github.com/nimeshbuilds/invarune/actions/runs/36036417482) preserves the build logs. These runs use scripted local gateways, not live provider accounts.
+
 **Separately exercised:** the [fresh live CLI receipt](../benchmarks/scenarios-v015/external-receipt.json) records successful Codex investigation and explicit Claude/Grok unavailable-provider behavior. It also records that neither Docker nor Podman was installed locally. Actual Docker-built-image integration is covered by the separately dated linked CI evidence; Podman, registry pulls and vendor browser login are conditional routes, not invented successes.
 
 The [actual Chrome form/download/import test](../benchmarks/scenarios-v015/html-ui-receipt.json) verified a saved finding justification through the real HTML button and a fresh installed scan. The automated five-format editor is separately labeled and does not claim to test every PDF viewer.
