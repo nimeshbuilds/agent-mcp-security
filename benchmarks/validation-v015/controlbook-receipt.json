@@ -1,0 +1,72 @@
+{
+  "acceptance_checks": 132,
+  "all_control_text_present": true,
+  "all_scan_algorithms_predicates_limits_remediation_present": true,
+  "all_source_links_present": true,
+  "bookmarks": 123,
+  "builder_sha256": "e658bb6e64648b682417fb5dc566d121d7bcc3bc873bc24a67e5bddf10ac7b5d",
+  "byte_identical_repeat_build": true,
+  "canonical_fields": 0,
+  "catalog_sha256": {
+    "controls.json": "dff0b78c7212a2d1ebabacd23f7c4d11cbcc88b5867e60574b3e36f5ed704d51",
+    "sources.json": "89fafd809356f5b062f9ea52eb5d99531902bc5bb59c34f4695d2838ad826105"
+  },
+  "controls": 66,
+  "dependencies": {
+    "pdfplumber": "0.11.9",
+    "pypdf": "6.19.0",
+    "python": "3.12.14",
+    "reportlab": "4.5.1"
+  },
+  "internal_links": 81,
+  "page_widgets": 0,
+  "pages": 123,
+  "partially_mapped_controls": 30,
+  "pdf": "output/pdf/invarune-security-controlbook.pdf",
+  "pdf_bytes": 567672,
+  "pdf_sha256": "7712e9201c6b95bda5f4649d475215439e283f09810b9dc90c8f431c636fd852",
+  "scan_catalog_sha256": "5416627b090cf6357b7ea9f8eaeda1be185387eee96ba6fa7ccc24bbd94f49a7",
+  "scanner_version": "0.15.0",
+  "schema_version": "1.0",
+  "sources": 78,
+  "static_rules": 47,
+  "unique_external_links": 79,
+  "validation_scope": "All control/check text, 47 scan predicates/algorithms/limits/relevance/remediation/commands, source links, internal destinations and bookmarks. All 123 rendered pages visually inspected at contact-sheet scale plus selected full-size algorithm, analyst, source and navigation pages. No scanner accuracy, runtime security, compliance or universal PDF-viewer claim.",
+  "verifier_sha256": "def19dd63be79a3b40ee6e4e9a328ce673c163d20c5bc70220a31bc8fa681a1e",
+  "visual_review": {
+    "clipping_or_overlap_found": false,
+    "contact_sheet_page_count": 123,
+    "contact_sheets": 6,
+    "final_renders_match_reviewed_renders": true,
+    "final_revision_review": {
+      "all_pages_rendered_again": 123,
+      "changed_pages_visually_inspected_at_full_size": [
+        11
+      ],
+      "method": "Render all final pages with the same Poppler settings. Compare each final PNG SHA-256 to the prior all-page visual review. Review the sole changed page at full size; retain prior visual inspection only for byte-identical page images.",
+      "page_png_bytes_identical_to_prior_reviewed_pages": 122,
+      "prior_pdf_sha256": "0950efeb30bc8b30f5e16e7d8cbcb698e82b7ac6ce1f1abe38c1bc1571e96b31",
+      "prior_render_hash_manifest_sha256": "ba5bc61a5950dde40dc5451b70600860cd340f4521e29f831e44d3870ee3fff9",
+      "reason": "Correct two obsolete option names on the CLI field-guide page to --catalog-format json and --help-topic all."
+    },
+    "full_size_pages": [
+      1,
+      2,
+      6,
+      11,
+      14,
+      70,
+      71,
+      99,
+      100,
+      102,
+      103,
+      123
+    ],
+    "render_hash_manifest_sha256": "6fb50d13ded823b0593e06c26cd7d8fa59d916cbdf6f89162389d686783f5614",
+    "rendered_page_count": 123,
+    "renderer": "Poppler pdftoppm -scale-to 1000 -png",
+    "status": "passed"
+  },
+  "words_outside_page": 0
+}

@@ -1,0 +1,446 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-SHVAndW7mEDWd9QHTovJchnfTDmw9i42WX7FeW4IUGc='; script-src-attr 'none'; connect-src 'none'; style-src 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Invarune by NimeshBuild | Security report</title><style>
+:root{color-scheme:light;--ink:#142338;--navy:#0b1220;--mint:#35e3b1;--paper:#f2f6fa;--muted:#516279;--line:#dbe3ec;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:#12674f;text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#064331}a:focus-visible,summary:focus-visible{outline:3px solid #178268;outline-offset:4px}h1,h2,h3,h4,p{margin-top:0}h1{font-size:clamp(1.65rem,3vw,2rem);line-height:1.2;letter-spacing:-.035em;margin-bottom:10px}h2{font-size:1.8rem;line-height:1.25;letter-spacing:-.025em;margin-bottom:12px}h3{font-size:1.14rem;line-height:1.4;margin-bottom:12px}h4{font-size:1rem;margin-bottom:6px}p{margin-bottom:14px}code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}code{font-size:.85em;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;background:#eef2f6;border:1px solid var(--line);padding:18px;border-radius:10px;line-height:1.5;font-size:.82rem;margin:12px 0 20px}pre code{font-size:inherit}ul,ol{padding-left:24px}li+li{margin-top:7px}strong{font-weight:650}.wrap{max-width:1220px;margin:auto;padding:0 40px}.masthead{background:var(--navy);color:#f2f6fa}.brandrow{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-top:16px;padding-bottom:16px;border-bottom:1px solid #2b3648}.brand{display:flex;align-items:center;gap:13px}.brand svg{width:40px;height:40px;flex:none}.brand-name{font-size:1.45rem;font-weight:750;letter-spacing:-.035em;line-height:1.15}.brand-by{font-size:.71rem;letter-spacing:.11em;text-transform:uppercase;color:#adbbc9;margin-top:4px}.edition{color:#adbbc9;font-size:.8rem;text-align:right}.hero{padding-top:23px;padding-bottom:23px}.eyebrow{font-size:.72rem;font-weight:750;text-transform:uppercase;letter-spacing:.16em;color:#238266;margin-bottom:13px}.hero .eyebrow{color:var(--mint)}.hero p{max-width:800px;color:#c3cfdd;font-size:.9rem;margin-bottom:0}.hero-meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;font-size:.72rem;color:#bcc9d8}.hero-meta code{font-size:inherit}.hero-meta span{padding:7px 12px;border:1px solid #334055;border-radius:7px;overflow-wrap:anywhere;min-width:0;max-width:100%}.nav{background:#fff;border-bottom:1px solid var(--line)}.nav .wrap{display:flex;flex-wrap:wrap;gap:8px 25px;padding-top:17px;padding-bottom:17px}.nav a{color:#40516b;text-decoration:none;font-size:.84rem;font-weight:600}.nav a:hover{text-decoration:underline}main{padding-top:32px;padding-bottom:64px}section{scroll-margin-top:24px;margin-bottom:44px}.panel{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:28px}.posture{display:grid;grid-template-columns:8px 1fr;gap:24px;padding:28px;background:#fff;border:1px solid var(--line);border-radius:16px;margin-bottom:20px}.posture:before{content:"";background:#1c8065;border-radius:6px}.posture h2{font-size:1.45rem}.posture p:last-child{margin-bottom:0}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:20px 0}.metric{padding:20px 22px;background:#fff;border:1px solid var(--line);border-radius:13px}.metric strong{display:block;font-size:2rem;line-height:1.1;letter-spacing:-.04em;margin-bottom:7px}.metric span{font-size:.8rem;color:var(--muted)}.severity-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#fff;margin:20px 0}.severity-cell{padding:15px 20px;border-right:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}.severity-cell:last-child{border:0}.severity-cell strong{font-size:1.2rem}.pill{display:inline-block;border:1px solid #ccd7e4;background:#f1f5f9;color:#3b4e66;border-radius:5px;padding:2px 8px;font-size:.69rem;font-weight:700;letter-spacing:.02em;line-height:1.6;overflow-wrap:anywhere;max-width:100%}.pill.justified{background:#f2ecff;border-color:#c7b3e9;color:#60408e}.pill.disabled,.pill.excluded_from_review{background:#eef0f3;border-color:#c4ccd5;color:#4c5969}.pill.critical{background:#fde9ec;border-color:#f2b1bd;color:#961331}.pill.high{background:#fff0e6;border-color:#f4c8a7;color:#913f0d}.pill.medium{background:#fff9dc;border-color:#e4d280;color:#745707}.pill.low{background:#e8f1ff;border-color:#bdd3f3;color:#285286}.pill.info{background:#edf3f5;border-color:#c6d7dc;color:#375866}.muted,.small{color:var(--muted)}.small{font-size:.84rem}.note{border-left:3px solid #65aa98;padding:12px 18px;background:#edf7f3;border-radius:0 8px 8px 0;font-size:.88rem}.note.warning{border-color:#c9a351;background:#fff9e8}.section-heading{display:flex;justify-content:space-between;gap:20px;align-items:baseline;margin-bottom:18px}.section-heading p{margin-bottom:0}.action-preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}.preview{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px}.preview h3{font-size:1rem;margin-top:10px}.preview p:last-child{margin-bottom:0}.badge-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}.priority{background:#0f2d29;color:#dcfff2;border-color:#0f2d29}.action-card,.finding{background:#fff;border:1px solid var(--line);border-radius:14px;padding:25px;margin-bottom:17px;scroll-margin-top:24px}.action-card h3{font-size:1.25rem}.rule-label{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.76rem;color:var(--muted)}.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.action-grid>div{background:#f6f8fb;padding:18px;border-radius:10px}.action-grid p{margin-bottom:0;font-size:.9rem}.locations{margin-top:15px}.sources{font-size:.79rem;color:var(--muted);margin-top:17px}.sources ul{margin-top:7px}.sources li+li{margin-top:4px}.layer{border-left:3px solid #35aa88;padding:0 0 0 17px;margin:23px 0}.layer h4{font-size:1rem}.layer p{font-size:.87rem;margin-bottom:9px}.layer .residual{color:#6d541b;background:#fff9e9;padding:10px 13px;border-radius:6px}.layer:first-child{margin-top:4px}.layer:last-child{margin-bottom:4px}details{border:1px solid var(--line);border-radius:10px;background:#fff;margin-top:15px}summary{padding:16px 18px;cursor:pointer;font-weight:650;line-height:1.45;overflow-wrap:anywhere}summary:hover{background:#f5f8fa;border-radius:10px}details[open]>summary{border-bottom:1px solid var(--line);border-radius:10px 10px 0 0}.details-body{padding:20px}.details-body>:last-child{margin-bottom:0}.control{margin-top:12px;scroll-margin-top:24px}.control>summary{display:flex;justify-content:space-between;gap:15px;align-items:center}.control-title{max-width:75%}.control-code{display:block;font-size:.72rem;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em}.control>summary:before{content:"+";font-size:1.3rem;color:#397763;margin-right:3px}.control[open]>summary:before{content:"−"}.control>summary .control-title{flex:1}.checklist{list-style:none;padding:0;counter-reset:checks}.checklist li{position:relative;padding:10px 12px 10px 40px;background:#f4f7fa;border-radius:7px;counter-increment:checks;font-size:.88rem}.checklist li:before{content:counter(checks);position:absolute;left:13px;color:#397763;font-weight:700}.analyst-panel{border:1px solid #c7cce9;background:#f7f6fe;border-radius:11px;padding:20px;margin-top:18px}.analyst-panel h4{color:#4e4481}.analyst-check{border-top:1px solid #dcdcf0;padding-top:16px;margin-top:16px}.analyst-check p{font-size:.88rem}.evidence-location{display:block;color:#516279;font-size:.8rem;overflow-wrap:anywhere;margin-bottom:12px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;margin:16px 0}table{border-collapse:collapse;width:100%;font-size:.85rem}th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}th{background:#f1f5f9;color:#485b73;font-weight:650}tr:last-child td{border-bottom:0}.empty{padding:26px;background:#fff;border:1px dashed #a4bfb5;border-radius:12px;color:#3d6657}.coverage-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.coverage-grid>div{min-width:0}.audit{font-size:.75rem;max-height:36rem;overflow:auto}.footer{background:#0b1220;color:#aab9ca;padding:28px 0;font-size:.78rem}.footer p:last-child{margin-bottom:0}.footer strong{color:#f2f6fa}.unlinked{overflow-wrap:anywhere}.inline-code{padding:2px 5px;border:1px solid var(--line);border-radius:4px;background:#f1f5f9}.back{font-size:.78rem;float:right}.verification{padding-left:21px;font-size:.88rem}.check-note{font-size:.8rem;color:#695687}.spacer{margin-top:22px}
+.posture.urgent:before{background:#c34b42}.posture.attention:before{background:#b18832}.posture.neutral:before{background:#597693}
+@media(max-width:850px){.wrap{padding-left:22px;padding-right:22px}.severity-cell{padding:13px 12px;display:block}.severity-cell strong{display:block;margin-top:7px}.coverage-grid{grid-template-columns:1fr}.hero{padding-top:22px;padding-bottom:22px}.hero-meta{display:block}.hero-meta span{display:block;margin-top:8px}.action-grid{grid-template-columns:1fr}.section-heading{display:block}}
+@media(max-width:560px){.wrap{padding-left:16px;padding-right:16px}.edition{max-width:120px}.metrics,.action-preview{grid-template-columns:1fr 1fr;gap:9px}.metric{padding:17px 14px}.metric strong{font-size:1.65rem}.severity-row{grid-template-columns:repeat(3,minmax(0,1fr))}.severity-cell{border-bottom:1px solid var(--line)}.action-preview{grid-template-columns:1fr}.panel,.action-card,.finding{padding:20px}.posture{padding:22px;gap:15px}.control>summary{flex-wrap:wrap}.control-title{max-width:85%}.details-body{padding:16px}.nav .wrap{gap:9px 18px}.brand-name{font-size:1.4rem}.brand svg{width:39px;height:39px}.back{float:none;display:block;margin-bottom:10px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{background:#fff;font-size:10pt}.wrap{max-width:none;padding:0}.masthead{background:#fff;color:#142338;border-bottom:2px solid #1c8065}.brand-name{color:#142338}.brand-by,.edition,.hero p,.hero-meta{color:#516279}.brand svg{background:#0b1220;border-radius:7px}.brandrow{padding:0 0 14px;border:0}.hero{padding:18px 0}.hero .eyebrow{color:#12674f}h1{font-size:27pt}h2{font-size:19pt}.hero-meta span{border-color:#b8c6d6}.nav,.back{display:none}main{padding:20px 0}.panel,.posture,.action-card,.finding,.metric,details,.preview{box-shadow:none;border-color:#c2cbd4;border-radius:5px}.metrics{grid-template-columns:repeat(4,1fr)}.action-preview{grid-template-columns:1fr 1fr}.action-grid{grid-template-columns:1fr 1fr}.metric strong{font-size:22pt}.severity-row{grid-template-columns:repeat(5,1fr)}.severity-cell{display:flex}.action-card,.finding,.control{break-inside:auto}h2,h3,h4,summary{break-after:avoid}pre,.layer{break-inside:auto}.audit{max-height:none;overflow:visible}details>summary{list-style:none}details>.details-body{display:block!important}details::details-content{display:block!important;content-visibility:visible!important}details{content-visibility:visible}a{color:#12674f;text-decoration:underline}.footer{background:#fff;color:#516279;border-top:1px solid #c2cbd4}.footer strong{color:#142338}section{margin-bottom:28px}.hero-meta{display:block}.hero-meta span{display:block;margin-top:5px}.coverage-grid{grid-template-columns:1fr}.table-wrap{overflow:visible}thead{display:table-header-group}.checklist li,.note,.action-grid>div{background:#f6f8fa}@page{margin:16mm 14mm}}
+
+.status-strip{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.status-strip>div{padding:15px 18px;border:1px solid var(--line);border-left:4px solid #238266;border-radius:9px;background:#fff}.status-strip>div:last-child{border-left-color:#8061a6}.status-strip span{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.status-strip strong{display:block;font-size:.95rem;margin:5px 0}.status-strip p{font-size:.8rem;margin:0}.priority-table th:first-child{width:12%}.priority-table th:nth-child(2){width:22%}.priority-table td{vertical-align:top}.priority-table td:last-child{min-width:230px}.priority-table .pill{margin-bottom:6px}.priority-table p{margin:7px 0 0}.priority-table a{font-weight:600}.priority-table .small{font-size:.8rem}
+@media(max-width:760px){.status-strip{grid-template-columns:1fr}.priority-table td:last-child{min-width:190px}}
+.chart{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}.chart svg{display:block;width:100%;height:auto}.chart h3{font-size:1rem}.chart-label{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#40516b}.chart-number{font:600 14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#142338}.visual-summary{margin:22px 0 14px}.review-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:22px 0}.review-flow li{margin:0;padding:22px;background:#fff;border:1px solid var(--line);border-top:4px solid #238266;border-radius:10px}.review-flow li:nth-child(2){border-top-color:#8061a6}.review-flow li:nth-child(3){border-top-color:#c19b4d}.review-flow span{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:9px}.review-flow h3{font-size:1.05rem}.review-flow p{font-size:.86rem;margin-bottom:0}.review-steps li{padding-left:5px}.review-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:22px 0 14px}.review-toolbar button{border:1px solid #12674f;border-radius:8px;padding:12px 18px;background:#12674f;color:#fff;font:600 .86rem -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer}.review-toolbar button:hover{background:#09533e}.review-toolbar button.secondary{background:#fff;color:#12674f}.review-toolbar button.secondary:hover{background:#edf7f3}.review-toolbar button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #8061a6;outline-offset:3px}.review-toolbar span{font-size:.8rem;color:var(--muted)}.review-editor{border-color:#c7cce9;background:#fcfbff}.review-editor summary{display:flex;justify-content:space-between;gap:10px;color:#584282;font-size:.86rem}.review-editor fieldset{border:0;padding:0;margin:0;min-width:0}.review-editor legend{font-weight:650;font-size:.9rem;margin-bottom:12px;overflow-wrap:anywhere;max-width:100%}.review-editor label{display:block;font-size:.8rem;font-weight:650;margin:13px 0 5px}.review-editor input,.review-editor select,.review-editor textarea{width:100%;min-width:0;max-width:100%;padding:10px 12px;border:1px solid #bac5d3;border-radius:6px;background:#fff;color:#243750;font:inherit;font-size:.85rem;line-height:1.5}.review-editor textarea{resize:vertical}.review-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.review-fields>div:last-child{grid-column:1/-1}.review-editor .small:last-child{margin:15px 0 0}.checklist .review-editor{counter-reset:none}.checklist .review-editor li{counter-increment:none}.review-editor .spacer{margin-top:10px}#review-save-status{overflow-wrap:anywhere}#configuration td:nth-child(2){min-width:150px}#method th:first-child{width:30%}#method th:nth-child(2){width:38%}
+@media(max-width:760px){.review-flow{grid-template-columns:1fr}.review-fields{grid-template-columns:1fr}.review-fields>div:last-child{grid-column:auto}.review-toolbar{align-items:stretch}.review-toolbar button{width:100%}.review-editor .details-body{padding:15px}.chart{padding:17px}.review-flow li{padding:18px}#configuration td:nth-child(2){min-width:90px}}
+@media print{.review-toolbar button,noscript{display:none}.review-flow{grid-template-columns:repeat(3,1fr)}.review-editor summary{color:#243750}.review-editor input,.review-editor select,.review-editor textarea{border-color:#c2cbd4}.chart,.review-flow li{break-inside:avoid}.review-editor{break-inside:auto}.review-editor textarea{min-height:60px}}
+</style></head><body>
+<header class="masthead" id="top"><div class="wrap"><div class="brandrow"><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Invarune evidence mark"><polygon fill="#F2F6FA" points="26,4 8,14 8,50 26,60 26,47 19,43 19,21 26,17"/><polygon fill="#35E3B1" points="38,4 56,14 56,50 38,60 38,47 45,43 45,21 38,17"/><polygon fill="#35E3B1" points="32,22 42,32 32,42 22,32"/></svg><div><div class="brand-name">Invarune</div><div class="brand-by">by NimeshBuild</div></div></div>
+<div class="edition">Evidence for agent security<br>Scanner 0.15.0</div></div>
+<div class="hero"><h1>AI agent, MCP &amp; skill security report</h1>
+<p>Findings, priorities, and evidence needed to verify safeguards.</p>
+<div class="hero-meta"><span>Source scope: selected directory (relative paths)</span><span>Scan ID: <code>da4d62e183b5547b3271a025705316305a4112899c8b700c67c7ba3805b003dd</code></span></div></div></div></header>
+<nav class="nav" aria-label="Report navigation"><div class="wrap"><a href="#summary">Executive summary</a><a href="#scoring">Metrics and calculation</a><a href="#actions">Priority actions</a><a href="#findings">Finding evidence</a><a href="#review-workspace">Review and save</a><a href="#method">Methods and blind spots</a><a href="#configuration">Scan configuration</a><a href="#coverage">Coverage</a><a href="#advisory">Optional review</a><a href="#controls">All controls</a></div></nav>
+<main class="wrap"><section id="summary"><p class="eyebrow">Start here</p><h2>Executive summary</h2>
+<div class="posture neutral"><div><h2>No configured risk patterns detected</h2><p>The selected static scope completed without a detector match. This is not a security pass. Review the unassessed boundaries and validate the controls below.</p></div></div>
+<div class="metrics">
+<div class="metric"><strong>0</strong><span>Open findings</span></div>
+<div class="metric"><strong>0</strong><span>Critical / high findings</span></div>
+<div class="metric"><strong>0</strong><span>Files with open findings</span></div>
+<div class="metric"><strong>0</strong><span>Recorded coverage gaps</span></div>
+</div><div class="status-strip" aria-label="Independent scan and review outcomes"><div><span>Deterministic layer</span><strong>Selected scope completed</strong><p>Observed evidence and fixes. <a href="#coverage">Inspect scope and limits</a>.</p></div><div><span>Optional model layer</span><strong>Disabled - no model review requested</strong><p>Advisory interpretations remain separate. <a href="#advisory">Inspect actual review coverage</a>.</p></div></div><div class="severity-row" aria-label="Open findings by severity">
+<div class="severity-cell"><span class="pill critical">critical</span><strong>0</strong></div>
+<div class="severity-cell"><span class="pill high">high</span><strong>0</strong></div>
+<div class="severity-cell"><span class="pill medium">medium</span><strong>0</strong></div>
+<div class="severity-cell"><span class="pill low">low</span><strong>0</strong></div>
+<div class="severity-cell"><span class="pill info">info</span><strong>0</strong></div>
+</div><p class="small">Inspected <strong>2 files</strong>; <strong>0 suppressed findings</strong> are retained below. <strong>1 active controls require validation</strong> out of 1 selected controls; static pattern results do not establish control completion.</p>
+<p class="small"><strong>Configured severity gate:</strong> high · <strong>Process exit code:</strong> 0. The exit code follows configured scan policy; it is not a security rating.</p>
+<p class="note">This is static security triage, not certification or proof that a system is secure. Finding severity describes a detected risk pattern; reachability, exploitability, exposure, and deployed safeguards still require verification.</p>
+<p class="small spacer"><strong>Optional review:</strong> disabled. The deterministic analysis ran offline; no LLM request was made.</p>
+<p class="note"><strong>Actionable fix guidance:</strong> 0/0 observed findings have a deterministic fix plan, verification steps and agent/MCP context. Proposed changes still require validation.</p>
+<div class="coverage-grid visual-summary"><div class="chart"><h3>Finding dispositions</h3><svg viewBox="0 0 560 146" role="img" aria-label="Finding dispositions"><title>Finding dispositions; Open findings: 0; Baseline suppressed: 0; User justified: 0; User disabled: 0</title><text x="0" y="22" class="chart-label">Open findings</text><rect x="190" y="5" width="290" height="23" rx="4" fill="#edf1f5"/><rect x="190" y="5" width="0.00" height="23" rx="4" fill="#c26024"/><text x="492" y="22" class="chart-number">0</text><text x="0" y="56" class="chart-label">Baseline suppressed</text><rect x="190" y="39" width="290" height="23" rx="4" fill="#edf1f5"/><rect x="190" y="39" width="0.00" height="23" rx="4" fill="#7a8595"/><text x="492" y="56" class="chart-number">0</text><text x="0" y="90" class="chart-label">User justified</text><rect x="190" y="73" width="290" height="23" rx="4" fill="#edf1f5"/><rect x="190" y="73" width="0.00" height="23" rx="4" fill="#8061a6"/><text x="492" y="90" class="chart-number">0</text><text x="0" y="124" class="chart-label">User disabled</text><rect x="190" y="107" width="290" height="23" rx="4" fill="#edf1f5"/><rect x="190" y="107" width="0.00" height="23" rx="4" fill="#99a4b2"/><text x="492" y="124" class="chart-number">0</text></svg></div><div class="chart"><h3>Static control mapping</h3><svg viewBox="0 0 560 78" role="img" aria-label="Static control mapping"><title>Static control mapping; Partial static mapping: 1; No mapped detector: 0</title><text x="0" y="22" class="chart-label">Partial static mapping</text><rect x="190" y="5" width="290" height="23" rx="4" fill="#edf1f5"/><rect x="190" y="5" width="290.00" height="23" rx="4" fill="#238266"/><text x="492" y="22" class="chart-number">1</text><text x="0" y="56" class="chart-label">No mapped detector</text><rect x="190" y="39" width="290" height="23" rx="4" fill="#edf1f5"/><rect x="190" y="39" width="0.00" height="23" rx="4" fill="#99a4b2"/><text x="492" y="56" class="chart-number">0</text></svg></div></div><p class="small">The mapping chart counts active selected controls with at least one active selected partial detector: 1/1. It is not a control pass rate or vulnerability-detection rate. 0/2 active acceptance checks received an optional model answer; an answer does not establish effectiveness.</p>
+<div class="empty"><strong>No open finding groups.</strong> Review any baseline or user-configured exceptions and complete the active coverage and control validation work below. An empty finding list does not demonstrate that a deployment is secure.</div>
+</section>
+<section id="scoring"><p class="eyebrow">Transparent measures</p><h2>Metrics and how they are calculated</h2>
+<p class="note">No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.</p>
+<div class="table-wrap"><table><thead><tr><th>Measure</th><th>Result</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Open deterministic findings</td><td><strong>0 (0 critical/high)</strong></td><td>Exact observed counts. No severity weights or estimated probability of compromise are assigned.</td></tr>
+<tr><td>Partial deterministic mapping reach</td><td><strong>100.00% (1/1)</strong></td><td>Active selected controls with at least one active selected mapped rule. Partial availability, not a pass rate.</td></tr>
+<tr><td>Optional AI answer coverage</td><td><strong>0.00% (0/2)</strong></td><td>Active selected checks with an actual model answer, including concerns or explicit unknowns. Review completion, not a pass rate.</td></tr>
+</tbody></table></div><p><strong>Selected scope:</strong> 1 rules (1 active), 1 controls (1 active), 2 active acceptance checks.</p>
+<p><strong>Static execution:</strong> Selected scope completed; 0 recorded coverage gaps.</p>
+<h3>Optional AI outcomes</h3><p>Finding stage: disabled. Control stage: disabled.</p>
+<div class="table-wrap"><table><thead><tr><th>Advisory check outcome</th><th>Count</th></tr></thead><tbody>
+<tr><td>supported_by_code</td><td>0</td></tr>
+<tr><td>potential_gap</td><td>0</td></tr>
+<tr><td>needs_runtime_validation</td><td>0</td></tr>
+<tr><td>needs_human_review</td><td>0</td></tr>
+<tr><td>insufficient_evidence</td><td>0</td></tr>
+<tr><td>not_applicable_proposed</td><td>0</td></tr>
+<tr><td>not_reviewed</td><td>2</td></tr>
+</tbody></table></div><p>Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes.</p>
+<details class="" open><summary>Exact formulas, exclusions, and CI gate</summary><div class="details-body"><p><strong>Mapping formula:</strong> 100 × active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.</p><p><strong>AI answer formula:</strong> 100 × unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.</p><p>Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.</p><p>The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.</p></div></details>
+</section>
+<section id="review-workspace"><p class="eyebrow">Your review record</p><h2>Review, save, and rescan</h2>
+<div class="panel"><p>Use <strong>Record your review</strong> beside a finding, acceptance check, or coverage gap. Keep the observed result and your rationale together. Justifications are user decisions, never automatic passes.</p>
+<ol class="review-steps"><li><a href="#findings">Review findings</a> and <a href="#controls">acceptance checks</a>; add an owner, reason and supporting reference.</li><li>Choose <strong>Download reviewed HTML</strong> below. Use this button instead of the browser’s Save As command so form edits and import metadata are preserved.</li><li>Scan the current source/image again using the saved file: <code>invarune ./repository --review-report ./invarune-reviewed.html --output ./new-report</code>.</li></ol>
+<p class="note warning">Rescanning checks the current evidence before reusing decisions. Changed or out-of-scope records remain visible for review; a missing detection is not proof of remediation. Runtime and human validation notes do not waive coverage gaps.</p>
+<div class="review-toolbar"><button type="button" id="download-reviewed-html">Download reviewed HTML</button><button type="button" id="download-review-json" class="secondary">Download review JSON</button><span id="review-progress" role="status" aria-live="polite">0 of 2 items have a review decision.</span></div>
+<p id="review-save-status" class="small" role="status" aria-live="polite">Edits stay in this browser tab until you download a reviewed file. No network request is made.</p>
+<noscript><p class="note warning">The report remains readable without JavaScript. Local review editing and the download buttons require the bundled editor script. No external scripts are loaded.</p></noscript>
+</div>
+</section>
+<section id="actions"><div class="section-heading"><div><p class="eyebrow">Action plan</p><h2>Priority actions and defense layers</h2></div><a class="back" href="#top">Back to top</a></div>
+<p>Each group connects observed evidence to a practical first action, an accountable team, and additional safeguards. These layers are <strong>proposed, not verified</strong>; they do not automatically reduce finding severity or remove the need to fix the underlying condition.</p>
+<p class="empty">No finding groups were generated. Use the complete control checklist to plan runtime, deployment, and manual validation.</p>
+</section><section id="findings"><div class="section-heading"><div><p class="eyebrow">Scanner observations</p><h2>Complete finding evidence</h2></div><a class="back" href="#top">Back to top</a></div>
+<p class="small">All 0 findings are retained with locations, stable IDs, confidence, remediation, and references. Suppressed, justified, and disabled findings remain visible as distinct exceptions.</p>
+<p class="empty">No configured risk patterns were detected in the selected files.</p>
+</section>
+
+<section id="method"><p class="eyebrow">Understand the evidence</p><h2>How the review layers work</h2>
+<ol class="review-flow"><li><span>01 / Deterministic</span><h3>Inspect selected artifacts</h3><p>Bounded parsers and static rules collect reproducible file, configuration and image observations. Scope limits and read or parse failures remain visible.</p></li>
+<li><span>02 / Optional model</span><h3>Review bounded evidence</h3><p>An explicitly enabled model can identify contextual concerns. Deterministic selection, budgets, schema checks and exact-quote checks constrain its input and output. Its judgment remains advisory.</p></li>
+<li><span>03 / Human and runtime</span><h3>Verify deployed controls</h3><p>Owners validate access boundaries, approvals, isolation and recovery in the deployed system. Record your evidence and unresolved work in this report.</p></li></ol>
+<div class="table-wrap"><table><thead><tr><th>Scenario a scan can miss</th><th>What each review layer can establish</th><th>What still needs evidence</th></tr></thead><tbody>
+<tr><td><strong>Execution and data flow</strong><br>Cross-file flows, unknown decorators/methods, complex JavaScript wrappers, dynamic imports, reflection, generated code and runtime values can hide a risk. Recognized resource/binding failures remain gaps. A dangerous API can be intentional and correctly constrained.</td><td><strong>Deterministic:</strong> Python AST checks propagate selected registered-tool inputs and same-file arguments/returns, retain aliases and exact literal constraints, and check selected execution/file/network sinks. JavaScript tokens support narrow registerTool callbacks and direct-return named/arrow wrappers. Explicit world-writable chmod modes are checked.<br><strong>Optional model:</strong> A model can form a trust-boundary hypothesis, request bounded captured source ranges to inspect callers or guards, seek counterevidence and explain what the supplied code still cannot establish.</td><td>Exercise actual entry points with authorized negative tests; verify input provenance, execution privileges and sandbox boundaries.</td></tr>
+<tr><td><strong>MCP identity, authorization and tools</strong><br>Configuration may differ from deployment. External gateways, identity providers, token audience checks and tenant boundaries may be absent from retrieved evidence.</td><td><strong>Deterministic:</strong> Selected configuration/code signals flag insecure transport, explicit authentication bypass, token passthrough, broad tool grants and unpinned server launch packages.<br><strong>Optional model:</strong> A model can review supplied authorization logic, tool descriptions and trust-boundary evidence for missing assumptions or inconsistent checks.</td><td>Test expired/wrong-audience tokens, cross-tenant access, per-tool authorization, consent binding and the deployed MCP transport.</td></tr>
+<tr><td><strong>Prompt injection, retrieval and memory</strong><br>Adaptive attacks, multi-turn interactions and tool chains depend on runtime behavior. Retrieval can omit the relevant code; a model can overlook an attack or be influenced by hostile evidence.</td><td><strong>Deterministic:</strong> Selected patterns identify external content placed in privileged model messages and explicit approval/sandbox bypass. This is not an attack simulation.<br><strong>Optional model:</strong> A model can reason about untrusted-content handling, persistent memory, tool-output influence and missing approval boundaries in the supplied excerpts.</td><td>Run isolated adversarial agent/MCP evaluations with attack-success and legitimate-task measurements, plus human review of consequential actions.</td></tr>
+<tr><td><strong>Secrets and data handling</strong><br>Encoded, split or runtime-fetched credentials can be missed; labels/test values can resemble secrets. Neither layer establishes whether a credential is live or redaction is complete.</td><td><strong>Deterministic:</strong> Selected literal credentials, plausible private-key material, credential-bearing URLs, logging patterns and browser credential exposure are flagged and redacted best-effort.<br><strong>Optional model:</strong> A model can identify sensitive data flows and retention concerns when the supplied evidence explains their context.</td><td>Verify secret stores, credential rotation, logging/retention policy, egress destinations and actual data-access permissions.</td></tr>
+<tr><td><strong>Skills and malicious-tool indicators</strong><br>A pattern is risk evidence, not proof of malicious authorship. Obfuscation, remote references, external packages, omitted context and runtime behavior can evade either layer.</td><td><strong>Deterministic:</strong> Bounded skill/tool/schema descriptions are checked for instruction hijacking, sensitive-data transfer, covert or approval-bypassing actions. Selected Spanish/French/German overrides and paired authority claims supplement English predicates. Python read-only tool annotations are compared with recognized direct write witnesses.<br><strong>Optional model:</strong> A model can review intent, indirect social engineering, skill reference context and tool behavior visible in retrieved evidence, including cases where syntax or supported patterns are inconclusive.</td><td>Inspect publisher provenance and the exact installed skill/tool; test consequential actions in an authorized isolated environment and verify effective permissions.</td></tr>
+<tr><td><strong>Built images and supply chain</strong><br>Compiled logic, live deployment overrides, signature trust and dependency CVEs are not assessed. Package inventory and archive consistency do not establish safety or publisher identity.</td><td><strong>Deterministic:</strong> Image archives are reconstructed without starting containers; supported packaged source, metadata, retained credentials, stored permissions and package inventories are inspected.<br><strong>Optional model:</strong> A model can interpret supplied image/source evidence, flag missing deployment context and propose verification work.</td><td>Use vulnerability/advisory analysis, provenance/signature verification and deployment testing alongside the static image assessment.</td></tr>
+<tr><td><strong>Operations and control effectiveness</strong><br>A valid citation proves that a quote exists, not that the model&#x27;s interpretation is correct. Policies, external services, incident procedures and production outcomes may be unavailable.</td><td><strong>Deterministic:</strong> The catalog retains governance, monitoring, recovery, approval and isolation checks even where no deterministic rule maps to them.<br><strong>Optional model:</strong> Full review queues every active acceptance check and can identify evidence gaps or propose runtime/human validation; it can cite exact submitted source text.</td><td>Record owner-reviewed evidence, operational exercises and runtime results. A written justification remains an accepted exception, never an automatically validated pass.</td></tr>
+</tbody></table></div>
+<details class=""><summary>Complete scan and review workflow</summary><div class="details-body"><ol><li>Choose an explicit code/image target and scan configuration; no target code or container is started.</li><li>Collect bounded deterministic evidence, record hashes, rule matches, exclusions and coverage gaps.</li><li>When explicitly enabled, select bounded evidence for finding triage and every active control check; findings-only mode narrows this step.</li><li>Run advisory requests under fixed limits. The default full analyst may request only validated file-ID/line ranges from an already captured, hash-verified snapshot; no arbitrary file reads or target tools execute. Validate response schemas, known identifiers and exact quotes.</li><li>Retain unsupported claims and runtime/human requirements; record user review decisions separately from model advice.</li><li>Import an explicitly selected reviewed report with a fresh target scan; revalidate evidence bindings, retain stale decisions for audit and recompute the result.</li></ol></div></details>
+<p class="note">Neither layer provides a numerical security score, complete attack coverage, or compliance certification. Human notes and proposed verification are not proof that a check passed.</p></section>
+<section id="configuration"><p class="eyebrow">Reproduce the selected run</p><h2>Scan configuration</h2>
+<div class="table-wrap"><table><thead><tr><th>Setting</th><th>Recorded value</th><th>Effect on this report</th></tr></thead><tbody>
+<tr><td>Input mode</td><td>source directory</td><td>Only the selected artifact is inspected; no target application is executed.</td></tr>
+<tr><td>Severity gate</td><td>high</td><td>Only open findings at this threshold or higher affect the finding gate; operational gaps remain separate.</td></tr>
+<tr><td>Active static rules</td><td>1</td><td>Justified/disabled rule matches remain audit observations and receive no positive or negative count.</td></tr>
+<tr><td>Maximum source file bytes</td><td>1000000</td><td>A larger selected file creates a visible coverage gap.</td></tr>
+<tr><td>Total source read budget</td><td>50000000</td><td>The bounded read budget includes conservative charging for failed reads.</td></tr>
+<tr><td>Maximum source files / traversal entries</td><td>20000 / 100000</td><td>A reached limit leaves work incomplete, rather than silently treating omitted content as safe.</td></tr>
+<tr><td>Finding judge</td><td>disabled</td><td>Only explicitly enabled review sends a bounded payload. The model cannot change recorded static severity.</td></tr>
+<tr><td>Control analyst</td><td>disabled</td><td>Only active acceptance checks enter the optional queue.</td></tr>
+<tr><td>Control requests used / allowed</td><td>0 / not enabled</td><td>The finding-triage request is a separate request; budgets do not guarantee completed validation.</td></tr>
+<tr><td>Configured optional review provider / mode</td><td>None / full</td><td>Configured request settings; the actual stage results above show whether the requested work completed.</td></tr>
+<tr><td>Configured finding limit / extra source</td><td>100 / False</td><td>Controls finding-triage scope; full-mode source selection has separate evidence budgets.</td></tr>
+</tbody></table></div>
+<details class=""><summary>Selected source configuration, exclusions and limits</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;default_excluded_directories&quot;: [
+    &quot;.cache&quot;,
+    &quot;.git&quot;,
+    &quot;.hg&quot;,
+    &quot;.mypy_cache&quot;,
+    &quot;.next&quot;,
+    &quot;.pytest_cache&quot;,
+    &quot;.svn&quot;,
+    &quot;.tox&quot;,
+    &quot;.venv&quot;,
+    &quot;__pycache__&quot;,
+    &quot;build&quot;,
+    &quot;coverage&quot;,
+    &quot;dist&quot;,
+    &quot;node_modules&quot;,
+    &quot;vendor&quot;,
+    &quot;venv&quot;
+  ],
+  &quot;exclude&quot;: [],
+  &quot;explicit_exclusion_identity_scope&quot;: &quot;Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.&quot;,
+  &quot;explicit_exclusion_matching&quot;: &quot;resolved_paths_and_snapshot_filesystem_identities&quot;,
+  &quot;generated_outputs_and_judge_config_excluded&quot;: true,
+  &quot;max_entries&quot;: 100000,
+  &quot;max_file_bytes&quot;: 1000000,
+  &quot;max_files&quot;: 20000,
+  &quot;max_total_bytes&quot;: 50000000,
+  &quot;requested_scan_ids&quot;: [
+    &quot;EXEC-05&quot;
+  ],
+  &quot;selected_control_ids&quot;: [
+    &quot;EXEC-05&quot;
+  ],
+  &quot;selected_rule_ids&quot;: [
+    &quot;AI014&quot;
+  ]
+}</code></pre></div></details>
+<details class=""><summary>Optional review request and evidence coverage</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;analyst_coverage&quot;: {},
+  &quot;judge&quot;: {
+    &quot;enabled&quot;: false
+  }
+}</code></pre></div></details>
+<details class=""><summary>Configured run options (budgets are limits, not work completed)</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;optional_review&quot;: {
+    &quot;analyst_limits&quot;: {
+      &quot;batch_size&quot;: 6,
+      &quot;investigation_rounds&quot;: 2,
+      &quot;max_bytes&quot;: 2000000,
+      &quot;max_calls&quot;: 36,
+      &quot;max_chars&quot;: 120000,
+      &quot;max_files&quot;: 200,
+      &quot;max_seconds&quot;: 600
+    },
+    &quot;cli_login&quot;: &quot;auto&quot;,
+    &quot;cli_timeout_seconds&quot;: null,
+    &quot;effective_transport&quot;: {},
+    &quot;enabled&quot;: false,
+    &quot;findings_limit&quot;: 100,
+    &quot;include_finding_source&quot;: false,
+    &quot;mode&quot;: &quot;full&quot;,
+    &quot;provider&quot;: null,
+    &quot;transport_replay&quot;: &quot;Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay.&quot;
+  },
+  &quot;reporting&quot;: {
+    &quot;failure_threshold&quot;: &quot;high&quot;,
+    &quot;formats&quot;: [
+      &quot;html&quot;,
+      &quot;markdown&quot;,
+      &quot;json&quot;,
+      &quot;sarif&quot;,
+      &quot;pdf&quot;
+    ]
+  },
+  &quot;review_inputs&quot;: {
+    &quot;baseline&quot;: false,
+    &quot;review_config&quot;: false,
+    &quot;review_report&quot;: false
+  },
+  &quot;schema_version&quot;: &quot;1.0&quot;
+}</code></pre></div></details>
+</section>
+<section id="coverage"><div class="section-heading"><div><p class="eyebrow">Scope and assurance</p><h2>What this scan could establish</h2></div></div>
+<div class="coverage-grid"><div class="panel"><h3>Coverage requiring attention</h3>
+<p>No traversal, parsing, or resource-limit gaps were recorded inside the selected scope.</p>
+<p class="small">Excluded directories, unsupported languages, deployment configuration, and runtime behavior may remain outside that scope.</p></div>
+<div class="panel"><h3>Unknowns and follow-up validation</h3>
+<ul class="small"><li>Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.</li><li>Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.</li><li>Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.</li><li>No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope.</li></ul>
+</div></div>
+<h3 class="spacer">Analysis depth</h3><p class="small">File counts describe inspected inputs; they do not imply complete semantic coverage.</p><div class="table-wrap"><table><thead><tr><th>Profile</th><th>Files</th><th>Analysis scope</th></tr></thead><tbody><tr><td>python_ast</td><td>2</td><td>Python AST, bounded aliases/values, selected same-file argument/return flow, exact literal guards and read-only tool write witnesses; no whole-program or runtime proof.</td></tr></tbody></table></div>
+<p class="small">Source I/O: <strong>1243 bytes read</strong>; 1243 bytes charged against the budget, including 0 conservatively charged bytes for failed reads. Reads reserve a sentinel byte to detect growth.</p>
+<details class=""><summary>All scanner limitations</summary><div class="details-body"><ul><li>Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.</li><li>Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.</li><li>No dependencies are installed, target code executed, services contacted, or CVE feed queried.</li><li>Default excluded directories and unsupported files remain outside the selected scan scope.</li><li>Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.</li><li>Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data.</li></ul></div></details>
+<details class=""><summary>Scan errors (0)</summary><div class="details-body"><p>No scan errors recorded.</p></div></details>
+<details class=""><summary>Excluded or skipped paths (0)</summary><div class="details-body"><p>No skipped paths recorded.</p></div></details>
+<details class=""><summary>Source and dependency inventory</summary><div class="details-body"><p>Dependency manifests: <strong>0</strong>; agent/MCP signal files: <strong>0</strong>.</p><p class="small">Dependency manifests are inventoried; they are not checked against a vulnerability database.</p><pre class="audit"><code>{
+  &quot;agent_mcp_signals&quot;: [],
+  &quot;dependency_manifests&quot;: [],
+  &quot;extensions&quot;: {
+    &quot;.py&quot;: 2
+  },
+  &quot;skill_instruction_files&quot;: [],
+  &quot;skill_manifests&quot;: []
+}</code></pre></div></details>
+<details class=""><summary>Inspected file manifest and content hashes</summary><div class="details-body"><pre class="audit"><code>[
+  {
+    &quot;analysis_profile&quot;: &quot;python_ast&quot;,
+    &quot;bytes&quot;: 444,
+    &quot;path&quot;: &quot;agent.py&quot;,
+    &quot;sha256&quot;: &quot;3f8ad0be3946f65cce7217f596f63de4fa2bde0cd62d8f397702d7bd83c1c199&quot;
+  },
+  {
+    &quot;analysis_profile&quot;: &quot;python_ast&quot;,
+    &quot;bytes&quot;: 799,
+    &quot;path&quot;: &quot;delivery.py&quot;,
+    &quot;sha256&quot;: &quot;b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c&quot;
+  }
+]</code></pre></div></details>
+<details class=""><summary>Scan configuration and selected rules</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;configuration&quot;: {
+    &quot;default_excluded_directories&quot;: [
+      &quot;.cache&quot;,
+      &quot;.git&quot;,
+      &quot;.hg&quot;,
+      &quot;.mypy_cache&quot;,
+      &quot;.next&quot;,
+      &quot;.pytest_cache&quot;,
+      &quot;.svn&quot;,
+      &quot;.tox&quot;,
+      &quot;.venv&quot;,
+      &quot;__pycache__&quot;,
+      &quot;build&quot;,
+      &quot;coverage&quot;,
+      &quot;dist&quot;,
+      &quot;node_modules&quot;,
+      &quot;vendor&quot;,
+      &quot;venv&quot;
+    ],
+    &quot;exclude&quot;: [],
+    &quot;explicit_exclusion_identity_scope&quot;: &quot;Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.&quot;,
+    &quot;explicit_exclusion_matching&quot;: &quot;resolved_paths_and_snapshot_filesystem_identities&quot;,
+    &quot;generated_outputs_and_judge_config_excluded&quot;: true,
+    &quot;max_entries&quot;: 100000,
+    &quot;max_file_bytes&quot;: 1000000,
+    &quot;max_files&quot;: 20000,
+    &quot;max_total_bytes&quot;: 50000000,
+    &quot;requested_scan_ids&quot;: [
+      &quot;EXEC-05&quot;
+    ],
+    &quot;selected_control_ids&quot;: [
+      &quot;EXEC-05&quot;
+    ],
+    &quot;selected_rule_ids&quot;: [
+      &quot;AI014&quot;
+    ]
+  },
+  &quot;rules_enabled&quot;: [
+    &quot;AI014&quot;
+  ]
+}</code></pre></div></details>
+</section>
+<section id="advisory"><p class="eyebrow">Separate advisory layer</p><h2>Optional security review</h2><div class="panel">
+<p class="note">Model output is nondeterministic and advisory. It cannot dismiss deterministic findings, change their severity, establish compliance, or change the deterministic CI gate.</p>
+<p><strong>Disabled.</strong> No optional LLM request was made. The deterministic scan and this report run independently.</p>
+</div></section>
+<section id="controls"><div class="section-heading"><div><p class="eyebrow">Complete control checklist</p><h2>Controls and acceptance checks</h2></div><a class="back" href="#top">Back to top</a></div>
+<p>All 1 selected controls appear below. Expand a control for acceptance checks, source guidance, mapped findings, and any optional analyst review.</p>
+<p class="note">These are project-defined checks mapped to published guidance, not official benchmark scores. <code>no_pattern_detected</code> means only that the mapped detector did not fire. <code>findings_detected</code> requires investigation; it is not an automatic compliance failure.</p>
+<details class="control" id="control-8d806d3c9d3c050c"><summary><span class="control-title"><span class="control-code">EXEC-05</span>Prevent SSRF and unsafe network destinations</span><span class="pill">no_pattern_detected</span></summary><div class="details-body">
+<p class="small"><strong>Category:</strong> Execution and application security · <strong>Validation:</strong> hybrid</p>
+<p class="note">Partial static coverage only; absence of a finding is not a pass</p>
+<h4>Acceptance checks</h4>
+<ol class="checklist"><li>Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect.<details class="review-editor" id="review-8b86e2aef2326d7a"><summary>Record your review <span class="pill">unreviewed</span></summary><div class="details-body">
+<fieldset data-review-id="check:EXEC-05:1"><legend>EXEC-05:1 Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect.</legend>
+<p class="small">Justified or disabled requires a reason and reviewer. Notes and runtime/human validation requests do not remove an open finding or establish a pass.</p>
+<label for="review-8b86e2aef2326d7a-decision">Review decision</label><select id="review-8b86e2aef2326d7a-decision" data-field="decision">
+<option value="" selected>Unreviewed</option>
+<option value="justified">Justified by reviewer</option>
+<option value="disabled">Disabled by reviewer</option>
+<option value="note">Review note</option>
+<option value="needs_runtime_validation">Needs runtime validation</option>
+<option value="needs_human_review">Needs human review</option>
+</select><label for="review-8b86e2aef2326d7a-reason">Reason / evidence summary</label><textarea id="review-8b86e2aef2326d7a-reason" data-field="reason" rows="3" maxlength="8000"></textarea><div class="review-fields">
+<div><label for="review-8b86e2aef2326d7a-reviewer">Reviewer</label><input type="text" id="review-8b86e2aef2326d7a-reviewer" data-field="reviewer" maxlength="200" value="" placeholder="Name or accountable team"></div>
+<div><label for="review-8b86e2aef2326d7a-reviewed_at">Review date (optional)</label><input type="text" id="review-8b86e2aef2326d7a-reviewed_at" data-field="reviewed_at" maxlength="64" value="" placeholder="YYYY-MM-DD or ISO timestamp"></div>
+<div><label for="review-8b86e2aef2326d7a-evidence_ref">Evidence reference (optional)</label><input type="text" id="review-8b86e2aef2326d7a-evidence_ref" data-field="evidence_ref" maxlength="2000" value="" placeholder="Ticket, document, or test-run reference; stored as plain text"></div>
+</div><p class="small">Edits are pending review records. Use <strong>Download reviewed HTML</strong> to save them, then rerun the CLI with that file. This page’s scan totals remain the original snapshot.</p></fieldset></div></details></li><li>Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases.<details class="review-editor" id="review-5ff5058910e8b552"><summary>Record your review <span class="pill">unreviewed</span></summary><div class="details-body">
+<fieldset data-review-id="check:EXEC-05:2"><legend>EXEC-05:2 Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases.</legend>
+<p class="small">Justified or disabled requires a reason and reviewer. Notes and runtime/human validation requests do not remove an open finding or establish a pass.</p>
+<label for="review-5ff5058910e8b552-decision">Review decision</label><select id="review-5ff5058910e8b552-decision" data-field="decision">
+<option value="" selected>Unreviewed</option>
+<option value="justified">Justified by reviewer</option>
+<option value="disabled">Disabled by reviewer</option>
+<option value="note">Review note</option>
+<option value="needs_runtime_validation">Needs runtime validation</option>
+<option value="needs_human_review">Needs human review</option>
+</select><label for="review-5ff5058910e8b552-reason">Reason / evidence summary</label><textarea id="review-5ff5058910e8b552-reason" data-field="reason" rows="3" maxlength="8000"></textarea><div class="review-fields">
+<div><label for="review-5ff5058910e8b552-reviewer">Reviewer</label><input type="text" id="review-5ff5058910e8b552-reviewer" data-field="reviewer" maxlength="200" value="" placeholder="Name or accountable team"></div>
+<div><label for="review-5ff5058910e8b552-reviewed_at">Review date (optional)</label><input type="text" id="review-5ff5058910e8b552-reviewed_at" data-field="reviewed_at" maxlength="64" value="" placeholder="YYYY-MM-DD or ISO timestamp"></div>
+<div><label for="review-5ff5058910e8b552-evidence_ref">Evidence reference (optional)</label><input type="text" id="review-5ff5058910e8b552-evidence_ref" data-field="evidence_ref" maxlength="2000" value="" placeholder="Ticket, document, or test-run reference; stored as plain text"></div>
+</div><p class="small">Edits are pending review records. Use <strong>Download reviewed HTML</strong> to save them, then rerun the CLI with that file. This page’s scan totals remain the original snapshot.</p></fieldset></div></details></li></ol>
+<p class="small spacer"><strong>Partial static rules:</strong> AI014</p>
+
+
+
+
+<p class="small spacer"><strong>Source mappings:</strong> MCP-SECURITY</p>
+<div class="sources"><strong>Published control guidance</strong><ul><li><a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices" rel="noopener noreferrer">https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices</a></li></ul></div>
+</div></details>
+</section><section id="provenance"><h2>Report provenance</h2><div class="panel"><p class="small">The executive assessment is derived deterministically from scan findings, scope, and the versioned mitigation guidance catalog. Optional model advice is shown separately.</p>
+<details class=""><summary>Assessment method and guidance provenance</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;guidance&quot;: {
+    &quot;catalog_version&quot;: &quot;1.0.0&quot;,
+    &quot;reviewed_at&quot;: &quot;2026-09-19&quot;,
+    &quot;sha256&quot;: &quot;1bd48fd16d4fe76ae3ccd1cacddce9bea2dedd0000856d61b21ffb8ba8c5dd7b&quot;,
+    &quot;source_registry_sha256&quot;: &quot;89fafd809356f5b062f9ea52eb5d99531902bc5bb59c34f4695d2838ad826105&quot;
+  },
+  &quot;method&quot;: &quot;deterministic_guidance&quot;,
+  &quot;priority_basis&quot;: &quot;P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.&quot;,
+  &quot;schema_version&quot;: &quot;1.0&quot;
+}</code></pre></div></details>
+<details class=""><summary>Scanner identity and implementation digest</summary><div class="details-body"><pre class="audit"><code>{
+  &quot;mode&quot;: &quot;deterministic_static&quot;,
+  &quot;scan_id&quot;: &quot;da4d62e183b5547b3271a025705316305a4112899c8b700c67c7ba3805b003dd&quot;,
+  &quot;schema_version&quot;: &quot;1.0&quot;,
+  &quot;tool&quot;: {
+    &quot;display_name&quot;: &quot;Invarune by NimeshBuild&quot;,
+    &quot;implementation_sha256&quot;: &quot;525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b&quot;,
+    &quot;name&quot;: &quot;agent-mcp-security-scan&quot;,
+    &quot;python_version&quot;: &quot;3.12.14&quot;,
+    &quot;version&quot;: &quot;0.15.0&quot;
+  }
+}</code></pre></div></details>
+<p class="small spacer">This standalone report loads no external resources. Its fixed local editor only records and downloads review decisions; it never executes evidence or contacts a service. Evidence and advice are rendered as text. Redaction is best-effort; treat the report as potentially sensitive.</p></div></section></main>
+<footer class="footer"><div class="wrap"><p><strong>Invarune by NimeshBuild</strong> / Evidence for agent security.</p><p>Preserve the scan ID and evidence when assigning remediation. Verify controls in the deployed system before accepting residual risk.</p></div></footer>
+<script type="application/json" id="invarune-review">{"items":[{"binding_sha256":"fd831b2d29a514ba09a917ddc9ad117f06287052030abc3272a928e2e58aff0d","decision":"","evidence_ref":"","id":"check:EXEC-05:1","kind":"check","reason":"","reviewed_at":"","reviewer":"","subject":"EXEC-05:1 Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect."},{"binding_sha256":"a733931c250c834626baefc91c10f32a139dd325c5fd295fe6713285d66cc4b3","decision":"","evidence_ref":"","id":"check:EXEC-05:2","kind":"check","reason":"","reviewed_at":"","reviewer":"","subject":"EXEC-05:2 Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."}],"kind":"invarune_review","origin":{"catalog_sha256":"468d22dfd1b6de6081998eaf5a73e05d6bba97aefcd186fce5633392535fbb9f","configuration":{"default_excluded_directories":[".cache",".git",".hg",".mypy_cache",".next",".pytest_cache",".svn",".tox",".venv","__pycache__","build","coverage","dist","node_modules","vendor","venv"],"exclude":[],"generated_outputs_and_judge_config_excluded":true,"max_entries":100000,"max_file_bytes":1000000,"max_files":20000,"max_total_bytes":50000000,"requested_scan_ids":["EXEC-05"],"selected_control_ids":["EXEC-05"],"selected_rule_ids":["AI014"]},"evidence_sha256":"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945","image_limits":{},"manifest_sha256":"998febdd04741eaa52250542d70cbb578ba602982cd9faedea4a151be69c7005","scan_id":"da4d62e183b5547b3271a025705316305a4112899c8b700c67c7ba3805b003dd","scope_sha256":"41c6e1347c906671678303fd38e8ead3f6e3bb61445397b9274b2aed9f4a235e","target":{"description":"Selected source directory; paths are relative.","kind":"source","platform":""},"tool":{"implementation_sha256":"525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b","name":"agent-mcp-security-scan","version":"0.15.0"}},"schema_version":"1.0"}</script>
+<script id="invarune-review-editor">(() => {
+  "use strict";
+  const capsule = document.getElementById("invarune-review");
+  const progress = document.getElementById("review-progress");
+  const status = document.getElementById("review-save-status");
+  const fields = ["decision", "reason", "reviewer", "reviewed_at", "evidence_ref"];
+  const limits = {reason: 8000, reviewer: 200, reviewed_at: 64, evidence_ref: 2000};
+  const allowed = ["", "justified", "disabled", "note", "needs_runtime_validation", "needs_human_review"];
+  let workspace;
+  try { workspace = JSON.parse(capsule.textContent); }
+  catch (_) { status.textContent = "Review metadata is invalid. Generate a fresh report before editing."; return; }
+  const byId = new Map(workspace.items.map(item => [item.id, item]));
+  const editors = Array.from(document.querySelectorAll("fieldset[data-review-id]"));
+  function dateValid(value) {
+    if (!value) return true;
+    if (!/^\d{4}-\d{2}-\d{2}(?:T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{1,6})?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)?)?$/.test(value)) return false;
+    const day = new Date(value.slice(0, 10) + "T00:00:00Z");
+    return !Number.isNaN(day.getTime()) && day.toISOString().slice(0, 10) === value.slice(0, 10) && !value.startsWith("0000-");
+  }
+  function readEditors(validate) {
+    for (const editor of editors) {
+      const item = byId.get(editor.dataset.reviewId);
+      if (!item) throw new Error("An editor no longer matches the review metadata. Generate a fresh report.");
+      for (const field of fields) {
+        const input = editor.querySelector('[data-field="' + field + '"]');
+        item[field] = input.value;
+        input.setCustomValidity("");
+      }
+      let error = "";
+      if (!allowed.includes(item.decision) || (item.kind === "gap" && ["justified", "disabled"].includes(item.decision))) error = "Choose an allowed review decision.";
+      if (item.decision && !item.reason.trim()) error = "Add a reason for this review decision.";
+      if (!item.decision && fields.slice(1).some(field => item[field].trim())) error = "Choose a decision for this text; use Review note for commentary.";
+      if (["justified", "disabled"].includes(item.decision) && !item.reviewer.trim()) error = "Add a reviewer for a justified or disabled decision.";
+      if (!dateValid(item.reviewed_at)) error = "Use a valid ISO date or timestamp for the review date.";
+      for (const field of fields.slice(1)) {
+        const value = item[field];
+        if (Array.from(value).length > limits[field]) error = "A review field exceeds its documented character limit.";
+        if (Array.from(value).some(character => { const code = character.codePointAt(0); return code >= 0xD800 && code <= 0xDFFF; })) error = "Review text contains invalid Unicode.";
+        if ((field === "reason" ? /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/ : /[\u0000-\u001F\u007F-\u009F]/).test(value)) error = "Review fields contain an unsupported control character.";
+      }
+      if (validate && error) {
+        editor.closest("details").open = true;
+        let parent = editor.parentElement;
+        while (parent) { if (parent.tagName === "DETAILS") parent.open = true; parent = parent.parentElement; }
+        const input = editor.querySelector('[data-field="reason"]');
+        input.setCustomValidity(error); input.reportValidity(); input.focus();
+        throw new Error(error);
+      }
+    }
+    progress.textContent = workspace.items.filter(item => item.decision).length + " of " + workspace.items.length + " items have a review decision.";
+  }
+  function safeJSON(value) {
+    return JSON.stringify(value).replace(/[^\x00-\x7F]/g, character => "\\u" + character.charCodeAt(0).toString(16).padStart(4, "0")).replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+  }
+  function download(kind) {
+    try {
+      readEditors(true);
+      const encoded = safeJSON(workspace);
+      if (encoded.length > 4000000) throw new Error("Review metadata exceeds the 4,000,000-byte import limit. Shorten review text before saving.");
+      let content;
+      if (kind === "html") {
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelector("#invarune-review").textContent = encoded;
+        for (const editor of clone.querySelectorAll("fieldset[data-review-id]")) {
+          const item = byId.get(editor.dataset.reviewId);
+          for (const field of fields) {
+            const input = editor.querySelector('[data-field="' + field + '"]');
+            if (field === "decision") {
+              for (const option of input.options) {
+                if (option.value === item[field]) option.setAttribute("selected", "selected");
+                else option.removeAttribute("selected");
+              }
+            } else if (field === "reason") input.textContent = item[field];
+            else input.setAttribute("value", item[field]);
+          }
+          const badge = editor.closest("details").querySelector("summary .pill");
+          if (badge) badge.textContent = item.decision || "unreviewed";
+        }
+        clone.querySelector("#review-save-status").textContent = "Saved review snapshot. Import this file with --review-report when rescanning the current artifact.";
+        content = "<!doctype html>\n" + clone.outerHTML;
+      } else content = encoded + "\n";
+      const blob = new Blob([content], {type: kind === "html" ? "text/html;charset=utf-8" : "application/json;charset=utf-8"});
+      if (blob.size > 50000000) throw new Error("Reviewed report exceeds the 50,000,000-byte import limit; download the review JSON instead.");
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url; link.download = kind === "html" ? "invarune-reviewed.html" : "invarune-review.json";
+      document.body.appendChild(link); link.click(); link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      status.textContent = "Reviewed " + kind.toUpperCase() + " downloaded. Rescan with --review-report to apply eligible decisions; displayed scan totals remain unchanged.";
+    } catch (error) { status.textContent = "Review not downloaded: " + error.message; }
+  }
+  document.getElementById("download-reviewed-html").addEventListener("click", () => download("html"));
+  document.getElementById("download-review-json").addEventListener("click", () => download("json"));
+  for (const editor of editors) {
+    editor.addEventListener("input", () => { readEditors(false); status.textContent = "Unsaved review edits. Use Download reviewed HTML to preserve them."; });
+    editor.addEventListener("change", () => { readEditors(false); });
+  }
+})();</script>
+</body></html>

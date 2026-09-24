@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "invocations": [
+        {
+          "executionSuccessful": false,
+          "toolExecutionNotifications": [
+            {
+              "level": "warning",
+              "message": {
+                "text": "index.ts: MCP registerTool callback uses complex/default/rest parameters; tool entrypoint coverage is incomplete"
+              }
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "invarune_metrics": {
+          "deterministic": {
+            "active_checks": 2,
+            "active_controls": 1,
+            "active_rules": 4,
+            "coverage_gaps": 1,
+            "disabled_checks": 0,
+            "disabled_findings": 0,
+            "disabled_rules": 0,
+            "justified_checks": 0,
+            "justified_findings": 0,
+            "justified_rules": 0,
+            "mapping_reach": {
+              "denominator": 1,
+              "numerator": 1,
+              "percent": 100.0
+            },
+            "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+            "open_by_severity": {
+              "critical": 0,
+              "high": 0,
+              "info": 0,
+              "low": 0,
+              "medium": 0
+            },
+            "open_findings": 0,
+            "selected_controls": 1,
+            "selected_rules": 4,
+            "selected_scope_complete": false,
+            "suppressed_findings": 0,
+            "urgent_findings": 0
+          },
+          "exclusions": "Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.",
+          "gate": "The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.",
+          "overall_security_score": null,
+          "overall_security_score_reason": "No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.",
+          "schema_version": "1.0"
+        },
+        "invarune_review": {
+          "items": [
+            {
+              "binding_sha256": "991cdd9638c7520e68e6515db8b9f559ef0da6cc8be650ce4ecd0ab0b1e5f890",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:EXEC-04:1",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "EXEC-04:1 Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions."
+            },
+            {
+              "binding_sha256": "8345dc45e9b1f075a7c19bb286c4cafc06589fc8a32123064a9baac2275ed136",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "check:EXEC-04:2",
+              "kind": "check",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "EXEC-04:2 Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads."
+            },
+            {
+              "binding_sha256": "e0ae5be75e42f42bb54d5a88dd207659071285681196200431ee47a98a59acf7",
+              "decision": "",
+              "evidence_ref": "",
+              "id": "gap:b84cd8393cf85f96da36a7be6f7113729ed0c55edaef25e137aa0d33551290a1",
+              "kind": "gap",
+              "reason": "",
+              "reviewed_at": "",
+              "reviewer": "",
+              "subject": "index.ts: MCP registerTool callback uses complex/default/rest parameters; tool entrypoint coverage is incomplete"
+            }
+          ],
+          "kind": "invarune_review",
+          "origin": {
+            "catalog_sha256": "468d22dfd1b6de6081998eaf5a73e05d6bba97aefcd186fce5633392535fbb9f",
+            "configuration": {
+              "default_excluded_directories": [
+                ".cache",
+                ".git",
+                ".hg",
+                ".mypy_cache",
+                ".next",
+                ".pytest_cache",
+                ".svn",
+                ".tox",
+                ".venv",
+                "__pycache__",
+                "build",
+                "coverage",
+                "dist",
+                "node_modules",
+                "vendor",
+                "venv"
+              ],
+              "exclude": [],
+              "generated_outputs_and_judge_config_excluded": true,
+              "max_entries": 100000,
+              "max_file_bytes": 1000000,
+              "max_files": 20000,
+              "max_total_bytes": 50000000,
+              "requested_scan_ids": [
+                "EXEC-04"
+              ],
+              "selected_control_ids": [
+                "EXEC-04"
+              ],
+              "selected_rule_ids": [
+                "AI015",
+                "AI016",
+                "AI037",
+                "AI047"
+              ]
+            },
+            "evidence_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "image_limits": {},
+            "manifest_sha256": "2540817b960ce1acb8bf6fda65ceb115b2aaf85da222a85c3ab731453584ceb3",
+            "scan_id": "2f01d3255747009bedad350dc442b07f55b99bf94f644dab0b00f536f50d76a4",
+            "scope_sha256": "d7f18a4233bada5bf178dfca44848920b002e71f8cff5bce6516c1c2b5388d66",
+            "target": {
+              "description": "Selected source directory; paths are relative.",
+              "kind": "source",
+              "platform": ""
+            },
+            "tool": {
+              "implementation_sha256": "525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b",
+              "name": "agent-mcp-security-scan",
+              "version": "0.15.0"
+            }
+          },
+          "schema_version": "1.0"
+        }
+      },
+      "results": [],
+      "tool": {
+        "driver": {
+          "fullName": "Invarune by NimeshBuild",
+          "name": "agent-mcp-security-scan",
+          "rules": [
+            {
+              "fullDescription": {
+                "text": "A filesystem operation consumes an obvious external-input expression. Review whether canonical path checks and symlink handling confine access to the intended workspace."
+              },
+              "help": {
+                "text": "Resolve paths under a fixed workspace root, reject paths outside it after canonicalization, handle symlinks safely, and give the process only required filesystem permissions."
+              },
+              "id": "AI015",
+              "properties": {
+                "tags": [
+                  "security",
+                  "filesystem",
+                  "CWE-22"
+                ]
+              },
+              "shortDescription": {
+                "text": "Externally influenced filesystem path"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "tempfile.mktemp returns an unused name without atomically creating the file, allowing a race with another local process."
+              },
+              "help": {
+                "text": "Use TemporaryFile, NamedTemporaryFile, TemporaryDirectory, or mkstemp with restrictive permissions and reliable cleanup."
+              },
+              "id": "AI016",
+              "properties": {
+                "tags": [
+                  "security",
+                  "filesystem",
+                  "CWE-377"
+                ]
+              },
+              "shortDescription": {
+                "text": "Race-prone temporary filename creation"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A tar extraction call has no explicit safe data filter, or selects a fully trusted filter. Behavior depends on the Python version and archive provenance."
+              },
+              "help": {
+                "text": "Use filter='data' on supported runtimes, validate members and resource limits, and extract into an isolated directory with no sensitive files."
+              },
+              "id": "AI037",
+              "properties": {
+                "tags": [
+                  "security",
+                  "filesystem",
+                  "CWE-22"
+                ]
+              },
+              "shortDescription": {
+                "text": "Archive extraction without an explicit safe filter"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A recognized Python chmod call sets the other-write permission bit. Shared agent workspaces, tool artifacts or credential files may be changed by another local identity. Actual access depends on platform permissions, ownership, ACLs and deployment isolation."
+              },
+              "help": {
+                "text": "Use owner-only permissions (typically 0o600 for private files and 0o700 for private directories), or a narrowly controlled shared group where required. Verify access from the actual worker and an unrelated identity; avoid granting 0o777 merely to fix container UID mismatches."
+              },
+              "id": "AI047",
+              "properties": {
+                "tags": [
+                  "security",
+                  "filesystem",
+                  "CWE-732"
+                ]
+              },
+              "shortDescription": {
+                "text": "Filesystem permissions explicitly allow writes by everyone"
+              }
+            }
+          ],
+          "version": "0.15.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

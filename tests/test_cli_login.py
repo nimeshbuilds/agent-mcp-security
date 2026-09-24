@@ -126,7 +126,7 @@ class LoginRoutingTests(unittest.TestCase):
     def test_expiry_during_control_batch_resumes_and_counts_retry(self):
         failed = []
         def run(config, payload, instructions, stage="findings"):
-            if stage == "controls" and not failed:
+            if stage in {"controls", "investigation"} and not failed:
                 failed.append(True)
                 raise cj.CLIJudgeAuthError("Expired credentials")
             return response(config, payload, instructions, stage)
@@ -137,10 +137,12 @@ class LoginRoutingTests(unittest.TestCase):
         self.assertEqual(report["analyst"]["coverage"]["calls_made"], 12)
         self.assertEqual(report["analyst"]["coverage"]["omitted_checks"], 0)
         self.assertTrue(report["analyst"]["requests"][0]["authentication_retry"])
+        self.assertEqual(report["analyst"]["requests"][0]["cli"]["stage"], "investigation")
+        self.assertIn("authentication_retry_payload_sha256", report["analyst"]["requests"][0])
 
     def test_control_auth_retry_cannot_exceed_call_budget(self):
         def run(config, payload, instructions, stage="findings"):
-            if stage == "controls":
+            if stage in {"controls", "investigation"}:
                 raise cj.CLIJudgeAuthError("Expired credentials")
             return response(config, payload, instructions, stage)
         with patch.object(cj, "probe_auth", return_value={"logged_in": True}), patch.object(cj, "login_cli") as login, patch.object(cj, "run_cli", side_effect=run):
@@ -148,10 +150,12 @@ class LoginRoutingTests(unittest.TestCase):
             login.assert_not_called()
         report = json.loads((self.output / "report.json").read_text())
         self.assertEqual(report["analyst"]["coverage"]["calls_made"], 1)
+        self.assertIn("Expired credentials", report["analyst"]["errors"][0])
+        self.assertEqual(report["analyst"]["status"], "error")
 
     def test_signed_out_login_cannot_repeat_during_control_review(self):
         def run(config, payload, instructions, stage="findings"):
-            if stage == "controls":
+            if stage in {"controls", "investigation"}:
                 raise cj.CLIJudgeAuthError("Expired credentials")
             return response(config, payload, instructions, stage)
         with patch.object(cj, "probe_auth", return_value={"logged_in": False}), patch.object(cj, "login_cli") as login, patch.object(cj, "run_cli", side_effect=run):

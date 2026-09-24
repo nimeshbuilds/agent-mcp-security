@@ -1,6 +1,6 @@
 # Invarune controlled security analyst
 
-When optional LLM review is enabled, the scanner queues every active selected control for a security analyst review, including controls with no deterministic findings. A deterministic controller selects evidence, schedules bounded requests, checks the response schema, and verifies citations. The analyst's interpretation remains nondeterministic and advisory.
+When optional LLM review is enabled, the scanner queues every active selected control for a security analyst review, including controls with no deterministic findings. A deterministic controller selects initial evidence, permits bounded requests for additional captured source ranges, checks response schemas, and verifies citations. The analyst's interpretation remains nondeterministic and advisory. Default full review can investigate missing context across files; it cannot execute the target or prove a concern is exploitable.
 
 The packaged catalog currently contains **66 controls and 132 acceptance checks**. Without `--scans`, all active controls are queued because a static pattern scan cannot establish that a control is implemented correctly or effective in production. The analyst can identify code evidence, propose potential gaps, and specify the next verification steps. It cannot turn incomplete evidence into a security pass or perform runtime validation.
 
@@ -33,7 +33,7 @@ invscan /path/to/agent-or-mcp-repository \
   --output ./finding-review
 ```
 
-To run entirely offline, omit `--judge-config`:
+To run entirely offline, omit both `--judge-config` and `--judge-cli`:
 
 ```bash
 invscan /path/to/agent-or-mcp-repository --output ./static-report
@@ -45,14 +45,18 @@ invscan /path/to/agent-or-mcp-repository --output ./static-report
 
 1. Run the existing deterministic scan and preserve its findings, severities, baseline suppressions, control statuses, and SARIF output.
 2. Build an evidence pool from supported files already present in the scanner's manifest. Read files through confined filesystem operations, reject changed content against the manifest's SHA-256 hashes, and redact selected source.
-3. Rank excerpts using packaged control terms, control titles and acceptance checks, file paths, and finding locations. Selection is deterministic for the same inputs and limits. The model does not choose files, follow links, or request additional retrieval.
-4. Submit controls in stable batches. Each payload contains the acceptance checks, validation mode, source-reference URLs, static status, related rule/finding IDs, and only the excerpts selected for those controls.
-5. Validate every returned control/check identity, status, explanation, verification step, citation and any proposed action guidance. Derive citation paths and line numbers locally from the submitted evidence; reject model-supplied paths or line claims.
-6. Preserve accepted advice separately from the deterministic report. Fill omissions with explicit `insufficient_evidence` entries and leave runtime or human verification open.
+3. Rank seed excerpts using packaged control terms, control titles and acceptance checks, file paths, and finding locations. Seed selection is deterministic for the same inputs and limits. With investigation enabled, reserve half the excerpt-character budget for follow-up evidence.
+4. Submit controls in stable batches with acceptance checks, validation modes, source-reference URLs, static statuses, related rule/finding IDs, seed excerpts, and an inventory of eligible captured files. Inventory entries contain an opaque file ID, scan hash, path, line count and bounded lexical definition hints.
+5. Ask the analyst to trace a specific attacker input, agent/MCP/skill trust boundary, dangerous operation and possible enforcement barrier. It must consider counterevidence such as guards, caller constraints, safe APIs and test-only context. The analyst can return conclusions or request listed file IDs and line ranges for a specific control/check, with a reason and counterevidence to seek.
+6. Validate each evidence request against the inventory, active check scope and remaining budgets. Serve only already captured, redacted source bytes; no path is opened, URL fetched or command executed in response to the model. Repeat within the round limit, then require conclusions or explicit unknowns.
+7. Validate every returned control/check identity, status, explanation, verification step, citation and any proposed action guidance. Derive final citation paths and line numbers locally from the submitted evidence; reject model-supplied final citation locations.
+8. Preserve accepted advice separately from deterministic results. Fill omissions with `insufficient_evidence` and retain runtime or human verification requirements. Invalid requests fail the batch; denied budget requests remain visible to the next turn and report.
 
 Files with deterministic analysis errors are prioritized after files with findings. For an eligible, manifest-hash-verified file with such an error, its first bounded excerpt receives a candidate boost for each selected control, even if it contains no keyword match. This gives the analyst an opportunity to review syntax or analysis uncertainty; it does not guarantee the excerpt fits the final evidence budget. Missing, unreadable, changed or excluded files cannot supply source evidence. Original deterministic gaps remain visible and continue to make the scan incomplete even if the model offers an explanation.
 
-Evidence selection is a bounded keyword-retrieval method. It is not whole-program analysis and can miss relevant implementations or select irrelevant context. A model can also misunderstand authentic evidence. **An exact quote establishes that text was present in a submitted excerpt; it does not establish that the interpretation is true.**
+Seed selection uses bounded keyword retrieval. Follow-up requests can retrieve callers, helpers or guards missed by the seed selection, but only within the offered snapshot inventory. Neither method is whole-program analysis. Both can miss relevant implementations or select irrelevant context, and a model can misunderstand authentic evidence. **An exact quote establishes that text was present in a submitted excerpt; it does not establish that the interpretation is true.**
+
+Use `--analyst-investigation-rounds 0` for one-shot control review. The default is `2`: two evidence-request responses followed by a final answer require at most three model calls per batch. The model can also answer immediately. The [inert cross-file example](../examples/investigation/README.md) shows a predicate missing from seed excerpts but available through definition hints. It is an authored development example, not a measurement of model accuracy.
 
 Temperature zero, fixed seeds, strict JSON, and exact citations do not make the analyst deterministic. They also do not prove resistance to prompt injection. The enforceable limits are the controller's input selection, protocol checks, tool restrictions, budgets, and separation from deterministic findings. Model advice never authorizes execution or modifies an access-control decision.
 
@@ -77,14 +81,17 @@ The CLI exposes these control-analyst limits:
 
 | Flag | Default | Allowed range | What it bounds |
 | --- | ---: | --- | --- |
-| `--analyst-max-calls` | 12 | 0–100 | Control-review request attempts; finding triage uses one additional request. |
+| `--analyst-max-calls` | 36 | 0–100 | Control-review attempts, including evidence requests, final answers and authentication retries; finding triage uses one additional request. |
 | `--analyst-batch-size` | 6 | 1–20 | Controls submitted per control-review request. |
+| `--analyst-investigation-rounds` | 2 | 0–3 | Evidence-expansion rounds per batch; zero uses seed excerpts only. |
 | `--analyst-max-files` | 200 | 0–20,000 | Eligible manifest file read attempts for evidence collection. |
 | `--analyst-max-bytes` | 2,000,000 | 0–50,000,000 | Conservative source I/O charge, including failed-read reservations and bytes later rejected because their hash changed. |
-| `--analyst-max-chars` | 120,000 | 0–1,000,000 | Unique retained redacted excerpt characters, excluding metadata. |
-| `--analyst-time-budget` | 180 seconds | Greater than 0, at most 3,600 | Scheduling budget for evidence collection and the control-review stage. |
+| `--analyst-max-chars` | 120,000 | 0–1,000,000 | Combined seed and requested excerpt characters, excluding metadata. |
+| `--analyst-time-budget` | 600 seconds | Greater than 0, at most 3,600 | Scheduling budget for evidence collection and the control-review stage. |
 
-With 66 controls and a batch size of 6, a complete run normally uses **11 control requests plus 1 finding-triage request**. The default call budget permits up to 12 control attempts, but does not create a retry: there are no automatic retries. A failed request attempt counts toward the budget, including attempts rejected locally before an HTTP request is sent.
+With 66 controls and a batch size of 6, immediate answers use **11 control requests plus 1 finding-triage request**. Two evidence expansions for every batch use up to **33 control requests plus triage**. These are ceilings for those paths, not a promise that the model investigates every batch or completes within time. The default 36-call budget allows room for explicit authentication recovery. There are no automatic HTTP retries. Failed attempts count, including attempts rejected locally before transmission.
+
+Before allowing an evidence expansion, the controller reserves one conclusion request for the current batch and every remaining batch. This prioritizes broad review over early exploration when the user supplies a smaller call budget. Authentication failures, provider errors and time exhaustion can still leave checks unanswered. Every actual request and retry remains in the receipt.
 
 `--analyst-max-calls 0` stops control requests only. The CLI still sends the finding-triage request when `--judge-config` or `--judge-cli` is present, and it can still collect and retain local analyst evidence. It returns an incomplete control review when active checks remain. Omit both `--judge-config` and `--judge-cli` when no LLM request is intended.
 
@@ -92,7 +99,9 @@ Setting `--analyst-max-files 0`, `--analyst-max-bytes 0`, or `--analyst-max-char
 
 The time budget is **best effort**, not a hard process deadline. It starts after finding triage and includes evidence collection. Before each control request, the controller checks remaining time and lowers that request's configured timeout accordingly. DNS resolution or a blocking network operation can exceed the elapsed-time target. The finding-triage request has its own configured timeout. Use an external process supervisor if a hard wall-clock cutoff is required.
 
-Additional evidence caps are fixed in the implementation: at most 240 unique excerpts globally, four excerpts per control, 12 lines and 2,000 characters per excerpt, and 64 ranked excerpt candidates per control. Individual evidence files are limited to the smaller of the scanner's file-size limit and 1,000,000 bytes. A single overlong line can be truncated; metadata records an incomplete final line and the number of retained characters in its redacted form.
+Seed evidence caps are fixed: at most 240 unique seed excerpts, four per control, 12 lines and 2,000 characters per excerpt, and 64 ranked candidates per control. Investigation offers at most 200 captured files and 32,000 serialized inventory characters, with 12 lexical definition hints per file. It accepts at most eight range requests per round and 128 requests across the run; each range contains at most 80 lines and retains at most 4,000 characters. Both seed and requested evidence consume the same overall character budget. Requested excerpts can extend beyond the four seed excerpts per control.
+
+Individual evidence files are limited to the smaller of the scanner's file-size limit and 1,000,000 bytes. A single overlong line can be truncated; metadata records an incomplete final line and the number of retained characters in its redacted form. Requested ranges report `range_complete` rather than implying every requested line fitted. Definition hints are lexical locations, not a resolved call graph.
 
 Each source read must fit its manifest size plus one reserved sentinel byte used to detect file growth. Successful reads charge the returned byte count. Failed reads charge their maximum possible size, including the sentinel, even when failure occurred before reading content. Evidence coverage reports `bytes_charged`, `bytes_read`, and `failed_read_bytes_charged` separately so conservative budgeting is visible.
 
@@ -101,6 +110,8 @@ Character limits describe the evidence pool, not cumulative network traffic or m
 At the first provider or protocol-validation error, the controller stops further control requests, retains earlier accepted advice, and marks remaining checks unreviewed. Exhausting call or time budgets produces `incomplete`. An error produces `error`. Neither state silently removes controls from the review queue.
 
 ## Evidence and privacy boundaries
+
+The investigation uses an immutable in-memory snapshot captured during evidence collection. File IDs bind the original manifest path and SHA-256 hash; source is redacted before the snapshot can be offered. A model selects only listed IDs and valid line ranges. It cannot select a new path, search the filesystem, follow an import, load remote schemas or access a changed file. Later changes on disk do not alter an already captured snapshot; rerun the scanner to review those changes. Inventory paths and definition names are also repository data sent to the configured model.
 
 Only files within the completed scanner manifest are eligible. Existing scanner exclusions, unsupported file formats, limits, and `--exclude` patterns therefore constrain analyst coverage. Default excluded directories include dependency trees, virtual environments, VCS data, caches, and build outputs. The scanner excludes its configured report output, judge configuration, and baseline paths. Review the report's exclusion and skipped-file records instead of assuming the entire repository was examined.
 
@@ -116,7 +127,7 @@ The judge configuration is trusted operator input. Keep it outside the repositor
 
 The model receives an explicit security-analyst role. Repository content, comments, filenames, evidence, and embedded instructions are untrusted data. Source URLs are provenance references, not instructions to browse. The model must assess each acceptance check, explain uncertainty, and propose verification steps without executing them.
 
-The control response schema is separate from the finding-triage schema in [JUDGE.md](JUDGE.md). A minimal control response looks like this:
+The control response schema is separate from the finding-triage schema in [JUDGE.md](JUDGE.md). With investigation enabled, a response requests more evidence or returns conclusions; both arrays cannot be nonempty. A final response looks like this:
 
 ```json
 {
@@ -132,6 +143,12 @@ The control response schema is separate from the finding-triage schema in [JUDGE
           "verification_steps": [
             "Obtain deployment configuration and authorized test evidence for this acceptance check."
           ],
+          "analysis": {
+            "risk_hypothesis": "An unauthorized caller might invoke a privileged tool.",
+            "boundary": "Caller identity to MCP tool execution.",
+            "counterevidence": "No submitted excerpt establishes or disproves an enforced authorization barrier.",
+            "conclusion_limits": "Deployment configuration and unsubmitted callers remain unknown."
+          },
           "recommended_actions": {
             "agent_mcp_relevance": "A protected MCP tool needs authorization for the caller, tenant and target resource.",
             "applicability": "The supplied excerpts do not establish the effective deployment or every request path.",
@@ -145,9 +162,32 @@ The control response schema is separate from the finding-triage schema in [JUDGE
         }
       ]
     }
+  ],
+  "evidence_requests": []
+}
+```
+
+An evidence request instead returns:
+
+```json
+{
+  "control_assessments": [],
+  "evidence_requests": [
+    {
+      "control_id": "EXACT_SUBMITTED_CONTROL_ID",
+      "check_index": 1,
+      "file_id": "file-aaaaaaaaaaaaaaaaaaaaaaaa",
+      "start_line": 17,
+      "end_line": 24,
+      "purpose": "counterevidence",
+      "reason": "Inspect the predicate called before the outbound operation.",
+      "counterevidence": "An allowlist or tenant authorization guard might reject the untrusted destination."
+    }
   ]
 }
 ```
+
+Use an actual offered file ID, valid range and active control/check pair. `purpose` is `risk_hypothesis`, `counterevidence` or `boundary_context`; `reason` and `counterevidence` are mandatory nonempty strings of at most 500 characters. Unknown IDs, unauthorized requests, duplicate ranges within a response and malformed ranges fail validation. Requests beyond the remaining excerpt budget are explicitly denied. Once `requests_allowed` is false, the model must return conclusions or unknowns.
 
 The example shows one check for readability; a complete response must include every submitted check of every submitted control. `check_index` is the one-based index in the input control's `checks` array. A grounded citation has only these model-supplied fields:
 
@@ -165,6 +205,7 @@ The deterministic protocol validator enforces:
 - The six status values documented above. `pass`, `secure`, and compliance verdicts are not accepted.
 - A nonempty reason of at most 2,000 characters and one to five nonempty verification steps of at most 500 characters each.
 - When present, `recommended_actions` has exactly `agent_mcp_relevance`, `applicability`, `steps` and `verification`. The first two are nonempty strings of at most 1,200 characters; each array contains one to five nonempty strings of at most 1,000 characters. The same credential sanitization applies to these fields. Unexpected keys, empty or oversized values and invalid types fail the batch.
+- When present, `analysis` contains exactly `risk_hypothesis`, `boundary`, `counterevidence` and `conclusion_limits`, each a nonempty string of at most 1,200 characters. These are model explanations, not a mechanically verified data-flow trace.
 - At most three citations per check. Quotes must be nonempty exact substrings of submitted evidence, no longer than 500 characters; duplicate citations are rejected. Quotes that would need credential or control-character sanitization also fail instead of being changed after validation.
 - At least one grounded citation for `supported_by_code`, `potential_gap`, and `not_applicable_proposed`.
 - Locally derived paths, line ranges, and source-file hashes. Model-supplied location or hash fields are rejected. The original-file hash identifies the scanned bytes; it is not the hash of the redacted excerpt.
@@ -176,9 +217,11 @@ Current prompts and official CLI response schemas request action guidance for ev
 
 Older responses without `recommended_actions` remain accepted for compatibility. They retain their original check assessment and verification steps, and `advice_coverage` shows that no model fix plan was supplied. A missing action object alone does not make the control review incomplete; an omitted acceptance-check assessment still does. A provided but malformed action object fails validation. Neither detailed action advice nor its absence changes the citation requirement, the deterministic adjustment of manual/dynamic outcomes, or the finding gate.
 
+Legacy final responses containing only `control_assessments`, including responses without `analysis`, also remain accepted through the HTTP/custom protocol. Official CLI investigation schemas require the extended arrays and structured analysis. `analyst.investigation.structured_analysis_checks` counts the checks that actually supplied structured analysis. Missing structure is not silently invented or confused with an omitted check answer. One-shot mode uses the earlier control schema.
+
 ## Execution and gateway restrictions
 
-The scanner does not install dependencies, import or execute target code, start an agent, invoke an MCP tool, contact the target service, run a suggested verification step, or allow the model to select follow-up actions. Only the configured LLM endpoint is contacted for the optional review. References and model-provided URLs are not retrieved.
+The scanner does not install dependencies, import or execute target code, start an agent, invoke an MCP tool, contact the target service or run a suggested verification step. The only model-directed operation is a validated selection of existing snapshot ranges. Only the configured LLM endpoint is contacted for optional review. References and model-provided URLs are not retrieved.
 
 Both finding triage and the control analyst reject recognized tool/function configuration in request templates and provider options, and reject recognized tool-call attempts in provider responses. They do not dispatch tool calls. Custom templates expand placeholders once; repository text containing `${ENV:NAME}` remains literal data and cannot read the scanner's environment. Configuration nesting is limited to 64 levels; invalid or excessive configuration fails without discarding static results.
 
@@ -198,14 +241,17 @@ Native adapters support the documented OpenAI-compatible Chat Completions, Respo
 | `judge` | Separate finding-triage results, selected/omitted finding counts, and mode. |
 | `remediation` | Deterministic catalog fix plans keyed by finding ID, including conditional agent/MCP relevance, applicability, concrete changes, verification scenarios and primary references. Available without a model. |
 | `advice_coverage` | Separate counts of static plans and model-provided plans for finding assessments, answered checks and additional concerns; missing model guidance is not filled in. |
-| `analyst.control_assessments` | Every control and acceptance check, its advisory status, model-supplied marker, explanations, citations, proposed verification steps and optional `recommended_actions`. |
+| `analyst.control_assessments` | Every control and acceptance check, its advisory status, model-supplied marker, explanations, citations, proposed verification steps, optional `recommended_actions` and structured `analysis`. |
 | `analyst.coverage` | Attempted/reviewed controls, unanswered checks, budgets, evidence limits, skipped files, and stop reason when applicable. |
 | `analyst.evidence` | Selected redacted excerpt pool with IDs, source paths, source-file hashes, line ranges, and any truncation metadata. |
-| `analyst.requests` | Batch control/evidence IDs, canonical payload hash, request status, model identifiers, protocol versions, and returned omission counts. |
-| `analyst.provenance` | Explicit facts that no target execution, model tools, model-selected evidence, or modification of deterministic findings occurred; citation and assurance limits. |
+| `analyst.requests` | Batch and investigation round, control/evidence IDs, canonical payload hash, status, model identifiers, protocol versions, omission counts, evidence-request receipts and any authentication-retry digest. |
+| `analyst.investigation` | Enabled/round limits, actual rounds and conclusion calls, structured-analysis count, offered/omitted snapshot files, character budgets, served/denied requests and detailed receipts. |
+| `analyst.provenance` | No target execution, model tools or modification of deterministic findings; separately records whether model evidence selection was allowed and whether any requested ranges were actually served. |
 | `execution` | Severity threshold, deterministic finding-gate decision, and process exit code. |
 
-The payload hash identifies the controller's canonical control/evidence JSON payload. It does not hash authentication headers, the complete provider request envelope, or a model's internal state. An evidence item present in the local pool is not necessarily transmitted; consult request receipts for the evidence IDs included in each attempted batch. A request marked completed can still have model omissions, which are counted separately.
+The payload hash identifies the controller's canonical control/evidence JSON payload. It does not hash authentication headers, the complete provider request envelope, or a model's internal state. An evidence item present in the local pool is not necessarily transmitted; consult request receipts for the evidence IDs included in each attempted batch. A completed request may only request evidence, or may return conclusions with omissions. Neither proves completed control validation.
+
+Each evidence-request receipt includes its submitted and original check index, stable `CONTROL:INDEX` identity, opaque file ID, requested range, purpose, reason and counterevidence. Served ranges add the evidence ID, hash, character charge and completeness flag; denied ranges provide a reason code. Global and per-control `model_selected_evidence` records actual served selections, while `model_selected_evidence_allowed` records configuration. An enabled investigator that answered immediately has allowed selection but no actual selection.
 
 `report.sarif` continues to contain deterministic findings only, with catalog remediation in result messages and `properties.agentMcpRemediation`. Model interpretations and model-proposed actions are excluded. Analyst advice cannot delete a finding, lower its severity, waive a control, or become a confirmed SARIF finding. HTML, Markdown, JSON and the optional PDF present model proposals separately from the deterministic plan; all verification instructions remain unexecuted text.
 

@@ -114,7 +114,7 @@ messages = [{'role': 'system', 'content': 'Only execute approved tools.'},
 
     def test_deep_parseable_ast_surfaces_visitor_resource_failure(self):
         source = "x = " + "+".join(["1"] * 1500)
-        self.assertEqual([], analyze_file_errors("deep.py", source))
+        self.assertTrue(any("coverage is incomplete" in error for error in analyze_file_errors("deep.py", source)))
         with self.assertRaises(RecursionError):
             analyze_file("deep.py", source)
 
@@ -314,7 +314,7 @@ class ConfigurationRuleTests(unittest.TestCase):
 
 class ContractTests(unittest.TestCase):
     def test_unique_and_complete_rule_metadata(self):
-        self.assertEqual(46, len(RULES))
+        self.assertEqual(47, len(RULES))
         self.assertEqual(len(RULES), len({item["id"] for item in RULES}))
         for rule in RULES:
             self.assertTrue({"id", "title", "severity", "description", "remediation", "category", "cwe", "references"}.issubset(rule))

@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "created_at_utc": "2026-09-24T01:46:03.126804+00:00",
+  "path_after_reveal": "benchmarks/comparison-v015/sealed-confirmation.json",
+  "sha256": "268dae64f8cbca475a77b19f320128f2f2a66c0a40b72137359fb5af826a913d",
+  "case_count": 8,
+  "track_counts": {
+    "source": 4,
+    "metadata": 4
+  },
+  "label_counts": {
+    "positive": 4,
+    "negative": 4
+  },
+  "authorship": "Separate benchmark assistant. Second temporal holdout authored after first challenge disclosure; no third-party independence.",
+  "status": "sealed_before_final_freeze",
+  "retuning_policy": "Run once after final freeze; disclose every miss/false alarm. Later tuning cannot claim this set as held-out."
+}

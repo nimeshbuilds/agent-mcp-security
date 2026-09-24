@@ -9,7 +9,7 @@
 <text x="60" y="175" fill="#aac4cd" font-size="13" font-weight="700" text-anchor="start" letter-spacing="2">BEFORE</text>
 <text x="60" y="232" fill="#edf9fc" font-size="48" font-weight="700" text-anchor="start" letter-spacing="0">110 / 113</text>
 <text x="60" y="264" fill="#aac4cd" font-size="18" font-weight="400" text-anchor="start" letter-spacing="0">labels matched · 97.3%</text>
-<text x="60" y="296" fill="#59dec2" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Invarune 0.13.0</text>
+<text x="60" y="296" fill="#59dec2" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Invarune 0.14.0</text>
 <rect x="60" y="320" width="205.31" height="18" rx="0" fill="#59dec2"/>
 <rect x="265.31" y="320" width="184.07" height="18" rx="0" fill="#7da8f7"/>
 <rect x="449.38" y="320" width="3.54" height="18" rx="0" fill="#ffc16f"/>
@@ -21,18 +21,16 @@
 <text x="60" y="399" fill="#aac4cd" font-size="15" font-weight="400" text-anchor="start" letter-spacing="0">3 mismatches retained in the result</text>
 <rect x="516" y="142" width="448" height="278" rx="10" fill="#102e3c"/>
 <text x="540" y="175" fill="#aac4cd" font-size="13" font-weight="700" text-anchor="start" letter-spacing="2">AFTER</text>
-<text x="540" y="232" fill="#edf9fc" font-size="48" font-weight="700" text-anchor="start" letter-spacing="0">110 / 113</text>
-<text x="540" y="264" fill="#aac4cd" font-size="18" font-weight="400" text-anchor="start" letter-spacing="0">labels matched · 97.3%</text>
-<text x="540" y="296" fill="#59dec2" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Invarune 0.14.0</text>
-<rect x="540" y="320" width="205.31" height="18" rx="0" fill="#59dec2"/>
-<rect x="745.31" y="320" width="184.07" height="18" rx="0" fill="#7da8f7"/>
-<rect x="929.38" y="320" width="3.54" height="18" rx="0" fill="#ffc16f"/>
-<rect x="932.92" y="320" width="7.08" height="18" rx="0" fill="#ff8598"/>
-<text x="540" y="372" fill="#59dec2" font-size="18" font-weight="700" text-anchor="start" letter-spacing="0">TP 58</text>
-<text x="639" y="372" fill="#7da8f7" font-size="18" font-weight="700" text-anchor="start" letter-spacing="0">TN 52</text>
-<text x="738" y="372" fill="#ffc16f" font-size="18" font-weight="700" text-anchor="start" letter-spacing="0">FP 1</text>
-<text x="837" y="372" fill="#ff8598" font-size="18" font-weight="700" text-anchor="start" letter-spacing="0">FN 2</text>
-<text x="540" y="399" fill="#aac4cd" font-size="15" font-weight="400" text-anchor="start" letter-spacing="0">3 mismatches retained in the result</text>
+<text x="540" y="232" fill="#edf9fc" font-size="48" font-weight="700" text-anchor="start" letter-spacing="0">113 / 113</text>
+<text x="540" y="264" fill="#aac4cd" font-size="18" font-weight="400" text-anchor="start" letter-spacing="0">labels matched · 100.0%</text>
+<text x="540" y="296" fill="#59dec2" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Invarune 0.15.0</text>
+<rect x="540" y="320" width="212.39" height="18" rx="0" fill="#59dec2"/>
+<rect x="752.39" y="320" width="187.61" height="18" rx="0" fill="#7da8f7"/>
+<text x="540" y="372" fill="#59dec2" font-size="18" font-weight="700" text-anchor="start" letter-spacing="0">TP 60</text>
+<text x="639" y="372" fill="#7da8f7" font-size="18" font-weight="700" text-anchor="start" letter-spacing="0">TN 53</text>
+<text x="738" y="372" fill="#ffc16f" font-size="18" font-weight="700" text-anchor="start" letter-spacing="0">FP 0</text>
+<text x="837" y="372" fill="#ff8598" font-size="18" font-weight="700" text-anchor="start" letter-spacing="0">FN 0</text>
+<text x="540" y="399" fill="#aac4cd" font-size="15" font-weight="400" text-anchor="start" letter-spacing="0">0 mismatches retained in the result</text>
 <text x="36" y="454" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">TP/TN: matched labels     FP: unexpected detection     FN: missed expected detection</text>
 <path d="M36 482H964" stroke="#294755"/>
 <text x="36" y="508" fill="#aac4cd" font-size="13" font-weight="400" text-anchor="start" letter-spacing="0">Development-visible, project-authored fixtures. Counts are not a security score or production accuracy.</text>

@@ -629,6 +629,11 @@ def _render_pdf(report, path):
             review_notice += str(judge.get("selected_findings", 0)) + " selected findings; " + str(judge.get("omitted_open_findings", 0)) + " open findings outside the cap."
         if analyst.get("enabled"):
             review_notice += " {} acceptance checks remain unanswered.".format(analyst.get("coverage", {}).get("omitted_checks", 0))
+            outcomes = ai_metrics.get("check_outcomes", {})
+            review_notice += " Advisory control outcomes: {} potential gaps; {} checks need runtime, human or additional evidence.".format(
+                outcomes.get("potential_gap", 0), sum(outcomes.get(key, 0) for key in ("needs_runtime_validation", "needs_human_review", "insufficient_evidence")))
+        if judge.get("additional_concerns"):
+            review_notice += " {} additional advisory concerns require verification.".format(len(judge["additional_concerns"]))
         if report.get("execution", {}).get("exit_code") == 2:
             review_notice += " Requested work is incomplete. Inspect the recorded errors; no model judgment resolves the static findings."
     target = report.get("image", {}).get("display_target", report.get("target", "."))
@@ -827,11 +832,24 @@ def _render_pdf(report, path):
             else:
                 story.append(para(str(item), "small"))
             story += proposed_actions(concern_actions.get(index))
+        if analyst.get("investigation"):
+            investigation = analyst["investigation"]
+            story += [para("Bounded evidence investigation", "sub"),
+                      para("Follow-up rounds: {}. Requests served / denied: {} / {}. Captured files offered: {}. All requests share the configured call and evidence budgets; target tools and code are never executed.".format(investigation.get("rounds_completed", 0), investigation.get("requests_served", 0), investigation.get("requests_denied", 0), investigation.get("snapshot_files_offered", 0)), "small")]
+            for receipt in investigation.get("receipts", []):
+                story.append(para("{}:{} / {}:{}-{} / {} / {}".format(receipt.get("control_id", ""), receipt.get("check_index", ""), receipt.get("file_id", ""), receipt.get("start_line", ""), receipt.get("end_line", ""), receipt.get("purpose", ""), receipt.get("status", "")), "small"))
+                for key in ("reason", "counterevidence", "reason_code"):
+                    if receipt.get(key):
+                        story.append(para(key.capitalize() + ": " + str(receipt[key]), "small"))
         for control in analyst.get("control_assessments", []):
             story += [para(str(control.get("control_id", "")) + " / Advisory check review: " + str(control.get("review_status", "unknown")), "sub")]
             for check in control.get("check_assessments", []):
                 block = [para("Check {} / {}".format(check.get("check_index", ""), check.get("status", "unknown")), "sub"),
                          para(check.get("reason", "No reason supplied."), "small")]
+                for key, label in (("risk_hypothesis", "Risk hypothesis"), ("boundary", "Trust boundary"),
+                                   ("counterevidence", "Counterevidence considered"), ("conclusion_limits", "Conclusion limits")):
+                    if check.get("analysis", {}).get(key):
+                        block.append(para(label + ": " + str(check["analysis"][key]), "small"))
                 if check.get("status") in {"justified", "disabled"}:
                     block.append(para("Human disposition; excluded from optional review, not a model-verified pass.", "small"))
                 elif not check.get("model_supplied", False):

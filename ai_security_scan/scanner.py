@@ -17,11 +17,11 @@ EXCLUDED_DIRS = {".git", ".hg", ".svn", "node_modules", "vendor", ".venv", "venv
 EXTENSIONS = {".py", ".pyi", ".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs", ".json", ".jsonc", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf", ".config", ".env", ".sh", ".bash", ".zsh", ".dockerfile", ".tf", ".hcl", ".pem", ".key", ".md", ".mdc", ".txt", ".xml", ".lock", ".go", ".rs", ".java", ".rb", ".php", ".cs"}
 MANIFESTS = {"package.json", "package-lock.json", "pnpm-lock.yaml", "yarn.lock", "requirements.txt", "pyproject.toml", "uv.lock", "poetry.lock", "Pipfile", "Pipfile.lock", "go.mod", "go.sum", "Cargo.toml", "Cargo.lock"}
 ANALYSIS_PROFILES = {
-    "python_ast": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof.",
-    "javascript_lexical": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis.",
-    "json_structured": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved.",
+    "python_ast": "Python AST, bounded aliases/values, selected same-file argument/return flow, exact literal guards and read-only tool write witnesses; no whole-program or runtime proof.",
+    "javascript_lexical": "Bounded JavaScript/TypeScript tokens, calls, configuration and direct-return function-wrapper summaries; not a full JS/TS parser or control-flow analysis.",
+    "json_structured": "Parsed JSON/JSONC fields, selected configuration rules and recognized tool/input-schema descriptions; runtime values and referenced files are not resolved.",
     "configuration_lexical": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved.",
-    "generic_text": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed.",
+    "generic_text": "Generic secret/URL signals, bounded English skill/instruction directives and selected Spanish/French/German override forms; no general translation. Language-specific execution/dataflow is not analyzed.",
 }
 
 
@@ -147,9 +147,12 @@ def scan(root, *, exclude=(), output_paths=(), max_file_bytes=1_000_000, max_tot
     deferred_documents = {}
 
     def inspect_source(rel, source, instruction_context=False):
-        for problem in analyze_file_errors(rel, source, instruction_context=instruction_context):
+        analysis_errors = []
+        detected = analyze_file(rel, source, instruction_context=instruction_context, analysis_errors=analysis_errors)
+        analysis_errors.extend(analyze_file_errors(rel, source, instruction_context=instruction_context, include_flow=False))
+        for problem in sorted(set(analysis_errors)):
             errors.append({"path": redact(rel), "error": redact(str(problem)), "kind": "parse_error"})
-        for finding in analyze_file(rel, source, instruction_context=instruction_context):
+        for finding in detected:
             if finding["rule_id"] not in selected_rules:
                 continue
             raw_evidence = finding.get("evidence", "")

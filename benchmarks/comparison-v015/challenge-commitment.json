@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "created_at_utc": "2026-09-24T01:28:20.400739+00:00",
+  "path_after_reveal": "benchmarks/comparison-v015/heldout-challenge.json",
+  "sha256": "57bf9ba16c1292b0de91f91d0776986fa551501abe3ce24d20fe9d774de8400d",
+  "case_count": 32,
+  "track_counts": {
+    "source": 16,
+    "metadata": 16
+  },
+  "label_counts": {
+    "positive": 16,
+    "negative": 16
+  },
+  "authorship": "Separate benchmark agent; detector agents receive no case text or labels before initial freeze.",
+  "status": "sealed_before_initial_detector_freeze",
+  "retuning_policy": "Initial score retained. If implementation changes after disclosure, subsequent score is labeled development, never held-out."
+}

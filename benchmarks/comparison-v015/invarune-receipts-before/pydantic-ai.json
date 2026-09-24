@@ -1,0 +1,119 @@
+{
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 5,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 1,
+      "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 0,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 0,
+      "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 380,
+      "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+    }
+  },
+  "byte_identical_reports": true,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "{workspace}/tmp/real-world-src/pydantic-ai",
+    "--output",
+    "{workspace}/tmp/comparison-v015/invarune-before/pydantic-ai",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "execution": {
+    "exit_code": 2,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "license": {
+    "path": "LICENSE",
+    "summary": "MIT",
+    "url": "https://github.com/pydantic/pydantic-ai/blob/c4898abb54dc25ae6f6aef208a4c0661b30a455e/LICENSE"
+  },
+  "optional_judge_enabled": false,
+  "project": "pydantic-ai",
+  "repeated_runs": [
+    {
+      "elapsed_seconds": 3.414887,
+      "exit_code": 2,
+      "report_sha256": {
+        "report.html": "b25554a84fb26824eafbd1a253c395327d769f2fd29f4f945209ff9e4bf05c17",
+        "report.json": "368618abfcef9df75844f8f02b4021a7bec826ac7f92b880b4bdb7a4868b0c1c",
+        "report.md": "7756ebf041fc0dd4840547fc7a44922efdb5d5653a764271fab7ced43c52154e",
+        "report.sarif": "d2673bcd921689ffc87abb84ebb67702f3b479f2e42993c0c3fb8090aa6a695a"
+      },
+      "run": 1,
+      "started_at_utc": "2026-09-24T01:30:45.906571+00:00",
+      "stderr": "Scan incomplete: 4 coverage gaps; see the coverage details.\n"
+    },
+    {
+      "elapsed_seconds": 3.408127,
+      "exit_code": 2,
+      "report_sha256": {
+        "report.html": "b25554a84fb26824eafbd1a253c395327d769f2fd29f4f945209ff9e4bf05c17",
+        "report.json": "368618abfcef9df75844f8f02b4021a7bec826ac7f92b880b4bdb7a4868b0c1c",
+        "report.md": "7756ebf041fc0dd4840547fc7a44922efdb5d5653a764271fab7ced43c52154e",
+        "report.sarif": "d2673bcd921689ffc87abb84ebb67702f3b479f2e42993c0c3fb8090aa6a695a"
+      },
+      "run": 2,
+      "started_at_utc": "2026-09-24T01:30:49.322728+00:00",
+      "stderr": "Scan incomplete: 4 coverage gaps; see the coverage details.\n"
+    }
+  ],
+  "repository": "https://github.com/pydantic/pydantic-ai",
+  "revision": "c4898abb54dc25ae6f6aef208a4c0661b30a455e",
+  "rule_counts": {},
+  "scan_id": "f2b5b2495025f967f3b9c6efde7688fcb4b82af08b42f70cf85c3b89ca76905a",
+  "schema_version": "1.0",
+  "source_bytes": 8414725,
+  "source_files": 386,
+  "source_manifest_sha256": "550d8af406a992677e87d6845056a9a1311920ef549ca3c537dc525d820d9c30",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 8414725,
+    "bytes_read": 8414725,
+    "coverage_gaps": 4,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 386,
+    "open_findings": 0,
+    "scan_complete_within_selected_scope": false,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 0,
+      "medium": 0
+    },
+    "suppressed_findings": 0
+  },
+  "target_code_executed": false,
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.14.0"
+  }
+}

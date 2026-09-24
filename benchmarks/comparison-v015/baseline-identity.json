@@ -1,0 +1,11 @@
+{
+  "baseline_git_revision": "cffcd8873e3830d2200575fc05c61989cf2532c5",
+  "scanner_version": "0.14.0",
+  "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+  "corpus_sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3",
+  "corpus_version": "1.2.0",
+  "cases": 113,
+  "baseline_package_source": "Git objects from pinned revision; unchanged source snapshot, independent of subsequent working-tree edits.",
+  "ruleset_version": "1.5.0",
+  "baseline_tree_manifest_sha256": "a18818696727b67a638c2eeab26595f8f98118e1c069b77b15772f180fb49266"
+}

@@ -1,0 +1,46 @@
+{
+  "command": [
+    "semgrep",
+    "scan",
+    "--config",
+    "{semgrep_rules}",
+    "--metrics=off",
+    "--disable-version-check",
+    "--disable-nosem",
+    "--no-git-ignore",
+    "--no-rewrite-rule-ids",
+    "--json",
+    "--quiet",
+    "--jobs",
+    "2",
+    "--timeout",
+    "10",
+    "--max-target-bytes",
+    "20000000",
+    "--output",
+    "{raw_output}/semgrep.json",
+    "{source}"
+  ],
+  "errors": [
+    {
+      "level": "warn",
+      "path": "src/components/features/plugins/plugin-spec-identity.ts",
+      "type": "PartialParsing"
+    }
+  ],
+  "files_reported_scanned": 1237,
+  "finding_count": 0,
+  "findings": [],
+  "output_parse_error": null,
+  "process_exit_code": 0,
+  "raw_report_sha256": "b6ff70cddf2b961da82589a32da9d77f89bc44b4e131801fa3ca797c0b7e5f6f",
+  "rule_counts": {},
+  "severity_counts": {},
+  "started_at_utc": "2026-09-24T01:27:26Z",
+  "status": "completed_with_analysis_errors",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "semgrep",
+  "wall_seconds": 6.387873
+}

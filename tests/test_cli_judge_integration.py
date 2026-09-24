@@ -89,7 +89,7 @@ class CliJudgeIntegrationTests(unittest.TestCase):
                 self.assertEqual(runner.call_count, 12)
                 self.assertEqual(report["analyst"]["coverage"]["total_checks"], 132)
                 self.assertEqual(report["analyst"]["coverage"]["omitted_checks"], 0)
-                self.assertTrue(all(r["cli"]["stage"] == "controls" for r in report["analyst"]["requests"]))
+                self.assertTrue(all(r["cli"]["stage"] == "investigation" for r in report["analyst"]["requests"]))
                 self.assertFalse(report["analyst"]["provenance"]["static_results_modified"])
 
     def test_cli_json_and_shortcut_produce_equivalent_advice(self):
@@ -138,7 +138,7 @@ class CliJudgeIntegrationTests(unittest.TestCase):
                                     "checks": {"AUTH-01:2": {"status": "disabled"}}}), encoding="utf-8")
         with mock.patch("ai_security_scan.cli_judge.run_cli", side_effect=response) as runner:
             self.assertEqual(self.invoke("--judge-cli", "claude", "--review-config", str(policy))[0], 1)
-            routed = [c for call in runner.call_args_list if call.kwargs["stage"] == "controls" for c in call.args[1]["controls"]]
+            routed = [c for call in runner.call_args_list if call.kwargs["stage"] == "investigation" for c in call.args[1]["controls"]]
             self.assertNotIn("GOV-01", {c["id"] for c in routed})
             self.assertEqual(len(next(c for c in routed if c["id"] == "AUTH-01")["checks"]), 1)
             self.assertEqual(self.report()["analyst"]["coverage"]["total_checks"], 129)

@@ -1,6 +1,6 @@
 # Source map and scope of alignment
 
-Invarune by NimeshBuild. Research snapshot: 2026-09-19. Sources can support a project control without prescribing its exact wording. This is a thematic engineering crosswalk, not a statement of compliance with every clause in an external framework. Some references provide landscape/provenance context without a direct control mapping.
+Invarune by NimeshBuild. Control research snapshot: 2026-09-19; detector technical references extended 2026-09-23. Sources can support a project control without prescribing its exact wording. This is a thematic engineering crosswalk, not a statement of compliance with every clause in an external framework. Some references provide landscape/provenance context without a direct control mapping.
 
 All URLs are primary publisher or benchmark-author sources. Source-specific limitations disclose release-page-only reviews, drafts, gated benchmark content, version differences, and implementation assumptions.
 
@@ -1409,6 +1409,42 @@ SKILL.md metadata, Markdown instructions, optional scripts/references/assets and
 **Limits:** Defines the skill format, not a security certification or maliciousness benchmark. Threat predicates and remediation are authored by Invarune; actual client permission enforcement varies.
 
 **Primary context for:** AGT-06.
+
+**Additional thematic alignment:** none assigned.
+
+
+## TECH-PYTHON-CHMOD - Python os.chmod and permission mode flags
+
+[Primary source](https://docs.python.org/3/library/os.html#os.chmod)
+
+**Publisher:** Python Software Foundation  
+**Kind:** API documentation  
+**Version/date:** Python 3 living documentation / Undated living documentation  
+**Accessed:** 2026-09-23
+
+Permission bits applied by os.chmod, fchmod and lchmod; platform limitations.
+
+**Limits:** Documents API semantics, not proof of runtime access or an AI security certification. Windows and ACL behavior require deployment validation.
+
+**Primary context for:** landscape/provenance only.
+
+**Additional thematic alignment:** none assigned.
+
+
+## CWE-732 - CWE-732: Incorrect Permission Assignment for Critical Resource
+
+[Primary source](https://cwe.mitre.org/data/definitions/732.html)
+
+**Publisher:** MITRE  
+**Kind:** Weakness taxonomy  
+**Version/date:** Living CWE definition / Undated living definition  
+**Accessed:** 2026-09-23
+
+Incorrect permissions allowing unintended access to a critical resource.
+
+**Limits:** A weakness classification, not an exploitability finding or complete permission audit. Agent/MCP mappings are authored by Invarune.
+
+**Primary context for:** landscape/provenance only.
 
 **Additional thematic alignment:** none assigned.
 

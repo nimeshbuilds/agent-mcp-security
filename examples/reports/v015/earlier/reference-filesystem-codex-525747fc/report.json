@@ -1,0 +1,2360 @@
+{
+  "advice_coverage": {
+    "additional_concern_fix_plans": 1,
+    "additional_concerns": 1,
+    "finding_assessment_slots": 0,
+    "finding_assessments": 0,
+    "finding_fix_plans": 0,
+    "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+    "model_check_assessments": 2,
+    "model_check_fix_plans": 2,
+    "omitted_finding_assessments": 0,
+    "static_findings": 0,
+    "static_fix_plans": 0
+  },
+  "analyst": {
+    "advisory_only": true,
+    "check_status_counts": {
+      "insufficient_evidence": 1,
+      "potential_gap": 1
+    },
+    "control_assessments": [
+      {
+        "check_assessments": [
+          {
+            "analysis": {
+              "boundary": "Client-controlled tool paths enter validatePath, which returns canonical strings consumed by filesystem helpers. The unresolved boundary is between checking a pathname and accessing the filesystem object currently named by it.",
+              "conclusion_limits": "No race or disclosure was executed or demonstrated. Filesystem permissions, umask, caller restrictions, and omitted helpers may change the assessment. The callback parse diagnostic remains unresolved; manually following supplied handlers does not establish complete entrypoint coverage. Archive and transfer applicability remains unknown.",
+              "counterevidence": "The supplied code checks lexical containment and resolved symlink targets, validates visible tool arguments, checks resolved Unicode components, uses 'wx' for initial creation, and uses randomized temporary names and atomic rename for replacement. These reduce static traversal and leaf-target risks. A deployment preventing hostile namespace mutation could further limit exposure, but actual deployment constraints are unprovided.",
+              "risk_hypothesis": "An attacker able to mutate filesystem components could redirect a pathname after validation but before access. A principal with directory access could also potentially observe replacement content under default temporary-file permissions."
+            },
+            "check": "Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions.",
+            "check_index": 1,
+            "citations": [
+              {
+                "end_line": 375,
+                "evidence_id": "src-ac462823e545f33c8551058e",
+                "path": "index.ts",
+                "quote": "const validPath = await validatePath(args.path);\n    await writeFileContent(validPath, args.content);",
+                "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+                "start_line": 374
+              },
+              {
+                "end_line": 168,
+                "evidence_id": "src-d28872b02bc6a10fe16c62ab",
+                "path": "lib.ts",
+                "quote": "const realPath = await fs.realpath(absolute);\n    const normalizedReal = normalizePath(realPath);\n    if (!isPathWithinAllowedDirectories(normalizedReal, allowedDirectories)) {\n      throw new Error(`Access denied - symlink target outside allowed directories: ${realPath} not in ${allowedDirectories.join(', ')}`);\n    }\n    return realPath;",
+                "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+                "start_line": 163
+              },
+              {
+                "end_line": 344,
+                "evidence_id": "src-8231e4d7134a6b2856684c44",
+                "path": "lib.ts",
+                "quote": "const tempPath = `${filePath}.${randomBytes(16).toString('hex')}.tmp`;\n    try {\n      await fs.writeFile(tempPath, modifiedContent, 'utf-8');\n      await fs.rename(tempPath, filePath);",
+                "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+                "start_line": 341
+              }
+            ],
+            "model_supplied": true,
+            "reason": "Visible MCP handlers validate caller-supplied paths before filesystem operations, and validatePath checks both requested-path containment and resolved symlink targets. However, validation returns a pathname that subsequent operations resolve again. If an attacker can replace filesystem components between validation and access, these checks may not constrain the actual object accessed. Atomic replacement and exclusive initial creation provide useful protection, but do not establish protection against parent-directory substitution. Editing also writes a temporary file without explicit exclusive creation or restrictive permissions. These are unverified concerns whose impact depends on concurrent filesystem access, deployment permissions, and umask. Upload, download, and extraction coverage cannot be established from the excerpts.",
+            "recommended_actions": {
+              "agent_mcp_relevance": "MCP tool arguments cross from the client or agent into server-side filesystem access. Canonical pathname checks are useful barriers, but their effectiveness at access time depends on namespace stability and deployment isolation.",
+              "applicability": "Prioritize changes where another principal can mutate accessible filesystem components or observe temporary files. Establish the intended roots authority and runtime permission policy before changing those behaviors.",
+              "steps": [
+                "Retain requested-path and resolved-target containment checks. Where concurrent namespace mutation is possible, use filesystem operations anchored to trusted directory handles with platform-enforced containment, or isolate the server so unauthorized principals cannot replace ancestors.",
+                "Create temporary files exclusively with restrictive initial permissions, such as fs.open with 'wx' and mode 0o600, then write and apply the intended permissions through the same FileHandle before publication. Ancestor containment still requires a separate barrier.",
+                "Review moveFile's separate existence check and rename against its no-overwrite contract; use an appropriate atomic no-replace operation or an explicitly enforced concurrency restriction where necessary.",
+                "Document the authority of client-provided roots. If clients must not expand server authorization, intersect requested roots with an independently configured server policy."
+              ],
+              "verification": [
+                "Retain regression evidence showing permitted operations work and unauthorized objects remain inaccessible during controlled filesystem substitutions.",
+                "Confirm temporary files never expose content more broadly than the approved permission policy, including failure cases.",
+                "Record deployment constraints and roots authorization decisions alongside adversarial test results."
+              ]
+            },
+            "status": "potential_gap",
+            "verification_steps": [
+              "In an authorized isolated environment, exercise leaf and ancestor replacement between validation and reads, writes, edits, directory creation, and moves; check the actual objects accessed.",
+              "Inspect temporary-file permissions throughout replacement, including restrictive original permissions and permission-restoration failures.",
+              "Review deployment identity, directory ownership, mounts, and whether another principal can modify allowed-directory ancestors.",
+              "Confirm who may authorize MCP roots, whether empty root updates revoke access, and whether secrets can fall within an authorized root.",
+              "Obtain the remaining tool implementations and any upload, download, or extraction handlers; resolve entrypoint coverage separately from this review."
+            ]
+          },
+          {
+            "analysis": {
+              "boundary": "The required evidence concerns adversarial validation of MCP filesystem access and any archive processing, from supplied arguments through observable filesystem effects.",
+              "conclusion_limits": "Test existence, completeness, and outcomes cannot be determined. No runtime validation occurred. Archive functionality is unresolved, and incomplete callback parsing further limits confidence in the tested-surface inventory.",
+              "counterevidence": "Vitest configuration and coverage instrumentation show a testing mechanism is configured. Existing security tests elsewhere are a plausible alternative, but no test bodies or results were supplied. Visible implementation guards do not establish test coverage.",
+              "risk_hypothesis": "Filesystem boundary regressions could remain undetected if tests cover only normalization or static symlinks and omit concurrent replacement, forbidden overwrites, or unauthorized content reads."
+            },
+            "check": "Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads.",
+            "check_index": 2,
+            "citations": [
+              {
+                "end_line": 6,
+                "evidence_id": "src-c39da0c47ebf2e1715125cde",
+                "path": "vitest.config.ts",
+                "quote": "globals: true,\n    environment: 'node',",
+                "source_sha256": "a28c7034f39f5910667f49e4eee542fef853227432c2596eee2676bd5e6f96be",
+                "start_line": 5
+              },
+              {
+                "end_line": 9,
+                "evidence_id": "src-c39da0c47ebf2e1715125cde",
+                "path": "vitest.config.ts",
+                "quote": "provider: 'v8',",
+                "source_sha256": "a28c7034f39f5910667f49e4eee542fef853227432c2596eee2676bd5e6f96be",
+                "start_line": 9
+              }
+            ],
+            "model_supplied": true,
+            "reason": "The supplied configuration establishes a Vitest test environment and coverage provider, but includes no test bodies or execution results demonstrating symlink races, archive traversal, absolute-path handling, overwrite attempts, or secret-directory reads. Existing path guards identify useful test targets but do not demonstrate testing. Missing test evidence does not establish that these tests are absent.",
+            "recommended_actions": {
+              "agent_mcp_relevance": "Tests must exercise the MCP argument-to-filesystem boundary and any roots-policy changes, since helper tests alone may miss entrypoint-specific behavior.",
+              "applicability": "First obtain existing tests and results. Add missing cases only after comparing their coverage with the acceptance check; archive testing depends on whether extraction is exposed directly or indirectly.",
+              "steps": [
+                "Map existing tests to symlink races, traversal, absolute paths, overwrite attempts, and secret-directory reads, including end-to-end MCP calls.",
+                "Where missing, add coordinated leaf and ancestor substitution tests covering reads, edits, writes, directory creation, and moves.",
+                "Distinguish authorized write_file replacement from forbidden move_file destination replacement, including concurrent destination creation.",
+                "Use synthetic secret fixtures outside authorized roots and verify that no contents are returned or modified; include roots expansion and revocation scenarios.",
+                "For any extraction surface, cover traversal entries, absolute entries, link entries, destination overwrites, and temporary-file permissions."
+              ],
+              "verification": [
+                "Have the owner review test assertions and retain execution results tied to the reviewed revision and deployment platform.",
+                "Confirm tests inspect resulting objects, contents, and permissions rather than relying only on error messages or coverage percentages.",
+                "Record unresolved platform behavior and any human-confirmed archive applicability decision."
+              ]
+            },
+            "status": "insufficient_evidence",
+            "verification_steps": [
+              "Obtain security test bodies and recent authorized execution results mapped to every requested scenario and supported platform.",
+              "Verify that race tests coordinate changes between validation and access, rather than testing only pre-existing symlinks.",
+              "Review absolute-path, traversal, overwrite, and secret-read assertions for checks on actual filesystem effects and returned content.",
+              "Identify any archive extraction surface and its tests, or obtain an owner-confirmed applicability assessment supported by complete surface coverage."
+            ]
+          }
+        ],
+        "control_id": "EXEC-04",
+        "provenance": {
+          "assurance": "Code support is not a control pass or proof of deployed behavior.",
+          "citation_validation": "Exact quote in submitted excerpt; semantic interpretation remains advisory.",
+          "evidence_selection_boundary": "Validated file-ID/line requests within captured manifest snapshots only.",
+          "model_selected_evidence": true,
+          "model_selected_evidence_allowed": true,
+          "model_tools_enabled": false,
+          "runtime_execution": false,
+          "static_results_modified": false
+        },
+        "review_status": "reviewed",
+        "static_status": "no_pattern_detected",
+        "title": "Constrain file and archive access",
+        "validation": "hybrid",
+        "validation_established": false
+      }
+    ],
+    "coverage": {
+      "attempted_controls": 1,
+      "batch_size": 1,
+      "call_budget": 3,
+      "calls_made": 3,
+      "catalog_checks": 2,
+      "catalog_controls": 1,
+      "disabled_checks": 0,
+      "disabled_controls": 0,
+      "evidence": {
+        "budget_exhausted": [
+          "max_candidates_per_control"
+        ],
+        "bytes_charged": 58024,
+        "bytes_read": 58024,
+        "candidate_rankings_dropped": 59,
+        "candidate_snippets": 123,
+        "characters_selected": 1993,
+        "controls_total": 1,
+        "controls_with_evidence": 1,
+        "controls_without_evidence": [],
+        "evidence_files": 3,
+        "failed_read_bytes_charged": 0,
+        "file_read_attempts": 9,
+        "files_read": 9,
+        "files_verified": 9,
+        "full_repository_review": false,
+        "limitations": [
+          "Keyword-selected excerpts are partial context and do not prove implementation, absence, effectiveness, or compliance.",
+          "Only unchanged manifest files are eligible; scanner exclusions and unsupported files remain outside this review.",
+          "Credentials and environment files are excluded; other redaction is best-effort and source can contain sensitive data.",
+          "Read budgets reserve one sentinel byte and conservatively charge failed read attempts, even if failure happened before any source bytes were read.",
+          "No target code is executed, imported, installed, or contacted; repository instructions cannot change retrieval.",
+          "Runtime behavior and missing evidence require additional validation; an empty control mapping is not a pass."
+        ],
+        "limits": {
+          "max_bytes": 2000000,
+          "max_candidates_per_control": 64,
+          "max_chars": 60000,
+          "max_chars_per_excerpt": 2000,
+          "max_excerpts_per_control": 4,
+          "max_file_bytes": 1000000,
+          "max_files": 200,
+          "max_lines_per_excerpt": 12,
+          "max_snippets": 240
+        },
+        "manifest_files": 9,
+        "requested_characters_selected": 38723,
+        "scope": "bounded_excerpts_from_unchanged_scanner_manifest_files",
+        "selection_method": "deterministic_control_keywords_and_findings",
+        "skipped_counts": {},
+        "skipped_files": [],
+        "snippets_selected": 4
+      },
+      "excluded_checks": 0,
+      "excluded_controls": 0,
+      "justified_checks": 0,
+      "justified_controls": 0,
+      "omitted_checks": 0,
+      "reviewed_controls": 1,
+      "time_budget_seconds": 900.0,
+      "total_checks": 2,
+      "total_controls": 1,
+      "unreviewed_control_ids": [],
+      "validated_controls": 0
+    },
+    "enabled": true,
+    "errors": [],
+    "evidence": [
+      {
+        "end_line": 12,
+        "end_line_complete": true,
+        "evidence_id": "src-7d7e02c858a447037de50438",
+        "kind": "source_excerpt",
+        "path": "index.ts",
+        "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+        "start_line": 1,
+        "text": "#!/usr/bin/env node\n\nimport { McpServer } from \"@modelcontextprotocol/sdk/server/mcp.js\";\nimport { StdioServerTransport } from \"@modelcontextprotocol/sdk/server/stdio.js\";\nimport {\n  RootsListChangedNotificationSchema,\n  type Root,\n} from \"@modelcontextprotocol/sdk/types.js\";\nimport fs from \"fs/promises\";\nimport { createReadStream } from \"fs\";\nimport path from \"path\";\nimport { pathToFileURL } from \"url\";"
+      },
+      {
+        "end_line": 60,
+        "end_line_complete": true,
+        "evidence_id": "src-4f9d0004e5a942800853224f",
+        "kind": "source_excerpt",
+        "path": "index.ts",
+        "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+        "start_line": 49,
+        "text": "    const absolute = path.resolve(expanded);\n    const normalizedOriginal = normalizePath(absolute);\n    try {\n      // Security: Resolve symlinks in allowed directories during startup\n      // This ensures we know the real paths and can validate against them later\n      const resolved = await fs.realpath(absolute);\n      const normalizedResolved = normalizePath(resolved);\n      // Return both original and resolved paths if they differ\n      // This allows matching against either /tmp or /private/tmp on macOS\n      if (normalizedOriginal !== normalizedResolved) {\n        return [normalizedOriginal, normalizedResolved];\n      }"
+      },
+      {
+        "end_line": 168,
+        "end_line_complete": true,
+        "evidence_id": "src-17399bf8d41781072687de0c",
+        "kind": "source_excerpt",
+        "path": "lib.ts",
+        "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+        "start_line": 157,
+        "text": "    throw new Error(`Access denied - path outside allowed directories: ${absolute} not in ${allowedDirectories.join(', ')}`);\n  }\n\n  // Security: Handle symlinks by checking their real path to prevent symlink attacks\n  // This prevents attackers from creating symlinks that point outside allowed directories\n  try {\n    const realPath = await fs.realpath(absolute);\n    const normalizedReal = normalizePath(realPath);\n    if (!isPathWithinAllowedDirectories(normalizedReal, allowedDirectories)) {\n      throw new Error(`Access denied - symlink target outside allowed directories: ${realPath} not in ${allowedDirectories.join(', ')}`);\n    }\n    return realPath;"
+      },
+      {
+        "end_line": 60,
+        "end_line_complete": true,
+        "evidence_id": "src-c01e656cad72d145f2421bf1",
+        "kind": "source_excerpt",
+        "path": "path-validation.ts",
+        "source_sha256": "20833254c044c3d4d0672616ad546d50f09dae8b704c8a3619b86310f2cec3ba",
+        "start_line": 49,
+        "text": "    }\n\n    // Normalize the allowed directory\n    let normalizedDir: string;\n    try {\n      normalizedDir = path.resolve(path.normalize(dir));\n    } catch {\n      return false;\n    }\n\n    // Verify allowed directory is absolute after normalization\n    if (!path.isAbsolute(normalizedDir)) {"
+      },
+      {
+        "end_line": 219,
+        "end_line_complete": true,
+        "evidence_id": "src-d28872b02bc6a10fe16c62ab",
+        "kind": "source_excerpt",
+        "path": "lib.ts",
+        "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+        "start_line": 140,
+        "text": "export async function validatePath(requestedPath: string): Promise<string> {\n  const expandedPath = expandHome(requestedPath);\n  // Do not silently reinterpret a Windows drive path as a relative POSIX path.\n  // This would create a literal filename such as `C:\\\\Users\\\\...` inside the\n  // allowed root and report success for the wrong location.\n  if (process.platform !== 'win32' && /^(?:[A-Za-z]:)(?:[\\\\/]|$)/.test(expandedPath)) {\n    throw new Error(`Access denied - Windows-style path received on a POSIX host: ${requestedPath}`);\n  }\n  const absolute = path.isAbsolute(expandedPath)\n    ? path.resolve(expandedPath)\n    : resolveRelativePathAgainstAllowedDirectories(expandedPath);\n\n  const normalizedRequested = normalizePath(absolute);\n\n  // Security: Check if path is within allowed directories before any file operations\n  const isAllowed = isPathWithinAllowedDirectories(normalizedRequested, allowedDirectories);\n  if (!isAllowed) {\n    throw new Error(`Access denied - path outside allowed directories: ${absolute} not in ${allowedDirectories.join(', ')}`);\n  }\n\n  // Security: Handle symlinks by checking their real path to prevent symlink attacks\n  // This prevents attackers from creating symlinks that point outside allowed directories\n  try {\n    const realPath = await fs.realpath(absolute);\n    const normalizedReal = normalizePath(realPath);\n    if (!isPathWithinAllowedDirectories(normalizedReal, allowedDirectories)) {\n      throw new Error(`Access denied - symlink target outside allowed directories: ${realPath} not in ${allowedDirectories.join(', ')}`);\n    }\n    return realPath;\n  } catch (error) {\n    // Security: For new files that don't exist yet, verify parent directory\n    // This ensures we can't create files in unauthorized locations\n    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {\n      try {\n        return await resolveUnicodeEquivalentPath(absolute);\n      } catch (resolutionError) {\n        if ((resolutionError as NodeJS.ErrnoException).code === 'ENOENT') {\n          throw new Error(`Parent directory does not exist: ${path.dirname(absolute)}`);\n        }\n        throw resolutionError;\n      }\n    }\n    throw error;\n  }\n}\n\n\n// File Operations\nexport async function getFileStats(filePath: string): Promise<FileInfo> {\n  const stats = await fs.stat(filePath);\n  return {\n    size: stats.size,\n    created: stats.birthtime,\n    modified: stats.mtime,\n    accessed: stats.atime,\n    isDirectory: stats.isDirectory(),\n    isFile: stats.isFile(),\n    permissions: stats.mode.toString(8).slice(-3),\n  };\n}\n\nexport async function readFileContent(filePath: string, encoding: string = 'utf-8'): Promise<string> {\n  return await fs.readFile(filePath, encoding as BufferEncoding);\n}\n\nexport async function writeFileContent(filePath: string, content: string): Promise<void> {\n  try {\n    // Security: 'wx' flag ensures exclusive creation - fails if file/symlink exists,\n    // preventing writes through pre-existing symlinks\n    await fs.writeFile(filePath, content, { encoding: \"utf-8\", flag: 'wx' });\n  } catch (error) {\n    if ((error as NodeJS.ErrnoException).code === 'EEXIST') {\n      // Security: Use atomic rename to prevent race conditions where symlinks\n      // could be created between validation and write. Rename operations\n      // replace the target file atomically and don't follow symlinks.\n      const origStats = await fs.stat(filePath);\n      const tempPath = `${filePath}.${randomBytes(16).toString('hex')}.tmp`;\n      try {\n        await fs.writeFile(tempPath, content, 'utf-8');\n        await fs.rename(tempPath, filePath);"
+      },
+      {
+        "end_line": 299,
+        "end_line_complete": true,
+        "evidence_id": "src-d0295ca728dc16eb8dc246c4",
+        "kind": "source_excerpt",
+        "path": "lib.ts",
+        "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+        "start_line": 220,
+        "text": "      } catch (renameError) {\n        try {\n          await fs.unlink(tempPath);\n        } catch {}\n        throw renameError;\n      }\n      // Restore original permission bits since the atomic rename replaces the\n      // inode and the temp file has default (0644) permissions. Mask off the\n      // file-type bits; POSIX leaves them unspecified for chmod. A chmod\n      // failure must not fail the write, which has already succeeded.\n      try {\n        await fs.chmod(filePath, origStats.mode & 0o777);\n      } catch {}\n    } else {\n      throw error;\n    }\n  }\n}\n\n\nexport async function moveFile(sourcePath: string, destinationPath: string): Promise<void> {\n  // The move_file tool contract (and README) state the operation fails if the\n  // destination already exists. fs.rename would silently overwrite it, which is\n  // a data-loss bug, so reject up front when anything - file, directory, or\n  // symlink - occupies the target. lstat is used so an existing symlink at the\n  // destination is detected rather than followed.\n  try {\n    await fs.lstat(destinationPath);\n  } catch (error) {\n    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {\n      await fs.rename(sourcePath, destinationPath);\n      return;\n    }\n    throw error;\n  }\n  throw new Error(`Destination already exists: ${destinationPath}`);\n}\n\n\n// File Editing Functions\ninterface FileEdit {\n  oldText: string;\n  newText: string;\n}\n\nexport async function applyFileEdits(\n  filePath: string,\n  edits: FileEdit[],\n  dryRun: boolean = false\n): Promise<string> {\n  // Read file content and normalize line endings\n  const content = normalizeLineEndings(await fs.readFile(filePath, 'utf-8'));\n\n  // Apply edits sequentially\n  let modifiedContent = content;\n  for (const edit of edits) {\n    const normalizedOld = normalizeLineEndings(edit.oldText);\n    const normalizedNew = normalizeLineEndings(edit.newText);\n\n    // If exact match exists, use it\n    if (modifiedContent.includes(normalizedOld)) {\n      modifiedContent = modifiedContent.replace(normalizedOld, () => normalizedNew);\n      continue;\n    }\n\n    // Otherwise, try line-by-line matching with flexibility for whitespace\n    const oldLines = normalizedOld.split('\\n');\n    const contentLines = modifiedContent.split('\\n');\n    let matchFound = false;\n\n    for (let i = 0; i <= contentLines.length - oldLines.length; i++) {\n      const potentialMatch = contentLines.slice(i, i + oldLines.length);\n\n      // Compare lines with normalized whitespace\n      const isMatch = oldLines.every((oldLine, j) => {\n        const contentLine = potentialMatch[j];\n        return oldLine.trim() === contentLine.trim();\n      });\n\n      if (isMatch) {"
+      },
+      {
+        "end_line": 86,
+        "end_line_complete": true,
+        "evidence_id": "src-456285d9deaeffe2ed92aa98",
+        "kind": "source_excerpt",
+        "path": "path-validation.ts",
+        "source_sha256": "20833254c044c3d4d0672616ad546d50f09dae8b704c8a3619b86310f2cec3ba",
+        "start_line": 7,
+        "text": " * @param allowedDirectories - Array of absolute allowed directory paths (will be normalized)\n * @returns true if the path is within an allowed directory, false otherwise\n * @throws Error if given relative paths after normalization\n */\nexport function isPathWithinAllowedDirectories(absolutePath: string, allowedDirectories: string[]): boolean {\n  // Type validation\n  if (typeof absolutePath !== 'string' || !Array.isArray(allowedDirectories)) {\n    return false;\n  }\n\n  // Reject empty inputs\n  if (!absolutePath || allowedDirectories.length === 0) {\n    return false;\n  }\n\n  // Reject null bytes (forbidden in paths)\n  if (absolutePath.includes('\\x00')) {\n    return false;\n  }\n\n  // Normalize the input path\n  let normalizedPath: string;\n  try {\n    normalizedPath = path.resolve(path.normalize(absolutePath));\n  } catch {\n    return false;\n  }\n\n  // Verify it's absolute after normalization\n  if (!path.isAbsolute(normalizedPath)) {\n    throw new Error('Path must be absolute after normalization');\n  }\n\n  // Check against each allowed directory\n  return allowedDirectories.some(dir => {\n    if (typeof dir !== 'string' || !dir) {\n      return false;\n    }\n\n    // Reject null bytes in allowed dirs\n    if (dir.includes('\\x00')) {\n      return false;\n    }\n\n    // Normalize the allowed directory\n    let normalizedDir: string;\n    try {\n      normalizedDir = path.resolve(path.normalize(dir));\n    } catch {\n      return false;\n    }\n\n    // Verify allowed directory is absolute after normalization\n    if (!path.isAbsolute(normalizedDir)) {\n      throw new Error('Allowed directories must be absolute paths after normalization');\n    }\n\n    // Check if normalizedPath is within normalizedDir\n    // Path is inside if it's the same or a subdirectory\n    if (normalizedPath === normalizedDir) {\n      return true;\n    }\n    \n    // Special case for root directory to avoid double slash\n    // On Windows, we need to check if both paths are on the same drive\n    if (normalizedDir === path.sep) {\n      return normalizedPath.startsWith(path.sep);\n    }\n    \n    // On Windows, also check for drive root (e.g., \"C:\\\")\n    if (path.sep === '\\\\' && normalizedDir.match(/^[A-Za-z]:\\\\?$/)) {\n      // Ensure both paths are on the same drive\n      const dirDrive = normalizedDir.charAt(0).toLowerCase();\n      const pathDrive = normalizedPath.charAt(0).toLowerCase();\n      return pathDrive === dirDrive && normalizedPath.startsWith(normalizedDir.replace(/\\\\?$/, '\\\\'));\n    }\n    \n    return normalizedPath.startsWith(normalizedDir + path.sep);\n  });\n}"
+      },
+      {
+        "end_line": 234,
+        "end_line_complete": true,
+        "evidence_id": "src-33f17b55f6692b87f491f810",
+        "kind": "source_excerpt",
+        "path": "index.ts",
+        "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+        "start_line": 155,
+        "text": "  pattern: z.string(),\n  excludePatterns: z.array(z.string()).optional().default([])\n});\n\nconst GetFileInfoArgsSchema = z.object({\n  path: z.string(),\n});\n\n// Server setup\nconst server = new McpServer(\n  {\n    name: \"secure-filesystem-server\",\n    version: \"0.2.0\",\n  }\n);\n\n// Reads a file as a stream of buffers, concatenates them, and then encodes\n// the result to a Base64 string. This is a memory-efficient way to handle\n// binary data from a stream before the final encoding.\nasync function readFileAsBase64Stream(filePath: string): Promise<string> {\n  return new Promise((resolve, reject) => {\n    const stream = createReadStream(filePath);\n    const chunks: Buffer[] = [];\n    stream.on('data', (chunk) => {\n      chunks.push(chunk as Buffer);\n    });\n    stream.on('end', () => {\n      const finalBuffer = Buffer.concat(chunks);\n      resolve(finalBuffer.toString('base64'));\n    });\n    stream.on('error', (err) => reject(err));\n  });\n}\n\n// Tool registrations\n\n// read_file (deprecated) and read_text_file\nconst readTextFileHandler = async (args: z.infer<typeof ReadTextFileArgsSchema>) => {\n  const validPath = await validatePath(args.path);\n\n  if (args.head && args.tail) {\n    throw new Error(\"Cannot specify both head and tail parameters simultaneously\");\n  }\n\n  let content: string;\n  if (args.tail) {\n    content = await tailFile(validPath, args.tail);\n  } else if (args.head) {\n    content = await headFile(validPath, args.head);\n  } else {\n    content = await readFileContent(validPath);\n  }\n\n  return {\n    content: [{ type: \"text\" as const, text: content }],\n    structuredContent: { content }\n  };\n};\n\nserver.registerTool(\n  \"read_file\",\n  {\n    title: \"Read File (Deprecated)\",\n    description: \"Read the complete contents of a file as text. DEPRECATED: Use read_text_file instead.\",\n    inputSchema: ReadTextFileArgsSchema.shape,\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: true, openWorldHint: false }\n  },\n  readTextFileHandler\n);\n\nserver.registerTool(\n  \"read_text_file\",\n  {\n    title: \"Read Text File\",\n    description:\n      \"Read the complete contents of a file from the file system as text. \" +\n      \"Handles various text encodings and provides detailed error messages \" +\n      \"if the file cannot be read. Use this tool when you need to examine \" +\n      \"the contents of a single file. Use the 'head' parameter to read only \" +"
+      },
+      {
+        "end_line": 314,
+        "end_line_complete": true,
+        "evidence_id": "src-e5152c42b870fc2737585e01",
+        "kind": "source_excerpt",
+        "path": "index.ts",
+        "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+        "start_line": 235,
+        "text": "      \"the first N lines of a file, or the 'tail' parameter to read only \" +\n      \"the last N lines of a file. Operates on the file as text regardless of extension. \" +\n      \"Only works within allowed directories.\",\n    inputSchema: {\n      path: z.string(),\n      tail: z.number().optional().describe(\"If provided, returns only the last N lines of the file\"),\n      head: z.number().optional().describe(\"If provided, returns only the first N lines of the file\")\n    },\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: true, openWorldHint: false }\n  },\n  readTextFileHandler\n);\n\nserver.registerTool(\n  \"read_media_file\",\n  {\n    title: \"Read Media File\",\n    description:\n      \"Read a file and return it as a base64-encoded content block with its MIME type. \" +\n      \"Image and audio files are returned as image/audio content; any other file type is \" +\n      \"returned as an embedded resource. Only works within allowed directories.\",\n    inputSchema: {\n      path: z.string()\n    },\n    outputSchema: {\n      content: z.array(z.union([\n        z.object({\n          type: z.enum([\"image\", \"audio\"]),\n          data: z.string(),\n          mimeType: z.string()\n        }),\n        z.object({\n          type: z.literal(\"resource\"),\n          resource: z.object({\n            uri: z.string(),\n            // Optional, matching the SDK's BlobResourceContents shape (the handler always sets it).\n            mimeType: z.string().optional(),\n            blob: z.string()\n          })\n        })\n      ]))\n    },\n    annotations: { readOnlyHint: true, openWorldHint: false }\n  },\n  async (args: z.infer<typeof ReadMediaFileArgsSchema>) => {\n    const validPath = await validatePath(args.path);\n    const extension = path.extname(validPath).toLowerCase();\n    const mimeTypes: Record<string, string> = {\n      \".png\": \"image/png\",\n      \".jpg\": \"image/jpeg\",\n      \".jpeg\": \"image/jpeg\",\n      \".gif\": \"image/gif\",\n      \".webp\": \"image/webp\",\n      \".bmp\": \"image/bmp\",\n      \".svg\": \"image/svg+xml\",\n      \".mp3\": \"audio/mpeg\",\n      \".wav\": \"audio/wav\",\n      \".ogg\": \"audio/ogg\",\n      \".flac\": \"audio/flac\",\n    };\n    const mimeType = mimeTypes[extension] || \"application/octet-stream\";\n    const data = await readFileAsBase64Stream(validPath);\n\n    // Map the MIME type to a valid MCP content block. The spec only allows\n    // text, image, audio, resource_link, and resource \u2014 so non-image/audio\n    // binaries are returned as an embedded resource (NOT type:\"blob\", which the\n    // SDK content-block union rejects on schema validation).\n    const contentItem =\n      mimeType.startsWith(\"image/\")\n        ? { type: \"image\" as const, data, mimeType }\n        : mimeType.startsWith(\"audio/\")\n          ? { type: \"audio\" as const, data, mimeType }\n          : {\n              type: \"resource\" as const,\n              resource: { uri: pathToFileURL(validPath).href, mimeType, blob: data }\n            };\n    return {\n      content: [contentItem],\n      structuredContent: { content: [contentItem] }"
+      },
+      {
+        "end_line": 786,
+        "end_line_complete": true,
+        "evidence_id": "src-00a7481a5f1d3f2b7fdb5396",
+        "kind": "source_excerpt",
+        "path": "index.ts",
+        "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+        "start_line": 725,
+        "text": "async function updateAllowedDirectoriesFromRoots(requestedRoots: Root[]) {\n  const validatedRootDirs = await getValidRootDirectories(requestedRoots);\n  if (validatedRootDirs.length > 0) {\n    allowedDirectories = [...validatedRootDirs];\n    setAllowedDirectories(allowedDirectories); // Update the global state in lib.ts\n    console.error(`Updated allowed directories from MCP roots: ${validatedRootDirs.length} valid directories`);\n  } else {\n    console.error(\"No valid root directories provided by client\");\n  }\n}\n\n// Handles dynamic roots updates during runtime, when client sends \"roots/list_changed\" notification, server fetches the updated roots and replaces all allowed directories with the new roots.\nserver.server.setNotificationHandler(RootsListChangedNotificationSchema, async () => {\n  try {\n    // Request the updated roots list from the client\n    const response = await server.server.listRoots();\n    if (response && 'roots' in response) {\n      await updateAllowedDirectoriesFromRoots(response.roots);\n    }\n  } catch (error) {\n    console.error(\"Failed to request roots from client:\", error instanceof Error ? error.message : String(error));\n  }\n});\n\n// Handles post-initialization setup, specifically checking for and fetching MCP roots.\nserver.server.oninitialized = async () => {\n  const clientCapabilities = server.server.getClientCapabilities();\n\n  if (clientCapabilities?.roots) {\n    try {\n      const response = await server.server.listRoots();\n      if (response && 'roots' in response) {\n        await updateAllowedDirectoriesFromRoots(response.roots);\n      } else {\n        console.error(\"Client returned no roots set, keeping current settings\");\n      }\n    } catch (error) {\n      console.error(\"Failed to request initial roots from client:\", error instanceof Error ? error.message : String(error));\n    }\n  } else {\n    if (allowedDirectories.length > 0) {\n      console.error(\"Client does not support MCP Roots, using allowed directories set from server args:\", allowedDirectories);\n    }else{\n      throw new Error(`Server cannot operate: No allowed directories available. Server was started without command-line directories and client either does not support MCP roots protocol or provided empty roots. Please either: 1) Start server with directory arguments, or 2) Use a client that supports MCP roots protocol and provides valid root directories.`);\n    }\n  }\n};\n\n// Start server\nasync function runServer() {\n  const transport = new StdioServerTransport();\n  await server.connect(transport);\n  console.error(\"Secure MCP Filesystem Server running on stdio\");\n  if (allowedDirectories.length === 0) {\n    console.error(\"Started without allowed directories - waiting for client to provide roots via MCP protocol\");\n  }\n}\n\nrunServer().catch((error) => {\n  console.error(\"Fatal error running server:\", error);\n  process.exit(1);\n});"
+      },
+      {
+        "end_line": 80,
+        "end_line_complete": true,
+        "evidence_id": "src-9c9ff329e64dbb73fd24b503",
+        "kind": "source_excerpt",
+        "path": "lib.ts",
+        "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+        "start_line": 1,
+        "text": "import fs from \"fs/promises\";\nimport path from \"path\";\nimport os from 'os';\nimport { randomBytes } from 'crypto';\nimport { StringDecoder } from 'string_decoder';\nimport { diffLines, createTwoFilesPatch } from 'diff';\nimport { minimatch } from 'minimatch';\nimport { normalizePath, expandHome } from './path-utils.js';\nimport { isPathWithinAllowedDirectories } from './path-validation.js';\n\n// Global allowed directories - set by the main module\nlet allowedDirectories: string[] = [];\n\n// Function to set allowed directories from the main module\nexport function setAllowedDirectories(directories: string[]): void {\n  allowedDirectories = [...directories];\n}\n\n// Function to get current allowed directories\nexport function getAllowedDirectories(): string[] {\n  return [...allowedDirectories];\n}\n\n// Type definitions\ninterface FileInfo {\n  size: number;\n  created: Date;\n  modified: Date;\n  accessed: Date;\n  isDirectory: boolean;\n  isFile: boolean;\n  permissions: string;\n}\n\nexport interface SearchOptions {\n  excludePatterns?: string[];\n}\n\nexport interface SearchResult {\n  path: string;\n  isDirectory: boolean;\n}\n\n// Pure Utility Functions\nexport function formatSize(bytes: number): string {\n  const units = ['B', 'KB', 'MB', 'GB', 'TB'];\n  if (bytes <= 0) return '0 B';\n  \n  const i = Math.floor(Math.log(bytes) / Math.log(1024));\n  \n  if (i < 0 || i === 0) return `${bytes} ${units[0]}`;\n  \n  const unitIndex = Math.min(i, units.length - 1);\n  return `${(bytes / Math.pow(1024, unitIndex)).toFixed(2)} ${units[unitIndex]}`;\n}\n\nexport function normalizeLineEndings(text: string): string {\n  return text.replace(/\\r\\n/g, '\\n');\n}\n\nexport function createUnifiedDiff(originalContent: string, newContent: string, filepath: string = 'file'): string {\n  // Ensure consistent line endings for diff\n  const normalizedOriginal = normalizeLineEndings(originalContent);\n  const normalizedNew = normalizeLineEndings(newContent);\n\n  return createTwoFilesPatch(\n    filepath,\n    filepath,\n    normalizedOriginal,\n    normalizedNew,\n    'original',\n    'modified'\n  );\n}\n\n// Helper function to resolve relative paths against allowed directories\nfunction resolveRelativePathAgainstAllowedDirectories(relativePath: string): string {\n  if (allowedDirectories.length === 0) {\n    // Fallback to process.cwd() if no allowed directories are set\n    return path.resolve(process.cwd(), relativePath);"
+      },
+      {
+        "end_line": 43,
+        "end_line_complete": true,
+        "evidence_id": "src-c7e718e049f51ab7a5cfbc94",
+        "kind": "source_excerpt",
+        "path": "package.json",
+        "source_sha256": "d91000e9d2cb2373b4dcd73027bdeb42e60790c8d7469618bad256770109bbed",
+        "start_line": 1,
+        "text": "{\n  \"name\": \"@modelcontextprotocol/server-filesystem\",\n  \"version\": \"0.6.3\",\n  \"description\": \"MCP server for filesystem access\",\n  \"license\": \"SEE LICENSE IN LICENSE\",\n  \"mcpName\": \"io.github.modelcontextprotocol/server-filesystem\",\n  \"author\": \"Model Context Protocol a Series of LF Projects, LLC.\",\n  \"homepage\": \"https://modelcontextprotocol.io\",\n  \"bugs\": \"https://github.com/modelcontextprotocol/servers/issues\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/modelcontextprotocol/servers.git\"\n  },\n  \"type\": \"module\",\n  \"bin\": {\n    \"mcp-server-filesystem\": \"dist/index.js\"\n  },\n  \"files\": [\n    \"dist\"\n  ],\n  \"scripts\": {\n    \"build\": \"tsc && shx chmod +x dist/*.js\",\n    \"prepare\": \"npm run build\",\n    \"watch\": \"tsc --watch\",\n    \"test\": \"vitest run --coverage\"\n  },\n  \"dependencies\": {\n    \"@modelcontextprotocol/sdk\": \"^1.30.0\",\n    \"diff\": \"^8.0.3\",\n    \"glob\": \"^13.0.6\",\n    \"minimatch\": \"^10.0.1\",\n    \"zod\": \"^4.0.0\"\n  },\n  \"devDependencies\": {\n    \"@types/diff\": \"^5.0.9\",\n    \"@types/minimatch\": \"^5.1.2\",\n    \"@types/node\": \"^22\",\n    \"@vitest/coverage-v8\": \"^4.1.8\",\n    \"shx\": \"^0.4.0\",\n    \"typescript\": \"^5.8.2\",\n    \"vitest\": \"^4.1.8\"\n  }\n}"
+      },
+      {
+        "end_line": 139,
+        "end_line_complete": true,
+        "evidence_id": "src-7026e2929ce6738678e5ced6",
+        "kind": "source_excerpt",
+        "path": "lib.ts",
+        "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+        "start_line": 81,
+        "text": "  }\n\n  // Try to resolve relative path against each allowed directory\n  for (const allowedDir of allowedDirectories) {\n    const candidate = path.resolve(allowedDir, relativePath);\n    const normalizedCandidate = normalizePath(candidate);\n    \n    // Check if the resulting path lies within any allowed directory\n    if (isPathWithinAllowedDirectories(normalizedCandidate, allowedDirectories)) {\n      return candidate;\n    }\n  }\n  \n  // If no valid resolution found, use the first allowed directory as base\n  // This provides a consistent fallback behavior\n  return path.resolve(allowedDirectories[0], relativePath);\n}\n\n// Security & Validation Functions\nasync function resolveUnicodeEquivalentPath(absolutePath: string): Promise<string> {\n  const allowedDirectory = [...allowedDirectories]\n    .sort((left, right) => right.length - left.length)\n    .find(directory => isPathWithinAllowedDirectories(normalizePath(absolutePath), [directory]));\n\n  if (!allowedDirectory) {\n    return absolutePath;\n  }\n\n  let currentPath = await fs.realpath(allowedDirectory);\n  const relativeParts = path.relative(allowedDirectory, absolutePath).split(path.sep).filter(Boolean);\n\n  for (let index = 0; index < relativeParts.length; index++) {\n    const requestedPart = relativeParts[index];\n    const entries = (await fs.readdir(currentPath)) ?? [];\n    const exactMatch = entries.find(entry => entry === requestedPart);\n    const equivalentMatches = exactMatch\n      ? [exactMatch]\n      : entries.filter(entry => entry.normalize('NFC') === requestedPart.normalize('NFC'));\n\n    if (equivalentMatches.length > 1) {\n      throw new Error(`Ambiguous Unicode path component: ${requestedPart}`);\n    }\n\n    if (equivalentMatches.length === 0) {\n      // Nothing below this point exists yet, so there are no symlinks left to\n      // resolve. currentPath is already realpath'd and inside an allowed\n      // directory; append the missing tail so create_directory can mkdir -p it.\n      return path.join(currentPath, ...relativeParts.slice(index));\n    }\n\n    currentPath = await fs.realpath(path.join(currentPath, equivalentMatches[0]));\n    if (!isPathWithinAllowedDirectories(normalizePath(currentPath), allowedDirectories)) {\n      throw new Error(`Access denied - symlink target outside allowed directories: ${currentPath} not in ${allowedDirectories.join(', ')}`);\n    }\n  }\n\n  return currentPath;\n}\n"
+      },
+      {
+        "end_line": 77,
+        "end_line_complete": true,
+        "evidence_id": "src-798ccbc00c025c20d75d0d6e",
+        "kind": "source_excerpt",
+        "path": "roots-utils.ts",
+        "source_sha256": "bce7c15a73dc592c23339edcd68603d08fed8d7f3d0f371db29042703f93240d",
+        "start_line": 1,
+        "text": "import { promises as fs, type Stats } from 'fs';\nimport path from 'path';\nimport os from 'os';\nimport { normalizePath } from './path-utils.js';\nimport type { Root } from '@modelcontextprotocol/sdk/types.js';\nimport { fileURLToPath } from \"url\";\n\n/**\n * Converts a root URI to a normalized directory path with basic [REDACTED] validation.\n * @param rootUri - File URI (file://...) or plain directory path\n * @returns Promise resolving to validated path or null if invalid\n */\nasync function parseRootUri(rootUri: string): Promise<string | null> {\n  try {\n    const rawPath = rootUri.startsWith('file://') ? fileURLToPath(rootUri) : rootUri;\n    const expandedPath = rawPath.startsWith('~/') || rawPath === '~' \n      ? path.join(os.homedir(), rawPath.slice(1)) \n      : rawPath;\n    const absolutePath = path.resolve(expandedPath);\n    const resolvedPath = await fs.realpath(absolutePath);\n    return normalizePath(resolvedPath);\n  } catch {\n    return null; // Path doesn't exist or other error\n  }\n}\n\n/**\n * Formats error message for directory validation failures.\n * @param dir - Directory path that failed validation\n * @param error - Error that occurred during validation\n * @param reason - Specific reason for failure\n * @returns Formatted error message\n */\nfunction formatDirectoryError(dir: string, error?: unknown, reason?: string): string {\n  if (reason) {\n    return `Skipping ${reason}: ${dir}`;\n  }\n  const message = error instanceof Error ? error.message : String(error);\n  return `Skipping invalid directory: ${dir} due to error: ${message}`;\n}\n\n/**\n * Resolves requested root directories from MCP root specifications.\n * \n * Converts root URI specifications (file:// URIs or plain paths) into normalized\n * directory paths, validating that each path exists and is a directory.\n * Includes symlink resolution for security.\n * \n * @param requestedRoots - Array of root specifications with URI and optional name\n * @returns Promise resolving to array of validated directory paths\n */\nexport async function getValidRootDirectories(\n  requestedRoots: readonly Root[]\n): Promise<string[]> {\n  const validatedDirectories: string[] = [];\n  \n  for (const requestedRoot of requestedRoots) {\n    const resolvedPath = await parseRootUri(requestedRoot.uri);\n    if (!resolvedPath) {\n      console.error(formatDirectoryError(requestedRoot.uri, undefined, 'invalid path or inaccessible'));\n      continue;\n    }\n    \n    try {\n      const stats: Stats = await fs.stat(resolvedPath);\n      if (stats.isDirectory()) {\n        validatedDirectories.push(resolvedPath);\n      } else {\n        console.error(formatDirectoryError(resolvedPath, undefined, 'non-directory root'));\n      }\n    } catch (error) {\n      console.error(formatDirectoryError(resolvedPath, error));\n    }\n  }\n  \n  return validatedDirectories;\n}"
+      },
+      {
+        "end_line": 394,
+        "end_line_complete": true,
+        "evidence_id": "src-ac462823e545f33c8551058e",
+        "kind": "source_excerpt",
+        "path": "index.ts",
+        "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+        "start_line": 315,
+        "text": "    };\n  }\n);\n\nserver.registerTool(\n  \"read_multiple_files\",\n  {\n    title: \"Read Multiple Files\",\n    description:\n      \"Read the contents of multiple files simultaneously. This is more \" +\n      \"efficient than reading files one by one when you need to analyze \" +\n      \"or compare multiple files. Each file's content is returned with its \" +\n      \"path as a reference. Failed reads for individual files won't stop \" +\n      \"the entire operation. Only works within allowed directories.\",\n    inputSchema: {\n      paths: z.array(z.string())\n        .min(1)\n        .describe(\"Array of file paths to read. Each path must be a string pointing to a valid file within allowed directories.\")\n    },\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: true, openWorldHint: false }\n  },\n  async (args: z.infer<typeof ReadMultipleFilesArgsSchema>) => {\n    const results = await Promise.all(\n      args.paths.map(async (filePath: string) => {\n        try {\n          const validPath = await validatePath(filePath);\n          const content = await readFileContent(validPath);\n          return `${filePath}:\\n${content}\\n`;\n        } catch (error) {\n          const errorMessage = error instanceof Error ? error.message : String(error);\n          return `${filePath}: Error - ${errorMessage}`;\n        }\n      }),\n    );\n    const text = results.join(\"\\n---\\n\");\n    return {\n      content: [{ type: \"text\" as const, text }],\n      structuredContent: { content: text }\n    };\n  }\n);\n\nserver.registerTool(\n  \"write_file\",\n  {\n    title: \"Write File\",\n    description:\n      \"Create a new file or completely overwrite an existing file with new content. \" +\n      \"Use with caution as it will overwrite existing files without warning. \" +\n      \"Handles text content with proper encoding. Only works within allowed directories.\",\n    inputSchema: {\n      path: z.string(),\n      content: z.string()\n    },\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: false, idempotentHint: true, destructiveHint: true, openWorldHint: false }\n  },\n  async (args: z.infer<typeof WriteFileArgsSchema>) => {\n    const validPath = await validatePath(args.path);\n    await writeFileContent(validPath, args.content);\n    const text = `Successfully wrote to ${args.path}`;\n    return {\n      content: [{ type: \"text\" as const, text }],\n      structuredContent: { content: text }\n    };\n  }\n);\n\nserver.registerTool(\n  \"edit_file\",\n  {\n    title: \"Edit File\",\n    description:\n      \"Make line-based edits to a text file. Each edit replaces exact line sequences \" +\n      \"with new content. Returns a git-style diff showing the changes made. \" +\n      \"Only works within allowed directories.\",\n    inputSchema: {\n      path: z.string(),\n      edits: z.array(z.object({"
+      },
+      {
+        "end_line": 474,
+        "end_line_complete": true,
+        "evidence_id": "src-2af269eaaa0ccbd5f6c165d7",
+        "kind": "source_excerpt",
+        "path": "index.ts",
+        "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+        "start_line": 395,
+        "text": "        oldText: z.string().describe(\"Text to search for - must match exactly\"),\n        newText: z.string().describe(\"Text to replace with\")\n      })),\n      dryRun: z.boolean().default(false).describe(\"Preview changes using git-style diff format\")\n    },\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: false, idempotentHint: false, destructiveHint: true, openWorldHint: false }\n  },\n  async (args: z.infer<typeof EditFileArgsSchema>) => {\n    const validPath = await validatePath(args.path);\n    const result = await applyFileEdits(validPath, args.edits, args.dryRun);\n    return {\n      content: [{ type: \"text\" as const, text: result }],\n      structuredContent: { content: result }\n    };\n  }\n);\n\nserver.registerTool(\n  \"create_directory\",\n  {\n    title: \"Create Directory\",\n    description:\n      \"Create a new directory or ensure a directory exists. Can create multiple \" +\n      \"nested directories in one operation. If the directory already exists, \" +\n      \"this operation will succeed silently. Perfect for setting up directory \" +\n      \"structures for projects or ensuring required paths exist. Only works within allowed directories.\",\n    inputSchema: {\n      path: z.string()\n    },\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: false, idempotentHint: true, destructiveHint: false, openWorldHint: false }\n  },\n  async (args: z.infer<typeof CreateDirectoryArgsSchema>) => {\n    const validPath = await validatePath(args.path);\n    await fs.mkdir(validPath, { recursive: true });\n    const text = `Successfully created directory ${args.path}`;\n    return {\n      content: [{ type: \"text\" as const, text }],\n      structuredContent: { content: text }\n    };\n  }\n);\n\nserver.registerTool(\n  \"list_directory\",\n  {\n    title: \"List Directory\",\n    description:\n      \"Get a detailed listing of all files and directories in a specified path. \" +\n      \"Results clearly distinguish between files and directories with [FILE] and [DIR] \" +\n      \"prefixes. This tool is essential for understanding directory structure and \" +\n      \"finding specific files within a directory. Only works within allowed directories.\",\n    inputSchema: {\n      path: z.string()\n    },\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: true, openWorldHint: false }\n  },\n  async (args: z.infer<typeof ListDirectoryArgsSchema>) => {\n    const validPath = await validatePath(args.path);\n    const entries = await fs.readdir(validPath, { withFileTypes: true });\n    const formatted = entries\n      .map((entry) => `${entry.isDirectory() ? \"[DIR]\" : \"[FILE]\"} ${entry.name}`)\n      .join(\"\\n\");\n    return {\n      content: [{ type: \"text\" as const, text: formatted }],\n      structuredContent: { content: formatted }\n    };\n  }\n);\n\nserver.registerTool(\n  \"list_directory_with_sizes\",\n  {\n    title: \"List Directory with Sizes\",\n    description:\n      \"Get a detailed listing of all files and directories in a specified path, including sizes. \" +\n      \"Results clearly distinguish between files and directories with [FILE] and [DIR] \" +\n      \"prefixes. This tool is useful for understanding directory structure and \" +"
+      },
+      {
+        "end_line": 714,
+        "end_line_complete": true,
+        "evidence_id": "src-82829517a214ad7f9148b803",
+        "kind": "source_excerpt",
+        "path": "index.ts",
+        "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+        "start_line": 635,
+        "text": "    await moveFile(validSourcePath, validDestPath);\n    const text = `Successfully moved ${args.source} to ${args.destination}`;\n    const contentBlock = { type: \"text\" as const, text };\n    return {\n      content: [contentBlock],\n      structuredContent: { content: text }\n    };\n  }\n);\n\nserver.registerTool(\n  \"search_files\",\n  {\n    title: \"Search Files\",\n    description:\n      \"Recursively search for files and directories matching a pattern. \" +\n      \"The patterns should be glob-style patterns that match paths relative to the working directory. \" +\n      \"Use pattern like '*.ext' to match files in current directory, and '**/*.ext' to match files in all subdirectories. \" +\n      \"Returns full paths to all matching items. Great for finding files when you don't know their exact location. \" +\n      \"Only searches within allowed directories.\",\n    inputSchema: {\n      path: z.string(),\n      pattern: z.string(),\n      excludePatterns: z.array(z.string()).optional().default([])\n    },\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: true, openWorldHint: false }\n  },\n  async (args: z.infer<typeof SearchFilesArgsSchema>) => {\n    const validPath = await validatePath(args.path);\n    const results = await searchFilesWithValidation(validPath, args.pattern, allowedDirectories, { excludePatterns: args.excludePatterns });\n    const text = results.length > 0 ? results.join(\"\\n\") : \"No matches found\";\n    return {\n      content: [{ type: \"text\" as const, text }],\n      structuredContent: { content: text }\n    };\n  }\n);\n\nserver.registerTool(\n  \"get_file_info\",\n  {\n    title: \"Get File Info\",\n    description:\n      \"Retrieve detailed metadata about a file or directory. Returns comprehensive \" +\n      \"information including size, creation time, last modified time, permissions, \" +\n      \"and type. This tool is perfect for understanding file characteristics \" +\n      \"without reading the actual content. Only works within allowed directories.\",\n    inputSchema: {\n      path: z.string()\n    },\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: true, openWorldHint: false }\n  },\n  async (args: z.infer<typeof GetFileInfoArgsSchema>) => {\n    const validPath = await validatePath(args.path);\n    const info = await getFileStats(validPath);\n    const text = Object.entries(info)\n      .map(([key, value]) => `${key}: ${value}`)\n      .join(\"\\n\");\n    return {\n      content: [{ type: \"text\" as const, text }],\n      structuredContent: { content: text }\n    };\n  }\n);\n\nserver.registerTool(\n  \"list_allowed_directories\",\n  {\n    title: \"List Allowed Directories\",\n    description:\n      \"Returns the list of directories that this server is allowed to access. \" +\n      \"Subdirectories within these allowed directories are also accessible. \" +\n      \"Use this to understand which directories and their nested paths are available \" +\n      \"before trying to access files.\",\n    inputSchema: {},\n    outputSchema: { content: z.string() },\n    annotations: { readOnlyHint: true, openWorldHint: false }\n  },"
+      },
+      {
+        "end_line": 379,
+        "end_line_complete": true,
+        "evidence_id": "src-8231e4d7134a6b2856684c44",
+        "kind": "source_excerpt",
+        "path": "lib.ts",
+        "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+        "start_line": 300,
+        "text": "        // Preserve original indentation of first line\n        const originalIndent = contentLines[i].match(/^\\s*/)?.[0] || '';\n        const newLines = normalizedNew.split('\\n').map((line, j) => {\n          if (j === 0) return originalIndent + line.trimStart();\n          // For subsequent lines, try to preserve relative indentation\n          const oldIndent = oldLines[j]?.match(/^\\s*/)?.[0] || '';\n          const newIndent = line.match(/^\\s*/)?.[0] || '';\n          if (oldIndent && newIndent) {\n            const relativeIndent = newIndent.length - oldIndent.length;\n            return originalIndent + ' '.repeat(Math.max(0, relativeIndent)) + line.trimStart();\n          }\n          return line;\n        });\n\n        contentLines.splice(i, oldLines.length, ...newLines);\n        modifiedContent = contentLines.join('\\n');\n        matchFound = true;\n        break;\n      }\n    }\n\n    if (!matchFound) {\n      throw new Error(`Could not find exact match for edit:\\n${edit.oldText}`);\n    }\n  }\n\n  // Create unified diff\n  const diff = createUnifiedDiff(content, modifiedContent, filePath);\n\n  // Format diff with appropriate number of backticks\n  let numBackticks = 3;\n  while (diff.includes('`'.repeat(numBackticks))) {\n    numBackticks++;\n  }\n  const formattedDiff = `${'`'.repeat(numBackticks)}diff\\n${diff}${'`'.repeat(numBackticks)}\\n\\n`;\n\n  if (!dryRun) {\n    // Security: Use atomic rename to prevent race conditions where symlinks\n    // could be created between validation and write. Rename operations\n    // replace the target file atomically and don't follow symlinks.\n    const origStats = await fs.stat(filePath);\n    const tempPath = `${filePath}.${randomBytes(16).toString('hex')}.tmp`;\n    try {\n      await fs.writeFile(tempPath, modifiedContent, 'utf-8');\n      await fs.rename(tempPath, filePath);\n    } catch (error) {\n      try {\n        await fs.unlink(tempPath);\n      } catch {}\n      throw error;\n    }\n    // Restore original permission bits since the atomic rename replaces the\n    // inode and the temp file has default (0644) permissions. Mask off the\n    // file-type bits; POSIX leaves them unspecified for chmod. A chmod\n    // failure must not fail the write, which has already succeeded.\n    try {\n      await fs.chmod(filePath, origStats.mode & 0o777);\n    } catch {}\n  }\n\n  return formattedDiff;\n}\n\n// Memory-efficient implementation to get the last N lines of a file\nexport async function tailFile(filePath: string, numLines: number): Promise<string> {\n  const CHUNK_SIZE = 1024; // Read 1KB at a time\n  const stats = await fs.stat(filePath);\n  const fileSize = stats.size;\n  \n  if (fileSize === 0) return '';\n  \n  // Open file for reading\n  const fileHandle = await fs.open(filePath, 'r');\n  try {\n    const chunks: Buffer[] = [];\n    let position = fileSize;\n    const chunk = Buffer.alloc(CHUNK_SIZE);\n    let newlinesFound = 0;\n    \n    // Read chunks from the end of the file until we have enough lines"
+      },
+      {
+        "end_line": 25,
+        "end_line_complete": true,
+        "evidence_id": "src-b8010ae783d56bfc38f97a55",
+        "kind": "source_excerpt",
+        "path": "Dockerfile",
+        "source_sha256": "fc27009ddfd1d72773ddb89b0d169e449e940daa5cd1d56fe56bcc08b6e85598",
+        "start_line": 1,
+        "text": "FROM node:22.12-alpine AS builder\n\nWORKDIR /app\n\nCOPY src/filesystem /app\nCOPY tsconfig.json /tsconfig.json\n\nRUN --mount=type=cache,target=/root/.npm npm install\n\nRUN --mount=type=cache,target=/root/.npm-production npm ci --ignore-scripts --omit-dev\n\n\nFROM node:22-alpine AS release\n\nWORKDIR /app\n\nCOPY --from=builder /app/dist /app/dist\nCOPY --from=builder /app/package.json /app/package.json\nCOPY --from=builder /app/package-lock.json /app/package-lock.json\n\nENV NODE_ENV=production\n\nRUN npm ci --ignore-scripts --omit-dev\n\nENTRYPOINT [\"node\", \"/app/dist/index.js\"]"
+      },
+      {
+        "end_line": 14,
+        "end_line_complete": true,
+        "evidence_id": "src-c39da0c47ebf2e1715125cde",
+        "kind": "source_excerpt",
+        "path": "vitest.config.ts",
+        "source_sha256": "a28c7034f39f5910667f49e4eee542fef853227432c2596eee2676bd5e6f96be",
+        "start_line": 1,
+        "text": "import { defineConfig } from 'vitest/config';\n\nexport default defineConfig({\n  test: {\n    globals: true,\n    environment: 'node',\n    include: ['**/__tests__/**/*.test.ts'],\n    coverage: {\n      provider: 'v8',\n      include: ['**/*.ts'],\n      exclude: ['**/__tests__/**', '**/dist/**'],\n    },\n  },\n});"
+      }
+    ],
+    "investigation": {
+      "conclusion_calls": 1,
+      "enabled": true,
+      "excerpt_character_budget": 120000,
+      "excerpt_characters_used": 40716,
+      "inventory_characters": 2615,
+      "limits": {
+        "max_chars_per_request": 4000,
+        "max_inventory_chars": 32000,
+        "max_inventory_files": 200,
+        "max_lines_per_request": 80,
+        "max_requests_per_round": 8,
+        "max_requests_total": 128,
+        "max_symbols_per_file": 12
+      },
+      "max_rounds_per_batch": 2,
+      "protocol": "manifest_snapshot_ranges_v1",
+      "receipts": [
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek access-time enforcement, safe handling of nonexistent targets, and filesystem operations bound to validated objects.",
+          "end_line": 219,
+          "evidence_id": "src-d28872b02bc6a10fe16c62ab",
+          "file_id": "file-efb8eb6d32ff5732dfea3c05",
+          "new_characters_charged": 3595,
+          "original_check_index": 1,
+          "purpose": "risk_hypothesis",
+          "range_complete": true,
+          "reason": "Trace path validation into filesystem access, including missing-path handling and writes, to assess whether attacker-controlled paths can change between validation and use.",
+          "retained_characters": 3595,
+          "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+          "start_line": 140,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek exclusive creation, no-follow handling, destination revalidation, restrictive permissions, and cleanup on failure.",
+          "end_line": 299,
+          "evidence_id": "src-d0295ca728dc16eb8dc246c4",
+          "file_id": "file-efb8eb6d32ff5732dfea3c05",
+          "new_characters_charged": 2670,
+          "original_check_index": 1,
+          "purpose": "risk_hypothesis",
+          "range_complete": true,
+          "reason": "Inspect the remainder of writing and the move operation for temporary-file placement, destination validation, overwrite behavior, and permissions.",
+          "retained_characters": 2670,
+          "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+          "start_line": 220,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek separator-aware containment, rejection of traversal and incompatible roots, and handling of absolute paths and platform differences.",
+          "end_line": 86,
+          "evidence_id": "src-456285d9deaeffe2ed92aa98",
+          "file_id": "file-987db9b947eadc16acc4f7f9",
+          "new_characters_charged": 2551,
+          "original_check_index": 1,
+          "purpose": "counterevidence",
+          "range_complete": true,
+          "reason": "Inspect the complete containment decision underlying the supplied realpath check; normalization alone does not establish directory containment.",
+          "retained_characters": 2551,
+          "source_sha256": "20833254c044c3d4d0672616ad546d50f09dae8b704c8a3619b86310f2cec3ba",
+          "start_line": 7,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek mandatory validation before stream creation, constraints on tool arguments, and additional access-time guards.",
+          "end_line": 234,
+          "evidence_id": "src-33f17b55f6692b87f491f810",
+          "file_id": "file-5ae3d39aff74aeb01e9363af",
+          "new_characters_charged": 2393,
+          "original_check_index": 1,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Inspect the streaming helper and surrounding tool registration to connect client-supplied paths to actual reads despite incomplete static callback coverage.",
+          "retained_characters": 2393,
+          "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+          "start_line": 155,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek validation on every supplied path, restrictions on batch access, and guards that prevent direct use of unvalidated arguments.",
+          "end_line": 314,
+          "evidence_id": "src-e5152c42b870fc2737585e01",
+          "file_id": "file-5ae3d39aff74aeb01e9363af",
+          "new_characters_charged": 3027,
+          "original_check_index": 1,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Continue inspecting tool entrypoints for caller-side constraints and whether validated paths are consistently used by read operations.",
+          "retained_characters": 3027,
+          "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+          "start_line": 235,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek explicit policy intersection, rejection of invalid roots, and fail-closed behavior before initialization or after root-update failures.",
+          "end_line": 786,
+          "evidence_id": "src-00a7481a5f1d3f2b7fdb5396",
+          "file_id": "file-5ae3d39aff74aeb01e9363af",
+          "new_characters_charged": 2865,
+          "original_check_index": 1,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Inspect how MCP roots become allowed directories and how initialization or root changes affect the filesystem authorization boundary.",
+          "retained_characters": 2865,
+          "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+          "start_line": 725,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek immutable or normalized policy state, rejection of empty or overbroad policies, and caller constraints on policy updates.",
+          "end_line": 80,
+          "evidence_id": "src-9c9ff329e64dbb73fd24b503",
+          "file_id": "file-efb8eb6d32ff5732dfea3c05",
+          "new_characters_charged": 2378,
+          "original_check_index": 1,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Inspect storage and initialization of allowed directories and the beginning of relative-path resolution used by validation.",
+          "retained_characters": 2378,
+          "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+          "start_line": 1,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:2",
+          "check_index": 2,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek explicit filesystem security test configuration; script declarations alone cannot establish test coverage or successful execution.",
+          "end_line": 43,
+          "evidence_id": "src-c7e718e049f51ab7a5cfbc94",
+          "file_id": "file-9b73cee629c530fd3bf63a92",
+          "new_characters_charged": 1186,
+          "original_check_index": 2,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Identify declared test tooling and validation scripts to determine what test evidence is available for the required adversarial filesystem cases.",
+          "retained_characters": 1186,
+          "source_sha256": "d91000e9d2cb2373b4dcd73027bdeb42e60790c8d7469618bad256770109bbed",
+          "start_line": 1,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek canonical parent containment, rejection of existing symlink targets, and checks on the actual returned target rather than only the original spelling.",
+          "end_line": 139,
+          "evidence_id": "src-7026e2929ce6738678e5ced6",
+          "file_id": "file-efb8eb6d32ff5732dfea3c05",
+          "new_characters_charged": 2385,
+          "original_check_index": 1,
+          "purpose": "counterevidence",
+          "range_complete": true,
+          "reason": "Inspect relative-path resolution and the Unicode-equivalent fallback used for nonexistent targets, where containment of the final target remains unresolved.",
+          "retained_characters": 2385,
+          "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+          "start_line": 81,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek canonicalization, URI restrictions, directory validation, and intersection with an independently authorized server policy.",
+          "end_line": 77,
+          "evidence_id": "src-798ccbc00c025c20d75d0d6e",
+          "file_id": "file-2f90dc06de04ee6c31f5153c",
+          "new_characters_charged": 2811,
+          "original_check_index": 1,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Determine what validation occurs before client-supplied MCP roots replace the allowed-directory policy.",
+          "retained_characters": 2811,
+          "source_sha256": "bce7c15a73dc592c23339edcd68603d08fed8d7f3d0f371db29042703f93240d",
+          "start_line": 1,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek mandatory validation for every argument and access-time barriers or caller restrictions before filesystem operations.",
+          "end_line": 394,
+          "evidence_id": "src-ac462823e545f33c8551058e",
+          "file_id": "file-5ae3d39aff74aeb01e9363af",
+          "new_characters_charged": 2789,
+          "original_check_index": 1,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Continue the visible tool registrations to trace client-controlled arguments into batch reads and write operations despite incomplete callback parsing.",
+          "retained_characters": 2789,
+          "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+          "start_line": 315,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek validation of all source and destination arguments, authorization constraints, exclusive creation, or restrictions on concurrent filesystem changes.",
+          "end_line": 474,
+          "evidence_id": "src-2af269eaaa0ccbd5f6c165d7",
+          "file_id": "file-5ae3d39aff74aeb01e9363af",
+          "new_characters_charged": 3184,
+          "original_check_index": 1,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Inspect subsequent mutation entrypoints to determine whether the write and editing helpers receive validated targets and additional restrictions.",
+          "retained_characters": 3184,
+          "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+          "start_line": 395,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek source and destination validation, no-replace semantics, serialization, or caller-side constraints that reduce overwrite and path-substitution concerns.",
+          "end_line": 714,
+          "evidence_id": "src-82829517a214ad7f9148b803",
+          "file_id": "file-5ae3d39aff74aeb01e9363af",
+          "new_characters_charged": 3066,
+          "original_check_index": 1,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Inspect later tool registrations for callers of moveFile and other filesystem helpers; the visible destination existence check and rename are separate operations.",
+          "retained_characters": 3066,
+          "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+          "start_line": 635,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek reuse of guarded writing, dry-run restrictions, canonical containment checks, and filesystem access bound to validated objects.",
+          "end_line": 379,
+          "evidence_id": "src-8231e4d7134a6b2856684c44",
+          "file_id": "file-efb8eb6d32ff5732dfea3c05",
+          "new_characters_charged": 2950,
+          "original_check_index": 1,
+          "purpose": "risk_hypothesis",
+          "range_complete": true,
+          "reason": "Follow applyFileEdits through its eventual write and inspect adjacent operations for enforcement omitted from the current excerpts.",
+          "retained_characters": 2950,
+          "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+          "start_line": 300,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:1",
+          "check_index": 1,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek an unprivileged runtime identity, restricted filesystem exposure, and permission constraints; distinguish image configuration from actual deployment guarantees.",
+          "end_line": 25,
+          "evidence_id": "src-b8010ae783d56bfc38f97a55",
+          "file_id": "file-9e181b70de0137f101e66dc0",
+          "new_characters_charged": 567,
+          "original_check_index": 1,
+          "purpose": "counterevidence",
+          "range_complete": true,
+          "reason": "Inspect the supplied deployment definition for containment or permission barriers relevant to filesystem races and secret-directory access.",
+          "retained_characters": 567,
+          "source_sha256": "fc27009ddfd1d72773ddb89b0d169e449e940daa5cd1d56fe56bcc08b6e85598",
+          "start_line": 1,
+          "status": "served"
+        },
+        {
+          "check_id": "EXEC-04:2",
+          "check_index": 2,
+          "control_id": "EXEC-04",
+          "counterevidence": "Seek explicit security-test inclusion or exclusions; configuration alone cannot establish that the required cases exist or were executed.",
+          "end_line": 14,
+          "evidence_id": "src-c39da0c47ebf2e1715125cde",
+          "file_id": "file-1e37847deefaaf829c40c17d",
+          "new_characters_charged": 306,
+          "original_check_index": 2,
+          "purpose": "boundary_context",
+          "range_complete": true,
+          "reason": "Determine whether the declared test configuration supplies any concrete coverage context for adversarial filesystem tests.",
+          "retained_characters": 306,
+          "source_sha256": "a28c7034f39f5910667f49e4eee542fef853227432c2596eee2676bd5e6f96be",
+          "start_line": 1,
+          "status": "served"
+        }
+      ],
+      "requests_attempted": 16,
+      "requests_denied": 0,
+      "requests_served": 16,
+      "rounds_completed": 2,
+      "snapshot_files_offered": 9,
+      "snapshot_files_omitted": 0,
+      "snapshot_semantics": "Evidence is the captured manifest snapshot, not a live filesystem reread; deployment behavior remains unverified.",
+      "structured_analysis_checks": 2
+    },
+    "nondeterministic": true,
+    "provenance": {
+      "assurance": "Code support is not a control pass or proof of deployed behavior.",
+      "citation_validation": "Exact quote in submitted excerpt; semantic interpretation remains advisory.",
+      "evidence_selection_boundary": "Validated file-ID/line requests within captured manifest snapshots only.",
+      "model_selected_evidence": true,
+      "model_selected_evidence_allowed": true,
+      "model_tools_enabled": false,
+      "runtime_execution": false,
+      "static_results_modified": false
+    },
+    "requests": [
+      {
+        "adapter_version": "1.3.0",
+        "batch": 1,
+        "check_index_map": {
+          "EXEC-04": [
+            1,
+            2
+          ]
+        },
+        "checks_submitted": 2,
+        "cli": {
+          "arguments": [
+            "-a",
+            "never",
+            "exec",
+            "--ignore-user-config",
+            "--ignore-rules",
+            "--ephemeral",
+            "--skip-git-repo-check",
+            "--sandbox",
+            "read-only",
+            "--json",
+            "--color",
+            "never",
+            "--disable",
+            "shell_tool",
+            "--disable",
+            "unified_exec",
+            "--disable",
+            "code_mode",
+            "--disable",
+            "code_mode_host",
+            "--disable",
+            "computer_use",
+            "--disable",
+            "browser_use",
+            "--disable",
+            "browser_use_external",
+            "--disable",
+            "browser_use_full_cdp_access",
+            "--disable",
+            "in_app_browser",
+            "--disable",
+            "image_generation",
+            "--disable",
+            "view_image",
+            "--disable",
+            "artifact",
+            "--disable",
+            "apps",
+            "--disable",
+            "plugins",
+            "--disable",
+            "plugin_sharing",
+            "--disable",
+            "hooks",
+            "--disable",
+            "multi_agent",
+            "--disable",
+            "multi_agent_v2",
+            "--disable",
+            "skill_search",
+            "--disable",
+            "workspace_dependencies",
+            "--disable",
+            "shell_snapshot",
+            "--disable",
+            "memories",
+            "--disable",
+            "sleep_tool",
+            "--disable",
+            "goals",
+            "--disable",
+            "remote_plugin",
+            "--disable",
+            "tool_suggest",
+            "-c",
+            "web_search=\"disabled\"",
+            "-c",
+            "mcp_servers={}",
+            "-c",
+            "project_doc_max_bytes=0",
+            "-c",
+            "skills.include_instructions=false",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--output-schema",
+            "<private temporary directory>/response-schema.json",
+            "--model",
+            "gpt-6-astra",
+            "-"
+          ],
+          "auth_mode": "cli_managed",
+          "cli_version": "0.154.0",
+          "descendant_termination": "process_group",
+          "executable": "codex",
+          "isolation": "CLI capability restrictions; installed executable and administrator policy remain trusted",
+          "provider": "codex_cli",
+          "repository_working_directory": false,
+          "request_bytes": 15221,
+          "request_sha256": "e119da22e34a6843f3fd8e9c12d17e73505f83bb29be6197559f666367181735",
+          "requested_model": "gpt-6-astra",
+          "response_bytes": 4416,
+          "response_sha256": "e43a5c5e88603c3345fc7b7e984821fb742ba7c32c56403264dc1e0a1fd76145",
+          "stage": "investigation",
+          "startup_warnings": [
+            "codex_code_mode_intentionally_disabled"
+          ],
+          "structured_output_requested": true,
+          "token_budget_enforced": false,
+          "token_optimization": {
+            "bytes_saved": 336,
+            "engine": "headroom",
+            "evidence_preserved": true,
+            "fallback_reason": null,
+            "headroom_version": "0.37.0",
+            "original_payload_sha256": "817d4c8c4036abe68682116b4592a845c92ed15c30c3ec04ce430853a34f76bc",
+            "payload_bytes_after": 8689,
+            "payload_bytes_before": 9025,
+            "requested": "headroom",
+            "schema_version": "1.0",
+            "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+            "sent_payload_sha256": "bd3857692aa0fd1060d4b215fbe7e7da0643963bf7c14df4782522cbd014aa39",
+            "status": "optimized",
+            "token_savings_measured": false
+          },
+          "tools_policy": "disabled_for_advisory_review",
+          "transport": "official_cli"
+        },
+        "control_ids": [
+          "EXEC-04"
+        ],
+        "controls_submitted": 1,
+        "evidence_ids": [
+          "src-7d7e02c858a447037de50438",
+          "src-17399bf8d41781072687de0c",
+          "src-4f9d0004e5a942800853224f",
+          "src-c01e656cad72d145f2421bf1"
+        ],
+        "evidence_request_receipts": [
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek access-time enforcement, safe handling of nonexistent targets, and filesystem operations bound to validated objects.",
+            "end_line": 219,
+            "evidence_id": "src-d28872b02bc6a10fe16c62ab",
+            "file_id": "file-efb8eb6d32ff5732dfea3c05",
+            "new_characters_charged": 3595,
+            "original_check_index": 1,
+            "purpose": "risk_hypothesis",
+            "range_complete": true,
+            "reason": "Trace path validation into filesystem access, including missing-path handling and writes, to assess whether attacker-controlled paths can change between validation and use.",
+            "retained_characters": 3595,
+            "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+            "start_line": 140,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek exclusive creation, no-follow handling, destination revalidation, restrictive permissions, and cleanup on failure.",
+            "end_line": 299,
+            "evidence_id": "src-d0295ca728dc16eb8dc246c4",
+            "file_id": "file-efb8eb6d32ff5732dfea3c05",
+            "new_characters_charged": 2670,
+            "original_check_index": 1,
+            "purpose": "risk_hypothesis",
+            "range_complete": true,
+            "reason": "Inspect the remainder of writing and the move operation for temporary-file placement, destination validation, overwrite behavior, and permissions.",
+            "retained_characters": 2670,
+            "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+            "start_line": 220,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek separator-aware containment, rejection of traversal and incompatible roots, and handling of absolute paths and platform differences.",
+            "end_line": 86,
+            "evidence_id": "src-456285d9deaeffe2ed92aa98",
+            "file_id": "file-987db9b947eadc16acc4f7f9",
+            "new_characters_charged": 2551,
+            "original_check_index": 1,
+            "purpose": "counterevidence",
+            "range_complete": true,
+            "reason": "Inspect the complete containment decision underlying the supplied realpath check; normalization alone does not establish directory containment.",
+            "retained_characters": 2551,
+            "source_sha256": "20833254c044c3d4d0672616ad546d50f09dae8b704c8a3619b86310f2cec3ba",
+            "start_line": 7,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek mandatory validation before stream creation, constraints on tool arguments, and additional access-time guards.",
+            "end_line": 234,
+            "evidence_id": "src-33f17b55f6692b87f491f810",
+            "file_id": "file-5ae3d39aff74aeb01e9363af",
+            "new_characters_charged": 2393,
+            "original_check_index": 1,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Inspect the streaming helper and surrounding tool registration to connect client-supplied paths to actual reads despite incomplete static callback coverage.",
+            "retained_characters": 2393,
+            "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+            "start_line": 155,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek validation on every supplied path, restrictions on batch access, and guards that prevent direct use of unvalidated arguments.",
+            "end_line": 314,
+            "evidence_id": "src-e5152c42b870fc2737585e01",
+            "file_id": "file-5ae3d39aff74aeb01e9363af",
+            "new_characters_charged": 3027,
+            "original_check_index": 1,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Continue inspecting tool entrypoints for caller-side constraints and whether validated paths are consistently used by read operations.",
+            "retained_characters": 3027,
+            "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+            "start_line": 235,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek explicit policy intersection, rejection of invalid roots, and fail-closed behavior before initialization or after root-update failures.",
+            "end_line": 786,
+            "evidence_id": "src-00a7481a5f1d3f2b7fdb5396",
+            "file_id": "file-5ae3d39aff74aeb01e9363af",
+            "new_characters_charged": 2865,
+            "original_check_index": 1,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Inspect how MCP roots become allowed directories and how initialization or root changes affect the filesystem authorization boundary.",
+            "retained_characters": 2865,
+            "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+            "start_line": 725,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek immutable or normalized policy state, rejection of empty or overbroad policies, and caller constraints on policy updates.",
+            "end_line": 80,
+            "evidence_id": "src-9c9ff329e64dbb73fd24b503",
+            "file_id": "file-efb8eb6d32ff5732dfea3c05",
+            "new_characters_charged": 2378,
+            "original_check_index": 1,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Inspect storage and initialization of allowed directories and the beginning of relative-path resolution used by validation.",
+            "retained_characters": 2378,
+            "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+            "start_line": 1,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:2",
+            "check_index": 2,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek explicit filesystem security test configuration; script declarations alone cannot establish test coverage or successful execution.",
+            "end_line": 43,
+            "evidence_id": "src-c7e718e049f51ab7a5cfbc94",
+            "file_id": "file-9b73cee629c530fd3bf63a92",
+            "new_characters_charged": 1186,
+            "original_check_index": 2,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Identify declared test tooling and validation scripts to determine what test evidence is available for the required adversarial filesystem cases.",
+            "retained_characters": 1186,
+            "source_sha256": "d91000e9d2cb2373b4dcd73027bdeb42e60790c8d7469618bad256770109bbed",
+            "start_line": 1,
+            "status": "served"
+          }
+        ],
+        "investigation_response": "evidence_requests",
+        "investigation_round": 0,
+        "model": "gpt-6-astra",
+        "payload_sha256": "bd3857692aa0fd1060d4b215fbe7e7da0643963bf7c14df4782522cbd014aa39",
+        "protocol_version": "1.2.0",
+        "provider": "codex_cli",
+        "status": "completed",
+        "structured_analysis_checks": 0,
+        "token_optimization": {
+          "bytes_saved": 336,
+          "engine": "headroom",
+          "evidence_preserved": true,
+          "fallback_reason": null,
+          "headroom_version": "0.37.0",
+          "original_payload_sha256": "817d4c8c4036abe68682116b4592a845c92ed15c30c3ec04ce430853a34f76bc",
+          "payload_bytes_after": 8689,
+          "payload_bytes_before": 9025,
+          "requested": "headroom",
+          "schema_version": "1.0",
+          "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+          "sent_payload_sha256": "bd3857692aa0fd1060d4b215fbe7e7da0643963bf7c14df4782522cbd014aa39",
+          "status": "optimized",
+          "token_savings_measured": false
+        }
+      },
+      {
+        "adapter_version": "1.3.0",
+        "batch": 1,
+        "check_index_map": {
+          "EXEC-04": [
+            1,
+            2
+          ]
+        },
+        "checks_submitted": 2,
+        "cli": {
+          "arguments": [
+            "-a",
+            "never",
+            "exec",
+            "--ignore-user-config",
+            "--ignore-rules",
+            "--ephemeral",
+            "--skip-git-repo-check",
+            "--sandbox",
+            "read-only",
+            "--json",
+            "--color",
+            "never",
+            "--disable",
+            "shell_tool",
+            "--disable",
+            "unified_exec",
+            "--disable",
+            "code_mode",
+            "--disable",
+            "code_mode_host",
+            "--disable",
+            "computer_use",
+            "--disable",
+            "browser_use",
+            "--disable",
+            "browser_use_external",
+            "--disable",
+            "browser_use_full_cdp_access",
+            "--disable",
+            "in_app_browser",
+            "--disable",
+            "image_generation",
+            "--disable",
+            "view_image",
+            "--disable",
+            "artifact",
+            "--disable",
+            "apps",
+            "--disable",
+            "plugins",
+            "--disable",
+            "plugin_sharing",
+            "--disable",
+            "hooks",
+            "--disable",
+            "multi_agent",
+            "--disable",
+            "multi_agent_v2",
+            "--disable",
+            "skill_search",
+            "--disable",
+            "workspace_dependencies",
+            "--disable",
+            "shell_snapshot",
+            "--disable",
+            "memories",
+            "--disable",
+            "sleep_tool",
+            "--disable",
+            "goals",
+            "--disable",
+            "remote_plugin",
+            "--disable",
+            "tool_suggest",
+            "-c",
+            "web_search=\"disabled\"",
+            "-c",
+            "mcp_servers={}",
+            "-c",
+            "project_doc_max_bytes=0",
+            "-c",
+            "skills.include_instructions=false",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--output-schema",
+            "<private temporary directory>/response-schema.json",
+            "--model",
+            "gpt-6-astra",
+            "-"
+          ],
+          "auth_mode": "cli_managed",
+          "cli_version": "0.154.0",
+          "descendant_termination": "process_group",
+          "executable": "codex",
+          "isolation": "CLI capability restrictions; installed executable and administrator policy remain trusted",
+          "provider": "codex_cli",
+          "repository_working_directory": false,
+          "request_bytes": 44706,
+          "request_sha256": "5e6bcd8e732b86bf00d345873d1e38a3375ce8ec7262440a29079db996dd9af7",
+          "requested_model": "gpt-6-astra",
+          "response_bytes": 4496,
+          "response_sha256": "ffa4021ab42cba004a6fff9eacfda9e61560fbb2361260e8e51d6a6e5a16ff2a",
+          "stage": "investigation",
+          "startup_warnings": [
+            "codex_code_mode_intentionally_disabled"
+          ],
+          "structured_output_requested": true,
+          "token_budget_enforced": false,
+          "token_optimization": {
+            "bytes_saved": 729,
+            "engine": "headroom",
+            "evidence_preserved": true,
+            "fallback_reason": null,
+            "headroom_version": "0.37.0",
+            "original_payload_sha256": "d14662a71c20630dcd2ec8f12849c08b39d863033c378d6c86082c97210f9ff9",
+            "payload_bytes_after": 38174,
+            "payload_bytes_before": 38903,
+            "requested": "headroom",
+            "schema_version": "1.0",
+            "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+            "sent_payload_sha256": "b78702cf07a5c69181d2be060cabfc1cda762ed9be758b780963082e8b71d19c",
+            "status": "optimized",
+            "token_savings_measured": false
+          },
+          "tools_policy": "disabled_for_advisory_review",
+          "transport": "official_cli"
+        },
+        "control_ids": [
+          "EXEC-04"
+        ],
+        "controls_submitted": 1,
+        "evidence_ids": [
+          "src-7d7e02c858a447037de50438",
+          "src-17399bf8d41781072687de0c",
+          "src-4f9d0004e5a942800853224f",
+          "src-c01e656cad72d145f2421bf1",
+          "src-d28872b02bc6a10fe16c62ab",
+          "src-d0295ca728dc16eb8dc246c4",
+          "src-456285d9deaeffe2ed92aa98",
+          "src-33f17b55f6692b87f491f810",
+          "src-e5152c42b870fc2737585e01",
+          "src-00a7481a5f1d3f2b7fdb5396",
+          "src-9c9ff329e64dbb73fd24b503",
+          "src-c7e718e049f51ab7a5cfbc94"
+        ],
+        "evidence_request_receipts": [
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek canonical parent containment, rejection of existing symlink targets, and checks on the actual returned target rather than only the original spelling.",
+            "end_line": 139,
+            "evidence_id": "src-7026e2929ce6738678e5ced6",
+            "file_id": "file-efb8eb6d32ff5732dfea3c05",
+            "new_characters_charged": 2385,
+            "original_check_index": 1,
+            "purpose": "counterevidence",
+            "range_complete": true,
+            "reason": "Inspect relative-path resolution and the Unicode-equivalent fallback used for nonexistent targets, where containment of the final target remains unresolved.",
+            "retained_characters": 2385,
+            "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+            "start_line": 81,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek canonicalization, URI restrictions, directory validation, and intersection with an independently authorized server policy.",
+            "end_line": 77,
+            "evidence_id": "src-798ccbc00c025c20d75d0d6e",
+            "file_id": "file-2f90dc06de04ee6c31f5153c",
+            "new_characters_charged": 2811,
+            "original_check_index": 1,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Determine what validation occurs before client-supplied MCP roots replace the allowed-directory policy.",
+            "retained_characters": 2811,
+            "source_sha256": "bce7c15a73dc592c23339edcd68603d08fed8d7f3d0f371db29042703f93240d",
+            "start_line": 1,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek mandatory validation for every argument and access-time barriers or caller restrictions before filesystem operations.",
+            "end_line": 394,
+            "evidence_id": "src-ac462823e545f33c8551058e",
+            "file_id": "file-5ae3d39aff74aeb01e9363af",
+            "new_characters_charged": 2789,
+            "original_check_index": 1,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Continue the visible tool registrations to trace client-controlled arguments into batch reads and write operations despite incomplete callback parsing.",
+            "retained_characters": 2789,
+            "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+            "start_line": 315,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek validation of all source and destination arguments, authorization constraints, exclusive creation, or restrictions on concurrent filesystem changes.",
+            "end_line": 474,
+            "evidence_id": "src-2af269eaaa0ccbd5f6c165d7",
+            "file_id": "file-5ae3d39aff74aeb01e9363af",
+            "new_characters_charged": 3184,
+            "original_check_index": 1,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Inspect subsequent mutation entrypoints to determine whether the write and editing helpers receive validated targets and additional restrictions.",
+            "retained_characters": 3184,
+            "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+            "start_line": 395,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek source and destination validation, no-replace semantics, serialization, or caller-side constraints that reduce overwrite and path-substitution concerns.",
+            "end_line": 714,
+            "evidence_id": "src-82829517a214ad7f9148b803",
+            "file_id": "file-5ae3d39aff74aeb01e9363af",
+            "new_characters_charged": 3066,
+            "original_check_index": 1,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Inspect later tool registrations for callers of moveFile and other filesystem helpers; the visible destination existence check and rename are separate operations.",
+            "retained_characters": 3066,
+            "source_sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a",
+            "start_line": 635,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek reuse of guarded writing, dry-run restrictions, canonical containment checks, and filesystem access bound to validated objects.",
+            "end_line": 379,
+            "evidence_id": "src-8231e4d7134a6b2856684c44",
+            "file_id": "file-efb8eb6d32ff5732dfea3c05",
+            "new_characters_charged": 2950,
+            "original_check_index": 1,
+            "purpose": "risk_hypothesis",
+            "range_complete": true,
+            "reason": "Follow applyFileEdits through its eventual write and inspect adjacent operations for enforcement omitted from the current excerpts.",
+            "retained_characters": 2950,
+            "source_sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495",
+            "start_line": 300,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:1",
+            "check_index": 1,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek an unprivileged runtime identity, restricted filesystem exposure, and permission constraints; distinguish image configuration from actual deployment guarantees.",
+            "end_line": 25,
+            "evidence_id": "src-b8010ae783d56bfc38f97a55",
+            "file_id": "file-9e181b70de0137f101e66dc0",
+            "new_characters_charged": 567,
+            "original_check_index": 1,
+            "purpose": "counterevidence",
+            "range_complete": true,
+            "reason": "Inspect the supplied deployment definition for containment or permission barriers relevant to filesystem races and secret-directory access.",
+            "retained_characters": 567,
+            "source_sha256": "fc27009ddfd1d72773ddb89b0d169e449e940daa5cd1d56fe56bcc08b6e85598",
+            "start_line": 1,
+            "status": "served"
+          },
+          {
+            "check_id": "EXEC-04:2",
+            "check_index": 2,
+            "control_id": "EXEC-04",
+            "counterevidence": "Seek explicit security-test inclusion or exclusions; configuration alone cannot establish that the required cases exist or were executed.",
+            "end_line": 14,
+            "evidence_id": "src-c39da0c47ebf2e1715125cde",
+            "file_id": "file-1e37847deefaaf829c40c17d",
+            "new_characters_charged": 306,
+            "original_check_index": 2,
+            "purpose": "boundary_context",
+            "range_complete": true,
+            "reason": "Determine whether the declared test configuration supplies any concrete coverage context for adversarial filesystem tests.",
+            "retained_characters": 306,
+            "source_sha256": "a28c7034f39f5910667f49e4eee542fef853227432c2596eee2676bd5e6f96be",
+            "start_line": 1,
+            "status": "served"
+          }
+        ],
+        "investigation_response": "evidence_requests",
+        "investigation_round": 1,
+        "model": "gpt-6-astra",
+        "payload_sha256": "79e4801a7db2b3d21e9e9c4bf72b91d6f33554a0fba5f1ada587d10443ed83f7",
+        "protocol_version": "1.2.0",
+        "provider": "codex_cli",
+        "status": "completed",
+        "structured_analysis_checks": 0,
+        "token_optimization": {
+          "bytes_saved": 729,
+          "engine": "headroom",
+          "evidence_preserved": true,
+          "fallback_reason": null,
+          "headroom_version": "0.37.0",
+          "original_payload_sha256": "d14662a71c20630dcd2ec8f12849c08b39d863033c378d6c86082c97210f9ff9",
+          "payload_bytes_after": 38174,
+          "payload_bytes_before": 38903,
+          "requested": "headroom",
+          "schema_version": "1.0",
+          "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+          "sent_payload_sha256": "b78702cf07a5c69181d2be060cabfc1cda762ed9be758b780963082e8b71d19c",
+          "status": "optimized",
+          "token_savings_measured": false
+        }
+      },
+      {
+        "adapter_version": "1.3.0",
+        "batch": 1,
+        "check_index_map": {
+          "EXEC-04": [
+            1,
+            2
+          ]
+        },
+        "checks_submitted": 2,
+        "cli": {
+          "arguments": [
+            "-a",
+            "never",
+            "exec",
+            "--ignore-user-config",
+            "--ignore-rules",
+            "--ephemeral",
+            "--skip-git-repo-check",
+            "--sandbox",
+            "read-only",
+            "--json",
+            "--color",
+            "never",
+            "--disable",
+            "shell_tool",
+            "--disable",
+            "unified_exec",
+            "--disable",
+            "code_mode",
+            "--disable",
+            "code_mode_host",
+            "--disable",
+            "computer_use",
+            "--disable",
+            "browser_use",
+            "--disable",
+            "browser_use_external",
+            "--disable",
+            "browser_use_full_cdp_access",
+            "--disable",
+            "in_app_browser",
+            "--disable",
+            "image_generation",
+            "--disable",
+            "view_image",
+            "--disable",
+            "artifact",
+            "--disable",
+            "apps",
+            "--disable",
+            "plugins",
+            "--disable",
+            "plugin_sharing",
+            "--disable",
+            "hooks",
+            "--disable",
+            "multi_agent",
+            "--disable",
+            "multi_agent_v2",
+            "--disable",
+            "skill_search",
+            "--disable",
+            "workspace_dependencies",
+            "--disable",
+            "shell_snapshot",
+            "--disable",
+            "memories",
+            "--disable",
+            "sleep_tool",
+            "--disable",
+            "goals",
+            "--disable",
+            "remote_plugin",
+            "--disable",
+            "tool_suggest",
+            "-c",
+            "web_search=\"disabled\"",
+            "-c",
+            "mcp_servers={}",
+            "-c",
+            "project_doc_max_bytes=0",
+            "-c",
+            "skills.include_instructions=false",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--output-schema",
+            "<private temporary directory>/response-schema.json",
+            "--model",
+            "gpt-6-astra",
+            "-"
+          ],
+          "auth_mode": "cli_managed",
+          "cli_version": "0.154.0",
+          "descendant_termination": "process_group",
+          "executable": "codex",
+          "isolation": "CLI capability restrictions; installed executable and administrator policy remain trusted",
+          "provider": "codex_cli",
+          "repository_working_directory": false,
+          "request_bytes": 65656,
+          "request_sha256": "b8d8a94cff3f9f4fd3da79d3b08fdde1f672fbc926212f904f73224643d6291d",
+          "requested_model": "gpt-6-astra",
+          "response_bytes": 11561,
+          "response_sha256": "aa99dcf10c237a8db49ff0ab81b9e1f768a45a93cad09a86557b488c56da1cad",
+          "stage": "investigation",
+          "startup_warnings": [
+            "codex_code_mode_intentionally_disabled"
+          ],
+          "structured_output_requested": true,
+          "token_budget_enforced": false,
+          "token_optimization": {
+            "bytes_saved": 865,
+            "engine": "headroom",
+            "evidence_preserved": true,
+            "fallback_reason": null,
+            "headroom_version": "0.37.0",
+            "original_payload_sha256": "01e55d9d0bbdd85d1e60210955713a4c81248c8faa508b0e98775355626a2dc4",
+            "payload_bytes_after": 59124,
+            "payload_bytes_before": 59989,
+            "requested": "headroom",
+            "schema_version": "1.0",
+            "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+            "sent_payload_sha256": "9045c32f3cab420e94554c3a2647c04ed0da8acaa518e4e388c0a2d7fefefef6",
+            "status": "optimized",
+            "token_savings_measured": false
+          },
+          "tools_policy": "disabled_for_advisory_review",
+          "transport": "official_cli"
+        },
+        "control_ids": [
+          "EXEC-04"
+        ],
+        "controls_submitted": 1,
+        "evidence_ids": [
+          "src-7d7e02c858a447037de50438",
+          "src-17399bf8d41781072687de0c",
+          "src-4f9d0004e5a942800853224f",
+          "src-c01e656cad72d145f2421bf1",
+          "src-d28872b02bc6a10fe16c62ab",
+          "src-d0295ca728dc16eb8dc246c4",
+          "src-456285d9deaeffe2ed92aa98",
+          "src-33f17b55f6692b87f491f810",
+          "src-e5152c42b870fc2737585e01",
+          "src-00a7481a5f1d3f2b7fdb5396",
+          "src-9c9ff329e64dbb73fd24b503",
+          "src-c7e718e049f51ab7a5cfbc94",
+          "src-7026e2929ce6738678e5ced6",
+          "src-798ccbc00c025c20d75d0d6e",
+          "src-ac462823e545f33c8551058e",
+          "src-2af269eaaa0ccbd5f6c165d7",
+          "src-82829517a214ad7f9148b803",
+          "src-8231e4d7134a6b2856684c44",
+          "src-b8010ae783d56bfc38f97a55",
+          "src-c39da0c47ebf2e1715125cde"
+        ],
+        "investigation_response": "conclusions",
+        "investigation_round": 2,
+        "model": "gpt-6-astra",
+        "omitted_checks": 0,
+        "omitted_controls": 0,
+        "payload_sha256": "c221ee71d20417bd79d4935ca816613c1acd0642f48b39da88d9b0406a7277e1",
+        "protocol_version": "1.2.0",
+        "provider": "codex_cli",
+        "status": "completed",
+        "structured_analysis_checks": 2,
+        "token_optimization": {
+          "bytes_saved": 865,
+          "engine": "headroom",
+          "evidence_preserved": true,
+          "fallback_reason": null,
+          "headroom_version": "0.37.0",
+          "original_payload_sha256": "01e55d9d0bbdd85d1e60210955713a4c81248c8faa508b0e98775355626a2dc4",
+          "payload_bytes_after": 59124,
+          "payload_bytes_before": 59989,
+          "requested": "headroom",
+          "schema_version": "1.0",
+          "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+          "sent_payload_sha256": "9045c32f3cab420e94554c3a2647c04ed0da8acaa518e4e388c0a2d7fefefef6",
+          "status": "optimized",
+          "token_savings_measured": false
+        }
+      }
+    ],
+    "routing_policy": "Every active selected acceptance check, including static no-match, parse/coverage uncertainty, and checks with no deterministic rule: static patterns cannot establish completion; justified and disabled checks are excluded without being marked passed.",
+    "status": "completed"
+  },
+  "assessment": {
+    "coverage_attention": [
+      {
+        "count": 1,
+        "examples": [
+          "index.ts"
+        ],
+        "reason": "parse_error: MCP registerTool callback uses complex/default/rest parameters; tool entrypoint coverage is incomplete"
+      }
+    ],
+    "finding_groups": [],
+    "guidance": {
+      "catalog_version": "1.0.0",
+      "reviewed_at": "2026-09-19",
+      "sha256": "1bd48fd16d4fe76ae3ccd1cacddce9bea2dedd0000856d61b21ffb8ba8c5dd7b",
+      "source_registry_sha256": "89fafd809356f5b062f9ea52eb5d99531902bc5bb59c34f4695d2838ad826105"
+    },
+    "immediate_actions": [],
+    "method": "deterministic_guidance",
+    "metrics": {
+      "active_checks": 2,
+      "active_rules": 4,
+      "affected_files": 0,
+      "checks_total": 2,
+      "controls_requiring_validation": 1,
+      "controls_total": 1,
+      "coverage_gaps": 1,
+      "disabled_checks": 0,
+      "disabled_controls": 0,
+      "disabled_findings": 0,
+      "disabled_rules": 0,
+      "excluded_controls": 0,
+      "files_scanned": 9,
+      "justified_checks": 0,
+      "justified_controls": 0,
+      "justified_findings": 0,
+      "justified_rules": 0,
+      "mixed_excluded_controls": 0,
+      "open_findings": 0,
+      "suppressed_findings": 0,
+      "urgent_findings": 0
+    },
+    "posture": {
+      "code": "incomplete_scope",
+      "explanation": "The selected static scope was not fully inspected. There are 0 open findings, including 0 critical/high findings. Resolve reported gaps and review existing evidence before relying on this result.",
+      "title": "Incomplete scan - close the coverage gaps"
+    },
+    "priority_basis": "P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.",
+    "schema_version": "1.0",
+    "themes": [],
+    "unknowns": [
+      "Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.",
+      "Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.",
+      "Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.",
+      "No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope."
+    ]
+  },
+  "configuration": {
+    "default_excluded_directories": [
+      ".cache",
+      ".git",
+      ".hg",
+      ".mypy_cache",
+      ".next",
+      ".pytest_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      "__pycache__",
+      "build",
+      "coverage",
+      "dist",
+      "node_modules",
+      "vendor",
+      "venv"
+    ],
+    "exclude": [],
+    "explicit_exclusion_identity_scope": "Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.",
+    "explicit_exclusion_matching": "resolved_paths_and_snapshot_filesystem_identities",
+    "generated_outputs_and_judge_config_excluded": true,
+    "max_entries": 100000,
+    "max_file_bytes": 1000000,
+    "max_files": 20000,
+    "max_total_bytes": 50000000,
+    "requested_scan_ids": [
+      "EXEC-04"
+    ],
+    "selected_control_ids": [
+      "EXEC-04"
+    ],
+    "selected_rule_ids": [
+      "AI015",
+      "AI016",
+      "AI037",
+      "AI047"
+    ]
+  },
+  "controls": [
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI015",
+        "AI016",
+        "AI037",
+        "AI047"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions.",
+        "Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-04",
+      "source_ids": [
+        "MCP-ROOTS",
+        "JOINT-DEPLOY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/specification/2026-07-28/client/roots",
+        "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Constrain file and archive access",
+      "validation": "hybrid"
+    }
+  ],
+  "coverage": {
+    "analysis_profiles": {
+      "configuration_lexical": {
+        "files": 1,
+        "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+      },
+      "generic_text": {
+        "files": 0,
+        "scope": "Generic secret/URL signals, bounded English skill/instruction directives and selected Spanish/French/German override forms; no general translation. Language-specific execution/dataflow is not analyzed."
+      },
+      "javascript_lexical": {
+        "files": 6,
+        "scope": "Bounded JavaScript/TypeScript tokens, calls, configuration and direct-return function-wrapper summaries; not a full JS/TS parser or control-flow analysis."
+      },
+      "json_structured": {
+        "files": 2,
+        "scope": "Parsed JSON/JSONC fields, selected configuration rules and recognized tool/input-schema descriptions; runtime values and referenced files are not resolved."
+      },
+      "python_ast": {
+        "files": 0,
+        "scope": "Python AST, bounded aliases/values, selected same-file argument/return flow, exact literal guards and read-only tool write witnesses; no whole-program or runtime proof."
+      }
+    },
+    "errors": [
+      {
+        "error": "MCP registerTool callback uses complex/default/rest parameters; tool entrypoint coverage is incomplete",
+        "kind": "parse_error",
+        "path": "index.ts"
+      }
+    ],
+    "limitations": [
+      "Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.",
+      "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.",
+      "No dependencies are installed, target code executed, services contacted, or CVE feed queried.",
+      "Default excluded directories and unsupported files remain outside the selected scan scope.",
+      "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.",
+      "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."
+    ],
+    "rules_enabled": [
+      "AI015",
+      "AI016",
+      "AI037",
+      "AI047"
+    ],
+    "selection": {
+      "catalog_controls": 66,
+      "catalog_rules": 47,
+      "execution": "Selected rule findings and control review only; shared bounded file, syntax, metadata and integrity checks still run and preserve operational gaps.",
+      "requested_scan_ids": [
+        "EXEC-04"
+      ],
+      "selected_control_ids": [
+        "EXEC-04"
+      ],
+      "selected_rule_ids": [
+        "AI015",
+        "AI016",
+        "AI037",
+        "AI047"
+      ]
+    },
+    "skipped": [],
+    "unmatched_baseline_ids": []
+  },
+  "execution": {
+    "exit_code": 2,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "files": [
+    {
+      "analysis_profile": "configuration_lexical",
+      "bytes": 567,
+      "path": "Dockerfile",
+      "sha256": "fc27009ddfd1d72773ddb89b0d169e449e940daa5cd1d56fe56bcc08b6e85598"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 28547,
+      "path": "index.ts",
+      "sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 17073,
+      "path": "lib.ts",
+      "sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 1187,
+      "path": "package.json",
+      "sha256": "d91000e9d2cb2373b4dcd73027bdeb42e60790c8d7469618bad256770109bbed"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 4489,
+      "path": "path-utils.ts",
+      "sha256": "d8254889f4e58493d52878afdb7ccfc516e2edca13dc0868c08a6c1576c274ce"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 2731,
+      "path": "path-validation.ts",
+      "sha256": "20833254c044c3d4d0672616ad546d50f09dae8b704c8a3619b86310f2cec3ba"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 2809,
+      "path": "roots-utils.ts",
+      "sha256": "bce7c15a73dc592c23339edcd68603d08fed8d7f3d0f371db29042703f93240d"
+    },
+    {
+      "analysis_profile": "json_structured",
+      "bytes": 314,
+      "path": "tsconfig.json",
+      "sha256": "0d95d1edc9f8e4aa5c6240aa0dbb596ec2a532fed47e46e4c4d272dd7ebee59c"
+    },
+    {
+      "analysis_profile": "javascript_lexical",
+      "bytes": 307,
+      "path": "vitest.config.ts",
+      "sha256": "a28c7034f39f5910667f49e4eee542fef853227432c2596eee2676bd5e6f96be"
+    }
+  ],
+  "findings": [],
+  "inventory": {
+    "agent_mcp_signals": [
+      {
+        "path": "index.ts",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "package.json",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      },
+      {
+        "path": "roots-utils.ts",
+        "signals": [
+          "modelcontextprotocol"
+        ]
+      }
+    ],
+    "dependency_manifests": [
+      "package.json"
+    ],
+    "extensions": {
+      "(none)": 1,
+      ".json": 2,
+      ".ts": 6
+    },
+    "skill_instruction_files": [],
+    "skill_manifests": []
+  },
+  "judge": {
+    "adapter_version": "1.3.0",
+    "additional_concern_actions": [
+      {
+        "concern_index": 1,
+        "recommended_actions": {
+          "agent_mcp_relevance": "Applicability is unestablished because no agent or MCP implementation evidence is supplied; uncovered files could contain relevant trust boundaries.",
+          "applicability": "Further review applies if the coverage gap affects files or configuration within the intended assessment scope.",
+          "steps": [
+            "Obtain the scanner's coverage-gap details, intended file inventory, and exclusion configuration before proposing code changes; no specific vulnerable API or incorrect setting is established.",
+            "Resolve applicable read or scope issues and repeat static analysis; arrange source review for relevant files unsupported by the scanner."
+          ],
+          "verification": [
+            "Compare the assessed file inventory against the intended scope and document every remaining exclusion or unsupported file.",
+            "Confirm whether relevant agent/MCP entry points were covered; assess runtime authorization and isolation separately if those components exist."
+          ]
+        }
+      }
+    ],
+    "additional_concerns": [
+      "Review coverage is incomplete: the payload reports one coverage gap and scan_complete_within_selected_scope=false, with no source context. Zero reported findings does not establish security. The gap details and intended file inventory are needed to determine what remains unassessed."
+    ],
+    "advisory_only": true,
+    "assessments": [],
+    "cli": {
+      "arguments": [
+        "-a",
+        "never",
+        "exec",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--sandbox",
+        "read-only",
+        "--json",
+        "--color",
+        "never",
+        "--disable",
+        "shell_tool",
+        "--disable",
+        "unified_exec",
+        "--disable",
+        "code_mode",
+        "--disable",
+        "code_mode_host",
+        "--disable",
+        "computer_use",
+        "--disable",
+        "browser_use",
+        "--disable",
+        "browser_use_external",
+        "--disable",
+        "browser_use_full_cdp_access",
+        "--disable",
+        "in_app_browser",
+        "--disable",
+        "image_generation",
+        "--disable",
+        "view_image",
+        "--disable",
+        "artifact",
+        "--disable",
+        "apps",
+        "--disable",
+        "plugins",
+        "--disable",
+        "plugin_sharing",
+        "--disable",
+        "hooks",
+        "--disable",
+        "multi_agent",
+        "--disable",
+        "multi_agent_v2",
+        "--disable",
+        "skill_search",
+        "--disable",
+        "workspace_dependencies",
+        "--disable",
+        "shell_snapshot",
+        "--disable",
+        "memories",
+        "--disable",
+        "sleep_tool",
+        "--disable",
+        "goals",
+        "--disable",
+        "remote_plugin",
+        "--disable",
+        "tool_suggest",
+        "-c",
+        "web_search=\"disabled\"",
+        "-c",
+        "mcp_servers={}",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "model_reasoning_effort=\"high\"",
+        "--output-schema",
+        "<private temporary directory>/response-schema.json",
+        "--model",
+        "gpt-6-astra",
+        "-"
+      ],
+      "auth_mode": "cli_managed",
+      "cli_version": "0.154.0",
+      "descendant_termination": "process_group",
+      "executable": "codex",
+      "isolation": "CLI capability restrictions; installed executable and administrator policy remain trusted",
+      "provider": "codex_cli",
+      "repository_working_directory": false,
+      "request_bytes": 3399,
+      "request_sha256": "1cbfb6fb95ad2a2c18d67e524b2eb46ca2f811b54bd97f39a0d5b210b9386f28",
+      "requested_model": "gpt-6-astra",
+      "response_bytes": 1942,
+      "response_sha256": "b3c712bdfbae0184ebd289861f2c6decef2240688790843d0f99d465b9bbb50e",
+      "stage": "findings",
+      "startup_warnings": [
+        "codex_code_mode_intentionally_disabled"
+      ],
+      "structured_output_requested": true,
+      "token_budget_enforced": false,
+      "token_optimization": {
+        "bytes_saved": 44,
+        "engine": "headroom",
+        "evidence_preserved": true,
+        "fallback_reason": null,
+        "headroom_version": "0.37.0",
+        "original_payload_sha256": "adcdb02f28a0cd3b6a65004baeda9aa3717c8a3193f0aff9de94684df692a9fb",
+        "payload_bytes_after": 1185,
+        "payload_bytes_before": 1229,
+        "requested": "headroom",
+        "schema_version": "1.0",
+        "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+        "sent_payload_sha256": "e098314e436eef915ee8b3fbd72426d928cb19c372e24aad98cccc84b3dbcbe0",
+        "status": "optimized",
+        "token_savings_measured": false
+      },
+      "tools_policy": "disabled_for_advisory_review",
+      "transport": "official_cli"
+    },
+    "data_policy": "Caller-supplied minimized payload; source excerpts require separate CLI opt-in.",
+    "enabled": true,
+    "findings_submitted": 0,
+    "mode": "full",
+    "model": "gpt-6-astra",
+    "nondeterministic": true,
+    "omitted_assessments": 0,
+    "omitted_open_findings": 0,
+    "provider": "codex_cli",
+    "selected_findings": 0,
+    "source_context_requested": false,
+    "source_context_sent_count": 0,
+    "source_context_skipped": [],
+    "status": "completed",
+    "token_optimization": {
+      "bytes_saved": 44,
+      "engine": "headroom",
+      "evidence_preserved": true,
+      "fallback_reason": null,
+      "headroom_version": "0.37.0",
+      "original_payload_sha256": "adcdb02f28a0cd3b6a65004baeda9aa3717c8a3193f0aff9de94684df692a9fb",
+      "payload_bytes_after": 1185,
+      "payload_bytes_before": 1229,
+      "requested": "headroom",
+      "schema_version": "1.0",
+      "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+      "sent_payload_sha256": "e098314e436eef915ee8b3fbd72426d928cb19c372e24aad98cccc84b3dbcbe0",
+      "status": "optimized",
+      "token_savings_measured": false
+    }
+  },
+  "methodology": {
+    "areas": [
+      {
+        "area": "Execution and data flow",
+        "can_miss_or_misclassify": "Cross-file flows, unknown decorators/methods, complex JavaScript wrappers, dynamic imports, reflection, generated code and runtime values can hide a risk. Recognized resource/binding failures remain gaps. A dangerous API can be intentional and correctly constrained.",
+        "deterministic": "Python AST checks propagate selected registered-tool inputs and same-file arguments/returns, retain aliases and exact literal constraints, and check selected execution/file/network sinks. JavaScript tokens support narrow registerTool callbacks and direct-return named/arrow wrappers. Explicit world-writable chmod modes are checked.",
+        "optional_review": "A model can form a trust-boundary hypothesis, request bounded captured source ranges to inspect callers or guards, seek counterevidence and explain what the supplied code still cannot establish.",
+        "runtime_or_human_validation": "Exercise actual entry points with authorized negative tests; verify input provenance, execution privileges and sandbox boundaries."
+      },
+      {
+        "area": "MCP identity, authorization and tools",
+        "can_miss_or_misclassify": "Configuration may differ from deployment. External gateways, identity providers, token audience checks and tenant boundaries may be absent from retrieved evidence.",
+        "deterministic": "Selected configuration/code signals flag insecure transport, explicit authentication bypass, token passthrough, broad tool grants and unpinned server launch packages.",
+        "optional_review": "A model can review supplied authorization logic, tool descriptions and trust-boundary evidence for missing assumptions or inconsistent checks.",
+        "runtime_or_human_validation": "Test expired/wrong-audience tokens, cross-tenant access, per-tool authorization, consent binding and the deployed MCP transport."
+      },
+      {
+        "area": "Prompt injection, retrieval and memory",
+        "can_miss_or_misclassify": "Adaptive attacks, multi-turn interactions and tool chains depend on runtime behavior. Retrieval can omit the relevant code; a model can overlook an attack or be influenced by hostile evidence.",
+        "deterministic": "Selected patterns identify external content placed in privileged model messages and explicit approval/sandbox bypass. This is not an attack simulation.",
+        "optional_review": "A model can reason about untrusted-content handling, persistent memory, tool-output influence and missing approval boundaries in the supplied excerpts.",
+        "runtime_or_human_validation": "Run isolated adversarial agent/MCP evaluations with attack-success and legitimate-task measurements, plus human review of consequential actions."
+      },
+      {
+        "area": "Secrets and data handling",
+        "can_miss_or_misclassify": "Encoded, split or runtime-fetched credentials can be missed; labels/test values can resemble secrets. Neither layer establishes whether a credential is live or redaction is complete.",
+        "deterministic": "Selected literal credentials, plausible private-key material, credential-bearing URLs, logging patterns and browser credential exposure are flagged and redacted best-effort.",
+        "optional_review": "A model can identify sensitive data flows and retention concerns when the supplied evidence explains their context.",
+        "runtime_or_human_validation": "Verify secret stores, credential rotation, logging/retention policy, egress destinations and actual data-access permissions."
+      },
+      {
+        "area": "Skills and malicious-tool indicators",
+        "can_miss_or_misclassify": "A pattern is risk evidence, not proof of malicious authorship. Obfuscation, remote references, external packages, omitted context and runtime behavior can evade either layer.",
+        "deterministic": "Bounded skill/tool/schema descriptions are checked for instruction hijacking, sensitive-data transfer, covert or approval-bypassing actions. Selected Spanish/French/German overrides and paired authority claims supplement English predicates. Python read-only tool annotations are compared with recognized direct write witnesses.",
+        "optional_review": "A model can review intent, indirect social engineering, skill reference context and tool behavior visible in retrieved evidence, including cases where syntax or supported patterns are inconclusive.",
+        "runtime_or_human_validation": "Inspect publisher provenance and the exact installed skill/tool; test consequential actions in an authorized isolated environment and verify effective permissions."
+      },
+      {
+        "area": "Built images and supply chain",
+        "can_miss_or_misclassify": "Compiled logic, live deployment overrides, signature trust and dependency CVEs are not assessed. Package inventory and archive consistency do not establish safety or publisher identity.",
+        "deterministic": "Image archives are reconstructed without starting containers; supported packaged source, metadata, retained credentials, stored permissions and package inventories are inspected.",
+        "optional_review": "A model can interpret supplied image/source evidence, flag missing deployment context and propose verification work.",
+        "runtime_or_human_validation": "Use vulnerability/advisory analysis, provenance/signature verification and deployment testing alongside the static image assessment."
+      },
+      {
+        "area": "Operations and control effectiveness",
+        "can_miss_or_misclassify": "A valid citation proves that a quote exists, not that the model's interpretation is correct. Policies, external services, incident procedures and production outcomes may be unavailable.",
+        "deterministic": "The catalog retains governance, monitoring, recovery, approval and isolation checks even where no deterministic rule maps to them.",
+        "optional_review": "Full review queues every active acceptance check and can identify evidence gaps or propose runtime/human validation; it can cite exact submitted source text.",
+        "runtime_or_human_validation": "Record owner-reviewed evidence, operational exercises and runtime results. A written justification remains an accepted exception, never an automatically validated pass."
+      }
+    ],
+    "catalog": {
+      "available_controls": 66,
+      "available_rules": 47,
+      "checks": 2,
+      "controls": 1,
+      "controls_without_static_mapping": 0,
+      "rules": 4,
+      "statically_mapped_controls": 1
+    },
+    "interpretation": "Mapping counts describe available checks, not percent secure, detection accuracy or validated control effectiveness.",
+    "purpose": "Find repeatable security patterns and organize the remaining assurance work for agents, MCP servers, skills and built images.",
+    "rule_inventory": [
+      {
+        "category": "filesystem",
+        "id": "AI015",
+        "severity": "medium",
+        "title": "Externally influenced filesystem path"
+      },
+      {
+        "category": "filesystem",
+        "id": "AI016",
+        "severity": "medium",
+        "title": "Race-prone temporary filename creation"
+      },
+      {
+        "category": "filesystem",
+        "id": "AI037",
+        "severity": "medium",
+        "title": "Archive extraction without an explicit safe filter"
+      },
+      {
+        "category": "filesystem",
+        "id": "AI047",
+        "severity": "medium",
+        "title": "Filesystem permissions explicitly allow writes by everyone"
+      }
+    ],
+    "schema_version": "1.0",
+    "workflow": [
+      "Choose an explicit code/image target and scan configuration; no target code or container is started.",
+      "Collect bounded deterministic evidence, record hashes, rule matches, exclusions and coverage gaps.",
+      "When explicitly enabled, select bounded evidence for finding triage and every active control check; findings-only mode narrows this step.",
+      "Run advisory requests under fixed limits. The default full analyst may request only validated file-ID/line ranges from an already captured, hash-verified snapshot; no arbitrary file reads or target tools execute. Validate response schemas, known identifiers and exact quotes.",
+      "Retain unsupported claims and runtime/human requirements; record user review decisions separately from model advice.",
+      "Import an explicitly selected reviewed report with a fresh target scan; revalidate evidence bindings, retain stale decisions for audit and recompute the result."
+    ]
+  },
+  "mode": "deterministic_static",
+  "remediation": {},
+  "review_workspace": {
+    "items": [
+      {
+        "binding_sha256": "991cdd9638c7520e68e6515db8b9f559ef0da6cc8be650ce4ecd0ab0b1e5f890",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-04:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-04:1 Resolve and enforce allowed paths at access time; constrain uploads, downloads, extraction, temporary files, and permissions."
+      },
+      {
+        "binding_sha256": "8345dc45e9b1f075a7c19bb286c4cafc06589fc8a32123064a9baac2275ed136",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-04:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-04:2 Test symlink races, archive traversal, absolute paths, overwrite attempts, and secret-directory reads."
+      },
+      {
+        "binding_sha256": "e0ae5be75e42f42bb54d5a88dd207659071285681196200431ee47a98a59acf7",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "gap:b84cd8393cf85f96da36a7be6f7113729ed0c55edaef25e137aa0d33551290a1",
+        "kind": "gap",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "index.ts: MCP registerTool callback uses complex/default/rest parameters; tool entrypoint coverage is incomplete"
+      }
+    ],
+    "kind": "invarune_review",
+    "origin": {
+      "catalog_sha256": "468d22dfd1b6de6081998eaf5a73e05d6bba97aefcd186fce5633392535fbb9f",
+      "configuration": {
+        "default_excluded_directories": [
+          ".cache",
+          ".git",
+          ".hg",
+          ".mypy_cache",
+          ".next",
+          ".pytest_cache",
+          ".svn",
+          ".tox",
+          ".venv",
+          "__pycache__",
+          "build",
+          "coverage",
+          "dist",
+          "node_modules",
+          "vendor",
+          "venv"
+        ],
+        "exclude": [],
+        "generated_outputs_and_judge_config_excluded": true,
+        "max_entries": 100000,
+        "max_file_bytes": 1000000,
+        "max_files": 20000,
+        "max_total_bytes": 50000000,
+        "requested_scan_ids": [
+          "EXEC-04"
+        ],
+        "selected_control_ids": [
+          "EXEC-04"
+        ],
+        "selected_rule_ids": [
+          "AI015",
+          "AI016",
+          "AI037",
+          "AI047"
+        ]
+      },
+      "evidence_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "image_limits": {},
+      "manifest_sha256": "2540817b960ce1acb8bf6fda65ceb115b2aaf85da222a85c3ab731453584ceb3",
+      "scan_id": "2f01d3255747009bedad350dc442b07f55b99bf94f644dab0b00f536f50d76a4",
+      "scope_sha256": "d7f18a4233bada5bf178dfca44848920b002e71f8cff5bce6516c1c2b5388d66",
+      "target": {
+        "description": "Selected source directory; paths are relative.",
+        "kind": "source",
+        "platform": ""
+      },
+      "tool": {
+        "implementation_sha256": "525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b",
+        "name": "agent-mcp-security-scan",
+        "version": "0.15.0"
+      }
+    },
+    "schema_version": "1.0"
+  },
+  "run_configuration": {
+    "optional_review": {
+      "analyst_limits": {
+        "batch_size": 1,
+        "investigation_rounds": 2,
+        "max_bytes": 2000000,
+        "max_calls": 3,
+        "max_chars": 120000,
+        "max_files": 200,
+        "max_seconds": 900.0
+      },
+      "cli_login": "never",
+      "cli_timeout_seconds": 300.0,
+      "effective_transport": {
+        "max_request_bytes": 524288,
+        "max_response_bytes": 1048576,
+        "model": "gpt-6-astra",
+        "provider": "codex_cli",
+        "timeout_seconds": 300.0,
+        "token_optimizer": "headroom"
+      },
+      "enabled": true,
+      "findings_limit": 100,
+      "include_finding_source": false,
+      "mode": "full",
+      "provider": "codex_cli",
+      "transport_replay": "Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay."
+    },
+    "reporting": {
+      "failure_threshold": "high",
+      "formats": [
+        "html",
+        "markdown",
+        "json",
+        "sarif",
+        "pdf"
+      ]
+    },
+    "review_inputs": {
+      "baseline": false,
+      "review_config": false,
+      "review_report": false
+    },
+    "schema_version": "1.0"
+  },
+  "scan_id": "2f01d3255747009bedad350dc442b07f55b99bf94f644dab0b00f536f50d76a4",
+  "schema_version": "1.0",
+  "scoring": {
+    "deterministic": {
+      "active_checks": 2,
+      "active_controls": 1,
+      "active_rules": 4,
+      "coverage_gaps": 1,
+      "disabled_checks": 0,
+      "disabled_findings": 0,
+      "disabled_rules": 0,
+      "justified_checks": 0,
+      "justified_findings": 0,
+      "justified_rules": 0,
+      "mapping_reach": {
+        "denominator": 1,
+        "numerator": 1,
+        "percent": 100.0
+      },
+      "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+      "open_by_severity": {
+        "critical": 0,
+        "high": 0,
+        "info": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "open_findings": 0,
+      "selected_controls": 1,
+      "selected_rules": 4,
+      "selected_scope_complete": false,
+      "suppressed_findings": 0,
+      "urgent_findings": 0
+    },
+    "exclusions": "Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.",
+    "gate": "The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.",
+    "optional_ai": {
+      "additional_concerns": 1,
+      "answer_coverage": {
+        "denominator": 2,
+        "numerator": 2,
+        "percent": 100.0
+      },
+      "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+      "changes_deterministic_result": false,
+      "check_outcomes": {
+        "insufficient_evidence": 1,
+        "needs_human_review": 0,
+        "needs_runtime_validation": 0,
+        "not_applicable_proposed": 0,
+        "not_reviewed": 0,
+        "potential_gap": 1,
+        "supported_by_code": 0
+      },
+      "control_review_status": "completed",
+      "enabled": true,
+      "finding_review_status": "completed",
+      "ignored_answer_records": 0,
+      "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+    },
+    "overall_security_score": null,
+    "overall_security_score_reason": "No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.",
+    "schema_version": "1.0"
+  },
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 58024,
+    "bytes_read": 58024,
+    "coverage_gaps": 1,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 9,
+    "open_findings": 0,
+    "scan_complete_within_selected_scope": false,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 0,
+      "medium": 0
+    },
+    "suppressed_findings": 0
+  },
+  "target": ".",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.15.0"
+  }
+}

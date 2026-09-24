@@ -1,0 +1,46 @@
+{
+  "actual_invocation": "Installed wheel CLI executed from outside checkout, absolute source/output paths; display paths normalized for publication.",
+  "artifacts": {
+    "report.html": "892406b9c83b088e6d7f97eeab69896572b6cb4e0cc905993777eda569ccdf59",
+    "report.json": "7d6b022b73a617a4b6d3a5639aa3b60075513a1ef70a27f37a5aaf80a1d723d9",
+    "report.md": "f57c8b34b2b9cbb646a5329495bef4f6ccf4288c41bde8400c45002c8603da3d",
+    "report.pdf": "5f83dfe8dfe84515b8ebbdcf541dad1acced6ed2b545de0d93f56b57fbfc1451",
+    "report.sarif": "35c24d16383d634dd0bfed9fac7c96e0e6c870fad74dd051798d951827171c54"
+  },
+  "command": [
+    "invscan",
+    "examples/investigation/context-tools",
+    "--scans",
+    "EXEC-05",
+    "--judge-cli",
+    "codex",
+    "--judge-login",
+    "never",
+    "--judge-timeout",
+    "300",
+    "--analyst-batch-size",
+    "1",
+    "--analyst-max-calls",
+    "3",
+    "--analyst-time-budget",
+    "900",
+    "--analyst-investigation-rounds",
+    "2",
+    "--report",
+    "examples/reports/v015/context-codex",
+    "--pdf",
+    "--summary-json"
+  ],
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-24T02:04:26.673185+00:00",
+  "scanner": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.15.0"
+  },
+  "schema_version": "1.0",
+  "source_fixture": "Authored inert development example, not independently labeled accuracy ground truth. Source was never imported or executed.",
+  "started_at_utc": "2026-09-24T02:03:13.819883+00:00"
+}

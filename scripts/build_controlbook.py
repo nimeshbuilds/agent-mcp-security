@@ -137,7 +137,7 @@ class Book:
         c = self.canvas
         c.setStrokeColor(LINE)
         c.line(M, 45, W - M, 45)
-        self.text("Invarune by NimeshBuild  /  Source-linked controls  /  19 Sep 2026", M, 29, 7.2, GREY)
+        self.text("Invarune by NimeshBuild  /  Source-linked controls  /  23 Sep 2026", M, 29, 7.2, GREY)
         c.setFillColor(TEAL)
         c.setFont(BOLD, 9)
         c.drawRightString(W - M, 28, f"{self.page:02d} / {len(self.specs):02d}")
@@ -244,7 +244,7 @@ class Book:
     def quickstart(self, _):
         y = self.start("CLI field guide", "Choose exactly what to inspect", "The invscan command works without an LLM. Inventory, explanations and control mappings are bundled for offline use.")
         rows = [
-            ("DISCOVER", "invscan --list-scans", "List all deterministic rules and control review plans. Use --format json for automation and --help-all for the complete CLI guide."),
+            ("DISCOVER", "invscan --list-scans", "List all deterministic rules and control review plans. Use --catalog-format json for automation and --help-topic all for the complete CLI guide."),
             ("UNDERSTAND", "invscan --explain-scan AI043", "Show the predicate, algorithm, applicability, limits, remediation, mapped controls and source relationships for a rule. Control IDs work too."),
             ("TERMINAL ONLY", "invscan ./my-agent", "Inspect supported source/configuration, agent instructions and skills. Without a report flag, no report directory is written."),
             ("SELECT SCANS", "invscan ./my-agent --scans AI001,AI043 --scans MCP-03", "Rule IDs select their patterns and mapped control review; control IDs select their mapped rules/checks. Shared parsing and integrity gaps remain visible."),
@@ -325,7 +325,7 @@ class Book:
         self.para("NSA + CISA  /  CSA  /  MITRE  /  NIST<br/>OWASP  /  MCP  /  CIS  /  standards + research benchmarks", M, 174, CW, 9.5, 17, colors.HexColor("#CFDCEB"))
         c.setStrokeColor(colors.HexColor("#40546E"))
         c.line(M, 92, W - M, 92)
-        self.text("RESEARCH SNAPSHOT  19 SEPTEMBER 2026", M, 69, 8.4, WHITE, True)
+        self.text("CONTROLS RESEARCH 19 SEP  /  DETECTOR UPDATE 23 SEP 2026", M, 69, 8.4, WHITE, True)
         self.text("github.com/nimeshbuilds/invarune", M, 50, 8, MINT)
         c.linkURL("https://github.com/nimeshbuilds/invarune", (M, 47, W - M, 63), relative=0)
         c.bookmarkPage("page-1")
@@ -406,7 +406,7 @@ class Book:
         stages = [
             ("01", "Route every active selected check", "Static rules provide partial evidence. Full mode queues active selected checks, including controls with no matches or no mapped rule. With the full catalog and no exceptions, this is " + str(len(self.controls)) + " controls / " + str(sum(len(c['checks']) for c in self.controls)) + " checks. An empty scan never closes a control."),
             ("02", "Collect evidence deterministically", "Read only unchanged files in the scan manifest. Check file hashes and path confinement, exclude credential files, redact excerpts, and select bounded context using fixed control terms and finding locations."),
-            ("03", "Run the bounded analyst", "Use the configured model or custom JSON gateway. Fixed batches and call, size, and time budgets constrain review. Repository content is untrusted; no model-directed reads, local tools, or target execution occur."),
+            ("03", "Run the bounded analyst", "Use the configured model or custom JSON gateway. Fixed batches and call, size, and time budgets constrain review. The model may request exact ranges from captured file IDs with a risk and counterevidence rationale. The controller authorizes snapshot-only reads; no arbitrary paths, URLs, tools or target execution."),
             ("04", "Validate the response contract", "Require known control/check IDs, allowed statuses, and exact evidence quotes for support, gaps, or proposed non-applicability. Derive file and line metadata from submitted excerpts. Reject malformed or fabricated output."),
             ("05", "Keep gaps visible and auditable", "Record every check, explanation, citation, verification step, and request receipt. Omitted checks and exhausted budgets remain unreviewed. The first failed batch stops further calls; static results are preserved."),
         ]
@@ -418,7 +418,7 @@ class Book:
         y -= 18
         self.canvas.setFillColor(NAVY)
         self.canvas.roundRect(M, y - 96, CW, 96, 7, fill=1, stroke=0)
-        self.para("<b>Default full-catalog review envelope</b><br/>11 control batches of 6 within a 12-call cap, plus finding triage; a selected subset can be smaller. Evidence: at most 200 files / 2 MB; 240 excerpts / 120,000 characters; four excerpts per control. The 180-second scheduling budget is not a hard deadline. Full mode sends source even with zero findings. Use --judge-mode findings for finding-only review.", M + 15, y - 11, CW - 30, 9, 12.6, WHITE)
+        self.para("<b>Default full-catalog review envelope</b><br/>Up to 36 shared requests, plus finding triage; batches of 6 and 2 optional evidence rounds. Reserve a conclusion call for every remaining batch. Evidence: 200 files / 2 MB; 240 seed excerpts, 120,000 shared characters. Scheduling: 600 seconds, not a hard deadline. Record served/denied range requests and unresolved checks. Use --analyst-investigation-rounds 0 for seed-only review.", M + 15, y - 11, CW - 30, 9, 12.6, WHITE)
         self.end()
 
     def benchmarks(self, items):
@@ -528,11 +528,11 @@ class Book:
         self.end()
 
     def references(self, items):
-        y = self.start("07 / Source directory", "Follow the evidence", "Primary-source links and version context. Accessed 19 September 2026 unless the entry states otherwise.")
+        y = self.start("07 / Source directory", "Follow the evidence", "Primary-source links, version context and the recorded access date for each source.")
         for s in items:
             self.text(s["id"], M, y - 9, 8.4, TEAL, True)
             y = self.para(esc(s["title"]), M, y - 20, CW, 11.5, 15, NAVY, True)
-            meta = " / ".join(str(v) for v in [s.get("organization"), s.get("kind"), s.get("version"), s.get("date")] if v)
+            meta = " / ".join(str(v) for v in [s.get("organization"), s.get("kind"), s.get("version"), s.get("date"), "Accessed " + s["accessed"] if s.get("accessed") else None] if v)
             y = self.para(esc(meta), M, y - 5, CW, 7.6, 10.5, GREY)
             y = self.para(esc(s.get("scope", "")) + " <b>Limit:</b> " + esc(s.get("limitations", "")), M, y - 6, CW, 8.6, 12)
             url = s["url"]

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "checked_at_utc": "2026-09-24T01:42:26.500952+00:00",
+  "gitleaks_binary_sha256": "ba52fb1bfabbcde42f032afad3d6e0b19dff8ed105229a16e7caa338bbc0e84f",
+  "gitleaks_matches_lock": true,
+  "semgrep_rulepack_sha256": "b109a039df712f30c6d3e25e1e8358053fd0f1c91b92d0e8d2871cd141fe602f",
+  "semgrep_rulepack_matches_lock": true,
+  "cisco_yara_rule_files": {
+    "code_execution.yara": "a676f844354ed16e87cb0e9b6e54b53907713ee7b402392369882aa3321cac5f",
+    "coercive_injection.yara": "dd0373a221c3ca1935cd45c7bfbfc23ad0814acafe6dbfbe1f8c0a78d4426c13",
+    "command_injection.yara": "18c878e0f757d4d64f4b1c29ed0a5216b7283ae516dd676d6c3ebeb1f9e8cae3",
+    "credential_harvesting.yara": "c0f3a4b668914402e19d4c0cce1228e812f18de560fdd7295f43dd07faa629bc",
+    "data_exfiltration.yara": "ad0c56e7b8ad89c359bb15acd5d9cfdbe429c60ab2761b705d4b06ac2b91d21e",
+    "prompt_injection.yara": "d34ac8ff7bfa367cbe7da5fc28d7db02f4882734316eadc5884ff4d398da7c94",
+    "script_injection.yara": "ef802417c5808b12bc122b2e1cd0ebad4435a190a4787626189ffa2c8f37cf5e",
+    "sql_injection.yara": "f37680f957b0ea4f7c517878397c1a975961818486c54df6f269d308deda4cbb",
+    "system_manipulation.yara": "fefabd4e2f0d4a711404e906e6f9e97e541e73d32c6b749b2e36fc66cbcd90ac",
+    "tool_poisoning.yara": "a484a6d6a1db8583f0ef4107abaf786876668a63d4fd268cc4c8def45b1d1bd6"
+  },
+  "cisco_yara_manifest_sha256": "07efcae96b14d3cb534a9268b3c4174d41eaa871506c152eac9e26123e95c8be",
+  "purpose": "Byte identities of the actual installed offline detection engines used for new runs; Cisco version independently read from installed package metadata as 4.8.4."
+}

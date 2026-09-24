@@ -1,0 +1,1803 @@
+{
+  "analysis_error_cases": 0,
+  "by_rule": {
+    "AI001": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI002": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI003": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI004": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI005": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI006": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI007": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI008": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI009": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI010": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI011": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI012": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI013": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI014": {
+      "assertions": 42,
+      "false_negative": 2,
+      "false_negative_rate": 0.095238,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 0.904762,
+      "true_negative": 21,
+      "true_positive": 19
+    },
+    "AI015": {
+      "assertions": 2,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "AI016": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI017": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI018": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI019": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI020": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI021": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI022": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI023": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI024": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI025": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI026": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI027": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI028": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI029": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI030": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI031": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI032": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI033": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI034": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI035": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI036": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI037": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI038": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI039": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI040": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI041": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI042": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI043": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI044": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI045": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI046": {
+      "assertions": 0,
+      "false_negative": 0,
+      "false_negative_rate": null,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": null,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "AI047": {
+      "assertions": 21,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 11,
+      "true_positive": 10
+    }
+  },
+  "by_suite": {
+    "challenge": {
+      "assertions": 2,
+      "false_negative": 2,
+      "false_negative_rate": 1.0,
+      "false_positive": 0,
+      "false_positive_rate": null,
+      "precision": null,
+      "recall": 0.0,
+      "true_negative": 0,
+      "true_positive": 0
+    },
+    "regression": {
+      "assertions": 63,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 33,
+      "true_positive": 30
+    }
+  },
+  "case_count": 65,
+  "cases": [
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-wrapper-positional",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-wrapper-keyword",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-safe",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-unused",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-wrapper-alias",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-alias-rebound",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-rebound",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-local-shadow",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-wrapper-return-taint",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-fixed-return",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-wrapper-local-assignment",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-local-reassignment",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-wrapper-chain",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-wrapper-nested",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-wrapper-import-alias",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-import-shadow",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-global-rebound",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI015"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI015"
+      ],
+      "id": "py-wrapper-filesystem",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI015"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-fixed-file",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-guard-equality",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-guard-reversed",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-guard-return",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-guard-tuple",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-guard-prefix-insufficient",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-guard-substring-insufficient",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-guard-mutated-after",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-guard-outside-branch",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-guard-or-insufficient",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "py-guard-validator-name-insufficient",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": true,
+          "outcome": "false_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "py-wrapper-decorated-known-gap",
+      "matched_labels": false,
+      "path": "worker.py",
+      "rationale": "A decorator may replace the callable; direct call binding is deliberately unresolved. The declared sink still requires review.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "js-wrapper-positional",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-wrapper-safe",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-wrapper-unused",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "js-wrapper-alias",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-wrapper-rebound",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-wrapper-shadow",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "js-wrapper-chain",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "js-wrapper-typed",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-wrapper-sink-shadow",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-wrapper-parameter-sink-shadow",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-wrapper-chain-rebound",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI014"
+      ],
+      "id": "js-wrapper-axios",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-wrapper-comment",
+      "matched_labels": true,
+      "path": "worker.ts",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": true,
+          "outcome": "false_negative",
+          "rule_id": "AI014"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "js-wrapper-complex-known-gap",
+      "matched_labels": false,
+      "path": "worker.ts",
+      "rationale": "The JavaScript wrapper summary intentionally excludes multi-statement bodies; this source needs the optional evidence review or fuller language-aware analysis.",
+      "suite": "challenge",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-octal",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-decimal",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-file",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-sticky",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-other-only",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-private-dir",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-private-file",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-controlled-group",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-read-all",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-zero",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-boolean",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-string",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-alias",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-propagated",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-bitwise",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-bitwise-safe",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-pathlib",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": true,
+          "expected": true,
+          "outcome": "true_positive",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [
+        "AI047"
+      ],
+      "id": "chmod-inline-pathlib",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "An explicit external argument reaches a recognized sensitive sink.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-rebound",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-unrelated-method",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    },
+    {
+      "analysis_errors": [],
+      "assertions": [
+        {
+          "detected": false,
+          "expected": false,
+          "outcome": "true_negative",
+          "rule_id": "AI047"
+        }
+      ],
+      "detected_rule_ids": [],
+      "id": "chmod-flag-shadow",
+      "matched_labels": true,
+      "path": "worker.py",
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call.",
+      "suite": "regression",
+      "unscored_rule_ids": []
+    }
+  ],
+  "corpus_name": "Invarune bounded call-flow and workspace permissions corpus",
+  "corpus_sha256": "b39aae371869316f51e7b56a7d66d504216ee98cd70584e9140a01dc132d2e11",
+  "corpus_version": "1.0.0",
+  "failed_case_ids": [
+    "py-wrapper-decorated-known-gap",
+    "js-wrapper-complex-known-gap"
+  ],
+  "metric_unit": "One explicit rule-presence assertion per case; no target code is executed.",
+  "overall": {
+    "assertions": 65,
+    "false_negative": 2,
+    "false_negative_rate": 0.0625,
+    "false_positive": 0,
+    "false_positive_rate": 0.0,
+    "precision": 1.0,
+    "recall": 0.9375,
+    "true_negative": 33,
+    "true_positive": 30
+  },
+  "provenance": "Project-authored inert security fixtures for v0.15. Labels follow the written source-to-sink or permission semantics. Separate from the unchanged 113-case corpus; not independent or production validation.",
+  "regression_failure_ids": [],
+  "schema_version": "1.0",
+  "scope": "Synthetic, project-authored rule-presence fixtures. These are not production accuracy estimates or proof of security. Challenge cases are included in overall metrics even when the regression gate passes.",
+  "tool_version": "0.15.0"
+}

@@ -1,0 +1,103 @@
+{
+  "command": [
+    "semgrep",
+    "scan",
+    "--config",
+    "{semgrep_rules}",
+    "--metrics=off",
+    "--disable-version-check",
+    "--disable-nosem",
+    "--no-git-ignore",
+    "--no-rewrite-rule-ids",
+    "--json",
+    "--quiet",
+    "--jobs",
+    "2",
+    "--timeout",
+    "10",
+    "--max-target-bytes",
+    "20000000",
+    "--output",
+    "{raw_output}/semgrep.json",
+    "{source}"
+  ],
+  "errors": [],
+  "files_reported_scanned": 211,
+  "finding_count": 8,
+  "findings": [
+    {
+      "end_line": 680,
+      "line": 680,
+      "path": "libs/checkpoint/langgraph/checkpoint/memory/__init__.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 270,
+      "line": 270,
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/jsonplus.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 288,
+      "line": 288,
+      "path": "libs/checkpoint/langgraph/checkpoint/serde/jsonplus.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 81,
+      "line": 81,
+      "path": "libs/cli/langgraph_cli/analytics.py",
+      "rule_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 880,
+      "line": 880,
+      "path": "libs/cli/langgraph_cli/deploy.py",
+      "rule_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 104,
+      "line": 104,
+      "path": "libs/cli/langgraph_cli/templates.py",
+      "rule_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 31,
+      "line": 31,
+      "path": "libs/langgraph/langgraph/_internal/_cache.py",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 1398,
+      "line": 1398,
+      "path": "libs/langgraph/langgraph/pregel/_algo.py",
+      "rule_id": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "severity": "WARNING"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 0,
+  "raw_report_sha256": "55dc1424a0ad35cc84704467cde647219a3178bf0e72794bf723091555e3d46f",
+  "rule_counts": {
+    "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected": 3,
+    "python.lang.security.deserialization.pickle.avoid-pickle": 4,
+    "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1": 1
+  },
+  "severity_counts": {
+    "WARNING": 8
+  },
+  "started_at_utc": "2026-09-24T01:27:19Z",
+  "status": "completed_with_findings",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "semgrep",
+  "wall_seconds": 5.123963
+}

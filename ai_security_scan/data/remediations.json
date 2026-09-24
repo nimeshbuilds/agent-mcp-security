@@ -1774,10 +1774,11 @@
     {
       "rule_id": "AI046",
       "summary": "Reconcile the read-only annotation, description and implementation.",
-      "agent_mcp_relevance": "An MCP client may prioritize tools or reduce consent using annotations; an explicit destructive description paired with readOnlyHint=true exposes conflicting metadata at that trust boundary.",
+      "agent_mcp_relevance": "Agent and MCP clients may prioritize tools or reduce consent based on readOnlyHint. A destructive description or resolved direct write in a supported Python handler conflicts with that declared boundary; actual execution and authorization still require validation.",
       "applicability": [
         "Inspect the original matched text and its declared agent/tool context. A pattern finding is not proof of author intent, exploitability or runtime behavior.",
-        "Confirm which client loads this artifact, its approval model and the implementation behind the named tool."
+        "Confirm which client loads this artifact, its approval model and the implementation behind the named tool.",
+        "The Python witness detector recognizes selected direct os/shutil and inline pathlib.Path writes in top-level tool handlers. Helper effects, unknown bindings and real branch execution remain unverified."
       ],
       "steps": [
         {
@@ -1805,6 +1806,43 @@
       ],
       "source_ids": [
         "MCP-TOOLS"
+      ]
+    },
+    {
+      "rule_id": "AI047",
+      "summary": "Remove world-writable permissions from agent and MCP files and workspaces.",
+      "agent_mcp_relevance": "Another local identity may replace agent-generated code, tool artifacts, instructions or credentials when the shared filesystem permits writes by everyone. Broad permissions can defeat an otherwise correct tool authorization check.",
+      "applicability": [
+        "The detector proves an explicit other-write mode bit at a recognized Python chmod call; it does not prove a reachable attacker or effective runtime permissions.",
+        "A sticky directory bit limits some deletion operations but does not make files read-only; platform ACLs and mount isolation require separate evidence."
+      ],
+      "steps": [
+        {
+          "title": "Set ownership and minimum required mode",
+          "action": "Use 0o600 for private files and 0o700 for private directories where applicable. For intentional sharing, assign a controlled group and grant only its needed rights. Fix container UID/GID ownership instead of setting 0o777.",
+          "verification": "Inspect the resulting mode and ACL on the deployed path; from an unrelated identity, attempt a harmless write and verify it is denied."
+        },
+        {
+          "title": "Isolate tool artifacts and sensitive inputs",
+          "action": "Use a separate workspace per principal or tenant, mount trusted skills and executable configuration read-only, and exclude credentials from writable artifact directories.",
+          "verification": "Attempt to replace a canary tool script or neighboring tenant file using the worker identity and confirm the operation is denied."
+        },
+        {
+          "title": "Review previous artifacts and deployment overrides",
+          "action": "Review code, instructions and sensitive data previously stored in the writable location before trusting them again; validate mounted volumes and startup scripts do not restore broad permissions.",
+          "verification": "Restart the actual workload, inspect ownership and ACLs again, and confirm a neighboring tenant still cannot alter the canary artifact."
+        }
+      ],
+      "residual_risk": [
+        "Correct mode bits do not fix unsafe ownership, permissive ACLs, symbolic-link races or privileged host mounts.",
+        "The scanner does not execute chmod or inspect a live filesystem."
+      ],
+      "control_ids": [
+        "EXEC-04"
+      ],
+      "source_ids": [
+        "TECH-PYTHON-CHMOD",
+        "CWE-732"
       ]
     }
   ]

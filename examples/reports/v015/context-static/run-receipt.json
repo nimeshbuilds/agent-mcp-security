@@ -1,0 +1,32 @@
+{
+  "actual_invocation": "Installed wheel CLI executed from outside checkout, absolute source/output paths; display paths normalized for publication.",
+  "artifacts": {
+    "report.html": "1eea03a1e7de6787da44d1c258618915a8b65257a757d160fe97b3e72dc28efe",
+    "report.json": "b2db6b124e14613b4da5c838b00f453a8e48fbe17fc65481dfd6960e1916cc6e",
+    "report.md": "df28e95ec155646678c1a5d762ccf798cda402dcb9157864cf68e039b2e95871",
+    "report.pdf": "dcb83ece742c5c8858e0d2ae3a9e075dd8bc137b229fa6eb3d0e037de3da50e0",
+    "report.sarif": "35c24d16383d634dd0bfed9fac7c96e0e6c870fad74dd051798d951827171c54"
+  },
+  "command": [
+    "invscan",
+    "examples/investigation/context-tools",
+    "--scans",
+    "EXEC-05",
+    "--report",
+    "examples/reports/v015/context-static",
+    "--pdf",
+    "--summary-json"
+  ],
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-24T02:03:13.819139+00:00",
+  "scanner": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.15.0"
+  },
+  "schema_version": "1.0",
+  "source_fixture": "Authored inert development example, not independently labeled accuracy ground truth. Source was never imported or executed.",
+  "started_at_utc": "2026-09-24T02:03:13.408889+00:00"
+}

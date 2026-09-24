@@ -1,0 +1,186 @@
+{
+  "artifacts": {
+    "context-codex": {
+      "bookmarks": 13,
+      "canonical_fields": 10,
+      "canonical_fields_widgets_appearances_consistent": true,
+      "delivery_pdf": "output/pdf/invarune-v015-context-codex.pdf",
+      "deterministic_metrics": {
+        "active_checks": 2,
+        "active_controls": 1,
+        "active_rules": 1,
+        "coverage_gaps": 0,
+        "disabled_checks": 0,
+        "disabled_findings": 0,
+        "disabled_rules": 0,
+        "justified_checks": 0,
+        "justified_findings": 0,
+        "justified_rules": 0,
+        "mapping_reach": {
+          "denominator": 1,
+          "numerator": 1,
+          "percent": 100.0
+        },
+        "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+        "open_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "open_findings": 0,
+        "selected_controls": 1,
+        "selected_rules": 1,
+        "selected_scope_complete": true,
+        "suppressed_findings": 0,
+        "urgent_findings": 0
+      },
+      "embedded_full_report_matches_json": true,
+      "execution": {
+        "exit_code": 0,
+        "failure_threshold": "high",
+        "finding_gate_triggered": false
+      },
+      "five_format_review_workspace_equal": true,
+      "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+      "internal_links": 31,
+      "optional_ai_metrics": {
+        "additional_concerns": 0,
+        "answer_coverage": {
+          "denominator": 2,
+          "numerator": 2,
+          "percent": 100.0
+        },
+        "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+        "changes_deterministic_result": false,
+        "check_outcomes": {
+          "insufficient_evidence": 1,
+          "needs_human_review": 0,
+          "needs_runtime_validation": 0,
+          "not_applicable_proposed": 0,
+          "not_reviewed": 0,
+          "potential_gap": 1,
+          "supported_by_code": 0
+        },
+        "control_review_status": "completed",
+        "enabled": true,
+        "finding_review_status": "completed",
+        "ignored_answer_records": 0,
+        "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+      },
+      "page_widgets": 10,
+      "pages": 22,
+      "pdf": "examples/reports/v015/context-codex/report.pdf",
+      "render_hash_manifest_sha256": "39b5abf77a8de47245deb6bfa7c940bf3a2dc1143ea5c4bdfdd4dde95bc39a24",
+      "rendered_pages": 22,
+      "report_json": "examples/reports/v015/context-codex/report.json",
+      "review_workspace_matches_json": true,
+      "sha256": "5f83dfe8dfe84515b8ebbdcf541dad1acced6ed2b545de0d93f56b57fbfc1451",
+      "unique_external_links": 1,
+      "visual_review": {
+        "all_pages_inspected_at_contact_sheet_scale": true,
+        "clipping_or_overlap_found": false,
+        "full_size_pages": [
+          1,
+          6,
+          22
+        ],
+        "status": "passed"
+      },
+      "words_outside_page": 0
+    },
+    "context-static": {
+      "bookmarks": 12,
+      "canonical_fields": 10,
+      "canonical_fields_widgets_appearances_consistent": true,
+      "delivery_pdf": "output/pdf/invarune-v015-context-static.pdf",
+      "deterministic_metrics": {
+        "active_checks": 2,
+        "active_controls": 1,
+        "active_rules": 1,
+        "coverage_gaps": 0,
+        "disabled_checks": 0,
+        "disabled_findings": 0,
+        "disabled_rules": 0,
+        "justified_checks": 0,
+        "justified_findings": 0,
+        "justified_rules": 0,
+        "mapping_reach": {
+          "denominator": 1,
+          "numerator": 1,
+          "percent": 100.0
+        },
+        "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+        "open_by_severity": {
+          "critical": 0,
+          "high": 0,
+          "info": 0,
+          "low": 0,
+          "medium": 0
+        },
+        "open_findings": 0,
+        "selected_controls": 1,
+        "selected_rules": 1,
+        "selected_scope_complete": true,
+        "suppressed_findings": 0,
+        "urgent_findings": 0
+      },
+      "embedded_full_report_matches_json": true,
+      "execution": {
+        "exit_code": 0,
+        "failure_threshold": "high",
+        "finding_gate_triggered": false
+      },
+      "five_format_review_workspace_equal": true,
+      "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+      "internal_links": 29,
+      "optional_ai_metrics": {
+        "additional_concerns": 0,
+        "answer_coverage": {
+          "denominator": 2,
+          "numerator": 0,
+          "percent": 0.0
+        },
+        "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+        "changes_deterministic_result": false,
+        "check_outcomes": {
+          "insufficient_evidence": 0,
+          "needs_human_review": 0,
+          "needs_runtime_validation": 0,
+          "not_applicable_proposed": 0,
+          "not_reviewed": 2,
+          "potential_gap": 0,
+          "supported_by_code": 0
+        },
+        "control_review_status": "disabled",
+        "enabled": false,
+        "finding_review_status": "disabled",
+        "ignored_answer_records": 0,
+        "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+      },
+      "page_widgets": 10,
+      "pages": 15,
+      "pdf": "examples/reports/v015/context-static/report.pdf",
+      "render_hash_manifest_sha256": "d9a1750eb487a27fd32d19c9e0d74a0f3d07902ae95da5f0119fe978fad41cd6",
+      "rendered_pages": 15,
+      "report_json": "examples/reports/v015/context-static/report.json",
+      "review_workspace_matches_json": true,
+      "sha256": "dcb83ece742c5c8858e0d2ae3a9e075dd8bc137b229fa6eb3d0e037de3da50e0",
+      "unique_external_links": 1,
+      "visual_review": {
+        "all_pages_inspected_at_contact_sheet_scale": true,
+        "clipping_or_overlap_found": false,
+        "full_size_pages": [
+          1,
+          15
+        ],
+        "status": "passed"
+      },
+      "words_outside_page": 0
+    }
+  },
+  "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+  "schema_version": "1.0",
+  "scope": "Final v0.15 two-file context example PDFs and their original five-format review bindings; not model accuracy or deployed exploitability."
+}

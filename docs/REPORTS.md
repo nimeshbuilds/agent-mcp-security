@@ -69,7 +69,7 @@ The bundled [mitigation catalog](../ai_security_scan/data/mitigations.json) cove
 
 ## Per-finding fix plans and agent/MCP relevance
 
-Every observed finding receives a deterministic plan from the separate [remediation catalog](../ai_security_scan/data/remediations.json). Its 46 entries contain concrete change-and-verification plans for every rule. This guidance runs without an LLM, including for suppressed, justified and disabled findings retained for audit; displaying a plan does not reopen an exception or count it as an active concern.
+Every observed finding receives a deterministic plan from the separate [remediation catalog](../ai_security_scan/data/remediations.json). Its 47 entries contain concrete change-and-verification plans for every rule. This guidance runs without an LLM, including for suppressed, justified and disabled findings retained for audit; displaying a plan does not reopen an exception or count it as an active concern.
 
 Each plan records:
 
@@ -113,6 +113,10 @@ The optional analyst does not assess exempt checklist items or count them as mis
 The entire overview and mitigation catalog work with the model disabled. The `assessment` field is derived from static findings, scope, explicit user review/import states, export diagnostics and bundled guidance. It does not depend on the selected failure threshold, model verdict, or optional review completion. The report records the guidance catalog version and SHA-256 plus the source registry SHA-256 separately from the evidence scan ID.
 
 If enabled, the model's finding triage and control review appear in explicitly advisory sections. The executive area shows optional-review completion separately. An answered check does not mean it passed, and a completed review can still require runtime or human evidence. A failed or partial review leaves the static findings intact and retains the existing exit-code-2 behavior.
+
+Full review can request additional exact ranges from already captured source snapshots. The report records whether this was allowed and whether it actually happened; enabling the option alone is not evidence of an investigation. The bounded investigation section shows offered files, completed rounds, served/denied requests and excerpt consumption. Each receipt retains the check, range, risk rationale, requested counterevidence and denial reason or evidence ID.
+
+Structured model answers show the risk hypothesis, crossed boundary, counterevidence and conclusion limits alongside citations and proposed fixes. Legacy API responses without these fields remain compatible but are counted separately. Neither structured analysis nor additional source context changes the deterministic grade, finding severity or gate. Runtime reachability, deployed defenses and model interpretation still need verification.
 
 When a request carries a `token_optimization` receipt, the human report shows the requested mode, actual engine, outcome/fallback and evidence-payload bytes before and after processing. The finding-stage record lives at `judge.token_optimization`; control-stage records live on `analyst.requests[]`. A fallback is displayed as a fallback, not a successful Headroom execution. Historical reports without these records do not receive invented optimization results.
 

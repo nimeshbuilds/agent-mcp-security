@@ -1,0 +1,1316 @@
+{
+  "advice_coverage": {
+    "additional_concern_fix_plans": 0,
+    "additional_concerns": 0,
+    "finding_assessment_slots": 0,
+    "finding_assessments": 0,
+    "finding_fix_plans": 0,
+    "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+    "model_check_assessments": 2,
+    "model_check_fix_plans": 2,
+    "omitted_finding_assessments": 0,
+    "static_findings": 0,
+    "static_fix_plans": 0
+  },
+  "analyst": {
+    "advisory_only": true,
+    "check_status_counts": {
+      "insufficient_evidence": 1,
+      "potential_gap": 1
+    },
+    "control_assessments": [
+      {
+        "check_assessments": [
+          {
+            "analysis": {
+              "boundary": "The visible boundary is caller-controlled user_url entering tool_forward, crossing the admission predicate, and becoming the destination of a server-side HTTP POST. Actual agent or MCP registration is not supplied.",
+              "conclusion_limits": "Only the local flow is established. No code was executed, and deployed reachability, library behavior, DNS handling, network isolation, and external egress policy remain unresolved.",
+              "counterevidence": "The rejection branch is present, but its predicate does not restrict lane 1. The sibling caller uses a constant destination on lane 0, and redirects are disabled. The excerpts describe an inert fixture. These alternatives limit the claim but do not establish destination restrictions for lane 1.",
+              "risk_hypothesis": "A caller could select an internal or metadata destination and reach requests.post because lane 1 makes _admit true regardless of the URL."
+            },
+            "check": "Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect.",
+            "check_index": 1,
+            "citations": [
+              {
+                "end_line": 7,
+                "evidence_id": "src-ea8f5ad7a1e9b55c0a223d85",
+                "path": "agent.py",
+                "quote": "return dispatch(1, user_url, user_content)",
+                "source_sha256": "3f8ad0be3946f65cce7217f596f63de4fa2bde0cd62d8f397702d7bd83c1c199",
+                "start_line": 7
+              },
+              {
+                "end_line": 18,
+                "evidence_id": "src-c76b9846c312b1d8e2392d1c",
+                "path": "delivery.py",
+                "quote": "def _admit(a, b):\n    return a == 1 or b == \"https://approved.invalid\"",
+                "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+                "start_line": 17
+              },
+              {
+                "end_line": 41,
+                "evidence_id": "src-6a02164f7498f198ded37c26",
+                "path": "delivery.py",
+                "quote": "def dispatch(lane, addr, record):\n    if not _admit(lane, addr):\n        raise ValueError(\"Unsupported destination\")\n    return requests.post(addr, json={\"record\": record}, timeout=5,\n                         allow_redirects=False)",
+                "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+                "start_line": 37
+              }
+            ],
+            "model_supplied": true,
+            "reason": "The visible caller-selected URL enters dispatch with lane 1. The admission predicate accepts that lane independently of the destination, allowing the URL to reach requests.post without a visible destination or scheme restriction in this flow. Redirects are explicitly disabled, which limits redirect-based exposure. The constant destination used by the sibling lane does not constrain lane 1. Connection-time address restrictions and DNS enforcement are not established by the supplied evidence. This is an unverified concern in a declared inert fixture, not evidence of deployed exploitability.",
+            "recommended_actions": {
+              "agent_mcp_relevance": "If exposed as an agent or MCP tool, caller-controlled user_url crosses into server-side outbound HTTP, potentially using network access unavailable to the caller.",
+              "applicability": "Apply changes to any operational implementation represented by this fixture. Deployment reachability and existing transport or egress controls require owner confirmation.",
+              "steps": [
+                "Replace the unconditional lane-1 admission with a destination policy applied to every caller-controlled URL; explicitly allow required schemes and approved destinations.",
+                "Enforce resolved-address restrictions at connection time through a controlled transport or egress proxy, covering loopback, private, link-local, metadata, and IPv6 destinations without a validation-to-connection DNS race.",
+                "Retain allow_redirects=False. If redirects become necessary, validate every target and its connection destination before following it."
+              ],
+              "verification": [
+                "Review that every relevant lane invokes the same destination policy and cannot bypass it through lane selection.",
+                "Use isolated transport observations to verify blocked addresses receive no connections, including after DNS changes.",
+                "Retain regression coverage showing redirect responses are not followed."
+              ]
+            },
+            "status": "potential_gap",
+            "verification_steps": [
+              "Have the owner establish whether this fixture represents a reachable agent or MCP tool and identify caller authorization and external egress restrictions.",
+              "Review the deployed transport and destination policy for allowed schemes, resolved IPv4 and IPv6 addresses, and enforcement against the actual connection destination.",
+              "In an authorized isolated environment, verify that disallowed destinations cannot receive a connection and that redirect responses are never followed."
+            ]
+          },
+          {
+            "analysis": {
+              "boundary": "Required coverage spans caller-provided URLs, admission decisions, DNS resolution, actual outbound connections, and redirect handling.",
+              "conclusion_limits": "No test suite, case matrix, or runtime results were supplied. Test absence and operational applicability cannot be inferred, and runtime validation remains outstanding.",
+              "counterevidence": "The visible request disables redirects, reducing one relevant exposure. The fixture declaration was considered as a possible nonoperational context. Neither establishes test coverage; tests outside the submitted excerpts remain possible.",
+              "risk_hypothesis": "Incomplete destination testing could leave lane-dependent admission bypasses or address-interpretation differences undetected."
+            },
+            "check": "Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases.",
+            "check_index": 2,
+            "citations": [
+              {
+                "end_line": 1,
+                "evidence_id": "src-1c85609fb313cbfd95eb25cd",
+                "path": "delivery.py",
+                "quote": "\"\"\"Inert review fixture: network calls below must never be executed.\"\"\"",
+                "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+                "start_line": 1
+              },
+              {
+                "end_line": 41,
+                "evidence_id": "src-6a02164f7498f198ded37c26",
+                "path": "delivery.py",
+                "quote": "return requests.post(addr, json={\"record\": record}, timeout=5,\n                         allow_redirects=False)",
+                "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+                "start_line": 40
+              }
+            ],
+            "model_supplied": true,
+            "reason": "The supplied excerpts contain no test cases or results covering loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, or redirects to private destinations. Disabling redirects is relevant implementation evidence but does not establish that these cases were tested. The declared fixture context further limits conclusions about operational coverage; omitted tests may exist.",
+            "recommended_actions": {
+              "agent_mcp_relevance": "Destination tests should exercise the caller-controlled tool boundary through to the outbound transport, since predicate-only tests cannot establish which destination actually receives a connection.",
+              "applicability": "First identify the operational implementation and existing tests. Do not execute the submitted inert fixture or contact real metadata or internal services.",
+              "steps": [
+                "Obtain existing test artifacts before concluding that coverage is missing.",
+                "Where coverage is missing, add isolated cases for loopback, private and link-local IPv4 and IPv6, metadata destinations, alternate address encodings, and redirects to prohibited destinations.",
+                "Include controlled DNS changes and assert the observed connection destination; cover lane 1 and the fixed-destination sibling to detect lane-dependent bypasses."
+              ],
+              "verification": [
+                "Have an owner review the case matrix against every address category in this acceptance check.",
+                "Retain isolated test results demonstrating rejection before prohibited connections and no follow-up connection after a redirect response."
+              ]
+            },
+            "status": "insufficient_evidence",
+            "verification_steps": [
+              "Request the relevant test inventory and results covering every required address class, alternate encodings, and redirects to private destinations.",
+              "Have the owner validate the operational implementation in an authorized isolated harness with controlled DNS and connection observations, including both visible caller lanes."
+            ]
+          }
+        ],
+        "control_id": "EXEC-05",
+        "provenance": {
+          "assurance": "Code support is not a control pass or proof of deployed behavior.",
+          "citation_validation": "Exact quote in submitted excerpt; semantic interpretation remains advisory.",
+          "evidence_selection_boundary": "Validated file-ID/line requests within captured manifest snapshots only.",
+          "model_selected_evidence": true,
+          "model_selected_evidence_allowed": true,
+          "model_tools_enabled": false,
+          "runtime_execution": false,
+          "static_results_modified": false
+        },
+        "review_status": "reviewed",
+        "static_status": "no_pattern_detected",
+        "title": "Prevent SSRF and unsafe network destinations",
+        "validation": "hybrid",
+        "validation_established": false
+      }
+    ],
+    "coverage": {
+      "attempted_controls": 1,
+      "batch_size": 1,
+      "call_budget": 3,
+      "calls_made": 2,
+      "catalog_checks": 2,
+      "catalog_controls": 1,
+      "disabled_checks": 0,
+      "disabled_controls": 0,
+      "evidence": {
+        "budget_exhausted": [],
+        "bytes_charged": 1243,
+        "bytes_read": 1243,
+        "candidate_rankings_dropped": 0,
+        "candidate_snippets": 3,
+        "characters_selected": 1147,
+        "controls_total": 1,
+        "controls_with_evidence": 1,
+        "controls_without_evidence": [],
+        "evidence_files": 2,
+        "failed_read_bytes_charged": 0,
+        "file_read_attempts": 2,
+        "files_read": 2,
+        "files_verified": 2,
+        "full_repository_review": false,
+        "limitations": [
+          "Keyword-selected excerpts are partial context and do not prove implementation, absence, effectiveness, or compliance.",
+          "Only unchanged manifest files are eligible; scanner exclusions and unsupported files remain outside this review.",
+          "Credentials and environment files are excluded; other redaction is best-effort and source can contain sensitive data.",
+          "Read budgets reserve one sentinel byte and conservatively charge failed read attempts, even if failure happened before any source bytes were read.",
+          "No target code is executed, imported, installed, or contacted; repository instructions cannot change retrieval.",
+          "Runtime behavior and missing evidence require additional validation; an empty control mapping is not a pass."
+        ],
+        "limits": {
+          "max_bytes": 2000000,
+          "max_candidates_per_control": 64,
+          "max_chars": 60000,
+          "max_chars_per_excerpt": 2000,
+          "max_excerpts_per_control": 4,
+          "max_file_bytes": 1000000,
+          "max_files": 200,
+          "max_lines_per_excerpt": 12,
+          "max_snippets": 240
+        },
+        "manifest_files": 2,
+        "requested_characters_selected": 92,
+        "scope": "bounded_excerpts_from_unchanged_scanner_manifest_files",
+        "selection_method": "deterministic_control_keywords_and_findings",
+        "skipped_counts": {},
+        "skipped_files": [],
+        "snippets_selected": 3
+      },
+      "excluded_checks": 0,
+      "excluded_controls": 0,
+      "justified_checks": 0,
+      "justified_controls": 0,
+      "omitted_checks": 0,
+      "reviewed_controls": 1,
+      "time_budget_seconds": 900.0,
+      "total_checks": 2,
+      "total_controls": 1,
+      "unreviewed_control_ids": [],
+      "validated_controls": 0
+    },
+    "enabled": true,
+    "errors": [],
+    "evidence": [
+      {
+        "end_line": 12,
+        "end_line_complete": true,
+        "evidence_id": "src-ea8f5ad7a1e9b55c0a223d85",
+        "kind": "source_excerpt",
+        "path": "agent.py",
+        "source_sha256": "3f8ad0be3946f65cce7217f596f63de4fa2bde0cd62d8f397702d7bd83c1c199",
+        "start_line": 1,
+        "text": "\"\"\"Inert author-created review fixture. Do not import or execute this module.\"\"\"\nfrom delivery import dispatch\n\n\ndef tool_forward(user_url, user_content):\n    \"\"\"Forward a caller-selected record through the delivery boundary.\"\"\"\n    return dispatch(1, user_url, user_content)\n\n\ndef fixed_forward(record):\n    \"\"\"A sibling entry point uses a constant destination and different lane.\"\"\"\n    return dispatch(0, \"https://approved.invalid\", record)"
+      },
+      {
+        "end_line": 12,
+        "end_line_complete": true,
+        "evidence_id": "src-1c85609fb313cbfd95eb25cd",
+        "kind": "source_excerpt",
+        "path": "delivery.py",
+        "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+        "start_line": 1,
+        "text": "\"\"\"Inert review fixture: network calls below must never be executed.\"\"\"\nimport requests\n\n\n# The dispatcher accepts two lanes. A reviewer needs the predicate body and\n# each caller's lane selection before deciding what the condition establishes.\n# Definition hints make the predicate discoverable even when keyword-selected\n# seed excerpts do not retain it. These gaps intentionally separate the three\n# relevant regions for a bounded-context investigation demonstration.\n\n\n"
+      },
+      {
+        "end_line": 41,
+        "end_line_complete": true,
+        "evidence_id": "src-6a02164f7498f198ded37c26",
+        "kind": "source_excerpt",
+        "path": "delivery.py",
+        "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+        "start_line": 37,
+        "text": "def dispatch(lane, addr, record):\n    if not _admit(lane, addr):\n        raise ValueError(\"Unsupported destination\")\n    return requests.post(addr, json={\"record\": record}, timeout=5,\n                         allow_redirects=False)"
+      },
+      {
+        "end_line": 36,
+        "end_line_complete": true,
+        "evidence_id": "src-c76b9846c312b1d8e2392d1c",
+        "kind": "source_excerpt",
+        "path": "delivery.py",
+        "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+        "start_line": 13,
+        "text": "\n\n\n\ndef _admit(a, b):\n    return a == 1 or b == \"https://approved.invalid\"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+      }
+    ],
+    "investigation": {
+      "conclusion_calls": 1,
+      "enabled": true,
+      "excerpt_character_budget": 120000,
+      "excerpt_characters_used": 1239,
+      "inventory_characters": 491,
+      "limits": {
+        "max_chars_per_request": 4000,
+        "max_inventory_chars": 32000,
+        "max_inventory_files": 200,
+        "max_lines_per_request": 80,
+        "max_requests_per_round": 8,
+        "max_requests_total": 128,
+        "max_symbols_per_file": 12
+      },
+      "max_rounds_per_batch": 2,
+      "protocol": "manifest_snapshot_ranges_v1",
+      "receipts": [
+        {
+          "check_id": "EXEC-05:1",
+          "check_index": 1,
+          "control_id": "EXEC-05",
+          "counterevidence": "Seek effective lane-specific allowlists, URL parsing, address restrictions, and DNS enforcement. Determine whether the constant destination used by lane 0 constrains lane 1 as well; redirects are already explicitly disabled at the visible request.",
+          "end_line": 36,
+          "evidence_id": "src-c76b9846c312b1d8e2392d1c",
+          "file_id": "file-01133ae2e5e076d2cc2525ac",
+          "new_characters_charged": 92,
+          "original_check_index": 1,
+          "purpose": "counterevidence",
+          "range_complete": true,
+          "reason": "The caller-selected URL reaches requests.post through dispatch with lane 1. Inspect _admit and its surrounding definitions to determine whether that lane enforces destination and scheme restrictions before the network operation.",
+          "retained_characters": 92,
+          "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+          "start_line": 13,
+          "status": "served"
+        }
+      ],
+      "requests_attempted": 1,
+      "requests_denied": 0,
+      "requests_served": 1,
+      "rounds_completed": 1,
+      "snapshot_files_offered": 2,
+      "snapshot_files_omitted": 0,
+      "snapshot_semantics": "Evidence is the captured manifest snapshot, not a live filesystem reread; deployment behavior remains unverified.",
+      "structured_analysis_checks": 2
+    },
+    "nondeterministic": true,
+    "provenance": {
+      "assurance": "Code support is not a control pass or proof of deployed behavior.",
+      "citation_validation": "Exact quote in submitted excerpt; semantic interpretation remains advisory.",
+      "evidence_selection_boundary": "Validated file-ID/line requests within captured manifest snapshots only.",
+      "model_selected_evidence": true,
+      "model_selected_evidence_allowed": true,
+      "model_tools_enabled": false,
+      "runtime_execution": false,
+      "static_results_modified": false
+    },
+    "requests": [
+      {
+        "adapter_version": "1.3.0",
+        "batch": 1,
+        "check_index_map": {
+          "EXEC-05": [
+            1,
+            2
+          ]
+        },
+        "checks_submitted": 2,
+        "cli": {
+          "arguments": [
+            "-a",
+            "never",
+            "exec",
+            "--ignore-user-config",
+            "--ignore-rules",
+            "--ephemeral",
+            "--skip-git-repo-check",
+            "--sandbox",
+            "read-only",
+            "--json",
+            "--color",
+            "never",
+            "--disable",
+            "shell_tool",
+            "--disable",
+            "unified_exec",
+            "--disable",
+            "code_mode",
+            "--disable",
+            "code_mode_host",
+            "--disable",
+            "computer_use",
+            "--disable",
+            "browser_use",
+            "--disable",
+            "browser_use_external",
+            "--disable",
+            "browser_use_full_cdp_access",
+            "--disable",
+            "in_app_browser",
+            "--disable",
+            "image_generation",
+            "--disable",
+            "view_image",
+            "--disable",
+            "artifact",
+            "--disable",
+            "apps",
+            "--disable",
+            "plugins",
+            "--disable",
+            "plugin_sharing",
+            "--disable",
+            "hooks",
+            "--disable",
+            "multi_agent",
+            "--disable",
+            "multi_agent_v2",
+            "--disable",
+            "skill_search",
+            "--disable",
+            "workspace_dependencies",
+            "--disable",
+            "shell_snapshot",
+            "--disable",
+            "memories",
+            "--disable",
+            "sleep_tool",
+            "--disable",
+            "goals",
+            "--disable",
+            "remote_plugin",
+            "--disable",
+            "tool_suggest",
+            "-c",
+            "web_search=\"disabled\"",
+            "-c",
+            "mcp_servers={}",
+            "-c",
+            "project_doc_max_bytes=0",
+            "-c",
+            "skills.include_instructions=false",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--output-schema",
+            "<private temporary directory>/response-schema.json",
+            "--model",
+            "gpt-6-astra",
+            "-"
+          ],
+          "auth_mode": "cli_managed",
+          "cli_version": "0.154.0",
+          "descendant_termination": "process_group",
+          "executable": "codex",
+          "isolation": "CLI capability restrictions; installed executable and administrator policy remain trusted",
+          "provider": "codex_cli",
+          "repository_working_directory": false,
+          "request_bytes": 11696,
+          "request_sha256": "5ac3875de224f1d3c4211be4f86be5a59b2fbd77b03e6b8507459af587636d7f",
+          "requested_model": "gpt-6-astra",
+          "response_bytes": 1303,
+          "response_sha256": "c948542ec337b341d74b5954af1eceaabba01b45d723b09b103cadf480c869eb",
+          "stage": "investigation",
+          "startup_warnings": [
+            "codex_code_mode_intentionally_disabled"
+          ],
+          "structured_output_requested": true,
+          "token_budget_enforced": false,
+          "token_optimization": {
+            "bytes_saved": 167,
+            "engine": "headroom",
+            "evidence_preserved": true,
+            "fallback_reason": null,
+            "headroom_version": "0.37.0",
+            "original_payload_sha256": "8d79167e8f99bcb1dc8331865fedd4af2a5954ffaa1252ce13333b2a0f2049c4",
+            "payload_bytes_after": 5164,
+            "payload_bytes_before": 5331,
+            "requested": "headroom",
+            "schema_version": "1.0",
+            "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+            "sent_payload_sha256": "cf64ebaafba13742f4e8efe78baf28184bf51dc61aba39dd043fbc0b6f9a8ef7",
+            "status": "optimized",
+            "token_savings_measured": false
+          },
+          "tools_policy": "disabled_for_advisory_review",
+          "transport": "official_cli"
+        },
+        "control_ids": [
+          "EXEC-05"
+        ],
+        "controls_submitted": 1,
+        "evidence_ids": [
+          "src-1c85609fb313cbfd95eb25cd",
+          "src-ea8f5ad7a1e9b55c0a223d85",
+          "src-6a02164f7498f198ded37c26"
+        ],
+        "evidence_request_receipts": [
+          {
+            "check_id": "EXEC-05:1",
+            "check_index": 1,
+            "control_id": "EXEC-05",
+            "counterevidence": "Seek effective lane-specific allowlists, URL parsing, address restrictions, and DNS enforcement. Determine whether the constant destination used by lane 0 constrains lane 1 as well; redirects are already explicitly disabled at the visible request.",
+            "end_line": 36,
+            "evidence_id": "src-c76b9846c312b1d8e2392d1c",
+            "file_id": "file-01133ae2e5e076d2cc2525ac",
+            "new_characters_charged": 92,
+            "original_check_index": 1,
+            "purpose": "counterevidence",
+            "range_complete": true,
+            "reason": "The caller-selected URL reaches requests.post through dispatch with lane 1. Inspect _admit and its surrounding definitions to determine whether that lane enforces destination and scheme restrictions before the network operation.",
+            "retained_characters": 92,
+            "source_sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c",
+            "start_line": 13,
+            "status": "served"
+          }
+        ],
+        "investigation_response": "evidence_requests",
+        "investigation_round": 0,
+        "model": "gpt-6-astra",
+        "payload_sha256": "cf64ebaafba13742f4e8efe78baf28184bf51dc61aba39dd043fbc0b6f9a8ef7",
+        "protocol_version": "1.2.0",
+        "provider": "codex_cli",
+        "status": "completed",
+        "structured_analysis_checks": 0,
+        "token_optimization": {
+          "bytes_saved": 167,
+          "engine": "headroom",
+          "evidence_preserved": true,
+          "fallback_reason": null,
+          "headroom_version": "0.37.0",
+          "original_payload_sha256": "8d79167e8f99bcb1dc8331865fedd4af2a5954ffaa1252ce13333b2a0f2049c4",
+          "payload_bytes_after": 5164,
+          "payload_bytes_before": 5331,
+          "requested": "headroom",
+          "schema_version": "1.0",
+          "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+          "sent_payload_sha256": "cf64ebaafba13742f4e8efe78baf28184bf51dc61aba39dd043fbc0b6f9a8ef7",
+          "status": "optimized",
+          "token_savings_measured": false
+        }
+      },
+      {
+        "adapter_version": "1.3.0",
+        "batch": 1,
+        "check_index_map": {
+          "EXEC-05": [
+            1,
+            2
+          ]
+        },
+        "checks_submitted": 2,
+        "cli": {
+          "arguments": [
+            "-a",
+            "never",
+            "exec",
+            "--ignore-user-config",
+            "--ignore-rules",
+            "--ephemeral",
+            "--skip-git-repo-check",
+            "--sandbox",
+            "read-only",
+            "--json",
+            "--color",
+            "never",
+            "--disable",
+            "shell_tool",
+            "--disable",
+            "unified_exec",
+            "--disable",
+            "code_mode",
+            "--disable",
+            "code_mode_host",
+            "--disable",
+            "computer_use",
+            "--disable",
+            "browser_use",
+            "--disable",
+            "browser_use_external",
+            "--disable",
+            "browser_use_full_cdp_access",
+            "--disable",
+            "in_app_browser",
+            "--disable",
+            "image_generation",
+            "--disable",
+            "view_image",
+            "--disable",
+            "artifact",
+            "--disable",
+            "apps",
+            "--disable",
+            "plugins",
+            "--disable",
+            "plugin_sharing",
+            "--disable",
+            "hooks",
+            "--disable",
+            "multi_agent",
+            "--disable",
+            "multi_agent_v2",
+            "--disable",
+            "skill_search",
+            "--disable",
+            "workspace_dependencies",
+            "--disable",
+            "shell_snapshot",
+            "--disable",
+            "memories",
+            "--disable",
+            "sleep_tool",
+            "--disable",
+            "goals",
+            "--disable",
+            "remote_plugin",
+            "--disable",
+            "tool_suggest",
+            "-c",
+            "web_search=\"disabled\"",
+            "-c",
+            "mcp_servers={}",
+            "-c",
+            "project_doc_max_bytes=0",
+            "-c",
+            "skills.include_instructions=false",
+            "-c",
+            "model_reasoning_effort=\"high\"",
+            "--output-schema",
+            "<private temporary directory>/response-schema.json",
+            "--model",
+            "gpt-6-astra",
+            "-"
+          ],
+          "auth_mode": "cli_managed",
+          "cli_version": "0.154.0",
+          "descendant_termination": "process_group",
+          "executable": "codex",
+          "isolation": "CLI capability restrictions; installed executable and administrator policy remain trusted",
+          "provider": "codex_cli",
+          "repository_working_directory": false,
+          "request_bytes": 13038,
+          "request_sha256": "25858b8f53c0154fa6623d078ec0664e3af0b39f848be384f8afd22d02171ae3",
+          "requested_model": "gpt-6-astra",
+          "response_bytes": 8992,
+          "response_sha256": "6f3fc8cab4b98491cdf5595e5ad8a54712631bbd2e30a90755706e63a03cb66d",
+          "stage": "investigation",
+          "startup_warnings": [
+            "codex_code_mode_intentionally_disabled"
+          ],
+          "structured_output_requested": true,
+          "token_budget_enforced": false,
+          "token_optimization": {
+            "bytes_saved": 217,
+            "engine": "headroom",
+            "evidence_preserved": true,
+            "fallback_reason": null,
+            "headroom_version": "0.37.0",
+            "original_payload_sha256": "fef90c36b03e704010dd2d0f22ed8210253f81ad2ccbf1c667644336f0aef700",
+            "payload_bytes_after": 6506,
+            "payload_bytes_before": 6723,
+            "requested": "headroom",
+            "schema_version": "1.0",
+            "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+            "sent_payload_sha256": "f3f8e27151b16bad0c28413ea724b542adea75b68a6089ec49969fba31af4456",
+            "status": "optimized",
+            "token_savings_measured": false
+          },
+          "tools_policy": "disabled_for_advisory_review",
+          "transport": "official_cli"
+        },
+        "control_ids": [
+          "EXEC-05"
+        ],
+        "controls_submitted": 1,
+        "evidence_ids": [
+          "src-1c85609fb313cbfd95eb25cd",
+          "src-ea8f5ad7a1e9b55c0a223d85",
+          "src-6a02164f7498f198ded37c26",
+          "src-c76b9846c312b1d8e2392d1c"
+        ],
+        "investigation_response": "conclusions",
+        "investigation_round": 1,
+        "model": "gpt-6-astra",
+        "omitted_checks": 0,
+        "omitted_controls": 0,
+        "payload_sha256": "f3f8e27151b16bad0c28413ea724b542adea75b68a6089ec49969fba31af4456",
+        "protocol_version": "1.2.0",
+        "provider": "codex_cli",
+        "status": "completed",
+        "structured_analysis_checks": 2,
+        "token_optimization": {
+          "bytes_saved": 217,
+          "engine": "headroom",
+          "evidence_preserved": true,
+          "fallback_reason": null,
+          "headroom_version": "0.37.0",
+          "original_payload_sha256": "fef90c36b03e704010dd2d0f22ed8210253f81ad2ccbf1c667644336f0aef700",
+          "payload_bytes_after": 6506,
+          "payload_bytes_before": 6723,
+          "requested": "headroom",
+          "schema_version": "1.0",
+          "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+          "sent_payload_sha256": "f3f8e27151b16bad0c28413ea724b542adea75b68a6089ec49969fba31af4456",
+          "status": "optimized",
+          "token_savings_measured": false
+        }
+      }
+    ],
+    "routing_policy": "Every active selected acceptance check, including static no-match, parse/coverage uncertainty, and checks with no deterministic rule: static patterns cannot establish completion; justified and disabled checks are excluded without being marked passed.",
+    "status": "completed"
+  },
+  "assessment": {
+    "coverage_attention": [],
+    "finding_groups": [],
+    "guidance": {
+      "catalog_version": "1.0.0",
+      "reviewed_at": "2026-09-19",
+      "sha256": "1bd48fd16d4fe76ae3ccd1cacddce9bea2dedd0000856d61b21ffb8ba8c5dd7b",
+      "source_registry_sha256": "89fafd809356f5b062f9ea52eb5d99531902bc5bb59c34f4695d2838ad826105"
+    },
+    "immediate_actions": [],
+    "method": "deterministic_guidance",
+    "metrics": {
+      "active_checks": 2,
+      "active_rules": 1,
+      "affected_files": 0,
+      "checks_total": 2,
+      "controls_requiring_validation": 1,
+      "controls_total": 1,
+      "coverage_gaps": 0,
+      "disabled_checks": 0,
+      "disabled_controls": 0,
+      "disabled_findings": 0,
+      "disabled_rules": 0,
+      "excluded_controls": 0,
+      "files_scanned": 2,
+      "justified_checks": 0,
+      "justified_controls": 0,
+      "justified_findings": 0,
+      "justified_rules": 0,
+      "mixed_excluded_controls": 0,
+      "open_findings": 0,
+      "suppressed_findings": 0,
+      "urgent_findings": 0
+    },
+    "posture": {
+      "code": "no_patterns_detected",
+      "explanation": "The selected static scope completed without a detector match. This is not a security pass. Review the unassessed boundaries and validate the controls below.",
+      "title": "No configured risk patterns detected"
+    },
+    "priority_basis": "P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.",
+    "schema_version": "1.0",
+    "themes": [],
+    "unknowns": [
+      "Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.",
+      "Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.",
+      "Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.",
+      "No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope."
+    ]
+  },
+  "configuration": {
+    "default_excluded_directories": [
+      ".cache",
+      ".git",
+      ".hg",
+      ".mypy_cache",
+      ".next",
+      ".pytest_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      "__pycache__",
+      "build",
+      "coverage",
+      "dist",
+      "node_modules",
+      "vendor",
+      "venv"
+    ],
+    "exclude": [],
+    "explicit_exclusion_identity_scope": "Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.",
+    "explicit_exclusion_matching": "resolved_paths_and_snapshot_filesystem_identities",
+    "generated_outputs_and_judge_config_excluded": true,
+    "max_entries": 100000,
+    "max_file_bytes": 1000000,
+    "max_files": 20000,
+    "max_total_bytes": 50000000,
+    "requested_scan_ids": [
+      "EXEC-05"
+    ],
+    "selected_control_ids": [
+      "EXEC-05"
+    ],
+    "selected_rule_ids": [
+      "AI014"
+    ]
+  },
+  "controls": [
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI014"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect.",
+        "Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-05",
+      "source_ids": [
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Prevent SSRF and unsafe network destinations",
+      "validation": "hybrid"
+    }
+  ],
+  "coverage": {
+    "analysis_profiles": {
+      "configuration_lexical": {
+        "files": 0,
+        "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+      },
+      "generic_text": {
+        "files": 0,
+        "scope": "Generic secret/URL signals, bounded English skill/instruction directives and selected Spanish/French/German override forms; no general translation. Language-specific execution/dataflow is not analyzed."
+      },
+      "javascript_lexical": {
+        "files": 0,
+        "scope": "Bounded JavaScript/TypeScript tokens, calls, configuration and direct-return function-wrapper summaries; not a full JS/TS parser or control-flow analysis."
+      },
+      "json_structured": {
+        "files": 0,
+        "scope": "Parsed JSON/JSONC fields, selected configuration rules and recognized tool/input-schema descriptions; runtime values and referenced files are not resolved."
+      },
+      "python_ast": {
+        "files": 2,
+        "scope": "Python AST, bounded aliases/values, selected same-file argument/return flow, exact literal guards and read-only tool write witnesses; no whole-program or runtime proof."
+      }
+    },
+    "errors": [],
+    "limitations": [
+      "Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.",
+      "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.",
+      "No dependencies are installed, target code executed, services contacted, or CVE feed queried.",
+      "Default excluded directories and unsupported files remain outside the selected scan scope.",
+      "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.",
+      "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."
+    ],
+    "rules_enabled": [
+      "AI014"
+    ],
+    "selection": {
+      "catalog_controls": 66,
+      "catalog_rules": 47,
+      "execution": "Selected rule findings and control review only; shared bounded file, syntax, metadata and integrity checks still run and preserve operational gaps.",
+      "requested_scan_ids": [
+        "EXEC-05"
+      ],
+      "selected_control_ids": [
+        "EXEC-05"
+      ],
+      "selected_rule_ids": [
+        "AI014"
+      ]
+    },
+    "skipped": [],
+    "unmatched_baseline_ids": []
+  },
+  "execution": {
+    "exit_code": 0,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "files": [
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 444,
+      "path": "agent.py",
+      "sha256": "3f8ad0be3946f65cce7217f596f63de4fa2bde0cd62d8f397702d7bd83c1c199"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 799,
+      "path": "delivery.py",
+      "sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c"
+    }
+  ],
+  "findings": [],
+  "inventory": {
+    "agent_mcp_signals": [],
+    "dependency_manifests": [],
+    "extensions": {
+      ".py": 2
+    },
+    "skill_instruction_files": [],
+    "skill_manifests": []
+  },
+  "judge": {
+    "adapter_version": "1.3.0",
+    "additional_concern_actions": [],
+    "additional_concerns": [],
+    "advisory_only": true,
+    "assessments": [],
+    "cli": {
+      "arguments": [
+        "-a",
+        "never",
+        "exec",
+        "--ignore-user-config",
+        "--ignore-rules",
+        "--ephemeral",
+        "--skip-git-repo-check",
+        "--sandbox",
+        "read-only",
+        "--json",
+        "--color",
+        "never",
+        "--disable",
+        "shell_tool",
+        "--disable",
+        "unified_exec",
+        "--disable",
+        "code_mode",
+        "--disable",
+        "code_mode_host",
+        "--disable",
+        "computer_use",
+        "--disable",
+        "browser_use",
+        "--disable",
+        "browser_use_external",
+        "--disable",
+        "browser_use_full_cdp_access",
+        "--disable",
+        "in_app_browser",
+        "--disable",
+        "image_generation",
+        "--disable",
+        "view_image",
+        "--disable",
+        "artifact",
+        "--disable",
+        "apps",
+        "--disable",
+        "plugins",
+        "--disable",
+        "plugin_sharing",
+        "--disable",
+        "hooks",
+        "--disable",
+        "multi_agent",
+        "--disable",
+        "multi_agent_v2",
+        "--disable",
+        "skill_search",
+        "--disable",
+        "workspace_dependencies",
+        "--disable",
+        "shell_snapshot",
+        "--disable",
+        "memories",
+        "--disable",
+        "sleep_tool",
+        "--disable",
+        "goals",
+        "--disable",
+        "remote_plugin",
+        "--disable",
+        "tool_suggest",
+        "-c",
+        "web_search=\"disabled\"",
+        "-c",
+        "mcp_servers={}",
+        "-c",
+        "project_doc_max_bytes=0",
+        "-c",
+        "skills.include_instructions=false",
+        "-c",
+        "model_reasoning_effort=\"high\"",
+        "--output-schema",
+        "<private temporary directory>/response-schema.json",
+        "--model",
+        "gpt-6-astra",
+        "-"
+      ],
+      "auth_mode": "cli_managed",
+      "cli_version": "0.154.0",
+      "descendant_termination": "process_group",
+      "executable": "codex",
+      "isolation": "CLI capability restrictions; installed executable and administrator policy remain trusted",
+      "provider": "codex_cli",
+      "repository_working_directory": false,
+      "request_bytes": 3396,
+      "request_sha256": "07f23c33ca00a89807c04ab5954dc222c8bbb9bf6c5c2c9986ef4d33529385c9",
+      "requested_model": "gpt-6-astra",
+      "response_bytes": 655,
+      "response_sha256": "f779930b876f5b78e85dbaf568422318f563240f5b7a780babc1231b018af62b",
+      "stage": "findings",
+      "startup_warnings": [
+        "codex_code_mode_intentionally_disabled"
+      ],
+      "structured_output_requested": true,
+      "token_budget_enforced": false,
+      "token_optimization": {
+        "bytes_saved": 44,
+        "engine": "headroom",
+        "evidence_preserved": true,
+        "fallback_reason": null,
+        "headroom_version": "0.37.0",
+        "original_payload_sha256": "3376aade7785df1a0afe1423b2b04e48415eb95524e93f74a941e22858041be6",
+        "payload_bytes_after": 1182,
+        "payload_bytes_before": 1226,
+        "requested": "headroom",
+        "schema_version": "1.0",
+        "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+        "sent_payload_sha256": "efd0f5b1025ed343d0da64453c6b1074f5b4c8ab412c57f5bdbd0d9bbab2eb9b",
+        "status": "optimized",
+        "token_savings_measured": false
+      },
+      "tools_policy": "disabled_for_advisory_review",
+      "transport": "official_cli"
+    },
+    "data_policy": "Caller-supplied minimized payload; source excerpts require separate CLI opt-in.",
+    "enabled": true,
+    "findings_submitted": 0,
+    "mode": "full",
+    "model": "gpt-6-astra",
+    "nondeterministic": true,
+    "omitted_assessments": 0,
+    "omitted_open_findings": 0,
+    "provider": "codex_cli",
+    "selected_findings": 0,
+    "source_context_requested": false,
+    "source_context_sent_count": 0,
+    "source_context_skipped": [],
+    "status": "completed",
+    "token_optimization": {
+      "bytes_saved": 44,
+      "engine": "headroom",
+      "evidence_preserved": true,
+      "fallback_reason": null,
+      "headroom_version": "0.37.0",
+      "original_payload_sha256": "3376aade7785df1a0afe1423b2b04e48415eb95524e93f74a941e22858041be6",
+      "payload_bytes_after": 1182,
+      "payload_bytes_before": 1226,
+      "requested": "headroom",
+      "schema_version": "1.0",
+      "scope": "Evidence JSON only; excludes instructions, response schemas and provider wrappers",
+      "sent_payload_sha256": "efd0f5b1025ed343d0da64453c6b1074f5b4c8ab412c57f5bdbd0d9bbab2eb9b",
+      "status": "optimized",
+      "token_savings_measured": false
+    }
+  },
+  "methodology": {
+    "areas": [
+      {
+        "area": "Execution and data flow",
+        "can_miss_or_misclassify": "Cross-file flows, unknown decorators/methods, complex JavaScript wrappers, dynamic imports, reflection, generated code and runtime values can hide a risk. Recognized resource/binding failures remain gaps. A dangerous API can be intentional and correctly constrained.",
+        "deterministic": "Python AST checks propagate selected registered-tool inputs and same-file arguments/returns, retain aliases and exact literal constraints, and check selected execution/file/network sinks. JavaScript tokens support narrow registerTool callbacks and direct-return named/arrow wrappers. Explicit world-writable chmod modes are checked.",
+        "optional_review": "A model can form a trust-boundary hypothesis, request bounded captured source ranges to inspect callers or guards, seek counterevidence and explain what the supplied code still cannot establish.",
+        "runtime_or_human_validation": "Exercise actual entry points with authorized negative tests; verify input provenance, execution privileges and sandbox boundaries."
+      },
+      {
+        "area": "MCP identity, authorization and tools",
+        "can_miss_or_misclassify": "Configuration may differ from deployment. External gateways, identity providers, token audience checks and tenant boundaries may be absent from retrieved evidence.",
+        "deterministic": "Selected configuration/code signals flag insecure transport, explicit authentication bypass, token passthrough, broad tool grants and unpinned server launch packages.",
+        "optional_review": "A model can review supplied authorization logic, tool descriptions and trust-boundary evidence for missing assumptions or inconsistent checks.",
+        "runtime_or_human_validation": "Test expired/wrong-audience tokens, cross-tenant access, per-tool authorization, consent binding and the deployed MCP transport."
+      },
+      {
+        "area": "Prompt injection, retrieval and memory",
+        "can_miss_or_misclassify": "Adaptive attacks, multi-turn interactions and tool chains depend on runtime behavior. Retrieval can omit the relevant code; a model can overlook an attack or be influenced by hostile evidence.",
+        "deterministic": "Selected patterns identify external content placed in privileged model messages and explicit approval/sandbox bypass. This is not an attack simulation.",
+        "optional_review": "A model can reason about untrusted-content handling, persistent memory, tool-output influence and missing approval boundaries in the supplied excerpts.",
+        "runtime_or_human_validation": "Run isolated adversarial agent/MCP evaluations with attack-success and legitimate-task measurements, plus human review of consequential actions."
+      },
+      {
+        "area": "Secrets and data handling",
+        "can_miss_or_misclassify": "Encoded, split or runtime-fetched credentials can be missed; labels/test values can resemble secrets. Neither layer establishes whether a credential is live or redaction is complete.",
+        "deterministic": "Selected literal credentials, plausible private-key material, credential-bearing URLs, logging patterns and browser credential exposure are flagged and redacted best-effort.",
+        "optional_review": "A model can identify sensitive data flows and retention concerns when the supplied evidence explains their context.",
+        "runtime_or_human_validation": "Verify secret stores, credential rotation, logging/retention policy, egress destinations and actual data-access permissions."
+      },
+      {
+        "area": "Skills and malicious-tool indicators",
+        "can_miss_or_misclassify": "A pattern is risk evidence, not proof of malicious authorship. Obfuscation, remote references, external packages, omitted context and runtime behavior can evade either layer.",
+        "deterministic": "Bounded skill/tool/schema descriptions are checked for instruction hijacking, sensitive-data transfer, covert or approval-bypassing actions. Selected Spanish/French/German overrides and paired authority claims supplement English predicates. Python read-only tool annotations are compared with recognized direct write witnesses.",
+        "optional_review": "A model can review intent, indirect social engineering, skill reference context and tool behavior visible in retrieved evidence, including cases where syntax or supported patterns are inconclusive.",
+        "runtime_or_human_validation": "Inspect publisher provenance and the exact installed skill/tool; test consequential actions in an authorized isolated environment and verify effective permissions."
+      },
+      {
+        "area": "Built images and supply chain",
+        "can_miss_or_misclassify": "Compiled logic, live deployment overrides, signature trust and dependency CVEs are not assessed. Package inventory and archive consistency do not establish safety or publisher identity.",
+        "deterministic": "Image archives are reconstructed without starting containers; supported packaged source, metadata, retained credentials, stored permissions and package inventories are inspected.",
+        "optional_review": "A model can interpret supplied image/source evidence, flag missing deployment context and propose verification work.",
+        "runtime_or_human_validation": "Use vulnerability/advisory analysis, provenance/signature verification and deployment testing alongside the static image assessment."
+      },
+      {
+        "area": "Operations and control effectiveness",
+        "can_miss_or_misclassify": "A valid citation proves that a quote exists, not that the model's interpretation is correct. Policies, external services, incident procedures and production outcomes may be unavailable.",
+        "deterministic": "The catalog retains governance, monitoring, recovery, approval and isolation checks even where no deterministic rule maps to them.",
+        "optional_review": "Full review queues every active acceptance check and can identify evidence gaps or propose runtime/human validation; it can cite exact submitted source text.",
+        "runtime_or_human_validation": "Record owner-reviewed evidence, operational exercises and runtime results. A written justification remains an accepted exception, never an automatically validated pass."
+      }
+    ],
+    "catalog": {
+      "available_controls": 66,
+      "available_rules": 47,
+      "checks": 2,
+      "controls": 1,
+      "controls_without_static_mapping": 0,
+      "rules": 1,
+      "statically_mapped_controls": 1
+    },
+    "interpretation": "Mapping counts describe available checks, not percent secure, detection accuracy or validated control effectiveness.",
+    "purpose": "Find repeatable security patterns and organize the remaining assurance work for agents, MCP servers, skills and built images.",
+    "rule_inventory": [
+      {
+        "category": "ssrf",
+        "id": "AI014",
+        "severity": "medium",
+        "title": "Externally influenced outbound request"
+      }
+    ],
+    "schema_version": "1.0",
+    "workflow": [
+      "Choose an explicit code/image target and scan configuration; no target code or container is started.",
+      "Collect bounded deterministic evidence, record hashes, rule matches, exclusions and coverage gaps.",
+      "When explicitly enabled, select bounded evidence for finding triage and every active control check; findings-only mode narrows this step.",
+      "Run advisory requests under fixed limits. The default full analyst may request only validated file-ID/line ranges from an already captured, hash-verified snapshot; no arbitrary file reads or target tools execute. Validate response schemas, known identifiers and exact quotes.",
+      "Retain unsupported claims and runtime/human requirements; record user review decisions separately from model advice.",
+      "Import an explicitly selected reviewed report with a fresh target scan; revalidate evidence bindings, retain stale decisions for audit and recompute the result."
+    ]
+  },
+  "mode": "deterministic_static",
+  "remediation": {},
+  "review_workspace": {
+    "items": [
+      {
+        "binding_sha256": "fd831b2d29a514ba09a917ddc9ad117f06287052030abc3272a928e2e58aff0d",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-05:1 Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect."
+      },
+      {
+        "binding_sha256": "a733931c250c834626baefc91c10f32a139dd325c5fd295fe6713285d66cc4b3",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-05:2 Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."
+      }
+    ],
+    "kind": "invarune_review",
+    "origin": {
+      "catalog_sha256": "468d22dfd1b6de6081998eaf5a73e05d6bba97aefcd186fce5633392535fbb9f",
+      "configuration": {
+        "default_excluded_directories": [
+          ".cache",
+          ".git",
+          ".hg",
+          ".mypy_cache",
+          ".next",
+          ".pytest_cache",
+          ".svn",
+          ".tox",
+          ".venv",
+          "__pycache__",
+          "build",
+          "coverage",
+          "dist",
+          "node_modules",
+          "vendor",
+          "venv"
+        ],
+        "exclude": [],
+        "generated_outputs_and_judge_config_excluded": true,
+        "max_entries": 100000,
+        "max_file_bytes": 1000000,
+        "max_files": 20000,
+        "max_total_bytes": 50000000,
+        "requested_scan_ids": [
+          "EXEC-05"
+        ],
+        "selected_control_ids": [
+          "EXEC-05"
+        ],
+        "selected_rule_ids": [
+          "AI014"
+        ]
+      },
+      "evidence_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "image_limits": {},
+      "manifest_sha256": "998febdd04741eaa52250542d70cbb578ba602982cd9faedea4a151be69c7005",
+      "scan_id": "da4d62e183b5547b3271a025705316305a4112899c8b700c67c7ba3805b003dd",
+      "scope_sha256": "41c6e1347c906671678303fd38e8ead3f6e3bb61445397b9274b2aed9f4a235e",
+      "target": {
+        "description": "Selected source directory; paths are relative.",
+        "kind": "source",
+        "platform": ""
+      },
+      "tool": {
+        "implementation_sha256": "525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b",
+        "name": "agent-mcp-security-scan",
+        "version": "0.15.0"
+      }
+    },
+    "schema_version": "1.0"
+  },
+  "run_configuration": {
+    "optional_review": {
+      "analyst_limits": {
+        "batch_size": 1,
+        "investigation_rounds": 2,
+        "max_bytes": 2000000,
+        "max_calls": 3,
+        "max_chars": 120000,
+        "max_files": 200,
+        "max_seconds": 900.0
+      },
+      "cli_login": "never",
+      "cli_timeout_seconds": 300.0,
+      "effective_transport": {
+        "max_request_bytes": 524288,
+        "max_response_bytes": 1048576,
+        "model": "gpt-6-astra",
+        "provider": "codex_cli",
+        "timeout_seconds": 300.0,
+        "token_optimizer": "headroom"
+      },
+      "enabled": true,
+      "findings_limit": 100,
+      "include_finding_source": false,
+      "mode": "full",
+      "provider": "codex_cli",
+      "transport_replay": "Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay."
+    },
+    "reporting": {
+      "failure_threshold": "high",
+      "formats": [
+        "html",
+        "markdown",
+        "json",
+        "sarif",
+        "pdf"
+      ]
+    },
+    "review_inputs": {
+      "baseline": false,
+      "review_config": false,
+      "review_report": false
+    },
+    "schema_version": "1.0"
+  },
+  "scan_id": "da4d62e183b5547b3271a025705316305a4112899c8b700c67c7ba3805b003dd",
+  "schema_version": "1.0",
+  "scoring": {
+    "deterministic": {
+      "active_checks": 2,
+      "active_controls": 1,
+      "active_rules": 1,
+      "coverage_gaps": 0,
+      "disabled_checks": 0,
+      "disabled_findings": 0,
+      "disabled_rules": 0,
+      "justified_checks": 0,
+      "justified_findings": 0,
+      "justified_rules": 0,
+      "mapping_reach": {
+        "denominator": 1,
+        "numerator": 1,
+        "percent": 100.0
+      },
+      "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+      "open_by_severity": {
+        "critical": 0,
+        "high": 0,
+        "info": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "open_findings": 0,
+      "selected_controls": 1,
+      "selected_rules": 1,
+      "selected_scope_complete": true,
+      "suppressed_findings": 0,
+      "urgent_findings": 0
+    },
+    "exclusions": "Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.",
+    "gate": "The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.",
+    "optional_ai": {
+      "additional_concerns": 0,
+      "answer_coverage": {
+        "denominator": 2,
+        "numerator": 2,
+        "percent": 100.0
+      },
+      "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+      "changes_deterministic_result": false,
+      "check_outcomes": {
+        "insufficient_evidence": 1,
+        "needs_human_review": 0,
+        "needs_runtime_validation": 0,
+        "not_applicable_proposed": 0,
+        "not_reviewed": 0,
+        "potential_gap": 1,
+        "supported_by_code": 0
+      },
+      "control_review_status": "completed",
+      "enabled": true,
+      "finding_review_status": "completed",
+      "ignored_answer_records": 0,
+      "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+    },
+    "overall_security_score": null,
+    "overall_security_score_reason": "No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.",
+    "schema_version": "1.0"
+  },
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 1243,
+    "bytes_read": 1243,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 2,
+    "open_findings": 0,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 0,
+      "medium": 0
+    },
+    "suppressed_findings": 0
+  },
+  "target": ".",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.15.0"
+  }
+}

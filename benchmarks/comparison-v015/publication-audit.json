@@ -1,0 +1,39 @@
+{
+  "experiment": "comparison-v015",
+  "final_implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+  "focused_publication_and_comparison_tests": {
+    "failures": 0,
+    "tests": 61
+  },
+  "historical_comparison_and_original_corpus_bytes_unchanged": true,
+  "ledger_native_raw_reports_verified": true,
+  "limits": "This publication check is not a security guarantee. Native checksum false positives are retained rather than represented as a clean tool run.",
+  "published_paths_contain_no_local_workspace_or_home": true,
+  "report_bytes_verified_against_both_real_repeats": true,
+  "report_files": 32,
+  "schema_version": "1.0",
+  "secret_scan": {
+    "exit_code": 1,
+    "native_observations": 2,
+    "raw_redacted_report_sha256": "7c7cd64ab2b444a1f3460e3a15fd9c16faf88f410ed0c474fa4b984ce297ca18",
+    "reviewed": [
+      {
+        "judgment": "checksum_false_positive",
+        "line": 38,
+        "path": "benchmarks/comparison-v015/confirmation-first-freeze.json",
+        "reason": "The matched value is an actual recorded SHA-256 of a source or YARA rule file, not a credential. No value redacted from provenance.",
+        "rule_id": "generic-api-key"
+      },
+      {
+        "judgment": "checksum_false_positive",
+        "line": 12,
+        "path": "benchmarks/comparison-v015/tool-byte-verification.json",
+        "reason": "The matched value is an actual recorded SHA-256 of a source or YARA rule file, not a credential. No value redacted from provenance.",
+        "rule_id": "generic-api-key"
+      }
+    ],
+    "scope": "benchmarks/comparison-v015",
+    "tool": "Gitleaks",
+    "version": "8.30.1"
+  }
+}

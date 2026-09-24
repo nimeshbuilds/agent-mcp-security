@@ -2,11 +2,17 @@
 
 Invarune includes repeatable accuracy evaluation for its bounded Python, JavaScript/TypeScript and configuration checks. Determinism means repeatable results for stable inputs. It does **not** mean zero false positives or false negatives. The scanner identifies reviewable source patterns; it does not prove vulnerabilities or certify control effectiveness.
 
-## Current v0.14 scope
+## Current v0.15 scope
 
-The original 113 assertions remain unchanged and cover the original 42 rules; [fresh paired results](../benchmarks/comparison-v014/accuracy-after.json) preserve that denominator. The separate [skill/tool corpus](../benchmarks/skills_tools_accuracy.json) adds 81 cases and 331 explicit assertions, including safe/negated/quoted examples, supported obfuscation and deliberately unsupported semantic/language challenges. Its [actual evaluation](../benchmarks/comparison-v014/skills-tools-accuracy.json) and dedicated emitter-mutation tests cover AI043–AI046 without diluting the historical pair. Source-pattern truth does not establish malicious intent or exploitability.
+The original **113 assertions** remain unchanged and cover the original 42 rules. The [paired v0.15 results](../benchmarks/comparison-v015/before-after-accuracy.json) preserve that denominator. The original [81-case / 331-assertion skill/tool corpus](../benchmarks/skills_tools_accuracy.json) is also evaluated unchanged. An explicit [revision](../benchmarks/skills_tools_accuracy-v110.json) corrects exactly one old scope label for a hierarchy override inside a model-visible tool-schema description; all 81 source inputs are identical. Both old-label and corrected-label results are published, never silently substituted.
 
-New integration tests cover selected source/image scans, zero-detector review plans, exact replay scope, terminal injection resistance, bounded local skill links and optional AI review of inconclusive syntax. These tests establish their specified cases; no finite suite guarantees zero false positives or negatives.
+New source-flow and file-permission cases are in a [separate development corpus](../benchmarks/callflow_permissions_accuracy.json); instruction extensions have [their own cases](../benchmarks/instruction_extensions-v015.json). No additional passing case dilutes an older denominator. AI047 checks explicit other-write permission bits on recognized Python filesystem permission calls. AI014/AI015 expansion follows bounded supported tool-entrypoint and helper-call dataflow; arbitrary programs remain outside a proof of safety.
+
+The [32-case challenge](../benchmarks/comparison-v015/CHALLENGE.md) was sealed by a separate benchmark assistant before the first candidate freeze. That first candidate found four of 16 risky cases and missed 12, with all 16 negative cases correct. The result exposed a real tool-entrypoint gap. Once labels were disclosed, subsequent fixes and scores became **development** results. A further **eight-case sealed confirmation** is separate. This within-project separation is not third-party independent validation or representative production sampling.
+
+The final original-source result is 60 TP / 53 TN / 0 FP / 0 FN. The original skill labels retain 43 TP / 287 TN / 1 FP / 0 FN; the separate one-label revision yields 44 TP / 287 TN / 0 FP / 0 FN. The disclosed 32-case development rerun yields 16 TP / 16 TN / 0 FP / 0 FN. The first eight-case confirmation still has 2 TP / 4 TN / 0 FP / 2 FN: a `.env` contents-transfer instruction and a system-message hierarchy override are missed. A release repeat after report-presentation-only changes has identical outcomes. All denominators remain separate.
+
+All failures, analysis errors and unsupported evidence remain in the published records. Neither a perfect result on one finite corpus nor the optional analyst's agreement proves zero false positives or negatives. Model review cannot erase deterministic findings or manufacture runtime evidence.
 
 ## Reproduce the measurements
 
@@ -27,10 +33,10 @@ The corpus contains **113 labeled cases**: **105 regression cases** and **8 chal
 The project authored this synthetic corpus. It is not an independent industry benchmark, representative production sample, or exploitability test. Examples were selected to probe API semantics and known difficult boundaries, so percentages cannot be interpreted as production accuracy. Fixes were developed against some of these cases; this is a regression corpus, not a held-out evaluation. Use a separate labeled sample of your own repositories before setting organization-wide severity gates.
 
 - [Corpus, labels, rationale, and provenance](../benchmarks/static_accuracy.json)
-- [Current v0.14 paired before/after results and every mismatch](../benchmarks/comparison-v014/README.md)
+- [Current v0.15 paired before/after results and every mismatch](../benchmarks/comparison-v015/README.md)
 - [Historical v0.10 readable results](../benchmarks/accuracy-current.md)
-- [Current v0.14 JSON with per-rule confusion counts](../benchmarks/comparison-v014/accuracy-after.json)
-- [Frozen v0.13 baseline on identical labels](../benchmarks/comparison-v014/accuracy-before.json)
+- [Current v0.15 JSON with per-rule confusion counts](../benchmarks/comparison-v015/accuracy-after.json)
+- [Frozen v0.14 baseline on identical labels](../benchmarks/comparison-v015/accuracy-before.json)
 - [Historical v0.12-to-v0.13 detector comparison](../benchmarks/comparison-v013/README.md)
 - [Historical v0.10 scanner on unchanged 1.1.0 labels](../benchmarks/accuracy-previous-corpus.md), including the historical incorrect AI041 label
 - [Preserved v0.9.0 results on corpus 1.1.0](../benchmarks/accuracy-v090-current.md)
@@ -61,7 +67,7 @@ Precision is TP / (TP + FP), and recall is TP / (TP + FN). The unit is **explici
 
 ## v0.13 fixes developed from benchmark evidence
 
-The [historical v0.13 comparison](../benchmarks/comparison-v013/README.md) froze the original 113-case corpus and v0.12 implementation, then executed both versions independently. No label, case, pinned revision or exported source file was removed to improve the result. The current [dashboard](BENCHMARK_DASHBOARD.md) presents the v0.13-to-v0.14 pair and remaining cases; the linked historical receipt retains the earlier improvement.
+The [historical v0.13 comparison](../benchmarks/comparison-v013/README.md) froze the original 113-case corpus and v0.12 implementation, then executed both versions independently. No label, case, pinned revision or exported source file was removed to improve the result. The current [dashboard](BENCHMARK_DASHBOARD.md) presents the current v0.14-to-v0.15 pair and remaining cases; the linked historical receipt retains the earlier improvement.
 
 Rules now recognize bounded literal `getattr` attributes, supported preceding or direct YAML literal anchors, and a direct shell `-c` argument supplied by a download substitution. YAML scalar bodies are treated as data for configuration-key checks. Within recognized block-mapping fields, unknown/forward/complex security-field aliases remain explicit coverage gaps. Paired tests cover shadowing, quoted scalar data, anchor redefinitions, malformed references, downloader output modes and inert shell strings/heredocs.
 
@@ -91,7 +97,9 @@ Existing tests retain real local HTTP/TLS gateway checks, offline-only defaults,
 
 ## Remaining limitations
 
-The current v0.14 paired run retains the v0.13 misses involving cross-function URL flow and JavaScript wrapper propagation, plus the false alarm involving a URL equality guard that needs path-sensitive constraint analysis. Both versions produce 58 TP, 52 TN, 1 FP and 2 FN on these same 113 assertions; no new accuracy gain is claimed on that corpus. The supported constant-reflection, preceding literal YAML anchor, scalar-body and direct downloaded shell-command cases now have bounded detectors and paired tests. Arbitrary reflection, full YAML semantics and general shell expansion remain outside those subsets. A source placeholder cannot establish its deployed value.
+The original v0.14 pair retained three difficult assertions: local-helper URL flow, a JavaScript wrapper, and a constrained URL branch. v0.15 adds bounded argument binding and reject-path handling, and publishes the exact same-label outcomes. The harder challenge deliberately keeps further gaps visible; [all source and instruction cases](../benchmarks/comparison-v015/CHALLENGE.md) remain reviewable after disclosure. A recognized constraint can reduce a static suspicion without proving runtime DNS, redirect or filesystem behavior.
+
+General reflection, full YAML semantics, arbitrary shell expansion and source placeholders still require evidence beyond these bounded subsets. Unrecognized or incomplete flow is not a clean control pass.
 
 Other unresolved cases include cross-module execution, dynamic imports, monkey patches and prototype mutation, complex heap aliases, full loop fixed-point analysis, uncommon JS/TS grammar, unsupported languages, deployment reachability, and sanitizer effectiveness. Generic secret heuristics may flag example data or miss unusual secrets. A rule firing on a dangerous API may be a correct pattern detection even when trusted inputs make exploitation impossible.
 

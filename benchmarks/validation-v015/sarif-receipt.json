@@ -1,0 +1,309 @@
+{
+  "command_exit": 0,
+  "files_validated": 28,
+  "groups": {
+    "local_installed_review_workflow": 14,
+    "published_earlier_presentation_examples": 3,
+    "published_examples": 3,
+    "published_pinned_projects": 8
+  },
+  "log_sha256": "b73c51cf72ecd6e108e8986e1f00cd456c595a7ab359792b2709edaa7144a9d6",
+  "recorded_at_utc": "2026-09-24T02:16:46.017819+00:00",
+  "reports": [
+    {
+      "bytes": 6544,
+      "group": "published_examples",
+      "path": "examples/reports/v015/context-codex/report.sarif",
+      "results": 0,
+      "sha256": "35c24d16383d634dd0bfed9fac7c96e0e6c870fad74dd051798d951827171c54",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 6544,
+      "group": "published_examples",
+      "path": "examples/reports/v015/context-static/report.sarif",
+      "results": 0,
+      "sha256": "35c24d16383d634dd0bfed9fac7c96e0e6c870fad74dd051798d951827171c54",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 6544,
+      "group": "published_earlier_presentation_examples",
+      "path": "examples/reports/v015/earlier/context-codex-525747fc/report.sarif",
+      "results": 0,
+      "sha256": "d9a0bc54dcfd6d946135928748f82c2b0f2db0ff7079f5a4d092ffbeaf4c4bbf",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 6544,
+      "group": "published_earlier_presentation_examples",
+      "path": "examples/reports/v015/earlier/context-static-525747fc/report.sarif",
+      "results": 0,
+      "sha256": "d9a0bc54dcfd6d946135928748f82c2b0f2db0ff7079f5a4d092ffbeaf4c4bbf",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 10033,
+      "group": "published_earlier_presentation_examples",
+      "path": "examples/reports/v015/earlier/reference-filesystem-codex-525747fc/report.sarif",
+      "results": 0,
+      "sha256": "ae33f7b58d743354d30d227bb7d5c1b87918ec3043e1818c550b1c3a437c2864",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 10033,
+      "group": "published_examples",
+      "path": "examples/reports/v015/reference-filesystem-codex/report.sarif",
+      "results": 0,
+      "sha256": "c5d783f7c84a0803cf74bda4ba4e81056676029683715e130d732951c926f78c",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 198365,
+      "group": "published_pinned_projects",
+      "path": "benchmarks/comparison-v015/invarune-reports/autogen/report.sarif",
+      "results": 12,
+      "sha256": "0a9e72608003fafb8ab2ac41cbc01062d109983aaae94e858099fac25cd4ac9a",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 315428,
+      "group": "published_pinned_projects",
+      "path": "benchmarks/comparison-v015/invarune-reports/crewai/report.sarif",
+      "results": 27,
+      "sha256": "59120eeee3d55926f75ccd664cb6764f46ac14d79567aeeedfc38730e889fcd2",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 115088,
+      "group": "published_pinned_projects",
+      "path": "benchmarks/comparison-v015/invarune-reports/fastmcp/report.sarif",
+      "results": 0,
+      "sha256": "b307c2933e905bed79d9bfd55baf4fd698bea767402dc5e206dffc0ed9688c19",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 213637,
+      "group": "published_pinned_projects",
+      "path": "benchmarks/comparison-v015/invarune-reports/github-mcp/report.sarif",
+      "results": 15,
+      "sha256": "06b4fb2d281ab534ccb90e75ec009f349251bf0c1f4f27606b0c769d43d67997",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 274709,
+      "group": "published_pinned_projects",
+      "path": "benchmarks/comparison-v015/invarune-reports/langgraph/report.sarif",
+      "results": 23,
+      "sha256": "c48659a1d6075602580e44be7a1c8b1d7635b0968fa96eb0c81a726ba5a38ba7",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 523126,
+      "group": "published_pinned_projects",
+      "path": "benchmarks/comparison-v015/invarune-reports/mcp-reference/report.sarif",
+      "results": 61,
+      "sha256": "687c207dbc9117effdc50fd4674e595cf5570f0c11370f3d38f6c5cdd088bc17",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 177245,
+      "group": "published_pinned_projects",
+      "path": "benchmarks/comparison-v015/invarune-reports/openhands/report.sarif",
+      "results": 9,
+      "sha256": "3e1a5df72cf101517b7f07bb8a331a58364d5b9c3fc0b1dc14ba29051568c83c",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 116570,
+      "group": "published_pinned_projects",
+      "path": "benchmarks/comparison-v015/invarune-reports/pydantic-ai/report.sarif",
+      "results": 0,
+      "sha256": "92d132431d465b520e4548c7a62cfb6e01afd14c9ec1551c57959e86b21f86dd",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 139377,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/image/final-html/report.sarif",
+      "results": 3,
+      "sha256": "e72c6cf963fcda74bff71c83530bf007cdf356e58ada620b303898f2ebbbfcbb",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 139377,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/image/final-json/report.sarif",
+      "results": 3,
+      "sha256": "5a6f80c0064cb66019e824deb3c2a6d28cb652e9a9a677715d038a6ca8c3df85",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 139377,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/image/final-md/report.sarif",
+      "results": 3,
+      "sha256": "b7c7ec6c3d696b3232f8f80cba2ae74ea15b17c74aaf3818cd9061c71cfeae19",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 139377,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/image/final-pdf/report.sarif",
+      "results": 3,
+      "sha256": "e809e4f81c1a30a76aa3157bed87e3decf6cf9b155d8aed74daeb1438b7d5ee1",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 139377,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/image/final-sarif/report.sarif",
+      "results": 3,
+      "sha256": "7ebf54c6b363156fc93648290e73be11331dbf5039b63c4a62a3a370266d3747",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 134202,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/image/initial/report.sarif",
+      "results": 3,
+      "sha256": "4db3c8de3e06129b101613c4e0b34a699ed5f5aa98096ae326474775a018b86f",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 134585,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/image/reviewed.sarif",
+      "results": 3,
+      "sha256": "516c240f941a5ce193e05e0ee6e0176d08a73933249b342d320c21d36b87eaf2",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 194072,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/source/final-html/report.sarif",
+      "results": 11,
+      "sha256": "c5f86367328f682951c28630d8e65616dde06487ce108e1d316a18ab403a1de5",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 194072,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/source/final-json/report.sarif",
+      "results": 11,
+      "sha256": "ff1a11d6f3d00c46b2ca66d3c7b15091687f5b4e82dd011d94544d8ba8606e1a",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 194072,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/source/final-md/report.sarif",
+      "results": 11,
+      "sha256": "193493317072a70e8ec556f05487817e5be39e3e0229c68909ff031ac33500b3",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 194072,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/source/final-pdf/report.sarif",
+      "results": 11,
+      "sha256": "5e382dcd92e297d20d21c6f08ad800a0b07224ffc1523e900ccc333e692a9436",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 194072,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/source/final-sarif/report.sarif",
+      "results": 11,
+      "sha256": "2074a1a91fa4ee3b9794e363f5f9e52ddc0d9e363cde988c25e638557e9643d5",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 188938,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/source/initial/report.sarif",
+      "results": 11,
+      "sha256": "9be5072c275ac7cbde73e942fc88d3f84c2df5e4142919023474635c2fe0cda3",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    },
+    {
+      "bytes": 189321,
+      "group": "local_installed_review_workflow",
+      "path": "tmp/v015-report-review-final/source/reviewed.sarif",
+      "results": 11,
+      "sha256": "ca7b90dd7f31a744c44813e95c3327982351ff1dd191b61151d78667e216f144",
+      "tool_versions": [
+        "0.15.0"
+      ]
+    }
+  ],
+  "scanner_version": "0.15.0",
+  "schema": {
+    "draft": "Draft4",
+    "format_checker_enabled": true,
+    "sha256": "c3b4bb2d6093897483348925aaa73af03b3e3f4bd4ca38cef26dcb4212a2682e",
+    "url": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json"
+  },
+  "schema_version": "1.0",
+  "scope": "All current v0.15 published example SARIF and eight pinned-project reports, plus three archived presentation-candidate examples and fourteen final installed source/image review-workflow SARIF files (twelve generated reports and two edited review inputs). Local workflow outputs remain in tmp; their hashes are recorded. Validation reads existing JSON against the hash-pinned schema without a network fetch or target execution. Schema conformance does not prove all SARIF semantics, client compatibility, detector accuracy or deployed security.",
+  "status": "passed",
+  "validator": {
+    "jsonschema_version": "4.26.0",
+    "path": "scripts/validate_sarif.py",
+    "sha256": "c44a36f59bd16da629d9983f8a0e3d689b3fb9b001663f8f9b654202b7fa0742"
+  }
+}

@@ -1,6 +1,6 @@
 # What Invarune scans
 
-**Invarune by NimeshBuild** inspects AI agents, MCP servers, skills and built Linux images without executing their code or invoking their tools. This is the complete current inventory: **46 deterministic rules**, **66 controls** and **132 acceptance checks**. Ruleset **1.5.0**. The inventory is generated from the catalogs used by <code>invscan --list-scans</code>.
+**Invarune by NimeshBuild** inspects AI agents, MCP servers, skills and built Linux images without executing their code or invoking their tools. This is the complete current inventory: **47 deterministic rules**, **66 controls** and **132 acceptance checks**. Ruleset **1.6.0**. The inventory is generated from the catalogs used by <code>invscan --list-scans</code>.
 
 The default scan is deterministic and needs no model, API key, login or network. Optional AI review adds bounded evidence interpretation for selected controls, including questions that deterministic patterns cannot settle. It can propose additional gaps; its conclusions remain advisory. Neither layer promises that a clean result proves security or that a suspicious tool is malicious.
 
@@ -48,12 +48,12 @@ Without <code>--report</code>, <code>--output</code> or <code>--pdf</code>, the 
 | --- | --- | --- | --- |
 | Deterministic (always) | Applicable selected code/configuration/instruction predicates, bounded source and image processing, redaction, control mapping and integrity checks. | Stable finding IDs, locations, severity, evidence, remediation, explicit coverage errors and control review requirements. | Unrecognized syntax, complete data flow, real reachability, intent and deployed protections. |
 | Optional finding triage | One bounded model review of detected findings; additional source context is controlled by its flags. | Advisory applicability, explanation and recommended follow-up. | Does not search the full repository or establish new deterministic findings. |
-| Optional full control analyst | Deterministically selected excerpts for every active selected acceptance check, including controls without detector matches. Default when AI is enabled. | Cited code support, potential gaps, runtime/human review needs, proposed applicability and missing-evidence outcomes. | Retrieval can miss relevant code and the model can misinterpret evidence. No target execution, autonomous retrieval or runtime tests. |
+| Optional full control analyst | Seed excerpts for every active selected check, followed by optional model-requested file-ID/line ranges served from captured, hash-verified snapshots. Default when AI is enabled. | Cited hypotheses, counterevidence, code support, potential gaps, runtime/human requirements, proposed applicability and missing-evidence outcomes; evidence-request receipts. | Inventory and budgets can omit relevant code; interpretation can be wrong. No arbitrary reads, target execution or runtime tests. |
 | Operator/runtime validation | Separate authorized deployment, adversarial, identity and operational checks. | Evidence and accountable decisions, optionally recorded in editable report fields. | These activities are not performed automatically by either scanner layer. |
 
 Enable AI explicitly with <code>--judge-cli codex</code>, <code>--judge-cli claude</code>, <code>--judge-cli grok</code> or a trusted <code>--judge-config</code> for a supported API/gateway. The default <code>--judge-mode full</code> retains deterministic findings, adds finding triage, then reviews active selected controls. <code>--judge-mode findings</code> restricts AI to finding triage. Missing credentials, rejected responses, omitted answers and exhausted budgets remain visible. They do not become successful checks. Guarded Headroom optimization is the default when AI support is installed; <code>compact</code> and <code>off</code> are available. Exact evidence strings must survive optimization. [Review workflow and supported statuses](ANALYST.md); [providers, custom URLs and privacy](JUDGE.md).
 
-When a supported deterministic scan is inconclusive, the full analyst can inspect the supplied relevant excerpts and propose a supported interpretation or the next validation step. Files with deterministic analysis errors receive evidence-selection priority after finding-bearing files. Their first bounded, manifest-verified excerpt is offered as a candidate to selected controls even without a keyword match; final selection still obeys evidence budgets. It cannot repair missing, unreadable or unselected source, prove a parse failure harmless, or turn an analysis gap into a pass. A quoted source fragment proves that text was submitted, not that the model's explanation is correct.
+When a supported deterministic scan is inconclusive, the full analyst can inspect the seed excerpts, request additional ranges from the offered captured-file inventory and propose an interpretation or next validation step. The default permits two evidence-request rounds per batch, within 36 shared control-review requests and a 600-second scheduling budget; finding triage is one additional request. Set `--analyst-investigation-rounds 0` for seed-only review. The model must identify the risky boundary and seek counterevidence; structured conclusions record the hypothesis, boundary, counterevidence and limits. Compatible legacy conclusions remain accepted but their missing structured analysis is counted explicitly. Files with deterministic analysis errors receive evidence-selection priority after finding-bearing files. Their first bounded, manifest-verified excerpt is offered as a candidate to selected controls even without a keyword match; final selection still obeys evidence budgets. It cannot repair missing, unreadable or unselected source, prove a parse failure harmless, or turn an analysis gap into a pass. A quoted source fragment proves that text was submitted, not that the model's explanation is correct.
 
 ## Agents, MCP servers, skills and images
 
@@ -68,13 +68,29 @@ Every rule can be relevant to code packaged in any target type; a surface label 
 
 ### Suspicious tool and skill instructions
 
-AI043–AI046 recognize specific instruction and metadata inconsistencies: overriding trusted instructions, explicit sensitive-data transfer, concealment/approval bypass, and destructive descriptions advertised as read-only. Supported instruction filenames are SKILL.md, AGENTS.md, CLAUDE.md, GEMINI.md and copilot-instructions.md (case-insensitive), plus .instructions.md and .mdc files. Markdown under skills/ or .skills/ directories is also recognized. The scanner follows literal local Markdown links (including spaced angle destinations, escaped punctuation, balanced parentheses and full/collapsed/shortcut reference definitions) from SKILL.md recursively within that skill directory, using only already scanned files and a shared 2,048-reference budget. Missing/outside-scope local references leave coverage gaps. It never fetches remote reference content. Supported literal descriptors include JSON tool objects with a name and input schema/parameters, Python tool decorator docstrings or description keywords, and recognized JavaScript registration calls. Dynamic description values in recognized registration forms remain coverage gaps. Indirect registrations outside those forms may not be discovered.
+AI043–AI046 recognize specific instruction and metadata inconsistencies: overriding trusted instructions, explicit sensitive-data transfer, concealment/approval bypass, and descriptions or supported Python handler write operations advertised as read-only. Supported instruction filenames are SKILL.md, AGENTS.md, CLAUDE.md, GEMINI.md and copilot-instructions.md (case-insensitive), plus .instructions.md and .mdc files. Markdown under skills/ or .skills/ directories is also recognized. The scanner follows literal local Markdown links (including spaced angle destinations, escaped punctuation, balanced parentheses and full/collapsed/shortcut reference definitions) from SKILL.md recursively within that skill directory, using only already scanned files and a shared 2,048-reference budget. Missing/outside-scope local references leave coverage gaps. It never fetches remote reference content. Supported literal descriptors include JSON tool objects with a name and input schema/parameters, Python tool decorator docstrings or description keywords, and recognized JavaScript registration calls. JSON input-schema `description` fields are inspected in recognized schema subtrees (including properties, definitions, combinators and array items); arbitrary examples and const values remain data. Schema inspection has a shared 20,000-node limit and the normal segment budget. Dynamic description values in recognized registration forms remain coverage gaps. Indirect registrations outside those forms may not be discovered.
 
-The detector uses bounded English instruction predicates, Unicode normalization and a single bounded layer of explicitly labelled base64 decoding. It does not recursively unpack arbitrary encodings or execute decoded text. Quoted, negated and explanatory security examples are excluded only where the bounded predicates recognize them. Shell examples in recognized instruction documents also receive applicable direct-download execution checks; explicit unrestricted skill tool grants receive the wildcard-authorization check.
+The detector uses bounded English predicates plus selected Spanish, French and German instruction-override forms, Unicode normalization and a single bounded layer of explicitly labelled base64 decoding. This is limited lexical coverage, not translation support. AI043 also recognizes bounded paired authority-invalidation/replacement and conditional authority-conflict claims. AI045 includes explicit erasure of audit evidence to prevent user inspection. AI044 includes credential-store/vault objects, nearest-operative-read to pronoun/file/attachment transfer and selected bundle forms while respecting recognized local transfer negation; a later public-file retrieval does not inherit an earlier sensitive referent. It does not recursively unpack arbitrary encodings or execute decoded text. Quoted, negated and explanatory security examples are excluded only where the bounded predicates recognize them. Shell examples in recognized instruction documents also receive applicable direct-download execution checks; explicit unrestricted skill tool grants receive the wildcard-authorization check.
 
 Fixed instruction-detector bounds are 262,144 Markdown characters or 1,000,000 metadata-source characters, 2,048 actual tool/instruction segments, 8,192 characters per segment and 32 labelled base64 values of at most 8,192 decoded bytes each. Exceeding a bound leaves a coverage gap; it does not silently validate the remainder.
 
-These are suspicious-pattern findings, not malware attribution or proof of intent. Legitimate examples, paraphrases, hidden staged behavior, implicit transfer destinations, dynamic descriptions, external documents and runtime outputs remain difficult cases. The [separate skill/tool corpus](../benchmarks/skills_tools_accuracy.json) retains unsupported challenges for non-English override instructions, indirect authority replacement and vault/attachment disclosure semantics. Use the optional analyst for evidence-backed context, then verify actual handler behavior, authority, destinations and approval enforcement in a controlled environment.
+These are suspicious-pattern findings, not malware attribution or proof of intent. Legitimate examples, paraphrases, hidden staged behavior, implicit transfer destinations, dynamic descriptions, external documents and runtime outputs remain difficult cases. The [original skill/tool corpus](../benchmarks/skills_tools_accuracy.json) retains its original labels, including challenges that motivated these refinements. A previously missed fixture becoming detectable does not establish broad language or semantic coverage. The [separate call-flow/permissions corpus](../benchmarks/callflow_permissions_accuracy.json) records both supported pairs and remaining decorator/complex-JavaScript challenges. Use the optional analyst for evidence-backed context, then verify actual handler behavior, authority, destinations and approval enforcement in a controlled environment.
+
+### Registered tools, data flow and permissions
+
+AI014 and AI015 recognize an external-input boundary at supported Python FastMCP instances and imported LangChain tool decorators, and at conventional unbound `mcp.tool` / `server.tool` declarations in partial source. Ordinary function parameters and arbitrary decorators are not all treated as attacker-controlled. The conventional names are a declared boundary signal, not proof of SDK identity or runtime exposure. Known receiver rebinding is respected. Source-level `Context` annotations from recognized FastMCP imports remain injected context rather than tool arguments.
+
+Python arguments can flow through same-file helper aliases, positional/keyword binding, local assignments and returns. The engine preserves unsafe branch alternatives, captures defaults at definition time and follows supported nested calls. Exact string equality and literal tuple/set membership with rejecting exits can constrain a URL. A literal finite map of complete string paths can constrain selection; mutation, aliasing and unknown-call escape invalidate that local proof. Prefix checks, validator names and a guard on a different variable do not establish safety.
+
+JavaScript/TypeScript supports literal `server.registerTool` / `mcp.registerTool` registrations with a literal tool name, an inputSchema-bearing object and an inline arrow callback. Simple input names and shallow destructuring/renaming feed direct-return top-level function or arrow wrappers. Recognized filesystem imports are required for the additional wrapper filesystem checks. Rebinding and parameter shadows are handled in these supported shapes; named callback references, arbitrary callback factories, defaults/rest patterns, cross-file helpers and full JavaScript control flow remain outside the algorithm.
+
+Python call expansion is limited to eight levels and 512 expansions per file, within the existing work budget. Recursion, unsupported splats, indirect coroutine/generator execution and global/nonlocal side effects produce explicit gaps. A recognized async call is expanded only when directly awaited. The analysis never runs a function or a tool. JavaScript wrapper summaries have an eight-level chain limit and an 8,192-step summary budget. Neither implementation proves runtime reachability or all upstream validation.
+
+AI046 additionally checks top-level Python `@tool` handlers whose literal annotation declares read-only. It looks for unambiguously bound direct `os`/`shutil` writes and inline `pathlib.Path` write calls. It excludes uncalled nested definitions, shadowed APIs and recognized dead branches; unresolved nested/class handlers and the 20,000-node effect budget remain explicit gaps. A direct source witness is a contract inconsistency, not proof that a branch executes.
+
+AI047 identifies the explicit other-write permission bit (`0o002`) in recognized `os.chmod` / `fchmod` / `lchmod` and pathlib equivalents. It handles bounded integer constants, local values and stat flag/bitwise expressions. Owner-only or group-only writes are outside this predicate. A sticky directory bit does not erase the world-write signal; effective permissions, ownership, ACLs and deployment identity need runtime inspection.
+
+See the [developer algorithm guide](developer/detection-algorithms.md) for the modules, state transitions, boundaries and test strategy.
 
 ## Read the result
 
@@ -112,13 +128,13 @@ Selecting fewer rules changes scope, so percentages from different selections ar
 
 | Profile | Deterministic boundary |
 | --- | --- |
-| `python_ast` | Bounded local aliases, constants and selected external-input propagation; no complete interprocedural or whole-program proof. |
-| `javascript_lexical` | Balanced tokens and selected import/call/configuration patterns; not a complete JS/TS parser, type checker or flow graph. |
+| `python_ast` | Bounded local aliases/constants plus selected same-file argument/return propagation and exact literal branch constraints; no whole-program proof. Unsupported call binding or exhausted flow bounds are explicit gaps. |
+| `javascript_lexical` | Balanced tokens, selected imports/calls/configuration and bounded direct-return wrapper summaries; not a complete JS/TS parser, type checker or flow graph. |
 | `json_structured` | Parsed JSON/JSONC with selected typed-field predicates; dynamic values and referenced configuration are not resolved. |
 | `configuration_lexical` | Selected literal configuration and shell patterns; limited YAML scalar/alias support, not full template or YAML semantics. |
 | `generic_text` | Applicable generic patterns only; supported file selection is not full language-specific analysis. |
-| `instruction_text` | Supplementary detector path for recognized agent/skill documents; bounded English instruction patterns, not model execution. The file manifest retains its ordinary source profile. |
-| `tool_metadata` | Supplementary detector path for supported literal descriptors; dynamic descriptions/runtime tool output need separate evidence. The file manifest retains its ordinary source profile. |
+| `instruction_text` | Supplementary detector path for recognized agent/skill documents; bounded English predicates and selected Spanish/French/German override forms, not general translation or model execution. The manifest retains its ordinary source profile. |
+| `tool_metadata` | Supported literal tool descriptions and recognized JSON input-schema description subtrees; bounded Python read-only/write witnesses. Dynamic descriptions, helpers and runtime output need separate evidence. The manifest retains its ordinary source profile. |
 
 Selected files must be supported UTF-8 text (BOM accepted). Source scans skip configured exclusions and dependency/build/cache directories by default; image scans intentionally include packaged dependency/build content. Unreadable files, invalid supported syntax and exhausted budgets remain coverage gaps. Unknown file types are outside selected source coverage. No dependency installation, target imports, build commands, target network probes, CVE-feed calls, decompilation, publisher-signature verification or runtime execution is implied. Run `invscan --help-topic source` for the live file-extension inventory and `invscan --help-topic limits` for every budget.
 
@@ -173,7 +189,8 @@ Each entry gives its supported predicate, algorithm, blind spots, mapped control
 | [AI043](#ai043) | Instruction-hierarchy override in agent-facing text | high | `instruction_text`, `tool_metadata` | MCP-03, AGT-03, AGT-06 |
 | [AI044](#ai044) | Sensitive-data transfer instruction | high | `instruction_text`, `tool_metadata` | MCP-03, AGT-06, AGT-07 |
 | [AI045](#ai045) | Covert action or approval-bypass instruction | high | `instruction_text`, `tool_metadata` | AGT-02, AGT-06 |
-| [AI046](#ai046) | Read-only tool annotation contradicts a destructive description | medium | `tool_metadata` | MCP-03, MCP-04 |
+| [AI046](#ai046) | Read-only tool annotation conflicts with declared or observed writes | medium | `tool_metadata`, `python_ast` | MCP-03, MCP-04 |
+| [AI047](#ai047) | Filesystem permissions explicitly allow writes by everyone | medium | `python_ast` | EXEC-04 |
 
 ### AI001
 
@@ -189,7 +206,7 @@ Each entry gives its supported predicate, algorithm, blind spots, mapped control
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Replace dynamic execution with an allowlisted operation dispatcher; use ast.literal_eval only for bounded literal parsing. Isolate unavoidable execution with no ambient credentials and strict resource limits.
 
@@ -216,7 +233,7 @@ invscan TARGET --scans AI001
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Pass an argument list with shell=False, allowlist executable names and options, and enforce working-directory and resource restrictions.
 
@@ -243,7 +260,7 @@ invscan TARGET --scans AI002
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use subprocess with a fixed executable and argument list, shell=False, and explicit allowed options.
 
@@ -270,7 +287,7 @@ invscan TARGET --scans AI003
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use yaml.safe_load or SafeLoader/CSafeLoader and validate the parsed schema and size.
 
@@ -297,7 +314,7 @@ invscan TARGET --scans AI004
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use a nonexecutable serialization format with schema validation. If compatibility requires pickle, accept only authenticated artifacts from a strictly controlled producer.
 
@@ -324,7 +341,7 @@ invscan TARGET --scans AI005
 
 **Image context:** `final_filesystem`, `runtime_configuration`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Enable certificate verification and install the correct CA bundle; use a trusted private CA for custom gateways.
 
@@ -351,7 +368,7 @@ invscan TARGET --scans AI006
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Allow only required origins, validate Origin on HTTP MCP endpoints, and combine origin checks with authentication. Do not combine wildcard origins with credentials.
 
@@ -378,7 +395,7 @@ invscan TARGET --scans AI007
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Bind local-only tools to loopback. For intentional remote services, verify ingress policy, TLS, authentication, and origin validation.
 
@@ -405,7 +422,7 @@ invscan TARGET --scans AI008
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Disable debug mode in deployed services and return sanitized errors while retaining protected server-side diagnostics.
 
@@ -432,7 +449,7 @@ invscan TARGET --scans AI009
 
 **Image context:** `final_filesystem`, `runtime_configuration`, `retained_layer`, `build_history`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** If real, revoke and rotate the credential, remove it from source and history, and load it from a secret manager or environment variable with least privilege.
 
@@ -459,7 +476,7 @@ invscan TARGET --scans AI010
 
 **Image context:** `final_filesystem`, `runtime_configuration`, `retained_layer`, `build_history`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Determine whether the key was used, revoke or rotate it if necessary, remove it from version history, and use a managed key store.
 
@@ -486,7 +503,7 @@ invscan TARGET --scans AI011
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use execFile or spawn with a fixed executable, validated argument array, and shell disabled; constrain tools by policy before execution.
 
@@ -513,7 +530,7 @@ invscan TARGET --scans AI012
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use validated structured data and allowlisted operations instead of evaluating generated code.
 
@@ -530,17 +547,17 @@ invscan TARGET --scans AI013
 
 **Externally influenced outbound request** · medium · `ssrf`
 
-**Looks for:** Supported Python requests/httpx/urllib/aiohttp and JavaScript fetch/axios URL expressions with obvious external influence.
+**Looks for:** Recognized HTTP sinks with external influence, including supported Python FastMCP/LangChain tool parameters, conventional unbound mcp/server.tool registration forms, local function aliases and argument/return flow. Literal JavaScript server/mcp.registerTool callbacks seed simple inputs and direct-return named/arrow wrappers propagate to fetch/axios. Exact Python string equality or literal tuple/set guards constrain destination selection.
 
 **Why it matters for agents/MCP/skills:** A fetch/search/browser MCP tool can turn a model-selected URL into a request from a privileged network location. An attacker may use retrieved instructions or tool arguments to target internal services or metadata.
 
-**Deterministic algorithm:** Recognized HTTP sinks and bounded external-input propagation. Profiles: `python_ast`, `javascript_lexical`.
+**Deterministic algorithm:** Registered input boundaries, call-site propagation and exact literal constraints. Profiles: `python_ast`, `javascript_lexical`.
 
-**Can miss or require context:** Cross-function flow, JavaScript wrappers, DNS/redirect behavior and guards can remain unresolved; a visible input signal is not proof of SSRF.
+**Can miss or require context:** Python calls are bounded to depth 8 and 512 expansions; splats, recursion, indirect coroutine/generator execution and global/nonlocal side effects leave gaps while retaining findings. Unknown decorators, methods, cross-file flow and dynamic dispatch remain unresolved. JS requires narrow literal registration and direct-return wrappers. Conventional receiver names indicate a declared boundary, not verified SDK identity. Fixed destinations do not prove DNS/redirect safety.
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Allowlist destinations and schemes, resolve and validate addresses on each connection and redirect, block metadata/private destinations unless explicitly needed, and enforce egress policy.
 
@@ -557,17 +574,17 @@ invscan TARGET --scans AI014
 
 **Externally influenced filesystem path** · medium · `filesystem`
 
-**Looks for:** Supported open/remove/copy/path operations and JavaScript fs read/write/delete operations using obvious external-input expressions.
+**Looks for:** Supported filesystem operations receiving external data through Python tool parameters/local calls or literal JavaScript registerTool callbacks/direct-return wrappers with recognized filesystem imports. Python literal finite string maps can constrain a selected path; aliases, mutations and unknown-call escapes invalidate that local proof.
 
 **Why it matters for agents/MCP/skills:** Agent and MCP file tools can translate model-selected names into reads, writes or deletions. Without confinement, a prompt or tool result may reach server credentials, another tenant workspace or executable files.
 
-**Deterministic algorithm:** Recognized filesystem sinks and bounded external-input propagation. Profiles: `python_ast`, `javascript_lexical`.
+**Deterministic algorithm:** Registered input boundaries and bounded filesystem argument propagation. Profiles: `python_ast`, `javascript_lexical`.
 
-**Can miss or require context:** Canonicalization, symlink races, cross-function validation and effective filesystem confinement need further review.
+**Can miss or require context:** Canonicalization, symlink races, unknown decorators/methods, cross-file validation and effective confinement need review. A finite map does not prove tenant authorization. Named callback references, complex JS callbacks/wrappers and unmodeled dispatch remain outside this bounded analysis; unsupported call binding and exhausted budgets leave gaps.
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Resolve paths under a fixed workspace root, reject paths outside it after canonicalization, handle symlinks safely, and give the process only required filesystem permissions.
 
@@ -594,7 +611,7 @@ invscan TARGET --scans AI015
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use TemporaryFile, NamedTemporaryFile, TemporaryDirectory, or mkstemp with restrictive permissions and reliable cleanup.
 
@@ -621,7 +638,7 @@ invscan TARGET --scans AI016
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Verify signature, algorithm allowlist, issuer, audience, expiry, and scopes before using claims for authorization.
 
@@ -648,7 +665,7 @@ invscan TARGET --scans AI017
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Pin an exact audited package version and lock or verify transitive artifacts. Prefer preinstalled verified tools in a controlled environment.
 
@@ -675,7 +692,7 @@ invscan TARGET --scans AI018
 
 **Image context:** `final_filesystem`, `build_history`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Fetch a versioned artifact, verify an independently trusted digest or signature, review it, and execute it under least privilege.
 
@@ -702,7 +719,7 @@ invscan TARGET --scans AI019
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Pin remote actions to a reviewed full commit SHA and use dependency automation to propose updates.
 
@@ -729,7 +746,7 @@ invscan TARGET --scans AI020
 
 **Image context:** `final_filesystem`, `runtime_configuration`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use a dedicated nonroot runtime user and minimal capabilities; verify the final build stage and deployment security context.
 
@@ -756,7 +773,7 @@ invscan TARGET --scans AI021
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Disable privileged mode and privilege escalation, drop capabilities, and expose only narrowly required devices or operations.
 
@@ -783,7 +800,7 @@ invscan TARGET --scans AI022
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Remove runtime socket access or use a tightly scoped broker outside the agent sandbox. Read-only mounts do not necessarily make socket APIs read-only.
 
@@ -810,7 +827,7 @@ invscan TARGET --scans AI023
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Pin approved image digests, track provenance and SBOMs, and update through reviewed vulnerability-remediation workflows.
 
@@ -837,7 +854,7 @@ invscan TARGET --scans AI024
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use a committed verified lockfile or exact pins and hashes, scan dependencies for known vulnerabilities, and review updates.
 
@@ -864,7 +881,7 @@ invscan TARGET --scans AI025
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** For remote protected resources, require authenticated clients and scoped per-tool authorization. Document local-only trust boundaries and protect launch configuration.
 
@@ -891,7 +908,7 @@ invscan TARGET --scans AI026
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Replace wildcard grants with named tools and constrained resources; enforce authorization server-side for each call and require approval for sensitive effects.
 
@@ -918,7 +935,7 @@ invscan TARGET --scans AI027
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Validate tokens for this MCP resource and obtain separate audience-bound downstream credentials through an appropriate authorization flow.
 
@@ -945,7 +962,7 @@ invscan TARGET --scans AI028
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use HTTPS with certificate verification for remote MCP endpoints. Reserve plaintext HTTP for explicitly controlled local development or a documented protected transport.
 
@@ -972,7 +989,7 @@ invscan TARGET --scans AI029
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Keep durable API credentials on a trusted server, or use narrowly scoped short-lived client tokens designed for the browser.
 
@@ -999,7 +1016,7 @@ invscan TARGET --scans AI030
 
 **Image context:** `final_filesystem`, `runtime_configuration`, `build_history`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use bounded tool permissions and an isolated runtime; require deliberate approval for destructive, external, financial, or credential-bearing actions.
 
@@ -1026,7 +1043,7 @@ invscan TARGET --scans AI031
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Keep trusted instructions separate from untrusted content, label provenance, enforce tool policy outside the model, and test indirect prompt injection and sensitive-action approval.
 
@@ -1053,7 +1070,7 @@ invscan TARGET --scans AI032
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Log nonsecret identifiers and outcomes; redact credentials before formatting and restrict log access and retention.
 
@@ -1080,7 +1097,7 @@ invscan TARGET --scans AI033
 
 **Image context:** `final_filesystem`, `runtime_configuration`, `retained_layer`, `build_history`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use an appropriate authorization header or short-lived scoped credential; redact existing logs and rotate real exposed credentials.
 
@@ -1107,7 +1124,7 @@ invscan TARGET --scans AI034
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use safe tensor formats or restricted weights-only loading, verify model provenance and integrity, and isolate model conversion workflows.
 
@@ -1134,7 +1151,7 @@ invscan TARGET --scans AI035
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use bound query parameters for values and an explicit allowlist for dynamic SQL identifiers or operations.
 
@@ -1161,7 +1178,7 @@ invscan TARGET --scans AI036
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use filter='data' on supported runtimes, validate members and resource limits, and extract into an isolated directory with no sensitive files.
 
@@ -1188,7 +1205,7 @@ invscan TARGET --scans AI037
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use the secrets module or a cryptographically secure runtime API with sufficient entropy for security values.
 
@@ -1215,7 +1232,7 @@ invscan TARGET --scans AI038
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use a fixed trusted template and pass untrusted content only as escaped data; sandbox and limit any intentional template authoring.
 
@@ -1242,7 +1259,7 @@ invscan TARGET --scans AI039
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Render untrusted output as text or sanitize with a maintained HTML policy before using a raw-HTML sink; apply a restrictive content security policy.
 
@@ -1269,7 +1286,7 @@ invscan TARGET --scans AI040
 
 **Image context:** `final_filesystem`, `runtime_configuration`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Retain inspector authentication and restrict its listeners and origins to a controlled development environment.
 
@@ -1296,7 +1313,7 @@ invscan TARGET --scans AI041
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Use isolated namespaces and explicit network rules; document and minimize any unavoidable host-level access.
 
@@ -1313,17 +1330,17 @@ invscan TARGET --scans AI042
 
 **Instruction-hierarchy override in agent-facing text** · high · `prompt_injection`
 
-**Looks for:** Recognized agent/skill instructions or literal tool descriptions directing an override of higher-priority instructions or policy.
+**Looks for:** Recognized instructions and literal tool/schema descriptions asking to override trusted instructions; selected Spanish/French/German override forms; paired authority invalidation/replacement; and a supported conditional conflict resolved in favor of the current tool or skill.
 
 **Why it matters for agents/MCP/skills:** A tool description or skill instruction can be inserted into model context before invocation; an override directive attempts to cross the boundary from external data into agent authority.
 
-**Deterministic algorithm:** Bounded instruction extraction, normalization and action/object predicates. Profiles: `instruction_text`, `tool_metadata`.
+**Deterministic algorithm:** Bounded directive predicates and conflicting authority claims. Profiles: `instruction_text`, `tool_metadata`.
 
-**Can miss or require context:** Pattern evidence does not establish intent or successful prompt injection; non-English instructions, indirect authority replacement, paraphrases, unsupported encodings and dynamic descriptions may evade detection.
+**Can miss or require context:** Limited lexical language forms are not translation coverage. Other languages, paraphrases, reordered authority claims, unsupported encodings and dynamic descriptions can evade detection. Evidence does not prove intent or successful injection.
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Remove the override directive, keep tool metadata scoped to its function, and enforce instruction/data separation and sensitive-action policy outside the model. Test the exact text against the deployed agent with harmless canary actions.
 
@@ -1340,17 +1357,17 @@ invscan TARGET --scans AI043
 
 **Sensitive-data transfer instruction** · high · `data_protection`
 
-**Looks for:** Recognized English instructions transferring a directly named sensitive credential/file, or previously read sensitive data via a pronoun, to an explicit URL/email destination following the transfer.
+**Looks for:** Recognized English transfer instructions naming credentials, sensitive files, a credential store or login/password vault; nearest-operative-read to pronoun/file/attachment references; and include/append bundle forms with an explicit URL/email destination in the bounded segment.
 
 **Why it matters for agents/MCP/skills:** An instruction that directs an agent to gather a credential or sensitive file and send it to a URL/email can turn an otherwise legitimate tool into a disclosure path.
 
-**Deterministic algorithm:** Sensitive-object, transfer-action and explicit-destination predicates. Profiles: `instruction_text`, `tool_metadata`.
+**Deterministic algorithm:** Sensitive-object, transfer-action, local negation and explicit-destination predicates. Profiles: `instruction_text`, `tool_metadata`.
 
-**Can miss or require context:** Does not establish actual access, an executed network request or an attacker's ownership of the destination; implicit destinations and staged transfers may be missed.
+**Can miss or require context:** Local explicit transfer negation is respected where recognized. A later public-object retrieval does not inherit an earlier sensitive referent. Implicit destinations, multi-file staging and natural-language ambiguity remain unresolved; actual access, authorization, transfer and destination ownership are unverified.
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Remove credential collection from tool descriptions and skill instructions. Use a scoped credential broker, allowlist outbound destinations, redact tool inputs and require approval displaying the actual recipient and data before any sensitive disclosure.
 
@@ -1367,17 +1384,17 @@ invscan TARGET --scans AI044
 
 **Covert action or approval-bypass instruction** · high · `agent_permissions`
 
-**Looks for:** Recognized instructions pairing an action with concealment from the user, or directing approval/sandbox bypass.
+**Looks for:** Recognized instructions pairing an action with concealment from the user, explicitly erasing audit evidence to prevent user inspection, or directing approval/sandbox bypass.
 
 **Why it matters for agents/MCP/skills:** Concealment or approval-bypass text in skills/tool descriptions can induce the planner to exceed user-authorized actions under the agent or MCP process identity.
 
-**Deterministic algorithm:** Action/concealment and approval-bypass instruction predicates. Profiles: `instruction_text`, `tool_metadata`.
+**Deterministic algorithm:** Action/concealment, audit-erasure and approval-bypass predicates. Profiles: `instruction_text`, `tool_metadata`.
 
 **Can miss or require context:** Cannot establish deceptive intent from all natural-language variations; legitimate quoted security examples are excluded only where the bounded parser recognizes them.
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Delete the concealment or bypass directive. Bind approvals to the exact operation and arguments, enforce policy in the tool server, retain auditable execution records and isolate the process with minimum privileges.
 
@@ -1392,19 +1409,19 @@ invscan TARGET --scans AI045
 
 ### AI046
 
-**Read-only tool annotation contradicts a destructive description** · medium · `tool_integrity`
+**Read-only tool annotation conflicts with declared or observed writes** · medium · `tool_integrity`
 
-**Looks for:** Literal readOnlyHint=true paired with a recognized destructive write/delete/modify instruction in the same tool description.
+**Looks for:** Literal readOnlyHint=true conflicting with a destructive instruction in the same description, or a top-level Python @tool handler containing an unambiguously resolved os/shutil write call or inline pathlib.Path write operation. Literal annotation dictionaries and ToolAnnotations calls are recognized.
 
-**Why it matters for agents/MCP/skills:** An MCP client may prioritize tools or reduce consent using annotations; an explicit destructive description paired with readOnlyHint=true exposes conflicting metadata at that trust boundary.
+**Why it matters for agents/MCP/skills:** Agent and MCP clients may prioritize tools or reduce consent based on readOnlyHint. A destructive description or resolved direct write in a supported Python handler conflicts with that declared boundary; actual execution and authorization still require validation.
 
-**Deterministic algorithm:** Same-descriptor readOnlyHint/operation consistency check. Profiles: `tool_metadata`.
+**Deterministic algorithm:** Read-only annotation consistency with description or direct write witness. Profiles: `tool_metadata`, `python_ast`.
 
-**Can miss or require context:** A description/annotation contradiction is a review signal, not proof of handler behavior; a truthful-looking description can hide malicious implementation.
+**Can miss or require context:** Python effects are bounded to 20000 inspected handler AST nodes; nested/class bindings leave gaps. Shadowed/conditional imports, uncalled nested bodies and recognized dead branches are excluded. Helper calls, variable-held Path objects, arbitrary writes, runtime registration, authorization and actual branch execution are not proven.
 
 **Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
 
-**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews the selected active controls even with zero rule matches. It can propose evidence-backed gaps missed by local patterns; it does not execute tools or validate runtime behavior.
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
 
 **Fix direction:** Inspect the implementation and correct its description and annotations together. Treat the tool as potentially mutating until verified, reapprove changed metadata and enforce write authorization independently of model decisions or annotation hints.
 
@@ -1415,6 +1432,33 @@ invscan TARGET --scans AI045
 ```sh
 invscan --explain-scan AI046
 invscan TARGET --scans AI046
+```
+
+### AI047
+
+**Filesystem permissions explicitly allow writes by everyone** · medium · `filesystem`
+
+**Looks for:** Recognized os.chmod/fchmod/lchmod and pathlib chmod/lchmod calls whose literal, propagated integer, stat flag or bounded bitwise mode explicitly contains the other-write bit (0o002).
+
+**Why it matters for agents/MCP/skills:** Another local identity may replace agent-generated code, tool artifacts, instructions or credentials when the shared filesystem permits writes by everyone. Broad permissions can defeat an otherwise correct tool authorization check.
+
+**Deterministic algorithm:** Resolved chmod API plus bounded integer/permission-bit evaluation. Profiles: `python_ast`.
+
+**Can miss or require context:** Only explicit supported chmod calls are checked. Owner-only/group-only writes are not this rule. Platform behavior, ACLs, ownership, umask, reachability and live permissions remain unverified; a sticky bit does not erase the other-write signal.
+
+**Image context:** `final_filesystem`. Packaged-file analysis still needs the supported source/descriptor form.
+
+**Optional AI adds:** Can explain applicability and suggest follow-up evidence for detected patterns; cannot remove or downgrade a deterministic finding. Full mode reviews selected active controls even with zero rule matches. Optional bounded investigation can request additional ranges from the captured, hash-verified manifest snapshot and seek counterevidence before proposing a gap. It cannot execute target tools or validate runtime behavior.
+
+**Fix direction:** Use owner-only permissions (typically 0o600 for private files and 0o700 for private directories), or a narrowly controlled shared group where required. Verify access from the actual worker and an unrelated identity; avoid granting 0o777 merely to fix container UID mismatches.
+
+**Partial control mapping:** [EXEC-04](#exec-04).
+
+**Source organizations and relationships:** [MCP-ROOTS](https://modelcontextprotocol.io/specification/2026-07-28/client/roots) (Model Context Protocol maintainers; primary control source); [JOINT-DEPLOY](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely) (NSA, CISA and international partners; ASD host; primary control source); [TECH-PYTHON-CHMOD](https://docs.python.org/3/library/os.html#os.chmod) (Python Software Foundation; rule technical reference); [CWE-732](https://cwe.mitre.org/data/definitions/732.html) (MITRE; rule technical reference).
+
+```sh
+invscan --explain-scan AI047
+invscan TARGET --scans AI047
 ```
 
 ## All control review plans
@@ -1431,7 +1475,7 @@ Maintain a reconciled inventory of the components that can read data, make decis
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1455,7 +1499,7 @@ Describe where identities, data and authority cross between components, then tra
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1479,7 +1523,7 @@ Define the permitted purpose and consequences of autonomous actions and name the
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1503,7 +1547,7 @@ Keep dated evidence and explicitly governed exceptions for each applicable safeg
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1527,7 +1571,7 @@ Reassess the complete system when models, tools, data sources or autonomy change
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1551,7 +1595,7 @@ Assign each security responsibility across suppliers and the customer-operated c
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1575,7 +1619,7 @@ Require verified authentication at every protected operation, including alternat
 
 **Deterministic:** Partial rules [AI026](#ai026), [AI041](#ai041).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1599,7 +1643,7 @@ Authorize the exact identity, tenant, operation and resource immediately before 
 
 **Deterministic:** Partial rules [AI027](#ai027).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1623,7 +1667,7 @@ Verify access-token signatures and required claims using trusted keys and explic
 
 **Deterministic:** Partial rules [AI017](#ai017).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1647,7 +1691,7 @@ Keep caller authorization distinct from downstream service credentials.
 
 **Deterministic:** Partial rules [AI028](#ai028).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1671,7 +1715,7 @@ Limit credential scope and lifetime and prevent unnecessary copies or disclosure
 
 **Deterministic:** Partial rules [AI010](#ai010), [AI011](#ai011), [AI030](#ai030), [AI034](#ai034).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1695,7 +1739,7 @@ Bind an OAuth authorization response to the intended transaction and registered 
 
 **Deterministic:** Partial rules [AI038](#ai038).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1719,7 +1763,7 @@ Constrain OAuth metadata discovery and client registration to trusted, bounded i
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1743,7 +1787,7 @@ Carry authenticated delegation identity and bound the authority passed to anothe
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1767,7 +1811,7 @@ Govern agent identity creation, sponsorship and retirement as a workload lifecyc
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1791,7 +1835,7 @@ Constrain network exposure and verify the origin and transport of MCP HTTP traff
 
 **Deterministic:** Partial rules [AI006](#ai006), [AI007](#ai007), [AI008](#ai008), [AI029](#ai029).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1815,7 +1859,7 @@ Validate tool inputs and outputs against schemas and semantic limits.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1839,7 +1883,7 @@ Treat tool descriptions, annotations, resources and results as untrusted claims.
 
 **Deterministic:** Partial rules [AI043](#ai043), [AI044](#ai044), [AI046](#ai046).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1863,7 +1907,7 @@ Bind approved tools to verified server identity and reviewed definitions, and re
 
 **Deterministic:** Partial rules [AI046](#ai046).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1887,7 +1931,7 @@ Authorize state handles and, where applicable, legacy session resumption.
 
 **Deterministic:** Partial rules [AI038](#ai038).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1911,7 +1955,7 @@ Apply host policy and user control to server-requested sampling and shared conte
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1935,7 +1979,7 @@ Constrain elicitation requests and visibly identify URL interactions.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1959,7 +2003,7 @@ Enforce actual filesystem permissions independently of declared MCP roots.
 
 **Deterministic:** Partial rules [AI015](#ai015).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -1983,7 +2027,7 @@ Approve local server executables and constrain their inherited environment and p
 
 **Deterministic:** Partial rules [AI018](#ai018), [AI031](#ai031).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2007,7 +2051,7 @@ Apply the deployed protocol revision's capability, stream, cache and cancellatio
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2031,7 +2075,7 @@ Enforce trusted action policy at the tool execution boundary outside the model.
 
 **Deterministic:** Partial rules [AI027](#ai027), [AI031](#ai031).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2055,7 +2099,7 @@ Bind human approval to the precise action that will execute.
 
 **Deterministic:** Partial rules [AI031](#ai031), [AI045](#ai045).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2079,7 +2123,7 @@ Preserve the distinction between trusted instructions and externally controlled 
 
 **Deterministic:** Partial rules [AI032](#ai032), [AI043](#ai043).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2103,7 +2147,7 @@ Protect retrieval and persistent memory at both read and update boundaries.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2127,7 +2171,7 @@ Keep delegated goals and privileges bounded across multi-agent handoffs.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2151,7 +2195,7 @@ Protect the configuration and workflow files that define agent behavior.
 
 **Deterministic:** Partial rules [AI043](#ai043), [AI044](#ai044), [AI045](#ai045).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2175,7 +2219,7 @@ Apply data and destination policy to otherwise legitimate tool calls.
 
 **Deterministic:** Partial rules [AI044](#ai044).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2199,7 +2243,7 @@ Keep untrusted values out of shell syntax and constrain allowed command argument
 
 **Deterministic:** Partial rules [AI002](#ai002), [AI003](#ai003), [AI012](#ai012).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2223,7 +2267,7 @@ Constrain any feature that evaluates generated code in a disposable execution en
 
 **Deterministic:** Partial rules [AI001](#ai001), [AI013](#ai013).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2247,7 +2291,7 @@ Parameterize query values and constrain permitted query shapes and database iden
 
 **Deterministic:** Partial rules [AI036](#ai036).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2269,9 +2313,9 @@ Constrain file, archive and temporary-file operations at the moment of access.
 
 **Why it matters:** Traversal, overwrite and link races can move data or execution beyond the approved workspace.
 
-**Deterministic:** Partial rules [AI015](#ai015), [AI016](#ai016), [AI037](#ai037).
+**Deterministic:** Partial rules [AI015](#ai015), [AI016](#ai016), [AI037](#ai037), [AI047](#ai047).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2295,7 +2339,7 @@ Restrict actual network destinations, including DNS resolution and redirects.
 
 **Deterministic:** Partial rules [AI014](#ai014).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2319,7 +2363,7 @@ Use data-only parsers with explicit type and resource bounds.
 
 **Deterministic:** Partial rules [AI004](#ai004), [AI005](#ai005), [AI035](#ai035).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2343,7 +2387,7 @@ Render model and tool output using context-appropriate escaping and safe URL han
 
 **Deterministic:** Partial rules [AI039](#ai039), [AI040](#ai040).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2367,7 +2411,7 @@ Locate embedded credential-like material and investigate its real exposure.
 
 **Deterministic:** Partial rules [AI010](#ai010), [AI011](#ai011), [AI030](#ai030), [AI034](#ai034).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2391,7 +2435,7 @@ Minimize and authorize data sent to each model or gateway recipient.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2415,7 +2459,7 @@ Prevent logs, traces and error messages from becoming secondary data leaks.
 
 **Deterministic:** Partial rules [AI009](#ai009), [AI033](#ai033).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2439,7 +2483,7 @@ Track the origin, transformations and integrity of the data that drives AI behav
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2463,7 +2507,7 @@ Apply retention and deletion across derived and replicated data.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2487,7 +2531,7 @@ Protect stored data with restricted identities, key separation and tested access
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2511,7 +2555,7 @@ Record and constrain the executable versions and immutable artifacts used by the
 
 **Deterministic:** Partial rules [AI018](#ai018), [AI024](#ai024), [AI025](#ai025).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2535,7 +2579,7 @@ Assess known vulnerabilities and maintenance status in the resolved dependencies
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2559,7 +2603,7 @@ Verify artifact identity, publisher trust and build provenance before enabling i
 
 **Deterministic:** Partial rules [AI019](#ai019), [AI024](#ai024), [AI035](#ai035).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2583,7 +2627,7 @@ Protect the build and release path and the credentials it can access.
 
 **Deterministic:** Partial rules [AI020](#ai020).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2607,7 +2651,7 @@ Use restrictive runtime identities and deployment boundaries around agent execut
 
 **Deterministic:** Partial rules [AI021](#ai021), [AI022](#ai022), [AI023](#ai023), [AI031](#ai031), [AI042](#ai042).
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2631,7 +2675,7 @@ Separate training, evaluation and production authority when developing models.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2655,7 +2699,7 @@ Produce an attributable and protected history of security-relevant actions.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2679,7 +2723,7 @@ Enforce resource and spending budgets across the complete unit of work.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `supported_by_code`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `supported_by_code`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2703,7 +2747,7 @@ Make cancellation revoke future work and stop consequential effects.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2727,7 +2771,7 @@ Keep failure and recovery paths from widening authority or repeating side effect
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2751,7 +2795,7 @@ Detect unusual behavior and restore trusted system state after harmful changes.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2775,7 +2819,7 @@ Prepare and exercise an incident response process for agent-specific failures.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_human_review`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_human_review`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2799,7 +2843,7 @@ Measure adversarial safety alongside authorized task completion in representativ
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2823,7 +2867,7 @@ Repeat and vary adversarial scenarios under a stated attacker budget.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2847,7 +2891,7 @@ Exercise authentication and protocol abuse against the actual MCP revision in an
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2871,7 +2915,7 @@ Test isolation using distinct principals across every stateful surface.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2895,7 +2939,7 @@ Test forbidden-action boundaries across approvals, policy and sandbox alternativ
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2919,7 +2963,7 @@ Apply conventional application security validation to the interfaces agents can 
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2943,7 +2987,7 @@ Exercise resource exhaustion and validate the supporting telemetry and shutdown 
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2967,7 +3011,7 @@ Evaluate the optional security reviewer as another untrusted, fallible component
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 
@@ -2991,7 +3035,7 @@ Evaluate model-layer threats when hosting, acquiring or customizing models.
 
 **Deterministic:** No mapped detector; retain the human/runtime review requirement.
 
-**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including checks with no deterministic detector and supported checks with inconclusive source evidence. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
+**Optional AI review:** Review every active selected acceptance check against bounded submitted source excerpts, including zero-hit and inconclusive checks. By default the model may request validated file-ID/line ranges from an already captured manifest snapshot, then submit a risk hypothesis, boundary, counterevidence and conclusion limits. Set --analyst-investigation-rounds 0 for seed-excerpt review only. Code support is reported as `needs_runtime_validation`; this never establishes a validated pass.
 
 **Acceptance checks:**
 

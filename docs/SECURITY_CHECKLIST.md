@@ -2,7 +2,7 @@
 
 **Invarune by NimeshBuild** - Evidence for agent security.
 
-Research snapshot: **2026-09-19**. This catalog contains **66 controls and 132 acceptance checks**. These are original engineering review questions synthesized from the sources in [RESEARCH.md](RESEARCH.md), [CSA_AND_CLOUD.md](CSA_AND_CLOUD.md), and [BENCHMARK_LANDSCAPE.md](BENCHMARK_LANDSCAPE.md). This is not an official NSA, CISA, CSA, NIST, MITRE, OWASP, MCP, CIS, or ISO certification checklist.
+Control research snapshot: **2026-09-19**; detector technical references extended **2026-09-23**. This catalog contains **66 controls and 132 acceptance checks**. These are original engineering review questions synthesized from the sources in [RESEARCH.md](RESEARCH.md), [CSA_AND_CLOUD.md](CSA_AND_CLOUD.md), and [BENCHMARK_LANDSCAPE.md](BENCHMARK_LANDSCAPE.md). This is not an official NSA, CISA, CSA, NIST, MITRE, OWASP, MCP, CIS, or ISO certification checklist.
 
 Source links explain provenance or thematic alignment; they do not claim that every test is a verbatim requirement of that source. All referenced publications, versions, limitations, and control alignments appear in [SOURCE_MAP.md](SOURCE_MAP.md). The complete machine-readable source registry is [sources.json](../ai_security_scan/data/sources.json).
 
@@ -17,7 +17,7 @@ A missing source-code pattern is not a passed control. The optional LLM judge su
 - **dynamic**: execute authorized tests against a representative isolated system.
 - **manual**: assess architecture, operating procedures, and external evidence.
 
-The 46 implemented rules provide partial coverage of 30 controls. An empty `automated_rule_ids` list means no mapped static rule. A rule match does not establish that all acceptance checks under that control failed.
+The 47 implemented rules provide partial coverage of 30 controls. An empty `automated_rule_ids` list means no mapped static rule. A rule match does not establish that all acceptance checks under that control failed.
 
 ## Version and applicability
 
@@ -478,7 +478,7 @@ Validation: **hybrid**.
 
 Primary context: [MCP-ROOTS: MCP: Roots](https://modelcontextprotocol.io/specification/2026-07-28/client/roots); [JOINT-DEPLOY: Deploying AI Systems Securely: Best Practices for Deploying Secure and Resilient AI Systems](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/deploying-ai-systems-securely).
 
-Partial static rules: AI015, AI016, AI037.
+Partial static rules: AI015, AI016, AI037, AI047.
 
 #### EXEC-05 - Prevent SSRF and unsafe network destinations
 

@@ -62,7 +62,8 @@ def main():
                            ("remediation", rule['remediation']), ("explain command", rule['commands']['explain'])]:
             assert normalize(value) in text, "Missing scan " + key + ": " + rule['id']
     for phrase in ("Metrics, not a security grade", "active selected acceptance checks", "null (not applicable)",
-                   "invscan --list-scans", "invscan ./my-agent --scans AI001,AI043 --scans MCP-03",
+                   "invscan --list-scans", "--catalog-format json", "--help-topic all",
+                   "invscan ./my-agent --scans AI001,AI043 --scans MCP-03",
                    "Without a report flag", "Skills and malicious-tool indicators"):
         assert phrase in text, "Missing scope/metrics/skills explanation: " + phrase
     links = set()

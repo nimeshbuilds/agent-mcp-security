@@ -232,7 +232,7 @@ invscan --explain-control AUTH-01 --catalog-format json > ./auth-control.json
 
 Choose one catalog command. Explicit source/image inputs, scan options, model/login options and output controls such as `--quiet`, `--summary-json`, `--output` or `--pdf` are incompatible. Completed lookups, including no match, exit **0**; invalid input, unknown IDs in explain commands and incompatible options exit **2**. Neither exit is a security verdict.
 
-All **66 controls / 132 checks** are explained, but the **46 deterministic rules map partially to 30 controls**. A mapped rule does not establish an individual check as passing. Runtime and owner validation remain necessary. Primary control citations, suggested thematic alignments and technical rule references are separate relationships; source versions and dates are stored research snapshots, not live verification or official compliance certification. See the [security explorer guide](SECURITY_EXPLORER.md) for a worked investigation.
+All **66 controls / 132 checks** are explained, but the **47 deterministic rules map partially to 30 controls**. A mapped rule does not establish an individual check as passing. Runtime and owner validation remain necessary. Primary control citations, suggested thematic alignments and technical rule references are separate relationships; source versions and dates are stored research snapshots, not live verification or official compliance certification. See the [security explorer guide](SECURITY_EXPLORER.md) for a worked investigation.
 
 ## Optional security analyst
 
@@ -251,12 +251,13 @@ All **66 controls / 132 checks** are explained, but the **46 deterministic rules
 | `--judge-include-source` | Disabled | Add neighboring source to finding triage; requires `--judge-config` or `--judge-cli`. Full mode's separately bounded evidence selection does not depend on this flag. |
 | `--judge-max-findings N` | `100` | Open findings submitted to finding triage; accepts 1–500. All findings remain in the deterministic report. |
 | `--token-optimizer headroom\|compact\|off` | Config value, otherwise `headroom` | Lossless encoding of model evidence JSON; explicit flag overrides API or CLI JSON configuration. Requires `--judge-config` or `--judge-cli`. |
-| `--analyst-max-calls N` | `12` | Control-review request budget, 0–100. Finding triage uses one additional request. Zero leaves active controls explicitly unreviewed. |
+| `--analyst-investigation-rounds N` | `2` | Maximum evidence-request rounds per batch, 0–3. Zero uses seed excerpts only. Exact ranges must come from captured file IDs; no target execution or arbitrary paths/URLs. Requests and final conclusions share budgets. |
+| `--analyst-max-calls N` | `36` | Shared control conclusion and evidence-request call budget, 0–100. One conclusion call is reserved per remaining batch. Finding triage uses one additional request. Zero leaves active controls explicitly unreviewed. |
 | `--analyst-batch-size N` | `6` | Controls per review request, 1–20. Smaller batches can need more calls. |
 | `--analyst-max-files N` | `200` | Files considered for source evidence, 0–20000. |
 | `--analyst-max-bytes N` | `2000000` | Source-evidence read budget, 0–50000000. |
 | `--analyst-max-chars N` | `120000` | Retained redacted source characters, 0–1000000. |
-| `--analyst-time-budget N` | `180` | Scheduling/time budget in seconds, greater than zero and at most 3600. This is not a hard process deadline. |
+| `--analyst-time-budget N` | `600` | Scheduling/time budget in seconds, greater than zero and at most 3600. This is not a hard process deadline. |
 
 ```sh
 invscan ./repository --judge-config ./trusted-judge.json --summary-json
@@ -267,7 +268,7 @@ invscan ./repository --judge-config ./trusted-judge.json \
 
 Enabled AI review defaults to guarded Headroom 0.37.0 lossless JSON compaction; install it with `python -m pip install '.[ai]'` on Python 3.10+. The profile preserves all evidence and does not invoke a model, summarize source or add retrieval tools. Python 3.9, missing/unsupported Headroom or optimizer failure uses built-in compaction with a visible fallback receipt. `--token-optimizer compact` chooses the built-in encoder; `--token-optimizer off` keeps spaced JSON. The same `token_optimizer` field works in API and CLI JSON configs, and the explicit flag takes precedence. Receipts measure evidence bytes, not billed tokens or cost. Installing optional packages never enables a model without `--judge-cli` or `--judge-config`.
 
-The default full-review catalog contains 66 controls and 132 checks. Every active check is reviewed because even mapped static patterns provide only partial assurance. Explicit `--review-config` checklist exceptions are retained for audit and excluded from model requests and active review totals. The model can identify contextual concerns or evidence gaps that deterministic patterns cannot resolve. Source selection, budgets, schema checking, evidence validation, and the absence of tool dispatch are deterministic boundaries; the model's security conclusions remain nondeterministic.
+The default full-review catalog contains 66 controls and 132 checks. Every active selected check is queued because even mapped static patterns provide only partial assurance; failed or exhausted review can leave checks unanswered. Explicit `--review-config` checklist exceptions are retained for audit and excluded from model requests and active review totals. The model can identify contextual concerns or evidence gaps that deterministic patterns cannot resolve. Seed selection, authorization of requested snapshot ranges, budgets, schema checking, evidence validation, and the absence of tool dispatch are deterministic boundaries; the model's security conclusions remain nondeterministic.
 
 Unsupported claims and missing evidence stay unresolved. The analyst cannot turn code review into runtime validation, suppress findings, modify target files, or change the deterministic severity gate. Judge errors preserve deterministic report content and produce exit 2. The CLI reports incomplete analyst review on stderr even with `--quiet`.
 

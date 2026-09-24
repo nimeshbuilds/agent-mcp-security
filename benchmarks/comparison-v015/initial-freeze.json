@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "frozen_at_utc": "2026-09-24T01:43:37.113050+00:00",
+  "implementation_sha256": "f37ccc4df18b498672d04ac5760d56257f746528fe778a82df55e3bc2601d23c",
+  "challenge_commitment_sha256": "0c504c3ea08483b7f309bccd6c3b040c2e3b4dd111838b6317bddba7805903db",
+  "scope": "Initial candidate copied before labels or cases were disclosed to detector implementers. Later changes are separately development-scored."
+}

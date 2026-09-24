@@ -1,6 +1,6 @@
 <div class="inv-hero" markdown>
 
-<p class="inv-eyebrow">INVARUNE BY NIMESHBUILD · v0.14</p>
+<p class="inv-eyebrow">INVARUNE BY NIMESHBUILD · v0.15</p>
 
 # Evidence for agent security.
 
@@ -16,8 +16,8 @@ Inspect an AI agent, MCP server or skill from its source code or built Linux ima
 <div class="inv-stats">
 <div class="inv-stat"><strong>66</strong><span>project-defined controls</span></div>
 <div class="inv-stat"><strong>132</strong><span>acceptance checks</span></div>
-<div class="inv-stat"><strong>46</strong><span>deterministic detection rules</span></div>
-<div class="inv-stat"><strong>76</strong><span>source references</span></div>
+<div class="inv-stat"><strong>47</strong><span>deterministic detection rules</span></div>
+<div class="inv-stat"><strong>78</strong><span>source references</span></div>
 </div>
 
 ## One CLI, three starting points
@@ -43,14 +43,14 @@ invscan --help
 invscan --help-topic all
 ```
 
-[Install the CLI first](docs/QUICKSTART.md), or [download the v0.14 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.14.0). Core scanning uses Python 3.9+ and no runtime packages. PDF creation and AI integrations are optional extras.
+[Install the CLI first](docs/QUICKSTART.md), or [download the v0.15 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.15.0). Core scanning uses Python 3.9+ and no runtime packages. PDF creation and AI integrations are optional extras.
 
 ## Improvements you can inspect
 
-The unchanged **113-assertion** development corpus retains its known misses and false alarm. A separate **81-case / 331-assertion** skill/tool corpus tests direct malicious-instruction indicators and safe counterexamples, with three semantic/language misses retained. Fresh pinned-project reports show findings, additional analysis gaps, and the exact configuration. These are development measurements, not production accuracy or a universal tool ranking.
+Trace registered tool inputs through bounded source analysis, inspect malicious instruction patterns and identify explicit permission risks. Optional AI review can request missing context from captured source snapshots and explain the boundary, counterevidence and remaining uncertainty. The comparison publishes original results, newly discovered misses, post-fix development scores and separate challenge results. Fresh pinned-project reports retain every tool’s scope and operational gaps; these are measured development results, not a universal ranking.
 
 [See the charts, source reports and exact comparison](docs/BENCHMARK_DASHBOARD.md){ .md-button .md-button--primary }
-[Download the updated benchmark PDF](output/pdf/invarune-benchmark-v014.pdf){ .md-button }
+[Download the updated benchmark PDF](output/pdf/invarune-benchmark-v015.pdf){ .md-button }
 
 ## Follow the path you need
 
@@ -90,13 +90,13 @@ The unchanged **113-assertion** development corpus retains its known misses and 
 
     Inspect the recorded tests, installed-CLI quickstart, repeated source scans, skill fixtures and publication checks for this release.
 
-    [v0.14 validation](benchmarks/validation-v014/README.md) · [Quickstart receipt](benchmarks/quickstart-v014/README.md)
+    [v0.15 validation](benchmarks/validation-v015/README.md) · [Quickstart receipt](benchmarks/quickstart-v015/README.md)
 
 </div>
 
 ## Know what a result can establish
 
-The 46 rules provide **partial static coverage of 30 of the 66 controls**. The other controls need operational, runtime or human evidence. A clean scan does not prove that an agent is secure, and catalog lookup does not assess your application.
+The 47 rules provide **partial static coverage of 30 of the 66 controls**. The other controls need operational, runtime or human evidence. A clean scan does not prove that an agent is secure, and catalog lookup does not assess your application.
 
 The optional model review is nondeterministic and advisory. Its deterministic wrapper limits evidence, validates citations and responses, enforces budgets, and records incomplete work. A model answer cannot silently convert missing evidence into a verified pass. [Coverage and review design](docs/ANALYST.md).
 

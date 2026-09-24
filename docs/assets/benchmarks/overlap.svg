@@ -14,19 +14,19 @@
 <text x="38" y="202" fill="#edf9fc" font-size="18" font-weight="400" text-anchor="start" letter-spacing="0">Invarune × Semgrep CE</text>
 <text x="402" y="202" fill="#59dec2" font-size="24" font-weight="700" text-anchor="middle" letter-spacing="0">7</text>
 <text x="554" y="202" fill="#ffc16f" font-size="21" font-weight="700" text-anchor="middle" letter-spacing="0">0</text>
-<text x="737" y="202" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">139 / 146</text>
+<text x="737" y="202" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">140 / 147</text>
 <text x="909" y="202" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">20 / 27</text>
 <rect x="27" y="229" width="946" height="46" rx="10" fill="#102e3c"/>
 <text x="38" y="258" fill="#edf9fc" font-size="18" font-weight="400" text-anchor="start" letter-spacing="0">Invarune × Bandit</text>
-<text x="402" y="258" fill="#59dec2" font-size="24" font-weight="700" text-anchor="middle" letter-spacing="0">12</text>
+<text x="402" y="258" fill="#59dec2" font-size="24" font-weight="700" text-anchor="middle" letter-spacing="0">13</text>
 <text x="554" y="258" fill="#ffc16f" font-size="21" font-weight="700" text-anchor="middle" letter-spacing="0">5</text>
-<text x="737" y="258" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">129 / 146</text>
-<text x="909" y="258" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">925 / 938</text>
+<text x="737" y="258" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">129 / 147</text>
+<text x="909" y="258" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">924 / 938</text>
 <rect x="27" y="285" width="946" height="46" rx="10" fill="#102e3c"/>
 <text x="38" y="314" fill="#edf9fc" font-size="18" font-weight="400" text-anchor="start" letter-spacing="0">Invarune × Gitleaks</text>
 <text x="402" y="314" fill="#59dec2" font-size="24" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
 <text x="554" y="314" fill="#ffc16f" font-size="21" font-weight="700" text-anchor="middle" letter-spacing="0">0</text>
-<text x="737" y="314" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">145 / 146</text>
+<text x="737" y="314" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">146 / 147</text>
 <text x="909" y="314" fill="#edf9fc" font-size="19" font-weight="400" text-anchor="middle" letter-spacing="0">2 / 3</text>
 <text x="36" y="374" fill="#aac4cd" font-size="15" font-weight="400" text-anchor="start" letter-spacing="0">* No compatible-family counterpart in that tool. These are not measured false negatives.</text>
 <path d="M36 389H964" stroke="#294755"/>

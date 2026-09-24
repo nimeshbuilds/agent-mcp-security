@@ -114,6 +114,7 @@ nav:
       - Contributing: CONTRIBUTING.md
       - Developer overview: docs/developer/index.md
       - Architecture: docs/developer/architecture.md
+      - Detection algorithms and boundaries: docs/developer/detection-algorithms.md
       - Scan inventory and scope: docs/developer/scan-inventory.md
       - Extending controls and detectors: docs/developer/adding-checks.md
       - Report and review contracts: docs/developer/reports-and-reviews.md

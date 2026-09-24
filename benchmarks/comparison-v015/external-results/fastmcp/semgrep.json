@@ -1,0 +1,59 @@
+{
+  "command": [
+    "semgrep",
+    "scan",
+    "--config",
+    "{semgrep_rules}",
+    "--metrics=off",
+    "--disable-version-check",
+    "--disable-nosem",
+    "--no-git-ignore",
+    "--no-rewrite-rule-ids",
+    "--json",
+    "--quiet",
+    "--jobs",
+    "2",
+    "--timeout",
+    "10",
+    "--max-target-bytes",
+    "20000000",
+    "--output",
+    "{raw_output}/semgrep.json",
+    "{source}"
+  ],
+  "errors": [],
+  "files_reported_scanned": 283,
+  "finding_count": 2,
+  "findings": [
+    {
+      "end_line": 136,
+      "line": 136,
+      "path": "fastmcp_slim/fastmcp/server/providers/filesystem_discovery.py",
+      "rule_id": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "severity": "WARNING"
+    },
+    {
+      "end_line": 236,
+      "line": 236,
+      "path": "fastmcp_slim/fastmcp/server/providers/filesystem_discovery.py",
+      "rule_id": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "severity": "WARNING"
+    }
+  ],
+  "output_parse_error": null,
+  "process_exit_code": 0,
+  "raw_report_sha256": "e7e5723641154c2a4bc6df045f0917311bc39e37846f50a77056f11e25d46264",
+  "rule_counts": {
+    "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1": 2
+  },
+  "severity_counts": {
+    "WARNING": 2
+  },
+  "started_at_utc": "2026-09-24T01:27:45Z",
+  "status": "completed_with_findings",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timed_out": false,
+  "tool": "semgrep",
+  "wall_seconds": 5.248595
+}

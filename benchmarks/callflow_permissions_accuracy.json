@@ -1,0 +1,659 @@
+{
+  "schema_version": "1.0",
+  "name": "Invarune bounded call-flow and workspace permissions corpus",
+  "version": "1.0.0",
+  "provenance": "Project-authored inert security fixtures for v0.15. Labels follow the written source-to-sink or permission semantics. Separate from the unchanged 113-case corpus; not independent or production validation.",
+  "metric_unit": "One explicit rule-presence assertion per case; no target code is executed.",
+  "cases": [
+    {
+      "id": "py-wrapper-positional",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\nretrieve(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-keyword",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\nretrieve(address=user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-safe",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\nretrieve(\"https://fixed.example/\")",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-wrapper-unused",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\n",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-wrapper-alias",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\ngo=retrieve\ngo(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-alias-rebound",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\ngo=retrieve\ngo=print\ngo(user_url)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-wrapper-rebound",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\nretrieve=print\nretrieve(user_url)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-wrapper-local-shadow",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\ndef caller(retrieve):\n    retrieve(user_url)\ncaller(print)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-wrapper-return-taint",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef identity(value):\n    return value\nrequests.get(identity(user_url))",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-fixed-return",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef fixed(value):\n    return \"https://fixed.example/\"\nrequests.get(fixed(user_url))",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-wrapper-local-assignment",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef get(value):\n    address=value\n    return requests.get(address)\nget(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-local-reassignment",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef get(value):\n    value=\"https://fixed.example/\"\n    return requests.get(value)\nget(user_url)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-wrapper-chain",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\ndef outer(value):\n    return retrieve(value)\nouter(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-nested",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef outer(value):\n    def inner(address):\n        return requests.get(address)\n    return inner(value)\nouter(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-import-alias",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "from requests import get as fetch\ndef retrieve(address):\n    return fetch(address)\nretrieve(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-import-shadow",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    requests = safe_client\n    return requests.get(address)\nretrieve(user_url)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-wrapper-global-rebound",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef retrieve(address):\n    return requests.get(address)\nrequests=safe_client\nretrieve(user_url)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-wrapper-filesystem",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "def read(value):\n    return open(value).read()\nread(user_path)",
+      "expect": {
+        "AI015": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-fixed-file",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "def read(value):\n    return open(\"public.txt\").read()\nread(user_path)",
+      "expect": {
+        "AI015": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-guard-equality",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nif user_url == \"https://fixed.example/\":\n    requests.get(user_url)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-guard-reversed",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nif \"https://fixed.example/\" == user_url:\n    requests.get(user_url)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-guard-return",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\ndef get(address):\n    if address != \"https://fixed.example/\":\n        return None\n    return requests.get(address)\nget(user_url)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-guard-tuple",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nif user_url in (\"https://one.example/\", \"https://two.example/\"):\n    requests.get(user_url)",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "py-guard-prefix-insufficient",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nif user_url.startswith(\"https://fixed.example\"):\n    requests.get(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-guard-substring-insufficient",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nif \"fixed.example\" in user_url:\n    requests.get(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-guard-mutated-after",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nif user_url == \"https://fixed.example/\":\n    user_url=request.args[\"url\"]\n    requests.get(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-guard-outside-branch",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nif user_url == \"https://fixed.example/\":\n    pass\nrequests.get(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-guard-or-insufficient",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nif user_url == \"https://fixed.example/\" or allow_any:\n    requests.get(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-guard-validator-name-insufficient",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import requests\nif validate(user_url):\n    requests.get(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "py-wrapper-decorated-known-gap",
+      "suite": "challenge",
+      "path": "worker.py",
+      "source": "import requests\n@tool\ndef retrieve(address):\n    return requests.get(address)\nretrieve(user_url)",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "A decorator may replace the callable; direct call binding is deliberately unresolved. The declared sink still requires review."
+    },
+    {
+      "id": "js-wrapper-positional",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { return fetch(address); }\nretrieve(req.body.url);",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "js-wrapper-safe",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { return fetch(address); }\nretrieve(\"https://fixed.example/\");",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "js-wrapper-unused",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { return fetch(address); }\n",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "js-wrapper-alias",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { return fetch(address); }\nconst go = retrieve; go(req.body.url);",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "js-wrapper-rebound",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { return fetch(address); }\nretrieve = safe; retrieve(req.body.url);",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "js-wrapper-shadow",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { return fetch(address); }\nfunction caller(retrieve) { retrieve(req.body.url); }",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "js-wrapper-chain",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { return fetch(address); }\nfunction outer(value) { return retrieve(value); }\nouter(req.body.url);",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "js-wrapper-typed",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(address: string): Promise { return fetch(address); }\nretrieve(req.body.url);",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "js-wrapper-sink-shadow",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "const fetch = safe;\nfunction retrieve(address) { return fetch(address); }\nretrieve(req.body.url);",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "js-wrapper-parameter-sink-shadow",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(fetch, address) { return fetch(address); }\nretrieve(safe, req.body.url);",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "js-wrapper-chain-rebound",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { return fetch(address); }\nfunction outer(value) { return retrieve(value); }\nretrieve=safe; outer(req.body.url);",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "js-wrapper-axios",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "import axios from \"axios\";\nfunction retrieve(address) { return axios.get(address); }\nretrieve(req.body.url);",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "js-wrapper-comment",
+      "suite": "regression",
+      "path": "worker.ts",
+      "source": "// function retrieve(address) { return fetch(address); }\nretrieve(req.body.url);",
+      "expect": {
+        "AI014": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "js-wrapper-complex-known-gap",
+      "suite": "challenge",
+      "path": "worker.ts",
+      "source": "function retrieve(address) { const target=address; return fetch(target); }\nretrieve(req.body.url);",
+      "expect": {
+        "AI014": true
+      },
+      "rationale": "The JavaScript wrapper summary intentionally excludes multi-statement bodies; this source needs the optional evidence review or fuller language-aware analysis."
+    },
+    {
+      "id": "chmod-octal",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 0o777)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-decimal",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 511)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-file",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 0o666)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-sticky",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 0o1777)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-other-only",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 0o002)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-private-dir",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 0o700)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-private-file",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 0o600)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-controlled-group",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 0o770)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-read-all",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 0o644)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-zero",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", 0)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-boolean",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", True)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-string",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos.chmod(\"workspace\", \"777\")",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-alias",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "from os import chmod as mode\nmode(\"workspace\",0o777)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-propagated",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nmode=0o777\nos.chmod(\"workspace\",mode)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-bitwise",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os,stat\nmode=stat.S_IRUSR | stat.S_IWOTH\nos.chmod(\"workspace\",mode)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-bitwise-safe",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os,stat\nmode=stat.S_IRWXU | stat.S_IRGRP\nos.chmod(\"workspace\",mode)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-pathlib",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "from pathlib import Path\np=Path(\"workspace\")\np.chmod(0o777)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-inline-pathlib",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "from pathlib import Path\nPath(\"workspace\").chmod(0o777)",
+      "expect": {
+        "AI047": true
+      },
+      "rationale": "An explicit external argument reaches a recognized sensitive sink."
+    },
+    {
+      "id": "chmod-rebound",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os\nos=safe\nos.chmod(\"workspace\",0o777)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-unrelated-method",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "store.chmod(\"workspace\",0o777)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    },
+    {
+      "id": "chmod-flag-shadow",
+      "suite": "regression",
+      "path": "worker.py",
+      "source": "import os,stat\nstat=safe\nos.chmod(\"workspace\",stat.S_IWOTH)",
+      "expect": {
+        "AI047": false
+      },
+      "rationale": "The labeled sink is fixed, shadowed, constrained, rebound or not executed by this call."
+    }
+  ]
+}

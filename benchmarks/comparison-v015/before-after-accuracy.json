@@ -1,0 +1,136 @@
+{
+  "after": {
+    "accuracy_report": "accuracy-after.json",
+    "accuracy_report_sha256": "1434443d45b23804f1da6b2f9ed5e33f6732b0d7587bde9ee8eb31045e6363f8",
+    "analysis_error_cases": 0,
+    "by_suite": {
+      "challenge": {
+        "assertions": 8,
+        "false_negative": 0,
+        "false_negative_rate": 0.0,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 3,
+        "true_positive": 5
+      },
+      "regression": {
+        "assertions": 105,
+        "false_negative": 0,
+        "false_negative_rate": 0.0,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 50,
+        "true_positive": 55
+      }
+    },
+    "failed_case_ids": [],
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "overall": {
+      "assertions": 113,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 53,
+      "true_positive": 60
+    },
+    "tool_version": "0.15.0"
+  },
+  "before": {
+    "accuracy_report": "accuracy-before.json",
+    "accuracy_report_sha256": "4d8c0f5213eedb3879986665757e7f5e17689dd26417642df7fa8b2d62874a27",
+    "analysis_error_cases": 0,
+    "by_suite": {
+      "challenge": {
+        "assertions": 8,
+        "false_negative": 2,
+        "false_negative_rate": 0.4,
+        "false_positive": 1,
+        "false_positive_rate": 0.333333,
+        "precision": 0.75,
+        "recall": 0.6,
+        "true_negative": 2,
+        "true_positive": 3
+      },
+      "regression": {
+        "assertions": 105,
+        "false_negative": 0,
+        "false_negative_rate": 0.0,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 50,
+        "true_positive": 55
+      }
+    },
+    "failed_case_ids": [
+      "gap-interprocedural-url",
+      "gap-js-wrapper-taint",
+      "gap-validated-user-url"
+    ],
+    "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+    "overall": {
+      "assertions": 113,
+      "false_negative": 2,
+      "false_negative_rate": 0.033333,
+      "false_positive": 1,
+      "false_positive_rate": 0.018868,
+      "precision": 0.983051,
+      "recall": 0.966667,
+      "true_negative": 52,
+      "true_positive": 58
+    },
+    "tool_version": "0.14.0"
+  },
+  "changes": [
+    {
+      "after_detected": true,
+      "after_outcome": "true_positive",
+      "before_detected": false,
+      "before_outcome": "false_negative",
+      "case_id": "gap-interprocedural-url",
+      "expected": true,
+      "rule_id": "AI014"
+    },
+    {
+      "after_detected": true,
+      "after_outcome": "true_positive",
+      "before_detected": false,
+      "before_outcome": "false_negative",
+      "case_id": "gap-js-wrapper-taint",
+      "expected": true,
+      "rule_id": "AI014"
+    },
+    {
+      "after_detected": false,
+      "after_outcome": "true_negative",
+      "before_detected": true,
+      "before_outcome": "false_positive",
+      "case_id": "gap-validated-user-url",
+      "expected": false,
+      "rule_id": "AI014"
+    }
+  ],
+  "corpus": {
+    "case_count": 113,
+    "path": "benchmarks/static_accuracy.json",
+    "sha256": "eb7f1eba93f8e9842634cbd12687dde5bea879505d99d367621214583e54dde3",
+    "version": "1.2.0"
+  },
+  "experiment": "comparison-v015",
+  "input_invariants": {
+    "identical_case_ids_and_labels": true,
+    "identical_corpus_sha256": true
+  },
+  "label_policy": "No assertion removed or relabeled within this paired denominator; other tracks remain separate.",
+  "remaining_mismatches": [],
+  "schema_version": "1.0",
+  "scope": "Paired unchanged project-authored rule-presence assertions; not production vulnerability accuracy."
+}

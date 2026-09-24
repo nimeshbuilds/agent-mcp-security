@@ -1,0 +1,249 @@
+{
+  "case_count": 8,
+  "cisco_metadata": {
+    "analyzer": "yara",
+    "cases": [
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": true,
+        "finding_count": 0,
+        "id": "confirm-authority-order",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "An operative instruction puts tool metadata above the system message.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": false,
+        "finding_count": 0,
+        "id": "confirm-authority-defensive",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "An operative instruction preserves the system hierarchy.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": true,
+        "expected": true,
+        "finding_count": 1,
+        "id": "confirm-env-transfer",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI044",
+        "rationale": "An operative instruction explicitly transfers a sensitive environment file to a network recipient.",
+        "threat_names": [
+          "CREDENTIAL HARVESTING"
+        ]
+      },
+      {
+        "analysis_error": false,
+        "detected": true,
+        "expected": false,
+        "finding_count": 1,
+        "id": "confirm-public-template",
+        "outcome": "false_positive",
+        "predicate_rule_id": "AI044",
+        "rationale": "A public example template is explicitly selected, not the live .env or a credential value.",
+        "threat_names": [
+          "CREDENTIAL HARVESTING"
+        ]
+      }
+    ],
+    "command": [
+      "mcp-scanner",
+      "--analyzers",
+      "yara",
+      "--format",
+      "raw",
+      "--output",
+      "{output}",
+      "static",
+      "--tools",
+      "{input}"
+    ],
+    "input_sha256": "268dd40bda4838f6085285190eb211172fa5091ec0cb4e4cc3ebf74fa0660717",
+    "installed_identity": {
+      "distribution_version": "4.8.4",
+      "executable_sha256": "a787167bb556d37eb8e315f97d1442d2dac0600b074c85b0928d8999bf520fe5"
+    },
+    "overall": {
+      "analysis_error": 0,
+      "false_negative": 1,
+      "false_positive": 1,
+      "labeled_assertions": 4,
+      "precision": 0.5,
+      "recall": 0.5,
+      "scored_assertions": 4,
+      "true_negative": 1,
+      "true_positive": 1
+    },
+    "process_exit_code": 0,
+    "raw_report_sha256": "96cd26a41bbe6bb7f6666dd73ce850664dbed4aeb0efdd2df5271e7ba5ff0a4d",
+    "scope": "The same 4 offline literal tool descriptors; tool-level instruction-risk presence. Other analyzers disabled.",
+    "started_at_utc": "2026-09-24T01:57:49Z",
+    "tool": "cisco-mcp-scanner",
+    "version": "4.8.4",
+    "wall_seconds": 1.454124
+  },
+  "commitment_sha256": "dd29c921bd0deef97b575963e88ea584609279cab8646c9a2800277c288932c0",
+  "corpus_sha256": "268dae64f8cbca475a77b19f320128f2f2a66c0a40b72137359fb5af826a913d",
+  "invarune": {
+    "cases": [
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI014"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "confirm-bound-http",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI014",
+        "rationale": "A declared FastMCP entrypoint forwards its externally supplied URL through a keyword-only local helper.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "confirm-fixed-http",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI014",
+        "rationale": "The handler ignores its external URL and the helper receives a fixed destination.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI015"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "confirm-bound-file",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI015",
+        "rationale": "A declared MCP tool accepts a path that directly selects a local file without confinement.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "confirm-fixed-file",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI015",
+        "rationale": "The externally supplied path is replaced by a fixed file before the read.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": true,
+        "finding_count": 0,
+        "id": "confirm-authority-order",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "An operative instruction puts tool metadata above the system message.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "confirm-authority-defensive",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "An operative instruction preserves the system hierarchy.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": true,
+        "finding_count": 0,
+        "id": "confirm-env-transfer",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "An operative instruction explicitly transfers a sensitive environment file to a network recipient.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "confirm-public-template",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "A public example template is explicitly selected, not the live .env or a credential value.",
+        "track": "heldout-metadata"
+      }
+    ],
+    "implementation_sha256": "525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b",
+    "overall": {
+      "analysis_error": 0,
+      "false_negative": 2,
+      "false_positive": 0,
+      "labeled_assertions": 8,
+      "precision": 1.0,
+      "recall": 0.5,
+      "scored_assertions": 8,
+      "true_negative": 4,
+      "true_positive": 2
+    },
+    "process_exit_code": 0,
+    "raw_report_sha256": "d4b3ce957be6e062e5ab6a1928dc7364e5db250fca8b8862dc1abcbe2be49374",
+    "started_at_utc": "2026-09-24T01:57:49Z",
+    "tool": "invarune",
+    "tool_version": "0.15.0",
+    "tracks": {
+      "heldout-metadata": {
+        "analysis_error": 0,
+        "false_negative": 2,
+        "false_positive": 0,
+        "labeled_assertions": 4,
+        "precision": null,
+        "recall": 0.0,
+        "scored_assertions": 4,
+        "true_negative": 2,
+        "true_positive": 0
+      },
+      "heldout-source": {
+        "analysis_error": 0,
+        "false_negative": 0,
+        "false_positive": 0,
+        "labeled_assertions": 4,
+        "precision": 1.0,
+        "recall": 1.0,
+        "scored_assertions": 4,
+        "true_negative": 2,
+        "true_positive": 2
+      }
+    },
+    "wall_seconds": 0.033598
+  },
+  "metric_unit": "One explicit source/metadata risk-predicate assertion per case; no deployed exploitability claim.",
+  "not_scored": {
+    "bandit": "Python API audit findings do not implement equivalent MCP source-to-sink or instruction predicates.",
+    "gitleaks": "No live credential patterns supplied; unsupported scope does not earn true negatives.",
+    "semgrep": "The frozen generic security-audit pack has no equivalent MCP parameter-to-sink or instruction semantic guarantee.",
+    "snyk-agent-scan": "Authenticated service not executed."
+  },
+  "phase": "initial-heldout",
+  "provenance": "Separate benchmark assistant authored eight further cases after initial32case disclosure but before detector fixes completed. Text andlabels withheld until finalfreeze. Within-project temporal holdout only, not third-party independent or statistical population validation.",
+  "schema_version": "1.0"
+}

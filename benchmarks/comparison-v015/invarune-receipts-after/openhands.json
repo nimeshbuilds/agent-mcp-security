@@ -1,0 +1,123 @@
+{
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 9,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 1,
+      "scope": "Generic secret/URL signals, bounded English skill/instruction directives and selected Spanish/French/German override forms; no general translation. Language-specific execution/dataflow is not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 1215,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls, configuration and direct-return function-wrapper summaries; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 8,
+      "scope": "Parsed JSON/JSONC fields, selected configuration rules and recognized tool/input-schema descriptions; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 0,
+      "scope": "Python AST, bounded aliases/values, selected same-file argument/return flow, exact literal guards and read-only tool write witnesses; no whole-program or runtime proof."
+    }
+  },
+  "byte_identical_reports": true,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "tmp/real-world-src/openhands",
+    "--output",
+    "tmp/comparison-v015/invarune-after/openhands",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "execution": {
+    "exit_code": 2,
+    "failure_threshold": "high",
+    "finding_gate_triggered": true
+  },
+  "license": {
+    "path": "LICENSE",
+    "summary": "MIT",
+    "url": "https://github.com/OpenHands/OpenHands/blob/a07364828c8f202e7745c6bce3dcef3915ae7ac1/LICENSE"
+  },
+  "optional_judge_enabled": false,
+  "project": "openhands",
+  "repeated_runs": [
+    {
+      "elapsed_seconds": 3.256859,
+      "exit_code": 2,
+      "report_sha256": {
+        "report.html": "3b1be3d8135303f5d0c1983550105813409e03ccb6a0c1c0bd3563730146521f",
+        "report.json": "d8289b4028e4d75b47b3ef4130a8236533ffd22519c5ed9babac3128e5cc7ba7",
+        "report.md": "56b21fda54dc12168cec727ce783021cc91e8456191854d9fb4dba2fefccef57",
+        "report.sarif": "3e1a5df72cf101517b7f07bb8a331a58364d5b9c3fc0b1dc14ba29051568c83c"
+      },
+      "run": 1,
+      "started_at_utc": "2026-09-24T02:03:53.996348+00:00",
+      "stderr": "Scan incomplete: 3 coverage gaps; see the coverage details.\n"
+    },
+    {
+      "elapsed_seconds": 3.437001,
+      "exit_code": 2,
+      "report_sha256": {
+        "report.html": "3b1be3d8135303f5d0c1983550105813409e03ccb6a0c1c0bd3563730146521f",
+        "report.json": "d8289b4028e4d75b47b3ef4130a8236533ffd22519c5ed9babac3128e5cc7ba7",
+        "report.md": "56b21fda54dc12168cec727ce783021cc91e8456191854d9fb4dba2fefccef57",
+        "report.sarif": "3e1a5df72cf101517b7f07bb8a331a58364d5b9c3fc0b1dc14ba29051568c83c"
+      },
+      "run": 2,
+      "started_at_utc": "2026-09-24T02:03:57.255290+00:00",
+      "stderr": "Scan incomplete: 3 coverage gaps; see the coverage details.\n"
+    }
+  ],
+  "repository": "https://github.com/OpenHands/OpenHands",
+  "revision": "a07364828c8f202e7745c6bce3dcef3915ae7ac1",
+  "rule_counts": {
+    "AI010": 2,
+    "AI024": 4,
+    "AI040": 3
+  },
+  "scan_id": "7ed751566c8d730dd99aeebdd43ab1429d9dbcc1f41bf274736844c246d89ff9",
+  "schema_version": "1.0",
+  "source_bytes": 7520534,
+  "source_files": 1237,
+  "source_manifest_sha256": "37fe8836869ce0179b419719c16fe8cb1cb5f1a2724f6a7f608478d30aff753d",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 7487391,
+    "bytes_read": 7487391,
+    "coverage_gaps": 3,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 1233,
+    "open_findings": 9,
+    "scan_complete_within_selected_scope": false,
+    "severity_counts": {
+      "critical": 0,
+      "high": 2,
+      "info": 0,
+      "low": 4,
+      "medium": 3
+    },
+    "suppressed_findings": 0
+  },
+  "target_code_executed": false,
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.15.0"
+  }
+}

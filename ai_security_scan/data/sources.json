@@ -1464,5 +1464,35 @@
       "AGT-06"
     ],
     "date": "Undated living specification"
+  },
+  {
+    "id": "TECH-PYTHON-CHMOD",
+    "organization": "Python Software Foundation",
+    "title": "Python os.chmod and permission mode flags",
+    "url": "https://docs.python.org/3/library/os.html#os.chmod",
+    "kind": "API documentation",
+    "version": "Python 3 living documentation",
+    "accessed": "2026-09-23",
+    "scope": "Permission bits applied by os.chmod, fchmod and lchmod; platform limitations.",
+    "limitations": "Documents API semantics, not proof of runtime access or an AI security certification. Windows and ACL behavior require deployment validation.",
+    "suggested_control_ids": [
+      "EXEC-04"
+    ],
+    "date": "Undated living documentation"
+  },
+  {
+    "id": "CWE-732",
+    "organization": "MITRE",
+    "title": "CWE-732: Incorrect Permission Assignment for Critical Resource",
+    "url": "https://cwe.mitre.org/data/definitions/732.html",
+    "kind": "Weakness taxonomy",
+    "version": "Living CWE definition",
+    "accessed": "2026-09-23",
+    "scope": "Incorrect permissions allowing unintended access to a critical resource.",
+    "limitations": "A weakness classification, not an exploitability finding or complete permission audit. Agent/MCP mappings are authored by Invarune.",
+    "suggested_control_ids": [
+      "EXEC-04"
+    ],
+    "date": "Undated living definition"
   }
 ]

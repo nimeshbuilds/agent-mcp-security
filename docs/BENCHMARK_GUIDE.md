@@ -1,10 +1,23 @@
 # Benchmark evidence guide
 
-**Current release:** [visual benchmark dashboard](BENCHMARK_DASHBOARD.md), [fresh v0.14 execution evidence](../benchmarks/comparison-v014/README.md), and [updated benchmark PDF](../output/pdf/invarune-benchmark-v014.pdf). Earlier results below retain their original versions and scope.
+**Current release:** [visual benchmark dashboard](BENCHMARK_DASHBOARD.md), [fresh v0.15 execution evidence](../benchmarks/comparison-v015/README.md), and [updated benchmark PDF](../output/pdf/invarune-benchmark-v015.pdf). Earlier results below retain their original versions and scope.
 
 The published experiments show what Invarune and selected tools observed on bounded inputs, where their outputs overlapped, and which questions remain unresolved. They do not establish a universal scanner ranking, zero false positives/negatives, or a count of confirmed exploitable vulnerabilities.
 
-Start with the [current nine-page benchmark PDF](../output/pdf/invarune-benchmark-v014.pdf) and [v0.14 finding ledger](../benchmarks/comparison-v014/FINDINGS.md): 146 Invarune source patterns and 21 explicit gaps across eight pinned projects, alongside the unchanged 113-assertion comparison and separate 81-case skill/tool evaluation. The [121-page controlbook](../output/pdf/invarune-security-controlbook.pdf) documents the current 46-rule catalog and broader controls; listed research attack suites were not all executed. The [report library](REPORT_LIBRARY.md) distinguishes versions and includes current deterministic, successful Codex and failed-Claude selected-skill reports.
+Start with the [current benchmark PDF](../output/pdf/invarune-benchmark-v015.pdf) and [v0.15 finding ledger](../benchmarks/comparison-v015/FINDINGS.md). The current experiment preserves the same eight project exports and original development corpora, then adds a clearly separated harder challenge. The first blind candidate found only four of 16 risky cases; that result exposed missing tool-entrypoint input modeling and composed instruction gaps. It is retained beside fixes made after disclosure and a separate final sealed check. The [controlbook](../output/pdf/invarune-security-controlbook.pdf) documents controls and current static scope; referenced attack suites were not all executed.
+
+| Current v0.15 track | Denominator | What must stay visible |
+| --- | --- | --- |
+| Original paired development corpus | 113 rule-presence assertions | Identical source bytes and labels before/after |
+| Original skill/tool corpus | 81 cases, 331 assertions | Old schema-description scope label and resulting mismatch |
+| Corrected skill/tool revision | Same 81 inputs, 331 assertions | Exactly one explicitly changed label, separately scored |
+| First harder challenge | 32 cases: 16 source-flow, 16 metadata | Poor initial blind result and all post-disclosure development results |
+| Final sealed confirmation | Eight separate cases | First execution retained; identical presentation-only repeat labeled separately |
+| Equivalent metadata peer comparison | Same 16 descriptions, plus four separate sealed descriptions | Cisco YARA-only scope; disabled analyzers unmeasured |
+| Public-source comparison | Same 4,120 exported files across eight projects | Native observations, parser gaps, scope differences and exact repeatability |
+| Source audit examples | 12 purposively selected locations | Assistant review, not human adjudication or production TP precision |
+
+[Read all current results and reproduction commands](../benchmarks/comparison-v015/README.md), [why the harder challenge mattered](../benchmarks/comparison-v015/CHALLENGE.md), and [the official peer-capability research](../benchmarks/comparison-v015/RESEARCH.md). A model's opinion does not supply these fixture labels. The [report library](REPORT_LIBRARY.md) separates deterministic and optional-model examples.
 
 The detailed experiment walkthrough below is **historical v0.10 evidence**. Its [13-page finding comparison PDF](../output/pdf/invarune-finding-comparison-v010.pdf) and [1,117-observation ledger](../benchmarks/comparison-v010/FINDINGS.md) retain their original counts. The [earlier nine-page benchmark PDF](../output/pdf/invarune-benchmark-report.pdf) preserves the 0.8 experiment.
 
@@ -109,7 +122,7 @@ python3 scripts/adjudicate_scanner_findings.py --help
 
 Follow the [public-project export protocol](../benchmarks/real-world/README.md#reproduce-the-scans) to fetch exact commits and verify manifests. Follow the [external-tool reproduction guide](../benchmarks/external-tools/README.md#reproduce) for pinned installations and rule-pack checksums, then the [fresh comparison instructions](../benchmarks/comparison-v010/README.md#reproduce-or-inspect) for normalization, matching and provenance checks. The [adjudication guide](../benchmarks/comparison-v010/ADJUDICATION.md#reproduction) separates preparation, synthetic pipeline tests and explicit live review. Preparation is not a model answer.
 
-For current software behavior, use [0.14 validation](../benchmarks/validation-v014/README.md) and the [61-step installed quickstart receipt](../benchmarks/quickstart-v014/README.md). Test/branch coverage measures executed implementation paths, not detection accuracy. The [Headroom experiment](../benchmarks/token-optimization-v011/README.md) measures evidence-JSON bytes and preservation, not model token costs or security effectiveness.
+For historical v0.14 software behavior, use [0.14 validation](../benchmarks/validation-v014/README.md) and the [61-step installed quickstart receipt](../benchmarks/quickstart-v014/README.md). Test/branch coverage measures executed implementation paths, not detection accuracy. The [Headroom experiment](../benchmarks/token-optimization-v011/README.md) measures evidence-JSON bytes and preservation, not model token costs or security effectiveness.
 
 ## Sources and reuse terms
 

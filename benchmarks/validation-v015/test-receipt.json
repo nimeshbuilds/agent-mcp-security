@@ -1,0 +1,121 @@
+{
+  "coverage": {
+    "branch_percent": 89.82,
+    "branches": 4910,
+    "combined_percent": 92.97,
+    "covered_branches": 4410,
+    "covered_lines": 9123,
+    "path": "benchmarks/validation-v015/coverage.json",
+    "scope": "Parent-process code only; subprocess execution is exercised but not included by this coverage configuration. No file exclusions or omit filters.",
+    "sha256": "69db926e1408c9d3e4b46645f8471f162a7bdeb0d4f29339b43b16b29b26dd8e",
+    "statement_percent": 94.57,
+    "statements": 9647
+  },
+  "earlier_presentation_candidate": {
+    "implementation_sha256": "525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b",
+    "receipts": [
+      {
+        "path": "benchmarks/validation-v015/earlier-coverage-525.json",
+        "sha256": "2a5a3dfd173ce667cd2938abd5adfb28ec0e88500ecb85628d657f912942a38a"
+      },
+      {
+        "path": "benchmarks/validation-v015/earlier-quickstart-525.json",
+        "sha256": "290e799b4660399b52551736bcbd972e30ca44237ad2fe13256b04403a03d2ff"
+      },
+      {
+        "path": "benchmarks/validation-v015/earlier-report-review-525.json",
+        "sha256": "dfbfb3a8a62adb8c828ca79cd09f7776ca93f590550451a6a0e000da918bf31a"
+      }
+    ],
+    "scope": "Prior receipts retained unchanged for provenance; final results above rerun after only the HTML/PDF opening advisory-summary presentation fix. Use original receipts to inspect exact earlier identities."
+  },
+  "host": {
+    "machine": "arm64",
+    "platform": "Darwin",
+    "python": "3.12.14"
+  },
+  "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+  "logs": {
+    "v015-publication-coverage-tests.log": {
+      "sha256": "8c63b5a66ec27b8c437587ae1d55b79824ef3705fcac28fcd91e74d1bfb010be",
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 1016 tests in 68.365s",
+        "",
+        "OK"
+      ]
+    }
+  },
+  "not_claimed": [
+    "Exhaustive scenario coverage",
+    "Zero false positives or false negatives on arbitrary projects",
+    "Production vulnerability ground truth",
+    "Live provider compatibility from local fixture gateways",
+    "Windows/Linux or other Python-version success before their own executed CI receipts"
+  ],
+  "prior_final_code_suite": {
+    "coverage": "benchmarks/validation-v015/earlier-coverage-1014.json",
+    "coverage_sha256": "ad6eabdf9dc2b370797a9a1c18841841b5ac232387bd87a5d863d27ef1645763",
+    "reason": "Two benchmark-publication integrity regression tests added after the previous 1014-test run. Production scanner files, installed wheel, quickstart and report roundtrip inputs remain unchanged; only the full test suite and coverage were rerun.",
+    "test_receipt": "benchmarks/validation-v015/earlier-tests-1014.json",
+    "test_receipt_sha256": "3d63bfd23b3281f9760258cecc2ed0753714db091d552dd590ded48cbc90bc0d"
+  },
+  "quickstart": {
+    "headroom_ai_version": "0.37.0",
+    "loopback_requests": 72,
+    "path": "benchmarks/quickstart-v015/receipt.json",
+    "protocols": 6,
+    "real_model_calls": 0,
+    "result": "passed",
+    "sha256": "95e05f5d28cbabeda8775269c4ad5001789849d6e0fae6c703aa3658dff1be6b",
+    "source_package_snapshot_matches_checkout": true,
+    "steps": 63
+  },
+  "recorded_at_utc": "2026-09-24T02:18:34.903325+00:00",
+  "review_roundtrip": {
+    "formats": [
+      "html",
+      "md",
+      "json",
+      "sarif",
+      "pdf"
+    ],
+    "initial_scans": 2,
+    "model_calls": 0,
+    "path": "benchmarks/validation-v015/report-review-receipt.json",
+    "reviewed_scans": 10,
+    "sha256": "47fa9d9d0cff0f0a700b39bdcef593410ee3aaacdabaf8610eb49b048ca270ce"
+  },
+  "sarif": {
+    "files_validated": 28,
+    "groups": {
+      "local_installed_review_workflow": 14,
+      "published_earlier_presentation_examples": 3,
+      "published_examples": 3,
+      "published_pinned_projects": 8
+    },
+    "path": "benchmarks/validation-v015/sarif-receipt.json",
+    "sha256": "1f0d8c7e070f9e62209858d66ad2e4dea2e4b97f5656acb55f3201fae107e45c",
+    "status": "passed"
+  },
+  "scanner_version": "0.15.0",
+  "schema_version": "1.0",
+  "tests": {
+    "python_3_12_14": {
+      "elapsed_seconds": 68.365,
+      "errors": 0,
+      "exit_code": 0,
+      "failures": 0,
+      "run": 1016,
+      "skipped": 0
+    }
+  },
+  "wheel_content": {
+    "data_files": 5,
+    "matching_files": 40,
+    "path": "benchmarks/validation-v015/wheel-content-receipt.json",
+    "python_modules": 35,
+    "sha256": "17fd9d5724550e60517535e162c44a9657b092d97acaf3b8a3bfb604082c2112"
+  }
+}

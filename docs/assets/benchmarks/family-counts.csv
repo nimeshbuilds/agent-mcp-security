@@ -11,7 +11,7 @@ exception_continue,0,0,10,0
 exception_pass,0,0,106,0
 jwt_signature_bypass,1,0,0,0
 partial_executable_path,0,0,50,0
-permissive_file_mode,0,0,1,0
+permissive_file_mode,1,0,1,0
 pickle_family_api,4,10,4,0
 pickle_import,0,0,6,0
 process_execution_without_shell,0,0,1,0

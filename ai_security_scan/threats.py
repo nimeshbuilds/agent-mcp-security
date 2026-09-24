@@ -68,8 +68,10 @@ def _imperative(text, start):
         return False
     if re.search(r"[\"'“‘]", clause):
         return False
+    # A small operational-purpose grammar, not arbitrary prose before a verb.
+    clause = re.sub(r"^for (?:the |a )?(?:support|diagnostic|debug) (?:bundle|report|package),\s*", "", clause)
     return bool(re.fullmatch(
-        r"(?:[-+>\d.) ]*)?(?:(?:please|you must|you should|always|first|then|next|now|also|silently|secretly|immediately|instead|important|system|developer|assistant)\s*[, -]?\s*)*",
+        r"(?:[-+>\d.) ]*)?(?:(?:please|por favor|veuillez|bitte|you must|you should|always|first|then|next|now|also|silently|secretly|immediately|instead|important|system|developer|assistant)\s*[, -]?\s*)*",
         clause))
 
 
@@ -82,15 +84,30 @@ def _educational(text):
 
 
 _OVERRIDE = re.compile(r"\b(?:ignore|disregard|override|bypass|replace)\s+(?:(?:all|any|the|your|previous|prior|earlier|existing|higher[- ]priority|safety|security)\s+){0,6}(?:instructions?|system (?:prompt|message|instructions?)|developer (?:message|instructions?)|safety (?:policy|rules)|security (?:policy|rules))\b", re.I)
-_TRANSFER = re.compile(r"\b(?:send|upload|post|transmit|forward|exfiltrate)\b", re.I)
-_READ = re.compile(r"\b(?:read|collect|extract|copy|retrieve|open)\b", re.I)
-_SENSITIVE = re.compile(r"(?:\b(?:api[_ -]?keys?|access[_ -]?tokens?|auth(?:entication)?[_ -]?tokens?|passwords?|credentials?|private[_ -]?keys?|secrets?)\b|(?:~/|\$HOME/|/home/[^/ ]+/)?\.ssh/(?:id_rsa|id_ed25519)|(?<![\w])\.env\b|\bAWS_SECRET_ACCESS_KEY\b)", re.I)
+_TRANSFER = re.compile(r"\b(?:send|upload|post|transmit|forward|exfiltrate|attach|include|append)\b", re.I)
+_READ = re.compile(r"\b(?:read|collect|extract|copy|retrieve|open|locate)\b", re.I)
+_SENSITIVE = re.compile(r"(?:\b(?:api[_ -]?keys?|access[_ -]?tokens?|auth(?:entication)?[_ -]?tokens?|passwords?|credentials?|private[_ -]?keys?|secrets?|(?:login|password|credential) vault|credential store)\b|(?:~/|\$HOME/|/home/[^/ ]+/)?\.ssh/(?:id_rsa|id_ed25519)|(?<![\w])\.env\b|\bAWS_SECRET_ACCESS_KEY\b)", re.I)
 _DESTINATION = re.compile(r"https?://[^\s<>\"']+|\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b", re.I)
 _BYPASS = re.compile(r"\b(?:skip|bypass|disable|ignore)\s+(?:(?:all|any|the|user|human|security|tool|execution|required)\s+){0,5}(?:approvals?|confirmation|consent|permission (?:checks?|prompts?)|sandbox(?:ing)?)\b", re.I)
 _HIDE = re.compile(r"\b(?:(?:do not|don't|never)\s+(?:tell|inform|notify|mention (?:this )?to)\s+(?:the )?user|(?:hide|conceal)\s+(?:this|the (?:action|operation|execution|transfer))\s+from\s+(?:the )?user)\b", re.I)
 _ACTION = re.compile(r"\b(?:run|execute|delete|remove|overwrite|upload|send|post|transmit|install|modify|write|read|collect|extract)\b", re.I)
 _DESTRUCTIVE = re.compile(r"\b(?:delete|remove|overwrite|modify|write|truncate|drop)\s+(?:(?:the|all|specified|selected|a|an|existing|user|target|database)\s+){0,5}(?:files?|directories|directory|records?|rows?|tables?|database|data|contents?|workspace|documents?)\b", re.I)
 _BASE64 = re.compile(r"\b(?:base64(?:[- ]encoded)?(?:\s+(?:instructions?|payload))?\s*[:=]\s*|(?:decode|execute|follow|run)\s+(?:this\s+)?base64\s*[:=]?\s*)[`\"']?([A-Za-z0-9+/]{20,}={0,2})", re.I)
+_LOCALIZED_OVERRIDE = re.compile(
+    r"\b(?:ignor(?:a|e|en)|omite)\s+(?:(?:todas|todos|las|los|tus|sus)\s+){0,4}(?:instrucciones|directivas)\s+(?:anteriores|previas)\b"
+    r"|\b(?:ignorez|ignorer)\s+(?:(?:toutes|les|vos)\s+){0,3}instructions\s+(?:pr[ée]c[ée]dentes|ant[ée]rieures)\b"
+    r"|\bignoriere\s+(?:(?:alle|die|deine)\s+){0,3}(?:vorherigen|bisherigen|vorherige)\s+anweisungen\b", re.I)
+_INVALIDATE_AUTHORITY = re.compile(r"\b(?:the |all )?(?:earlier|previous|prior|system|developer|higher[- ]priority) (?:directives|instructions|rules|messages) (?:are|is) (?:now )?(?:obsolete|invalid|superseded|no longer (?:valid|applicable))\b", re.I)
+_REPLACE_AUTHORITY = re.compile(r"\b(?:the )?(?:sole|highest|final|only) authority (?:is|comes from) (?:now )?(?:this|the current) (?:tool description|skill|document|instructions)\b", re.I)
+_CONDITIONAL_AUTHORITY = re.compile(
+    r"\b(?:when|if) (?:the )?(?:system|developer) (?:message|instructions?|rules?) "
+    r"(?:disagrees?|conflicts?) with (?:this|the current) (?:tool|skill|document|tool description),? "
+    r"(?:then )?treat (?:this|the current) (?:tool|skill|document|tool description) as (?:the )?"
+    r"(?:final|sole|highest|only) authority\b", re.I)
+_ERASE_AUDIT = re.compile(
+    r"\b(?:delete|remove|erase|clear|truncate) (?:the |all |these )?"
+    r"(?:audit (?:logs?|trail)|security logs?|operation history) "
+    r"so (?:that )?(?:the )?user (?:cannot|can't|won't|will not) (?:see|audit|review|trace)\b", re.I)
 
 
 def _sensitive_object(text, verb_end):
@@ -100,7 +117,7 @@ def _sensitive_object(text, verb_end):
     if not match:
         return False
     prefix = tail[:match.start()].strip().lower()
-    if not re.fullmatch(r"(?:(?:the|all|any|a|an|your|user|raw|stored|collected|local|contents|content|of|file|files|entire)\s*)*", prefix):
+    if not re.fullmatch(r"(?:(?:the|all|any|a|an|your|user|raw|stored|collected|local|cloud|contents|content|of|file|files|entire|copy)\s*)*", prefix):
         return False
     return not re.match(r"\s+(?:names|identifiers|documentation|examples|hashes|guidelines)\b", tail[match.end():], re.I)
 
@@ -115,19 +132,38 @@ def _predicate_records(segment, value, detail=""):
     for match in _OVERRIDE.finditer(value):
         if _imperative(value, match.start()):
             add("AI043", match, "contains an explicit request to override higher-trust instructions; whether an agent follows it requires runtime validation.")
+    for match in _LOCALIZED_OVERRIDE.finditer(value):
+        tail = re.split(r"[.!?;\n]", value[match.end():], maxsplit=1)[0]
+        if _imperative(value, match.start()) and not re.search(r"\b(?:nicht|jamais|nunca|no)\b", tail, re.I):
+            add("AI043", match, "contains a recognized Spanish, French or German instruction-hierarchy override. This bounded language grammar is not general translation or proof of model compliance.")
+    invalidations = [m for m in _INVALIDATE_AUTHORITY.finditer(value) if _imperative(value, m.start())]
+    replacements = [m for m in _REPLACE_AUTHORITY.finditer(value) if _imperative(value, m.start())]
+    for match in invalidations:
+        if any(0 <= replacement.start() - match.end() <= 1200 for replacement in replacements):
+            add("AI043", match, "invalidates higher-trust instructions and assigns sole authority to the current tool/skill text within the same bounded segment. The paired authority claims require contextual and runtime review.")
+    for match in _CONDITIONAL_AUTHORITY.finditer(value):
+        if _imperative(value, match.start()):
+            add("AI043", match, "explicitly resolves a conflict with system/developer instructions in favor of the current tool or skill. Whether an agent honors this lower-trust authority claim requires runtime validation.")
     for match in _TRANSFER.finditer(value):
         if any(target.start() <= match.start() < target.end() for target in _DESTINATION.finditer(value)):
             continue  # A URL path such as /upload is data, not another verb.
         left, right = max(0, match.start() - 1000), min(len(value), match.end() + 1500)
         # A compound read-and-send instruction must begin with an imperative.
         direct = _imperative(value, match.start()) and _sensitive_object(value, match.end())
-        read = next((item for item in _READ.finditer(value[:match.start()])
-                     if item.start() >= left and _imperative(value, item.start()) and _sensitive_object(value, item.end())), None)
-        linked_read = read is not None and bool(re.match(r"\s+(?:it|them|these|that|the (?:contents|data|credentials|keys))\b", value[match.end():], re.I))
+        reads = [item for item in _READ.finditer(value[:match.start()])
+                 if item.start() >= left and _imperative(value, item.start())]
+        # Only the nearest operative retrieval can supply the referent. A later
+        # public-file retrieval must not inherit an earlier credential label.
+        read = reads[-1] if reads else None
+        linked_read = read is not None and _sensitive_object(value, read.end()) and bool(re.match(
+            r"\s+(?:it|them|these|that|the (?:contents|data|credentials|keys|attachment)|(?:this|that) (?:file|attachment))\b",
+            value[match.end():], re.I))
         # Explicit local negation of the transfer always wins over a prior read.
         before = value[max(left, match.start() - 30):match.start()]
         negated = bool(re.search(r"\b(?:do not|don't|never|must not|should not)\s*$", before, re.I))
         destination = bool(_DESTINATION.search(value[match.end():right]))
+        if match.group().lower() in {'include', 'append'}:
+            destination = destination and bool(re.search(r"\b(?:attachment|bundle|email|message|report|package)\b", value[match.end():right], re.I))
         if (direct or linked_read) and not negated and destination:
             add("AI044", match, "requests a sensitive object and an explicit network destination in the same bounded instruction. Authorization, destination ownership and actual transfer remain unverified.")
     for match in _BYPASS.finditer(value):
@@ -137,6 +173,9 @@ def _predicate_records(segment, value, detail=""):
     for match in _HIDE.finditer(value):
         if actions and any(abs(action.start() - match.start()) < 2000 for action in actions):
             add("AI045", match, "combines an action instruction with concealment from the user. Review consent and require auditable tool execution.")
+    for match in _ERASE_AUDIT.finditer(value):
+        if _imperative(value, match.start()):
+            add("AI045", match, "explicitly requests erasing audit evidence so the user cannot inspect the action. Authorization and actual execution remain unverified.")
     if segment.read_only:
         for match in _DESTRUCTIVE.finditer(value):
             if _imperative(value, match.start()):
@@ -257,8 +296,8 @@ def _python_segments(text, errors):
         value = _literal(node)
         if value is None:
             errors.append("Dynamic tool description at line %s was not resolved; instruction-threat checks require literal metadata." % node.lineno)
-        elif (node.lineno, value) not in seen:
-            seen.add((node.lineno, value))
+        elif (node.lineno, value, read_only) not in seen:
+            seen.add((node.lineno, value, read_only))
             segments.append(Segment(value, node.lineno, surface, read_only))
     def name(node):
         return node.id if isinstance(node, ast.Name) else node.attr if isinstance(node, ast.Attribute) else ""
@@ -267,12 +306,17 @@ def _python_segments(text, errors):
             return False
         annotation = next((kw.value for kw in node.keywords if kw.arg == "annotations"), None)
         if isinstance(annotation, ast.Dict):
-            if any(key is None for key in annotation.keys):
-                errors.append("Expanded Python tool annotations at line %s require contextual review." % annotation.lineno)
+            keys = [key.value if isinstance(key, ast.Constant) and isinstance(key.value, str) else None for key in annotation.keys]
+            if None in keys:
+                errors.append("Expanded or computed Python tool annotations at line %s require contextual review." % annotation.lineno)
                 return False
             values = {k.value: v for k, v in zip(annotation.keys, annotation.values) if isinstance(k, ast.Constant) and isinstance(k.value, str)}
             value = values.get("readOnlyHint")
         elif isinstance(annotation, ast.Call) and name(annotation.func) == "ToolAnnotations":
+            keys = [kw.arg for kw in annotation.keywords]
+            if None in keys or len(keys) != len(set(keys)):
+                errors.append("Expanded or duplicate ToolAnnotations arguments at line %s require contextual review." % annotation.lineno)
+                return False
             value = next((kw.value for kw in annotation.keywords if kw.arg == "readOnlyHint"), None)
         else:
             value = None
@@ -294,6 +338,35 @@ def _python_segments(text, errors):
 def _json_segments(text, errors):
     descriptors = []
     descriptor_count = 0
+    schema_nodes = 0
+    def schema_descriptions(schema):
+        nonlocal schema_nodes
+        pending = [schema]
+        while pending:
+            node = pending.pop()
+            schema_nodes += 1
+            if schema_nodes > 20000:
+                if schema_nodes == 20001:
+                    errors.append("Tool input-schema description inspection exceeded 20000 nodes; remaining schema instructions need review.")
+                return
+            if isinstance(node, dict):
+                if isinstance(node.get('description'), str):
+                    if len(descriptors) < MAX_SEGMENTS:
+                        descriptors.append((node['description'], False, id(node)))
+                    elif len(descriptors) == MAX_SEGMENTS:
+                        errors.append("Tool metadata descriptions exceeded 2048 segments; remaining schema instructions need review.")
+                # Only known schema subtrees; arbitrary example/const values
+                # are data and must not become operative instructions.
+                for key in ('properties', '$defs', 'definitions', 'patternProperties', 'dependentSchemas', 'dependencies'):
+                    if isinstance(node.get(key), dict):
+                        pending.extend(reversed(list(node[key].values())))
+                for key in ('items', 'additionalItems', 'additionalProperties', 'unevaluatedProperties',
+                            'unevaluatedItems', 'propertyNames', 'contentSchema', 'not', 'if', 'then', 'else', 'contains'):
+                    if isinstance(node.get(key), dict):
+                        pending.append(node[key])
+                for key in ('allOf', 'anyOf', 'oneOf', 'prefixItems', 'items'):
+                    if isinstance(node.get(key), list):
+                        pending.extend(reversed(node[key]))
     def pairs(items):
         nonlocal descriptor_count
         result = {}
@@ -312,30 +385,56 @@ def _json_segments(text, errors):
             elif isinstance(result.get("description"), str):
                 annotations = result.get("annotations", {})
                 readonly = isinstance(annotations, dict) and annotations.get("readOnlyHint") is True
-                descriptors.append((result["description"], readonly))
+                descriptors.append((result["description"], readonly, id(result)))
             elif result.get("description") is not None:
                 errors.append("A structured tool description is not a literal string; instruction-threat coverage is incomplete.")
+            if descriptor_count <= MAX_SEGMENTS:
+                for key in ('inputSchema', 'input_schema', 'parameters'):
+                    if isinstance(result.get(key), dict):
+                        schema_descriptions(result[key])
         return result
     try:
-        json.loads(text, object_pairs_hook=pairs)
+        root = json.loads(text, object_pairs_hook=pairs)
     except (ValueError, RecursionError, MemoryError):
         return []
     if not descriptors:
         return []
-    wanted = {value for value, _ in descriptors}
+    # Resolve description coordinates by their parsed object identity. Matching
+    # text alone could incorrectly anchor a tool finding to an identical string
+    # inside an earlier inert example/const or a different annotation scope.
+    wanted = {identity for _, _, identity in descriptors}
     locations = {}
-    for match in re.finditer(r'("(?:[^"\\]|\\.)*")\s*:\s*("(?:[^"\\]|\\.)*")', text):
-        try:
-            if json.loads(match.group(1)) != "description":
-                continue
-            value = json.loads(match.group(2))
-        except ValueError:
-            continue
-        if value in wanted:
-            locations.setdefault(value, []).append(text.count("\n", 0, match.start(2)) + 1)
+    stack, line, previous = [], 1, 0
+    for match in re.finditer(r'"(?:[^"\\]|\\.)*"|[{}\[\],:]', text):
+        line += text.count("\n", previous, match.start())
+        previous = match.end()
+        token = match.group()
+        if token in {'{', '['}:
+            if not stack:
+                value = root
+            else:
+                parent = stack[-1]
+                value = parent['value'][parent['key']]
+            stack.append({'value': value, 'key': None if isinstance(value, dict) else 0,
+                          'expects_key': isinstance(value, dict)})
+        elif token in {'}', ']'}:
+            stack.pop()
+        elif token == ',' and stack:
+            frame = stack[-1]
+            if isinstance(frame['value'], dict):
+                frame['expects_key'] = True
+            else:
+                frame['key'] += 1
+        elif token.startswith('"') and stack:
+            frame = stack[-1]
+            if frame['expects_key']:
+                frame['key'] = json.loads(token)
+                frame['expects_key'] = False
+            elif isinstance(frame['value'], dict) and frame['key'] == 'description' and id(frame['value']) in wanted:
+                locations[id(frame['value'])] = line
     segments = []
-    for value, readonly in descriptors:
-        line = locations[value].pop(0) if locations.get(value) else 1
+    for value, readonly, identity in descriptors:
+        line = locations.get(identity, 1)
         segments.append(Segment(value, line, "Structured tool description", readonly))
     return segments
 
@@ -444,6 +543,15 @@ def inspect_instructions(path, text, tokenize=None, instruction_context=False):
                         errors.append("Skill allowed-tools uses a nonliteral/complex value at line %s; its effective grant needs review." % number)
     elif suffix in {".py", ".pyi"}:
         segments = _python_segments(text, errors)
+        try:
+            tree = ast.parse(text)
+        except (SyntaxError, ValueError, RecursionError, MemoryError):
+            pass  # The ordinary Python analyzer retains syntax failures.
+        else:
+            from .tool_effects import inspect_python_tool_effects
+            effect_records, effect_errors = inspect_python_tool_effects(tree)
+            records.extend(effect_records)
+            errors.extend(effect_errors)
     elif suffix in {".json", ".jsonc"}:
         segments = _json_segments(text, errors)
     else:

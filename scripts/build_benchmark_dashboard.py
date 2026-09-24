@@ -15,8 +15,11 @@ import itertools
 import json
 from pathlib import Path
 import textwrap
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 PAGE = ROOT / "docs/BENCHMARK_DASHBOARD.md"
 ASSETS = ROOT / "docs/assets/benchmarks"
 TOOLS = ("invarune", "semgrep", "bandit", "gitleaks")
@@ -291,6 +294,8 @@ def inputs_for(args):
                 or skill_receipt["case_count"] != skills["case_count"]):
             fail("Skill receipt differs from recorded corpus/report bytes or counts")
         data["skills"] = skills
+    from scripts.benchmark_v015_data import load_extensions
+    data["extensions"] = load_extensions(directory, after["tool_version"], pair["after"]["implementation_sha256"], lambda path: load(path, inputs), check_accuracy) if after else None
     return data
 
 
@@ -516,6 +521,9 @@ Explore measured fixture outcomes, pinned source coverage and complementary scan
     for value, label in ((str(projects), "pinned public projects"), (format(offered, ","), "shared source files offered"), (str(current["case_count"]), "labeled development fixtures"), (str(gaps), "Invarune analysis gaps retained")):
         text += '<div class="ivb-stat"><strong>' + esc(value) + '</strong><span>' + esc(label) + '</span></div>\n'
     text += '</div>\n\n</div>\n\n'
+    if data.get("extensions"):
+        initial = data["extensions"]["challenge"]["initial"]["invarune"]["overall"]
+        text += "**The harder test mattered:** the first sealed 32-case candidate found " + str(initial["true_positive"]) + " of 16 risky cases and missed " + str(initial["false_negative"]) + ". That exposed an actual tool-entrypoint gap. The first score, fixes after disclosure and a separate final sealed check are all [shown below](#a-harder-test-exposed-a-real-gap).\n\n"
     text += '**Recorded scope:** ' + '; '.join(NAMES[tool] + ' **' + esc(run_versions[tool]) + '**' for tool in TOOLS) + '. The source comparison and fixture experiment have separate denominators. [Input hashes and chart data](assets/benchmarks/dashboard-data.json).\n\n'
     text += '''## Fixture progress
 
@@ -554,13 +562,37 @@ The before/after comparison uses the **same corpus bytes, case IDs, source text 
     if data.get("skills"):
         skills = data["skills"]
         text += "## Skills and malicious-tool indicators\n\n![Separate skill/tool fixture outcomes](assets/benchmarks/skills-tools.svg)\n\n"
-        text += ("The new **" + str(skills["case_count"]) + "-case / " + str(skills["overall"]["assertions"]) + "-assertion** corpus is separate from the unchanged 113-assertion comparison. It covers direct instruction hijacking, credential-transfer directives, concealed/approval-bypassing actions, contradictory tool annotations, safe counterexamples and obfuscation.\n\n")
+        text += ("The separate **" + str(skills["case_count"]) + "-case / " + str(skills["overall"]["assertions"]) + "-assertion** corpus is separate from the unchanged 113-assertion comparison. It covers direct instruction hijacking, credential-transfer directives, concealed/approval-bypassing actions, contradictory tool annotations, safe counterexamples and obfuscation.\n\n")
         text += ("All known misses remain visible. These authored risk-pattern labels do not establish malicious intent or deployed exploitability. The eight-project export excludes most skill documentation, so those source runs do not measure complete skill-package coverage. [Skill labels](../benchmarks/skills_tools_accuracy.json) · [Actual outcomes](" + comparison + "/skills-tools-accuracy.json) · [Every scan and its limits](SCAN_COVERAGE.md).\n\n")
-        text += "| Known skill/tool miss | Why it remains |\n| --- | --- |\n"
+        text += "| Skill/tool label mismatch | Authored rationale |\n| --- | --- |\n"
         for case in skills["cases"]:
             if any(a["outcome"] in {"false_positive", "false_negative"} for a in case["assertions"]):
                 text += "| `" + esc(case["id"]) + "` | " + esc(case["rationale"]) + " |\n"
         text += "\n"
+    if data.get("extensions"):
+        ext = data["extensions"]
+        text += "## A harder test exposed a real gap\n\n![First blind, post-disclosure and final sealed outcomes](assets/benchmarks/challenge-progression.svg)\n\n"
+        text += ("A separate benchmark assistant sealed **32 cases** before the first candidate freeze: 16 tool-input source-flow cases and 16 MCP descriptions. The first run exposed missing tool-handler entrypoint modeling and several composed instructions. That poor first result is retained. Fixes made after disclosure are measured on the same inputs, with the explicit **development** label. This is within-project separation, not third-party independent validation.\n\n")
+        text += "| Same 32 cases | TP | TN | FP | FN | Interpretation |\n| --- | ---: | ---: | ---: | ---: | --- |\n"
+        for title,key,meaning in [("Earlier v0.14 release","baseline","Historical baseline on newly authored cases"),("First v0.15 candidate","initial","First blind execution"),("Final v0.15","final","After disclosure and fixes; development")]:
+            c=ext["challenge"][key]["invarune"]["overall"]
+            text += "| " + title + " | " + " | ".join(str(c[k]) for k in OUTCOMES) + " | " + meaning + " |\n"
+        text += "\n[Every case and result]("+comparison+"/CHALLENGE.md) · [Original sealed commitment]("+comparison+"/challenge-commitment.json) · [First frozen result]("+comparison+"/challenge-initial.json).\n\n"
+        text += "### A separate final sealed confirmation\n\n"
+        c=ext["confirmation"]["invarune"]["overall"]
+        text += ("Eight additional cases were sealed after the first set was disclosed and before the detector freeze. Their first execution returned **"+str(c["true_positive"])+" TP / "+str(c["true_negative"])+" TN / "+str(c["false_positive"])+" FP / "+str(c["false_negative"])+" FN**. This small temporal holdout is reported separately; it is not a population accuracy estimate. The two misses remain open: a .env contents-transfer instruction and a precedence instruction referring to a system message. A subsequent report-presentation-only change required a repeat on the release bytes; all eight detector outcomes stayed identical. That repeat is not a new blind test. [All eight inputs]("+comparison+"/sealed-confirmation.json) · [Unedited first result]("+comparison+"/confirmation-first.json) · [Presentation-only repeat]("+comparison+"/confirmation-final.json).\n\n")
+        text += "### Compare the same MCP descriptions\n\n| Same 16 descriptors | TP | TN | FP | FN |\n| --- | ---: | ---: | ---: | ---: |\n"
+        for title,c in [("Invarune final deterministic",ext["challenge"]["final"]["invarune"]["tracks"]["heldout-metadata"]),("Cisco MCP Scanner 4.8.4 - YARA only",ext["challenge"]["final"]["cisco_metadata"]["overall"])]:
+            text += "| "+title+" | "+" | ".join(str(c[k]) for k in OUTCOMES)+" |\n"
+        text += ("\nBoth receive exactly the same literal descriptors; positives are authored instruction-risk predicates. Cisco's enabled engine passed a separate known-positive/safe [sanity check]("+comparison+"/cisco-engine-sanity.json). Its API, LLM and behavioral analyzers were disabled and are **not** assigned misses. This narrow result is not a ranking of the full products.\n\n")
+        text += "| Separate four sealed descriptors, first execution | TP | TN | FP | FN |\n| --- | ---: | ---: | ---: | ---: |\n"
+        for title,c in [("Invarune",ext['confirmation']['invarune']['tracks']['heldout-metadata']),("Cisco MCP Scanner 4.8.4 - YARA only",ext['confirmation']['cisco_metadata']['overall'])]:
+            text += "| "+title+" | "+" | ".join(str(c[k]) for k in OUTCOMES)+" |\n"
+        text += "\nThe public `.env.example` template is labeled a negative for the credential-transfer predicate; Cisco matches it, while both tools miss the system-message precedence instruction. These four examples do not support a general accuracy estimate.\n\n"
+        text += "### Keep the old label visible\n\n"
+        corrected=ext["corrected_after"]["overall"]
+        text += ("The unchanged 331-label result above still includes an old scope-exclusion label for a hierarchy override inside a tool-schema description. A separate corpus revision changes exactly that label, preserving all 81 source inputs. On corrected labels the final result is **"+str(corrected["true_positive"])+" TP / "+str(corrected["true_negative"])+" TN / "+str(corrected["false_positive"])+" FP / "+str(corrected["false_negative"])+" FN**. Neither original labels nor inconvenient outcomes are overwritten. [Explicit correction and paired runs]("+comparison+"/README.md).\n\n")
+        text += ("### What peer-only source alerts taught us\n\nThe previous Bandit count included 802 assertions, exception-pass statements, imports, subprocess calls without shells and partial executable paths. These are review surfaces, not 802 proven vulnerabilities. A 12-location source review identified the world-writable agent workspace as useful added scope and documented safe loaders, serialization and public endpoint strings that require different predicates. [Pinned source reviews]("+comparison+"/SOURCE_REVIEW.md) · [Official peer capabilities and research]("+comparison+"/RESEARCH.md). Production true-positive percentage remains unknown.\n\n")
     text += '''## Source coverage
 
 Equal exported input does not mean equal language support, rule scope or successful analysis. The chart shows Invarune's examined-file inventory with coverage gaps alongside it. Neither the bar length nor a zero-gap count proves runtime control effectiveness.
@@ -685,16 +717,38 @@ def skills_svg(report):
     return chart.finish("Separate fixture scope: not added to the 113-assertion before/after denominator.")
 
 
+def challenge_svg(ext):
+    chart=SVG(612,"A harder challenge exposed a real gap","Initial unseen cases, fixes after disclosure, and a separate small temporal holdout. Every false negative and false alarm remains visible.")
+    chart.text(36,115,"Same 32 authored cases: 16 risky predicates + 16 safe counterparts",17,MUTED)
+    for i,(label,key) in enumerate((("v0.14 baseline","baseline"),("v0.15 first blind candidate","initial"),("v0.15 after disclosure (development)","final"))):
+        c=ext['challenge'][key]['invarune']['overall'];y=154+i*102
+        chart.text(36,y,label,18,INK,'700')
+        x=36
+        for outcome in OUTCOMES:
+            width=720*c[outcome]/32
+            if width:chart.rect(x,y+16,width,23,COLORS[outcome],0)
+            x+=width
+        chart.text(36,y+65," / ".join(str(c[k])+" "+SHORT[k] for k in OUTCOMES),16,MUTED)
+    c=ext['confirmation']['invarune']['overall']
+    chart.rect(27,466,946,87,PANEL)
+    chart.text(43,494,"SEPARATE 8-CASE FINAL SEALED CHECK",14,'#59dec2','700')
+    chart.text(43,528," / ".join(str(c[k])+" "+SHORT[k] for k in OUTCOMES),24,INK,'700')
+    return chart.finish("Within-project temporal holdout, not external validation. Post-disclosure improvements are development results.")
+
+
 def outputs(data):
     charts = {"fixture-progress.svg": progress_svg(data), "confusion.svg": confusion_svg(data), "source-coverage.svg": coverage_svg(data), "family-footprint.svg": families_svg(data), "overlap.svg": overlaps_svg(data)}
     if data.get("skills"):
         charts["skills-tools.svg"] = skills_svg(data["skills"])
+    if data.get("extensions"):
+        charts["challenge-progression.svg"] = challenge_svg(data["extensions"])
     provenance = {"schema_version": "1.0", "product": "Invarune by NimeshBuild", "generator": "scripts/build_benchmark_dashboard.py", "preview": data["preview"],
                   "comparison": data["ledger"]["experiment"], "inputs": data["inputs"], "fixture_corpus_sha256": data["current"]["corpus_sha256"],
                   "catalog_counts": data.get("catalog_counts"),
                   "before": {"tool_version": data["before"]["tool_version"], "overall": data["before"]["overall"]},
                   "after": None if data["after"] is None else {"tool_version": data["after"]["tool_version"], "overall": data["after"]["overall"]},
                   "skills": {"case_count": data["skills"]["case_count"], "overall": data["skills"]["overall"], "corpus_sha256": data["skills"]["corpus_sha256"]} if data.get("skills") else None,
+                  "v015_evaluation_tracks": {"initial": data["extensions"]["challenge"]["initial"]["invarune"]["overall"], "post_disclosure": data["extensions"]["challenge"]["final"]["invarune"]["overall"], "confirmation": data["extensions"]["confirmation"]["invarune"]["overall"]} if data.get("extensions") else None,
                   "changed_assertions": data["changes"], "observations_by_tool": data["ledger"]["counts_by_tool"],
                   "metadata_track": {key: data["metadata"][key] for key in ("tool", "version", "status", "finding_count", "input_sha256", "raw_result_sha256")},
                   "interpretation": "Fixture counts use explicit development-visible rule-presence labels. Source observations and cross-tool overlap provide no confirmed-vulnerability, TP/FP or production-accuracy label.",
@@ -709,9 +763,9 @@ def outputs(data):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
-    parser.add_argument("--comparison", type=Path, default=ROOT / "benchmarks/comparison-v014", help="Recorded comparison with observations, overlaps and run statuses")
-    parser.add_argument("--before", type=Path, default=ROOT / "benchmarks/comparison-v014/accuracy-before.json", help="Actual before accuracy report")
-    parser.add_argument("--after", type=Path, default=ROOT / "benchmarks/comparison-v014/accuracy-after.json", help="Actual after accuracy report; mandatory for final generation")
+    parser.add_argument("--comparison", type=Path, default=ROOT / "benchmarks/comparison-v015", help="Recorded comparison with observations, overlaps and run statuses")
+    parser.add_argument("--before", type=Path, default=ROOT / "benchmarks/comparison-v015/accuracy-before.json", help="Actual before accuracy report")
+    parser.add_argument("--after", type=Path, default=ROOT / "benchmarks/comparison-v015/accuracy-after.json", help="Actual after accuracy report; mandatory for final generation")
     parser.add_argument("--corpus", type=Path, default=ROOT / "benchmarks/static_accuracy.json", help="Exact unchanged corpus bound by both accuracy reports")
     parser.add_argument("--preview", action="store_true", help="Render a visibly labeled design preview without an after result; not final benchmark evidence")
     parser.add_argument("--check", action="store_true", help="Verify committed page/assets match the inputs without changing files")

@@ -1,0 +1,123 @@
+{
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 10,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 4,
+      "scope": "Generic secret/URL signals and bounded recognized skill/instruction directives; language-specific execution and dataflow are not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 51,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls and configuration signals; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 12,
+      "scope": "Parsed JSON/JSONC fields and selected configuration rules; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 9,
+      "scope": "Python syntax, bounded local aliases/value tracking and selected security sinks; no whole-program or interprocedural proof."
+    }
+  },
+  "byte_identical_reports": true,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "{workspace}/tmp/real-world-src/mcp-reference",
+    "--output",
+    "{workspace}/tmp/comparison-v015/invarune-before/mcp-reference",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "execution": {
+    "exit_code": 0,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "license": {
+    "path": "LICENSE",
+    "summary": "Apache-2.0 transition / legacy MIT",
+    "url": "https://github.com/modelcontextprotocol/servers/blob/d73f99efbfd40c3aa1b61e88728b3d49fb52608f/LICENSE"
+  },
+  "optional_judge_enabled": false,
+  "project": "mcp-reference",
+  "repeated_runs": [
+    {
+      "elapsed_seconds": 0.282343,
+      "exit_code": 0,
+      "report_sha256": {
+        "report.html": "c5ed2af0290e0191397bb5216e0d3938ebccce0b360c05208215d4c7524d642e",
+        "report.json": "b5c86b649279edee8c65813308c2183ede7e33165534cb170903157174218f72",
+        "report.md": "669482597b33702aafb64b0d90e68d2832d058afff67f677ee8613ff77b25b33",
+        "report.sarif": "d5074d2d9d7f3d3a7832095885075309aa16de95bea47edb25869744802a268d"
+      },
+      "run": 1,
+      "started_at_utc": "2026-09-24T01:30:21.155478+00:00",
+      "stderr": ""
+    },
+    {
+      "elapsed_seconds": 0.275345,
+      "exit_code": 0,
+      "report_sha256": {
+        "report.html": "c5ed2af0290e0191397bb5216e0d3938ebccce0b360c05208215d4c7524d642e",
+        "report.json": "b5c86b649279edee8c65813308c2183ede7e33165534cb170903157174218f72",
+        "report.md": "669482597b33702aafb64b0d90e68d2832d058afff67f677ee8613ff77b25b33",
+        "report.sarif": "d5074d2d9d7f3d3a7832095885075309aa16de95bea47edb25869744802a268d"
+      },
+      "run": 2,
+      "started_at_utc": "2026-09-24T01:30:21.440221+00:00",
+      "stderr": ""
+    }
+  ],
+  "repository": "https://github.com/modelcontextprotocol/servers",
+  "revision": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+  "rule_counts": {
+    "AI007": 2,
+    "AI024": 14,
+    "AI025": 45
+  },
+  "scan_id": "b556c65e26af4b3305e6f11d2f2663ba691c1faa9c5fde2ec55017fd3ba294ba",
+  "schema_version": "1.0",
+  "source_bytes": 1003862,
+  "source_files": 86,
+  "source_manifest_sha256": "eaa2639a100f8f0fa21c908ab985841063148abc518573b7a720fcf8da9776bf",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 1003862,
+    "bytes_read": 1003862,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 86,
+    "open_findings": 61,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 59,
+      "medium": 2
+    },
+    "suppressed_findings": 0
+  },
+  "target_code_executed": false,
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.14.0"
+  }
+}

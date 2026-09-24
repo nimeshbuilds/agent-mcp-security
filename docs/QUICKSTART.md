@@ -2,11 +2,11 @@
 
 **NimeshBuild · Evidence for agent security**
 
-Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These checkout examples target **Invarune 0.14.0**. The primary command is **`invscan`**. Deterministic scans and catalog exploration need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
+Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These checkout examples target **Invarune 0.15.0**. The primary command is **`invscan`**. Deterministic scans and catalog exploration need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
 
 ## 1. Install the CLI and get your first report
 
-Want the CLI without a source checkout? The [v0.14.0 release](https://github.com/nimeshbuilds/invarune/releases/tag/v0.14.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. The release includes the installed CLI and offline scan inventory. The checkout route below also includes the example source and image fixtures used throughout this guide.
+Want the CLI without a source checkout? The [v0.15.0 release](https://github.com/nimeshbuilds/invarune/releases/tag/v0.15.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. The release includes the installed CLI and offline scan inventory. The checkout route below also includes the example source and image fixtures used throughout this guide.
 
 Clone the public repository (no GitHub login required):
 
@@ -35,7 +35,7 @@ $env:Path = "$((Resolve-Path .venv\Scripts).Path);$env:Path"
 invscan --version
 ```
 
-The PATH change applies to this terminal. Expect version **0.14.0** from the current checkout. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. The existing `invarune` and `ai-security-scan` commands are compatible aliases.
+The PATH change applies to this terminal. Expect version **0.15.0** from the current checkout. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. The existing `invarune` and `ai-security-scan` commands are compatible aliases.
 
 Run your first offline scan:
 
@@ -164,7 +164,7 @@ invscan --login claude
 
 Unattended, quiet and JSON-summary runs never prompt. Add `--judge-login never` to make that explicit. The official CLI must already be installed; account access and usage limits apply. Grok profiles must pass extension inspection. [Requirements, defaults and actual provider validation](CLI_PROVIDER_RESEARCH.md).
 
-**Enabled review defaults to full mode:** finding triage plus every active selected control/check, including controls with no findings. It sends bounded, redacted source excerpts to the selected service. A normal full catalog needs 11 control requests plus finding triage. Budgets or missing answers can leave an explicit incomplete result. Redaction is best-effort; enable review only for evidence you may send to that service.
+**Enabled review defaults to full mode:** finding triage plus every active selected control/check, including controls with no findings. It sends bounded, redacted source excerpts to the selected service. The defaults allow up to 36 control-review requests, 600 seconds of scheduling time and two evidence-request rounds per batch. A normal full catalog needs 11 conclusion requests plus finding triage; optional follow-ups share the control-request budget. Set `--analyst-investigation-rounds 0` for seed-only review. The model can request exact ranges from captured file IDs and must explain the risk and counterevidence it seeks; it cannot execute the target or read arbitrary files/URLs. Budgets or missing answers can leave an explicit incomplete result. Redaction is best-effort; enable review only for evidence you may send to that service.
 
 For a smaller, findings-only review:
 
@@ -252,7 +252,7 @@ Installed `invarune` and `ai-security-scan` accept the same flags and produce th
 
 ## Reproduce the quickstart validation
 
-The [executed 53-step quickstart receipt](../benchmarks/quickstart-v013/README.md) records command exits, fixture counts, package versions, and exact source-file hashes, including the new explorer commands. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
+The [executed 63-step v0.15 quickstart receipt](../benchmarks/quickstart-v015/README.md) records command exits, fixture counts, package versions, and exact source-file hashes, including the offline explorer, scan inventory and investigation help. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
 
 ```sh
 python3 scripts/validate_quickstart.py --output test-output/quickstart

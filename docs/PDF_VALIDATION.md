@@ -1,13 +1,23 @@
 # PDF artifact validation
 
-## Current release: v0.14
+## Current v0.15 security controlbook
 
-The current PDFs were regenerated from the **0.14.0** implementation and current catalogs. Their QA receipts identify exact artifact, source/input and builder hashes; they do not relabel historical scans as new measurements.
+The [current Invarune controlbook](../output/pdf/invarune-security-controlbook.pdf) was regenerated from scanner **0.15.0** and the frozen rule/catalog metadata. It has **123 pages, 123 bookmarks, 81 internal links and 79 unique external URLs**, including all **78 source records**. Its **47 exact scan contracts** describe the predicate, supported algorithm, limits, agent/MCP relevance, optional review, remediation and source relationships. All **66 controls and 132 acceptance checks** are present; static rules partially map to 30 controls. Mapping is not a passed control or security score.
+
+The revised explanations cover bounded Python argument/return flow, recognized and convention-based tool input boundaries, narrow JavaScript wrappers and inline registrations, finite literal constraints, world-writable permissions, instruction/schema metadata and read-only tool effect conflicts. Optional review describes captured-evidence range requests, counterevidence, deterministic controller limits and unchanged static results. Source entries show their individual access dates. The [cover preview](assets/controlbook-cover.png) is rendered from this edition.
+
+All **123 pages** were rendered with Poppler and visually inspected in six contact sheets. The cover, contents, execution coverage, analyst workflow, SSRF/filesystem rules, instruction rules, tool effects, permissions and new source-reference pages were also reviewed at full size. A final correction changed two option names on the CLI field-guide page: every page was rendered again, 122 page PNGs matched the previously reviewed bytes exactly, and the sole changed page 11 was visually inspected at full size. No clipping or overlap was observed; word-bounds inspection found zero words outside pages. Every internal destination and bookmark resolves. The final repeat build was byte-identical in the recorded environment.
+
+The [hash-bound controlbook QA receipt](../benchmarks/validation-v015/controlbook-receipt.json) records artifact, catalog, builder and verifier hashes, rendered-page hash provenance, completeness checks and dependency versions. This is a reference book with no editable fields. Operational scan reports have separate bound review forms and validation receipts. These checks do not establish scanner accuracy, source-site availability, compliance or identical behavior in every PDF viewer. The v0.14 edition is retained at its archived path below.
+
+## Historical release: v0.14
+
+These versioned PDFs were regenerated from the **0.14.0** implementation and current catalogs. Their QA receipts identify exact artifact, source/input and builder hashes; they do not relabel historical scans as new measurements.
 
 | Artifact | Pages | Bookmarks | Internal links | Unique external URLs | Editable fields |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | [Current benchmark update](../output/pdf/invarune-benchmark-v014.pdf) | 9 | 9 | 7 | 14 | 0 |
-| [Current security controlbook](../output/pdf/invarune-security-controlbook.pdf) | 121 | 121 | 80 | 77 | 0 |
+| [Archived v0.14 security controlbook](../output/pdf/invarune-security-controlbook-v014.pdf) | 121 | 121 | 80 | 77 | 0 |
 | [Selected deterministic skill/tool scan](../examples/reports/v014/skills-static/report.pdf) | 27 | 12 | 69 | 8 | 80 |
 | [Selected Claude authentication-failure scan](../examples/reports/v014/skills-claude/report.pdf) | 31 | 13 | 71 | 8 | 80 |
 | [Selected successful Codex review](../examples/reports/v014/skills-codex/report.pdf) | 39 | 13 | 71 | 8 | 80 |
@@ -121,3 +131,9 @@ bed01706affa81d4e8ba87c0372078a81b44a9a45ffb22305f7546b02c8a5b8d
 ```
 
 [Version 0.11 PDF validation receipt](../benchmarks/validation-v011/pdf-receipt.json) records the implementation fingerprint, exact artifact hashes, navigation destinations, form roundtrip and bounded inspection results. The earlier 0.9 and 0.10 artifacts and receipts above remain historical evidence.
+
+## v0.15 context investigation PDFs
+
+The final [deterministic context PDF](../examples/reports/v015/context-static/report.pdf) has **15 pages**, 12 bookmarks and 29 internal links. The [live Codex context PDF](../examples/reports/v015/context-codex/report.pdf) has **22 pages**, 13 bookmarks and 31 internal links. Both have ten canonical fields and ten matching widgets with appearance streams, and their embedded full reports and five-format review capsules match the adjacent JSON. [Hash-bound QA receipt](../benchmarks/validation-v015/context-pdfs-receipt.json).
+
+All 37 pages were rendered and inspected; the Codex opening, investigation evidence and review fields were also inspected individually. No clipping, overlap or out-of-page words were observed. The opening now states the one model-proposed gap and one insufficient-evidence answer separately from the zero static matches. These are actual bounded-review outputs, not model accuracy or deployment assurance. Earlier candidate outputs retain their original hashes; [execution history and exact scope](../examples/reports/v015/README.md).

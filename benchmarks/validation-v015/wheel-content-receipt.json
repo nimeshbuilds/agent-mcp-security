@@ -1,0 +1,214 @@
+{
+  "all_file_bytes_match_checkout": true,
+  "data_files": 5,
+  "files": [
+    {
+      "bytes": 140,
+      "path": "ai_security_scan/__init__.py",
+      "sha256": "5f087c80d3d7bf2ba9af6d64b87a44062ad32f63564845cf406eea47bd2067d8"
+    },
+    {
+      "bytes": 48,
+      "path": "ai_security_scan/__main__.py",
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
+    },
+    {
+      "bytes": 21259,
+      "path": "ai_security_scan/analyst.py",
+      "sha256": "e7c25aa999ff5c3732c31bd7dc615a5650d17ad1d64a362cd7de87fae9a42994"
+    },
+    {
+      "bytes": 130469,
+      "path": "ai_security_scan/analyzer.py",
+      "sha256": "dfaf6aa940098c2ed0159c46d43d3fd996c98bd77b0b94daf431ba3db54b5957"
+    },
+    {
+      "bytes": 13140,
+      "path": "ai_security_scan/assessment.py",
+      "sha256": "08cd5e260c9c0d44c908ea7d52aaf3ff35b931f2c04d0c0893a86b2ddc8cf210"
+    },
+    {
+      "bytes": 12793,
+      "path": "ai_security_scan/callflow.py",
+      "sha256": "042986585258eeef6d376398b1bf6e9b84b1124490e477f2dc8ea04d1d3f7111"
+    },
+    {
+      "bytes": 31855,
+      "path": "ai_security_scan/catalog.py",
+      "sha256": "e53c669e9af0192fdbf1b4fb927cd9b12eb2a1ecfd92ff2d5d5f35426293093d"
+    },
+    {
+      "bytes": 42806,
+      "path": "ai_security_scan/cli.py",
+      "sha256": "659441dfb06fe0829f72a8213669aac4424acacc6b139bcd3bcc5e13418bbf33"
+    },
+    {
+      "bytes": 51422,
+      "path": "ai_security_scan/cli_help.py",
+      "sha256": "c573d91f874aa1821f725b38bdd2c5717a15281902843bcbcfed51c124364f49"
+    },
+    {
+      "bytes": 32072,
+      "path": "ai_security_scan/cli_judge.py",
+      "sha256": "aa26d53a609decf3d78a7c31abb4994c335dab16941a8e176bbe0fb656654ee7"
+    },
+    {
+      "bytes": 38357,
+      "path": "ai_security_scan/data/control_explanations.json",
+      "sha256": "aea11867525bc7f488dcb22494af365261566a4b625ee319abf3843f8b8e8c71"
+    },
+    {
+      "bytes": 49482,
+      "path": "ai_security_scan/data/controls.json",
+      "sha256": "dff0b78c7212a2d1ebabacd23f7c4d11cbcc88b5867e60574b3e36f5ed704d51"
+    },
+    {
+      "bytes": 110235,
+      "path": "ai_security_scan/data/mitigations.json",
+      "sha256": "1bd48fd16d4fe76ae3ccd1cacddce9bea2dedd0000856d61b21ffb8ba8c5dd7b"
+    },
+    {
+      "bytes": 118196,
+      "path": "ai_security_scan/data/remediations.json",
+      "sha256": "1c6da192e79f958ee08a9f7aaef01dd6e193e2a3986a0bb31609ed305a574d94"
+    },
+    {
+      "bytes": 63474,
+      "path": "ai_security_scan/data/sources.json",
+      "sha256": "89fafd809356f5b062f9ea52eb5d99531902bc5bb59c34f4695d2838ad826105"
+    },
+    {
+      "bytes": 33848,
+      "path": "ai_security_scan/evidence.py",
+      "sha256": "94985b83cd859b09cad077ca16d3da6e3dd6b76db61c97e57eb2e3e4232e4553"
+    },
+    {
+      "bytes": 2049,
+      "path": "ai_security_scan/fs.py",
+      "sha256": "c8fbe653ed06fefd472e12e514c12cbd387cd6123ca7824fa50c7b3da543254f"
+    },
+    {
+      "bytes": 34306,
+      "path": "ai_security_scan/image_archive.py",
+      "sha256": "188a3c76f89653061a2c1b0e0b080ac72b8dca1da79b12c25fab95152b34775e"
+    },
+    {
+      "bytes": 25683,
+      "path": "ai_security_scan/image_assessment.py",
+      "sha256": "2110612cba6c0dad151167835c2efc54e8383105856b2c9ff722d090493ad3c8"
+    },
+    {
+      "bytes": 10446,
+      "path": "ai_security_scan/image_runtime.py",
+      "sha256": "fe9d794c0d8be6ed13ff86f73ba116dbb14e678c8446f79f9e1983d7a66029e3"
+    },
+    {
+      "bytes": 12404,
+      "path": "ai_security_scan/image_scan.py",
+      "sha256": "71b44b87569f3611606080481c5c838bcc32276dd506b1204d396832dca66a00"
+    },
+    {
+      "bytes": 57192,
+      "path": "ai_security_scan/judge.py",
+      "sha256": "ecd95c24313e0dc30dd1b19dc922378892b90b454c1b6999157c43b34c1e8e8f"
+    },
+    {
+      "bytes": 8133,
+      "path": "ai_security_scan/methodology.py",
+      "sha256": "b9b7d6fa8205f684ee50769daa81fc672b0daf056fee3fdf2f2b4dd9ad82e0e4"
+    },
+    {
+      "bytes": 4291,
+      "path": "ai_security_scan/remediation.py",
+      "sha256": "f743305ef26ecdae2350d2b6f67c91633abe40d928ff79fa125252c5f0da3815"
+    },
+    {
+      "bytes": 44349,
+      "path": "ai_security_scan/report.py",
+      "sha256": "6960c876a35c0d3e1f3381c781f6d0393c6289222c0fc62dcc7dc788331c50a5"
+    },
+    {
+      "bytes": 99959,
+      "path": "ai_security_scan/report_html.py",
+      "sha256": "608450e612a4d57b1ce7e413dadd8ce1b3ec409f66454c77c8f6259d490a2320"
+    },
+    {
+      "bytes": 66921,
+      "path": "ai_security_scan/report_pdf.py",
+      "sha256": "d853c7003191df59f50544c9661a97fb05a131742695be892b05323836dff33a"
+    },
+    {
+      "bytes": 13399,
+      "path": "ai_security_scan/review_policy.py",
+      "sha256": "0ddc5775bb43858d7c7b279e5a7c410eb2ee90c95be7c964031d683c9156561c"
+    },
+    {
+      "bytes": 26001,
+      "path": "ai_security_scan/review_workspace.py",
+      "sha256": "46d3a6ce388254be28fce38501bc361107418933f0a0618e0e6a2c1277bd00ec"
+    },
+    {
+      "bytes": 23368,
+      "path": "ai_security_scan/rules.py",
+      "sha256": "9f7379dcc316b49667367309dc49d50cf1491c1b914dd45a0a2af80e5099c001"
+    },
+    {
+      "bytes": 30547,
+      "path": "ai_security_scan/scan_catalog.py",
+      "sha256": "58c8157c9b45ed3b9119281dff8152fce06279c0848bfd93e22821e6876f899a"
+    },
+    {
+      "bytes": 20356,
+      "path": "ai_security_scan/scanner.py",
+      "sha256": "ad0763581acb8e17368bf25c44073002730b5141fc59076f72c058153ec7007b"
+    },
+    {
+      "bytes": 8473,
+      "path": "ai_security_scan/scoring.py",
+      "sha256": "eaa11aa4c54beac02f5dc3ea0aece11e821486828b9908f429aee7c19b3f9393"
+    },
+    {
+      "bytes": 1916,
+      "path": "ai_security_scan/security.py",
+      "sha256": "30e3589790b0c7c539632f1d3932c30ac569137787425bcf6eaf3a26751e4ed3"
+    },
+    {
+      "bytes": 1878,
+      "path": "ai_security_scan/selection.py",
+      "sha256": "098eb85a3af3f0c0d9485b51dd177e75feaa0f12f61d788152c1ecbd8bf4ba68"
+    },
+    {
+      "bytes": 8567,
+      "path": "ai_security_scan/skill_scope.py",
+      "sha256": "8cf130626f4f89febf3d7b239741560e73052452c91abe7ed8f465635db220c3"
+    },
+    {
+      "bytes": 5743,
+      "path": "ai_security_scan/terminal.py",
+      "sha256": "8f87053f45e3d90e0f268607dff3aa56f1b568b436f7713548673ef8238bc6f9"
+    },
+    {
+      "bytes": 35818,
+      "path": "ai_security_scan/threats.py",
+      "sha256": "a576780740c9e28f53baf09242631ca7d731fe272cca3aa6e415a6a17e9e8f1e"
+    },
+    {
+      "bytes": 4784,
+      "path": "ai_security_scan/token_optimizer.py",
+      "sha256": "819da068abe2406b0677c250450fe6f04ed6338eb698ed5dbb207041a079c1ac"
+    },
+    {
+      "bytes": 9245,
+      "path": "ai_security_scan/tool_effects.py",
+      "sha256": "0ab480a111867a4336eed5ea6ea5af3e42996a6640ce192ee09d8c186f3af9da"
+    }
+  ],
+  "matching_files": 40,
+  "no_extra_or_missing_package_files": true,
+  "python_modules": 35,
+  "scanner_version": "0.15.0",
+  "schema_version": "1.0",
+  "scope": "Local final wheel package bytes compared with current checkout; not a public-release download verification.",
+  "wheel": "tmp/dist-v015-final/agent_mcp_security_scan-0.15.0-py3-none-any.whl",
+  "wheel_sha256": "7ef8f2fbd269c48a8cd3d0e17efc8de80f9ea66d820a4a9c3c33d81cbad60941"
+}

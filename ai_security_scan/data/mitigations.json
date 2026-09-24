@@ -2337,7 +2337,7 @@
     },
     {
       "rule_id": "AI046",
-      "plausible_impact": "A client may prioritize tools or reduce consent using annotations; an explicit destructive description paired with readOnlyHint=true exposes conflicting metadata at that trust boundary.",
+      "plausible_impact": "A client may prioritize tools or reduce consent using annotations; a destructive description or resolved direct Python write paired with readOnlyHint=true exposes a conflicting tool contract. Actual execution and authorization remain unverified.",
       "immediate_action": "Temporarily handle the tool as potentially mutating; inspect its implementation and effective permissions before enabling autonomous calls.",
       "suggested_owner": "Agent/MCP tool or skill owner",
       "control_ids": [
@@ -2375,6 +2375,36 @@
           "source_ids": [
             "MCP-TOOLS",
             "AGENT-SKILLS-SPEC"
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "AI047",
+      "plausible_impact": "A local actor or adjacent agent can modify shared instructions, executable artifacts or data before a more privileged worker consumes them.",
+      "immediate_action": "Restrict the affected path to its intended owner or group, verify ownership, and review existing writable artifacts before reuse.",
+      "suggested_owner": "Agent/MCP runtime and filesystem owner",
+      "control_ids": [
+        "EXEC-04"
+      ],
+      "source_ids": [
+        "TECH-PYTHON-CHMOD",
+        "CWE-732"
+      ],
+      "defense_layers": [
+        {
+          "id": "filesystem-isolation",
+          "title": "Separate writable workspaces from trusted artifacts",
+          "how_it_helps": "Isolate each tenant or worker filesystem; mount trusted skills, tool code and credentials without write permission for untrusted identities.",
+          "verification": "Use two unrelated runtime identities and attempt to replace a harmless script or neighboring workspace file; retain the denied operation evidence.",
+          "residual_limit": "Permissions and isolation must be validated in the actual deployment, including mounts, ownership and ACLs.",
+          "control_ids": [
+            "EXEC-04",
+            "SUP-05"
+          ],
+          "source_ids": [
+            "TECH-PYTHON-CHMOD",
+            "CWE-732"
           ]
         }
       ]

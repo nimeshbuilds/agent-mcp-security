@@ -1,0 +1,57 @@
+{
+  "analysis_error_cases": 0,
+  "by_suite": {
+    "challenge": {
+      "assertions": 12,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 9,
+      "true_positive": 3
+    },
+    "regression": {
+      "assertions": 319,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 1,
+      "false_positive_rate": 0.003584,
+      "precision": 0.97561,
+      "recall": 1.0,
+      "true_negative": 278,
+      "true_positive": 40
+    }
+  },
+  "case_count": 81,
+  "corpus": {
+    "path": "benchmarks/skills_tools_accuracy.json",
+    "sha256": "9065690511251ff5668271b0426c41950fd5be3051f9f680df55fdacb0b72436",
+    "version": "1.0.0"
+  },
+  "experiment": "comparison-v015",
+  "failed_case_ids": [
+    "hierarchy-json-schema-field"
+  ],
+  "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+  "overall": {
+    "assertions": 331,
+    "false_negative": 0,
+    "false_negative_rate": 0.0,
+    "false_positive": 1,
+    "false_positive_rate": 0.003472,
+    "precision": 0.977273,
+    "recall": 1.0,
+    "true_negative": 287,
+    "true_positive": 43
+  },
+  "report": {
+    "path": "skills-tools-accuracy.json",
+    "sha256": "7309a53fbe4766a06103a8e40fd0eeecf21fcf9bd493c6402f6d10bf0b18111b"
+  },
+  "schema_version": "1.0",
+  "scope": "Original 331 skill/tool assertions unchanged, including old scope-exclusion labels; explicit revised-label track is separate.",
+  "separate_denominator": true,
+  "tool_version": "0.15.0"
+}

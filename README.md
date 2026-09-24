@@ -4,7 +4,7 @@
 
 **Invarune** (IN-vuh-roon) provides the `invscan` CLI to inspect an agent/MCP codebase, skill directory or built Linux container image, identify selected security risks, and produce a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every active control through a deterministic evidence and validation layer, using native LLM APIs, a custom HTTP gateway, or an official Codex, Claude Code or Grok Build CLI. The model's judgment remains nondeterministic and advisory.
 
-The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **46 deterministic rules provide partial static coverage of 30 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
+The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **47 deterministic rules provide partial static coverage of 30 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
 
 - **[Every scan: algorithms, source benchmarks, limits and optional AI coverage](docs/SCAN_COVERAGE.md)**
 - **[Quick start: install and use invscan](docs/QUICKSTART.md)**
@@ -12,7 +12,7 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - **[Visual benchmark dashboard](docs/BENCHMARK_DASHBOARD.md)** — fresh measurements, improvements, complementary tool coverage and reproducible evidence.
 - **[Report and PDF library](docs/REPORT_LIBRARY.md)** · **[Developer guide](CONTRIBUTING.md)**
 - **[Ask about security controls offline](docs/SECURITY_EXPLORER.md)**
-- **[Download the v0.14 CLI wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.14.0)**
+- **[Download the v0.15 CLI wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.15.0)**
 - **[Versioned scan example: fillable PDF, HTML and live AI review](examples/reports/invscan-v011/README.md)**
 - [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
 - [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
@@ -20,8 +20,8 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - [Complete CLI reference](docs/CLI.md)
 - [Justified and disabled checks: review configuration](docs/REVIEW_CONFIGURATION.md)
 - [Accuracy methodology and known false positives/negatives](docs/RULE_ACCURACY.md)
-- [Fresh finding-by-finding competitor comparison](benchmarks/comparison-v014/README.md)
-- [Executed quickstart validation and receipts](benchmarks/quickstart-v014/README.md)
+- [Fresh finding-by-finding competitor comparison](benchmarks/comparison-v015/README.md)
+- [Executed quickstart validation and receipts](benchmarks/quickstart-v015/README.md)
 - [Real-project reports and comparative scanner benchmark](docs/BENCHMARK_RESULTS.md)
 - [CLI subscription login, model defaults and live-test evidence](docs/CLI_PROVIDER_RESEARCH.md)
 - [Detailed security checklist](docs/SECURITY_CHECKLIST.md)
@@ -43,17 +43,19 @@ invscan --image-archive ./agent.tar --scans AI043,AI044,AI045,AI046
 
 With no `--report`, `--output` or `--pdf`, the CLI prints findings, fixes, selected controls, coverage gaps and optional AI outcomes directly in the terminal and writes no report files. `--report [DIR]` saves four editable formats; `--pdf` adds the fillable PDF. Repeat `--scans` or comma-separate rule/control IDs. A control with no mapped detector remains an explicit review plan with zero static rules.
 
-Version **0.14** adds skill instructions and malicious-tool indicators, scoped reports, exact scoring formulas, and evidence routing for inconclusive static analysis. A detected directive is risk evidence, not proof of malicious authorship. Optional review examines selected active controls, including uncertain and unmapped checks, but cannot erase static findings or establish runtime safety. [Full scan matrix and scoring guide](docs/SCAN_COVERAGE.md).
+Version **0.15** strengthens bounded source flow, registered tool entrypoints, malicious instructions inside schemas, explicit read-only/write-effect conflicts and world-writable workspace checks. Optional AI review can request missing context from captured snapshots, seek counterevidence and record its reasoning limits. A detected directive is risk evidence, not proof of malicious authorship. Optional review examines selected active controls, including uncertain and unmapped checks, but cannot erase static findings or establish runtime safety. [Full scan matrix and scoring guide](docs/SCAN_COVERAGE.md).
 
-## Measured results in v0.14
+## Measured results in v0.15
 
 ![Same-input fixture outcomes before and after this release](docs/assets/benchmarks/fixture-progress.svg)
 
-The unchanged **113-assertion, project-authored corpus** retains **58 TP / 52 TN / 1 FP / 2 FN**: **98.31% precision** and **96.67% recall**. This release adds skill/tool inspection without claiming an improvement on that historical denominator. The separate **81-case / 331-assertion skill/tool corpus** records **40 TP / 288 TN / 0 FP / 3 FN**, with all known semantic/language misses retained.
+The unchanged **113-assertion, project-authored corpus** improves from **58 TP / 52 TN / 1 FP / 2 FN** to **60 TP / 53 TN / 0 FP / 0 FN**. This is a development measurement, not production accuracy. A separately authored 32-case challenge first exposed **12 misses**; the disclosed cases reach **16 TP / 16 TN** after fixes. The further eight-case sealed confirmation retains **2 TP / 4 TN / 0 FP / 2 FN**. Those misses are published, not tuned away or hidden.
 
-Fresh scans cover the same **eight pinned public projects / 4,120 exported files**: **146 observations and 21 explicit coverage gaps**. Six additional gaps expose dynamic descriptions and metadata outside configured analysis bounds. All 32 detailed source report files match two repeated executions. Fresh pinned Semgrep CE, Bandit, Gitleaks and separate Cisco metadata runs retain scope differences and tool-only findings. Public-project true-positive rates remain unknown without independent adjudication.
+The skill/tool corpus keeps its original **331 labels** and publishes an explicit one-label revision for agent-visible schema descriptions. The original labels yield **43 TP / 287 TN / 1 FP / 0 FN**; the corrected labels yield **44 TP / 287 TN / 0 FP / 0 FN**. Separate flow/permission development cases retain two known misses. Every denominator and the reason for the label correction are documented.
 
-[Explore the visual dashboard](docs/BENCHMARK_DASHBOARD.md) · [Updated benchmark PDF](output/pdf/invarune-benchmark-v014.pdf) · [Inspect all 1,114 observations](benchmarks/comparison-v014/FINDINGS.md) · [Historical v0.13 improvement](benchmarks/comparison-v013/README.md)
+Fresh paired scans cover the same **eight pinned public projects / 4,120 exported files**: **147 observations and 24 explicit coverage gaps**. The added permission finding is tied to an actual AutoGen agent-execution workspace. New unsupported callback/coroutine gaps remain visible. All 32 source report files match repeated executions. Semgrep CE, Bandit, Gitleaks and Cisco's separate metadata YARA track have explicit configurations and finding-level comparisons; their broader or narrower scopes are not a universal ranking. Public-project true-positive rates remain unestablished.
+
+[Explore the visual dashboard](docs/BENCHMARK_DASHBOARD.md) · [Updated benchmark PDF](output/pdf/invarune-benchmark-v015.pdf) · [Inspect all 1,115 observations](benchmarks/comparison-v015/FINDINGS.md) · [Source review explaining peer-only alerts](benchmarks/comparison-v015/SOURCE_REVIEW.md)
 
 ## Ask what the security checks cover
 
@@ -69,23 +71,23 @@ invscan --explain-source JOINT-AGENTIC
 invscan --explain-control AUTH-01 --catalog-format json
 ```
 
-These commands read the bundled catalog only. `--ask` is bounded deterministic token/alias lookup, not generative chat or a scan of your system. Answers explain why each control matters, its acceptance checks, partial static mappings, source organizations and validation limits. Primary control citations, thematic alignments and technical rule references remain distinct. The 46 rules map partially to 30 controls; an explanation does not establish that a check passes.
+These commands read the bundled catalog only. `--ask` is bounded deterministic token/alias lookup, not generative chat or a scan of your system. Answers explain why each control matters, its acceptance checks, partial static mappings, source organizations and validation limits. Primary control citations, thematic alignments and technical rule references remain distinct. The 47 rules map partially to 30 controls; an explanation does not establish that a check passes.
 
 New explorer commands default to readable text. The existing `--list-rules`, `--list-controls` and `--explain-rule` retain their JSON defaults; `--catalog-format text` requests a readable view. No model or login is enabled. [Complete explorer guide](docs/SECURITY_EXPLORER.md), or run `invscan --help-topic security`.
 
 [Read versioned installed CLI answers](examples/security-explorer/README.md). Historical version **0.13** passed **845 local tests**, a **53-step fresh-install quickstart**, and **all eight cross-platform CI jobs**. Its released wheel was downloaded back, hash-verified and installed in another fresh environment. [Historical validation receipts](benchmarks/validation-v013/README.md).
 
-## Editable scan examples (v0.14)
+## Actual bounded AI investigation reports
 
-[Open the actual selected-skill reports](examples/reports/v014/README.md): four risky instruction patterns, concrete fixes and mitigating layers, selected control coverage, explicit metric formulas and editable justifications. The completed live Codex run retains all four deterministic findings and answers all twelve selected checks: two potential gaps and ten insufficient-evidence answers. Headroom's recorded payload reduction is 466 bytes across four completed calls; token savings are unmeasured.
+[Read the v0.15 scan examples](examples/reports/v015/README.md). The authored cross-file fixture produces no deterministic match; the live Codex review requests the missing predicate, considers the fixed-destination path and disabled redirects as counterevidence, and returns a cited advisory gap. The public MCP filesystem review inspects real pinned source, with its deterministic coverage gap preserved. Reports expose investigation receipts, structured reasoning, proposed fixes and editable justifications in all five formats.
 
-<p align="center"><a href="examples/reports/v014/skills-codex/report.pdf"><img src="docs/assets/invscan-v014-report-cover.png" alt="Invarune 0.14 selected-skill report with live advisory review" width="440"></a></p>
+<p align="center"><a href="examples/reports/v015/context-codex/report.pdf"><img src="docs/assets/invscan-v015-report-cover.png" alt="Invarune 0.15 live investigation report with separate advisory outcomes" width="440"></a></p>
 
-The deterministic report, actual Claude sign-in failure and first Codex timeout remain available alongside the successful retry. These are narrow fixture demonstrations, not production vulnerability adjudication. The [older full-scope report](examples/reports/invscan-v011/README.md) remains historical evidence. The controlbook below is the separate research/control reference.
+These are actual model executions, not independent vulnerability ground truth. Optional advice cannot erase findings or incomplete scope. Earlier attempts remain available with their original hashes. [Historical v0.14 skill/Claude-authentication/Codex examples](examples/reports/v014/README.md).
 
 ## The Invarune controlbook
 
-[Download the branded PDF](output/pdf/invarune-security-controlbook.pdf): **121 pages**, all **66 controls**, **132 acceptance checks**, **76 primary-source references**, **9 executable research benchmarks**, the **46-rule algorithm and remediation index**, and the controlled analyst workflow. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
+[Download the branded PDF](output/pdf/invarune-security-controlbook.pdf): **123 pages**, all **66 controls**, **132 acceptance checks**, **78 source references**, **9 executable research benchmarks**, the **47-rule algorithm and remediation index**, and the controlled analyst workflow. Every control links to source context; the source directory records versions, applicability, drafts, and limitations.
 
 <p align="center"><a href="output/pdf/invarune-security-controlbook.pdf"><img src="docs/assets/controlbook-cover.png" alt="Invarune AI Agent and MCP Security Controlbook cover" width="380"></a></p>
 
@@ -160,7 +162,7 @@ invscan /path/to/repo --review-report ./reviewed-report.html --pdf --output ./fi
 
 Use the HTML **Download reviewed HTML** button to preserve form edits. Keep reports outside the source target and select the fresh code/image input explicitly. [Complete five-format review workflow](docs/REVIEW_WORKFLOW.md).
 
-[Current v0.14 installed validation](benchmarks/validation-v014/README.md) records 925 tests and 61 actual quickstart steps.
+[Current v0.15 installed validation](benchmarks/validation-v015/README.md) records the executed test suite, fresh installation and 63 actual quickstart steps.
 
 The report starts with what was found and what needs attention first. It groups repeated findings by rule, status, and image context, and distinguishes open concerns from accepted baseline exceptions. Critical/high findings lead the action plan; proposed layers such as isolation, scoped authorization, egress restrictions, approval checks, and monitoring include verification work and remaining limitations. A proposed layer is never treated as already deployed or used to lower the detected severity. The summary and action plan are generated without a model; optional advisory review remains separate. See the [report guide](docs/REPORTS.md) for interpretation and mitigation verification.
 
@@ -281,18 +283,18 @@ Set `SECURITY_JUDGE_API_KEY` using your shell or secret manager, then:
 ```sh
 invscan /path/to/repo --judge-config ./judge.json --output ./scan-report
 
-# Increase the scheduling budget for slower models.
+# Set the scheduling budget explicitly (600 seconds is the default).
 invscan /path/to/repo --judge-config ./judge.json --analyst-time-budget 600
 
 # Narrow opt-in: finding triage only, without the all-control source review.
 invscan /path/to/repo --judge-config ./judge.json --judge-mode findings
 ```
 
-With `--judge-config` or `--judge-cli`, **full review is the default**: one finding-triage request followed by the active checks from **66 controls / 132 checks**, including those with no findings. Even mapped static rules cannot establish a complete control pass, so every active control is queued. Explicit user dispositions in `--review-config` exclude named checklist items from that queue and its denominator; the original catalog remains visible for audit. A deterministic selector gathers bounded, redacted excerpts from unchanged files in the scan manifest. The model cannot choose files, execute code, use tools, change findings, or authorize actions.
+With `--judge-config` or `--judge-cli`, **full review is the default**: one finding-triage request followed by the active checks from **66 controls / 132 checks**, including those with no findings. Even mapped static rules cannot establish a complete control pass, so every active control is queued. Explicit user dispositions in `--review-config` exclude named checklist items from that queue and its denominator; the original catalog remains visible for audit. A deterministic selector gathers bounded, redacted excerpts from unchanged files in the scan manifest. The model may request exact ranges from offered captured-file IDs; the controller validates and budgets each request. It cannot read arbitrary paths or URLs, execute code, use tools, change findings, or authorize actions.
 
 The controller validates a strict per-check schema, known IDs, and exact source quotes. Each active check receives `supported_by_code`, `potential_gap`, `needs_runtime_validation`, `needs_human_review`, `insufficient_evidence`, or `not_applicable_proposed`. These are advisory outcomes. Manual and dynamic controls cannot be established by code support; runtime and owner verification stay open. Unsupported claims, fabricated citations, unknown IDs, and tool calls fail the batch. Missing answers stay explicitly unreviewed.
 
-Default control-review budgets are **12 requests**, **6 controls per request**, **180 seconds** for scheduling and per-request timeouts, and evidence from at most **200 files / 2 MB**, with **240 excerpts / 120,000 characters** overall and at most four excerpts per control. A normal complete catalog uses 11 control requests plus one finding-triage request. Time is not a hard process deadline. Budget exhaustion, omitted answers, or a failed batch preserves all results and returns **2**. A completed review can still contain unresolved runtime, human, or evidence requirements. See [all limits and coverage semantics](docs/ANALYST.md).
+Default control-review budgets are **36 shared requests**, **6 controls per request**, **2 follow-up rounds per batch**, **600 seconds** for scheduling and per-request timeouts, and evidence from at most **200 files / 2 MB**, with **240 seed excerpts / 120,000 shared characters** overall and at most four seed excerpts per control. Follow-ups use exact ranges from captured file IDs; the controller reserves one conclusion call per remaining batch. Set `--analyst-investigation-rounds 0` for seed-only review. Immediate final answers for the full catalog use 11 control requests plus one finding-triage request; evidence follow-ups and authentication retries consume additional shared calls. Time is not a hard process deadline. Budget exhaustion, omitted answers, or a failed batch preserves all results and returns **2**. A completed review can still contain unresolved runtime, human, or evidence requirements. See [all limits and coverage semantics](docs/ANALYST.md).
 
 **When active checks remain, full mode sends bounded source excerpts even when no findings exist.** `--judge-mode findings` retains one-request triage: up to 100 open findings and their redacted evidence, summary, and limitations. `--judge-max-findings` accepts 1–500. `--judge-include-source` adds neighboring source only to that triage request, capped at seven lines / 3,000 characters per excerpt and 30,000 total; it is independent of full-mode evidence. Credential files are excluded from analyst excerpts, and all omissions are reported. The source selector is partial retrieval, not a complete semantic review of the repository.
 

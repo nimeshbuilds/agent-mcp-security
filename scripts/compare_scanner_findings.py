@@ -53,7 +53,7 @@ FAMILIES = {
     "AI037": "archive_extraction", "AI038": "security_randomness", "AI039": "template_rendering",
     "AI040": "unsafe_html_rendering", "AI041": "authentication_disabled", "AI042": "host_namespace",
     "AI043": "instruction_hierarchy_override", "AI044": "sensitive_transfer_instruction",
-    "AI045": "covert_or_approval_bypass_instruction", "AI046": "readonly_description_conflict",
+    "AI045": "covert_or_approval_bypass_instruction", "AI046": "readonly_contract_conflict", "AI047": "permissive_file_mode",
 }
 
 BANDIT_FAMILIES = {
@@ -94,7 +94,7 @@ FAMILY_NOTES = {
     "instruction_hierarchy_override": "Declared agent instruction or literal tool description requests overriding higher-trust instructions; static text evidence does not establish runtime compliance or author intent.",
     "sensitive_transfer_instruction": "Agent-facing text combines a transfer directive, sensitive object and explicit destination; intended authorization and actual data disclosure are not established.",
     "covert_or_approval_bypass_instruction": "Agent-facing instruction requests concealment of an action or bypass of an approval/sandbox boundary; no execution or policy bypass is demonstrated.",
-    "readonly_description_conflict": "A literal tool definition combines readOnlyHint=true with a destructive description; metadata disagreement does not establish the implementation's behavior.",
+    "readonly_contract_conflict": "A literal readOnlyHint=true conflicts with a destructive description or a recognized direct write in a supported Python handler. Metadata and source witnesses do not establish runtime execution or authorization.",
 }
 
 PREDICATE_NOTES = {
@@ -133,7 +133,7 @@ PREDICATE_NOTES = {
     "instruction_hierarchy_override": "Verify that the cited text is an operative instruction on a declared agent-facing surface, rather than a negation, quotation or example; separately test the deployed agent's instruction boundary.",
     "sensitive_transfer_instruction": "Verify the transfer directive, sensitive object and explicit destination occur in the same applicable agent instruction; review destination ownership and authorization before interpreting disclosure risk.",
     "covert_or_approval_bypass_instruction": "Verify an operative action-concealment or approval/sandbox-bypass instruction, excluding negation and inert examples; runtime policy enforcement is separate evidence.",
-    "readonly_description_conflict": "Verify readOnlyHint=true and the destructive instruction belong to the same literal tool definition; inspect implementation and write authorization independently of the untrusted annotation.",
+    "readonly_contract_conflict": "Verify the untrusted annotation readOnlyHint=true and the cited description or direct write belong to the same supported literal tool definition; distinguish static source effect from branch execution and write authorization.",
 }
 
 

@@ -106,12 +106,13 @@ def parser():
     judge.add_argument("--judge-include-source", action="store_true", help="Add neighboring source to finding triage; full analyst separately sends bounded source excerpts")
     judge.add_argument("--judge-max-findings", type=int, default=100, help="Maximum open findings sent to finding triage (1-500)")
     judge.add_argument("--token-optimizer", choices=("headroom", "compact", "off"), help="Optional-review prompt encoding; overrides judge JSON. Omitted inherits the config value or headroom. Lossless JSON compaction preserves all evidence and falls back to built-in compact; off keeps spaced JSON")
-    judge.add_argument("--analyst-max-calls", type=int, default=12, help="Full control-review request budget (integer 0-100); triage uses one additional request. Zero leaves active controls unreviewed")
+    judge.add_argument("--analyst-max-calls", type=int, default=36, help="Shared full control-review request budget (integer 0-100; default 36); includes evidence requests and conclusions, and triage uses one additional request. Optional expansion reserves conclusion calls for remaining batches. Zero leaves active controls unreviewed")
     judge.add_argument("--analyst-batch-size", type=int, default=6, help="Controls per analyst request (1-20)")
+    judge.add_argument("--analyst-investigation-rounds", type=int, default=2, help="Maximum bounded evidence-request rounds per control batch (0-3; default 2). AI may request exact ranges from verified captured files; no target tools or code execute. Every request consumes --analyst-max-calls; 0 restores one-shot review")
     judge.add_argument("--analyst-max-files", type=int, default=200, help="Full analyst evidence file budget (integer 0-20000); zero sends no source excerpts")
     judge.add_argument("--analyst-max-bytes", type=int, default=2_000_000, help="Full analyst evidence read-byte budget (integer 0-50000000); zero sends no source excerpts")
     judge.add_argument("--analyst-max-chars", type=int, default=120_000, help="Retained redacted source-character budget (integer 0-1000000); zero sends no excerpts but may still read files")
-    judge.add_argument("--analyst-time-budget", type=float, default=180, help="Full analyst scheduling/time budget in seconds, finite >0 and <=3600; not a hard process deadline")
+    judge.add_argument("--analyst-time-budget", type=float, default=600, help="Full analyst scheduling/time budget in seconds (default 600), finite >0 and <=3600; not a hard process deadline. Unfinished checks remain unknown")
     catalog = p.add_argument_group("Catalog inspection (no scan or network)")
     mode = catalog.add_mutually_exclusive_group()
     mode.add_argument("--list-scans", action="store_true", help="List every deterministic scan and control review plan with agent/MCP/skill scope, algorithms, limits and source benchmarks; offline text by default")
@@ -312,7 +313,8 @@ def main(argv=None):
         p.error("--judge-max-findings must be between 1 and 500")
     analyst_limits = dict(max_calls=args.analyst_max_calls, batch_size=args.analyst_batch_size,
                           max_files=args.analyst_max_files, max_bytes=args.analyst_max_bytes,
-                          max_chars=args.analyst_max_chars, max_seconds=args.analyst_time_budget)
+                          max_chars=args.analyst_max_chars, max_seconds=args.analyst_time_budget,
+                          investigation_rounds=args.analyst_investigation_rounds)
     from .analyst import validate_limits
     try:
         validate_limits(**analyst_limits)

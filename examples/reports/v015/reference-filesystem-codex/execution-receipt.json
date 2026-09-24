@@ -1,0 +1,197 @@
+{
+  "schema_version": "1.0",
+  "experiment": "Actual optional Codex review of pinned public MCP filesystem source",
+  "publication_status": "current",
+  "reason": "Fresh model review after the final report summary presentation change; earlier execution remains archived unchanged.",
+  "source": {
+    "repository": "https://github.com/modelcontextprotocol/servers",
+    "revision": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+    "subset": "src/filesystem",
+    "offered_files": 9,
+    "file_hashes_verified": true,
+    "files": [
+      {
+        "path": "src/filesystem/Dockerfile",
+        "git_blob": "418b140056a6665ced7ee4275be0ca7c7927866d",
+        "git_mode": "100644",
+        "bytes": 567,
+        "sha256": "fc27009ddfd1d72773ddb89b0d169e449e940daa5cd1d56fe56bcc08b6e85598"
+      },
+      {
+        "path": "src/filesystem/index.ts",
+        "git_blob": "51ac523a669f6e1e0c4da618faeb6cd0e94c2c47",
+        "git_mode": "100644",
+        "bytes": 28547,
+        "sha256": "bff21de612c59d64b351f70615f44563f0efe76666a75aa52450ebe6fae6584a"
+      },
+      {
+        "path": "src/filesystem/lib.ts",
+        "git_blob": "6cd2165b5a34ed8f177000597c6b3f171825250c",
+        "git_mode": "100644",
+        "bytes": 17073,
+        "sha256": "d67db7074d9823a306e83326a4362e477e0ff7492fb484e015a15abad761b495"
+      },
+      {
+        "path": "src/filesystem/package.json",
+        "git_blob": "3c288a26731e1e836e3310246899edd1ab8c651e",
+        "git_mode": "100644",
+        "bytes": 1187,
+        "sha256": "d91000e9d2cb2373b4dcd73027bdeb42e60790c8d7469618bad256770109bbed"
+      },
+      {
+        "path": "src/filesystem/path-utils.ts",
+        "git_blob": "6ab5a5969b4ab20f003a81a93397dc9b5ad6a1ef",
+        "git_mode": "100644",
+        "bytes": 4489,
+        "sha256": "d8254889f4e58493d52878afdb7ccfc516e2edca13dc0868c08a6c1576c274ce"
+      },
+      {
+        "path": "src/filesystem/path-validation.ts",
+        "git_blob": "972e9c49d0d13bf07d03ade4e26d197f8ab617ab",
+        "git_mode": "100644",
+        "bytes": 2731,
+        "sha256": "20833254c044c3d4d0672616ad546d50f09dae8b704c8a3619b86310f2cec3ba"
+      },
+      {
+        "path": "src/filesystem/roots-utils.ts",
+        "git_blob": "5e26bb246b5305bad3e12759baf8042f0d30b322",
+        "git_mode": "100644",
+        "bytes": 2809,
+        "sha256": "bce7c15a73dc592c23339edcd68603d08fed8d7f3d0f371db29042703f93240d"
+      },
+      {
+        "path": "src/filesystem/tsconfig.json",
+        "git_blob": "db219c5b45b8bff2f9c5aa10359aa08124518b30",
+        "git_mode": "100644",
+        "bytes": 314,
+        "sha256": "0d95d1edc9f8e4aa5c6240aa0dbb596ec2a532fed47e46e4c4d272dd7ebee59c"
+      },
+      {
+        "path": "src/filesystem/vitest.config.ts",
+        "git_blob": "d414ec8f522637a9297fcffa03f18f1e29519423",
+        "git_mode": "100644",
+        "bytes": 307,
+        "sha256": "a28c7034f39f5910667f49e4eee542fef853227432c2596eee2676bd5e6f96be"
+      }
+    ]
+  },
+  "installed_package": {
+    "version": "0.15.0",
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "wheel_sha256": "7ef8f2fbd269c48a8cd3d0e17efc8de80f9ea66d820a4a9c3c33d81cbad60941",
+    "site_packages_import_verified": true,
+    "cwd_outside_checkout": true
+  },
+  "command_template": [
+    "invscan",
+    "<verified pinned src/filesystem export>",
+    "--scans",
+    "EXEC-04",
+    "--judge-cli",
+    "codex",
+    "--judge-login",
+    "never",
+    "--analyst-investigation-rounds",
+    "2",
+    "--analyst-batch-size",
+    "1",
+    "--analyst-max-calls",
+    "3",
+    "--analyst-time-budget",
+    "900",
+    "--judge-timeout",
+    "300",
+    "--report",
+    "<report directory>",
+    "--pdf",
+    "--summary-json"
+  ],
+  "provider": "codex_cli",
+  "model": "gpt-6-astra",
+  "cli_version": "0.154.0",
+  "outcome": {
+    "exit_code": 2,
+    "static_findings": 0,
+    "static_gaps": 1,
+    "judge_status": "completed",
+    "analyst_status": "completed",
+    "check_status_counts": {
+      "insufficient_evidence": 1,
+      "potential_gap": 1
+    },
+    "reviewed_checks": 2,
+    "omitted_checks": 0,
+    "finding_triage_calls": 1,
+    "control_calls": 3,
+    "rounds_completed": 2,
+    "range_requests_served": 15,
+    "range_requests_denied": 0,
+    "requested_characters": 34317,
+    "total_excerpt_characters": 36310
+  },
+  "invariants": {
+    "static_scan_id_findings_controls_summary_assessment_coverage_match_static_only": true,
+    "sarif_byte_identical_to_static_only": true,
+    "no_target_code_executed": true,
+    "runtime_validation_performed": false,
+    "independent_true_positive_adjudication": false,
+    "static_field_comparisons": {
+      "scan_id": true,
+      "findings": true,
+      "controls": true,
+      "summary": true,
+      "assessment": true,
+      "coverage": true
+    },
+    "accepted_citations_rechecked_against_evidence": 5
+  },
+  "optimization": {
+    "engine": "headroom",
+    "version": "0.37.0",
+    "payload_bytes_before": 104391,
+    "payload_bytes_after": 102466,
+    "bytes_saved": 1925,
+    "token_or_cost_savings_measured": false
+  },
+  "artifacts": {
+    "report.html": {
+      "bytes": 221325,
+      "sha256": "7bfcb2017126fd10023408c89e9a8e0491f4157330fb2eaef6b215964a1f8a49"
+    },
+    "report.json": {
+      "bytes": 142814,
+      "sha256": "47f1b74b37460d6f26af8be3cf03aab03949d7079b03ae39a0359d5093102aaa"
+    },
+    "report.md": {
+      "bytes": 90172,
+      "sha256": "e9e4475be5953054516bba872d078da5b61ae6ba069c1284fefb6a9c4e12b156"
+    },
+    "report.pdf": {
+      "bytes": 201241,
+      "sha256": "9655925639cb18b20acf04536f6f525676c3706c83f98f623cdfab78851eae98"
+    },
+    "report.sarif": {
+      "bytes": 10033,
+      "sha256": "c5d783f7c84a0803cf74bda4ba4e81056676029683715e130d732951c926f78c"
+    }
+  },
+  "limitations": [
+    "One selected control and two acceptance checks; not a full repository review.",
+    "The public export excludes tests and documentation; absence of those excerpts does not establish absent upstream tests.",
+    "Potential gaps are model advice, not independently verified vulnerabilities or measured true positives.",
+    "The original deterministic callback-analysis gap remains; model completion does not repair static coverage."
+  ],
+  "publication_checks": {
+    "private_home_strings_in_text_artifacts": 0,
+    "pdf_visual_review": "passed",
+    "gitleaks_findings": 0,
+    "pdf_validation_receipt": {
+      "path": "pdf-validation.json",
+      "sha256": "b4694eadda917e3dc9c412b86e3eb82f3d617160ad21416c095c46d46f43524b",
+      "pages": 25,
+      "rendered_pages": 25
+    },
+    "delivery_pdf_sha256": "9655925639cb18b20acf04536f6f525676c3706c83f98f623cdfab78851eae98",
+    "gitleaks_scan_completed": true
+  }
+}

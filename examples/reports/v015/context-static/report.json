@@ -1,0 +1,506 @@
+{
+  "advice_coverage": {
+    "additional_concern_fix_plans": 0,
+    "additional_concerns": 0,
+    "finding_assessment_slots": 0,
+    "finding_assessments": 0,
+    "finding_fix_plans": 0,
+    "interpretation": "Fix plans are proposals, not executed patches or validated safeguards. Finding/check assessment counts include actual model answers only; synthesized omitted slots are separate. Missing model advice remains absent; static guidance stays available.",
+    "model_check_assessments": 0,
+    "model_check_fix_plans": 0,
+    "omitted_finding_assessments": 0,
+    "static_findings": 0,
+    "static_fix_plans": 0
+  },
+  "analyst": {
+    "enabled": false
+  },
+  "assessment": {
+    "coverage_attention": [],
+    "finding_groups": [],
+    "guidance": {
+      "catalog_version": "1.0.0",
+      "reviewed_at": "2026-09-19",
+      "sha256": "1bd48fd16d4fe76ae3ccd1cacddce9bea2dedd0000856d61b21ffb8ba8c5dd7b",
+      "source_registry_sha256": "89fafd809356f5b062f9ea52eb5d99531902bc5bb59c34f4695d2838ad826105"
+    },
+    "immediate_actions": [],
+    "method": "deterministic_guidance",
+    "metrics": {
+      "active_checks": 2,
+      "active_rules": 1,
+      "affected_files": 0,
+      "checks_total": 2,
+      "controls_requiring_validation": 1,
+      "controls_total": 1,
+      "coverage_gaps": 0,
+      "disabled_checks": 0,
+      "disabled_controls": 0,
+      "disabled_findings": 0,
+      "disabled_rules": 0,
+      "excluded_controls": 0,
+      "files_scanned": 2,
+      "justified_checks": 0,
+      "justified_controls": 0,
+      "justified_findings": 0,
+      "justified_rules": 0,
+      "mixed_excluded_controls": 0,
+      "open_findings": 0,
+      "suppressed_findings": 0,
+      "urgent_findings": 0
+    },
+    "posture": {
+      "code": "no_patterns_detected",
+      "explanation": "The selected static scope completed without a detector match. This is not a security pass. Review the unassessed boundaries and validate the controls below.",
+      "title": "No configured risk patterns detected"
+    },
+    "priority_basis": "P0: critical, P1: high, P2: medium, P3: low/info. These are deterministic review priorities based on detector severity, not incident confirmation, remediation SLAs, likelihood estimates, or residual-risk scores. Confidence describes the detected pattern; applicability must be checked.",
+    "schema_version": "1.0",
+    "themes": [],
+    "unknowns": [
+      "Actual reachability, deployment configuration, upstream validation, data sensitivity, and exploitability require verification.",
+      "Authentication, authorization, tenant isolation, tool approvals, prompt-injection resistance, and recovery need runtime or human evidence.",
+      "Suggested defense layers have not been verified as deployed. There is no calculated residual-risk score or automatic severity reduction.",
+      "No dependency CVE feed or live adversarial agent/MCP benchmark was run. Excluded and unsupported files remain outside the selected scope."
+    ]
+  },
+  "configuration": {
+    "default_excluded_directories": [
+      ".cache",
+      ".git",
+      ".hg",
+      ".mypy_cache",
+      ".next",
+      ".pytest_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      "__pycache__",
+      "build",
+      "coverage",
+      "dist",
+      "node_modules",
+      "vendor",
+      "venv"
+    ],
+    "exclude": [],
+    "explicit_exclusion_identity_scope": "Existing selected files and directories, including case aliases and file hardlinks; inputs must remain stable during the scan. Device/inode identities are not persisted in reports.",
+    "explicit_exclusion_matching": "resolved_paths_and_snapshot_filesystem_identities",
+    "generated_outputs_and_judge_config_excluded": true,
+    "max_entries": 100000,
+    "max_file_bytes": 1000000,
+    "max_files": 20000,
+    "max_total_bytes": 50000000,
+    "requested_scan_ids": [
+      "EXEC-05"
+    ],
+    "selected_control_ids": [
+      "EXEC-05"
+    ],
+    "selected_rule_ids": [
+      "AI014"
+    ]
+  },
+  "controls": [
+    {
+      "alignment_source_ids": [],
+      "assurance": "Partial static coverage only; absence of a finding is not a pass",
+      "automated_rule_ids": [
+        "AI014"
+      ],
+      "category": "Execution and application security",
+      "checks": [
+        "Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect.",
+        "Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."
+      ],
+      "finding_ids": [],
+      "id": "EXEC-05",
+      "source_ids": [
+        "MCP-SECURITY"
+      ],
+      "sources": [
+        "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
+      ],
+      "status": "no_pattern_detected",
+      "suppressed_finding_ids": [],
+      "title": "Prevent SSRF and unsafe network destinations",
+      "validation": "hybrid"
+    }
+  ],
+  "coverage": {
+    "analysis_profiles": {
+      "configuration_lexical": {
+        "files": 0,
+        "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+      },
+      "generic_text": {
+        "files": 0,
+        "scope": "Generic secret/URL signals, bounded English skill/instruction directives and selected Spanish/French/German override forms; no general translation. Language-specific execution/dataflow is not analyzed."
+      },
+      "javascript_lexical": {
+        "files": 0,
+        "scope": "Bounded JavaScript/TypeScript tokens, calls, configuration and direct-return function-wrapper summaries; not a full JS/TS parser or control-flow analysis."
+      },
+      "json_structured": {
+        "files": 0,
+        "scope": "Parsed JSON/JSONC fields, selected configuration rules and recognized tool/input-schema descriptions; runtime values and referenced files are not resolved."
+      },
+      "python_ast": {
+        "files": 2,
+        "scope": "Python AST, bounded aliases/values, selected same-file argument/return flow, exact literal guards and read-only tool write witnesses; no whole-program or runtime proof."
+      }
+    },
+    "errors": [],
+    "limitations": [
+      "Static pattern and local syntax analysis do not prove exploitability, authentication, isolation, or absence of vulnerabilities.",
+      "Python receives AST-based call checks; other source languages receive selected textual/configuration checks, not whole-program dataflow.",
+      "No dependencies are installed, target code executed, services contacted, or CVE feed queried.",
+      "Default excluded directories and unsupported files remain outside the selected scan scope.",
+      "Prompt injection resistance, authorization, tenant separation, runtime egress, and human approval need adversarial/runtime validation.",
+      "Evidence redaction is best-effort; reports and optional judge payloads can still contain sensitive code or data."
+    ],
+    "rules_enabled": [
+      "AI014"
+    ],
+    "selection": {
+      "catalog_controls": 66,
+      "catalog_rules": 47,
+      "execution": "Selected rule findings and control review only; shared bounded file, syntax, metadata and integrity checks still run and preserve operational gaps.",
+      "requested_scan_ids": [
+        "EXEC-05"
+      ],
+      "selected_control_ids": [
+        "EXEC-05"
+      ],
+      "selected_rule_ids": [
+        "AI014"
+      ]
+    },
+    "skipped": [],
+    "unmatched_baseline_ids": []
+  },
+  "execution": {
+    "exit_code": 0,
+    "failure_threshold": "high",
+    "finding_gate_triggered": false
+  },
+  "files": [
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 444,
+      "path": "agent.py",
+      "sha256": "3f8ad0be3946f65cce7217f596f63de4fa2bde0cd62d8f397702d7bd83c1c199"
+    },
+    {
+      "analysis_profile": "python_ast",
+      "bytes": 799,
+      "path": "delivery.py",
+      "sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c"
+    }
+  ],
+  "findings": [],
+  "inventory": {
+    "agent_mcp_signals": [],
+    "dependency_manifests": [],
+    "extensions": {
+      ".py": 2
+    },
+    "skill_instruction_files": [],
+    "skill_manifests": []
+  },
+  "judge": {
+    "enabled": false
+  },
+  "methodology": {
+    "areas": [
+      {
+        "area": "Execution and data flow",
+        "can_miss_or_misclassify": "Cross-file flows, unknown decorators/methods, complex JavaScript wrappers, dynamic imports, reflection, generated code and runtime values can hide a risk. Recognized resource/binding failures remain gaps. A dangerous API can be intentional and correctly constrained.",
+        "deterministic": "Python AST checks propagate selected registered-tool inputs and same-file arguments/returns, retain aliases and exact literal constraints, and check selected execution/file/network sinks. JavaScript tokens support narrow registerTool callbacks and direct-return named/arrow wrappers. Explicit world-writable chmod modes are checked.",
+        "optional_review": "A model can form a trust-boundary hypothesis, request bounded captured source ranges to inspect callers or guards, seek counterevidence and explain what the supplied code still cannot establish.",
+        "runtime_or_human_validation": "Exercise actual entry points with authorized negative tests; verify input provenance, execution privileges and sandbox boundaries."
+      },
+      {
+        "area": "MCP identity, authorization and tools",
+        "can_miss_or_misclassify": "Configuration may differ from deployment. External gateways, identity providers, token audience checks and tenant boundaries may be absent from retrieved evidence.",
+        "deterministic": "Selected configuration/code signals flag insecure transport, explicit authentication bypass, token passthrough, broad tool grants and unpinned server launch packages.",
+        "optional_review": "A model can review supplied authorization logic, tool descriptions and trust-boundary evidence for missing assumptions or inconsistent checks.",
+        "runtime_or_human_validation": "Test expired/wrong-audience tokens, cross-tenant access, per-tool authorization, consent binding and the deployed MCP transport."
+      },
+      {
+        "area": "Prompt injection, retrieval and memory",
+        "can_miss_or_misclassify": "Adaptive attacks, multi-turn interactions and tool chains depend on runtime behavior. Retrieval can omit the relevant code; a model can overlook an attack or be influenced by hostile evidence.",
+        "deterministic": "Selected patterns identify external content placed in privileged model messages and explicit approval/sandbox bypass. This is not an attack simulation.",
+        "optional_review": "A model can reason about untrusted-content handling, persistent memory, tool-output influence and missing approval boundaries in the supplied excerpts.",
+        "runtime_or_human_validation": "Run isolated adversarial agent/MCP evaluations with attack-success and legitimate-task measurements, plus human review of consequential actions."
+      },
+      {
+        "area": "Secrets and data handling",
+        "can_miss_or_misclassify": "Encoded, split or runtime-fetched credentials can be missed; labels/test values can resemble secrets. Neither layer establishes whether a credential is live or redaction is complete.",
+        "deterministic": "Selected literal credentials, plausible private-key material, credential-bearing URLs, logging patterns and browser credential exposure are flagged and redacted best-effort.",
+        "optional_review": "A model can identify sensitive data flows and retention concerns when the supplied evidence explains their context.",
+        "runtime_or_human_validation": "Verify secret stores, credential rotation, logging/retention policy, egress destinations and actual data-access permissions."
+      },
+      {
+        "area": "Skills and malicious-tool indicators",
+        "can_miss_or_misclassify": "A pattern is risk evidence, not proof of malicious authorship. Obfuscation, remote references, external packages, omitted context and runtime behavior can evade either layer.",
+        "deterministic": "Bounded skill/tool/schema descriptions are checked for instruction hijacking, sensitive-data transfer, covert or approval-bypassing actions. Selected Spanish/French/German overrides and paired authority claims supplement English predicates. Python read-only tool annotations are compared with recognized direct write witnesses.",
+        "optional_review": "A model can review intent, indirect social engineering, skill reference context and tool behavior visible in retrieved evidence, including cases where syntax or supported patterns are inconclusive.",
+        "runtime_or_human_validation": "Inspect publisher provenance and the exact installed skill/tool; test consequential actions in an authorized isolated environment and verify effective permissions."
+      },
+      {
+        "area": "Built images and supply chain",
+        "can_miss_or_misclassify": "Compiled logic, live deployment overrides, signature trust and dependency CVEs are not assessed. Package inventory and archive consistency do not establish safety or publisher identity.",
+        "deterministic": "Image archives are reconstructed without starting containers; supported packaged source, metadata, retained credentials, stored permissions and package inventories are inspected.",
+        "optional_review": "A model can interpret supplied image/source evidence, flag missing deployment context and propose verification work.",
+        "runtime_or_human_validation": "Use vulnerability/advisory analysis, provenance/signature verification and deployment testing alongside the static image assessment."
+      },
+      {
+        "area": "Operations and control effectiveness",
+        "can_miss_or_misclassify": "A valid citation proves that a quote exists, not that the model's interpretation is correct. Policies, external services, incident procedures and production outcomes may be unavailable.",
+        "deterministic": "The catalog retains governance, monitoring, recovery, approval and isolation checks even where no deterministic rule maps to them.",
+        "optional_review": "Full review queues every active acceptance check and can identify evidence gaps or propose runtime/human validation; it can cite exact submitted source text.",
+        "runtime_or_human_validation": "Record owner-reviewed evidence, operational exercises and runtime results. A written justification remains an accepted exception, never an automatically validated pass."
+      }
+    ],
+    "catalog": {
+      "available_controls": 66,
+      "available_rules": 47,
+      "checks": 2,
+      "controls": 1,
+      "controls_without_static_mapping": 0,
+      "rules": 1,
+      "statically_mapped_controls": 1
+    },
+    "interpretation": "Mapping counts describe available checks, not percent secure, detection accuracy or validated control effectiveness.",
+    "purpose": "Find repeatable security patterns and organize the remaining assurance work for agents, MCP servers, skills and built images.",
+    "rule_inventory": [
+      {
+        "category": "ssrf",
+        "id": "AI014",
+        "severity": "medium",
+        "title": "Externally influenced outbound request"
+      }
+    ],
+    "schema_version": "1.0",
+    "workflow": [
+      "Choose an explicit code/image target and scan configuration; no target code or container is started.",
+      "Collect bounded deterministic evidence, record hashes, rule matches, exclusions and coverage gaps.",
+      "When explicitly enabled, select bounded evidence for finding triage and every active control check; findings-only mode narrows this step.",
+      "Run advisory requests under fixed limits. The default full analyst may request only validated file-ID/line ranges from an already captured, hash-verified snapshot; no arbitrary file reads or target tools execute. Validate response schemas, known identifiers and exact quotes.",
+      "Retain unsupported claims and runtime/human requirements; record user review decisions separately from model advice.",
+      "Import an explicitly selected reviewed report with a fresh target scan; revalidate evidence bindings, retain stale decisions for audit and recompute the result."
+    ]
+  },
+  "mode": "deterministic_static",
+  "remediation": {},
+  "review_workspace": {
+    "items": [
+      {
+        "binding_sha256": "3007e9fdbf0be8edf287b4f811e86ad4d50ba21a2ae976acdfcc534f4e915ba1",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-05:1",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-05:1 Restrict destinations and schemes at connection time; revalidate DNS resolution and each redirect."
+      },
+      {
+        "binding_sha256": "666459be29ce37a1299ad84dfe6c2a673af2ea842c4a2d3180f014885e0fcc9d",
+        "decision": "",
+        "evidence_ref": "",
+        "id": "check:EXEC-05:2",
+        "kind": "check",
+        "reason": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "subject": "EXEC-05:2 Test loopback, private/link-local IPv4 and IPv6, cloud metadata, alternate encodings, and redirect-to-private cases."
+      }
+    ],
+    "kind": "invarune_review",
+    "origin": {
+      "catalog_sha256": "468d22dfd1b6de6081998eaf5a73e05d6bba97aefcd186fce5633392535fbb9f",
+      "configuration": {
+        "default_excluded_directories": [
+          ".cache",
+          ".git",
+          ".hg",
+          ".mypy_cache",
+          ".next",
+          ".pytest_cache",
+          ".svn",
+          ".tox",
+          ".venv",
+          "__pycache__",
+          "build",
+          "coverage",
+          "dist",
+          "node_modules",
+          "vendor",
+          "venv"
+        ],
+        "exclude": [],
+        "generated_outputs_and_judge_config_excluded": true,
+        "max_entries": 100000,
+        "max_file_bytes": 1000000,
+        "max_files": 20000,
+        "max_total_bytes": 50000000,
+        "requested_scan_ids": [
+          "EXEC-05"
+        ],
+        "selected_control_ids": [
+          "EXEC-05"
+        ],
+        "selected_rule_ids": [
+          "AI014"
+        ]
+      },
+      "evidence_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "image_limits": {},
+      "manifest_sha256": "998febdd04741eaa52250542d70cbb578ba602982cd9faedea4a151be69c7005",
+      "scan_id": "d4246648ec0e739efdbd0fc8a03c8670f095828210e5768af2e3e1c7a8cad202",
+      "scope_sha256": "41c6e1347c906671678303fd38e8ead3f6e3bb61445397b9274b2aed9f4a235e",
+      "target": {
+        "description": "Selected source directory; paths are relative.",
+        "kind": "source",
+        "platform": ""
+      },
+      "tool": {
+        "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+        "name": "agent-mcp-security-scan",
+        "version": "0.15.0"
+      }
+    },
+    "schema_version": "1.0"
+  },
+  "run_configuration": {
+    "optional_review": {
+      "analyst_limits": {
+        "batch_size": 6,
+        "investigation_rounds": 2,
+        "max_bytes": 2000000,
+        "max_calls": 36,
+        "max_chars": 120000,
+        "max_files": 200,
+        "max_seconds": 600
+      },
+      "cli_login": "auto",
+      "cli_timeout_seconds": null,
+      "effective_transport": {},
+      "enabled": false,
+      "findings_limit": 100,
+      "include_finding_source": false,
+      "mode": "full",
+      "provider": null,
+      "transport_replay": "Endpoints, credentials, headers, executable paths and identity stores are not embedded for automatic replay."
+    },
+    "reporting": {
+      "failure_threshold": "high",
+      "formats": [
+        "html",
+        "markdown",
+        "json",
+        "sarif",
+        "pdf"
+      ]
+    },
+    "review_inputs": {
+      "baseline": false,
+      "review_config": false,
+      "review_report": false
+    },
+    "schema_version": "1.0"
+  },
+  "scan_id": "d4246648ec0e739efdbd0fc8a03c8670f095828210e5768af2e3e1c7a8cad202",
+  "schema_version": "1.0",
+  "scoring": {
+    "deterministic": {
+      "active_checks": 2,
+      "active_controls": 1,
+      "active_rules": 1,
+      "coverage_gaps": 0,
+      "disabled_checks": 0,
+      "disabled_findings": 0,
+      "disabled_rules": 0,
+      "justified_checks": 0,
+      "justified_findings": 0,
+      "justified_rules": 0,
+      "mapping_reach": {
+        "denominator": 1,
+        "numerator": 1,
+        "percent": 100.0
+      },
+      "mapping_reach_formula": "100 \u00d7 active selected controls with at least one active selected mapped rule / active selected controls. This describes partial rule availability, not completed tests, passes, or control effectiveness.",
+      "open_by_severity": {
+        "critical": 0,
+        "high": 0,
+        "info": 0,
+        "low": 0,
+        "medium": 0
+      },
+      "open_findings": 0,
+      "selected_controls": 1,
+      "selected_rules": 1,
+      "selected_scope_complete": true,
+      "suppressed_findings": 0,
+      "urgent_findings": 0
+    },
+    "exclusions": "Justified and disabled rules/checks are excluded from active metric denominators without pass credit. Findings with user decisions or baseline suppressions remain visible outside open-finding counts. Selection narrows the requested scope; it does not establish the excluded system is safe.",
+    "gate": "The existing CLI gate uses open deterministic findings at or above the configured severity. Scan/review/export errors can make requested work incomplete. Coverage percentages and model opinions never dismiss the gate.",
+    "optional_ai": {
+      "additional_concerns": 0,
+      "answer_coverage": {
+        "denominator": 2,
+        "numerator": 0,
+        "percent": 0.0
+      },
+      "answer_coverage_formula": "100 \u00d7 unique active selected acceptance checks with a received, valid model answer / active selected acceptance checks. An answer can be a concern or an explicit unknown. Disabled AI has zero answered checks; an empty denominator is not applicable (null), never 100%.",
+      "changes_deterministic_result": false,
+      "check_outcomes": {
+        "insufficient_evidence": 0,
+        "needs_human_review": 0,
+        "needs_runtime_validation": 0,
+        "not_applicable_proposed": 0,
+        "not_reviewed": 2,
+        "potential_gap": 0,
+        "supported_by_code": 0
+      },
+      "control_review_status": "disabled",
+      "enabled": false,
+      "finding_review_status": "disabled",
+      "ignored_answer_records": 0,
+      "interpretation": "Supported by code and proposed non-applicability are advisory interpretations. Runtime/human validation and missing evidence remain unresolved. AI cannot erase findings, lower their severity, change the severity gate, or turn checks into passes."
+    },
+    "overall_security_score": null,
+    "overall_security_score_reason": "No defensible universal security percentage can be calculated from static patterns or model opinions. Zero findings and 100% answered checks do not mean secure or compliant.",
+    "schema_version": "1.0"
+  },
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 1243,
+    "bytes_read": 1243,
+    "coverage_gaps": 0,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 2,
+    "open_findings": 0,
+    "scan_complete_within_selected_scope": true,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "info": 0,
+      "low": 0,
+      "medium": 0
+    },
+    "suppressed_findings": 0
+  },
+  "target": ".",
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.15.0"
+  }
+}

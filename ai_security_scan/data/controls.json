@@ -813,7 +813,8 @@
     "automated_rule_ids": [
       "AI015",
       "AI016",
-      "AI037"
+      "AI037",
+      "AI047"
     ],
     "source_ids": [
       "MCP-ROOTS",

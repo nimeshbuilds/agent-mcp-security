@@ -4,18 +4,24 @@ Choose a document by the question you want to answer. The PDFs below are existin
 
 | Start here when you want to… | Recommended document |
 | --- | --- |
-| See measured improvements and cross-tool coverage | [Visual benchmark dashboard](BENCHMARK_DASHBOARD.md) and [v0.14 benchmark PDF](../output/pdf/invarune-benchmark-v014.pdf) |
-| See current findings, priorities, fixes and editable review fields | [Selected skill/tool scan PDF: Invarune 0.14, 27 pages](../examples/reports/v014/skills-static/report.pdf), or [successful Codex review PDF, 39 pages](../examples/reports/v014/skills-codex/report.pdf) |
-| Understand the controls and their sources | [Security controlbook, 121 pages](../output/pdf/invarune-security-controlbook.pdf) |
+| See measured improvements and cross-tool coverage | [Visual benchmark dashboard](BENCHMARK_DASHBOARD.md) and [v0.15 benchmark PDF](../output/pdf/invarune-benchmark-v015.pdf) |
+| See current findings, priorities, fixes and editable review fields | [Live context investigation PDF](../examples/reports/v015/context-codex/report.pdf), [public MCP filesystem review](../examples/reports/v015/reference-filesystem-codex/report.pdf), or [deterministic fixture PDF](../examples/reports/v015/context-static/report.pdf) |
+| Understand the controls and their sources | [Security controlbook, 123 pages](../output/pdf/invarune-security-controlbook.pdf) |
 | Compare actual scanner findings and uncertainty | [Finding comparison, 13 pages](../output/pdf/invarune-finding-comparison-v010.pdf), then the [benchmark guide](BENCHMARK_GUIDE.md) |
 | Learn how accepted justifications survive a fresh scan | [Review roundtrip PDF, 99 pages](../examples/reports/review-workflow/source/final-pdf/report.pdf) and the [workflow](REVIEW_WORKFLOW.md) |
-| Inspect detection accuracy and known misses | [Current paired labeled results](../benchmarks/comparison-v014/accuracy-after.json) and [accuracy methodology](RULE_ACCURACY.md) |
+| Inspect detection accuracy and known misses | [Current paired labeled results](../benchmarks/comparison-v015/accuracy-after.json) and [accuracy methodology](RULE_ACCURACY.md) |
 
-## Current release evidence
+## Current v0.15 evidence
 
-The [v0.14 benchmark update](../output/pdf/invarune-benchmark-v014.pdf) and [complete comparison](../benchmarks/comparison-v014/README.md) include fresh source runs and the separate skill/tool corpus. The [121-page controlbook](../output/pdf/invarune-security-controlbook.pdf) documents every rule and control. [Installed workflow validation](../benchmarks/quickstart-v014/README.md).
+The [benchmark report](../output/pdf/invarune-benchmark-v015.pdf) shows original results, disclosed challenge fixes, remaining confirmation misses, complementary peer coverage and complete finding ledgers. The [123-page controlbook](../output/pdf/invarune-security-controlbook.pdf) covers 47 rules, 66 controls, 132 checks and 78 source records. [Installed workflow and test validation](../benchmarks/validation-v015/README.md).
 
-### Selected skill/tool scans: deterministic, successful AI and failed AI
+[Actual five-format investigation examples](../examples/reports/v015/README.md) include a deterministic cross-file fixture, live Codex investigation of that fixture, and a live review of pinned public MCP filesystem source. The opening summary now makes model-proposed gaps and unresolved checks explicit, separately from static findings. Request receipts show what the model actually sought, counterevidence and the returned source ranges. Neither an answer nor a matching citation establishes deployed exploitability.
+
+## Historical v0.14 release evidence
+
+The [v0.14 benchmark update](../output/pdf/invarune-benchmark-v014.pdf) and [complete comparison](../benchmarks/comparison-v014/README.md) include fresh source runs and the separate skill/tool corpus. The [archived 121-page controlbook](../output/pdf/invarune-security-controlbook-v014.pdf) documents every rule and control. [Installed workflow validation](../benchmarks/quickstart-v014/README.md).
+
+### Historical selected skill/tool scans: deterministic, successful AI and failed AI
 
 These are actual **0.14.0 installed-CLI scans** of the same deliberately suspicious, inert skill/tool fixture, selecting **AI043–AI046**. The selected scope contains **four rules, six mapped controls and twelve acceptance checks**. Every run retains the same **four deterministic findings** (three high, one medium) and zero deterministic coverage gaps. The fixture was never installed or executed.
 
@@ -27,7 +33,7 @@ These are actual **0.14.0 installed-CLI scans** of the same deliberately suspici
 
 See the [run explanation and earlier Codex attempt](../examples/reports/v014/README.md) for reproduction, precise scope and preserved failure evidence. The final Codex run's **100% answer coverage means every selected check received an answer, not that any control passed**; ten answers explicitly lacked enough evidence. The selected mapping-reach figure likewise measures partial detector availability, not security. Model advice did not change finding counts, severity or the gate.
 
-All three current scan PDFs each have **16 bound review items and 80 editable fields**. Their form, attachment, navigation and all-page visual checks are recorded in the [v0.14 skill PDF receipt](../benchmarks/validation-v014/skill-pdfs-receipt.json). These examples cover a selected skill/tool scope; use the historical full-catalog reports below when comparing the larger checklist presentation.
+All three v0.14 scan PDFs each have **16 bound review items and 80 editable fields**. Their form, attachment, navigation and all-page visual checks are recorded in the [v0.14 skill PDF receipt](../benchmarks/validation-v014/skill-pdfs-receipt.json). These examples cover a selected skill/tool scope; use the historical full-catalog reports below when comparing the larger checklist presentation.
 
 
 ## Research and benchmark PDFs
@@ -36,9 +42,9 @@ Current scan coverage is documented in the [exhaustive scan matrix](SCAN_COVERAG
 
 | Open or download | Version and validated length | Contents and interpretation |
 | --- | --- | --- |
-| [Current benchmark update](../output/pdf/invarune-benchmark-v014.pdf) | **0.14.0 · 9 pages** | Fresh scans of eight pinned projects: 146 patterns and 21 explicit gaps. The unchanged 113-assertion comparison and separate 81-case/331-assertion skill/tool corpus retain distinct denominators. Charts, source links and provenance receipts; no production TP claim. |
+| [Historical v0.14 benchmark update](../output/pdf/invarune-benchmark-v014.pdf) | **0.14.0 · 9 pages** | Fresh scans of eight pinned projects: 146 patterns and 21 explicit gaps. The unchanged 113-assertion comparison and separate 81-case/331-assertion skill/tool corpus retain distinct denominators. Charts, source links and provenance receipts; no production TP claim. |
 | [Historical benchmark update](../output/pdf/invarune-benchmark-v013.pdf) | **0.13.0 · 9 pages** | Same 113 labels before/after; fresh eight-project comparison; three source precision fixes; charts, clickable contents, remaining gaps and complete-ledger links. No public-project TP percentage is claimed. |
-| [Security controlbook](../output/pdf/invarune-security-controlbook.pdf) | 0.14 edition · **121 pages** | 66 project-defined controls, 132 checks, 76 source records, nine research benchmark entries and 46 individual algorithm/limits/fix pages. Includes source organizations, scope and limitations. Listing a research benchmark does not mean Invarune executed it. |
+| [Security controlbook](../output/pdf/invarune-security-controlbook.pdf) | 0.15 edition · **123 pages** | 66 project-defined controls, 132 checks, 78 source records, nine research benchmark entries and 47 individual algorithm/limits/fix pages. Includes source organizations, scope and limitations. Listing a research benchmark does not mean Invarune executed it. |
 | [Finding-by-finding scanner comparison](../output/pdf/invarune-finding-comparison-v010.pdf) | Final Invarune **0.10.0** comparison · **13 pages** | The 1,117-observation ledger, conservative cross-tool matches, a 50-observation source audit, unknowns and reproduction links. The Claude adjudication attempt failed authentication; no model TP percentage is available. |
 | [Earlier real-project benchmark report](../output/pdf/invarune-benchmark-report.pdf) | **0.8.0 measurements**, expanded in the 0.9 document workflow · **9 pages** | Eight pinned public projects, complementary source scanners, coverage gaps, mitigation context and ten shared development fixtures. Its refreshed layout did not turn the recorded 0.8 measurements into a new scan. |
 
@@ -73,7 +79,7 @@ The Claude failure has equivalent [HTML](../examples/reports/cli-claude-v010/rep
 
 ## Validation, provenance and reuse
 
-Page counts and artifact hashes come from the [PDF validation record](PDF_VALIDATION.md), the current [benchmark](../benchmarks/validation-v014/benchmark-pdf-receipt.json), [controlbook](../benchmarks/validation-v014/controlbook-receipt.json) and [skill PDF](../benchmarks/validation-v014/skill-pdfs-receipt.json) receipts, the [0.10 PDF receipt](../benchmarks/validation-v010/pdf-receipt.json) and the [0.11 PDF receipt](../benchmarks/validation-v011/pdf-receipt.json). These record all-page rendering and visual inspection, structural navigation checks and supported form roundtrips. They do not guarantee every third-party PDF viewer or editor. The current 0.14 PDFs were regenerated and verified for this release; historical report files retain their recorded measurements.
+Page counts and artifact hashes come from the [PDF validation record](PDF_VALIDATION.md), the current [v0.15 controlbook](../benchmarks/validation-v015/controlbook-receipt.json) and [investigation-report](../benchmarks/validation-v015/context-pdfs-receipt.json) receipts, and the historical [v0.14 benchmark](../benchmarks/validation-v014/benchmark-pdf-receipt.json), [v0.14 controlbook](../benchmarks/validation-v014/controlbook-receipt.json), [v0.14 skill PDF](../benchmarks/validation-v014/skill-pdfs-receipt.json), [v0.10 PDF](../benchmarks/validation-v010/pdf-receipt.json) and [v0.11 PDF](../benchmarks/validation-v011/pdf-receipt.json) receipts. These record all-page rendering and visual inspection, structural navigation checks and supported form roundtrips. They do not guarantee every third-party PDF viewer or editor. Archived artifacts retain their original measurements and validation scope.
 
 Keep the research documents, benchmark source versions and scan versions separate when citing them. A source-pattern observation is not a confirmed vulnerability; a model likelihood is not independent ground truth; a justification is not proof of remediation. The [benchmark guide](BENCHMARK_GUIDE.md) explains the measured denominators and unresolved cases.
 

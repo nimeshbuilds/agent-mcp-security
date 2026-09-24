@@ -3,7 +3,7 @@
 These rules find source evidence; they are not claims of exploitability or compliance.
 """
 
-RULESET_VERSION = "1.5.0"
+RULESET_VERSION = "1.6.0"
 
 _MCP = "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices"
 _OWASP = "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/"
@@ -145,17 +145,20 @@ RULES = [
           "Container configuration explicitly uses the host PID namespace or host networking. This weakens separation between agent tooling and the host.",
           "Use isolated namespaces and explicit network rules; document and minimize any unavoidable host-level access.", ["CWE-653"], [_CISA]),
     _rule("AI043", "Instruction-hierarchy override in agent-facing text", "high", "prompt_injection",
-          "A declared agent instruction or literal tool description explicitly asks the model to override existing higher-trust instructions. This is reviewable prompt-injection evidence, not proof that an agent follows it or that the package author is malicious.",
+          "A declared agent instruction or literal tool/schema description asks the model to override higher-trust instructions, or makes recognized conflicting authority claims. Selected Spanish, French and German override forms supplement English predicates. This is evidence for review, not proof of model compliance or malicious authorship.",
           "Remove the override directive, keep tool metadata scoped to its function, and enforce instruction/data separation and sensitive-action policy outside the model. Test the exact text against the deployed agent with harmless canary actions.", ["CWE-1427"], ["https://modelcontextprotocol.io/specification/2026-07-28/server/tools", "https://agentskills.io/specification", _OWASP]),
     _rule("AI044", "Sensitive-data transfer instruction", "high", "data_protection",
-          "An agent instruction or literal tool description combines an imperative transfer, a sensitive object and an explicit URL or email destination. Authorization, destination ownership, runtime access and actual disclosure are not established.",
+          "An agent instruction or literal tool/schema description combines a recognized transfer, sensitive object and explicit URL/email destination, including bounded read-to-pronoun and vault/attachment forms. Authorization, destination ownership, runtime access and actual disclosure are not established.",
           "Remove credential collection from tool descriptions and skill instructions. Use a scoped credential broker, allowlist outbound destinations, redact tool inputs and require approval displaying the actual recipient and data before any sensitive disclosure.", ["CWE-200"], ["https://modelcontextprotocol.io/specification/2026-07-28/server/tools", "https://agentskills.io/specification", _MCP]),
     _rule("AI045", "Covert action or approval-bypass instruction", "high", "agent_permissions",
           "Agent-facing text explicitly requests bypassing an approval/sandbox boundary, or combines an action instruction with hiding that action from the user. This identifies a risky instruction boundary rather than proving unauthorized execution.",
           "Delete the concealment or bypass directive. Bind approvals to the exact operation and arguments, enforce policy in the tool server, retain auditable execution records and isolate the process with minimum privileges.", ["CWE-862"], ["https://modelcontextprotocol.io/specification/2026-07-28/server/tools", "https://agentskills.io/specification", _MCP]),
-    _rule("AI046", "Read-only tool annotation contradicts a destructive description", "medium", "tool_integrity",
-          "The same literal tool definition sets readOnlyHint=true while its description explicitly directs deleting or changing data. Tool annotations are untrusted hints; the description does not prove what the implementation actually does.",
+    _rule("AI046", "Read-only tool annotation conflicts with declared or observed writes", "medium", "tool_integrity",
+          "A literal readOnlyHint=true conflicts with a recognized destructive description or a statically resolved direct write operation in a supported Python tool handler. Tool annotations are untrusted hints; source witnesses do not prove branch execution, authorization or deployed behavior.",
           "Inspect the implementation and correct its description and annotations together. Treat the tool as potentially mutating until verified, reapprove changed metadata and enforce write authorization independently of model decisions or annotation hints.", ["CWE-451"], ["https://modelcontextprotocol.io/specification/2026-07-28/server/tools", _MCP]),
+    _rule("AI047", "Filesystem permissions explicitly allow writes by everyone", "medium", "filesystem",
+          "A recognized Python chmod call sets the other-write permission bit. Shared agent workspaces, tool artifacts or credential files may be changed by another local identity. Actual access depends on platform permissions, ownership, ACLs and deployment isolation.",
+          "Use owner-only permissions (typically 0o600 for private files and 0o700 for private directories), or a narrowly controlled shared group where required. Verify access from the actual worker and an unrelated identity; avoid granting 0o777 merely to fix container UID mismatches.", ["CWE-732"], ["https://docs.python.org/3/library/os.html#os.chmod", "https://cwe.mitre.org/data/definitions/732.html"]),
 ]
 
 RULE_BY_ID = {rule["id"]: rule for rule in RULES}

@@ -1,0 +1,276 @@
+{
+  "schema_version": "1.0",
+  "experiment": "comparison-v015",
+  "reviewer": "Separate benchmark assistant; source inspected directly. No human or external independent review is claimed.",
+  "selection": "Purposive examples from v014 competitor-only observations: agent execution, persistence, ingestion and obvious predicate mismatches. Not random or representative.",
+  "metric_policy": "No aggregate TP/FN or deployed-vulnerability percentage is computed from this purposive source-review sample. Static source-predicate labels are distinct from exploitability.",
+  "input_ledger_sha256": "f4665347052d4d0aa5a91ced89c755f3b9d89e0f7271db59eda8c1ad3b7a3355",
+  "case_count": 12,
+  "cases": [
+    {
+      "id": "workspace-mode",
+      "project_id": "autogen",
+      "path": "python/packages/autogen-ext/src/autogen_ext/code_executors/docker_jupyter/_jupyter_server.py",
+      "line": 328,
+      "review_span": [
+        318,
+        332
+      ],
+      "revision": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "repository": "https://github.com/microsoft/autogen",
+      "source_sha256": "84b058216ed5a667b7a3f0b8cee7b1edca60b777e92abec04af8106daef6bf46",
+      "review_span_sha256": "ee753e5738c64145631a04ab3220cbc77288e78e5857f40221ad9e5cbf26ff92",
+      "source_url": "https://github.com/microsoft/autogen/blob/027ecf0a379bcc1d09956d46d12d44a3ad9cee14/python/packages/autogen-ext/src/autogen_ext/code_executors/docker_jupyter/_jupyter_server.py#L328",
+      "archived_observation_ids": [
+        "obs-8b9576b65bb88c5f17ea3642"
+      ],
+      "predicate": "world_writable_workspace",
+      "judgment": "present",
+      "reason": "The optional agent execution bind directory receives mode 0o777. This grants write access to other local principals subject to filesystem and namespace constraints.",
+      "limits": "Verify mount isolation and ownership; prefer owner-only or a specific group. This is a configuration-risk predicate, not a demonstrated exploit."
+    },
+    {
+      "id": "yaml-base-loader",
+      "project_id": "fastmcp",
+      "path": "fastmcp_slim/fastmcp/server/providers/skills/_common.py",
+      "line": 105,
+      "review_span": [
+        90,
+        113
+      ],
+      "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+      "repository": "https://github.com/PrefectHQ/fastmcp",
+      "source_sha256": "8845d0ceb5a62372ea24f338522998282552941c29801810448444edf85b513d",
+      "review_span_sha256": "9bb76993bcb1664fe856a78fddebc4af7114add0a7d01b3351c6d8ce652acd18",
+      "source_url": "https://github.com/PrefectHQ/fastmcp/blob/9c35c017cd89e4d50a9f512c8eafde68c301ec70/fastmcp_slim/fastmcp/server/providers/skills/_common.py#L105",
+      "archived_observation_ids": [
+        "obs-b89b79839f69ca6969a2f900"
+      ],
+      "predicate": "arbitrary_yaml_object_construction",
+      "judgment": "absent",
+      "reason": "The call explicitly supplies yaml.BaseLoader, rather than a Python-object-construction loader.",
+      "limits": "Resource consumption and malformed input are separate questions; absence of arbitrary construction does not prove all parsing safe."
+    },
+    {
+      "id": "markdown-template",
+      "project_id": "crewai",
+      "path": "lib/crewai/src/crewai/flow/skill.py",
+      "line": 43,
+      "review_span": [
+        42,
+        60
+      ],
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "repository": "https://github.com/crewAIInc/crewAI",
+      "source_sha256": "bd8a3917becffda3e71dd4b55466f5885c90113046200eba09c8dae02c94fc61",
+      "review_span_sha256": "99975da797214b8172c57ba4503e0c50a7d59f72279130235c682ee9e111d4a5",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/crewai/src/crewai/flow/skill.py#L43",
+      "archived_observation_ids": [
+        "obs-d5685cf85a908249f6b65263"
+      ],
+      "predicate": "html_autoescape_required",
+      "judgment": "not_established",
+      "reason": "The Jinja environment is documented and used for trusted Markdown generation, not established attacker-controlled HTML rendering.",
+      "limits": "Trace later rendering and untrusted values if the Markdown is eventually displayed as HTML; missing autoescape alone is insufficient here."
+    },
+    {
+      "id": "pickle-write-crewai",
+      "project_id": "crewai",
+      "path": "lib/crewai/src/crewai/utilities/file_handler.py",
+      "line": 152,
+      "review_span": [
+        140,
+        156
+      ],
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "repository": "https://github.com/crewAIInc/crewAI",
+      "source_sha256": "cc94abea5f2cc7660da9ea7df3298fe38d0d3a78904959ac40ce0c5bfe82d27c",
+      "review_span_sha256": "29caa021b4f87ac1123de02b578fe2e224d8fb1eedfa14504e4f7b54c41d9c2b",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/crewai/src/crewai/utilities/file_handler.py#L152",
+      "archived_observation_ids": [
+        "obs-cbe8b84e3179c49aa117acf9"
+      ],
+      "predicate": "untrusted_pickle_deserialization",
+      "judgment": "absent_at_location",
+      "reason": "The cited location calls pickle.dump to serialize data; it does not load attacker-controlled pickle bytes.",
+      "limits": "The separate load method still requires review; this annotation applies only to the cited serialization observation."
+    },
+    {
+      "id": "pickle-write-langgraph",
+      "project_id": "langgraph",
+      "path": "libs/checkpoint/langgraph/checkpoint/memory/__init__.py",
+      "line": 680,
+      "review_span": [
+        676,
+        688
+      ],
+      "revision": "aa742fb31e2827d569b843e3600aeda2e0528e4b",
+      "repository": "https://github.com/langchain-ai/langgraph",
+      "source_sha256": "9a33122271bebb3f772aebd6efba6994f3689b777347abed137a547e731c886e",
+      "review_span_sha256": "d0b09ae918b46b0019f06bd037617bf8b745fd926789f496e025f97ad6f5495c",
+      "source_url": "https://github.com/langchain-ai/langgraph/blob/aa742fb31e2827d569b843e3600aeda2e0528e4b/libs/checkpoint/langgraph/checkpoint/memory/__init__.py#L680",
+      "archived_observation_ids": [
+        "obs-ad38a61d076a50fb47cc43f8"
+      ],
+      "predicate": "untrusted_pickle_deserialization",
+      "judgment": "absent_at_location",
+      "reason": "The cited location serializes with pickle.dump; the adjacent load routine is a different location and trust question.",
+      "limits": "Do not treat serialization and deserialization alerts as equivalent merely because they share a pickle family."
+    },
+    {
+      "id": "fixed-pypi-url",
+      "project_id": "crewai",
+      "path": "lib/crewai-core/src/crewai_core/version.py",
+      "line": 125,
+      "review_span": [
+        112,
+        132
+      ],
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "repository": "https://github.com/crewAIInc/crewAI",
+      "source_sha256": "5ecd486348434283b4d280be7999332aace31f8c6b88c7d9fb42617381749e09",
+      "review_span_sha256": "2888a89cf09666dd2639b4bbfd2f7126809aaa849095ed279b6cae119a88ea8e",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/crewai-core/src/crewai_core/version.py#L125",
+      "archived_observation_ids": [
+        "obs-05132509830d85724718c599",
+        "obs-edd1497cd85a1273729d0e22"
+      ],
+      "predicate": "tool_controlled_outbound_destination",
+      "judgment": "absent_at_location",
+      "reason": "The urllib call uses a literal PyPI HTTPS URL and supplies a timeout; no tool-controlled destination is visible at the cited call.",
+      "limits": "Redirect and TLS/runtime behavior are separate from static parameter-to-destination flow."
+    },
+    {
+      "id": "archive-helper",
+      "project_id": "crewai",
+      "path": "lib/crewai/src/crewai/skills/cache.py",
+      "line": 199,
+      "review_span": [
+        172,
+        210
+      ],
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "repository": "https://github.com/crewAIInc/crewAI",
+      "source_sha256": "3fa804737a91c6c171c9b3806fd58d5a947f16f2407d92fe7ebee8071475f96d",
+      "review_span_sha256": "94ee0465785238efadcc2dbf0f4acfa46bde5be90b2a6ca861201f8b51aba78e",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/crewai/src/crewai/skills/cache.py#L199",
+      "archived_observation_ids": [
+        "obs-ab5d56dc16d28aefcb5ca22a"
+      ],
+      "predicate": "archive_path_escape",
+      "judgment": "requires_review",
+      "reason": "The helper checks resolved member containment, rejects unsupported member types and checks link targets before extraction. A bare extractall warning omits these controls.",
+      "limits": "Race conditions, member ordering and archive link semantics need further scrutiny; these checks are not a proof that all hostile archives are safe."
+    },
+    {
+      "id": "xml-rag-parser",
+      "project_id": "crewai",
+      "path": "lib/crewai-tools/src/crewai_tools/rag/loaders/xml_loader.py",
+      "line": 43,
+      "review_span": [
+        1,
+        55
+      ],
+      "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+      "repository": "https://github.com/crewAIInc/crewAI",
+      "source_sha256": "efa8a677d42a5ed9512a60aa3434955aa6576bfcffe2e573420ee65bcc6739f7",
+      "review_span_sha256": "1d44b6fa9167a9a94df1c0bed4e0aa636f401538c4814b376f1b725a974be6c2",
+      "source_url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/lib/crewai-tools/src/crewai_tools/rag/loaders/xml_loader.py#L43",
+      "archived_observation_ids": [
+        "obs-15dc2bbbcd86146bcff3abbf"
+      ],
+      "predicate": "untrusted_xml_parser_surface",
+      "judgment": "present_surface_risk_unresolved",
+      "reason": "The RAG loader parses supplied content using ElementTree fromstring or a source path using parse. The API surface is real.",
+      "limits": "Python/Expat version and input-size controls determine resource-exhaustion risks. ElementTree use alone does not prove external-entity expansion or credential exfiltration."
+    },
+    {
+      "id": "sql-constant-channel",
+      "project_id": "langgraph",
+      "path": "libs/checkpoint-postgres/langgraph/checkpoint/postgres/base.py",
+      "line": 120,
+      "review_span": [
+        116,
+        129
+      ],
+      "revision": "aa742fb31e2827d569b843e3600aeda2e0528e4b",
+      "repository": "https://github.com/langchain-ai/langgraph",
+      "source_sha256": "34a76ad89892b7200b91d0574333060f78c3cd7afd3f61111b56fc871c3e9f79",
+      "review_span_sha256": "caea2a1935d66cb5d0ab14c6cbae6c2f7dbf74eb6b5c0a3b1ae28eb030ce192d",
+      "source_url": "https://github.com/langchain-ai/langgraph/blob/aa742fb31e2827d569b843e3600aeda2e0528e4b/libs/checkpoint-postgres/langgraph/checkpoint/postgres/base.py#L120",
+      "archived_observation_ids": [
+        "obs-69656d37306df9ff277eaa5c"
+      ],
+      "predicate": "untrusted_sql_value_interpolation",
+      "judgment": "not_established",
+      "reason": "The SQL f-string interpolates the module symbol TASKS while actual thread/checkpoint values retain parameter placeholders. No tool-input interpolation is established by this location.",
+      "limits": "Inspect the symbol definition and query callers before deciding whether identifiers/constants violate the intended trust boundary."
+    },
+    {
+      "id": "oauth-auth-method",
+      "project_id": "fastmcp",
+      "path": "fastmcp_slim/fastmcp/server/auth/oauth_proxy/proxy.py",
+      "line": 969,
+      "review_span": [
+        958,
+        974
+      ],
+      "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+      "repository": "https://github.com/PrefectHQ/fastmcp",
+      "source_sha256": "392817dec285d5a312e2fccc8085e7ff591f11f42cf01b0efc37987c1a37929d",
+      "review_span_sha256": "c98f208f331f94404d400761f2c0c792e875c5be53043ecf1eacfc9ede68d867",
+      "source_url": "https://github.com/PrefectHQ/fastmcp/blob/9c35c017cd89e4d50a9f512c8eafde68c301ec70/fastmcp_slim/fastmcp/server/auth/oauth_proxy/proxy.py#L969",
+      "archived_observation_ids": [
+        "obs-8ee47959bcaa4ea981139037"
+      ],
+      "predicate": "embedded_secret_literal",
+      "judgment": "absent",
+      "reason": "The flagged value is token_endpoint_auth_method=\"none\", an OAuth client-authentication method label, not an embedded credential.",
+      "limits": "Whether public clients and redirects are configured securely is a separate review predicate."
+    },
+    {
+      "id": "public-oauth-endpoint",
+      "project_id": "pydantic-ai",
+      "path": "pydantic_ai_slim/pydantic_ai/providers/openai_codex.py",
+      "line": 67,
+      "review_span": [
+        62,
+        71
+      ],
+      "revision": "c4898abb54dc25ae6f6aef208a4c0661b30a455e",
+      "repository": "https://github.com/pydantic/pydantic-ai",
+      "source_sha256": "bff0d91fbcf9dc0334c9d2981df56dbcc2e3602c1baecef37d4001a0f769960c",
+      "review_span_sha256": "14e14c69d3f1afe60c427513fa9ed3efb4acbda1a3919bd33f6ef58a081047e0",
+      "source_url": "https://github.com/pydantic/pydantic-ai/blob/c4898abb54dc25ae6f6aef208a4c0661b30a455e/pydantic_ai_slim/pydantic_ai/providers/openai_codex.py#L67",
+      "archived_observation_ids": [
+        "obs-88332e2527d41cb03b0c0ada"
+      ],
+      "predicate": "embedded_secret_literal",
+      "judgment": "absent",
+      "reason": "The token-named constant is a public OAuth HTTPS endpoint URL, not a token or secret.",
+      "limits": "Public endpoint strings should not be counted as validated credential leaks."
+    },
+    {
+      "id": "example-client-secret",
+      "project_id": "fastmcp",
+      "path": "fastmcp_slim/fastmcp/server/auth/providers/google.py",
+      "line": 245,
+      "review_span": [
+        236,
+        251
+      ],
+      "revision": "9c35c017cd89e4d50a9f512c8eafde68c301ec70",
+      "repository": "https://github.com/PrefectHQ/fastmcp",
+      "source_sha256": "4bc01c90f0d3359f732272abc1acaa7d002fe86e3c182a8ac1f8cab82e0a118d",
+      "review_span_sha256": "3da7acb0826589112c72809546d07f8d632d217d412d40f413a9aa4017d98377",
+      "source_url": "https://github.com/PrefectHQ/fastmcp/blob/9c35c017cd89e4d50a9f512c8eafde68c301ec70/fastmcp_slim/fastmcp/server/auth/providers/google.py#L245",
+      "archived_observation_ids": [
+        "obs-be342960cf98e3b44b7acdcf"
+      ],
+      "predicate": "usable_embedded_credential",
+      "judgment": "not_established",
+      "reason": "The location is a documentation example with a visibly abbreviated client-secret value ending in an ellipsis.",
+      "limits": "No credential-validity check was performed; this example does not establish a usable production secret."
+    }
+  ]
+}

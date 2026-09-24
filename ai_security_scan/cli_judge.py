@@ -410,8 +410,20 @@ def _schema(stage):
         "supported_by_code", "potential_gap", "needs_runtime_validation", "needs_human_review", "insufficient_evidence", "not_applicable_proposed"]},
         "reason": string, "citations": {"type": "array", "items": obj({"evidence_id": string, "quote": string})},
         "verification_steps": {"type": "array", "items": string}, "recommended_actions": actions})
-    return obj({"control_assessments": {"type": "array", "items": obj({"control_id": string,
-                "check_assessments": {"type": "array", "items": check}})}})
+    if stage == "investigation":
+        check["properties"]["analysis"] = obj({key: string for key in (
+            "risk_hypothesis", "boundary", "counterevidence", "conclusion_limits")})
+        check["required"].append("analysis")
+    schema = obj({"control_assessments": {"type": "array", "items": obj({"control_id": string,
+                  "check_assessments": {"type": "array", "items": check}})}})
+    if stage == "investigation":
+        schema["properties"]["evidence_requests"] = {"type": "array", "items": obj({
+            "control_id": string, "check_index": {"type": "integer"}, "file_id": string,
+            "start_line": {"type": "integer"}, "end_line": {"type": "integer"},
+            "purpose": {"type": "string", "enum": ["risk_hypothesis", "counterevidence", "boundary_context"]},
+            "reason": string, "counterevidence": string})}
+        schema["required"].append("evidence_requests")
+    return schema
 
 
 def _write_private(path, data):
@@ -529,7 +541,7 @@ def run_cli(config, payload, instructions, stage="findings"):
     container boundary for equivalent descendant lifecycle isolation.
     """
     config = validate_cli_config(config)
-    if stage not in {"findings", "controls"} or not isinstance(instructions, str):
+    if stage not in {"findings", "controls", "investigation"} or not isinstance(instructions, str):
         raise CLIJudgeError("CLI judge received an invalid review stage or instructions.")
     from .token_optimizer import optimize_payload
     deadline = time.monotonic() + config["timeout_seconds"]

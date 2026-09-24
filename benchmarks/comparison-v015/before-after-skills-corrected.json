@@ -1,0 +1,146 @@
+{
+  "after": {
+    "accuracy_report": "skills-corrected-after.json",
+    "accuracy_report_sha256": "c6ec171944e43073d962abc2bdd4f6976da13aaddb326c82e4c52ab0d3b852dc",
+    "analysis_error_cases": 0,
+    "by_suite": {
+      "challenge": {
+        "assertions": 12,
+        "false_negative": 0,
+        "false_negative_rate": 0.0,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 9,
+        "true_positive": 3
+      },
+      "regression": {
+        "assertions": 319,
+        "false_negative": 0,
+        "false_negative_rate": 0.0,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 278,
+        "true_positive": 41
+      }
+    },
+    "failed_case_ids": [],
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "overall": {
+      "assertions": 331,
+      "false_negative": 0,
+      "false_negative_rate": 0.0,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 287,
+      "true_positive": 44
+    },
+    "tool_version": "0.15.0"
+  },
+  "before": {
+    "accuracy_report": "skills-corrected-before.json",
+    "accuracy_report_sha256": "92e0c876fcae63a6e93b366192bea17b26c85d1f536cb2cc011154eae3886ffd",
+    "analysis_error_cases": 0,
+    "by_suite": {
+      "challenge": {
+        "assertions": 12,
+        "false_negative": 3,
+        "false_negative_rate": 1.0,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": null,
+        "recall": 0.0,
+        "true_negative": 9,
+        "true_positive": 0
+      },
+      "regression": {
+        "assertions": 319,
+        "false_negative": 1,
+        "false_negative_rate": 0.02439,
+        "false_positive": 0,
+        "false_positive_rate": 0.0,
+        "precision": 1.0,
+        "recall": 0.97561,
+        "true_negative": 278,
+        "true_positive": 40
+      }
+    },
+    "failed_case_ids": [
+      "hierarchy-json-schema-field",
+      "challenge-multilingual-override",
+      "challenge-semantic-exfiltration",
+      "challenge-indirect-override"
+    ],
+    "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+    "overall": {
+      "assertions": 331,
+      "false_negative": 4,
+      "false_negative_rate": 0.090909,
+      "false_positive": 0,
+      "false_positive_rate": 0.0,
+      "precision": 1.0,
+      "recall": 0.909091,
+      "true_negative": 287,
+      "true_positive": 40
+    },
+    "tool_version": "0.14.0"
+  },
+  "changes": [
+    {
+      "after_detected": true,
+      "after_outcome": "true_positive",
+      "before_detected": false,
+      "before_outcome": "false_negative",
+      "case_id": "challenge-indirect-override",
+      "expected": true,
+      "rule_id": "AI043"
+    },
+    {
+      "after_detected": true,
+      "after_outcome": "true_positive",
+      "before_detected": false,
+      "before_outcome": "false_negative",
+      "case_id": "challenge-multilingual-override",
+      "expected": true,
+      "rule_id": "AI043"
+    },
+    {
+      "after_detected": true,
+      "after_outcome": "true_positive",
+      "before_detected": false,
+      "before_outcome": "false_negative",
+      "case_id": "challenge-semantic-exfiltration",
+      "expected": true,
+      "rule_id": "AI044"
+    },
+    {
+      "after_detected": true,
+      "after_outcome": "true_positive",
+      "before_detected": false,
+      "before_outcome": "false_negative",
+      "case_id": "hierarchy-json-schema-field",
+      "expected": true,
+      "rule_id": "AI043"
+    }
+  ],
+  "corpus": {
+    "case_count": 81,
+    "path": "benchmarks/skills_tools_accuracy-v110.json",
+    "sha256": "4b4c5c60f18c6f41ace72231a9314371a62faf750a7129aa83906be1259d5c06",
+    "version": "1.1.0"
+  },
+  "experiment": "comparison-v015",
+  "input_invariants": {
+    "identical_case_ids_and_labels": true,
+    "identical_corpus_sha256": true
+  },
+  "label_policy": "No assertion removed or relabeled within this paired denominator; other tracks remain separate.",
+  "remaining_mismatches": [],
+  "schema_version": "1.0",
+  "scope": "Paired unchanged project-authored rule-presence assertions; not production vulnerability accuracy."
+}

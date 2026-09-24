@@ -41,7 +41,7 @@ invscan --explain-control TEST-01
 
 `AGT-03`, separating untrusted content from authoritative instructions, has partial static coverage through `AI032` (privileged message composition) and `AI043` (recognized instruction override patterns). `TEST-01`, measuring prompt-injection security and useful task completion, requires dynamic testing and has no deterministic rule mapping. Merely recognizing an unsafe message-construction pattern cannot establish resistance to adversarial tool output, prove an authorization boundary works, or measure task success under attack.
 
-The catalog explains **66 controls and 132 acceptance checks**. Its **46 rules provide partial static mappings to 30 controls**. Those are mapping counts, not pass rates. Even a mapped control still needs evidence for the complete acceptance check. Explorer output does not run the scanner, produce findings or mark any check as passed.
+The catalog explains **66 controls and 132 acceptance checks**. Its **47 rules provide partial static mappings to 30 controls**. Those are mapping counts, not pass rates. Even a mapped control still needs evidence for the complete acceptance check. Explorer output does not run the scanner, produce findings or mark any check as passed.
 
 ## Inspect where a control came from
 
@@ -53,7 +53,7 @@ invscan --explain-source CIS-MCP-2026
 invscan --explain-source NSA-AGENTIC
 ```
 
-The registry contains **76 sources** with organization, title, URL, kind, version/date, scope and limitations. Technical references attached to rules are identified separately. URLs are printed for follow-up reading; explorer commands do not open them or verify that the website has remained unchanged.
+The registry contains **78 sources** with organization, title, URL, kind, version/date, scope and limitations. Technical references attached to rules are identified separately. URLs are printed for follow-up reading; explorer commands do not open them or verify that the website has remained unchanged.
 
 | Relationship | Meaning | Example |
 | --- | --- | --- |

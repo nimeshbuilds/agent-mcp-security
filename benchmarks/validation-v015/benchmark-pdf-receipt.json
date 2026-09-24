@@ -1,0 +1,17 @@
+{
+  "all_pages_rendered": true,
+  "bookmarks": 11,
+  "byte_identical_independent_repeat_build": true,
+  "bytes": 101922,
+  "first_page_exposes_initial_challenge_misses_and_separate_confirmation": true,
+  "input_receipt": "benchmarks/comparison-v015/benchmark-pdf-build.json",
+  "internal_links": 9,
+  "link_annotations": 39,
+  "pages": 11,
+  "path": "output/pdf/invarune-benchmark-v015.pdf",
+  "schema_version": "1.0",
+  "sha256": "de2d86a325292a39cb41801215256a6868dff8c1240e960fcaaf8961dcf6a449",
+  "text_outside_page_bounds": 0,
+  "uri_links": 30,
+  "visual_review": "All 11 pages inspected in contact sheets; full-resolution pages 1,4,6,7 inspected after final content changes. No clipped or overlapping content observed."
+}

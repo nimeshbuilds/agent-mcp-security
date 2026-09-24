@@ -353,6 +353,11 @@ def _advisory_check(check):
              + _escape(check.get("status", "insufficient_evidence")) + '</h4>',
              '<p>' + _escape(check.get("reason", "No assessment reason was provided.")) + '</p>']
     parts.append(_recommended_actions(check.get("recommended_actions")))
+    for key, label in (("risk_hypothesis", "Risk hypothesis"), ("boundary", "Trust boundary"),
+                       ("counterevidence", "Counterevidence considered"), ("conclusion_limits", "Conclusion limits")):
+        value = check.get("analysis", {}).get(key)
+        if value:
+            parts.append('<p><strong>' + label + ':</strong> ' + _escape(value) + '</p>')
     if check.get("status") in ("justified", "disabled"):
         parts.append('<p class="check-note">User decision; excluded from optional review and active check totals.</p>')
     elif not check.get("model_supplied", False):
@@ -489,6 +494,14 @@ def _advisory(report):
         parts.append('<p class="small"><strong>Finding judge:</strong> disabled.</p>')
     if analyst.get("enabled"):
         coverage = analyst.get("coverage", {})
+        investigation = analyst.get("investigation", {})
+        if investigation:
+            parts += ['<div class="analyst-panel"><h3>Bounded evidence investigation</h3><p>Follow-up rounds: '
+                      + _escape(investigation.get("rounds_completed", 0)) + ' · evidence requests served / denied: '
+                      + _escape(investigation.get("requests_served", 0)) + ' / ' + _escape(investigation.get("requests_denied", 0))
+                      + ' · captured files offered: ' + _escape(investigation.get("snapshot_files_offered", 0))
+                      + '.</p><p>The model can request exact ranges from verified, redacted snapshots. The controller enforces file IDs, scope, shared budgets and quote validation. Requests do not execute target tools or resolve runtime uncertainty.</p>'
+                      + _details("Evidence requests, counterevidence and budget receipts", _json(investigation)) + '</div>']
         parts += ['<div class="analyst-panel"><h3>Control analyst</h3><p><strong>Review status:</strong> ' + _escape(analyst.get("status", "unknown"))
                   + ' · <strong>Controls reviewed:</strong> ' + _escape(coverage.get("reviewed_controls", 0)) + '/' + _escape(coverage.get("total_controls", 0))
                   + '<br><strong>Unanswered checks:</strong> ' + _escape(coverage.get("omitted_checks", 0))
@@ -547,6 +560,14 @@ def _status_strip(report):
     if judge.get("enabled") or analyst.get("enabled"):
         optional = "Findings: " + str(judge.get("status", "unknown") if judge.get("enabled") else "disabled")
         optional += " / Controls: " + str(analyst.get("status", "unknown") if analyst.get("enabled") else "disabled")
+        counts = analyst.get("check_status_counts", {})
+        if analyst.get("enabled"):
+            optional += "; {} potential gaps; {} checks need runtime, human or additional evidence; {} unanswered".format(
+                _count(counts.get("potential_gap", 0)),
+                sum(_count(counts.get(key, 0)) for key in ("needs_runtime_validation", "needs_human_review", "insufficient_evidence")),
+                _count(analyst.get("coverage", {}).get("omitted_checks", 0)))
+        if judge.get("additional_concerns"):
+            optional += "; {} additional advisory concerns".format(len(judge["additional_concerns"]))
     return ('<div class="status-strip" aria-label="Independent scan and review outcomes"><div><span>Deterministic layer</span><strong>'
             + _escape(static) + '</strong><p>Observed evidence and fixes. <a href="#coverage">Inspect scope and limits</a>.</p></div>'
             + '<div><span>Optional model layer</span><strong>' + _escape(optional)

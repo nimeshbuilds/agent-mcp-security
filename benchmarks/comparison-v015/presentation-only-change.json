@@ -1,0 +1,15 @@
+{
+  "after_implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+  "before_implementation_sha256": "525747fc453830a4bc93b887c21161ff44c21212af1a525bbd5a9d615086954b",
+  "changed_modules": {
+    "report_html.py": {
+      "after": "608450e612a4d57b1ce7e413dadd8ce1b3ec409f66454c77c8f6259d490a2320",
+      "before": "58a3c3d9d8a58d006e5a9a273e54abbb723ab421461e3a78cb2947658135bfae"
+    },
+    "report_pdf.py": {
+      "after": "d853c7003191df59f50544c9661a97fb05a131742695be892b05323836dff33a",
+      "before": "4e12d596bdf57f04c0fb46a0da1e3a0a92fa8455ecfd15a2d8575c933efe39a9"
+    }
+  },
+  "policy": "No detector changed after first sealed confirmation. Final repeat is disclosed repetition, not a new blind test."
+}

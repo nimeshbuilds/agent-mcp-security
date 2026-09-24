@@ -374,6 +374,16 @@ Optional security analyst and data disclosure:
   Triage makes one request and selects up to --judge-max-findings in deterministic
   report order. Omitted findings/answers stay visible; static findings remain intact.
   Full control calls have separate --analyst-* budgets, plus the one triage call.
+  Full review defaults to 36 total control calls, 600 seconds and up to 2 bounded
+  evidence-request rounds per batch. These are maxima, not promised completion or
+  a fixed bill. Requests and conclusions consume the same call budget; remaining
+  batches reserve a conclusion opportunity before optional expansion is allowed.
+  --analyst-investigation-rounds 0 restores one-shot seed-excerpt review. Values
+  1-3 let the model request exact ranges by opaque file ID from captured,
+  hash-verified, redacted source snapshots. The model must state the risk and the
+  counterevidence it wants to check; the controller validates every request.
+  Requests never execute target code/tools or fetch arbitrary files or URLs.
+  Reports show served/denied requests, evidence budgets and conclusion limits.
   Smaller batches may require more calls: allow ceil(control_count / batch_size).
   --analyst-max-calls 0 leaves active controls unreviewed and returns exit 2 in full
   mode when active checks remain. Fully exempt controls need no analyst calls.
@@ -644,7 +654,7 @@ _EXAMPLE_GROUPS = (
         "invscan ./repository --judge-config ./trusted-judge.json --token-optimizer off")),
     (("ai", "limits"), "Finding-only triage and independent full-review evidence/call budgets.", (
         "invscan ./repository --judge-cli claude --judge-mode findings --judge-include-source --judge-max-findings 200",
-        "invscan ./repository --judge-config ./trusted-judge.json --analyst-batch-size 3 --analyst-max-calls 24 --analyst-time-budget 600",
+        "invscan ./repository --judge-config ./trusted-judge.json --analyst-batch-size 3 --analyst-max-calls 24 --analyst-time-budget 600 --analyst-investigation-rounds 2",
         "invscan ./repository --judge-config ./trusted-judge.json --analyst-max-files 400 --analyst-max-bytes 4000000 --analyst-max-chars 240000",
         "invscan ./repository --judge-cli codex --token-optimizer compact")),
 )

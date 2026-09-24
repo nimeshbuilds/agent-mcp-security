@@ -1,1 +1,4 @@
 case_id,rule_id,before,after
+gap-interprocedural-url,AI014,false_negative,true_positive
+gap-js-wrapper-taint,AI014,false_negative,true_positive
+gap-validated-user-url,AI014,false_positive,true_negative

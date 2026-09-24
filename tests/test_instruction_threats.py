@@ -33,6 +33,11 @@ class InstructionThreatTests(unittest.TestCase):
             with self.subTest(case=case['id']):
                 found = {row['rule_id'] for row in analyze_file(case['path'], case['source'])}
                 for rule, expected in case['expect'].items():
+                    # The frozen v1.0 corpus excluded schema descriptions.
+                    # v0.15 intentionally adds that agent-visible surface;
+                    # publish its old-label FP alongside the v1.1 correction.
+                    if case['id'] == 'hierarchy-json-schema-field' and rule == 'AI043':
+                        expected = True
                     self.assertEqual(rule in found, expected, (case['id'], rule, found))
 
     def test_new_rules_have_both_labels_and_mutations_are_caught(self):
@@ -51,8 +56,9 @@ class InstructionThreatTests(unittest.TestCase):
 
     def test_measurement_keeps_unsupported_challenges_in_denominator(self):
         result = accuracy.evaluate(self.corpus, self.digest)
-        self.assertEqual(result['regression_failure_ids'], [])
-        self.assertEqual(result['by_suite']['challenge']['false_negative'], 3)
+        self.assertEqual(result['regression_failure_ids'], ['hierarchy-json-schema-field'])
+        self.assertEqual(result['overall']['false_positive'], 1)
+        self.assertEqual(result['by_suite']['challenge']['false_negative'], 0)
         self.assertEqual(result, accuracy.evaluate(self.corpus, self.digest))
 
     def test_skill_reference_context_is_explicit(self):

@@ -1,0 +1,9 @@
+{
+  "credential_configured": false,
+  "current_capability_research_date": "2026-09-23",
+  "current_capability_research_url": "https://github.com/snyk/agent-scan",
+  "reason": "Not executed: no configured SNYK_TOKEN for its analysis service. Its CLI supports direct skill files; MCP configuration scans retrieve metadata by contacting configured servers, which is a different track from this static source-only export comparison.",
+  "researched_version": "0.6.3",
+  "source": "https://github.com/snyk/agent-scan/releases/tag/v0.6.3",
+  "status": "not_executed"
+}

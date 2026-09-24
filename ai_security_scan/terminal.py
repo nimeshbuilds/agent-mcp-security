@@ -57,6 +57,9 @@ def render_terminal(report, report_paths=None):
     lines.append('\nOPTIONAL AI REVIEW: ' + ('enabled (advisory)' if ai['enabled'] else 'disabled'))
     if ai['enabled']:
         lines.append('Valid answers: ' + format_ratio(ai['answer_coverage']) + '; deterministic findings and gate unchanged.')
+        investigation = report.get('analyst', {}).get('investigation', {})
+        if investigation:
+            lines.append('Evidence follow-up rounds: {}; requests served / denied: {} / {} (bounded captured snapshots; no target execution).'.format(investigation.get('rounds_completed', 0), investigation.get('requests_served', 0), investigation.get('requests_denied', 0)))
         for answer in report.get('judge', {}).get('assessments', []):
             lines.append('Finding {} [{}] {}'.format(answer['finding_id'], answer['verdict'], answer.get('reason', '')))
             for step in answer.get('recommended_actions', {}).get('steps', []):
@@ -64,6 +67,9 @@ def render_terminal(report, report_paths=None):
         for control in report.get('analyst', {}).get('control_assessments', []):
             for check in control['check_assessments']:
                 lines.append('{}:{} [{}] {}'.format(control['control_id'], check['check_index'], check['status'], check.get('reason', '')))
+                for key, label in (('risk_hypothesis', 'Hypothesis'), ('boundary', 'Boundary'), ('counterevidence', 'Counterevidence'), ('conclusion_limits', 'Limits')):
+                    if check.get('analysis', {}).get(key):
+                        lines.append('  ' + label + ': ' + str(check['analysis'][key]))
                 for step in check.get('verification_steps', []):
                     lines.append('  Next: ' + str(step))
         for concern in report.get('judge', {}).get('additional_concerns', []):

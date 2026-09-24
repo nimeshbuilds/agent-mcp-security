@@ -22,6 +22,7 @@ class RemediationTests(unittest.TestCase):
         cls.catalog = json.loads((DATA / 'remediations.json').read_text(encoding='utf-8'))
         corpus = json.loads((ROOT / 'benchmarks' / 'static_accuracy.json').read_text(encoding='utf-8'))
         corpus['cases'].extend(json.loads((ROOT / 'benchmarks' / 'skills_tools_accuracy.json').read_text(encoding='utf-8'))['cases'])
+        corpus['cases'].extend(json.loads((ROOT / 'benchmarks' / 'callflow_permissions_accuracy.json').read_text(encoding='utf-8'))['cases'])
         cls.positives = {}
         for rule_id in RULE_BY_ID:
             case = next(case for case in corpus['cases'] if case['suite'] == 'regression' and case['expect'].get(rule_id) is True)
@@ -39,12 +40,12 @@ class RemediationTests(unittest.TestCase):
 
     def test_every_detector_positive_receives_its_own_complete_plan(self):
         self.assertEqual(set(self.positives), set(RULE_BY_ID))
-        self.assertEqual(len(self.positives), 46)
+        self.assertEqual(len(self.positives), 47)
         self.assertEqual({entry['rule_id'] for entry in self.catalog['rules']}, set(RULE_BY_ID))
-        self.assertEqual(len(self.catalog['rules']), 46)
+        self.assertEqual(len(self.catalog['rules']), 47)
         self.assertEqual(set(self.guidance), {finding['id'] for finding in self.report['findings']})
-        self.assertEqual(len({entry['agent_mcp_relevance'] for entry in self.guidance.values()}), 46)
-        self.assertEqual(len({entry['summary'] for entry in self.guidance.values()}), 46)
+        self.assertEqual(len({entry['agent_mcp_relevance'] for entry in self.guidance.values()}), 47)
+        self.assertEqual(len({entry['summary'] for entry in self.guidance.values()}), 47)
         controls = {control['id'] for control in json.loads((DATA / 'controls.json').read_text())}
         for rule_id, finding in self.positives.items():
             with self.subTest(rule=rule_id):
@@ -122,6 +123,7 @@ class RemediationTests(unittest.TestCase):
             'AI044': ['broker', 'recipient', 'rotate', 'canary', 'egress'],
             'AI045': ['arguments', 'expired', 'direct mcp', 'concealment'],
             'AI046': ['readonlyhint', 'implementation', 'reapprove', 'before/after', 'dishonest'],
+            'AI047': ['0o600', '0o700', 'acl', 'ownership', 'tenant'],
         }
         self.assertEqual(set(required), set(RULE_BY_ID))
         for rule_id, terms in required.items():

@@ -77,7 +77,7 @@
 <text x="922" y="504" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
 <rect x="27" y="514" width="946" height="29" rx="0" fill="#102e3c"/>
 <text x="38" y="533" fill="#edf9fc" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">permissive file mode</text>
-<text x="556" y="533" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
+<text x="556" y="533" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
 <text x="678" y="533" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>
 <text x="800" y="533" fill="#79e5cf" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="0">1</text>
 <text x="922" y="533" fill="#617d88" font-size="16" font-weight="400" text-anchor="middle" letter-spacing="0">—</text>

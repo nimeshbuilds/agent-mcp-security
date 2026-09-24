@@ -1,6 +1,28 @@
 # Scenario test matrix
 
-## Current v0.14 release
+## Current v0.15 release
+
+The [final local validation](../benchmarks/validation-v015/README.md) passed **1,016 tests** on Python 3.12.14 with no failures, errors or skips, a **63-step** fresh installed quickstart and **12 installed-CLI scans** for five-format source/image review roundtrips. These finite scenarios do not mean every input or deployment has been tested. Existing historical matrices below retain their original rule counts and scopes.
+
+| Added or strengthened area | Concrete scenarios | Evidence |
+| --- | --- | --- |
+| Bounded Python call flow | Actual positional/keyword arguments and returns, local aliases/rebinding, declaration-time defaults, current enclosing closure values, module globals, awaited async calls, non-executed generators, fixed-return negatives | `test_callflow_permissions.py`, `test_python_accuracy.py` |
+| Tool input boundaries | Recognized FastMCP and LangChain decorators; conventional otherwise-unbound `mcp`/`server` snippets; generic/rebound decorators and injected Context negatives; inline JavaScript registrations with simple/destructured inputs | `test_callflow_permissions.py`; conventions are heuristic boundaries, not verified SDK identities |
+| Constraints and retained gaps | Exact string/literal-set guards; branch exits; finite literal maps; mutation, alias and unknown-call escape invalidation; constant-key external `__setitem__`; recursion/depth/call budgets and unsupported splats retain other findings plus gaps | `test_callflow_permissions.py`, `test_rules.py` |
+| JavaScript wrapper scope | Direct-return named/arrow wrappers, transitive chains, resolved filesystem imports, receiver/function shadowing, empty callback parameters, unsupported complex parameter diagnostics | `test_callflow_permissions.py`, `test_javascript_accuracy.py`; named callback references and broader programs remain outside this profile |
+| Explicit permissions | World-write bit in supported chmod calls, aliases and bounded mode expressions; owner/group-only, invalid modes, unknown APIs and shadowed names as negatives | `test_callflow_permissions.py`; live ACLs, ownership and platform enforcement remain unverified |
+| Instruction and schema metadata | Paired authority claims, conditional hierarchy conflicts, selected Spanish/French/German lexical forms, operative sensitive-file referents, negation, public-file referent reset, attachment transfers, schema descriptions and nested metadata bounds | `test_instruction_threats.py`, `test_tool_effects.py`; these are authored pattern cases, not complete multilingual or behavioral validation |
+| Read-only tool effect mismatch | Literal annotations versus supported direct write calls, known API imports/shadows, non-executed nested/dead paths, ambiguous bindings and handler AST limits | `test_tool_effects.py`; authorization and actual runtime effects are not proven |
+| Optional evidence investigation | Opaque IDs, exact ranges/citations, captured snapshot stability, changed files, credential exclusions, malformed/unknown/path/URL requests, duplicate or over-budget denials, counterevidence fields and request receipts | `test_analyst_investigation.py`, `test_analyst_protocol.py`, `test_evidence.py` |
+| Controller and advisory boundaries | Shared character/call/time bounds, reserved conclusion calls, authentication retries, failure/omission preservation, legacy final-response compatibility, grounded-outcome adjustments and unchanged static findings/gates | `test_analyst_investigation.py`, `test_cli_login.py`, `test_protocol_adversarial.py` |
+| Decision-first report summaries | Immediate static concerns and separate optional advisory outcomes visible in HTML/PDF opening summaries; user-controlled text escaped; static conclusions unchanged | `test_report_html.py`, `test_report_pdf.py`, `test_analyst_cli.py` |
+| Benchmark publication integrity | Original blind misses and unchanged source labels preserved; first confirmation distinguished from presentation-only repeats; altered counts, phases, implementation identities and hidden detector edits rejected | `test_benchmark_v015_publication.py`, `test_benchmark_dashboard.py` |
+
+The final [SARIF validation](../benchmarks/validation-v015/sarif-receipt.json) passed 28 existing artifacts against the locally supplied, hash-pinned OASIS schema: eleven current public reports, three preserved earlier examples and fourteen final installed source/image review files. The receipt keeps those groups separate. This checks schema structure and formats, not every consumer or all semantic SARIF obligations.
+
+The final [coverage receipt](../benchmarks/validation-v015/test-receipt.json) measures 94.57% statements and 89.82% branches in the parent process. The quickstart makes 72 actual loopback HTTP calls across six protocols using real Headroom 0.37.0, but no live model calls. Five-format roundtrips perform real report edits and fresh explicit scans; they do not imply compatibility with every PDF editor. Package comparison checks all 40 final-wheel files against checkout. Independent CI and live-provider outcomes have separate receipts.
+
+## Historical v0.14 release
 
 [Current validation](../benchmarks/validation-v014/README.md) adds 46-rule inventory, skills/tool metadata, explicit selection, terminal output, scoring and fresh reports. See `test_instruction_threats.py`, `test_skill_scope_edges.py`, `test_scan_selection.py`, `test_scan_inventory.py` and `test_scoring_metrics.py`. Historical scopes below retain their original denominators.
 

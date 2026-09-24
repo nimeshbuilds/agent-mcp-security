@@ -18,6 +18,7 @@ from urllib.parse import urlsplit
 
 from .rules import RULE_BY_ID
 from .threats import inspect_instructions
+from .callflow import javascript_wrappers, resolve_javascript_wrappers, javascript_tool_inputs
 
 
 _SOURCE_SUFFIXES = {".py", ".pyi", ".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"}
@@ -419,12 +420,17 @@ def _strip_comments(text):
 
 
 class _Findings:
-    def __init__(self, path, text):
+    def __init__(self, path, text, analysis_errors=None):
         self.path = path
         self.text = text
         self.lines = text.splitlines()
         self.items = []
         self.seen = set()
+        self.analysis_errors = analysis_errors if analysis_errors is not None else []
+
+    def gap(self, detail):
+        if detail not in self.analysis_errors:
+            self.analysis_errors.append(detail)
 
     def add(self, rule_id, line, end_line=None, confidence="medium", detail=None):
         line = max(1, int(line))
@@ -462,6 +468,42 @@ class _PythonAnalyzer(ast.NodeVisitor):
         self.interpolated_values = set()
         self.class_outer_state = None
         self.work = 0
+        # Function objects are represented by private, unforgeable-in-source
+        # alias names. Reassignment and branch joins use the ordinary alias
+        # lattice, so a textual function name is never sufficient evidence.
+        self.functions = {}
+        self.call_stack = []
+        self.return_stack = []
+        self.definition_scan = 0
+        self.module_state = None
+        self.call_expansions = 0
+        self.call_result = {}
+        self.awaited_calls = set()
+        self.tool_entrypoints = []
+
+    def visit_Module(self, node):
+        for child in ast.walk(node):
+            self._charge()
+            if isinstance(child, ast.Await) and isinstance(child.value, ast.Call):
+                self.awaited_calls.add(id(child.value))
+        for statement in node.body:
+            self.visit(statement)
+            self.module_state = self._state()
+        for function in self.tool_entrypoints:
+            self._restore(self.module_state)
+            identity = "@tool-entry:%s" % id(function)
+            self.functions[identity] = (function, self.module_state, True, {}, None, set())
+            bound = {arg.arg: (True, False, []) for arg in function.args.posonlyargs + function.args.args + function.args.kwonlyargs
+                     if not self.names(arg.annotation) & {"mcp.server.fastmcp.Context", "fastmcp.Context"}}
+            self.call_stack.append(identity)
+            self.return_stack.append(False)
+            try:
+                self._function_scope(function.args, function.body, bound)
+            finally:
+                self.return_stack.pop()
+                self.call_stack.pop()
+        if self.module_state is not None:
+            self._restore(self.module_state)
 
     def _charge(self, amount=1):
         self.work += amount
@@ -501,6 +543,29 @@ class _PythonAnalyzer(ast.NodeVisitor):
             return self.literal_values.get(node.id, [])
         value = _constant(node)
         return [value] if value is not None or isinstance(node, ast.Constant) else []
+
+    def permission_modes(self, node, depth=0):
+        """Fold only bounded integers, known stat flags and bitwise operators."""
+        self._charge()
+        if node is None or depth > 16:
+            return set()
+        flags = {"S_IRUSR": 0o400, "S_IWUSR": 0o200, "S_IXUSR": 0o100,
+                 "S_IRGRP": 0o040, "S_IWGRP": 0o020, "S_IXGRP": 0o010,
+                 "S_IROTH": 0o004, "S_IWOTH": 0o002, "S_IXOTH": 0o001,
+                 "S_IRWXU": 0o700, "S_IRWXG": 0o070, "S_IRWXO": 0o007,
+                 "S_ISUID": 0o4000, "S_ISGID": 0o2000, "S_ISVTX": 0o1000}
+        values = self.literals(node)
+        modes = {item for item in values if type(item) is int and 0 <= item <= 0o7777}
+        modes.update(flags[name[5:]] for name in self.names(node) if name.startswith("stat.") and name[5:] in flags)
+        if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.BitOr, ast.BitAnd, ast.BitXor)):
+            left, right = self.permission_modes(node.left, depth + 1), self.permission_modes(node.right, depth + 1)
+            if len(left) * len(right) > 64:
+                self.findings.gap("Permission-mode alternative budget exceeded; chmod coverage is incomplete")
+                return set()
+            for a in left:
+                for b in right:
+                    modes.add(a | b if isinstance(node.op, ast.BitOr) else a & b if isinstance(node.op, ast.BitAnd) else a ^ b)
+        return modes
 
     def static(self, node, depth=0):
         """Bounded syntactic constant proof: no target expressions are evaluated."""
@@ -594,13 +659,24 @@ class _PythonAnalyzer(ast.NodeVisitor):
         self.interpolated_values.discard(name)
 
     def add(self, rule_id, node, confidence="medium", detail=None):
+        if self.call_stack and rule_id in {"AI014", "AI015", "AI032"}:
+            chain = " -> ".join(self.functions[item][0].name for item in self.call_stack)
+            detail = (detail + " " if detail else "") + "Bounded same-file call propagation reached this sink through %s; runtime reachability and external defenses remain unverified." % chain
         self.findings.add(rule_id, node.lineno, getattr(node, "end_lineno", node.lineno), confidence, detail)
 
     def external(self, node):
         self._charge()
         if node is None:
             return False
+        if isinstance(node, ast.Subscript):
+            mappings = self.literals(node.value)
+            if mappings and all(isinstance(item, dict) and 0 < len(item) <= 64 and
+                                all(isinstance(key, str) and isinstance(value, str) for key, value in item.items()) for item in mappings):
+                return False
         if isinstance(node, ast.Call):
+            local = self._local_call(node)
+            if local is not None:
+                return local
             for name in self.names(node.func):
                 if name in {"input", "sys.stdin.read", "sys.stdin.readline"}:
                     return True
@@ -627,6 +703,22 @@ class _PythonAnalyzer(ast.NodeVisitor):
                 self.aliases[target] = node.module + "." + alias.name
 
     def visit_FunctionDef(self, node):
+        tool_entry = False
+        if len(self.external_scopes) == 1 and self.class_outer_state is None:
+            for decorator in node.decorator_list:
+                target = decorator.func if isinstance(decorator, ast.Call) else decorator
+                if isinstance(target, ast.Attribute) and target.attr == "tool" and isinstance(target.value, ast.Name):
+                    receiver = target.value.id
+                    conventional = receiver in {"mcp", "server"} and receiver not in self.aliases
+                    constructed = self.object_types.get(receiver) in {"mcp.server.fastmcp.FastMCP", "fastmcp.FastMCP"}
+                    tool_entry = tool_entry or conventional or constructed
+                elif self.names(target) & {"langchain_core.tools.tool", "langchain.tools.tool"}:
+                    tool_entry = True
+        if tool_entry:
+            if len(node.decorator_list) != 1:
+                self.findings.gap("Tool entrypoint at line %s has additional decorators; parameter binding and wrapper behavior require review" % node.lineno)
+            else:
+                self.tool_entrypoints.append(node)
         for expression in node.decorator_list + node.args.defaults + [item for item in node.args.kw_defaults if item is not None]:
             self.visit(expression)
         annotations = [item.annotation for item in node.args.posonlyargs + node.args.args + node.args.kwonlyargs]
@@ -635,11 +727,41 @@ class _PythonAnalyzer(ast.NodeVisitor):
             if expression is not None:
                 self.visit(expression)
         self._unbind(node.name)
-        self._function_scope(node.args, node.body)
+        if not node.decorator_list:
+            identity = "@local-function:%s" % id(node)
+            self.aliases[node.name] = identity
+            positional = node.args.posonlyargs + node.args.args
+            defaults = dict(zip([arg.arg for arg in positional[-len(node.args.defaults):]] if node.args.defaults else [], node.args.defaults))
+            defaults.update({arg.arg: value for arg, value in zip(node.args.kwonlyargs, node.args.kw_defaults) if value is not None})
+            default_facts = {name: (self.external(value), self.immutable_static(value), self.literals(value)) for name, value in defaults.items()}
+            body_features = set()
+            pending = list(node.body)
+            while pending:
+                child = pending.pop()
+                self._charge()
+                if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Lambda)):
+                    continue
+                if isinstance(child, (ast.Yield, ast.YieldFrom)):
+                    body_features.add("generator")
+                if isinstance(child, (ast.Global, ast.Nonlocal)):
+                    body_features.add("outer_state")
+                pending.extend(ast.iter_child_nodes(child))
+            self.functions[identity] = (node, self._state(), len(self.external_scopes) == 1, default_facts,
+                                        self.call_stack[-1] if self.call_stack else None, body_features)
+        if self.call_stack:
+            # The ordinary definition pass already checks this body locally.
+            # During call propagation, a nested declaration is not a call and
+            # cannot inherit the parent's current argument as executed input.
+            return
+        self.definition_scan += 1
+        try:
+            self._function_scope(node.args, node.body)
+        finally:
+            self.definition_scan -= 1
 
     visit_AsyncFunctionDef = visit_FunctionDef
 
-    def _function_scope(self, arguments, body):
+    def _function_scope(self, arguments, body, bound=None):
         saved = self._state()
         class_outer = self.class_outer_state
         if class_outer is not None:
@@ -676,10 +798,110 @@ class _PythonAnalyzer(ast.NodeVisitor):
         args += [item for item in (arguments.vararg, arguments.kwarg) if item is not None]
         for arg in args:
             self._unbind(arg.arg, arg.arg in _EXTERNAL_NAMES)
+            if bound is not None and arg.arg in bound:
+                external, static, literals = bound[arg.arg]
+                self.external_scopes[-1][arg.arg] = external
+                if static:
+                    self.static_values.add(arg.arg)
+                    self.literal_values[arg.arg] = literals
         for item in body:
             self.visit(item)
+            if isinstance(item, (ast.Return, ast.Raise)):
+                break
         self._restore(saved)
         self.class_outer_state = class_outer
+
+    def _local_call(self, node):
+        """Expand selected same-file calls with actual argument facts only.
+
+        No imports, descriptors or target functions are executed. Definition
+        scans retain the old local checks; call expansion adds evidence at the
+        real sink and allows narrowly proven constant guards to constrain it.
+        """
+        if self.definition_scan:
+            return None
+        identities = self.names(node.func) & self.functions.keys()
+        if not identities:
+            return None
+        # A single expression is inspected by more than one legacy predicate.
+        # Cache only within the exact active frame and current local state.
+        argument_nodes = list(node.args) + [item.value for item in node.keywords]
+        facts = [(self.external(arg), self.immutable_static(arg), self.literals(arg)) for arg in argument_nodes]
+        key = (id(node), tuple(self.call_stack), repr(facts), repr(self.aliases), repr(self.external_scopes))
+        if key in self.call_result:
+            return self.call_result[key]
+        result = False
+        unresolved = False
+        for identity in sorted(identities):
+            function, lexical_state, module_function, default_facts, parent_frame, body_features = self.functions[identity]
+            if "generator" in body_features:
+                self.findings.gap("Python local generator call at line %s requires iteration context; interprocedural coverage is incomplete" % node.lineno)
+                unresolved = True
+                continue
+            if "outer_state" in body_features:
+                self.findings.gap("Python local call at line %s uses global/nonlocal state; side-effect propagation is incomplete" % node.lineno)
+                unresolved = True
+            if isinstance(function, ast.AsyncFunctionDef) and id(node) not in self.awaited_calls:
+                self.findings.gap("Python local async call is not directly awaited at line %s; coroutine execution and interprocedural coverage are unresolved" % node.lineno)
+                unresolved = True
+                continue
+            # Expanding splats without an argument binding model would invent
+            # provenance. Leave an explicit gap instead of a clean conclusion.
+            if any(isinstance(arg, ast.Starred) for arg in node.args) or any(item.arg is None for item in node.keywords):
+                self.findings.gap("Python local-call argument expansion is unsupported at line %s; interprocedural coverage is incomplete" % node.lineno)
+                unresolved = True
+                continue
+            if identity in self.call_stack or len(self.call_stack) >= 8:
+                self.findings.gap("Python local-call recursion/depth limit reached at line %s; interprocedural coverage is incomplete" % node.lineno)
+                unresolved = True
+                continue
+            self.call_expansions += 1
+            if self.call_expansions > 512:
+                self.findings.gap("Python local-call expansion budget exceeded; interprocedural coverage is incomplete")
+                unresolved = True
+                continue
+            positional = function.args.posonlyargs + function.args.args
+            bound = {arg.arg: facts[index] for index, arg in enumerate(positional[:len(node.args)])}
+            for index, item in enumerate(node.keywords, len(node.args)):
+                bound[item.arg] = facts[index]
+            if function.args.vararg:
+                bound[function.args.vararg.arg] = (any(item[0] for item in facts[len(positional):len(node.args)]), False, [])
+            if function.args.kwarg:
+                named = {arg.arg for arg in positional + function.args.kwonlyargs}
+                bound[function.args.kwarg.arg] = (any(facts[len(node.args) + index][0] for index, item in enumerate(node.keywords) if item.arg not in named), False, [])
+            saved = self._state()
+            class_outer = self.class_outer_state
+            self.class_outer_state = None
+            if module_function:
+                self._restore(saved if len(self.external_scopes) == 1 else self.module_state or lexical_state)
+            elif self.call_stack and self.call_stack[-1] == parent_frame:
+                # Python closures read the enclosing cell at call time, not
+                # the value present when the nested function was declared.
+                self._restore(saved)
+            else:
+                self._restore(lexical_state)
+            for arg in positional + function.args.kwonlyargs:
+                if arg.arg not in bound:
+                    bound[arg.arg] = default_facts.get(arg.arg, (False, False, []))
+            self.call_stack.append(identity)
+            self.return_stack.append(False)
+            try:
+                self._function_scope(function.args, function.body, bound)
+                result = result or self.return_stack[-1]
+            finally:
+                self.return_stack.pop()
+                self.call_stack.pop()
+                self._restore(saved)
+                self.class_outer_state = class_outer
+        result = result or (None if unresolved else False)
+        self.call_result[key] = result
+        return result
+
+    def visit_Return(self, node):
+        if self.return_stack and not self.definition_scan and self.external(node.value):
+            self.return_stack[-1] = True
+        if node.value is not None:
+            self.visit(node.value)
 
     def visit_Lambda(self, node):
         for expression in node.args.defaults + [item for item in node.args.kw_defaults if item is not None]:
@@ -719,13 +941,59 @@ class _PythonAnalyzer(ast.NodeVisitor):
     def visit_If(self, node):
         self.visit(node.test)
         initial = self._state()
+        self._constrain(node.test, True)
         for statement in node.body:
             self.visit(statement)
+            if isinstance(statement, (ast.Return, ast.Raise)):
+                break
         yes = self._state()
         self._restore(initial)
+        self._constrain(node.test, False)
         for statement in node.orelse:
             self.visit(statement)
-        self._join([yes, self._state()])
+            if isinstance(statement, (ast.Return, ast.Raise)):
+                break
+        states = []
+        if not self._terminates(node.body):
+            states.append(yes)
+        if not self._terminates(node.orelse):
+            states.append(self._state())
+        self._join(states or [initial])
+
+    @staticmethod
+    def _terminates(body):
+        return bool(body and (isinstance(body[-1], (ast.Return, ast.Raise)) or
+                    isinstance(body[-1], ast.If) and _PythonAnalyzer._terminates(body[-1].body)
+                    and _PythonAnalyzer._terminates(body[-1].orelse)))
+
+    def _constrain(self, test, truth):
+        """Only exact name/string equality or immutable literal membership.
+
+        Substrings, regexes, URL parsers, validator names, mutable containers,
+        attributes and unknown calls never establish a safe value here.
+        """
+        if isinstance(test, ast.UnaryOp) and isinstance(test.op, ast.Not):
+            return self._constrain(test.operand, not truth)
+        if isinstance(test, ast.BoolOp) and ((isinstance(test.op, ast.And) and truth) or (isinstance(test.op, ast.Or) and not truth)):
+            for item in test.values:
+                self._constrain(item, truth)
+            return
+        if not isinstance(test, ast.Compare) or len(test.ops) != 1:
+            return
+        left, right, operator = test.left, test.comparators[0], test.ops[0]
+        literals = []
+        if isinstance(operator, (ast.Eq, ast.NotEq)) and truth == isinstance(operator, ast.Eq):
+            if isinstance(left, ast.Constant) and isinstance(right, ast.Name):
+                left, right = right, left
+            if isinstance(left, ast.Name) and isinstance(right, ast.Constant) and isinstance(right.value, str):
+                literals = [right.value]
+        elif isinstance(operator, (ast.In, ast.NotIn)) and truth == isinstance(operator, ast.In):
+            if isinstance(left, ast.Name) and isinstance(right, (ast.Tuple, ast.Set)) and 0 < len(right.elts) <= 64 and all(isinstance(item, ast.Constant) and isinstance(item.value, str) for item in right.elts):
+                literals = [item.value for item in right.elts]
+        if literals:
+            self.external_scopes[-1][left.id] = False
+            self.static_values.add(left.id)
+            self.literal_values[left.id] = literals
 
     def visit_For(self, node):
         self.visit(node.iter)
@@ -786,7 +1054,7 @@ class _PythonAnalyzer(ast.NodeVisitor):
             return
         if isinstance(value, ast.Call):
             constructor = self.name(value.func)
-            known_types = {"requests.Session", "httpx.Client", "httpx.AsyncClient", "aiohttp.ClientSession", "tarfile.open", "zipfile.ZipFile"}
+            known_types = {"requests.Session", "httpx.Client", "httpx.AsyncClient", "aiohttp.ClientSession", "tarfile.open", "zipfile.ZipFile", "pathlib.Path", "pathlib.PosixPath", "pathlib.WindowsPath", "mcp.server.fastmcp.FastMCP", "fastmcp.FastMCP"}
             if constructor in known_types:
                 self.object_types[target.id] = constructor
                 return
@@ -830,6 +1098,12 @@ class _PythonAnalyzer(ast.NodeVisitor):
             return
         source, static, literal = self.external(value), self.immutable_static(value), self.literal(value)
         literals = self.literals(value)
+        if isinstance(value, ast.Name) and any(isinstance(item, dict) for item in literals):
+            # Escaped mutable maps can no longer prove a finite destination.
+            self.literal_values.pop(value.id, None)
+        modes = self.permission_modes(value)
+        if modes and not literals:
+            static, literals = True, sorted(modes)
         interpolation = self.interpolation(value)
         aliases = self.names(value)
         self._track_object(target, value)
@@ -843,6 +1117,10 @@ class _PythonAnalyzer(ast.NodeVisitor):
             if static:
                 self.static_values.add(target.id)
                 self.literal_values[target.id] = literals
+            elif isinstance(value, ast.Dict) and len(node.targets if isinstance(node, ast.Assign) else [target]) == 1:
+                mapping = _constant(value)
+                if isinstance(mapping, dict) and 0 < len(mapping) <= 64 and all(isinstance(k, str) and isinstance(v, str) for k, v in mapping.items()):
+                    self.literal_values[target.id] = [mapping]
             if interpolation:
                 self.interpolated_values.add(target.id)
         key = name.rsplit(".", 1)[-1]
@@ -971,6 +1249,16 @@ class _PythonAnalyzer(ast.NodeVisitor):
             self.add("AI009", node, "high")
         if name == "tempfile.mktemp":
             self.add("AI016", node, "high")
+        if name in {"os.chmod", "os.fchmod", "os.lchmod"}:
+            mode = keywords.get("mode") or (node.args[1] if len(node.args) > 1 else None)
+            if any(item & 0o002 for item in self.permission_modes(mode)):
+                self.add("AI047", node, "high")
+        elif tail in {"chmod", "lchmod"} and isinstance(node.func, ast.Attribute):
+            path_receiver = receiver_type in {"pathlib.Path", "pathlib.PosixPath", "pathlib.WindowsPath"}
+            if isinstance(node.func.value, ast.Call):
+                path_receiver = bool(self.names(node.func.value.func) & {"pathlib.Path", "pathlib.PosixPath", "pathlib.WindowsPath"})
+            if path_receiver and any(item & 0o002 for item in self.permission_modes(keywords.get("mode") or first)):
+                self.add("AI047", node, "high")
         if "jwt" in name.lower() and tail == "decode":
             options = value("options")
             algorithms = value("algorithms")
@@ -1020,9 +1308,22 @@ class _PythonAnalyzer(ast.NodeVisitor):
             if _norm(key) == "autoapprove" and _unrestricted_approval(literal):
                 self.add("AI031", val_node, "high")
     def visit_Call(self, node):
+        self._local_call(node)
         for name in sorted(self.names(node.func) or [""]):
             self._check_call(node, name)
         self.generic_visit(node)
+        if isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name):
+            receiver_name = node.func.value.id
+            if any(isinstance(item, dict) for item in self.literal_values.get(receiver_name, [])):
+                # Even an unfamiliar method (including __setitem__) may mutate
+                # a finite map. Never retain a safety proof across that call.
+                self.literal_values.pop(receiver_name, None)
+                if any(self.external(arg) for arg in node.args) or any(self.external(item.value) for item in node.keywords):
+                    self.external_scopes[-1][receiver_name] = True
+        for arg in list(node.args) + [item.value for item in node.keywords]:
+            for child in ast.walk(arg):
+                if isinstance(child, ast.Name) and any(isinstance(item, dict) for item in self.literal_values.get(child.id, [])):
+                    self.literal_values.pop(child.id, None)
         if isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name) and node.func.attr in {"append", "extend", "insert", "update", "add", "setdefault"}:
             receiver = node.func.value.id
             self.static_values.discard(receiver)
@@ -1322,9 +1623,23 @@ def _js_external(tokens, derived=()):
 def _js_analysis(findings, text):
     """Bounded lexical JS/TS analysis with literal and local alias awareness."""
     tokens = _js_tokens(text)
+    declarations = javascript_wrappers(tokens, _js_pairs(tokens))
+    try:
+        wrapper_results, wrapper_gaps = resolve_javascript_wrappers(declarations, _js_pairs)
+    except ValueError as error:
+        findings.gap(str(error))
+        wrapper_results, wrapper_gaps = {}, {}
+    wrapper_names = {}
+    for offset, declaration in declarations.items():
+        wrapper_names.setdefault(declaration["name"], []).append(offset)
+    unique_wrappers = {name: "wrapper:%s" % offsets[0] for name, offsets in wrapper_names.items() if len(offsets) == 1}
+    tool_inputs, tool_gaps = javascript_tool_inputs(tokens, _js_pairs(tokens))
+    for gap in tool_gaps:
+        findings.gap(gap)
 
     def analyze(tokens, inherited=None, derived=None):
-        aliases = dict(inherited or {"eval": "eval", "Function": "function"})
+        hoisted = {name: kind for name, kind in unique_wrappers.items() if not declarations[int(kind.split(":", 1)[1])].get("arrow")}
+        aliases = dict(inherited or dict({"eval": "eval", "Function": "function"}, **hoisted))
         external_names = set(derived or ())
         scopes, arrow_scopes = [], []
         pairs = _js_pairs(tokens)
@@ -1399,6 +1714,12 @@ def _js_analysis(findings, text):
             findings.offset(rule, tokens[start].start,
                             tokens[end if end is not None else start].end, confidence)
 
+        def entry_inputs(offset):
+            registration = tool_inputs.get(offset)
+            if registration and (registration["receiver"] not in aliases or aliases.get(registration["receiver"]) == "mcp-server"):
+                return registration["names"]
+            return ()
+
         index = 0
         while index < count:
             while arrow_scopes and index >= arrow_scopes[-1][0]:
@@ -1420,7 +1741,11 @@ def _js_analysis(findings, text):
                                 local = value(cursor + 2) if value(cursor + 1) == "as" else source
                                 if child_process and source in {"exec", "execSync"}:
                                     aliases[local] = "shell"
-                                elif local in aliases or local == "require":
+                                elif source == "McpServer" and value(end + 1) in {"@modelcontextprotocol/sdk/server/mcp.js", "@modelcontextprotocol/sdk/server/mcp"}:
+                                    aliases[local] = "mcp-constructor"
+                                elif value(end + 1) in {"fs", "node:fs", "fs/promises", "node:fs/promises"} and source in {"readFile", "readFileSync", "writeFile", "writeFileSync", "unlink", "rm"}:
+                                    aliases[local] = "filesystem:" + source
+                                elif local in aliases or local in {"require", "fetch", "axios"}:
                                     aliases[local] = None
                                 cursor += 3 if value(cursor + 1) == "as" else 1
                                 if value(cursor) == ",":
@@ -1429,7 +1754,13 @@ def _js_analysis(findings, text):
                             local = value(index + 3) if value(index + 1) == "*" else value(index + 1)
                             if child_process:
                                 aliases[local] = "namespace"
-                            elif local in aliases or local == "require":
+                            elif value(end + 1) in {"fs", "node:fs", "fs/promises", "node:fs/promises"}:
+                                aliases[local] = "filesystem:namespace"
+                            elif local == "axios" and value(end + 1) == "axios":
+                                aliases[local] = "http-axios"
+                            elif local == "fetch" and value(end + 1) in {"node-fetch", "undici"}:
+                                aliases[local] = "http-fetch"
+                            elif local in aliases or local in {"require", "fetch", "axios"}:
                                 aliases[local] = None
                         index = end + 2
                         break
@@ -1440,14 +1771,23 @@ def _js_analysis(findings, text):
                 scopes.append((aliases.copy(), external_names.copy()))
             elif token.kind == "punctuation" and word == "}" and scopes:
                 aliases, external_names = scopes.pop()
+            if word in {"const", "let", "var"} and tokens[index + 1:index + 2] and tokens[index + 1].kind == "identifier" and value(index + 2) != "=":
+                declared = value(index + 1)
+                if declared in aliases or declared in {"fetch", "axios", "server", "mcp"}:
+                    aliases[declared] = None
             # Declarations and direct reassignment establish/kill aliases. This
             # intentionally does not claim whole-program or interprocedural flow.
             if token.kind == "identifier" and value(index + 1) == "=" and previous not in {".", "?."}:
                 end = expression_end(index + 2)
                 kind, resolved_end = resolve(index + 2)
-                if kind and resolved_end == end:
+                declaration = declarations.get(index - 1)
+                if declaration and declaration.get("arrow") and unique_wrappers.get(word):
+                    aliases[word] = unique_wrappers[word]
+                elif value(index + 2) == "new" and aliases.get(value(index + 3)) == "mcp-constructor":
+                    aliases[word] = "mcp-server"
+                elif kind and resolved_end == end:
                     aliases[word] = kind
-                elif word in aliases or word == "require":
+                elif word in aliases or word in {"require", "fetch", "axios", "server", "mcp"}:
                     aliases[word] = None
                 if _js_external(tokens[index + 2:end], external_names):
                     external_names.add(word)
@@ -1469,7 +1809,7 @@ def _js_analysis(findings, text):
                         if value(cursor) == ",":
                             cursor += 1
             if token.kind == "identifier" and word == "function" and tokens[index + 1:index + 2] and tokens[index + 1].kind == "identifier":
-                aliases[value(index + 1)] = None
+                aliases[value(index + 1)] = unique_wrappers.get(value(index + 1)) if index in declarations else None
             # Arrow expression parameters have a scope even without braces.
             if token.kind == "punctuation" and word == "=>" and value(index + 1) != "{":
                 end = expression_end(index + 1)
@@ -1480,6 +1820,7 @@ def _js_analysis(findings, text):
                     if parameter.kind == "identifier":
                         aliases[parameter.value] = None
                         external_names.discard(parameter.value)
+                external_names.update(entry_inputs(token.start))
             # Function parameters are scoped shadows, not imports or builtin eval.
             if token.kind == "punctuation" and word == "{" and previous in {")", "=>"}:
                 opening = pairs.get(index - 1) if previous == ")" else pairs.get(index - 2) if value(index - 2) == ")" else None
@@ -1494,6 +1835,8 @@ def _js_analysis(findings, text):
                 elif previous == "=>" and index >= 2 and tokens[index - 2].kind == "identifier":
                     aliases[value(index - 2)] = None
                     external_names.discard(value(index - 2))
+                if previous == "=>":
+                    external_names.update(entry_inputs(tokens[index - 1].start))
 
             kind, opening = resolve(index) if previous not in {".", "?.", "function"} else (None, index)
             if value(opening) == "(" and previous not in {".", "?.", "function"}:
@@ -1504,6 +1847,24 @@ def _js_analysis(findings, text):
                     relevant = arguments[:1] if kind == "eval" else arguments
                     if any(not _js_static(argument) for argument in relevant):
                         emit("AI013", index - 1 if previous == "new" else index, closing)
+                if kind and kind.startswith("wrapper:") and arguments:
+                    offset = int(kind.split(":", 1)[1])
+                    parameters = declarations[offset]["parameters"]
+                    influenced = {param for arg, param in zip(arguments, parameters) if _js_external(arg, external_names)}
+                    if influenced and offset in wrapper_gaps:
+                        findings.gap(wrapper_gaps[offset])
+                    summary = wrapper_results.get(offset)
+                    if summary and influenced and _js_external(summary["input"], influenced):
+                        stable_chain = all(aliases.get(declarations[item]["name"]) == "wrapper:%s" % item for item in summary["bindings"])
+                        # The built-in fetch / conventional axios namespace
+                        # may be shadowed by a parameter or local assignment.
+                        sink_binding = summary["sink_binding"]
+                        stable_sink = sink_binding not in aliases or aliases.get(sink_binding) == "http-" + sink_binding
+                        if summary.get("requires_filesystem_import"):
+                            stable_sink = isinstance(aliases.get(sink_binding), str) and aliases[sink_binding].startswith("filesystem:")
+                        if stable_chain and stable_sink:
+                            findings.offset(summary["rule"], summary["sink"].start, summary["sink_end"].end,
+                                            detail="Bounded same-file direct-return wrapper propagation: %s. Actual execution, DNS and redirects remain unverified." % " -> ".join(summary["chain"]))
 
             # Property configuration: keys are executable object members, while
             # string values remain data. Quoted keys are supported explicitly.
@@ -1941,7 +2302,7 @@ def _generic_analysis(findings, text, path, suffix):
                 findings.add("AI025", index, confidence="low")
 
 
-def analyze_file_errors(path: str, text: str, instruction_context: bool = False) -> list[str]:
+def analyze_file_errors(path: str, text: str, instruction_context: bool = False, include_flow: bool = True) -> list[str]:
     """Return parse/coverage errors separately from vulnerabilities."""
     suffix = PurePosixPath(path).suffix.lower()
     try:
@@ -1958,12 +2319,20 @@ def analyze_file_errors(path: str, text: str, instruction_context: bool = False)
     except (ValueError, RecursionError, MemoryError) as error:
         return ["Source could not be parsed (%s); syntax-aware checks were skipped." % type(error).__name__]
     instruction_text = _strip_comments(text) if suffix == ".jsonc" else text
-    return inspect_instructions(path, instruction_text, _js_tokens, instruction_context)[1]
+    errors = list(inspect_instructions(path, instruction_text, _js_tokens, instruction_context)[1])
+    if include_flow and suffix in {".py", ".pyi"} | _JS_SUFFIXES:
+        # Standalone callers receive coverage gaps too. The scanner supplies an
+        # error collector to analyze_file and disables this second flow pass.
+        try:
+            analyze_file(path, text, instruction_context, analysis_errors=errors)
+        except (RecursionError, MemoryError, ValueError) as error:
+            errors.append("Source analysis exceeded a bounded visitor/resource limit (%s); coverage is incomplete." % type(error).__name__)
+    return errors
 
 
-def analyze_file(path: str, text: str, instruction_context: bool = False) -> list[dict]:
+def analyze_file(path: str, text: str, instruction_context: bool = False, analysis_errors=None) -> list[dict]:
     """Analyze one text file without reading imports, making requests, or executing it."""
-    findings = _Findings(path, text)
+    findings = _Findings(path, text, analysis_errors=analysis_errors)
     suffix = PurePosixPath(path).suffix.lower()
     if suffix in {".py", ".pyi"}:
         try:

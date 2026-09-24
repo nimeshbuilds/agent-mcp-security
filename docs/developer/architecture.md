@@ -11,7 +11,8 @@ Paths below are relative to the repository root.
 | CLI parsing and orchestration | `ai_security_scan/cli.py`, `cli_help.py` | `parser()`, `main()`, `judge_payload()`, `_json_summary()` |
 | Source selection and aggregation | `scanner.py` | `scan()`, `load_controls()`, `load_baseline()` |
 | Confined file reads | `fs.py` | `read_confined()` |
-| Source-pattern detection | `analyzer.py`, `rules.py` | `analyze_file()`, `analyze_file_errors()`, `_Findings` |
+| Source-pattern detection | `analyzer.py`, `callflow.py`, `rules.py` | `analyze_file()`, `analyze_file_errors()`, `_Findings` |
+| Agent-facing instructions and tool contracts | `threats.py`, `tool_effects.py` | Bounded instruction grammars, structured tool descriptions and explicit read-only/write-effect conflicts |
 | Image acquisition | `image_runtime.py` | `export_image()` |
 | Archive verification and reconstruction | `image_archive.py` | `materialize_image()` |
 | Image metadata and retained-layer assessment | `image_assessment.py`, `image_scan.py` | `assess_image()`, `scan_image()`, `_merge_assessment()` |
@@ -53,13 +54,13 @@ Selected text is decoded as UTF-8, accepting a BOM. The report records path, byt
 
 | Profile | Implementation scope |
 |---|---|
-| `python_ast` | AST parsing and bounded local alias/value tracking; no whole-program proof. |
-| `javascript_lexical` | Tokens, balanced calls and selected signals; not a complete JavaScript/TypeScript parser. |
+| `python_ast` | AST parsing, local alias/value tracking and bounded same-file call propagation; exact supported guards, explicit unsupported-flow gaps; no whole-program proof. |
+| `javascript_lexical` | Tokens, balanced calls and narrow direct-return wrapper summaries; not a complete JavaScript/TypeScript parser. |
 | `json_structured` | Structured JSON/JSONC checks with ambiguous input failures visible. |
 | `configuration_lexical` | Selected configuration/text patterns; not complete YAML/template semantics. |
 | `generic_text` | Applicable generic signals; no implied language-specific data flow. |
 
-`analyze_file_errors()` reports parsing/analysis limitations; `analyze_file()` emits findings. Do not suppress the former because the latter returns no findings. `_Findings.add()` deduplicates by rule and line and includes bounded source evidence. The scanner assigns a finding ID from rule, relative location and raw evidence before publishing redacted evidence. It then applies an explicit baseline and aggregates mapped controls. A control with no matching finding becomes `no_pattern_detected`, not `pass`.
+`analyze_file()` emits findings and accepts an analysis-error collector so a partial flow limitation preserves other findings. `analyze_file_errors(..., include_flow=False)` checks remaining parsing/threat limitations without duplicating the flow pass. External direct callers may request its default complete analysis. Do not suppress the former because the latter returns no findings. `_Findings.add()` deduplicates by rule and line and includes bounded source evidence. The scanner assigns a finding ID from rule, relative location and raw evidence before publishing redacted evidence. It then applies an explicit baseline and aggregates mapped controls. A control with no matching finding becomes `no_pattern_detected`, not `pass`.
 
 ## Built-image pipeline
 
@@ -88,6 +89,14 @@ Ask answers add the original/normalized query, `search_method`, `limit`, `total_
 For ordinary search, generic question words are removed when substantive terms remain. A document must cover at least half the query terms. Results sort first by covered-term count, then weighted field score, then stable kind/ID tie-breaks. Exact aliases and titles receive extra weight; source benchmark records have an explicit benchmark-query preference. All scoring rules are visible in `_ask()` and `_search_documents()`; there are no embeddings, learned rankings, agent calls or network fallbacks.
 
 Control sources preserve `primary_control_source` and `thematic_alignment`; detector/remediation references use `rule_technical_reference`. Source backlinks are derived only from existing mappings and exact reference relationships. Catalog relevance scores are not confidence, severity or compliance scores.
+
+## Optional investigation loop
+
+The deterministic scan completes before optional model work. Evidence capture validates the existing manifest and snapshots bounded, redacted text. The model receives seed excerpts plus opaque file IDs and definition hints. It can return final conclusions, or request exact line ranges for a selected check with a risk hypothesis and counterevidence rationale.
+
+The controller validates IDs, selected checks, range bounds and shared budgets before returning text from those snapshots. It never uses a model-supplied path, fetches a URL, executes a command, imports target code or rereads a changed target. Every served/denied request has a receipt. A conclusion call is reserved for each remaining batch; optional exploration cannot consume those reservations. Defaults permit two rounds per batch, up to 36 control-review calls and 600 seconds of scheduling time; finding triage is separate. Zero investigation rounds restores seed-only review.
+
+Final exact-quote validation binds citations to delivered evidence; it does not validate the model’s reasoning. Structured analysis distinguishes hypothesis, boundary, counterevidence and conclusion limits. Legacy final responses remain compatible and their missing structure stays explicit. Models never change static severities, resolve user exceptions or lower the gate. See [AI adapters](ai-adapters.md) for schemas and tests.
 
 ## Repeatability and boundaries
 

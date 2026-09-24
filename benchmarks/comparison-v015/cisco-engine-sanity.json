@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "tool": "cisco-mcp-scanner",
+  "version": "4.8.4",
+  "analyzer": "yara",
+  "purpose": "Sanity check that the enabled offline engine flags a known documented direct pattern. Separate from sealed challenge, not included in challenge accuracy.",
+  "process_exit_code": 0,
+  "input_sha256": "7eebad551276a0e27459ff51a0a66b1e7549f18c00b23a757c35b482514c017b",
+  "raw_report_sha256": "4d80c1b802903b83b9c352bd84e0c596639aa6600e15a064b2224e8d639155e4",
+  "items": [
+    {
+      "name": "engine_positive_control",
+      "status": "completed",
+      "findings": 1,
+      "threat_names": [
+        "PROMPT INJECTION"
+      ]
+    },
+    {
+      "name": "engine_negative_control",
+      "status": "completed",
+      "findings": 0,
+      "threat_names": []
+    }
+  ],
+  "engine_sanity_passed": true
+}

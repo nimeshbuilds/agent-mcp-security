@@ -8,13 +8,14 @@ Commands below run from the repository root after the [development setup](../../
 
 | Changed area | Start with |
 |---|---|
-| Parser or detector | `tests.test_rules`, the relevant language-accuracy suite, `tests.test_security_boundaries` |
+| Parser or detector | `tests.test_rules`, `tests.test_callflow_permissions`, `tests.test_instruction_extensions`, `tests.test_tool_effects`, the relevant language-accuracy suite, `tests.test_security_boundaries` |
 | Traversal or path handling | `tests.test_scanner`, `tests.test_exclusion_identity`, `tests.test_analysis_profiles` |
 | Images | `tests.test_image_archive`, `tests.test_image_assessment`, `tests.test_image_runtime`, `tests.test_image_cli` |
 | Catalog and explorer | `tests.test_catalog`, `tests.test_catalog_explorer`, `tests.test_catalog_explorer_integration`, `tests.test_cli_usability` |
 | Exceptions/import | `tests.test_review_policy`, `tests.test_review_workspace`, `tests.test_review_roundtrip_cli` |
 | Report treatment and display | `tests.test_report_assessment`, `tests.test_remediation`, `tests.test_report_html`, `tests.test_report_pdf` |
-| AI protocol/evidence | `tests.test_judge_integration`, `tests.test_analyst_protocol`, `tests.test_evidence`, `tests.test_token_optimizer` |
+| AI protocol/evidence | `tests.test_judge_integration`, `tests.test_analyst_protocol`, `tests.test_analyst_investigation`, `tests.test_evidence`, `tests.test_token_optimizer` |
+| Benchmark publication/provenance | `tests.test_benchmark_v015_publication`, `tests.test_benchmark_dashboard`; preserve first blind results, source labels and presentation-only repeat identity |
 
 For example:
 
@@ -100,6 +101,8 @@ python scripts/validate_image_scan.py
 It builds an inert `FROM scratch` fixture with network disabled, exports/scans it and removes its temporary tag. It does not start the fixture container. Windows/macOS archive unit tests are useful but are not a substitute for this runtime/export integration.
 
 `scripts/validate_sarif.py` validates reports against the pinned OASIS SARIF schema supplied with `--schema`. The helper does not download it; the CI workflow records the official URL and exact expected SHA-256. Preserve that digest check when reproducing the schema job.
+
+The [v0.15 SARIF receipt](../../benchmarks/validation-v015/sarif-receipt.json) records 28 validated files with separate current-public, archived and local-workflow groups. Keep the exact input hashes and disclose whether reports are new executions or preserved artifacts. Schema conformance does not establish every semantic requirement or behavior in downstream consumers.
 
 ## Research, PDF and model validation
 

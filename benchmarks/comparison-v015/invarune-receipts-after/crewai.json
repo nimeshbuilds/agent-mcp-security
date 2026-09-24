@@ -1,0 +1,126 @@
+{
+  "actual_python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "analysis_profiles": {
+    "configuration_lexical": {
+      "files": 18,
+      "scope": "Selected text/configuration patterns; YAML anchors, block-scalar semantics and dynamic templates are not fully resolved."
+    },
+    "generic_text": {
+      "files": 5,
+      "scope": "Generic secret/URL signals, bounded English skill/instruction directives and selected Spanish/French/German override forms; no general translation. Language-specific execution/dataflow is not analyzed."
+    },
+    "javascript_lexical": {
+      "files": 1,
+      "scope": "Bounded JavaScript/TypeScript tokens, calls, configuration and direct-return function-wrapper summaries; not a full JS/TS parser or control-flow analysis."
+    },
+    "json_structured": {
+      "files": 17,
+      "scope": "Parsed JSON/JSONC fields, selected configuration rules and recognized tool/input-schema descriptions; runtime values and referenced files are not resolved."
+    },
+    "python_ast": {
+      "files": 926,
+      "scope": "Python AST, bounded aliases/values, selected same-file argument/return flow, exact literal guards and read-only tool write witnesses; no whole-program or runtime proof."
+    }
+  },
+  "byte_identical_reports": true,
+  "command": [
+    "python3",
+    "-m",
+    "ai_security_scan",
+    "tmp/real-world-src/crewai",
+    "--output",
+    "tmp/comparison-v015/invarune-after/crewai",
+    "--summary-json",
+    "--max-file-bytes",
+    "20000000",
+    "--max-total-bytes",
+    "300000000",
+    "--max-files",
+    "20000",
+    "--max-entries",
+    "100000",
+    "--fail-on",
+    "high"
+  ],
+  "execution": {
+    "exit_code": 2,
+    "failure_threshold": "high",
+    "finding_gate_triggered": true
+  },
+  "license": {
+    "path": "LICENSE",
+    "summary": "MIT",
+    "url": "https://github.com/crewAIInc/crewAI/blob/3831e8b6c86f78cb3cde18ebf7be0d197b958f0e/LICENSE"
+  },
+  "optional_judge_enabled": false,
+  "project": "crewai",
+  "repeated_runs": [
+    {
+      "elapsed_seconds": 6.978861,
+      "exit_code": 2,
+      "report_sha256": {
+        "report.html": "9fcff7354e1a17600245569b928b5e48f243b22e3bcb9ca18f5b6d716fd859c2",
+        "report.json": "1df2aeb7dbf97d73cb62475178a458b76c00ba4c1884e01fa5c2fab152b840c3",
+        "report.md": "e0596dcc04cf9e61ba7d72d8d3784a1bff87b89f6eaff59bf2c6b13bf752daaa",
+        "report.sarif": "59120eeee3d55926f75ccd664cb6764f46ac14d79567aeeedfc38730e889fcd2"
+      },
+      "run": 1,
+      "started_at_utc": "2026-09-24T02:03:34.089201+00:00",
+      "stderr": "Scan incomplete: 12 coverage gaps; see the coverage details.\n"
+    },
+    {
+      "elapsed_seconds": 6.997168,
+      "exit_code": 2,
+      "report_sha256": {
+        "report.html": "9fcff7354e1a17600245569b928b5e48f243b22e3bcb9ca18f5b6d716fd859c2",
+        "report.json": "1df2aeb7dbf97d73cb62475178a458b76c00ba4c1884e01fa5c2fab152b840c3",
+        "report.md": "e0596dcc04cf9e61ba7d72d8d3784a1bff87b89f6eaff59bf2c6b13bf752daaa",
+        "report.sarif": "59120eeee3d55926f75ccd664cb6764f46ac14d79567aeeedfc38730e889fcd2"
+      },
+      "run": 2,
+      "started_at_utc": "2026-09-24T02:03:41.071144+00:00",
+      "stderr": "Scan incomplete: 12 coverage gaps; see the coverage details.\n"
+    }
+  ],
+  "repository": "https://github.com/crewAIInc/crewAI",
+  "revision": "3831e8b6c86f78cb3cde18ebf7be0d197b958f0e",
+  "rule_counts": {
+    "AI001": 1,
+    "AI005": 1,
+    "AI010": 20,
+    "AI017": 1,
+    "AI036": 2,
+    "AI040": 2
+  },
+  "scan_id": "b60f6b3f46fafd43589b13752acc639023094b10963c4dea765f9f2c42e9d705",
+  "schema_version": "1.0",
+  "source_bytes": 9460151,
+  "source_files": 968,
+  "source_manifest_sha256": "a092015b3adf4ac58946a860f0037bc8bccc36374d938d4c3ba9171807eb6d5f",
+  "summary": {
+    "assessment": "static_triage_only",
+    "bytes_charged": 9435467,
+    "bytes_read": 9435467,
+    "coverage_gaps": 12,
+    "failed_read_bytes_charged": 0,
+    "files_scanned": 967,
+    "open_findings": 27,
+    "scan_complete_within_selected_scope": false,
+    "severity_counts": {
+      "critical": 0,
+      "high": 25,
+      "info": 0,
+      "low": 0,
+      "medium": 2
+    },
+    "suppressed_findings": 0
+  },
+  "target_code_executed": false,
+  "tool": {
+    "display_name": "Invarune by NimeshBuild",
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "name": "agent-mcp-security-scan",
+    "python_version": "3.12.14",
+    "version": "0.15.0"
+  }
+}

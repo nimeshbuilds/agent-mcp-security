@@ -57,4 +57,4 @@ invscan --list-scans --catalog-format json
 
 Do not hand-edit generated <code>docs/SCAN_COVERAGE.md</code>. The generator preserves all current rules, controls, checks and source relationships. Commit generated changes with implementation. Rerun pinned accuracy/public-project inputs and publish versioned reports after detector/report changes; retain old receipts and disclose changed labels or scope.
 
-See [adding checks](adding-checks.md), [reports and reviews](reports-and-reviews.md) and [testing and releasing](testing-and-releasing.md).
+See [detection algorithms](detection-algorithms.md), [adding checks](adding-checks.md), [reports and reviews](reports-and-reviews.md) and [testing and releasing](testing-and-releasing.md).

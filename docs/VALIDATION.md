@@ -1,6 +1,18 @@
 # Implementation validation
 
-## Current v0.14 release
+## Current v0.15 release
+
+[Executed final v0.15 validation](../benchmarks/validation-v015/README.md) records **1,016 passing tests**, with zero failures, errors or skips on Python **3.12.14** on macOS. Parent-process coverage is **94.57% of statements** and **89.82% of branches** (**92.97% combined**). Subprocess behavior is exercised separately and is not included by that coverage configuration. These measurements describe finite implementation tests, not universal detector accuracy.
+
+The fresh installed quickstart passed **63 actual steps**, including all three CLI aliases, complete help and offline inventory, source/image/skill scopes, selected scans, terminal output, PDF edits and fresh review imports. Six loopback protocols made **72 actual requests** using Headroom **0.37.0**, with source evidence and original payload hashes checked. Fixture responses do not establish real-model or live authentication compatibility.
+
+A separate final-wheel run completed **12 actual CLI scans** across source/image fixtures and all five review formats. Final reports retained deterministic evidence and applied two explicit test-only justifications per import; justifications remained distinct from passes. The public receipt stores artifact hashes; its generated PDFs remain local and are not presented as individually visually reviewed. All **40 package files** in the final wheel (35 Python modules, five data files) match the checkout byte-for-byte. [Test, package and roundtrip receipts](../benchmarks/validation-v015/README.md).
+
+All **28 checked SARIF files** passed the pinned OASIS SARIF 2.1.0 Errata 01 schema: eleven current published reports, three archived presentation-candidate examples, and fourteen local final-wheel review-workflow artifacts. The [SARIF receipt](../benchmarks/validation-v015/sarif-receipt.json) records exact file/schema hashes and separates those groups. Schema validity is not detector accuracy, full SARIF semantic validation or universal consumer compatibility. Two final benchmark-integrity tests increased the suite from 1,014 to 1,016; the previous receipt is archived, and unchanged quickstart/roundtrip measurements were retained.
+
+These reruns use implementation `02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5`, after the opening HTML/PDF summary was updated to expose advisory outcomes. Earlier presentation-candidate receipts remain archived and explicitly labeled. Windows/Linux/other-Python CI results and downloaded-release checks require their own executed receipts; this local result makes no claim about them. See the [scenario matrix](TEST_MATRIX.md), [detector algorithms](developer/detection-algorithms.md) and [PDF validation](PDF_VALIDATION.md) for boundaries.
+
+## Historical v0.14 release
 
 [Executed v0.14 validation](../benchmarks/validation-v014/README.md) records **925 tests**, a **61-step** fresh installed CLI quickstart, scope/replay/terminal hardening, two accuracy corpora and repeated public-project reports. Results and exceptions are versioned; earlier sections below remain historical.
 

@@ -15,7 +15,7 @@ The scanner, offline explorer and optional security analyst serve different purp
 | Your change | Read first | Relevant entry points |
 |---|---|---|
 | Discover/select scans, change coverage docs | [Scan inventory and selection](scan-inventory.md) | `scan_catalog.describe_scans`, `scoring.build_scoring` |
-| Add or refine a detection | [Adding checks](adding-checks.md) | `analyzer.analyze_file`, `_Findings.add`, `rules.RULES` |
+| Add or refine a detection | [Detection algorithms](detection-algorithms.md) and [adding checks](adding-checks.md) | `analyzer.analyze_file`, `_Findings.add`, `rules.RULES` |
 | Add research/control content | [Adding checks](adding-checks.md#add-a-control-source-or-explanation) | `data/controls.json`, `data/sources.json`, `data/control_explanations.json` |
 | Explain a CLI or traversal result | [Architecture](architecture.md) | `cli.main`, `scanner.scan`, `fs.read_confined` |
 | Change built-image analysis | [Architecture](architecture.md#built-image-pipeline) | `image_scan.scan_image`, `materialize_image`, `assess_image` |

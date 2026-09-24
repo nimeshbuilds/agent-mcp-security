@@ -304,6 +304,12 @@ def markdown(report):
                   "| Advisory check status | Count |", "|---|---:|"]
         for status, count in analyst.get("check_status_counts", {}).items():
             lines.append(f"| {md(status)} | {count} |")
+        if analyst.get("investigation"):
+            investigation = analyst["investigation"]
+            lines += ["", "### Bounded evidence investigation", "",
+                      "The model may request exact ranges from verified, redacted snapshots; the controller enforces file IDs, scope, shared budgets and quote validation. No target tools or code execute. Requests do not resolve runtime uncertainty.", "",
+                      "Follow-up rounds: **{}**; requests served / denied: **{} / {}**; captured files offered: **{}**.".format(investigation.get("rounds_completed", 0), investigation.get("requests_served", 0), investigation.get("requests_denied", 0), investigation.get("snapshot_files_offered", 0)), "",
+                      codeblock(json.dumps(investigation, indent=2, sort_keys=True, ensure_ascii=True)), ""]
     lines += ["", "A clean pattern scan is not a control pass. Validate applicability and exploitability before remediation; runtime and manual checks remain required.", "", "## Findings", ""]
     if not report["findings"]:
         lines.append("No configured risk patterns were detected in the selected files.")
@@ -357,6 +363,10 @@ def markdown(report):
                 lines += [f"**Check {check['check_index']}: {md(check['status'])}**", "",
                           md(check["reason"]), ""]
                 lines += recommended_actions_markdown(check.get("recommended_actions"))
+                for key, label in (("risk_hypothesis", "Risk hypothesis"), ("boundary", "Trust boundary"),
+                                   ("counterevidence", "Counterevidence considered"), ("conclusion_limits", "Conclusion limits")):
+                    if check.get("analysis", {}).get(key):
+                        lines += ["**" + label + ":** " + md(check["analysis"][key]), ""]
                 if check["status"] in ("justified", "disabled"):
                     lines += ["User decision; excluded from optional review and active check totals.", ""]
                 elif not check.get("model_supplied", False):

@@ -1,0 +1,391 @@
+{
+  "assessment": "Static input coverage; parser gaps and benign exclusions remain separate. Not a security completeness score.",
+  "projects": [
+    {
+      "coverage_gaps": 0,
+      "errors": [],
+      "exported_files": 86,
+      "files_examined": 86,
+      "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+      "project_id": "mcp-reference",
+      "report_sha256": "b5c86b649279edee8c65813308c2183ede7e33165534cb170903157174218f72",
+      "skipped": []
+    },
+    {
+      "coverage_gaps": 0,
+      "errors": [],
+      "exported_files": 163,
+      "files_examined": 156,
+      "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+      "project_id": "github-mcp",
+      "report_sha256": "5004afa32a42a049ee5c115f2765e85b243c4a6873b38d77b4040b1305bfda6f",
+      "skipped": [
+        {
+          "coverage_gap": false,
+          "path": "internal/oauth/templates/error.html",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "internal/oauth/templates/success.html",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "pkg/github/ui_dist/.placeholder.html",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "ui/src/apps/get-me/index.html",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "ui/src/apps/issue-write/index.html",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "ui/src/apps/pr-edit/index.html",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "ui/src/apps/pr-write/index.html",
+          "reason": "unsupported_extension"
+        }
+      ]
+    },
+    {
+      "coverage_gaps": 0,
+      "errors": [],
+      "exported_files": 786,
+      "files_examined": 759,
+      "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+      "project_id": "autogen",
+      "report_sha256": "7e4a8d1a59b9e81285b29638f08140fbb90b63062668545c8614a7c31fb6a73f",
+      "skipped": [
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.Anthropic/AutoGen.Anthropic.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.AzureAIInference/AutoGen.AzureAIInference.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.Core/AutoGen.Core.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.DotnetInteractive/AutoGen.DotnetInteractive.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.Gemini/AutoGen.Gemini.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.LMStudio/AutoGen.LMStudio.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.Mistral/AutoGen.Mistral.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.Ollama/AutoGen.Ollama.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.OpenAI.V1/AutoGen.OpenAI.V1.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.OpenAI/AutoGen.OpenAI.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.SemanticKernel/AutoGen.SemanticKernel.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.SourceGenerator/AutoGen.SourceGenerator.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen.WebAPI/AutoGen.WebAPI.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/AutoGen/AutoGen.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/AgentChat/Microsoft.AutoGen.AgentChat.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/AgentHost/Microsoft.AutoGen.AgentHost.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/Agents/Microsoft.AutoGen.Agents.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/Agents/protos/agent_events.proto",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/Contracts/Microsoft.AutoGen.Contracts.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/Core.Grpc/Microsoft.AutoGen.Core.Grpc.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/Core/Microsoft.AutoGen.Core.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/Extensions/Aspire/Microsoft.AutoGen.Extensions.Aspire.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/Extensions/MEAI/Microsoft.AutoGen.Extensions.MEAI.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/Extensions/SemanticKernel/Microsoft.AutoGen.Extensions.SemanticKernel.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "dotnet/src/Microsoft.AutoGen/RuntimeGateway.Grpc/Microsoft.AutoGen.RuntimeGateway.Grpc.csproj",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "python/packages/autogen-studio/frontend/src/components/views/teambuilder/builder/builder.css",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "python/packages/autogen-studio/frontend/src/styles/global.css",
+          "reason": "unsupported_extension"
+        }
+      ]
+    },
+    {
+      "coverage_gaps": 12,
+      "errors": [
+        {
+          "error": "Python syntax could not be parsed at line 7: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/crew/crew.py"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 7: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/crew/main.py"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 8: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/flow/main.py"
+        },
+        {
+          "error": "JSON could not be parsed at line 5: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/agent.jsonc"
+        },
+        {
+          "error": "JSON could not be parsed at line 2: Extra data; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/agent_settings.jsonc"
+        },
+        {
+          "error": "JSON could not be parsed at line 3: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/crew.jsonc"
+        },
+        {
+          "error": "JSON could not be parsed at line 3: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/json_crew/task.jsonc"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 1: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/__init__.py"
+        },
+        {
+          "error": "Python syntax could not be parsed at line 4: invalid syntax; AST-based checks were skipped.",
+          "kind": "parse_error",
+          "path": "lib/cli/src/crewai_cli/templates/tool/src/{{folder_name}}/tool.py"
+        },
+        {
+          "error": "Instruction-threat inspection is bounded to 1000000 characters for source metadata; remaining instruction/tool metadata needs review.",
+          "kind": "parse_error",
+          "path": "lib/crewai-tools/tool.specs.json"
+        },
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "lib/crewai/src/crewai/flow/runtime/__init__.py"
+        },
+        {
+          "error": "Dynamic tool description at line 765 was not resolved; instruction-threat checks require literal metadata.",
+          "kind": "parse_error",
+          "path": "lib/crewai/src/crewai/tools/base_tool.py"
+        }
+      ],
+      "exported_files": 968,
+      "files_examined": 967,
+      "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+      "project_id": "crewai",
+      "report_sha256": "632aec58c3a522817c632667e9119f48985a57d968aef38b27f9830f0930143c",
+      "skipped": [
+        {
+          "coverage_gap": false,
+          "path": "lib/crewai/src/crewai/flow/visualization/assets/style.css",
+          "reason": "unsupported_extension"
+        }
+      ]
+    },
+    {
+      "coverage_gaps": 1,
+      "errors": [
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "libs/langgraph/langgraph/pregel/main.py"
+        }
+      ],
+      "exported_files": 211,
+      "files_examined": 211,
+      "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+      "project_id": "langgraph",
+      "report_sha256": "ea173a1515ad4e12e57c67a9ef2d7723baf6600bec2b6dc2b723e60e825e63ca",
+      "skipped": []
+    },
+    {
+      "coverage_gaps": 3,
+      "errors": [
+        {
+          "error": "Instruction-threat inspection is bounded to 1000000 characters for source metadata; remaining instruction/tool metadata needs review.",
+          "kind": "parse_error",
+          "path": "src/i18n/translation.json"
+        },
+        {
+          "error": "JSON could not be parsed at line 33: Expecting property name enclosed in double quotes; structured configuration checks were skipped.",
+          "kind": "parse_error",
+          "path": "tsconfig.json"
+        }
+      ],
+      "exported_files": 1237,
+      "files_examined": 1233,
+      "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+      "project_id": "openhands",
+      "report_sha256": "1f58d73d2674f49c58d460b2b0bdf65c4f7d75dddb83f2792267e8eef05478b5",
+      "skipped": [
+        {
+          "coverage_gap": false,
+          "path": "electron/loading.html",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": true,
+          "path": "src/components/features/plugins/plugin-spec-identity.ts",
+          "reason": "binary_content"
+        },
+        {
+          "coverage_gap": false,
+          "path": "src/index.css",
+          "reason": "unsupported_extension"
+        },
+        {
+          "coverage_gap": false,
+          "path": "src/tailwind.css",
+          "reason": "unsupported_extension"
+        }
+      ]
+    },
+    {
+      "coverage_gaps": 4,
+      "errors": [
+        {
+          "error": "Dynamic tool description at line 296 was not resolved; instruction-threat checks require literal metadata.",
+          "kind": "parse_error",
+          "path": "pydantic_ai_slim/pydantic_ai/capabilities/capability.py"
+        },
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "pydantic_ai_slim/pydantic_ai/models/anthropic.py"
+        },
+        {
+          "error": "ValueError while reading or analyzing file",
+          "kind": "analysis_error",
+          "path": "pydantic_ai_slim/pydantic_ai/models/openai.py"
+        },
+        {
+          "error": "Dynamic tool description at line 1245 was not resolved; instruction-threat checks require literal metadata.",
+          "kind": "parse_error",
+          "path": "pydantic_ai_slim/pydantic_ai/models/xai.py"
+        }
+      ],
+      "exported_files": 386,
+      "files_examined": 386,
+      "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+      "project_id": "pydantic-ai",
+      "report_sha256": "368618abfcef9df75844f8f02b4021a7bec826ac7f92b880b4bdb7a4868b0c1c",
+      "skipped": []
+    },
+    {
+      "coverage_gaps": 1,
+      "errors": [
+        {
+          "error": "Dynamic tool description at line 1956 was not resolved; instruction-threat checks require literal metadata.",
+          "kind": "parse_error",
+          "path": "fastmcp_slim/fastmcp/server/server.py"
+        }
+      ],
+      "exported_files": 283,
+      "files_examined": 283,
+      "implementation_sha256": "a10cff2be83ee83ef7f016e0d9644b42b2cc9869528a91763840970dc87765f1",
+      "project_id": "fastmcp",
+      "report_sha256": "6af64ba5d6b5d3724706d5547fe759e040f0d1b8520d40ff42f1267fcb21bc3a",
+      "skipped": []
+    }
+  ],
+  "scanner_version": "0.14.0",
+  "schema_version": "1.0"
+}

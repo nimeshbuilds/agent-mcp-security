@@ -1,0 +1,693 @@
+{
+  "case_count": 32,
+  "cisco_metadata": {
+    "analyzer": "yara",
+    "cases": [
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": true,
+        "finding_count": 0,
+        "id": "metadata-hierarchy",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "Explicit hierarchy override on operative tool metadata.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-hierarchy-negated",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "A prohibition against hierarchy override is a defensive instruction.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": true,
+        "finding_count": 0,
+        "id": "metadata-exfil-direct",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "Explicit sensitive object, transfer directive and destination.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-exfil-negated",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "Negated transfer instruction supplies a defensive boundary.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": true,
+        "finding_count": 0,
+        "id": "metadata-exfil-composed",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "Two adjacent operative sentences compose a sensitive-object retrieval and external transfer.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-exfil-public",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "The specified transfer is public documentation, not a credential or sensitive object.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": true,
+        "finding_count": 0,
+        "id": "metadata-bypass",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI045",
+        "rationale": "Explicit approval bypass and concealed execution.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-bypass-negated",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI045",
+        "rationale": "Requires the approval boundary rather than bypassing it.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": true,
+        "finding_count": 0,
+        "id": "metadata-es-override",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "Spanish imperative explicitly replaces previous instructions.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-es-safe",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "Spanish instruction preserves the system and approval hierarchy.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": true,
+        "finding_count": 0,
+        "id": "metadata-indirect-authority",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "Conditional authority inversion is explicit even without an ignore keyword.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-describe-safe",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "Discusses an authority model without changing the agent instruction hierarchy.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": true,
+        "finding_count": 0,
+        "id": "metadata-hidden-write",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI045",
+        "rationale": "Concealment is tied to a destructive action and audit evidence.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-log-safe",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI045",
+        "rationale": "Authorized test cleanup explicitly preserves the audit trail.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": true,
+        "finding_count": 0,
+        "id": "metadata-exfil-vault",
+        "outcome": "false_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "Vault export and attachment transfer are explicit sensitive-data disclosure instructions.",
+        "threat_names": []
+      },
+      {
+        "analysis_error": false,
+        "detected": false,
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-vault-safe",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "The instruction describes a local backup and prohibits external upload.",
+        "threat_names": []
+      }
+    ],
+    "command": [
+      "mcp-scanner",
+      "--analyzers",
+      "yara",
+      "--format",
+      "raw",
+      "--output",
+      "{output}",
+      "static",
+      "--tools",
+      "{input}"
+    ],
+    "input_sha256": "4b3e7301c469a38f7194950674cefdcd5e10d606e24532852d00a5a6760106ef",
+    "installed_identity": {
+      "distribution_version": "4.8.4",
+      "executable_sha256": "a787167bb556d37eb8e315f97d1442d2dac0600b074c85b0928d8999bf520fe5"
+    },
+    "overall": {
+      "analysis_error": 0,
+      "false_negative": 8,
+      "false_positive": 0,
+      "labeled_assertions": 16,
+      "precision": null,
+      "recall": 0.0,
+      "scored_assertions": 16,
+      "true_negative": 8,
+      "true_positive": 0
+    },
+    "process_exit_code": 0,
+    "raw_report_sha256": "a5cf353a34ed5d8f5c6e7c5ec10077265808682f974c56ddd1a33541ca274977",
+    "scope": "The same 16 offline literal tool descriptors; tool-level instruction-risk presence. Other analyzers disabled.",
+    "started_at_utc": "2026-09-24T02:03:27Z",
+    "tool": "cisco-mcp-scanner",
+    "version": "4.8.4",
+    "wall_seconds": 1.880576
+  },
+  "commitment_sha256": "0c504c3ea08483b7f309bccd6c3b040c2e3b4dd111838b6317bddba7805903db",
+  "corpus_sha256": "57bf9ba16c1292b0de91f91d0776986fa551501abe3ce24d20fe9d774de8400d",
+  "invarune": {
+    "cases": [
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI014"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "flow-url-two-hop",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI014",
+        "rationale": "Tool argument reaches an outbound HTTP sink through two local helper calls; no allowlist is present.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "flow-url-fixed-origin",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI014",
+        "rationale": "The helper receives a fixed URL; the tool argument does not control its destination.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI014"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "flow-url-keyword-call",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI014",
+        "rationale": "Keyword-bound tool argument reaches urllib through a local helper.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "flow-url-exact-membership",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI014",
+        "rationale": "Exact full-URL membership plus rejection constrains the destination before the request; redirected destinations remain a separate runtime caveat.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI014"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "flow-url-host-only",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI014",
+        "rationale": "The apparent guard only logs and does not reject or restrict the outbound call.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI014"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "flow-url-unrelated-guard",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI014",
+        "rationale": "A guard on a different variable cannot establish URL safety.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "flow-url-fixed-local",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI014",
+        "rationale": "The parameter is overwritten with a fixed literal before use.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "flow-url-literal-helper-guard",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI014",
+        "rationale": "The helper receives only a fixed full URL.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI015"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "flow-path-two-hop",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI015",
+        "rationale": "Tool-controlled path reaches open through two local helper calls without confinement.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "flow-path-fixed-helper",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI015",
+        "rationale": "Tool argument is unused; the helper receives a fixed file path.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI015"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "flow-path-prefix-confusion",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI015",
+        "rationale": "Lexical string-prefix checks do not prove resolved path containment; parent components can remain.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "flow-path-name-map",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI015",
+        "rationale": "The input selects from a literal finite mapping of complete allowed paths, rather than supplying a path.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI014"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "flow-js-fetch-wrapper",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI014",
+        "rationale": "A tool input controls fetch destination through a local JavaScript arrow wrapper.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "flow-js-fixed-fetch",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI014",
+        "rationale": "Fixed-origin JavaScript helper receives no user-controlled destination.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI015"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "flow-js-file-wrapper",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI015",
+        "rationale": "A literal MCP tool forwards its path input through an arrow helper to the filesystem.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "flow-js-fixed-file",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI015",
+        "rationale": "The file read uses a fixed path and ignores the supplied path parameter.",
+        "track": "heldout-source"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI043"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "metadata-hierarchy",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI043",
+        "rationale": "Explicit hierarchy override on operative tool metadata.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-hierarchy-negated",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "A prohibition against hierarchy override is a defensive instruction.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI044"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "metadata-exfil-direct",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI044",
+        "rationale": "Explicit sensitive object, transfer directive and destination.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-exfil-negated",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "Negated transfer instruction supplies a defensive boundary.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI044"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "metadata-exfil-composed",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI044",
+        "rationale": "Two adjacent operative sentences compose a sensitive-object retrieval and external transfer.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-exfil-public",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "The specified transfer is public documentation, not a credential or sensitive object.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI045"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "metadata-bypass",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI045",
+        "rationale": "Explicit approval bypass and concealed execution.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-bypass-negated",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI045",
+        "rationale": "Requires the approval boundary rather than bypassing it.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI043"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "metadata-es-override",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI043",
+        "rationale": "Spanish imperative explicitly replaces previous instructions.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-es-safe",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "Spanish instruction preserves the system and approval hierarchy.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI043"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "metadata-indirect-authority",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI043",
+        "rationale": "Conditional authority inversion is explicit even without an ignore keyword.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-describe-safe",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI043",
+        "rationale": "Discusses an authority model without changing the agent instruction hierarchy.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI045"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "metadata-hidden-write",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI045",
+        "rationale": "Concealment is tied to a destructive action and audit evidence.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-log-safe",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI045",
+        "rationale": "Authorized test cleanup explicitly preserves the audit trail.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": true,
+        "detected_rule_ids": [
+          "AI044"
+        ],
+        "expected": true,
+        "finding_count": 1,
+        "id": "metadata-exfil-vault",
+        "outcome": "true_positive",
+        "predicate_rule_id": "AI044",
+        "rationale": "Vault export and attachment transfer are explicit sensitive-data disclosure instructions.",
+        "track": "heldout-metadata"
+      },
+      {
+        "analysis_errors": [],
+        "detected": false,
+        "detected_rule_ids": [],
+        "expected": false,
+        "finding_count": 0,
+        "id": "metadata-vault-safe",
+        "outcome": "true_negative",
+        "predicate_rule_id": "AI044",
+        "rationale": "The instruction describes a local backup and prohibits external upload.",
+        "track": "heldout-metadata"
+      }
+    ],
+    "implementation_sha256": "02c1a309226db622fe6ab86ae72b3c652e370d2faae3876b7ec64049d8f5e1c5",
+    "overall": {
+      "analysis_error": 0,
+      "false_negative": 0,
+      "false_positive": 0,
+      "labeled_assertions": 32,
+      "precision": 1.0,
+      "recall": 1.0,
+      "scored_assertions": 32,
+      "true_negative": 16,
+      "true_positive": 16
+    },
+    "process_exit_code": 0,
+    "raw_report_sha256": "a7e51081b3bc2bdd8d5b3d726a77b0fec5f8aded6010910c1d29833841edda4a",
+    "started_at_utc": "2026-09-24T02:03:27Z",
+    "tool": "invarune",
+    "tool_version": "0.15.0",
+    "tracks": {
+      "heldout-metadata": {
+        "analysis_error": 0,
+        "false_negative": 0,
+        "false_positive": 0,
+        "labeled_assertions": 16,
+        "precision": 1.0,
+        "recall": 1.0,
+        "scored_assertions": 16,
+        "true_negative": 8,
+        "true_positive": 8
+      },
+      "heldout-source": {
+        "analysis_error": 0,
+        "false_negative": 0,
+        "false_positive": 0,
+        "labeled_assertions": 16,
+        "precision": 1.0,
+        "recall": 1.0,
+        "scored_assertions": 16,
+        "true_negative": 8,
+        "true_positive": 8
+      }
+    },
+    "wall_seconds": 0.045813
+  },
+  "metric_unit": "One explicit risk-predicate presence assertion per case; metadata comparison scores tool-level instruction-risk presence only.",
+  "not_scored": {
+    "bandit": "Python API audit findings do not implement equivalent MCP source-to-sink or instruction predicates.",
+    "gitleaks": "No live credential patterns supplied; unsupported scope does not earn true negatives.",
+    "semgrep": "The frozen generic security-audit pack has no equivalent MCP parameter-to-sink or instruction semantic guarantee.",
+    "snyk-agent-scan": "Authenticated service not executed."
+  },
+  "phase": "post-disclosure-development",
+  "provenance": "Project-authored by a separate benchmark agent before the initial detector freeze. Cases and labels withheld from detector implementers until the initial frozen execution. Not third-party independent, not a production prevalence sample; no detector tuning may retain the held-out designation after disclosure.",
+  "schema_version": "1.0"
+}

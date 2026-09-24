@@ -14,7 +14,7 @@ def main():
 
 **Invarune by NimeshBuild** - Evidence for agent security.
 
-Research snapshot: **2026-09-19**. This catalog contains **%d controls and %d acceptance checks**. These are original engineering review questions synthesized from the sources in [RESEARCH.md](RESEARCH.md), [CSA_AND_CLOUD.md](CSA_AND_CLOUD.md), and [BENCHMARK_LANDSCAPE.md](BENCHMARK_LANDSCAPE.md). This is not an official NSA, CISA, CSA, NIST, MITRE, OWASP, MCP, CIS, or ISO certification checklist.
+Control research snapshot: **2026-09-19**; detector technical references extended **2026-09-23**. This catalog contains **%d controls and %d acceptance checks**. These are original engineering review questions synthesized from the sources in [RESEARCH.md](RESEARCH.md), [CSA_AND_CLOUD.md](CSA_AND_CLOUD.md), and [BENCHMARK_LANDSCAPE.md](BENCHMARK_LANDSCAPE.md). This is not an official NSA, CISA, CSA, NIST, MITRE, OWASP, MCP, CIS, or ISO certification checklist.
 
 Source links explain provenance or thematic alignment; they do not claim that every test is a verbatim requirement of that source. All referenced publications, versions, limitations, and control alignments appear in [SOURCE_MAP.md](SOURCE_MAP.md). The complete machine-readable source registry is [sources.json](../ai_security_scan/data/sources.json).
 
@@ -50,7 +50,7 @@ HTTP OAuth checks apply to protected HTTP implementations. Stdio uses local proc
             lines += ["Additional thematic alignment: " + ", ".join(c["alignment_source_ids"]) + ". See the source map for limits; these are not exact external clause mappings.", ""]
         lines += ["Partial static rules: " + (", ".join(c["automated_rule_ids"]) if c["automated_rule_ids"] else "none; review/runtime evidence required") + ".", ""]
     (ROOT / "docs/SECURITY_CHECKLIST.md").write_text("\n".join(lines))
-    lines = ["# Source map and scope of alignment", "", "Invarune by NimeshBuild. Research snapshot: 2026-09-19. Sources can support a project control without prescribing its exact wording. This is a thematic engineering crosswalk, not a statement of compliance with every clause in an external framework. Some references provide landscape/provenance context without a direct control mapping.", "", "All URLs are primary publisher or benchmark-author sources. Source-specific limitations disclose release-page-only reviews, drafts, gated benchmark content, version differences, and implementation assumptions.", ""]
+    lines = ["# Source map and scope of alignment", "", "Invarune by NimeshBuild. Control research snapshot: 2026-09-19; detector technical references extended 2026-09-23. Sources can support a project control without prescribing its exact wording. This is a thematic engineering crosswalk, not a statement of compliance with every clause in an external framework. Some references provide landscape/provenance context without a direct control mapping.", "", "All URLs are primary publisher or benchmark-author sources. Source-specific limitations disclose release-page-only reviews, drafts, gated benchmark content, version differences, and implementation assumptions.", ""]
     for s in sources:
         direct = [c["id"] for c in controls if s["url"] in c["sources"]]
         align = [c["id"] for c in controls if s["id"] in c.get("alignment_source_ids", [])]

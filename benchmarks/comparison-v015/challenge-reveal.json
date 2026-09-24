@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "revealed_at_utc": "2026-09-24T01:44:00.766860+00:00",
+  "initial_implementation_sha256": "f37ccc4df18b498672d04ac5760d56257f746528fe778a82df55e3bc2601d23c",
+  "initial_result": "challenge-initial.json",
+  "policy": "Cases and labels disclosed after first frozen execution. Any subsequent detector improvement on these cases is development, not held-out performance."
+}

@@ -6,6 +6,12 @@ The default configured mode is **full**: one finding-triage request followed by 
 
 Use `--judge-mode findings` for the previous one-request scope: minimized findings, redacted evidence, and scan metadata. `--judge-include-source` adds bounded neighboring source excerpts to finding triage only; full analyst evidence is independent of that flag. Redaction reduces accidental disclosure; it cannot guarantee that all proprietary information or unusual secret formats are removed. Choose an endpoint approved for the data you send. Repository instructions are untrusted review material. The prompt states that boundary, but prompting alone cannot eliminate prompt injection; separate static findings, fixed evidence retrieval, strict output validation, and no tool dispatch are the enforcement boundaries.
 
+## Bounded follow-up investigation
+
+Full mode can request missing context beyond deterministic seed excerpts. By default, each batch gets at most two evidence rounds within the shared 36-call / 600-second scheduling envelope. Use `--analyst-investigation-rounds 0` to keep seed-only review, or 1–3 for bounded follow-ups. Finding triage remains separate. Additional requests use the same configured provider or custom gateway and token optimizer.
+
+Only pre-captured, hash-checked and redacted source snapshots are available through opaque file IDs. Requests require an active check, exact line range, purpose, risk reason and counterevidence to seek. No provider receives arbitrary filesystem, shell or network tools. Reports distinguish configuration from actual served requests and retain denials. See [the analyst protocol and limits](ANALYST.md); all conclusions remain advisory.
+
 ## Default evidence-JSON optimization
 
 When AI review is enabled, both finding triage and control review default to `token_optimizer: "headroom"`. Install `.[ai]` or `.[ai,pdf]` with Python 3.10+ to include the pinned Headroom 0.37.0 integration. Deterministic scans do not import or need Headroom. On Python 3.9 or without that extra, AI review still runs with explicitly reported built-in compaction.

@@ -235,12 +235,12 @@ def _scores(tokens, inverse):
     return scores
 
 
-def _excerpt(path, digest, lines, start, max_chars):
+def _excerpt(path, digest, lines, start, max_chars, max_lines=_LINES_PER_EXCERPT):
     """Select complete lines, or explicitly identify a partial single long line."""
     text_lines = []
     used = 0
     complete = True
-    for line in lines[start:start + _LINES_PER_EXCERPT]:
+    for line in lines[start:start + max_lines]:
         extra = len(line) + (1 if text_lines else 0)
         if used + extra <= max_chars:
             text_lines.append(line)
@@ -269,7 +269,7 @@ def _excerpt(path, digest, lines, start, max_chars):
 
 
 def build_evidence(report, root, *, max_files=200, max_bytes=2_000_000,
-                   max_snippets=240, max_chars=120_000):
+                   max_snippets=240, max_chars=120_000, snapshot_store=None):
     """Return bounded excerpts plus a mapping for every reported control.
 
     All limits are nonnegative integers; zero produces explicitly empty or
@@ -416,6 +416,8 @@ def build_evidence(report, root, *, max_files=200, max_bytes=2_000_000,
         coverage["files_verified"] += 1
         lines = _redacted_lines(source, findings_by_path[path])
         sources[path] = (item["sha256"], lines, image_evidence_context(item))
+        if snapshot_store is not None:
+            snapshot_store[path] = sources[path]
         boosts = defaultdict(set)
         for finding in findings_by_path[path]:
             line = finding.get("line", 0)
@@ -504,3 +506,126 @@ def build_evidence(report, root, *, max_files=200, max_bytes=2_000_000,
         coverage["budget_exhausted"].append("max_candidates_per_control")
         coverage["budget_exhausted"].sort()
     return {"evidence": evidence, "control_evidence": control_evidence, "coverage": coverage}
+
+
+class EvidenceInvestigation:
+    """Serve bounded ranges from verified, redacted in-memory scan snapshots.
+
+    This capability cannot open paths, fetch URLs, execute code, or discover new
+    files. File IDs bind original paths and scan hashes. Changes on disk after
+    capture do not change the captured evidence; this is not a live filesystem
+    review. The same overall excerpt-character budget applies to seed and
+    requested evidence. Metadata has its own explicit bounds.
+    """
+
+    LIMITS = {"max_inventory_files": 200, "max_inventory_chars": 32_000,
+              "max_symbols_per_file": 12, "max_requests_per_round": 8,
+              "max_requests_total": 128, "max_lines_per_request": 80,
+              "max_chars_per_request": 4000}
+    _SYMBOL = re.compile(r"^\s*(?:(?:async\s+)?def|class|(?:export\s+)?(?:async\s+)?function)\s+([A-Za-z_$][A-Za-z0-9_$]{0,99})\b")
+
+    def __init__(self, snapshots, seed_evidence, max_chars):
+        self._sources = {}
+        self._evidence = {item["evidence_id"]: item for item in seed_evidence}
+        self.max_chars = max_chars
+        self.characters = sum(len(item["text"]) for item in seed_evidence)
+        self.requests_seen = set()
+        self.requests_attempted = 0
+        self.inventory = []
+        self.receipts = []
+        metadata_chars = 0
+        for path, source in snapshots.items():
+            digest, lines, _ = source
+            if not lines or len(path) > 4096 or any(ord(char) < 32 for char in path):
+                continue
+            identity = json.dumps([path, digest], ensure_ascii=True, separators=(",", ":"))
+            file_id = "file-" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:24]
+            symbols = []
+            for number, line in enumerate(lines, 1):
+                match = self._SYMBOL.match(line[:512])
+                if match:
+                    symbols.append({"name": match.group(1), "line": number})
+                    if len(symbols) >= self.LIMITS["max_symbols_per_file"]:
+                        break
+            item = {"file_id": file_id, "path": redact(path), "source_sha256": digest,
+                    "line_count": len(lines), "definition_hints": symbols}
+            cost = len(json.dumps(item, ensure_ascii=True, separators=(",", ":")))
+            if len(self.inventory) >= self.LIMITS["max_inventory_files"] or metadata_chars + cost > self.LIMITS["max_inventory_chars"]:
+                continue
+            metadata_chars += cost
+            self.inventory.append(item)
+            self._sources[file_id] = (path, source)
+        self.inventory_omitted = len(snapshots) - len(self.inventory)
+        self.inventory_chars = metadata_chars
+
+    def describe(self, round_number, max_rounds):
+        return {"protocol": "manifest_snapshot_ranges_v1", "round": round_number,
+                "max_rounds": max_rounds, "requests_allowed": round_number < max_rounds,
+                "inventory": self.inventory, "inventory_omitted": self.inventory_omitted,
+                "limits": dict(self.LIMITS), "remaining_characters": max(0, self.max_chars - self.characters),
+                "remaining_requests": max(0, self.LIMITS["max_requests_total"] - self.requests_attempted),
+                "scope": "Only listed file IDs in the already captured, hash-verified and redacted scanner snapshot; no filesystem or network actions.",
+                "definition_hints": "Lexical definition locations only; not a symbol-resolution or call-graph claim."}
+
+    def retrieve(self, requests):
+        """Accept prevalidated request records; independently fail closed on IDs/ranges.
+
+        Per-request denials remain visible to the next model turn and report.
+        Repeating a prior request never expands an evidence or I/O budget.
+        """
+        returned = []
+        receipts = []
+        for request in requests:
+            receipt = {key: request[key] for key in (
+                "control_id", "check_index", "file_id", "start_line", "end_line", "purpose", "reason", "counterevidence")}
+            receipt["status"] = "denied"
+            self.requests_attempted += 1
+            file_id = request["file_id"]
+            source = self._sources.get(file_id) if isinstance(file_id, str) else None
+            start, end = request["start_line"], request["end_line"]
+            valid_range = (isinstance(start, int) and not isinstance(start, bool)
+                           and isinstance(end, int) and not isinstance(end, bool)
+                           and 1 <= start <= end and end - start < self.LIMITS["max_lines_per_request"])
+            key = (request["control_id"], request["check_index"], file_id, start, end) if valid_range and isinstance(file_id, str) else None
+            if source is None:
+                receipt["reason_code"] = "unknown_snapshot_file_id"
+            elif not valid_range or end > len(source[1][1]):
+                receipt["reason_code"] = "invalid_snapshot_line_range"
+            elif self.requests_attempted > self.LIMITS["max_requests_total"]:
+                receipt["reason_code"] = "total_request_budget"
+            elif key in self.requests_seen:
+                receipt["reason_code"] = "duplicate_request"
+            else:
+                self.requests_seen.add(key)
+                path, (digest, lines, context) = source
+                candidate = _excerpt(path, digest, lines, start - 1,
+                                     self.LIMITS["max_chars_per_request"], end - start + 1)
+                if candidate is None:
+                    receipt["reason_code"] = "empty_source_range"
+                else:
+                    candidate.update(context)
+                    existing = candidate["evidence_id"] in self._evidence
+                    cost = 0 if existing else len(candidate["text"])
+                    if cost > self.max_chars - self.characters:
+                        receipt["reason_code"] = "excerpt_character_budget"
+                    else:
+                        self.characters += cost
+                        self._evidence[candidate["evidence_id"]] = candidate
+                        returned.append((request["control_id"], candidate))
+                        receipt.update({"status": "served", "evidence_id": candidate["evidence_id"],
+                                        "source_sha256": digest, "retained_characters": len(candidate["text"]),
+                                        "new_characters_charged": cost,
+                                        "range_complete": candidate["end_line"] == end and candidate["end_line_complete"]})
+            receipts.append(receipt)
+        self.receipts.extend(receipts)
+        return returned, receipts
+
+    def summary(self):
+        return {"protocol": "manifest_snapshot_ranges_v1", "snapshot_files_offered": len(self.inventory),
+                "snapshot_files_omitted": self.inventory_omitted, "inventory_characters": self.inventory_chars,
+                "requests_attempted": self.requests_attempted,
+                "requests_served": sum(item["status"] == "served" for item in self.receipts),
+                "requests_denied": sum(item["status"] == "denied" for item in self.receipts),
+                "excerpt_characters_used": self.characters, "excerpt_character_budget": self.max_chars,
+                "receipts": self.receipts, "limits": dict(self.LIMITS),
+                "snapshot_semantics": "Evidence is the captured manifest snapshot, not a live filesystem reread; deployment behavior remains unverified."}

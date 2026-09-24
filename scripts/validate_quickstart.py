@@ -21,7 +21,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ("report.html", "report.md", "report.json", "report.sarif")
-SNAPSHOT_PATHS = ("ai_security_scan", "examples/skills", "examples/safer", "examples/vulnerable", "examples/images",
+SNAPSHOT_PATHS = ("ai_security_scan", "examples/investigation", "examples/skills", "examples/safer", "examples/vulnerable", "examples/images",
                   "examples/judges", "examples/review-config.json", "tests", "scripts", "docs",
                   "scan.py", "pyproject.toml", "README.md", "requirements-qa.txt")
 EDIT_PDF = '''import json,sys
@@ -206,7 +206,7 @@ def validate(args, receipt):
             for flag in ("-h", "--help"):
                 process, record = run("installed_" + name + "_" + flag.strip("-"), [str(command), flag])
                 require(not process.stderr, "Installed help wrote an unexpected diagnostic")
-                for text in ("--list-scans", "--explain-scan", "--scans", "--report", "--review-report", "--pdf", "--judge-cli", "--judge-config", "--image-archive", "--help-topic", "--examples", "--token-optimizer", "--ask", "--explain-control", "--catalog-format", "Custom JSON gateway configuration:"):
+                for text in ("--list-scans", "--explain-scan", "--scans", "--report", "--review-report", "--pdf", "--judge-cli", "--judge-config", "--image-archive", "--help-topic", "--examples", "--token-optimizer", "--analyst-investigation-rounds", "--ask", "--explain-control", "--catalog-format", "Custom JSON gateway configuration:"):
                     require(text in process.stdout, "Installed help omits " + text)
                 outputs.append(process.stdout)
                 record["assertions"] = {"all_documented_feature_flags_present": True, "stderr_empty": True}
@@ -223,7 +223,7 @@ def validate(args, receipt):
             process, record = run(identifier, [str(primary), *arguments])
             require(required in process.stdout and not process.stderr, "Installed CLI documentation command is incomplete")
             record["assertions"] = {"requested_content_present": True, "stderr_empty": True, "run_outside_checkout": True}
-        for identifier, arguments, count in (("installed_rules", ["--list-rules"], 46),
+        for identifier, arguments, count in (("installed_rules", ["--list-rules"], 47),
                                               ("installed_controls", ["--list-controls"], 66),
                                               ("installed_rule_explanation", ["--explain-rule", "AI002"], None)):
             process, record = run(identifier, [str(primary), *arguments])
@@ -242,7 +242,7 @@ def validate(args, receipt):
             require(not process.stderr and value["mode"] == "deterministic_catalog" and value["status"] == "ok",
                     identifier + ": catalog lookup failed")
             require(value["catalog"]["controls"] == 66 and value["catalog"]["checks"] == 132
-                    and value["catalog"]["rules"] == 46 and value["catalog"]["sources"] == 76,
+                    and value["catalog"]["rules"] == 47 and value["catalog"]["sources"] == 78,
                     identifier + ": catalog totals changed")
             require(bool(value[result_key]), identifier + ": catalog content missing")
             if expected_id:
@@ -269,9 +269,13 @@ def validate(args, receipt):
         record["assertions"] = {"terminal_only": True, "no_report_files": True}
         process, record = run("installed_scan_inventory", [str(primary), "--list-scans", "--catalog-format", "json"])
         inventory = json.loads(process.stdout)
-        require(len(inventory["scans"]) == 46 and len(inventory["controls"]) == 66, "Installed scan inventory incomplete")
+        require(len(inventory["scans"]) == 47 and len(inventory["controls"]) == 66, "Installed scan inventory incomplete")
         process, record = run("installed_scan_explanation", [str(primary), "--explain-scan", "AI043"])
         require("AI043" in process.stdout and "Sources:" in process.stdout, "Missing skill scan explanation")
+        process, record = run("installed_permission_explanation", [str(primary), "--explain-scan", "AI047"])
+        require("AI047" in process.stdout and "Sources:" in process.stdout, "Missing permission scan explanation")
+        process, record = run("installed_investigation_help", [str(primary), "--help-topic", "ai"])
+        require("--analyst-investigation-rounds" in process.stdout and "36" in process.stdout, "Missing bounded investigation help")
         process, record = run("installed_targeted_terminal", [str(primary), *vulnerable, "--scans", "ai001,AI002", "--summary-json"], expected=1)
         targeted = json.loads(process.stdout)
         require(targeted["scope"]["configuration"]["selected_rule_ids"] == ["AI001", "AI002"] and targeted["reports"] == {}, "Targeted scan scope/output mismatch")

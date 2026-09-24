@@ -31,6 +31,7 @@ jobs:
           python scripts/build_benchmark_dashboard.py --check
           python scripts/build_benchmark_update.py --validate-only
           python scripts/build_benchmark_update.py --input-dir benchmarks/comparison-v014 --validate-only
+          python scripts/build_benchmark_update.py --input-dir benchmarks/comparison-v015 --validate-only
       - name: Stage indexed documentation and public artifacts
         run: python scripts/prepare_docs.py
       - name: Build with strict links and anchors

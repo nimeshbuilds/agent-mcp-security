@@ -4,25 +4,25 @@
 <g font-family="Arial, Helvetica, sans-serif">
 <text x="36" y="42" fill="#59dec2" font-size="13" font-weight="700" text-anchor="start" letter-spacing="2">INVARUNE  /  BENCHMARK LAB</text>
 <text x="36" y="81" fill="#edf9fc" font-size="28" font-weight="700" text-anchor="start" letter-spacing="0">The full confusion counts</text>
-<text x="36" y="114" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Recorded after result · Invarune 0.14.0 · 113 assertions</text>
+<text x="36" y="114" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Recorded after result · Invarune 0.15.0 · 113 assertions</text>
 <rect x="36" y="145" width="224" height="119" rx="10" fill="#102e3c"/>
 <text x="55" y="176" fill="#59dec2" font-size="15" font-weight="700" text-anchor="start" letter-spacing="0">TP  true positive</text>
-<text x="55" y="232" fill="#edf9fc" font-size="47" font-weight="700" text-anchor="start" letter-spacing="0">58</text>
+<text x="55" y="232" fill="#edf9fc" font-size="47" font-weight="700" text-anchor="start" letter-spacing="0">60</text>
 <rect x="278" y="145" width="224" height="119" rx="10" fill="#102e3c"/>
 <text x="297" y="176" fill="#ff8598" font-size="15" font-weight="700" text-anchor="start" letter-spacing="0">FN  false negative</text>
-<text x="297" y="232" fill="#edf9fc" font-size="47" font-weight="700" text-anchor="start" letter-spacing="0">2</text>
+<text x="297" y="232" fill="#edf9fc" font-size="47" font-weight="700" text-anchor="start" letter-spacing="0">0</text>
 <rect x="36" y="282" width="224" height="119" rx="10" fill="#102e3c"/>
 <text x="55" y="313" fill="#ffc16f" font-size="15" font-weight="700" text-anchor="start" letter-spacing="0">FP  false positive</text>
-<text x="55" y="369" fill="#edf9fc" font-size="47" font-weight="700" text-anchor="start" letter-spacing="0">1</text>
+<text x="55" y="369" fill="#edf9fc" font-size="47" font-weight="700" text-anchor="start" letter-spacing="0">0</text>
 <rect x="278" y="282" width="224" height="119" rx="10" fill="#102e3c"/>
 <text x="297" y="313" fill="#7da8f7" font-size="15" font-weight="700" text-anchor="start" letter-spacing="0">TN  true negative</text>
-<text x="297" y="369" fill="#edf9fc" font-size="47" font-weight="700" text-anchor="start" letter-spacing="0">52</text>
+<text x="297" y="369" fill="#edf9fc" font-size="47" font-weight="700" text-anchor="start" letter-spacing="0">53</text>
 <text x="566" y="177" fill="#aac4cd" font-size="13" font-weight="700" text-anchor="start" letter-spacing="2">PRECISION</text>
-<text x="566" y="223" fill="#59dec2" font-size="37" font-weight="700" text-anchor="start" letter-spacing="0">98.3%</text>
-<text x="566" y="252" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">58 / 59 positive detections matched labels</text>
+<text x="566" y="223" fill="#59dec2" font-size="37" font-weight="700" text-anchor="start" letter-spacing="0">100.0%</text>
+<text x="566" y="252" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">60 / 60 positive detections matched labels</text>
 <text x="566" y="305" fill="#aac4cd" font-size="13" font-weight="700" text-anchor="start" letter-spacing="2">RECALL</text>
-<text x="566" y="351" fill="#7da8f7" font-size="37" font-weight="700" text-anchor="start" letter-spacing="0">96.7%</text>
-<text x="566" y="380" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">58 / 60 expected detections were found</text>
+<text x="566" y="351" fill="#7da8f7" font-size="37" font-weight="700" text-anchor="start" letter-spacing="0">100.0%</text>
+<text x="566" y="380" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">60 / 60 expected detections were found</text>
 <text x="36" y="441" fill="#aac4cd" font-size="16" font-weight="400" text-anchor="start" letter-spacing="0">Includes every regression and challenge case. Unlabeled detections are not scored.</text>
 <path d="M36 462H964" stroke="#294755"/>
 <text x="36" y="488" fill="#aac4cd" font-size="13" font-weight="400" text-anchor="start" letter-spacing="0">Positive = the named rule should fire. Negative = that rule should not fire; neither label proves safety.</text>
