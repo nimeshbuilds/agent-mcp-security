@@ -55,6 +55,7 @@ markdown_extensions:
 extra_css:
   - docs/assets/site.css
   - docs/assets/benchmark-dashboard.css
+  - docs/assets/scenarios.css
 extra:
   generator: false
 copyright: Invarune by NimeshBuild · Evidence for agent security
@@ -81,7 +82,19 @@ nav:
   - Get started:
       - Download or build: docs/INSTALLATION.md
       - Quick start: docs/QUICKSTART.md
-      - Ten tested scenarios: docs/SCENARIOS.md
+      - Guided walkthroughs:
+          - Choose a walkthrough: docs/SCENARIOS.md
+          - Prepare your workspace: docs/walkthroughs/setup.md
+          - 01 · Explore offline: docs/walkthroughs/01-explore.md
+          - 02 · Your first report: docs/walkthroughs/02-source.md
+          - 03 · Skills and tools: docs/walkthroughs/03-skills.md
+          - 04 · Scope and limits: docs/walkthroughs/04-scope.md
+          - 05 · Built images: docs/walkthroughs/05-images.md
+          - 06 · CI and baselines: docs/walkthroughs/06-ci.md
+          - 07 · Exceptions: docs/walkthroughs/07-exceptions.md
+          - 08 · Review and rescan: docs/walkthroughs/08-review.md
+          - 09 · Local API gateway: docs/walkthroughs/09-gateways.md
+          - 10 · Provider CLIs: docs/walkthroughs/10-provider-cli.md
       - Ask about security, offline: docs/SECURITY_EXPLORER.md
       - Every scan and its coverage: docs/SCAN_COVERAGE.md
       - Complete CLI reference: docs/CLI.md

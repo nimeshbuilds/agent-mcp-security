@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "recorded_at_utc": "2026-09-24T19:10:33.375747+00:00",
+  "status": "passed_with_clipboard_observation_limit",
+  "browser": "Chrome",
+  "scope": "Actual browser review of the locally built site; DOM and visible controls inspected through browser automation. No model, login or target program execution.",
+  "overview": {
+    "cards": 10,
+    "first_report_navigation_worked": true,
+    "mobile_grid_columns": 1
+  },
+  "walkthroughs": [
+    {
+      "scenario": "01",
+      "step_cards": 5,
+      "result_panels": 7,
+      "copy_buttons": 18,
+      "optional_sections": 4,
+      "footer_links": 2,
+      "horizontal_overflow": false
+    },
+    {
+      "scenario": "02",
+      "step_cards": 4,
+      "result_panels": 4,
+      "copy_buttons": 4,
+      "optional_sections": 1,
+      "footer_links": 3,
+      "horizontal_overflow": false
+    },
+    {
+      "scenario": "03",
+      "step_cards": 3,
+      "result_panels": 3,
+      "copy_buttons": 3,
+      "optional_sections": 0,
+      "footer_links": 3,
+      "horizontal_overflow": false
+    },
+    {
+      "scenario": "04",
+      "step_cards": 3,
+      "result_panels": 6,
+      "copy_buttons": 5,
+      "optional_sections": 3,
+      "footer_links": 3,
+      "horizontal_overflow": false
+    },
+    {
+      "scenario": "05",
+      "step_cards": 3,
+      "result_panels": 4,
+      "copy_buttons": 7,
+      "optional_sections": 3,
+      "footer_links": 3,
+      "horizontal_overflow": false
+    },
+    {
+      "scenario": "06",
+      "step_cards": 4,
+      "result_panels": 4,
+      "copy_buttons": 4,
+      "optional_sections": 0,
+      "footer_links": 3,
+      "horizontal_overflow": false
+    },
+    {
+      "scenario": "07",
+      "step_cards": 3,
+      "result_panels": 3,
+      "copy_buttons": 1,
+      "optional_sections": 0,
+      "footer_links": 3,
+      "horizontal_overflow": false
+    },
+    {
+      "scenario": "08",
+      "step_cards": 4,
+      "result_panels": 12,
+      "copy_buttons": 9,
+      "optional_sections": 1,
+      "footer_links": 3,
+      "horizontal_overflow": false
+    },
+    {
+      "scenario": "09",
+      "step_cards": 5,
+      "result_panels": 12,
+      "copy_buttons": 11,
+      "optional_sections": 3,
+      "footer_links": 3,
+      "horizontal_overflow": false
+    },
+    {
+      "scenario": "10",
+      "step_cards": 4,
+      "result_panels": 9,
+      "copy_buttons": 8,
+      "optional_sections": 5,
+      "footer_links": 2,
+      "horizontal_overflow": false
+    }
+  ],
+  "first_report": {
+    "copy_button_clicked": true,
+    "copied_confirmation_visible": true,
+    "code_text_matches_documented_command": true,
+    "native_clipboard_bytes_verified": false,
+    "clipboard_limitation": "Browser automation virtual clipboard did not expose native copy bytes; paste round trip was not verified.",
+    "optional_output_section_expanded": true
+  },
+  "responsive": {
+    "viewport_override": {
+      "width": 390,
+      "height": 844
+    },
+    "measured_content_width": 375,
+    "measured_scroll_width": 375,
+    "long_command_text_preserved": true,
+    "viewport_override_reset": true
+  },
+  "visual_checks": [
+    "Desktop overview card grid",
+    "Desktop first-report instruction/result cards",
+    "Mobile first-report page and wrapped command",
+    "Expanded optional output instructions",
+    "Dark theme (slate) result, command and optional panels"
+  ],
+  "limitations": [
+    "One browser; not every browser/device or assistive technology.",
+    "No new real provider login or inference.",
+    "Report editor itself was not changed or re-adjudicated by this UI check."
+  ],
+  "styles": {
+    "path": "docs/assets/scenarios.css",
+    "sha256": "c54d901dfd0c13236b3848d1304748923faced4112d5f7e172d807c5b944c198",
+    "copy_button_dimensions_px": {
+      "width": 44,
+      "height": 44
+    },
+    "copy_button_visible_without_hover": true
+  }
+}

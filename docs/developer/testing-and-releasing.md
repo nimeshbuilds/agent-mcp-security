@@ -75,7 +75,7 @@ Use a new empty directory. The helper runs source and archive scans, edits canon
 
 ## Keep the scenario guide executable
 
-The [ten-scenario guide](../SCENARIOS.md) is backed by [a command manifest](../../examples/scenarios/scenarios.json) and [an installed-workflow validator](../../scripts/validate_scenarios.py). The validator checks documented command blocks against the manifest before running them, then records observed exit codes, evidence assertions and explicit external prerequisites. A new CLI option must be mapped into the guide; an option's presence in the coverage table alone does not establish live service compatibility.
+The [ten-scenario guide](../SCENARIOS.md) is backed by [a command manifest](../../examples/scenarios/scenarios.json) and [an installed-workflow validator](../../scripts/validate_scenarios.py). Each walkthrough puts one command in each tagged fence. The validator checks all 59 command fences across the hub, setup page and ten walkthrough pages before execution, rejects missing/duplicate/moved/changed steps, and binds all 12 guide files to the executed snapshot. It then records observed exit codes, evidence assertions and explicit external prerequisites. A new CLI option must be mapped into the guide; an option's presence in the coverage table alone does not establish live service compatibility.
 
 ```sh
 python scripts/validate_scenarios.py --check-docs-only

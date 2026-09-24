@@ -7,7 +7,7 @@ Get your first report, explore its security controls, then add image scanning, o
 [Download the CLI](INSTALLATION.md#download-a-standalone-release){ .md-button .md-button--primary }
 [Build from source](#source-installation){ .md-button }
 
-Continue with [ten end-to-end scenarios](SCENARIOS.md) for feature-by-feature recipes, expected results and executable validation covering source, skills, images, CI, review imports and optional AI.
+Continue with [ten guided walkthroughs](SCENARIOS.md) for feature-by-feature recipes, expected results and executable validation covering source, skills, images, CI, review imports and optional AI.
 
 ## 1. Install the CLI and get your first report
 

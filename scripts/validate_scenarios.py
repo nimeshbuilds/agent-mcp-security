@@ -26,6 +26,19 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = Path('examples/scenarios/scenarios.json')
 DOC = Path('docs/SCENARIOS.md')
+SETUP_DOC = Path('docs/walkthroughs/setup.md')
+GUIDE_PAGES = {
+    '01': Path('docs/walkthroughs/01-explore.md'),
+    '02': Path('docs/walkthroughs/02-source.md'),
+    '03': Path('docs/walkthroughs/03-skills.md'),
+    '04': Path('docs/walkthroughs/04-scope.md'),
+    '05': Path('docs/walkthroughs/05-images.md'),
+    '06': Path('docs/walkthroughs/06-ci.md'),
+    '07': Path('docs/walkthroughs/07-exceptions.md'),
+    '08': Path('docs/walkthroughs/08-review.md'),
+    '09': Path('docs/walkthroughs/09-gateways.md'),
+    '10': Path('docs/walkthroughs/10-provider-cli.md'),
+}
 
 
 def require(condition, reason):
@@ -98,6 +111,68 @@ def verify_documentation(manifest, text):
     return len(expected)
 
 
+def documentation_steps(manifest):
+    """One exact, independently copyable command fence per manifest step."""
+    return {group['id'] + ':' + step['id']: command_text(step)
+            for group in manifest['scenarios'] for step in group['steps']}
+
+
+def load_documentation(source):
+    """Require every published walkthrough, including the scenario hub."""
+    documents = {}
+    for path in (DOC, SETUP_DOC, *GUIDE_PAGES.values()):
+        require((source / path).is_file(), 'Missing scenario documentation file ' + path.as_posix())
+        documents[path.as_posix()] = (source / path).read_bytes().decode('utf-8')
+    return documents
+
+
+def verify_walkthrough_documentation(manifest, documents):
+    """Bind every step to its scenario page; reject omitted or orphan markers."""
+    expected_paths = {path.as_posix() for path in (DOC, SETUP_DOC, *GUIDE_PAGES.values())}
+    require(set(documents) == expected_paths, 'Scenario documentation file set differs from the published guides')
+    expected = documentation_steps(manifest)
+    actual = {}
+    # Match markers separately as well: a misspelled fence or a marker with no
+    # adjacent command must fail, even when all legitimate steps are present.
+    marker_pattern = re.compile(r'<!--\s*invscan-step:([^>]*?)\s*-->')
+    fence_pattern = re.compile(r'<!-- invscan-step:([^\r\n]*?) -->[ \t]*\r?\n```(?:sh|bash|shell)\r?\n(.*?)\r?\n```(?=\r?\n|$)', re.S)
+    for path, text in documents.items():
+        markers = marker_pattern.findall(text)
+        fences = fence_pattern.findall(text)
+        require(len(markers) == len(fences), 'Malformed or unattached scenario step marker in ' + path)
+        require('invscan-scenario:' not in text, 'Legacy grouped scenario commands remain in ' + path)
+        for identity, command in fences:
+            require(identity not in actual, 'Duplicate tagged scenario step ' + identity)
+            require(identity in expected, 'Unknown tagged scenario step ' + identity)
+            group = identity.split(':', 1)[0]
+            require(path == GUIDE_PAGES[group].as_posix(), 'Scenario step ' + identity + ' is in the wrong guide ' + path)
+            require(command == expected[identity], 'Documentation command drift in scenario step ' + identity)
+            actual[identity] = command
+    missing = set(expected) - set(actual)
+    require(not missing, 'Documentation is missing scenario steps: ' + ', '.join(sorted(missing)))
+    return len(actual)
+
+
+def documentation_contract(source, manifest, documents):
+    return {'tagged_blocks_verified': verify_walkthrough_documentation(manifest, documents),
+            'guide_files_verified': len(documents),
+            'format': 'individual_step_walkthroughs',
+            **verify_feature_map(manifest, (source / 'ai_security_scan/cli.py').read_text(encoding='utf-8'), '\n'.join(documents.values()))}
+
+
+def documentation_hashes(documents):
+    """Hash file bytes, preserving the exact documentation tested on this host."""
+    files = {path: hashlib.sha256(documents[path].encode('utf-8')).hexdigest() for path in sorted(documents)}
+    aggregate = hashlib.sha256(json.dumps(files, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest()
+    return {'files': files, 'sha256': aggregate}
+
+
+def verify_documentation_snapshot(documentation_inputs, snapshot):
+    snapshot_files = {item['path']: item['sha256'] for item in snapshot['files']}
+    require(all(snapshot_files.get(path) == sha256 for path, sha256 in documentation_inputs['files'].items()),
+            'Scenario documentation changed between contract validation and execution snapshot')
+
+
 def verify_feature_map(manifest, cli_source, guide):
     inventory = set()
     for node in ast.walk(ast.parse(cli_source)):
@@ -133,10 +208,12 @@ def validate(args, receipt):
     manifest = load_manifest(source / MANIFEST)
     receipt['manifest_sha256'] = digest(source / MANIFEST)
     receipt['document_sha256'] = digest(source / DOC) if (source / DOC).is_file() else None
+    documents = load_documentation(source)
+    receipt['documentation_inputs'] = documentation_hashes(documents)
     if args.skip_doc_check:
         receipt['documentation_contract'] = 'skipped_by_explicit_development_flag'
     else:
-        receipt['documentation_contract'] = {'tagged_blocks_verified': verify_documentation(manifest, (source / DOC).read_text()), **verify_feature_map(manifest, (source / 'ai_security_scan/cli.py').read_text(), (source / DOC).read_text())}
+        receipt['documentation_contract'] = documentation_contract(source, manifest, documents)
     quickstart = load_module('invarune_scenario_quickstart', source / 'scripts/validate_quickstart.py')
     security = load_module('invarune_scenario_redaction', source / 'ai_security_scan/security.py')
     interpreter = str(Path(args.python).resolve()) if Path(args.python).is_file() else args.python
@@ -160,6 +237,7 @@ def validate(args, receipt):
         setup('fresh_clone', ['git', 'clone', '--quiet', '--no-hardlinks', '--no-local', str(source), str(checkout)])
         quickstart.SNAPSHOT_PATHS += ('examples/scenarios',)
         receipt['snapshot'] = quickstart.snapshot(source, checkout)
+        verify_documentation_snapshot(receipt['documentation_inputs'], receipt['snapshot'])
         setup('create_venv', [interpreter, '-m', 'venv', str(environment)])
         bindir = environment / ('Scripts' if os.name == 'nt' else 'bin')
         python = bindir / ('python.exe' if os.name == 'nt' else 'python')
@@ -264,13 +342,14 @@ def main(argv=None):
     parser.add_argument('--skip-doc-check', action='store_true', help='Development only: explicitly mark documentation drift checking as skipped')
     args = parser.parse_args(argv)
     if args.print_doc_blocks:
-        for key, content in documentation_blocks(load_manifest(args.source / MANIFEST)).items():
-            print('<!-- invscan-scenario:' + key + ' -->\n```sh\n' + content + '\n```\n')
+        for key, content in documentation_steps(load_manifest(args.source / MANIFEST)).items():
+            print('<!-- invscan-step:' + key + ' -->\n```sh\n' + content + '\n```\n')
         return 0
     if args.check_docs_only:
-        count = verify_documentation(load_manifest(args.source / MANIFEST), (args.source / DOC).read_text())
-        features = verify_feature_map(load_manifest(args.source / MANIFEST), (args.source / 'ai_security_scan/cli.py').read_text(), (args.source / DOC).read_text())
-        print(json.dumps({'tagged_blocks_verified': count, **features})); return 0
+        manifest = load_manifest(args.source / MANIFEST)
+        documents = load_documentation(args.source)
+        print(json.dumps({**documentation_contract(args.source, manifest, documents),
+                          'documentation_inputs': documentation_hashes(documents)})); return 0
     if args.output is None:
         parser.error('--output is required unless checking or printing documentation')
     receipt = {'schema_version': '1.0', 'recorded_at_utc': datetime.now(timezone.utc).isoformat(), 'status': 'running',

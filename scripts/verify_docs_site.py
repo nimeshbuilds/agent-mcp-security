@@ -85,6 +85,9 @@ def main() -> None:
     for essential in ("docs/INSTALLATION/index.html", "docs/SCAN_COVERAGE/index.html", "docs/developer/scan-inventory/index.html", "docs/QUICKSTART/index.html", "docs/SCENARIOS/index.html", "docs/SECURITY_EXPLORER/index.html", "docs/REPORT_LIBRARY/index.html", "docs/BENCHMARK_GUIDE/index.html", "docs/BENCHMARK_DASHBOARD/index.html", "CONTRIBUTING/index.html"):
         if essential not in pages:
             errors.append("Essential guide absent: " + essential)
+    for guide in ("setup", "01-explore", "02-source", "03-skills", "04-scope", "05-images", "06-ci", "07-exceptions", "08-review", "09-gateways", "10-provider-cli"):
+        if "docs/walkthroughs/" + guide + "/index.html" not in pages:
+            errors.append("Scenario walkthrough absent: " + guide)
     receipt = {"schema_version": 1, "result": "passed" if not errors else "failed", "html_pages": len(pages), "local_links_checked": checked, "search_entries": search_count, "artifacts_preserved": preserved, "pdf_downloads": pdfs, "errors": errors}
     if args.receipt:
         args.receipt.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,2773 @@
+{
+  "assertions": {
+    "automatic_login_calls": 0,
+    "container_execution": false,
+    "fresh_clone": true,
+    "fresh_venv": true,
+    "installed_outside_checkout": true,
+    "real_model_calls": 0,
+    "target_execution": false
+  },
+  "document_sha256": "15aafd2f448f999134d2f073a3860afa2415c2362b8a6dae0278d1003f1140b9",
+  "documentation_contract": {
+    "format": "individual_step_walkthroughs",
+    "guide_files_verified": 12,
+    "option_spellings": 65,
+    "positional_target": true,
+    "tagged_blocks_verified": 59
+  },
+  "documentation_inputs": {
+    "files": {
+      "docs/SCENARIOS.md": "15aafd2f448f999134d2f073a3860afa2415c2362b8a6dae0278d1003f1140b9",
+      "docs/walkthroughs/01-explore.md": "3d4681ff9d26ef8015ea667c21bc1ef93d6a2a85c37d5653e5b5bf66d3b95f4c",
+      "docs/walkthroughs/02-source.md": "9aa90a339ef5079dff5425bd9dd722747a564548d36f3bce107c22933e867b8e",
+      "docs/walkthroughs/03-skills.md": "a4a4f53b25bad503a9dd943d9f2a119eee087a4e9c5d31cc5eeaa5c4aba1112a",
+      "docs/walkthroughs/04-scope.md": "6730bd8c82d410015dcc5d33a3d723e23bab3822bd6b3e099712475db3e03821",
+      "docs/walkthroughs/05-images.md": "b0e4ef28d754d529745dfa63248d4f12d16525414e7893746694ce2d68f882d3",
+      "docs/walkthroughs/06-ci.md": "a7a47d181e1634a1954e7b02ebb594490898b68434efe4747184e289e60f3103",
+      "docs/walkthroughs/07-exceptions.md": "54fa577c33cf34ee8ffd50c4454b1f185da134e997e249dc34cd777dc8ceab98",
+      "docs/walkthroughs/08-review.md": "b1522ebfe7915c07ed87e0bb1e3d5b8d5b85ff6f8fefcfeb76e9f5eeefea0cb0",
+      "docs/walkthroughs/09-gateways.md": "b2f91d42db57eceace6bd0a1594eccd13ef4d2872590d56542d319f7dd4c2a3d",
+      "docs/walkthroughs/10-provider-cli.md": "d9c191d1f7d967bd0069cdd9a55863ac4505141e2ea3f34a466a2ecf54d797e8",
+      "docs/walkthroughs/setup.md": "1deb5f237205acc838a314fa0910c91c44c881946c4050fe3b9ef87c6a85a0d9"
+    },
+    "sha256": "fe4e58c428298e33d2e261aebc6ec0eab622cd8d060bdfb62c7cf45e4cedd343"
+  },
+  "external_scope": {
+    "interactive_html_editing": "Scripted form/capsule edits tested; no actual browser interaction claimed.",
+    "live_provider_authentication": "Separate opt-in validation receipt; not attempted by this harness.",
+    "runtime_images": "Archives exercised; Docker/Podman daemon export and pull require separate evidence."
+  },
+  "host": {
+    "machine": "arm64",
+    "platform": "Darwin",
+    "python": "3.12.14"
+  },
+  "installed": {
+    "headroom": "0.37.0",
+    "module": "<VENV>/lib/python3.12/site-packages/ai_security_scan/__init__.py",
+    "pypdf": "6.19.0",
+    "python": "3.12.14",
+    "reportlab": "4.5.1",
+    "version": "0.15.0"
+  },
+  "loopback": {
+    "evidence_requests": 1,
+    "protocols": [
+      "anthropic",
+      "custom",
+      "gemini",
+      "ollama",
+      "openai_chat",
+      "openai_responses"
+    ],
+    "real_model_calls": 0,
+    "request_count": 17,
+    "requests": [
+      {
+        "mode": "review",
+        "payload_sha256": "513411cd62def2b09082262817fc506a22494e180d5467770c928110ba9efb70",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "b7b8e0a48b15dc6895724b9144bc7f57e2859cf899ea28e984056b8070e4666f",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "513411cd62def2b09082262817fc506a22494e180d5467770c928110ba9efb70",
+        "provider": "openai_chat",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "b7b8e0a48b15dc6895724b9144bc7f57e2859cf899ea28e984056b8070e4666f",
+        "provider": "openai_chat",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "513411cd62def2b09082262817fc506a22494e180d5467770c928110ba9efb70",
+        "provider": "openai_responses",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "b7b8e0a48b15dc6895724b9144bc7f57e2859cf899ea28e984056b8070e4666f",
+        "provider": "openai_responses",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "513411cd62def2b09082262817fc506a22494e180d5467770c928110ba9efb70",
+        "provider": "anthropic",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "b7b8e0a48b15dc6895724b9144bc7f57e2859cf899ea28e984056b8070e4666f",
+        "provider": "anthropic",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "513411cd62def2b09082262817fc506a22494e180d5467770c928110ba9efb70",
+        "provider": "gemini",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "b7b8e0a48b15dc6895724b9144bc7f57e2859cf899ea28e984056b8070e4666f",
+        "provider": "gemini",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "513411cd62def2b09082262817fc506a22494e180d5467770c928110ba9efb70",
+        "provider": "ollama",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "b7b8e0a48b15dc6895724b9144bc7f57e2859cf899ea28e984056b8070e4666f",
+        "provider": "ollama",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "investigate",
+        "payload_sha256": "1b9076ad8b293db6c5d471143639635a64846fb04dfdbaebd328007cd38ebfde",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "investigate",
+        "payload_sha256": "a0421f5a73e33264e1b657e60eb9b75ec197a6de905cbad7a0881b4a26262fac",
+        "provider": "custom",
+        "requested_ranges": 1,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "investigate",
+        "payload_sha256": "0c6939a745e44460407b2da00826f5dc7d60ba11f20262303c4be0ab6dd6ef88",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "2d412f8b43c7497a6b8a96e56498e4b457031cc9b82f8dba23297810834ad03e",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "513411cd62def2b09082262817fc506a22494e180d5467770c928110ba9efb70",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      }
+    ]
+  },
+  "manifest_sha256": "9a8ba9c2cee6b338962d485e897962ae82868d9bca0b8da3a5cbf114ac39c640",
+  "purpose": "Executed documentation journeys on inert fixtures, not detector accuracy or production assurance.",
+  "recorded_at_utc": "2026-09-24T19:08:18.495262+00:00",
+  "scenarios": [
+    {
+      "id": "01",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--version"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --version",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "version",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "f8405a7330c287028d470c3ee3506f878f1ad85ed79c1d1adc19df2ff7398915"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--help"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --help",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "full_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "4141cbcb7cee9ac5881b157b61f478a41308ac8efaee85f6018598a7501d4a04"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "-h"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan -h",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "short_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "4141cbcb7cee9ac5881b157b61f478a41308ac8efaee85f6018598a7501d4a04"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--help-topic",
+            "all"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --help-topic all",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "all_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "4141cbcb7cee9ac5881b157b61f478a41308ac8efaee85f6018598a7501d4a04"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--examples"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --examples",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "cookbook",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "cad349616d2e951d6a86e97d408821f99d6eb9f3fda1523112810c8308d0159d"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--list-scans",
+            "--catalog-format",
+            "json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --list-scans --catalog-format json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "inventory",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "a4e1209e32e9078f704c737dfb19ad575da44463de35d4f403685447e5220da6"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--explain-scan",
+            "AI043"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --explain-scan AI043",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "rule",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "531be1780bcf637ed7d4324b4e88a685e9913ebce069b08a90aeaf0c033ac564"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--list-rules"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --list-rules",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "rules",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "244d5fb3453ea7e4a15a0832740470cd83ee3bf2d80eacde1cff063ce34c9c25"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--list-controls"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --list-controls",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "controls",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "24673b101cd7b9b66897e0751128c0421d0e883ee77424fc4bab519a6cee6f41"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--explain-rule",
+            "AI002"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --explain-rule AI002",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "rule_alias",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "c00d5a5c37938b264e013cae201133f5f9fa9ae7fce13758fd2d09abde94b996"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--list-topics"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --list-topics",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "topics",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "71b796983f0709dd34cd51b2ddff0186a262373e133e9f6d2014a9f5b45492a7"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--ask",
+            "How do you check prompt injection?"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --ask 'How do you check prompt injection?'",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "question",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "1123a07c05f243843e466ca7d9e2c5d2bc153b7a92e952186233f0f6732b9225"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--explain-control",
+            "AUTH-01"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --explain-control AUTH-01",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "control",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "bd13c72ab82965dbcb074a5c83c47a670363221368ac63c47d25d61d1b5fd8f1"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--explain-check",
+            "AUTH-01:1"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --explain-check AUTH-01:1",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "check",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "1610970e41123968ad7875be23a619a963959223fc2796508a08f79936f8b622"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--list-sources"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --list-sources",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "sources",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "c192c9f86bf638c43dc68ddff54fbbd207b99df15310466354898ae8b5813554"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--explain-source",
+            "MITRE-ATLAS"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --explain-source MITRE-ATLAS",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "source",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "e487c9f499332462478af37fc7509e3c478237c5b4501b0ea286f7fac52d5006"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invarune",
+            "--version"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invarune --version",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "invarune",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "f8405a7330c287028d470c3ee3506f878f1ad85ed79c1d1adc19df2ff7398915"
+        },
+        {
+          "command": [
+            "<VENV>/bin/ai-security-scan",
+            "--version"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "ai-security-scan --version",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "ai-security-scan",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "f8405a7330c287028d470c3ee3506f878f1ad85ed79c1d1adc19df2ff7398915"
+        }
+      ],
+      "title": "Install, discover and ask offline"
+    },
+    {
+      "id": "02",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "terminal",
+          "no_reports_created": true,
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "1eb05a1b1b03394bc65879e2ae2a833dc08ba4e3b5d0e86da842963e7d45ca65"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "scoring.overall_security_score": null,
+            "summary.coverage_gaps": 0,
+            "summary.open_findings": 11
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/02-source",
+            "--pdf",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --report scan-report/scenarios/02-source --pdf --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "source_reports",
+          "report_sha256": {
+            "report.html": "a39ea973bd840bde35c2381e00b7103fde8e7927e7bc65f2763722dc0d82b64e",
+            "report.json": "3c16598376c898d12d3108032034cbaf455954c71440b7cc24119a3ec8941c41",
+            "report.md": "dbf28f5d62454c966abd17f7ab8fc16ea17f6ab3333880fcd9aa9f977c7e3bb6",
+            "report.pdf": "8e3ce53217f9dfc8cc9326d1873451601a6a78aa30ee7e75c2e222f1e5d564d3",
+            "report.sarif": "9be5072c275ac7cbde73e942fc88d3f84c2df5e4142919023474635c2fe0cda3"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "f0e6684d4b4424c4d17992e13a8c8379f89f0e2a9371e3fa2b1ed11cbabe72be"
+        },
+        {
+          "asserted_report_fields": {
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--output",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/02-safe",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --output scan-report/scenarios/02-safe --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "output_alias",
+          "report_sha256": {
+            "report.html": "1cfbac3c864489440758b29c679ee05c14d851f0bb0875a9d558cc741bb3806e",
+            "report.json": "10bc0d294b1cd7b3a515423ab8e54bfacc6c08bc0ec7cd0fc722154db9e881c2",
+            "report.md": "77832870882ba510f440c35847ceaa29f85601636a45cca6b7c853e7bb1d521d",
+            "report.sarif": "aa9e726344f112c7e9c3bb5f704d48075403eba33d36bc14ce1ce7ffe8829965"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "f27e7c2a7c39e7f42f0969ab0b5e73556369677e22894ef8f0b0284532a38727"
+        },
+        {
+          "asserted_report_fields": {
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--report",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --report --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "default_report",
+          "report_sha256": {
+            "report.html": "1cfbac3c864489440758b29c679ee05c14d851f0bb0875a9d558cc741bb3806e",
+            "report.json": "10bc0d294b1cd7b3a515423ab8e54bfacc6c08bc0ec7cd0fc722154db9e881c2",
+            "report.md": "77832870882ba510f440c35847ceaa29f85601636a45cca6b7c853e7bb1d521d",
+            "report.sarif": "aa9e726344f112c7e9c3bb5f704d48075403eba33d36bc14ce1ce7ffe8829965"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "e27918ecb2fcf312af7d20512c1b460d38cf7cc55ad4f44ed9e191870e0f7950"
+        }
+      ],
+      "title": "Scan source and generate every report"
+    },
+    {
+      "id": "03",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--scans",
+            "AI001,AI002",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --scans AI001,AI002 --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "selected_rules",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "cdb682ad9fcb87e5e748380c8010ccee0ce7a24d1c1b02c9ddd446d4cc55ce3f"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--scan",
+            "GOV-01",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --scan GOV-01 --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "manual_control",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "24f440245b37179e8d19df1968a0e0818349c566c622a9f24d7801f6d121c6f1"
+        },
+        {
+          "asserted_report_fields": {
+            "summary.coverage_gaps": 0,
+            "summary.open_findings": 4
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/skills/risky",
+            "--scans",
+            "AI043,AI044,AI045,AI046",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/03-skills",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/skills/risky --scans AI043,AI044,AI045,AI046 --report scan-report/scenarios/03-skills --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "skill_metadata",
+          "report_sha256": {
+            "report.html": "4b3328bc666e9b816b2f4b27eec9d80253d3bad74dae26f49d12afbe517ca844",
+            "report.json": "38453c8ba3fa12717dc399882da87eac40bb3e99a4aefef1841602c09e5ba0de",
+            "report.md": "5b57e52cfa853247d541817e359388db1a60b89daff38991f19e13c7b04c7eee",
+            "report.sarif": "cbf26be71a62f58e9089e77db1a12e56fbaeeec0bce840e1f5bd43eaf1887340"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "b51d8ae039bed237bad43200e80361f3d85359fbb894989c568fa48b78f03bf5"
+        }
+      ],
+      "title": "Select checks and find malicious skills or tools"
+    },
+    {
+      "id": "04",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--exclude",
+            "requirements.txt",
+            "--exclude",
+            "Dockerfile",
+            "--max-file-bytes",
+            "1000000",
+            "--max-total-bytes",
+            "5000000",
+            "--max-files",
+            "100",
+            "--max-entries",
+            "1000",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --exclude requirements.txt --exclude Dockerfile --max-file-bytes 1000000 --max-total-bytes 5000000 --max-files 100 --max-entries 1000 --fail-on none --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "bounded_scope",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "3d639c4c41cf8d6d29dc33b75c150ff388a2dd0bfb04ea6156862f79812ef1af"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--max-file-bytes",
+            "10",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --max-file-bytes 10 --fail-on none --summary-json  # Expected exit 2",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "file_budget",
+          "status": "passed",
+          "stderr": "Scan incomplete: 3 coverage gaps; see the coverage details.\n",
+          "stdout_sha256": "6658ca541713ecb8822c4e38826d171f0c3ba7a1d27ca8aae261fee7db25b40c"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--max-total-bytes",
+            "10",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --max-total-bytes 10 --fail-on none --summary-json  # Expected exit 2",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "total_budget",
+          "status": "passed",
+          "stderr": "Scan incomplete: 3 coverage gaps; see the coverage details.\n",
+          "stdout_sha256": "49c7a43d9a7b8e340f2eb1ff8450b27a1a37cc933a53c4e6bd3241537e55e22a"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--max-files",
+            "1",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --max-files 1 --fail-on none --summary-json  # Expected exit 2",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "count_budget",
+          "status": "passed",
+          "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n",
+          "stdout_sha256": "9602967767ca8dacb839f6b0115009f882e527b397e8ad912a285e77c950547e"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--max-entries",
+            "1",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --max-entries 1 --fail-on none --summary-json  # Expected exit 2",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "entry_budget",
+          "status": "passed",
+          "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n",
+          "stdout_sha256": "50f89368b8b06789405db92501b69c628fb1acc29f8e6d23afa12754ed5c7800"
+        }
+      ],
+      "title": "Constrain scope and recognize incomplete scans"
+    },
+    {
+      "id": "05",
+      "status": "passed",
+      "steps": [
+        {
+          "asserted_report_fields": {
+            "image.container_started": false,
+            "summary.open_findings": 3
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "--image-archive",
+            "<SCENARIO_WORKSPACE>/examples/images/demo-agent.tar",
+            "--image-platform",
+            "linux/amd64",
+            "--image-max-archive-bytes",
+            "10000000",
+            "--image-max-unpacked-bytes",
+            "20000000",
+            "--image-max-entries",
+            "1000",
+            "--image-max-layers",
+            "10",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/05-image",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --image-archive examples/images/demo-agent.tar --image-platform linux/amd64 --image-max-archive-bytes 10000000 --image-max-unpacked-bytes 20000000 --image-max-entries 1000 --image-max-layers 10 --report scan-report/scenarios/05-image --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "image_archive",
+          "report_sha256": {
+            "report.html": "b0382b1e5bd09033066050d02533c255d54f5bd9b394f55a322af441a6342fa0",
+            "report.json": "20ffba4592be655f8adf371c3604c7dc46bb46c9b5982d419564fe4c8087c652",
+            "report.md": "4db59aa6daf6e8576b58688564e7df932ecd41bf2e4c40308fb2130dedf090a0",
+            "report.sarif": "6c4d69b624947060b24f07f52ee3ec6c3efa665ca33e7f0b7f9aa2d349577a95"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "c19d4e3ad9b8af8ff6c7c7a35801a97e15afab5643ddf211b84a1e53b9172b0a"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--image-archive",
+            "<SCENARIO_WORKSPACE>/examples/images/demo-agent.tar",
+            "--scans",
+            "AI001",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --image-archive examples/images/demo-agent.tar --scans AI001 --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "selected_image",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "ae16dae14ab5e8a8983b67c9359b8bffa608af13138a8f73bdbfa4112e9ac85a"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--help-topic",
+            "images"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --help-topic images",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "image_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "afaabe51134029469dc7d4472554148c379260a35d1730f92a606a80911522a3"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--image-archive",
+            "<SCENARIO_WORKSPACE>/examples/images/demo-agent.tar",
+            "--image-max-archive-bytes",
+            "1",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --image-archive examples/images/demo-agent.tar --image-max-archive-bytes 1 --summary-json  # Expected exit 2",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "archive_limit",
+          "status": "passed",
+          "stderr": "Scan error: Image archive exceeds byte limit\n",
+          "stdout_sha256": "db84f5f2ea4580dbfae8c9d6300bbef7efe70374ae9755bbcb9b63b93572d788"
+        }
+      ],
+      "title": "Inspect built image archives without running them"
+    },
+    {
+      "id": "06",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--quiet"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --quiet  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "quiet_gate",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --fail-on none --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "disabled_gate",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "08081f55e353ec5bb15e54570c6bda25dde2aa71dce8f9f4624f74e9f203cd17"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--write-baseline",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/06-baseline.json",
+            "--baseline-reason",
+            "TEST ONLY: accepted inert documentation fixture; not production approval.",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --write-baseline scan-report/scenarios/06-baseline.json --baseline-reason 'TEST ONLY: accepted inert documentation fixture; not production approval.' --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "write_baseline",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "03d5b5e7fd38f6c4ac0931b94e0f6a0d6a2522d7e5372e9eb08ac3b362014818"
+        },
+        {
+          "asserted_report_fields": {
+            "summary.open_findings": 0,
+            "summary.suppressed_findings": 11
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--baseline",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/06-baseline.json",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/06-baselined",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --baseline scan-report/scenarios/06-baseline.json --report scan-report/scenarios/06-baselined --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "apply_baseline",
+          "report_sha256": {
+            "report.html": "c373396a7a58dda141c861ae0e8ccfb437dfc32ed457a12c618b9f6dd3336780",
+            "report.json": "5663ed9693ed09ecbf8baf0ba88ff596c5def4ced4ec7cebe2f64def1269e378",
+            "report.md": "7e5bf5bbefcbbe0d4b8f8a6c3f45692d2a0eab9e80eedc9e7f77c6ac7438125e",
+            "report.sarif": "146f319f57a5aed3598ba86cf30a6cf3bfd338f58c67e97157df9b9957312838"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "ca76a3894f4fe410bcc728e27bcf39d7970439c4e47ec6c64d5f4eab32d2e21a"
+        }
+      ],
+      "title": "Use CI gates and reviewed baselines"
+    },
+    {
+      "id": "07",
+      "status": "passed",
+      "steps": [
+        {
+          "asserted_report_fields": {
+            "review_policy.counts.disabled_controls": 1,
+            "review_policy.counts.justified_checks": 1,
+            "summary.disabled_findings": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 9
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-config",
+            "<SCENARIO_WORKSPACE>/examples/review-config.json",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/07-policy",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --review-config examples/review-config.json --report scan-report/scenarios/07-policy --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "policy",
+          "report_sha256": {
+            "report.html": "7f014c5eaf30bd00ee41a5b124828546983f5a281279f8321225a1a433fd9418",
+            "report.json": "65fc9ecaf78090905a850b3840383e4dcb8438a990b6daa8abd45650be11b2d9",
+            "report.md": "76bdd434968a0a7892dc690ff6f8d4fbdc925b95c40aff0352d0954d7ebf9eca",
+            "report.sarif": "663b373a7574cb9bdb7e2fd7b1bdfba794df44a0f66b028ce6fb3057f2a7aec3"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "d2186aae7ebe976ec107a291fdd6275cc7c97c3465b2248bb991ea2e1a732e0d"
+        }
+      ],
+      "title": "Keep justified and disabled exceptions auditable"
+    },
+    {
+      "id": "08",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<VENV>/bin/python",
+            "<SCENARIO_WORKSPACE>/examples/scenarios/prepare_reviews.py",
+            "--initial",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/02-source",
+            "--output",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited",
+            "--stale-target",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-changed-source"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "python examples/scenarios/prepare_reviews.py --initial scan-report/scenarios/02-source --output scan-report/scenarios/08-edited --stale-target scan-report/scenarios/08-changed-source",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "prepare",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "fed771b2e2550460bf1b2830564a7386c74a5af07a9f1b9ee1473c7ac6bfcf50"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.html",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-html",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --review-report scan-report/scenarios/08-edited/reviewed.html --report scan-report/scenarios/08-final-html --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_html",
+          "report_sha256": {
+            "report.html": "7443e6db01e69dd8792ae7b326d13874c6fa4935176c2a51eb0b8c2d91b4f191",
+            "report.json": "5cf296f401550aea63ea9c184d509cdac81404cc0cd53d84eb03bef38d62f097",
+            "report.md": "0e58069a95c988e8292732ebdee14eae5314f3285e639bdcc0942ffacd4ef3a4",
+            "report.sarif": "cfa0f6d088d59c4d4f6d99f20343a86ae339f8c787989ca5fe5f81da4cceb52e"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "5dc349530d89ca9ddb58d396a3084ee3d106346204efc636ed98b1bcba3df22a"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.md",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-md",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --review-report scan-report/scenarios/08-edited/reviewed.md --report scan-report/scenarios/08-final-md --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_md",
+          "report_sha256": {
+            "report.html": "7ad1858c6b16c8ad5e09c2aed81c3cafa7ab5c4713ece5c743eb3fbc16d47b7e",
+            "report.json": "4bb8a7e520cdf283e97b7e703a9f4de91278ab7982360e4f418ba56bb69805cf",
+            "report.md": "9386ae08156bc039d05ce8a960fb87d186088b681cf00bac6631409a2f440617",
+            "report.sarif": "97de050e61dc3a910fc3aa947e327b788ab27d7be5689bf444a64690fe88d549"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "5e821009adaf3be4979f2ec1a01e0ae2f97debd82b6bb34811178f798b32f307"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.json",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-json",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --review-report scan-report/scenarios/08-edited/reviewed.json --report scan-report/scenarios/08-final-json --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_json",
+          "report_sha256": {
+            "report.html": "b48a3e33604e12eea7c0cccfdeac0b7902e22ae84daf2bd2927538c3e765680c",
+            "report.json": "58a8af7d6e23aa33e9685a55fc7407d77c38c1bb02d4ddcdfdebe5694960ec92",
+            "report.md": "6cad1cca49fff9dc944a4fba18cb9ac9de7f336af427d418cb7d83682edc0330",
+            "report.sarif": "fc93400c71a35702e0c6c66675411c09a276ef2fa761541008a6dd5c4ef2db93"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "ccc1b6810685287584c47114d5fe9ac11cff5d42c1641b35435f0c7b68577447"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.sarif",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-sarif",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --review-report scan-report/scenarios/08-edited/reviewed.sarif --report scan-report/scenarios/08-final-sarif --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_sarif",
+          "report_sha256": {
+            "report.html": "81da49784845fff9dbf0d57a47cff7c67fe5214111cff6e2c8fb6525dddb28d6",
+            "report.json": "39e84d84786bb473557633a142af814cbeb7333eafabfa9bb670c6337618a929",
+            "report.md": "18596a5a686fdde5dc07e60f4eedf3dc71963dbc27043bb862d0d9bbdbc79796",
+            "report.sarif": "07ee3bd42313d98567bd9be0ed733f9c94ec65a923b92b812b175e4c7c47533c"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "8738ba6a39455ef9017a979fb3007c20cb57f6208d109d9de2da67c8d876816a"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.pdf",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-pdf",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --review-report scan-report/scenarios/08-edited/reviewed.pdf --report scan-report/scenarios/08-final-pdf --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_pdf",
+          "report_sha256": {
+            "report.html": "1aea6c5e02987004c8b9e3178585f3e1f74e1d7b3402e5da679337064d01ba8d",
+            "report.json": "5cf4632c4881de117044dc27003715e2e88974ce0fff902eff6216c4d83f855d",
+            "report.md": "ea63e251e8da0591f28847a321f8c5e471949a2e5fa4cffba3ed73f35b2af40e",
+            "report.sarif": "25310acff5e9af45283f3d682f0e23e5b341005c341fab172b1a44da83cd4f5c"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "47c5522e9aea9aad47a01983cde598dfbb9aca3103f524c4848745499aabdf22"
+        },
+        {
+          "asserted_report_fields": {
+            "review_import.counts.applied": 0,
+            "review_import.counts.stale": 2,
+            "review_import.incomplete": true
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-changed-source",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.json",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-stale",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan scan-report/scenarios/08-changed-source --review-report scan-report/scenarios/08-edited/reviewed.json --report scan-report/scenarios/08-stale --summary-json  # Expected exit 2",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "stale_review",
+          "report_sha256": {
+            "report.html": "e3586d293a39d2f4a4863e9e1054dfabda84a68f48e5588a085043eca321e013",
+            "report.json": "a52944cdfb62aea5f8daf0535b08ed472116553c7be556c2adc438ff05213041",
+            "report.md": "03b0d452bca03a4772b89c1df6693b21e68dd1cfcccbf5ea23d472c35e69ab58",
+            "report.sarif": "655aea9908082e1cdabec42168be5896dc81d564d8ad06cb00b178dc813515b7"
+          },
+          "status": "passed",
+          "stderr": "Imported review needs follow-up: changed evidence or unresolved runtime/human validation remains; see the review audit.\n",
+          "stdout_sha256": "a48d9b3dd059cf2140bfdf871c0286bc31c20c3a4f08ea88a358bc169c5650e2"
+        },
+        {
+          "asserted_report_fields": {
+            "execution.finding_gate_triggered": false,
+            "review_import.counts.applied": 1,
+            "review_import.counts.unresolved": 1,
+            "review_import.incomplete": true,
+            "summary.open_findings": 11
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/runtime-pending.json",
+            "--fail-on",
+            "none",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-runtime-pending",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --review-report scan-report/scenarios/08-edited/runtime-pending.json --fail-on none --report scan-report/scenarios/08-runtime-pending --summary-json  # Expected exit 2",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "runtime_pending",
+          "report_sha256": {
+            "report.html": "d2b969c04719cfa6ea49db8eced09cf9cea575a7ea0dbe28becdc73708f897e5",
+            "report.json": "a934fab51421f834e1de11381f86e8c3a16ffd5ed57df9a58d6a3aacdf8107f2",
+            "report.md": "7852142bd797fe8f9515faca19bd1bc5b8e9cefa1e70e9ddbdfe101696f67ebc",
+            "report.sarif": "6052356dcee88f65846a98b7d015b96da62d6c0b767f3ccf62e7fa3ece91fcc8"
+          },
+          "status": "passed",
+          "stderr": "Imported review needs follow-up: changed evidence or unresolved runtime/human validation remains; see the review audit.\n",
+          "stdout_sha256": "dca5392dfe102b2333e304a0a8d644c76fafa7dbed730d1e50b48e7fa9ff6b55"
+        }
+      ],
+      "title": "Rescan edited reports in all five formats"
+    },
+    {
+      "id": "09",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<VENV>/bin/python",
+            "<SCENARIO_WORKSPACE>/examples/scenarios/local_gateway.py",
+            "--output",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "# Run in a second terminal; leave it open until scenario 9 finishes.\npython examples/scenarios/local_gateway.py --output scan-report/scenarios/09-gateway",
+          "expected_exit": 0,
+          "id": "gateway_server",
+          "readiness_verified": true,
+          "real_model": false,
+          "status": "passed"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/custom.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-custom",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --scans EXEC-05 --judge-config scan-report/scenarios/09-gateway/custom.json --analyst-max-calls 3 --analyst-batch-size 1 --analyst-time-budget 60 --report scan-report/scenarios/09-custom --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_custom",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "43a0ee8c84e683baa2b09d18d762575a4202dd4b6b7f3983148fd26597ff40e8",
+            "report.json": "b9ef8426059e5ff62d82f8b1b3f6da061c3cb9b249659b85d2eb9f0074d51151",
+            "report.md": "83b1f08476d1c068a40f225ba551166cbb15977396a598b9bcb7a4552c922ab0",
+            "report.sarif": "fcfce30f7a53377b9e38d2ff2eced4e7d26124559a8d04267c6ce91830006dc3"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "3bf70f585ca0676d92eccaac183c1810244fd238c3fafd9c57efe01a3a39ab39"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/openai_chat.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-openai_chat",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --scans EXEC-05 --judge-config scan-report/scenarios/09-gateway/openai_chat.json --analyst-max-calls 3 --analyst-batch-size 1 --analyst-time-budget 60 --report scan-report/scenarios/09-openai_chat --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_openai_chat",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "d4a89199aedf3b4d7d1d2828a5574d8c4319a84b298d83e014db36a31fbbafc2",
+            "report.json": "d042aca5a66035052150a1f70846fa61e8b76456d62430d25dd6e9b7517206c6",
+            "report.md": "b314e2e3bd77ceac900e6d14aac91a334771f49eddf36866d9d16f34225406f8",
+            "report.sarif": "fcfce30f7a53377b9e38d2ff2eced4e7d26124559a8d04267c6ce91830006dc3"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "d09a2dfa8797d20a15ccd44ca48c932b504e2f6a2e7e3c2d1eeacac56a73ce17"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/openai_responses.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-openai_responses",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --scans EXEC-05 --judge-config scan-report/scenarios/09-gateway/openai_responses.json --analyst-max-calls 3 --analyst-batch-size 1 --analyst-time-budget 60 --report scan-report/scenarios/09-openai_responses --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_openai_responses",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "fef676196769410cfd99fd5594025a7b11ae4b28d789df2e219eac3a63ce04a3",
+            "report.json": "705029040edb8e2be0747f312142b02f72a66f6b468010d9f7e6395869378726",
+            "report.md": "0195b775a0ee713c4b5b16b53e8ca0cdc07c3b0d7a81c88fe8bcc7a270ee06e3",
+            "report.sarif": "fcfce30f7a53377b9e38d2ff2eced4e7d26124559a8d04267c6ce91830006dc3"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "08f9236ab2053d994a40382ea9bf156024ce18329710634b610a11cf61b9fa57"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/anthropic.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-anthropic",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --scans EXEC-05 --judge-config scan-report/scenarios/09-gateway/anthropic.json --analyst-max-calls 3 --analyst-batch-size 1 --analyst-time-budget 60 --report scan-report/scenarios/09-anthropic --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_anthropic",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "513e6ba702900fca94fa917faf9fb87cbb4d9c12afa7c4df05c179b3def6b216",
+            "report.json": "c0595fd15ca4fd5b4f6140b36cdd390b4cf043f807d22e784f430e4b0988107f",
+            "report.md": "5d8a3bd5af27eb0df2b5d88024c70f1642839bda3fbcb5ee4f3c9c9bc5758b4e",
+            "report.sarif": "fcfce30f7a53377b9e38d2ff2eced4e7d26124559a8d04267c6ce91830006dc3"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "d37c7967308f91de0cc54b0bc7230b36099e167150baeef35ab411c79d89b5ae"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/gemini.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gemini",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --scans EXEC-05 --judge-config scan-report/scenarios/09-gateway/gemini.json --analyst-max-calls 3 --analyst-batch-size 1 --analyst-time-budget 60 --report scan-report/scenarios/09-gemini --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_gemini",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "17672a270d504d50c7c4ab274ecce1c4a0cc02bf7833e042b407c042eebfdbf2",
+            "report.json": "6a51f1631358336feb643f44fd7eec6a10e50a3859f8ef7f4553a905c5021558",
+            "report.md": "ded95a106b125043e7fe187b210bbe124d12b95d84e5556b56ca9da9cc8471db",
+            "report.sarif": "fcfce30f7a53377b9e38d2ff2eced4e7d26124559a8d04267c6ce91830006dc3"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "cf2f59ec024e6ac6038f2057e924b35e90940327a3e34469f208db539c571967"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/ollama.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-ollama",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --scans EXEC-05 --judge-config scan-report/scenarios/09-gateway/ollama.json --analyst-max-calls 3 --analyst-batch-size 1 --analyst-time-budget 60 --report scan-report/scenarios/09-ollama --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_ollama",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "944f76a6b3ef20f49c0564bcd8b5b0b4c8f37c85d5b0b60b6a0ce19a53cf65cf",
+            "report.json": "32dbdabd2dff045e259f0205444e9bf2b8cb6b0ca2bd1d9df7dba7f01273e816",
+            "report.md": "85a09ad55714927625eb4d9ea97762699104ba4ecaeebf1cfa7e91e26e233502",
+            "report.sarif": "fcfce30f7a53377b9e38d2ff2eced4e7d26124559a8d04267c6ce91830006dc3"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "0997a9c3e65a9ff1662181217cda45f2281e36c3a5394f8ffd9c1bffacab1b41"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.investigation.requests_served": 1,
+            "analyst.investigation.rounds_completed": 1,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/investigation/context-tools",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/investigation.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-investigation-rounds",
+            "1",
+            "--analyst-max-files",
+            "10",
+            "--analyst-max-bytes",
+            "100000",
+            "--analyst-max-chars",
+            "20000",
+            "--analyst-time-budget",
+            "60",
+            "--token-optimizer",
+            "compact",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-investigation",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/investigation/context-tools --scans EXEC-05 --judge-config scan-report/scenarios/09-gateway/investigation.json --analyst-max-calls 3 --analyst-batch-size 1 --analyst-investigation-rounds 1 --analyst-max-files 10 --analyst-max-bytes 100000 --analyst-max-chars 20000 --analyst-time-budget 60 --token-optimizer compact --report scan-report/scenarios/09-investigation --summary-json",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "investigation",
+          "optimizer_requests_verified": 3,
+          "report_sha256": {
+            "report.html": "6fd21a718ee9b3184406a48a62cd30a0e34c5bfb5a54253ca879f12935b6f4b8",
+            "report.json": "7e9d13e07ea231ecda99a94ab80147ffe64f77a75270d482725b39cff7330245",
+            "report.md": "1478a5282dfa6cb40d613c47d9ce9c2fbe390791e3fcea3c1bdeed2b0b04eccf",
+            "report.sarif": "35c24d16383d634dd0bfed9fac7c96e0e6c870fad74dd051798d951827171c54"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "9e138f89c51a985586d0969766c57c488994d707935675260062bd6ef68f8654"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": true,
+            "judge.omitted_open_findings": 10,
+            "judge.selected_findings": 1,
+            "summary.open_findings": 11
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/custom.json",
+            "--judge-mode",
+            "findings",
+            "--judge-include-source",
+            "--judge-max-findings",
+            "1",
+            "--token-optimizer",
+            "off",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-findings",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/vulnerable --judge-config scan-report/scenarios/09-gateway/custom.json --judge-mode findings --judge-include-source --judge-max-findings 1 --token-optimizer off --report scan-report/scenarios/09-findings --summary-json  # Expected exit 1",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "findings_only",
+          "report_sha256": {
+            "report.html": "81e97241949ebca1ded0a7c0083f525523231b62c25f13dd2c28895261393acd",
+            "report.json": "01013a3638bd282b3151a8d8d4b16c446e158f6b4c95b69e84746f608a6497c5",
+            "report.md": "b9c082be29237dac532a538a966f5e5312be5a968171792759e241013ebfe030",
+            "report.sarif": "9be5072c275ac7cbde73e942fc88d3f84c2df5e4142919023474635c2fe0cda3"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "b56589933e3b7b461e37fe9a3aa9afa20e6f7a17779ac560d5c82883abb1d2ae"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.status": "incomplete",
+            "execution.exit_code": 2
+          },
+          "command": [
+            "<VENV>/bin/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/custom.json",
+            "--analyst-max-calls",
+            "0",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-exhausted",
+            "--summary-json"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan examples/safer --scans EXEC-05 --judge-config scan-report/scenarios/09-gateway/custom.json --analyst-max-calls 0 --report scan-report/scenarios/09-exhausted --summary-json  # Expected exit 2",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "exhausted_ai_budget",
+          "report_sha256": {
+            "report.html": "704f4e2487b2258431a4cd8e2408b09e3efcd5e28214c01b92987aabe6793dd9",
+            "report.json": "08b178f8873383d0488c70604569eba7243b0f6cd917714e9fbb37cd631e9793",
+            "report.md": "cb93280e8e0feca1b3fc1600ffb38f573fa0d5c09a59b7063bb88d29de8cd872",
+            "report.sarif": "fcfce30f7a53377b9e38d2ff2eced4e7d26124559a8d04267c6ce91830006dc3"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\nOptional control analyst review is incomplete; see the optional-review coverage and errors.\n",
+          "stdout_sha256": "b5c33f6909d31f6208079d15c0b9eec76c73928edfd86c9a59ac72713d3881ca"
+        }
+      ],
+      "title": "Exercise API gateways, optimization and bounded investigation"
+    },
+    {
+      "id": "10",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--help-topic",
+            "login"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --help-topic login",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "login_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "1aeccda04d4829024df2df11804fb19f6c9c3cd920cf31860a7b77a4d7acae3a"
+        },
+        {
+          "command": [
+            "<VENV>/bin/invscan",
+            "--help-topic",
+            "ai"
+          ],
+          "cwd": "<SCENARIO_WORKSPACE>",
+          "documented_command": "invscan --help-topic ai",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "ai_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "69d1f888fbf4b8e8d4a8b378b170036903bcc57e872ae7819af237757cc01804"
+        }
+      ],
+      "title": "Use authenticated provider CLIs and seamless interactive login"
+    }
+  ],
+  "schema_version": "1.0",
+  "setup": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "id": "source_revision",
+      "status": "passed"
+    },
+    {
+      "command": [
+        "git",
+        "clone",
+        "--quiet",
+        "--no-hardlinks",
+        "--no-local",
+        "<SOURCE>",
+        "<CHECKOUT>"
+      ],
+      "exit_code": 0,
+      "id": "fresh_clone",
+      "status": "passed"
+    },
+    {
+      "command": [
+        "<DIRECT_PYTHON>",
+        "-m",
+        "venv",
+        "<VENV>"
+      ],
+      "exit_code": 0,
+      "id": "create_venv",
+      "status": "passed"
+    },
+    {
+      "command": [
+        "<VENV>/bin/python",
+        "-m",
+        "pip",
+        "install",
+        ".[ai,pdf]"
+      ],
+      "exit_code": 0,
+      "id": "install_ai_pdf_extras",
+      "status": "passed"
+    },
+    {
+      "command": [
+        "<VENV>/bin/python",
+        "-c",
+        "import ai_security_scan,importlib.metadata as m,json,platform;print(json.dumps({'version':ai_security_scan.__version__,'module':ai_security_scan.__file__,'python':platform.python_version(),'headroom':m.version('headroom-ai'),'reportlab':m.version('reportlab'),'pypdf':m.version('pypdf')}))"
+      ],
+      "exit_code": 0,
+      "id": "installed_metadata",
+      "status": "passed"
+    }
+  ],
+  "snapshot": {
+    "basis": "Fresh local Git clone with explicitly listed current-worktree project inputs overlaid",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "a08779303f12898d5d57dd38eb5da4e3e5a8fdec4ea87300251a2ccc9e7ef996"
+      },
+      {
+        "path": "ai_security_scan/__init__.py",
+        "sha256": "5f087c80d3d7bf2ba9af6d64b87a44062ad32f63564845cf406eea47bd2067d8"
+      },
+      {
+        "path": "ai_security_scan/__main__.py",
+        "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
+      },
+      {
+        "path": "ai_security_scan/analyst.py",
+        "sha256": "e7c25aa999ff5c3732c31bd7dc615a5650d17ad1d64a362cd7de87fae9a42994"
+      },
+      {
+        "path": "ai_security_scan/analyzer.py",
+        "sha256": "dfaf6aa940098c2ed0159c46d43d3fd996c98bd77b0b94daf431ba3db54b5957"
+      },
+      {
+        "path": "ai_security_scan/assessment.py",
+        "sha256": "08cd5e260c9c0d44c908ea7d52aaf3ff35b931f2c04d0c0893a86b2ddc8cf210"
+      },
+      {
+        "path": "ai_security_scan/callflow.py",
+        "sha256": "042986585258eeef6d376398b1bf6e9b84b1124490e477f2dc8ea04d1d3f7111"
+      },
+      {
+        "path": "ai_security_scan/catalog.py",
+        "sha256": "e53c669e9af0192fdbf1b4fb927cd9b12eb2a1ecfd92ff2d5d5f35426293093d"
+      },
+      {
+        "path": "ai_security_scan/cli.py",
+        "sha256": "659441dfb06fe0829f72a8213669aac4424acacc6b139bcd3bcc5e13418bbf33"
+      },
+      {
+        "path": "ai_security_scan/cli_help.py",
+        "sha256": "c573d91f874aa1821f725b38bdd2c5717a15281902843bcbcfed51c124364f49"
+      },
+      {
+        "path": "ai_security_scan/cli_judge.py",
+        "sha256": "aa26d53a609decf3d78a7c31abb4994c335dab16941a8e176bbe0fb656654ee7"
+      },
+      {
+        "path": "ai_security_scan/data/control_explanations.json",
+        "sha256": "aea11867525bc7f488dcb22494af365261566a4b625ee319abf3843f8b8e8c71"
+      },
+      {
+        "path": "ai_security_scan/data/controls.json",
+        "sha256": "dff0b78c7212a2d1ebabacd23f7c4d11cbcc88b5867e60574b3e36f5ed704d51"
+      },
+      {
+        "path": "ai_security_scan/data/mitigations.json",
+        "sha256": "1bd48fd16d4fe76ae3ccd1cacddce9bea2dedd0000856d61b21ffb8ba8c5dd7b"
+      },
+      {
+        "path": "ai_security_scan/data/remediations.json",
+        "sha256": "1c6da192e79f958ee08a9f7aaef01dd6e193e2a3986a0bb31609ed305a574d94"
+      },
+      {
+        "path": "ai_security_scan/data/sources.json",
+        "sha256": "89fafd809356f5b062f9ea52eb5d99531902bc5bb59c34f4695d2838ad826105"
+      },
+      {
+        "path": "ai_security_scan/evidence.py",
+        "sha256": "94985b83cd859b09cad077ca16d3da6e3dd6b76db61c97e57eb2e3e4232e4553"
+      },
+      {
+        "path": "ai_security_scan/fs.py",
+        "sha256": "c8fbe653ed06fefd472e12e514c12cbd387cd6123ca7824fa50c7b3da543254f"
+      },
+      {
+        "path": "ai_security_scan/image_archive.py",
+        "sha256": "188a3c76f89653061a2c1b0e0b080ac72b8dca1da79b12c25fab95152b34775e"
+      },
+      {
+        "path": "ai_security_scan/image_assessment.py",
+        "sha256": "2110612cba6c0dad151167835c2efc54e8383105856b2c9ff722d090493ad3c8"
+      },
+      {
+        "path": "ai_security_scan/image_runtime.py",
+        "sha256": "fe9d794c0d8be6ed13ff86f73ba116dbb14e678c8446f79f9e1983d7a66029e3"
+      },
+      {
+        "path": "ai_security_scan/image_scan.py",
+        "sha256": "71b44b87569f3611606080481c5c838bcc32276dd506b1204d396832dca66a00"
+      },
+      {
+        "path": "ai_security_scan/judge.py",
+        "sha256": "ecd95c24313e0dc30dd1b19dc922378892b90b454c1b6999157c43b34c1e8e8f"
+      },
+      {
+        "path": "ai_security_scan/methodology.py",
+        "sha256": "b9b7d6fa8205f684ee50769daa81fc672b0daf056fee3fdf2f2b4dd9ad82e0e4"
+      },
+      {
+        "path": "ai_security_scan/remediation.py",
+        "sha256": "f743305ef26ecdae2350d2b6f67c91633abe40d928ff79fa125252c5f0da3815"
+      },
+      {
+        "path": "ai_security_scan/report.py",
+        "sha256": "6960c876a35c0d3e1f3381c781f6d0393c6289222c0fc62dcc7dc788331c50a5"
+      },
+      {
+        "path": "ai_security_scan/report_html.py",
+        "sha256": "608450e612a4d57b1ce7e413dadd8ce1b3ec409f66454c77c8f6259d490a2320"
+      },
+      {
+        "path": "ai_security_scan/report_pdf.py",
+        "sha256": "d853c7003191df59f50544c9661a97fb05a131742695be892b05323836dff33a"
+      },
+      {
+        "path": "ai_security_scan/review_policy.py",
+        "sha256": "0ddc5775bb43858d7c7b279e5a7c410eb2ee90c95be7c964031d683c9156561c"
+      },
+      {
+        "path": "ai_security_scan/review_workspace.py",
+        "sha256": "46d3a6ce388254be28fce38501bc361107418933f0a0618e0e6a2c1277bd00ec"
+      },
+      {
+        "path": "ai_security_scan/rules.py",
+        "sha256": "9f7379dcc316b49667367309dc49d50cf1491c1b914dd45a0a2af80e5099c001"
+      },
+      {
+        "path": "ai_security_scan/scan_catalog.py",
+        "sha256": "58c8157c9b45ed3b9119281dff8152fce06279c0848bfd93e22821e6876f899a"
+      },
+      {
+        "path": "ai_security_scan/scanner.py",
+        "sha256": "ad0763581acb8e17368bf25c44073002730b5141fc59076f72c058153ec7007b"
+      },
+      {
+        "path": "ai_security_scan/scoring.py",
+        "sha256": "eaa11aa4c54beac02f5dc3ea0aece11e821486828b9908f429aee7c19b3f9393"
+      },
+      {
+        "path": "ai_security_scan/security.py",
+        "sha256": "30e3589790b0c7c539632f1d3932c30ac569137787425bcf6eaf3a26751e4ed3"
+      },
+      {
+        "path": "ai_security_scan/selection.py",
+        "sha256": "098eb85a3af3f0c0d9485b51dd177e75feaa0f12f61d788152c1ecbd8bf4ba68"
+      },
+      {
+        "path": "ai_security_scan/skill_scope.py",
+        "sha256": "8cf130626f4f89febf3d7b239741560e73052452c91abe7ed8f465635db220c3"
+      },
+      {
+        "path": "ai_security_scan/terminal.py",
+        "sha256": "8f87053f45e3d90e0f268607dff3aa56f1b568b436f7713548673ef8238bc6f9"
+      },
+      {
+        "path": "ai_security_scan/threats.py",
+        "sha256": "a576780740c9e28f53baf09242631ca7d731fe272cca3aa6e415a6a17e9e8f1e"
+      },
+      {
+        "path": "ai_security_scan/token_optimizer.py",
+        "sha256": "819da068abe2406b0677c250450fe6f04ed6338eb698ed5dbb207041a079c1ac"
+      },
+      {
+        "path": "ai_security_scan/tool_effects.py",
+        "sha256": "0ab480a111867a4336eed5ea6ea5af3e42996a6640ce192ee09d8c186f3af9da"
+      },
+      {
+        "path": "docs/ANALYST.md",
+        "sha256": "37cc32eae15cb889e6c7608fe0129ad2f45f334646e4d6bcd263647d32c79477"
+      },
+      {
+        "path": "docs/BENCHMARK_DASHBOARD.md",
+        "sha256": "3c76e56b1b1d7dec0a3da5a5a7933ce8b26bf9f2ab0c846232e840398136c4af"
+      },
+      {
+        "path": "docs/BENCHMARK_GUIDE.md",
+        "sha256": "5afcfb0bd59b64c5f7156e5bb73633b46eebd55fb92cdf2caacc151ce09aa33a"
+      },
+      {
+        "path": "docs/BENCHMARK_LANDSCAPE.md",
+        "sha256": "38e7214301b1882b4c2a1ccec91e75af863bb9cbd2f62fb957b41676d7006cda"
+      },
+      {
+        "path": "docs/BENCHMARK_RESULTS.md",
+        "sha256": "26ad1fd8e2ca6569bffa8b4f23e7f311adfc25bbf859a7fc289563de9ab37a73"
+      },
+      {
+        "path": "docs/BRAND.md",
+        "sha256": "37e2a87b37e10ac5ef39e9ca7b1e34de245b252d579ffb60b19433a8a12e1bfa"
+      },
+      {
+        "path": "docs/BRAND_RESEARCH.md",
+        "sha256": "6702ee124225372b6c5c735a9c9a75fccc5a522067665bc07930bea7720286cb"
+      },
+      {
+        "path": "docs/CLI.md",
+        "sha256": "d4fe92bff9e38db047a2091e8274c3589061149d1e3fa34e38bfdbe72414ad47"
+      },
+      {
+        "path": "docs/CLI_PROVIDER_RESEARCH.md",
+        "sha256": "533eea66ad061468963063a1b198e8dc1a371e8db5c98c114df1d36b67daecd6"
+      },
+      {
+        "path": "docs/CSA_AND_CLOUD.md",
+        "sha256": "719087a5d94d2c03f9e2a0fce21326f6d4a84ddf7c780b65adec6e483ac250b1"
+      },
+      {
+        "path": "docs/HEADROOM_RESEARCH.md",
+        "sha256": "11c55f41db1a8543fcb7efacd62aeba26aad4fab5ee3a265f879f94f9261af00"
+      },
+      {
+        "path": "docs/IMAGE_SCANNING.md",
+        "sha256": "6e9e901d094c4980782beffa3a9442cb58dd70cf62d5b1f65713e3e536d31961"
+      },
+      {
+        "path": "docs/INSTALLATION.md",
+        "sha256": "43a7287cca9a50055d89f8e047b1920380aaeb308470e1cfcfbb484821b78d75"
+      },
+      {
+        "path": "docs/JUDGE.md",
+        "sha256": "78c66ca9429427e3c851852652b749748b39e8f846e719c478c81a96c3a89d40"
+      },
+      {
+        "path": "docs/MITIGATION_SOURCES.md",
+        "sha256": "2708e55079fec16b1b14a5d9acc80def0c2cc598ea161a79d282da6a3dfe883f"
+      },
+      {
+        "path": "docs/PDF_REVIEW.md",
+        "sha256": "acd6d29c757965b84335b9f0cabc5c82422e962a7610a360768f4145bef5b6b4"
+      },
+      {
+        "path": "docs/PDF_VALIDATION.md",
+        "sha256": "f2f4a8179d0febf9893f7175aecb92905373ca3f5041e9d3f2e5a84a41833a2b"
+      },
+      {
+        "path": "docs/PUBLISHING.md",
+        "sha256": "4282c13d01991c6ccf254ae22bdfaa81c1167db8407b986b700af963ea2bb35a"
+      },
+      {
+        "path": "docs/QUICKSTART.md",
+        "sha256": "501e687c90d795e9ff570c94a73df2eb2cea776751ac091f6c4c5499bc8fb9fd"
+      },
+      {
+        "path": "docs/REPORTS.md",
+        "sha256": "672645bbf29580ab5bddabe7823b26256ec8b1a78bdb254bcd3afc0d28c57103"
+      },
+      {
+        "path": "docs/REPORT_LIBRARY.md",
+        "sha256": "416a2332644045b086a2d5dcd95aa1a81eb3a29585265c929ded8677fa8c7d94"
+      },
+      {
+        "path": "docs/RESEARCH.md",
+        "sha256": "39d2f14f098b5e8390aff8e259d9e3655ed97148022af9f912aec860b0ddfe06"
+      },
+      {
+        "path": "docs/REVIEW_CONFIGURATION.md",
+        "sha256": "6a171fd34d8862616e8202d268dc97979f7225fa65f844efad846e57b0cff47a"
+      },
+      {
+        "path": "docs/REVIEW_WORKFLOW.md",
+        "sha256": "14ab9b12fee9c57cdfab85cfecec5b2df49fbd985d5c32fbd0b5c8684c84c1e2"
+      },
+      {
+        "path": "docs/RULE_ACCURACY.md",
+        "sha256": "563b031c04620f9710dcadaefac328d55f809756835f15d75f069b76ff64d63c"
+      },
+      {
+        "path": "docs/SCAN_COVERAGE.md",
+        "sha256": "1e4df024ecaa963581d03db3d646b76c49c0c10fb97e23dde2b38c94972c8d69"
+      },
+      {
+        "path": "docs/SCENARIOS.md",
+        "sha256": "15aafd2f448f999134d2f073a3860afa2415c2362b8a6dae0278d1003f1140b9"
+      },
+      {
+        "path": "docs/SECURITY_CHECKLIST.md",
+        "sha256": "44d015d9002382d6f0aa45e84e92ad2581dd52b01f9e0c20015caf6c70c2394c"
+      },
+      {
+        "path": "docs/SECURITY_EXPLORER.md",
+        "sha256": "18f7da5fd748560076a172bc660dce6baadec31f864cc0b0cd02136713d697bb"
+      },
+      {
+        "path": "docs/SOURCE_MAP.md",
+        "sha256": "3a7a7caf872e825153ead76276dd19381458bc317807f8af053c8454143ff13c"
+      },
+      {
+        "path": "docs/TEST_MATRIX.md",
+        "sha256": "a649f81509d9d47b60f40fdee082f8d84ed06f33cedd72d8a8bea4d249066192"
+      },
+      {
+        "path": "docs/TROUBLESHOOTING.md",
+        "sha256": "96a9aa76dbb9865dcbd0049a4b62e0f6fb1c5c7876434a8215955fffbb84ea59"
+      },
+      {
+        "path": "docs/VALIDATION.md",
+        "sha256": "d6806c176c42e6b4f4f185b593b22fe89b3fb3c4a57eba9dbeb8eb4ae0c62435"
+      },
+      {
+        "path": "docs/assets/benchmark-dashboard.css",
+        "sha256": "20a52bffc7c5ec0db57fc284a317aaf5541543b1ed38e25592ce30c9d3d860e9"
+      },
+      {
+        "path": "docs/assets/benchmarks/challenge-progression.svg",
+        "sha256": "8c5c814d0f75e1cec166b7e46f35d7c2577f22431344467b3bd5058e104d9180"
+      },
+      {
+        "path": "docs/assets/benchmarks/confusion.svg",
+        "sha256": "f0f9a01084d1539f29e1d84d3125e3d06f8d8cbdc5d6f8017f5711534ba61aba"
+      },
+      {
+        "path": "docs/assets/benchmarks/dashboard-data.json",
+        "sha256": "a2d9af65bea7149e2a3932053353bc44115ef52218070e73d881e44190090e30"
+      },
+      {
+        "path": "docs/assets/benchmarks/family-counts.csv",
+        "sha256": "6a08d10374a098904d70159687b707d34b558be006b6ba8a43fff845b624e299"
+      },
+      {
+        "path": "docs/assets/benchmarks/family-footprint.svg",
+        "sha256": "a25a16334c0fa51bf4a46809f1480881c053e4fdeb84f2515f52a00cebc1dfa5"
+      },
+      {
+        "path": "docs/assets/benchmarks/fixture-changes.csv",
+        "sha256": "a50526258c81c7af210901a2c9294c3ec2d502aee3937a4761057aea6b7a436a"
+      },
+      {
+        "path": "docs/assets/benchmarks/fixture-progress.svg",
+        "sha256": "11b0374c34c8de777345677d2df6cb97a468e59b29e28ea310a09d553fdcf056"
+      },
+      {
+        "path": "docs/assets/benchmarks/overlap.svg",
+        "sha256": "c13c190ac96826c5c935fb7345a93971d62fd8582207c1114104ff588d543e30"
+      },
+      {
+        "path": "docs/assets/benchmarks/skills-tools.svg",
+        "sha256": "4d260c1672de2ad51c7797cf8032f0b0030a83e8b1aaabee6879a3edf60c4b4e"
+      },
+      {
+        "path": "docs/assets/benchmarks/source-coverage.svg",
+        "sha256": "b97c85ecf82360e550a65717a06123f15d19dd044a7854224235c1b4c3d370cd"
+      },
+      {
+        "path": "docs/assets/brand/invarune-avatar.png",
+        "sha256": "2f2e8e4a6a6daac8f0391436ffa5c42ad411b62dcb310f79760167d72f6d12c3"
+      },
+      {
+        "path": "docs/assets/brand/invarune-banner.png",
+        "sha256": "27448bc7b2fb593f6166eb08b46aa664142989d8dfd1d71d5ba46f80a49c157a"
+      },
+      {
+        "path": "docs/assets/brand/invarune-logo-dark.svg",
+        "sha256": "ef25330a7269f3f0583a29f2f8776773baac11bafe6408235bd1572cbaf1589f"
+      },
+      {
+        "path": "docs/assets/brand/invarune-logo-light.svg",
+        "sha256": "9dc1385d2e3c74c839605318d4c61046bd620c9d4fe91cae48a853a2cbe3433e"
+      },
+      {
+        "path": "docs/assets/brand/invarune-logo-mono.svg",
+        "sha256": "54e38ad486d46d73b0976081c231fe02d94eb7eb4eb022b3ad761c44ec7066c8"
+      },
+      {
+        "path": "docs/assets/brand/invarune-mark-dark.svg",
+        "sha256": "0daa45fb15680eb28c202e2e61923f80feb42cf8a9d5b88c76db219b35a9ccda"
+      },
+      {
+        "path": "docs/assets/brand/invarune-mark-light.svg",
+        "sha256": "7ee533c1d93c348ed1ed152d72e31d17cde25269172e9caca1316812da405bb8"
+      },
+      {
+        "path": "docs/assets/brand/invarune-mark-mono.svg",
+        "sha256": "805df8f9b194892ae7ea53369275422a9a97663ede6930560b39af86c276b40a"
+      },
+      {
+        "path": "docs/assets/brand/invarune-mark.png",
+        "sha256": "01c12e03af7c7506852f387f75174d938b72281185ce648eafed2ab3adf36b8b"
+      },
+      {
+        "path": "docs/assets/brand/invarune-social.png",
+        "sha256": "83b1f5c97bea6884505f8053cc55d5bb7cc8793d7857f0513249d33c566753de"
+      },
+      {
+        "path": "docs/assets/controlbook-cover.png",
+        "sha256": "a7974857e23128340fa64f21a0c0d556af081537dd87201d3e8e880fbea812ab"
+      },
+      {
+        "path": "docs/assets/invscan-v011-report-cover.png",
+        "sha256": "f73a54b3c9b9c956c82ce816d466724834ffa1e66fb6d2f5f5cc316c670c2896"
+      },
+      {
+        "path": "docs/assets/invscan-v014-report-cover.png",
+        "sha256": "178f298aac488cb254fa38210596347faa60123b3597d9b9b528853f5750add2"
+      },
+      {
+        "path": "docs/assets/invscan-v015-report-cover.png",
+        "sha256": "78210007e096abd0dcd3850b1f08fe69980db0fa1c075daf8c0e8178b5cdd8bd"
+      },
+      {
+        "path": "docs/assets/scenarios.css",
+        "sha256": "95edc2384c7c9819951c3fb53a51450290b69386adb5d3d4949be8630d6aa95e"
+      },
+      {
+        "path": "docs/assets/site.css",
+        "sha256": "223fc1f9f6bda2d84c2da35d84e92fbf18c7cd496916ef25bbef4d10d7c8e268"
+      },
+      {
+        "path": "docs/brand/name-screening-2026-09-19.json",
+        "sha256": "9b49d47d5243099a1a1943a8ec8c7184bb10cbe77f6a29a6b22c62db21e65c4f"
+      },
+      {
+        "path": "docs/developer/adding-checks.md",
+        "sha256": "d7496702b0b31010e02f21d3cdc34a191bd824e5564e5f8f8512a72a84a09c87"
+      },
+      {
+        "path": "docs/developer/ai-adapters.md",
+        "sha256": "c4aca051adb475c8e6336e470df56f83e86ab13b495359782cddf04948ed1d5f"
+      },
+      {
+        "path": "docs/developer/architecture.md",
+        "sha256": "81e6e94a7fc505426455d3cef75007100b496029b923ea78efffd16103c8a096"
+      },
+      {
+        "path": "docs/developer/detection-algorithms.md",
+        "sha256": "c65fe9bc2482a5a38eeb42aab1079c0c9391c5f5e6eca4292ee71b948dc2b507"
+      },
+      {
+        "path": "docs/developer/index.md",
+        "sha256": "e430d53a3efb47675e920c52f784641cb3b5fc890cbc362a4cd275fb53c751f1"
+      },
+      {
+        "path": "docs/developer/reports-and-reviews.md",
+        "sha256": "5569ed3ea634672fdadb39cbe89d55d1b52de91f7805fafc4d47f8b4ce35d757"
+      },
+      {
+        "path": "docs/developer/scan-inventory.md",
+        "sha256": "81f81da19de68d0cb51bedf28fecbfdb6d000d476c96da95ea2b5ee78c23840b"
+      },
+      {
+        "path": "docs/developer/testing-and-releasing.md",
+        "sha256": "ad8aa9b450a0e83d5516d2c6861e4c3d46bed1455e5013aa7bb386d44dea3c90"
+      },
+      {
+        "path": "docs/site-home.md",
+        "sha256": "7398bc955a4f5be55c3b8cd2672bfd32b3367798d7c30e77ded43851502cf5b4"
+      },
+      {
+        "path": "docs/walkthroughs/01-explore.md",
+        "sha256": "3d4681ff9d26ef8015ea667c21bc1ef93d6a2a85c37d5653e5b5bf66d3b95f4c"
+      },
+      {
+        "path": "docs/walkthroughs/02-source.md",
+        "sha256": "9aa90a339ef5079dff5425bd9dd722747a564548d36f3bce107c22933e867b8e"
+      },
+      {
+        "path": "docs/walkthroughs/03-skills.md",
+        "sha256": "a4a4f53b25bad503a9dd943d9f2a119eee087a4e9c5d31cc5eeaa5c4aba1112a"
+      },
+      {
+        "path": "docs/walkthroughs/04-scope.md",
+        "sha256": "6730bd8c82d410015dcc5d33a3d723e23bab3822bd6b3e099712475db3e03821"
+      },
+      {
+        "path": "docs/walkthroughs/05-images.md",
+        "sha256": "b0e4ef28d754d529745dfa63248d4f12d16525414e7893746694ce2d68f882d3"
+      },
+      {
+        "path": "docs/walkthroughs/06-ci.md",
+        "sha256": "a7a47d181e1634a1954e7b02ebb594490898b68434efe4747184e289e60f3103"
+      },
+      {
+        "path": "docs/walkthroughs/07-exceptions.md",
+        "sha256": "54fa577c33cf34ee8ffd50c4454b1f185da134e997e249dc34cd777dc8ceab98"
+      },
+      {
+        "path": "docs/walkthroughs/08-review.md",
+        "sha256": "b1522ebfe7915c07ed87e0bb1e3d5b8d5b85ff6f8fefcfeb76e9f5eeefea0cb0"
+      },
+      {
+        "path": "docs/walkthroughs/09-gateways.md",
+        "sha256": "b2f91d42db57eceace6bd0a1594eccd13ef4d2872590d56542d319f7dd4c2a3d"
+      },
+      {
+        "path": "docs/walkthroughs/10-provider-cli.md",
+        "sha256": "d9c191d1f7d967bd0069cdd9a55863ac4505141e2ea3f34a466a2ecf54d797e8"
+      },
+      {
+        "path": "docs/walkthroughs/setup.md",
+        "sha256": "1deb5f237205acc838a314fa0910c91c44c881946c4050fe3b9ef87c6a85a0d9"
+      },
+      {
+        "path": "examples/images/README.md",
+        "sha256": "4edb160224f8ebb79abfa32adee17fe259f13a43219fb008801da2493cc84f6e"
+      },
+      {
+        "path": "examples/images/demo-agent.tar",
+        "sha256": "4010c0c8f34af0ff9172858af3ba8cab6d0c61b585c2ed81d8a89fc98249e16a"
+      },
+      {
+        "path": "examples/investigation/README.md",
+        "sha256": "1a3dcccff36e6c17b848a2040ca11834a49a7a18ba2f4b32c67525df5f213d42"
+      },
+      {
+        "path": "examples/investigation/context-tools/agent.py",
+        "sha256": "3f8ad0be3946f65cce7217f596f63de4fa2bde0cd62d8f397702d7bd83c1c199"
+      },
+      {
+        "path": "examples/investigation/context-tools/delivery.py",
+        "sha256": "b7995f3334ed328ff74ebdf4834b75fe7b4a84cb608c6e8408490f89b1cd8c9c"
+      },
+      {
+        "path": "examples/judges/anthropic.json",
+        "sha256": "01be3fd39add1e023f71a118e887028b1d0c5ee5416f84af6242d21e6b7a001e"
+      },
+      {
+        "path": "examples/judges/azure-style.json",
+        "sha256": "caae9dc3e515aa354cc8433a812a31ad26ebe29d33de4f54e36cb01c9211dcfa"
+      },
+      {
+        "path": "examples/judges/claude-cli.json",
+        "sha256": "968ba8c0eb6ec91f987742dc2cc314a6daafde9938785d04fec85a09cd6603d7"
+      },
+      {
+        "path": "examples/judges/codex-cli.json",
+        "sha256": "ca15da37674b2f0270311685b99d4e07e1b206b6401055051ef89ac27b697e57"
+      },
+      {
+        "path": "examples/judges/custom-gateway.json",
+        "sha256": "9a686e4c12964c717c0e8af7f7d842bfbbb9300c5e8c9f8474a7ee83e3573813"
+      },
+      {
+        "path": "examples/judges/gemini.json",
+        "sha256": "47b294332ddc91ee082fdec21bc8190aedb75cbbdd01d36674dbbe46f1dd6181"
+      },
+      {
+        "path": "examples/judges/grok-cli.json",
+        "sha256": "7d2fd8388918142ee7a773642be7b1664a009afb3c26b35286921adb526a2359"
+      },
+      {
+        "path": "examples/judges/ollama.json",
+        "sha256": "463f193d0d33a6d6073d5581f387f1c7f1c20b3ef983312d5fa232725b4b19ea"
+      },
+      {
+        "path": "examples/judges/openai-compatible.json",
+        "sha256": "cd7eb0ab914f34b7582ac31254dc2fb45b33caf33b18ca582cc9e442749ae16a"
+      },
+      {
+        "path": "examples/judges/openai-responses.json",
+        "sha256": "8904f6e860dbfaa5b07b10fc05726126f075d94170d92d4c6bab756145899f31"
+      },
+      {
+        "path": "examples/review-config.json",
+        "sha256": "be42c87f573b7a4bcb0c24ce47e6439fb0409911ce0f620603a987e845e1648c"
+      },
+      {
+        "path": "examples/safer/agent.py",
+        "sha256": "48368861bc3c47b28e994955affce95cfaf2cd4e722e59bee78b4fe8c2b303e9"
+      },
+      {
+        "path": "examples/safer/mcp.json",
+        "sha256": "3ddddb21d195a6e4dfdc4c93f0b4698ac555c0a4426c2a9a438a089eef2b4c03"
+      },
+      {
+        "path": "examples/scenarios/local_gateway.py",
+        "sha256": "666039f9ee4709b9773bb30099db888affd9bdb67a3045e888fb811e2624c316"
+      },
+      {
+        "path": "examples/scenarios/prepare_reviews.py",
+        "sha256": "96483fb1902e148c3e60d7accdc01451db47313fa22c46489af8b842a9f6e0c7"
+      },
+      {
+        "path": "examples/scenarios/scenarios.json",
+        "sha256": "9a8ba9c2cee6b338962d485e897962ae82868d9bca0b8da3a5cbf114ac39c640"
+      },
+      {
+        "path": "examples/skills/README.md",
+        "sha256": "08ce183cac7706ce9c2d88b43da5a2543ce243d88e75565d4fb80b9fe05388c9"
+      },
+      {
+        "path": "examples/skills/risky/SKILL.md",
+        "sha256": "014c36bafca86a6df33da83bab4cb501e607ded31d43dcfa4dc4ce971aa8e4a7"
+      },
+      {
+        "path": "examples/skills/risky/tools.json",
+        "sha256": "f7dcf340cab7eedb97ed7f1f793c37f3cb714f48913446561ddc3f09d510b53c"
+      },
+      {
+        "path": "examples/vulnerable/Dockerfile",
+        "sha256": "596d11f28d436aa9e223c10cbc9eed0421a4fa4f3cd83c1fcb6a045b7c2f170c"
+      },
+      {
+        "path": "examples/vulnerable/agent.py",
+        "sha256": "3b3621a29f78fb43c3d734039167e034481f667d082ac66d686b2ff26b5703d8"
+      },
+      {
+        "path": "examples/vulnerable/mcp.json",
+        "sha256": "e037bfafd99865f801f5d673efa3b4221fe5790c4bcd8243d3468191280e3897"
+      },
+      {
+        "path": "pyproject.toml",
+        "sha256": "1f0e8fe657a4b9d26b2100561c865cabae7084b00e70ca3ba7b13cfbf1cf4fb3"
+      },
+      {
+        "path": "requirements-qa.txt",
+        "sha256": "4e0321443b5b2b488511ed162fb4e88b3b99fa60e659d8b356b1ca2abc9b30b4"
+      },
+      {
+        "path": "scan.py",
+        "sha256": "a6a04114ea1889378c48f84082989e8ff2bfebf6d21b22dc5c98060cd688f6d6"
+      },
+      {
+        "path": "scripts/adjudicate_scanner_findings.py",
+        "sha256": "3d94aa2c536d5840ff238ae8c9bba6036c94a60b7abe9e0a301ee5d06cd29548"
+      },
+      {
+        "path": "scripts/assemble_standalone_release.py",
+        "sha256": "01b6b2e6c74ac5d65f2bea4d9459933d1725f249c24ecde357128a347dfc78e5"
+      },
+      {
+        "path": "scripts/benchmark_agent_challenge.py",
+        "sha256": "800440f7236ad7c1db76557a40c1ca11d304db35a2bf9620f886d1c88a7fd3b6"
+      },
+      {
+        "path": "scripts/benchmark_competitors.py",
+        "sha256": "fc377ae66d9f494d8ed7b4a1c3d65d8a4a2d39b9eb771cd4dc13d65c390bd3c3"
+      },
+      {
+        "path": "scripts/benchmark_v015_data.py",
+        "sha256": "9f8e8bb0c17cc3bb2587571c81489a4355126433698857b1853bde3214d9c59d"
+      },
+      {
+        "path": "scripts/build_benchmark_dashboard.py",
+        "sha256": "1370663faac87245a06b61936a76561295008a5ea54f45925efd190c179caff8"
+      },
+      {
+        "path": "scripts/build_benchmark_report.py",
+        "sha256": "ad0d785a1e7c4dbb1db8d6c906ed62503cd8e5f2493b3ebd706c330b38e4a2e8"
+      },
+      {
+        "path": "scripts/build_benchmark_update.py",
+        "sha256": "16ed48097cee1a399edc7bd395f327eebdf2b941a672b75df8c39bd3c506a600"
+      },
+      {
+        "path": "scripts/build_brand_assets.py",
+        "sha256": "1430c5044da2632ff762e5187681a38d6f7937f96fc46a62793099ab6b6ef733"
+      },
+      {
+        "path": "scripts/build_controlbook.py",
+        "sha256": "e658bb6e64648b682417fb5dc566d121d7bcc3bc873bc24a67e5bddf10ac7b5d"
+      },
+      {
+        "path": "scripts/build_finding_comparison_report.py",
+        "sha256": "6f5db45eb291087bf25d0b5f49d5ff9fcf01940bcd25cbc3e6cee75d107f6b6a"
+      },
+      {
+        "path": "scripts/build_scan_coverage.py",
+        "sha256": "c4c8fae481defa8865fdfa3a32940975cce616c5b9b9f786c1cfeb6f49fc9ca4"
+      },
+      {
+        "path": "scripts/build_social_card.py",
+        "sha256": "2624654eee194754fc261681d7809c50c31e0cf2ecd9a249968748c5cf3479c9"
+      },
+      {
+        "path": "scripts/build_standalone.py",
+        "sha256": "4ffa80350a77d287457f42c7c63128541c3bb3e5d6b3b2465462d6328b59b81d"
+      },
+      {
+        "path": "scripts/compare_scanner_findings.py",
+        "sha256": "77c0225482760d59d05ae9033553ee785e0d2cb4e8cbb76d9be8c265cff77d14"
+      },
+      {
+        "path": "scripts/evaluate_accuracy.py",
+        "sha256": "e90bf6cafa4e91873265c186cd807a21b50bd9d519fd8cf049fc3e7eba0517e5"
+      },
+      {
+        "path": "scripts/finalize_benchmark_comparison.py",
+        "sha256": "fa2c1fd3066278e569328937f1a736d11d75b5c342c2016e6159ba46afbb2e4d"
+      },
+      {
+        "path": "scripts/prepare_docs.py",
+        "sha256": "8444e8599c8242fb7654e31ef11823b8eade8a32de5faebf7d827db13b6f4a75"
+      },
+      {
+        "path": "scripts/scan_public_projects.py",
+        "sha256": "fce2ca36357234b5418e160f97a616a0143def911b008799e4705c1bab712fe7"
+      },
+      {
+        "path": "scripts/sync_control_docs.py",
+        "sha256": "347c85164ae647669952dc2d3f00009aa58abd673538ad75c737f60b339bde8a"
+      },
+      {
+        "path": "scripts/templates/scan_coverage_intro.md",
+        "sha256": "e11c34c75e86977e306fd4b0f89f58b1b412eca4b21a40b3823a8d1822fce12f"
+      },
+      {
+        "path": "scripts/validate_cli_providers.py",
+        "sha256": "0b94d05eb5551c657285358a9350646d400cbfb773e8e51a2228a65284901848"
+      },
+      {
+        "path": "scripts/validate_image_scan.py",
+        "sha256": "44908014390485ed51d469417b485d60e6029dd635f680b2c3464450775488a4"
+      },
+      {
+        "path": "scripts/validate_quickstart.py",
+        "sha256": "169439799ca7438bdc83f5c7d81e6dc4d3ec88a1f5e22e5e5528fd3d7b7288af"
+      },
+      {
+        "path": "scripts/validate_report_review.py",
+        "sha256": "78fe726be426b7fde915740f4f8160076e30aeedacd44d194b64479f9e58c2b6"
+      },
+      {
+        "path": "scripts/validate_sarif.py",
+        "sha256": "c44a36f59bd16da629d9983f8a0e3d689b3fb9b001663f8f9b654202b7fa0742"
+      },
+      {
+        "path": "scripts/validate_scenarios.py",
+        "sha256": "c46822a3b5399222dd014e0aded0bf917efaab3f7540296af52aafc90431d0e4"
+      },
+      {
+        "path": "scripts/validate_standalone.py",
+        "sha256": "671a4dee02164592b1f0df95c8fd8339ea0efa99e3b0fb7a7b1ca9794d0da28f"
+      },
+      {
+        "path": "scripts/verify_controlbook.py",
+        "sha256": "def19dd63be79a3b40ee6e4e9a328ce673c163d20c5bc70220a31bc8fa681a1e"
+      },
+      {
+        "path": "scripts/verify_docs_site.py",
+        "sha256": "d7eb6c93152cd8984f03adcc2d6e0eebab0b1b7a14f074ebd7033c0f4b85a3d9"
+      },
+      {
+        "path": "tests/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "tests/fixtures/review_editor_dom.cjs",
+        "sha256": "b33d156f1997e1bde630c8c810686e91a5fdfa55747028c33dbed0b8ed84e5d2"
+      },
+      {
+        "path": "tests/image_fixtures.py",
+        "sha256": "11e43d945842935f7348de51eb4978f4757eaef772ac9fe616aa96f15119d0f7"
+      },
+      {
+        "path": "tests/test_accuracy_corpus.py",
+        "sha256": "330b7d5380e757157eacd1b683d82172e9b9fbbf60e4e4e4864037ff9b13c4eb"
+      },
+      {
+        "path": "tests/test_agent_challenge_benchmark.py",
+        "sha256": "afd5f07a4ea775f7a67217d0bd60d0468a5a68da46748b752ce5ae3003b45aac"
+      },
+      {
+        "path": "tests/test_analysis_profiles.py",
+        "sha256": "f490cfd396d1dd16ddf983a1726217bcf9d5a98cb91218db7b50349bb8cf2bd0"
+      },
+      {
+        "path": "tests/test_analyst_cli.py",
+        "sha256": "f03263a83db7962def64ce6fcebb5395e16ba900932a60d1412f0fd992367678"
+      },
+      {
+        "path": "tests/test_analyst_controller.py",
+        "sha256": "e08dcc29143248f4fcf37485147cfdc73d2c3473635c20b0956fd754670ac640"
+      },
+      {
+        "path": "tests/test_analyst_investigation.py",
+        "sha256": "87e5a5a2576b98c97ae627c641f6cab72a69c85695af94a39f0f341ef171d80c"
+      },
+      {
+        "path": "tests/test_analyst_protocol.py",
+        "sha256": "1722e305cfca283ff6ca7b41317a4df7fc569f497fc3ad16eb39b9764f91d908"
+      },
+      {
+        "path": "tests/test_analyst_review_policy.py",
+        "sha256": "f8266e3132b30f5a7bc95d5a4fa352b5ae6e8f859105e23caedbee4c0cd071c0"
+      },
+      {
+        "path": "tests/test_benchmark_adjudication.py",
+        "sha256": "e0af2f66f522497d09376588612315424293ce21c4b5ed046fd7a6832e7b3677"
+      },
+      {
+        "path": "tests/test_benchmark_dashboard.py",
+        "sha256": "15f6eacccdee2f8eab8215e39c68ea1480e319a0721bca45c6c9d890c47d2af9"
+      },
+      {
+        "path": "tests/test_benchmark_finalization.py",
+        "sha256": "8b3962c538ff94784f8f209f0239346b85f4b87055a44650abc9e842a2bd8d6b"
+      },
+      {
+        "path": "tests/test_benchmark_update.py",
+        "sha256": "fbae6c778f935df86c6111f517c8b768d287586f6baf34ae789710fe0f930cc2"
+      },
+      {
+        "path": "tests/test_benchmark_update_v014.py",
+        "sha256": "33642656a01ca920bd06038fb73e7c777646dd815f3489e3888c36abae4effeb"
+      },
+      {
+        "path": "tests/test_benchmark_v015_publication.py",
+        "sha256": "431bef533d307ef922ed6cb1bea8b6e593a0fae6eb3f4f4cec0db5e2becb3633"
+      },
+      {
+        "path": "tests/test_brand_compatibility.py",
+        "sha256": "1a9dc6ac79cd1e41b9a753fc8494ac93462d7be50f6a8f89ed493bfca9866643"
+      },
+      {
+        "path": "tests/test_callflow_permissions.py",
+        "sha256": "c180db3a3f81012688d7afaa6639a9e87dea6a6b84ad5c33e1e6e73d8c072907"
+      },
+      {
+        "path": "tests/test_catalog.py",
+        "sha256": "79298b28ad0b242a522905af0ca8caa7ecfa1fc35da494631e72fe044275e11f"
+      },
+      {
+        "path": "tests/test_catalog_explorer.py",
+        "sha256": "770dbb840615c61199cc52df840c833a29cc31e8f3a347e3ddbdc6541769bacd"
+      },
+      {
+        "path": "tests/test_catalog_explorer_integration.py",
+        "sha256": "032471e31b52ebadbda47e422c283f506f6f954b4c5f591438bba15afbcc89ee"
+      },
+      {
+        "path": "tests/test_cli_contract.py",
+        "sha256": "631972bb2d066614edd3792c822b3a46b31d7cb9a8a243c1bae38369ec1a6c0d"
+      },
+      {
+        "path": "tests/test_cli_judge.py",
+        "sha256": "a32d0a72e014af546716e49c7a4a5833ae32945f1146fa9ab678d50405363aeb"
+      },
+      {
+        "path": "tests/test_cli_judge_integration.py",
+        "sha256": "70995ef37bc45499cc975958839bdb94c0b5a96195a5027e4eb9bfe95d24bddd"
+      },
+      {
+        "path": "tests/test_cli_login.py",
+        "sha256": "c5bb0650010c6c471a09463e8a3d5a48735ec2710205ae04299317e6ac83ac03"
+      },
+      {
+        "path": "tests/test_cli_usability.py",
+        "sha256": "0975c966acde60fe7a6ac3f6a5a866bacb075339599eb238efb67d675e280005"
+      },
+      {
+        "path": "tests/test_comparison_report.py",
+        "sha256": "22186715e2afe593d8fec6da4b8a7bd3e0c21f6772dc038fa75374c942bcdfdc"
+      },
+      {
+        "path": "tests/test_competitor_benchmarks.py",
+        "sha256": "4e04a4d3a677841eb2e9d30f8ea01283a9e7f2ef9369336c0d04bce18bb35e70"
+      },
+      {
+        "path": "tests/test_configuration_accuracy.py",
+        "sha256": "ceee8037ace74405b0970b6d248592587abd36bce3bffaaa54e096e324dd0c28"
+      },
+      {
+        "path": "tests/test_detector_challenge_regressions.py",
+        "sha256": "2b84b5434963214a87d7443a263b2b664f14d556641ea611ad3b0a50fdfd5116"
+      },
+      {
+        "path": "tests/test_evidence.py",
+        "sha256": "f11540bb9eb70e4ae0d8ba461d003807cc07256789cf6e4067b745d45c36faac"
+      },
+      {
+        "path": "tests/test_exclusion_identity.py",
+        "sha256": "2898dfb0d6b5960e013eb7431531edf214a065ec2699c5abf62cadd3dfe6097b"
+      },
+      {
+        "path": "tests/test_full_gateway_e2e.py",
+        "sha256": "f1ab3a14f687d9217eb7140c7b5e9ce20d24038224ff8c9c23f0cdd172e0247d"
+      },
+      {
+        "path": "tests/test_image_archive.py",
+        "sha256": "d834aa3ebbe4bb77afeadf727900a3a7ef66f4b6558db1b63b9c3da351cd2aca"
+      },
+      {
+        "path": "tests/test_image_assessment.py",
+        "sha256": "0c39d30a8e5d0e17d4bba8038aae9517132ec821c7ff9e443b4811afe0584e31"
+      },
+      {
+        "path": "tests/test_image_cli.py",
+        "sha256": "74279ef90bdccc16efed4a787613377cea76b6e06064d356164927e8ec492e46"
+      },
+      {
+        "path": "tests/test_image_runtime.py",
+        "sha256": "ba176ab51c5b15754aeaa87497045b9a2851348878777e20bc376ea8ad944756"
+      },
+      {
+        "path": "tests/test_inspector_auth_values.py",
+        "sha256": "ab78cc839a1f2d1ac014e40d1f916ba11f783f49524746faa6aabee4722b7991"
+      },
+      {
+        "path": "tests/test_instruction_extensions.py",
+        "sha256": "0a47269a9f5d1d5661275acd1c32bf64b9a77de08f1ccb983c6012815709c95f"
+      },
+      {
+        "path": "tests/test_instruction_threats.py",
+        "sha256": "2221e32fdaac3de9e6a094b5a48b5ab7a7f2bd5de5c6c840e78c34ea25d70f58"
+      },
+      {
+        "path": "tests/test_investigation_reports.py",
+        "sha256": "dc658f4bfe9c75d24048add80e2c4ca53fed469a8328b0660a781aaee6a59613"
+      },
+      {
+        "path": "tests/test_javascript_accuracy.py",
+        "sha256": "12f7c15225695de3ccf1c9b42c9f6d092833af1570c1299bd8519b458051dd33"
+      },
+      {
+        "path": "tests/test_judge.py",
+        "sha256": "6510ca2e1f19fe307db6898b61163dfe667a9199d0f59a63a3833e57c8139869"
+      },
+      {
+        "path": "tests/test_judge_integration.py",
+        "sha256": "35060b7c8b88ccc90f931def59f16186dc0bd718c008508ce82c46bfeb300eca"
+      },
+      {
+        "path": "tests/test_metadata_audit.py",
+        "sha256": "5fbf135e7bbd417650ee226c71215dee4c6e42066b5f1cb97d79770eeba35cbf"
+      },
+      {
+        "path": "tests/test_protocol_adversarial.py",
+        "sha256": "9822fa1a0df355d8e4b91caed1d2ee1bef6f5fd095523ed3b2c37573405dbf2e"
+      },
+      {
+        "path": "tests/test_public_project_runner.py",
+        "sha256": "3420726f7858026492f93ef03ae4a81b657d12a6e5bddcb11fe137ed71ebe97b"
+      },
+      {
+        "path": "tests/test_python_accuracy.py",
+        "sha256": "9000acd76a6bad80739c3ed4fe079825b7b07567902d5da45fb6fb394886991f"
+      },
+      {
+        "path": "tests/test_quickstart_validation.py",
+        "sha256": "6128945f9e1f2ce889d3f22a0a7e5c700df66e8f6eb3cd1b5ac57e6bfd642d74"
+      },
+      {
+        "path": "tests/test_real_world_regressions.py",
+        "sha256": "9d675782d81a1577ecc00f59587de7526cae53fc6142c7555dd36479af832dd0"
+      },
+      {
+        "path": "tests/test_recommended_actions.py",
+        "sha256": "82182b402ede7a3e1a1f3ba00b7e3b29f7fecd5c9802805d5918afa8b2ff0f7b"
+      },
+      {
+        "path": "tests/test_remediation.py",
+        "sha256": "3ab67028d2d4a81ab667394e6dc2837a8c49a7a9980e0a7706123f41a3122285"
+      },
+      {
+        "path": "tests/test_report_assessment.py",
+        "sha256": "ad9d7fe1551b176a6319f79f722863871a4a36d85281ec76de4bb0cca8b3e64d"
+      },
+      {
+        "path": "tests/test_report_html.py",
+        "sha256": "52ce426cb2da91348ccc071eee02c062368969862973e9b26a22e935983e82e5"
+      },
+      {
+        "path": "tests/test_report_pdf.py",
+        "sha256": "ab42ce215e100090ed32f1a000c88fa71ffd1dd258508fcabba716247bbd6f98"
+      },
+      {
+        "path": "tests/test_report_review_editor.py",
+        "sha256": "a4908e3ee7e75528aa07597aa00d07e875463fdd1e42b38067d7c68dc69432a9"
+      },
+      {
+        "path": "tests/test_review_policy.py",
+        "sha256": "58df90190864bd23cdf0b1406c07523798d5fa580ba740406dffa3e905b47359"
+      },
+      {
+        "path": "tests/test_review_policy_cli.py",
+        "sha256": "7a31a4c5c90981c5a217b10900651b779fa9bbdb1ef4f9f21ac224f9064966e3"
+      },
+      {
+        "path": "tests/test_review_policy_reports.py",
+        "sha256": "6c0829b60c9a202960354944e4e0206545c3e1ba98210f0f21a5782eb4b768fb"
+      },
+      {
+        "path": "tests/test_review_roundtrip_cli.py",
+        "sha256": "63c42940cc7430de56b948269b433dfb9d13855e3ad0b98caa8d602452c69360"
+      },
+      {
+        "path": "tests/test_review_workspace.py",
+        "sha256": "d1f26b2a9ce72ec2067a527e74ff200ae1d5d69e61108ceb24b6d6e55871bf90"
+      },
+      {
+        "path": "tests/test_rules.py",
+        "sha256": "0f0e2694e35b0bf15c5851ea763e3c12f9e7a3278c0ab9d2383ba65fac7f832c"
+      },
+      {
+        "path": "tests/test_scan_inventory.py",
+        "sha256": "a05a141c778c29c9fad3409664019a8e2fb420cdbdc2ebee71828300f7e50a00"
+      },
+      {
+        "path": "tests/test_scan_selection.py",
+        "sha256": "320369ec16fd1dd546bd355b1c26ebae1993475e07aecda2cea63ccbab295bf0"
+      },
+      {
+        "path": "tests/test_scanner.py",
+        "sha256": "18fc79a2f568cb4d7945597cd47655c8f527769348b0296b1a892f5bd547984a"
+      },
+      {
+        "path": "tests/test_scanner_comparison.py",
+        "sha256": "0675156d4c37bfc9192fc835434d1474d5e9ffba513f82dee3a6a79f15d88ddd"
+      },
+      {
+        "path": "tests/test_scenario_validation.py",
+        "sha256": "3a3912dcd8aa9bb9021e11b36add0e6543c6534cc70ac81d9198bc913a52e343"
+      },
+      {
+        "path": "tests/test_scoring_metrics.py",
+        "sha256": "6ec08ac7f784e42f5e1453e5b0e34aee341d3b71662206eb1a46f32153338bc9"
+      },
+      {
+        "path": "tests/test_security_boundaries.py",
+        "sha256": "85e071b65510f99c481b19b6d1508c6c13247fbe6313369f496ed1c6aac7ede1"
+      },
+      {
+        "path": "tests/test_skill_scope_edges.py",
+        "sha256": "211150ca53b1ee228d29c48052bcb583b6ccb4ed78822f03311646c1c9dee35c"
+      },
+      {
+        "path": "tests/test_standalone_assembly.py",
+        "sha256": "c9c8f86f92ca0ba1453a2b86b8940579a002fb4ff09b655e6a4e78fd046dd164"
+      },
+      {
+        "path": "tests/test_standalone_build.py",
+        "sha256": "7cb9bb535b8badcfa45511aa894aa297bbf459aa3786b4ae0759d5fcc77f9e37"
+      },
+      {
+        "path": "tests/test_standalone_validation.py",
+        "sha256": "9e13300f57bb52d575677348d660e38712933a6839a9dd339bed07235c2bdac1"
+      },
+      {
+        "path": "tests/test_token_optimizer.py",
+        "sha256": "4267676f56acb419fc1b6f06714b242c34096bc56685f953506ec7997a058a42"
+      },
+      {
+        "path": "tests/test_tool_effects.py",
+        "sha256": "d7faaa09047023274d8d4019a24c4f99480d90ccbccb8de7acf901e3a00b48b2"
+      }
+    ],
+    "sha256": "43a1b925b3ca2c869a134eb566943bb0d3d58ab27bb49115d00bdcf5361c5e21"
+  },
+  "source_commit": "b1dc6d362ac1d2e79337ebab83c987880c6d395f",
+  "status": "passed"
+}

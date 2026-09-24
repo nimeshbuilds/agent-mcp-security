@@ -69,6 +69,73 @@ class ScenarioDocumentationTests(unittest.TestCase):
                 validator.assert_values(value, {'ok': False}, 'test')
 
 
+class WalkthroughContractTests(unittest.TestCase):
+    def setUp(self):
+        self.manifest = validator.load_manifest(ROOT / validator.MANIFEST)
+        self.documents = {p.as_posix(): '# Guide\n' for p in
+                          (validator.DOC, validator.SETUP_DOC, *validator.GUIDE_PAGES.values())}
+        for identity, command in validator.documentation_steps(self.manifest).items():
+            page = validator.GUIDE_PAGES[identity.split(':')[0]].as_posix()
+            self.documents[page] += self.fence(identity, command)
+
+    @staticmethod
+    def fence(identity, command):
+        return '\n<!-- invscan-step:' + identity + ' -->\n```sh\n' + command + '\n```\n'
+
+    def test_individual_commands_are_complete_and_render_order_can_follow_the_task(self):
+        self.assertEqual(validator.verify_walkthrough_documentation(self.manifest, self.documents), 59)
+        page = validator.GUIDE_PAGES['01'].as_posix()
+        command = self.fence('01:version', 'invscan --version')
+        self.documents[page] = self.documents[page].replace(command, '') + command
+        self.assertEqual(validator.verify_walkthrough_documentation(self.manifest, self.documents), 59)
+
+    def test_missing_duplicate_unknown_and_changed_commands_fail(self):
+        page = validator.GUIDE_PAGES['01'].as_posix()
+        original = self.documents[page]
+        changes = [original.replace(self.fence('01:version', 'invscan --version'), ''),
+                   original + self.fence('01:version', 'invscan --version'),
+                   original.replace('invscan-step:01:version', 'invscan-step:01:unknown'),
+                   original.replace('invscan --version', 'invscan --quiet')]
+        for changed in changes:
+            with self.subTest(changed=changed[-80:]), self.assertRaises(RuntimeError):
+                validator.verify_walkthrough_documentation(self.manifest, dict(self.documents, **{page: changed}))
+
+    def test_commands_cannot_move_to_another_scenario_or_an_untracked_page(self):
+        page = validator.GUIDE_PAGES['01'].as_posix()
+        moved = dict(self.documents)
+        command = self.fence('01:version', 'invscan --version')
+        moved[page] = moved[page].replace(command, '')
+        moved[validator.GUIDE_PAGES['02'].as_posix()] += command
+        with self.assertRaisesRegex(RuntimeError, 'wrong guide'):
+            validator.verify_walkthrough_documentation(self.manifest, moved)
+        for changed in ({k: v for k, v in self.documents.items() if k != page},
+                        dict(self.documents, **{'docs/scenarios/untracked.md': '# Extra'})):
+            with self.assertRaisesRegex(RuntimeError, 'file set'):
+                validator.verify_walkthrough_documentation(self.manifest, changed)
+
+    def test_orphan_and_malformed_markers_are_not_silently_ignored(self):
+        page = validator.GUIDE_PAGES['01'].as_posix()
+        original = self.documents[page]
+        variants = [original + '\n<!-- invscan-step:01:orphan -->\n',
+                    original.replace('```sh', '```python', 1),
+                    original.replace('invscan --version\n', 'invscan --version\ninvscan --quiet\n', 1),
+                    original + '\n<!-- invscan-scenario:01 -->\n']
+        for changed in variants:
+            with self.subTest(changed=changed[-80:]), self.assertRaises(RuntimeError):
+                validator.verify_walkthrough_documentation(self.manifest, dict(self.documents, **{page: changed}))
+
+    def test_snapshot_binds_all_guides_and_rejects_changed_or_missing_files(self):
+        hashes = validator.documentation_hashes(self.documents)
+        self.assertEqual(len(hashes['files']), 12)
+        self.assertEqual(hashes, validator.documentation_hashes(dict(reversed(list(self.documents.items())))))
+        snapshot = {'files': [{'path': p, 'sha256': h} for p, h in hashes['files'].items()]}
+        validator.verify_documentation_snapshot(hashes, snapshot)
+        for changed in ({'files': snapshot['files'][1:]},
+                        {'files': [dict(x, sha256='0' * 64) for x in snapshot['files']]}):
+            with self.assertRaisesRegex(RuntimeError, 'changed'):
+                validator.verify_documentation_snapshot(hashes, changed)
+
+
 class ScenarioGatewayTests(unittest.TestCase):
     def test_numeric_loopback_gateway_starts_without_dns(self):
         with tempfile.TemporaryDirectory() as directory, \
