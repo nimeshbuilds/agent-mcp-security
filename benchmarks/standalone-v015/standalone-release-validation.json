@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "version": "0.15.0",
+  "commit": "e869d467f3cd12e0af165b5c914c0df56817d7d0",
+  "run_url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041416239",
+  "status": "passed",
+  "source_inputs_sha256": "8da87918c6a3a36a4b8b16bb61eb83b70804ea7f527691876ba038cb03be29fa",
+  "targets": [
+    {
+      "target": "linux-x86_64",
+      "archive": "invscan-0.15.0-linux-x86_64.tar.gz",
+      "bytes": 115676030,
+      "sha256": "1ba62deff3778f1c62d7249a4c53e7f331b5524f3ce8a9f9cea5dcdce5535136",
+      "build_manifest": "invscan-0.15.0-linux-x86_64.build-manifest.json",
+      "validation_receipt": "invscan-0.15.0-linux-x86_64.validation.json",
+      "status": "passed"
+    },
+    {
+      "target": "linux-arm64",
+      "archive": "invscan-0.15.0-linux-arm64.tar.gz",
+      "bytes": 113085737,
+      "sha256": "21b85841b04a1bb98c4ec9ba6f30d02681a58e2a9c4beac570d6c7995d56d434",
+      "build_manifest": "invscan-0.15.0-linux-arm64.build-manifest.json",
+      "validation_receipt": "invscan-0.15.0-linux-arm64.validation.json",
+      "status": "passed"
+    },
+    {
+      "target": "macos-x86_64",
+      "archive": "invscan-0.15.0-macos-x86_64.tar.gz",
+      "bytes": 95610421,
+      "sha256": "2e1a6ed0e5d3bbd0456e708b40f30c426fd5241e9dc525919fc55dab20b6e37b",
+      "build_manifest": "invscan-0.15.0-macos-x86_64.build-manifest.json",
+      "validation_receipt": "invscan-0.15.0-macos-x86_64.validation.json",
+      "status": "passed"
+    },
+    {
+      "target": "macos-arm64",
+      "archive": "invscan-0.15.0-macos-arm64.tar.gz",
+      "bytes": 92817319,
+      "sha256": "51595bd3b1ca1d978bbf9eb6a70510f5b37ef4875d3d71753f13975946be1ef3",
+      "build_manifest": "invscan-0.15.0-macos-arm64.build-manifest.json",
+      "validation_receipt": "invscan-0.15.0-macos-arm64.validation.json",
+      "status": "passed"
+    },
+    {
+      "target": "windows-x86_64",
+      "archive": "invscan-0.15.0-windows-x86_64.zip",
+      "bytes": 97198104,
+      "sha256": "a9830540305374a5885b8eba97d2c446a38896f950ecb9155448d0613ff1afcc",
+      "build_manifest": "invscan-0.15.0-windows-x86_64.build-manifest.json",
+      "validation_receipt": "invscan-0.15.0-windows-x86_64.validation.json",
+      "status": "passed"
+    }
+  ],
+  "scope": "Native extracted-archive CLI validation; model responses use scripted loopback fixtures. No live account login, real model accuracy, vendor signing or notarization is implied."
+}

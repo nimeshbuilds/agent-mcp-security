@@ -79,6 +79,7 @@ validation:
 nav:
   - Home: index.md
   - Get started:
+      - Download or build: docs/INSTALLATION.md
       - Quick start: docs/QUICKSTART.md
       - Ten tested scenarios: docs/SCENARIOS.md
       - Ask about security, offline: docs/SECURITY_EXPLORER.md

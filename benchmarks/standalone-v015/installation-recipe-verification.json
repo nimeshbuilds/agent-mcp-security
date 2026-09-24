@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "recorded_at_utc": "2026-09-24T18:38:09.999459+00:00",
+  "status": "passed",
+  "platform": "macos-arm64",
+  "documentation": "docs/INSTALLATION.md",
+  "exact_shell_blocks_executed": 4,
+  "shell_blocks_sha256": [
+    "79a68b2182a3e7c8939cb97a4591e154aa15f3be455f0c43e9d76c564237396f",
+    "ba4c075d4fc4ce17d06f52c946875932dfbff92a1fb97315da27ac329d8d4832",
+    "522cee642c792411602a384f88761e5ed23bba1b62cab62316b2cf55df0d66bd",
+    "69899e5b068179ef08c5a4bd6771153e299696ce5773658cdaea99355082ad9f"
+  ],
+  "scope": "Exact published-installation recipes: download, SHA-256 verification, extraction, version/help, PATH, safer PDF report, offline question and scan inventory.",
+  "native_archive_sha256": "51595bd3b1ca1d978bbf9eb6a70510f5b37ef4875d3d71753f13975946be1ef3",
+  "exit_code": 0,
+  "report_findings": 0,
+  "files_scanned": 2,
+  "pdf_generated": true,
+  "real_model_calls": 0,
+  "provider_logins": 0
+}

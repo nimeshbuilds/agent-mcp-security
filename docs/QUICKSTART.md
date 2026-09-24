@@ -2,13 +2,40 @@
 
 **NimeshBuild · Evidence for agent security**
 
-Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These checkout examples target **Invarune 0.15.0**. The primary command is **`invscan`**. Deterministic scans and catalog exploration need **Python 3.9+**, with no runtime dependencies, API keys or model subscription. PDF export/import uses optional Python packages.
+Get your first report, explore its security controls, then add image scanning, optional AI review or accepted exceptions. These examples target **Invarune 0.15.0**. The primary command is **`invscan`**. Download the standalone CLI to run without installing Python, or install from source. Deterministic scans and catalog exploration need no API keys or model subscription.
+
+[Download the CLI](INSTALLATION.md#download-a-standalone-release){ .md-button .md-button--primary }
+[Build from source](#source-installation){ .md-button }
 
 Continue with [ten end-to-end scenarios](SCENARIOS.md) for feature-by-feature recipes, expected results and executable validation covering source, skills, images, CI, review imports and optional AI.
 
 ## 1. Install the CLI and get your first report
 
-Want the CLI without a source checkout? The [v0.15.0 release](https://github.com/nimeshbuilds/invarune/releases/tag/v0.15.0) provides a downloadable wheel, checksums and installation commands, including the offline explorer. The release includes the installed CLI and offline scan inventory. The checkout route below also includes the example source and image fixtures used throughout this guide.
+### Download the built CLI
+
+Choose your operating system from [Installation](INSTALLATION.md#download-a-standalone-release), download the native archive from the [v0.15.0 release](https://github.com/nimeshbuilds/invarune/releases/tag/v0.15.0), verify its checksum and extract it. Keep the entire extracted directory together, including `_internal`. The archive includes the CLI, PDF support, Headroom and the inert fixtures used in this quickstart.
+
+Change to the extracted directory and enable `invscan` in the current terminal:
+
+macOS/Linux:
+
+```sh
+export PATH="$PWD:$PATH"
+invscan --version
+```
+
+Windows PowerShell:
+
+```powershell
+$env:Path = "$((Get-Location).Path);$env:Path"
+invscan --version
+```
+
+Expect **0.15.0**. Continue at [your first offline scan](#your-first-offline-scan). No Python installation, Git checkout or package installation is required for this route. Provider CLIs and Docker/Podman remain separate, optional prerequisites. See [platform support and unsigned application policies](INSTALLATION.md#download-a-standalone-release) if your operating system blocks the binary.
+
+### Source installation
+
+Use this route for development or to run every helper in the ten-scenario guide. It needs **Python 3.9+** and Git; Python **3.10+** is recommended when adding the optional Headroom package. The [wheel route](INSTALLATION.md#install-the-python-wheel) installs the CLI without a checkout.
 
 Clone the public repository (no GitHub login required):
 
@@ -37,9 +64,11 @@ $env:Path = "$((Resolve-Path .venv\Scripts).Path);$env:Path"
 invscan --version
 ```
 
-The PATH change applies to this terminal. Expect version **0.15.0** from the current checkout. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. The existing `invarune` and `ai-security-scan` commands are compatible aliases.
+The PATH change applies to this terminal. Expect version **0.15.0** from the current checkout. All `invscan` commands below work in either shell after this setup. In a new terminal, reactivate this environment or use the installed executable's absolute path. Python installations also provide the compatible `invarune` and `ai-security-scan` aliases.
 
-Run your first offline scan:
+### Your first offline scan
+
+From either the extracted bundle directory or source checkout, run:
 
 ```sh
 invscan examples/safer --output ./scan-report/quickstart-safer
@@ -122,7 +151,7 @@ Expect **3 findings, 0 coverage gaps and exit 1**. Image scans never start a con
 | `report.md` | Portable text to review or share. |
 | `report.json` | Structured findings, controls, coverage and audit details. |
 | `report.sarif` | Deterministic findings for compatible code-review and CI systems. |
-| `report.pdf` (with `--pdf`) | Charts, clickable contents and fillable review fields. Install the PDF extra first. |
+| `report.pdf` (with `--pdf`) | Charts, clickable contents and fillable review fields. Included in the standalone bundle; Python installations need the PDF extra. |
 
 Review immediate concerns first, then **coverage gaps**, file/line evidence and controls needing human or runtime verification. Proposed defenses are not assumed to be deployed. Use separate output directories to retain earlier runs: each run replaces its report files.
 
@@ -144,13 +173,13 @@ invscan "/absolute/path/to/agent-or-mcp-repo" --fail-on medium --summary-json --
 
 Without `--judge-cli` or `--judge-config`, both model-review stages stay **off**. The deterministic scan and all four reports still work. Installing optional packages alone never enables a model.
 
-For the recommended optional AI/PDF setup, upgrade the same environment from this checkout:
+**Standalone download:** Headroom and PDF support are already included; skip the installation command. **Source installation:** upgrade the same environment from this checkout for the optional AI/PDF setup:
 
 ```sh
 python -m pip install '.[ai,pdf]'
 ```
 
-The `ai` extra installs **Headroom 0.37.0** on Python 3.10+. Enabled AI review uses guarded, lossless JSON compaction by default; it preserves source/evidence and never enables retrieval tools or another model. If Headroom is missing, unsupported or fails, built-in compaction is used and recorded. Python 3.9 uses that fallback. `--token-optimizer compact` selects it explicitly; `--token-optimizer off` preserves spaced JSON. These options require enabled AI review. Token savings depend on the actual payload/tokenizer and are not guaranteed.
+The bundle includes **Headroom 0.37.0**; the source `ai` extra installs it on Python 3.10+. Enabled AI review uses guarded, lossless JSON compaction by default; it preserves source/evidence and never enables retrieval tools or another model. If Headroom is missing, unsupported or fails, built-in compaction is used and recorded. Python 3.9 uses that fallback. `--token-optimizer compact` selects it explicitly; `--token-optimizer off` preserves spaced JSON. These options require enabled AI review. Token savings depend on the actual payload/tokenizer and are not guaranteed.
 
 For an already installed official **Codex, Claude Code or Grok Build** CLI, use its CLI-managed login instead of configuring a separate API key in Invarune:
 
@@ -217,14 +246,19 @@ Operational reports within the documented review-size limits carry the same revi
 invscan examples/vulnerable --review-report ./reviewed-report.html --output ./scan-report/final
 ```
 
-For a fillable PDF, upgrade this project's existing environment if PDF support is not installed yet. Run from the checkout; use `python` from the environment configured in step 1:
+For a fillable PDF, standalone users can run the scan immediately. Source users install the PDF extra once if it is not already present; use `python` from the environment configured in step 1:
 
 ```sh
 python -m pip install '.[pdf]'
+```
+
+Both routes then use:
+
+```sh
 invscan examples/vulnerable --pdf --output ./scan-report/pdf-review
 ```
 
-The vulnerable fixture intentionally returns exit 1. Fill `scan-report/pdf-review/report.pdf` in an AcroForm-compatible editor and save a separate copy as `reviewed-report.pdf` in the checkout. Preserve its fields and attachments; do not print or flatten it. Then rescan:
+The vulnerable fixture intentionally returns exit 1. Fill `scan-report/pdf-review/report.pdf` in an AcroForm-compatible editor and save a separate copy as `reviewed-report.pdf` in your working directory. Preserve its fields and attachments; do not print or flatten it. Then rescan:
 
 ```sh
 invscan examples/vulnerable --review-report ./reviewed-report.pdf --pdf --output ./scan-report/final-pdf
@@ -250,11 +284,11 @@ Matched entries become **suppressed**, not fixed or passed. Unmatched IDs stay v
 
 ## Compatibility invocations
 
-Installed `invarune` and `ai-security-scan` accept the same flags and produce the same static reports as `invscan`. From a checkout, the original `python3 scan.py` and `python3 -m ai_security_scan` routes remain available. On Windows use `py -3` for those compatibility routes. The installed CLI works from any directory; target/config/report paths remain relative to the current directory.
+Python-installed `invarune` and `ai-security-scan` accept the same flags and produce the same static reports as `invscan`. Standalone archives provide the primary `invscan` command. From a checkout, the original `python3 scan.py` and `python3 -m ai_security_scan` routes remain available. On Windows use `py -3` for those compatibility routes. The installed CLI works from any directory; target/config/report paths remain relative to the current directory.
 
 ## Reproduce the quickstart validation
 
-The [executed 63-step v0.15 quickstart receipt](../benchmarks/quickstart-v015/README.md) records command exits, fixture counts, package versions, and exact source-file hashes, including the offline explorer, scan inventory and investigation help. The validator creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints.
+The [executed 63-step v0.15 source quickstart receipt](../benchmarks/quickstart-v015/README.md) records command exits, fixture counts, package versions, and exact source-file hashes, including the offline explorer, scan inventory and investigation help. The validator requires a source checkout. It creates a fresh local Git clone with explicitly selected current-checkout files overlaid, installs them in a new temporary environment, and runs the installed commands from outside the checkout. It verifies all three installed aliases, focused help, example output, catalog commands, baseline acceptance and actual PDF form editing and fresh import for both source and image scans, plus all six HTTP adapters through local fixture endpoints. [Native release validation](../benchmarks/standalone-v015/README.md) records the five-platform archive runs and public-download checks separately from this source-install workflow.
 
 ```sh
 python3 scripts/validate_quickstart.py --output test-output/quickstart
@@ -279,7 +313,7 @@ invscan --list-controls
 | Symptom | Next step |
 |---|---|
 | Cannot clone | Check the public repository URL, network/proxy and Git configuration; no GitHub login is required. |
-| `invscan` not found | Activate the step-1 environment or use its installed executable: `.venv/bin/invscan` or `.\.venv\Scripts\invscan.exe`. |
+| `invscan` not found | Add the extracted bundle directory to PATH, or activate the source-install environment. You can also use the full path to its `invscan` or `invscan.exe` executable. |
 | Exit 1 | Read the findings; the selected threshold was reached. |
 | Exit 2 | Read stderr and coverage/review gaps; correct the input, limit or provider problem. |
 | Local image missing | Check the Docker/Podman image store, supply an archive, or explicitly use `--pull`. |

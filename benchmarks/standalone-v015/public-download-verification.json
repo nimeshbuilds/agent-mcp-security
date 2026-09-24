@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0",
+  "recorded_at_utc": "2026-09-24T18:38:08.386619+00:00",
+  "status": "passed",
+  "version": "0.15.0",
+  "native_build_run": "https://github.com/nimeshbuilds/invarune/actions/runs/36041416239",
+  "native_build_commit": "e869d467f3cd12e0af165b5c914c0df56817d7d0",
+  "scope": "All 17 public native release assets downloaded over HTTPS and byte-matched to the tested CI artifacts; execution is recorded separately.",
+  "checksum_entries_verified": 16,
+  "files": [
+    {
+      "name": "SHA256SUMS-standalone.txt",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/SHA256SUMS-standalone.txt",
+      "bytes": 1723,
+      "sha256": "972d7bb812dddf2a8a7ab1f77e8e168e74959b06d24218f3ce0b94a196965b16",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-linux-arm64.build-manifest.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-linux-arm64.build-manifest.json",
+      "bytes": 547380,
+      "sha256": "8b7d2223490ea2a2dba8e986f6a59d083cdcb426ca60e6f94b8c4fae55dcf9d8",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-linux-arm64.tar.gz",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-linux-arm64.tar.gz",
+      "bytes": 113085737,
+      "sha256": "21b85841b04a1bb98c4ec9ba6f30d02681a58e2a9c4beac570d6c7995d56d434",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-linux-arm64.validation.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-linux-arm64.validation.json",
+      "bytes": 62935,
+      "sha256": "2b12549bb83e9357c053c33be3c41b65b7db0050e6a8b7a4ad9aa01be6f3245b",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-linux-x86_64.build-manifest.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-linux-x86_64.build-manifest.json",
+      "bytes": 547299,
+      "sha256": "c5bc4a44ccbf8181525b0e09131b95d169406fec6acedd9b6b3af7bd5ef319ac",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-linux-x86_64.tar.gz",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-linux-x86_64.tar.gz",
+      "bytes": 115676030,
+      "sha256": "1ba62deff3778f1c62d7249a4c53e7f331b5524f3ce8a9f9cea5dcdce5535136",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-linux-x86_64.validation.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-linux-x86_64.validation.json",
+      "bytes": 62935,
+      "sha256": "f3915273e6c84c579bad0a348ff6f57557d6b9ff4af3bf94180c9e59409d5b02",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-macos-arm64.build-manifest.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-macos-arm64.build-manifest.json",
+      "bytes": 546068,
+      "sha256": "99ed6bbe97ce16c59b906ee9b56b9c62320cd09ecf0b298e012d99dcecd58489",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-macos-arm64.tar.gz",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-macos-arm64.tar.gz",
+      "bytes": 92817319,
+      "sha256": "51595bd3b1ca1d978bbf9eb6a70510f5b37ef4875d3d71753f13975946be1ef3",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-macos-arm64.validation.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-macos-arm64.validation.json",
+      "bytes": 62933,
+      "sha256": "fa2582e03b1119fb286e83367e40d89221ce1c008955e9867d8b04949b38467d",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-macos-x86_64.build-manifest.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-macos-x86_64.build-manifest.json",
+      "bytes": 546062,
+      "sha256": "05cf31a34e5306300cf488c099b92fdc836d6f47553ea97e97886942e90b0ae1",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-macos-x86_64.tar.gz",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-macos-x86_64.tar.gz",
+      "bytes": 95610421,
+      "sha256": "2e1a6ed0e5d3bbd0456e708b40f30c426fd5241e9dc525919fc55dab20b6e37b",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-macos-x86_64.validation.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-macos-x86_64.validation.json",
+      "bytes": 62935,
+      "sha256": "a8758bda791a4f5694b0912e7c161a7c68affb97ce2950deb55f5bbb76cd513b",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-windows-x86_64.build-manifest.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-windows-x86_64.build-manifest.json",
+      "bytes": 559772,
+      "sha256": "8751062ef9ec96d296a377534848c8e80677693c15fc9235f83ff72fdfab55d3",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-windows-x86_64.validation.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-windows-x86_64.validation.json",
+      "bytes": 65011,
+      "sha256": "27c8a5ae3465c9c4bd7ce379e89c21555268f1f89064d8aeb0b82bafd64a9be8",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "invscan-0.15.0-windows-x86_64.zip",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/invscan-0.15.0-windows-x86_64.zip",
+      "bytes": 97198104,
+      "sha256": "a9830540305374a5885b8eba97d2c446a38896f950ecb9155448d0613ff1afcc",
+      "matches_tested_ci_artifact": true
+    },
+    {
+      "name": "standalone-release-validation.json",
+      "url": "https://github.com/nimeshbuilds/invarune/releases/download/v0.15.0/standalone-release-validation.json",
+      "bytes": 2435,
+      "sha256": "d64b58245e126070d2453d547fd56476051aab3ecd4a6d8f658b6613d9fc5f83",
+      "matches_tested_ci_artifact": true
+    }
+  ],
+  "original_release_assets": {
+    "verification": "GitHub asset ID, size and updatedAt remained identical before and after the additive native upload. No original asset was overwritten.",
+    "assets": [
+      {
+        "name": "agent_mcp_security_scan-0.15.0-py3-none-any.whl",
+        "size": 361136,
+        "asset_id_unchanged": true,
+        "updated_at_unchanged": true
+      },
+      {
+        "name": "agent_mcp_security_scan-0.15.0.tar.gz",
+        "size": 541544,
+        "asset_id_unchanged": true,
+        "updated_at_unchanged": true
+      },
+      {
+        "name": "invarune-benchmark-v015.pdf",
+        "size": 101922,
+        "asset_id_unchanged": true,
+        "updated_at_unchanged": true
+      },
+      {
+        "name": "invarune-security-controlbook.pdf",
+        "size": 567672,
+        "asset_id_unchanged": true,
+        "updated_at_unchanged": true
+      },
+      {
+        "name": "invarune-v015-context-codex.pdf",
+        "size": 115664,
+        "asset_id_unchanged": true,
+        "updated_at_unchanged": true
+      },
+      {
+        "name": "invarune-v015-context-static.pdf",
+        "size": 69098,
+        "asset_id_unchanged": true,
+        "updated_at_unchanged": true
+      },
+      {
+        "name": "invarune-v015-reference-filesystem-codex.pdf",
+        "size": 201241,
+        "asset_id_unchanged": true,
+        "updated_at_unchanged": true
+      },
+      {
+        "name": "release-validation.json",
+        "size": 73055,
+        "asset_id_unchanged": true,
+        "updated_at_unchanged": true
+      },
+      {
+        "name": "SHA256SUMS.txt",
+        "size": 720,
+        "asset_id_unchanged": true,
+        "updated_at_unchanged": true
+      }
+    ]
+  }
+}

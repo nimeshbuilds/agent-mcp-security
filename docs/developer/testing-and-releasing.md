@@ -146,6 +146,31 @@ python scripts/validate_cli_providers.py --help
 
 ## Assemble a reviewable release
 
+### Build standalone CLI downloads
+
+The [installation guide](../INSTALLATION.md) offers ready-to-run downloads as well as Python package and source routes. Standalone builds include their Python interpreter, the catalog, PDF dependencies and Headroom. Official model-provider CLIs and container runtimes remain separate installations.
+
+Use the packaging commit recorded in the native build manifest, or the current default branch. The original `v0.15.0` tag predates the standalone build tooling; the workflow checks that the scanner itself still matches that tag. Build on each target OS and architecture using Python 3.12 and the pinned release dependencies:
+
+```sh
+python -m pip install -r requirements-release.txt '.[ai,pdf]'
+python scripts/build_standalone.py --output dist/standalone --work-dir build/standalone --expected-version 0.15.0
+```
+
+These are native builds, not cross-compilation. The [standalone workflow](../../.github/workflows/standalone.yml) runs on Linux x86-64/ARM64, macOS Intel/Apple Silicon and Windows x86-64. It verifies that the scanner and package metadata match the named release tag before building. Run it from GitHub Actions with the existing numeric release version, or use:
+
+```sh
+gh workflow run standalone.yml -f version=0.15.0
+```
+
+Each archive preserves the full application directory. On Unix, tar preserves the bundle's required symbolic links. Keep the directory intact; copying only the executable is not a supported installation. [PyInstaller's native bundle model](https://pyinstaller.org/en/stable/operating-mode.html) and [symbolic-link and child-process requirements](https://pyinstaller.org/en/stable/common-issues-and-pitfalls.html) explain these constraints.
+
+The workflow validates the **extracted archive**, runs the CLI outside its source checkout with no Python executable on the child PATH, checks the documented workflows, and retains a validation receipt. Fixture preparation uses a separate controller Python process; the distributed CLI does not depend on it. Local scripted gateway responses test transport, Headroom and the evidence controller, not live model accuracy. Native subprocess handling also needs validation because bundled library search paths must not leak into external provider or image-runtime processes.
+
+Release artifacts include each native archive, build manifest, validation receipt and `SHA256SUMS-standalone.txt`. Preserve the existing wheel/source/PDF assets and their original checksum file when adding standalone downloads to an existing release. The workflow has read-only repository permissions and uploads CI artifacts; publishing those tested files to a release is a separate maintainer action. Verify the release downloads again after upload. Native builds have recorded provenance and dependency versions, but are not claimed to be bit-for-bit reproducible or vendor-notarized.
+
+The [0.15.0 native release evidence](../../benchmarks/standalone-v015/README.md) records all five extracted-archive executions, public-download checks, exact build provenance, prior failed attempts and the tested installation recipe.
+
 1. Freeze the intended code/catalog/docs snapshot. Run focused checks, the full suite, the accuracy regression gate and installed workflows appropriate to the change.
 2. Record commands, exit codes, optional skips, environment versions, source/input hashes and observed outcomes. Keep private paths, real credentials and proprietary evidence out of publication artifacts.
 3. Build/install the wheel outside the checkout, validate report schemas and review replay, and check generated PDFs visually when changed.

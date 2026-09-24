@@ -1,0 +1,1672 @@
+{
+  "archive": {
+    "bytes": 92817319,
+    "extracted_before_validation": true,
+    "name": "invscan-0.15.0-macos-arm64.tar.gz",
+    "sha256": "51595bd3b1ca1d978bbf9eb6a70510f5b37ef4875d3d71753f13975946be1ef3"
+  },
+  "binary_sha256": "18c4617a3c8af9fc5a329a0c99004b3a1e125e4173339229380dfdbb16c73997",
+  "external_native_process": {
+    "command": [
+      "<DISTRIBUTION>/invscan",
+      "<SCENARIO_WORKSPACE>/examples/vulnerable",
+      "--scans",
+      "AI002",
+      "--judge-cli",
+      "codex",
+      "--judge-executable",
+      "<HOST_GIT>",
+      "--judge-login",
+      "never",
+      "--judge-mode",
+      "findings",
+      "--report",
+      "<SCENARIO_WORKSPACE>/scan-report/scenarios/external-native-probe",
+      "--summary-json"
+    ],
+    "deterministic_findings_preserved": true,
+    "exit_code": 2,
+    "expected_exit": 2,
+    "native_subprocess_returned_version": true,
+    "program": "git",
+    "purpose": "Actual external native version-probe compatibility; not vendor authentication or inference",
+    "status": "passed"
+  },
+  "host": {
+    "machine": "arm64",
+    "platform": "Darwin"
+  },
+  "isolation": {
+    "complete_distribution_copied": true,
+    "controller_python_used_only_for_fixture_utilities": true,
+    "isolated_home": true,
+    "native_header_verified": true,
+    "provider_credentials_inherited": false,
+    "python_on_scanner_path": false,
+    "scanner_cwd_outside_checkout": true,
+    "scanner_path_entries": [
+      "<EMPTY_PATH>"
+    ]
+  },
+  "loopback": {
+    "evidence_requests": 1,
+    "protocols": [
+      "anthropic",
+      "custom",
+      "gemini",
+      "ollama",
+      "openai_chat",
+      "openai_responses"
+    ],
+    "real_model_calls": 0,
+    "request_count": 17,
+    "requests": [
+      {
+        "mode": "review",
+        "payload_sha256": "98d094b7b71993c7374eb4e58c4ee0578838856b29a6b503edc13d6484e7e82a",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "3c4e3968e4a4521ef3e507496f3e3dd0c17e57efe0481ab82cb4c4e0780ab3d2",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "98d094b7b71993c7374eb4e58c4ee0578838856b29a6b503edc13d6484e7e82a",
+        "provider": "openai_chat",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "3c4e3968e4a4521ef3e507496f3e3dd0c17e57efe0481ab82cb4c4e0780ab3d2",
+        "provider": "openai_chat",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "98d094b7b71993c7374eb4e58c4ee0578838856b29a6b503edc13d6484e7e82a",
+        "provider": "openai_responses",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "3c4e3968e4a4521ef3e507496f3e3dd0c17e57efe0481ab82cb4c4e0780ab3d2",
+        "provider": "openai_responses",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "98d094b7b71993c7374eb4e58c4ee0578838856b29a6b503edc13d6484e7e82a",
+        "provider": "anthropic",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "3c4e3968e4a4521ef3e507496f3e3dd0c17e57efe0481ab82cb4c4e0780ab3d2",
+        "provider": "anthropic",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "98d094b7b71993c7374eb4e58c4ee0578838856b29a6b503edc13d6484e7e82a",
+        "provider": "gemini",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "3c4e3968e4a4521ef3e507496f3e3dd0c17e57efe0481ab82cb4c4e0780ab3d2",
+        "provider": "gemini",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "98d094b7b71993c7374eb4e58c4ee0578838856b29a6b503edc13d6484e7e82a",
+        "provider": "ollama",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "3c4e3968e4a4521ef3e507496f3e3dd0c17e57efe0481ab82cb4c4e0780ab3d2",
+        "provider": "ollama",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "investigate",
+        "payload_sha256": "0c3b9a07ff2472be8a3841a0149f11ae5396f7de55285c17028e9d7c565a4cfd",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "investigate",
+        "payload_sha256": "74ccc4674600b4d25befdcca5afceed92d78f95c3a10cc9007a5eeaf58778b39",
+        "provider": "custom",
+        "requested_ranges": 1,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "investigate",
+        "payload_sha256": "1f9ecfa86790131b7f2c7a92490d4748b149f64ef626cfb080797f0f1e5a9515",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "controls"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "4b6280998f3cb58538e678f95751768b474dc2a976bde66d6125d10c8e917dff",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      },
+      {
+        "mode": "review",
+        "payload_sha256": "98d094b7b71993c7374eb4e58c4ee0578838856b29a6b503edc13d6484e7e82a",
+        "provider": "custom",
+        "requested_ranges": 0,
+        "source": "scripted local HTTP fixture, no real model",
+        "stage": "findings"
+      }
+    ]
+  },
+  "manifest_sha256": "9a8ba9c2cee6b338962d485e897962ae82868d9bca0b8da3a5cbf114ac39c640",
+  "native_scanner_invocations": 59,
+  "purpose": "Extracted native distribution validation; scanner runs without external Python on PATH.",
+  "recorded_at_utc": "2026-09-24T18:39:03.508585+00:00",
+  "scenarios": [
+    {
+      "id": "01",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--version"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "version",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "f8405a7330c287028d470c3ee3506f878f1ad85ed79c1d1adc19df2ff7398915"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--help"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "full_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "4141cbcb7cee9ac5881b157b61f478a41308ac8efaee85f6018598a7501d4a04"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "-h"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "short_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "4141cbcb7cee9ac5881b157b61f478a41308ac8efaee85f6018598a7501d4a04"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--help-topic",
+            "all"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "all_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "4141cbcb7cee9ac5881b157b61f478a41308ac8efaee85f6018598a7501d4a04"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--examples"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "cookbook",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "cad349616d2e951d6a86e97d408821f99d6eb9f3fda1523112810c8308d0159d"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--list-scans",
+            "--catalog-format",
+            "json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "inventory",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "a4e1209e32e9078f704c737dfb19ad575da44463de35d4f403685447e5220da6"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--explain-scan",
+            "AI043"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "rule",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "531be1780bcf637ed7d4324b4e88a685e9913ebce069b08a90aeaf0c033ac564"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--list-rules"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "rules",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "244d5fb3453ea7e4a15a0832740470cd83ee3bf2d80eacde1cff063ce34c9c25"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--list-controls"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "controls",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "24673b101cd7b9b66897e0751128c0421d0e883ee77424fc4bab519a6cee6f41"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--explain-rule",
+            "AI002"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "rule_alias",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "c00d5a5c37938b264e013cae201133f5f9fa9ae7fce13758fd2d09abde94b996"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--list-topics"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "topics",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "71b796983f0709dd34cd51b2ddff0186a262373e133e9f6d2014a9f5b45492a7"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--ask",
+            "How do you check prompt injection?"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "question",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "1123a07c05f243843e466ca7d9e2c5d2bc153b7a92e952186233f0f6732b9225"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--explain-control",
+            "AUTH-01"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "control",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "bd13c72ab82965dbcb074a5c83c47a670363221368ac63c47d25d61d1b5fd8f1"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--explain-check",
+            "AUTH-01:1"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "check",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "1610970e41123968ad7875be23a619a963959223fc2796508a08f79936f8b622"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--list-sources"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "sources",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "c192c9f86bf638c43dc68ddff54fbbd207b99df15310466354898ae8b5813554"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--explain-source",
+            "MITRE-ATLAS"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "source",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "e487c9f499332462478af37fc7509e3c478237c5b4501b0ea286f7fac52d5006"
+        }
+      ],
+      "title": "Install, discover and ask offline"
+    },
+    {
+      "id": "02",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "terminal",
+          "no_files_created": true,
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "1eb05a1b1b03394bc65879e2ae2a833dc08ba4e3b5d0e86da842963e7d45ca65"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "scoring.overall_security_score": null,
+            "summary.coverage_gaps": 0,
+            "summary.open_findings": 11
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/02-source",
+            "--pdf",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "source_reports",
+          "report_sha256": {
+            "report.html": "1e23a2eb10917dfed8d83d6cc0c4ddb5bbc49ba9c99fa6908c002d1cb33557c9",
+            "report.json": "b291e7bdc2a5f379b4dc673c3f5a65ef901ff213a1a1a90aab2e3bf3d1eaefdc",
+            "report.md": "7b819a19602c4355c5e9d052f57888e71922abfd05b419d681d4f3877693da86",
+            "report.pdf": "307e7efe72200dfb19ce4b2e7dd94b557c6160c941ad08b19a5918e315cd3ef1",
+            "report.sarif": "d91441dc5572378daf4c120120ddabbd5773b8674c84ccfa09e39ca573604d58"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "49d5a6855bca2a1111e4e9a721f8401e33bc212e5d1686807feb26ee2f44e0d3"
+        },
+        {
+          "asserted_report_fields": {
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--output",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/02-safe",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "output_alias",
+          "report_sha256": {
+            "report.html": "9b4a1d15a2ac3c6ce59e38b8f3a092c3090b5e1fee7bf971907820524b985e44",
+            "report.json": "71df1fa21991bf3f44835aab5419c510db2b251dacbf6331c929c392f0161870",
+            "report.md": "ac4212b2ed2c9ac5386dd0c4185d70bb92050abd1016323540b6678d0e658651",
+            "report.sarif": "b831f4b9f59386c58c250b1e9a803890c02a5d6846d494a4d5ff4d7530679892"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "cc445e703e05bcd84ea16fd906f85e1ed469847ef6ca81f8ecb9d72b7874b354"
+        },
+        {
+          "asserted_report_fields": {
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--report",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "default_report",
+          "report_sha256": {
+            "report.html": "9b4a1d15a2ac3c6ce59e38b8f3a092c3090b5e1fee7bf971907820524b985e44",
+            "report.json": "71df1fa21991bf3f44835aab5419c510db2b251dacbf6331c929c392f0161870",
+            "report.md": "ac4212b2ed2c9ac5386dd0c4185d70bb92050abd1016323540b6678d0e658651",
+            "report.sarif": "b831f4b9f59386c58c250b1e9a803890c02a5d6846d494a4d5ff4d7530679892"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "10e5bac532fbed2145b2cf22fff641fb7dee1192ceee092ebfe40157445a513a"
+        }
+      ],
+      "title": "Scan source and generate every report"
+    },
+    {
+      "id": "03",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--scans",
+            "AI001,AI002",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "selected_rules",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "9ff8bb92d9eb7592de75577e6cf5a8fea80cf7ef1fafdcd88e2d67efdd312500"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--scan",
+            "GOV-01",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "manual_control",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "96c959395c418a049e8564db521df8511f7bf277b7caae4fda16dd2e204960bb"
+        },
+        {
+          "asserted_report_fields": {
+            "summary.coverage_gaps": 0,
+            "summary.open_findings": 4
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/skills/risky",
+            "--scans",
+            "AI043,AI044,AI045,AI046",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/03-skills",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "skill_metadata",
+          "report_sha256": {
+            "report.html": "067bcc100cd0909dbe06123d69cfd7b2b172896f812da7cf7a54a5a161a7cedc",
+            "report.json": "257bb08c63b8e3efcc20b6edebf1b0fef6f7d833d8babf0fa93b6d8982559350",
+            "report.md": "5d879ce7648c26ee112494e03d06788179898db94024be1047e4d433892bb65f",
+            "report.sarif": "daf4de5de4c581a93af9cfe6e539a04581053f376544179c1cac7b5ffdf54cbd"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "a219989ff7a1e6d21bec0d78fd39dee3ccee252c7dd8e6ebf65b3ff52a733d39"
+        }
+      ],
+      "title": "Select checks and find malicious skills or tools"
+    },
+    {
+      "id": "04",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--exclude",
+            "requirements.txt",
+            "--exclude",
+            "Dockerfile",
+            "--max-file-bytes",
+            "1000000",
+            "--max-total-bytes",
+            "5000000",
+            "--max-files",
+            "100",
+            "--max-entries",
+            "1000",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "bounded_scope",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "b129d25d2e7b2fc69cc81eedfdc987c0e26a77b8421d2a028109ef5d3f01ac6d"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--max-file-bytes",
+            "10",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "file_budget",
+          "status": "passed",
+          "stderr": "Scan incomplete: 3 coverage gaps; see the coverage details.\n",
+          "stdout_sha256": "9865d9b0e9d42451277dba7417e29aab90ea02fbc650852460574543adbb3e58"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--max-total-bytes",
+            "10",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "total_budget",
+          "status": "passed",
+          "stderr": "Scan incomplete: 3 coverage gaps; see the coverage details.\n",
+          "stdout_sha256": "f60dbeb7802bfc9fcb3d413b35926985aecdd5e7dfd65e1335549dff671fd2e9"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--max-files",
+            "1",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "count_budget",
+          "status": "passed",
+          "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n",
+          "stdout_sha256": "10f44b6356762d7ae1c56fdb04787639b937fbd1b67a01f52b0e0f98b8ffcd0f"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--max-entries",
+            "1",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "entry_budget",
+          "status": "passed",
+          "stderr": "Scan incomplete: 1 coverage gaps; see the coverage details.\n",
+          "stdout_sha256": "a1584a686555cdd95355af68572b678886eb2fbc6a0950efec79b78f89ff9671"
+        }
+      ],
+      "title": "Constrain scope and recognize incomplete scans"
+    },
+    {
+      "id": "05",
+      "status": "passed",
+      "steps": [
+        {
+          "asserted_report_fields": {
+            "image.container_started": false,
+            "summary.open_findings": 3
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--image-archive",
+            "<SCENARIO_WORKSPACE>/examples/images/demo-agent.tar",
+            "--image-platform",
+            "linux/amd64",
+            "--image-max-archive-bytes",
+            "10000000",
+            "--image-max-unpacked-bytes",
+            "20000000",
+            "--image-max-entries",
+            "1000",
+            "--image-max-layers",
+            "10",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/05-image",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "image_archive",
+          "report_sha256": {
+            "report.html": "da759226b4adc58e5f69b0b6f05f6b4fa1d883e6631873f5d857a815e89b9682",
+            "report.json": "e0a8007582623db0527dc4dba61a82391c1b52fe512cad4560b7a00bb8b30075",
+            "report.md": "60dd4f1e7dafe2a9058523aa329ec4cc2511f0889d2f287265d2eb27c7ea1de1",
+            "report.sarif": "58ef896a0b63df3d5ec4f1946165db7534b2e24abef2e6ef99bd6f575ce98c25"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "0ce53dd944aa3ccdff783bb02dc7e9d2223d8ad796617aa1262a94ab1253fa81"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--image-archive",
+            "<SCENARIO_WORKSPACE>/examples/images/demo-agent.tar",
+            "--scans",
+            "AI001",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "selected_image",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "0a96014c9f8973c5205b1e6f27b94c2a65cf572988da760d0e59f9ed30c8cb36"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--help-topic",
+            "images"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "image_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "afaabe51134029469dc7d4472554148c379260a35d1730f92a606a80911522a3"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--image-archive",
+            "<SCENARIO_WORKSPACE>/examples/images/demo-agent.tar",
+            "--image-max-archive-bytes",
+            "1",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "archive_limit",
+          "status": "passed",
+          "stderr": "Scan error: Image archive exceeds byte limit\n",
+          "stdout_sha256": "db84f5f2ea4580dbfae8c9d6300bbef7efe70374ae9755bbcb9b63b93572d788"
+        }
+      ],
+      "title": "Inspect built image archives without running them"
+    },
+    {
+      "id": "06",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--quiet"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "quiet_gate",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--fail-on",
+            "none",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "disabled_gate",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "d7e3441ed61d092a44dde6aea24bc69aebf7ce7da63d2e92f303aa53169bf13f"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--write-baseline",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/06-baseline.json",
+            "--baseline-reason",
+            "TEST ONLY: accepted inert documentation fixture; not production approval.",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "write_baseline",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "8c4d011d2e95a237cd88c5b5c61b41b36c576586379b4396ad4dc973b573c421"
+        },
+        {
+          "asserted_report_fields": {
+            "summary.open_findings": 0,
+            "summary.suppressed_findings": 11
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--baseline",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/06-baseline.json",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/06-baselined",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "apply_baseline",
+          "report_sha256": {
+            "report.html": "532b7f3dcf3746a3ce95b1507c83b56027f162b95ad0b0e3e6ba516b64305f60",
+            "report.json": "b9b52c80b19a53704c37704866a0fe30ce5ded689c11552c128601990a57d050",
+            "report.md": "e53fb3ec91fcc8c6b6fe2b53ffdcd6acf646a814f83dbd06ec586b0f7d22d9f0",
+            "report.sarif": "a4c173ad3faa97499a9955d435e8af98b429d5a4a9310e92665542e5da93703d"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "0edd1ac65b207ddb680265aba732dbbbde0cde73a5576d2cab2f913d3c92abb2"
+        }
+      ],
+      "title": "Use CI gates and reviewed baselines"
+    },
+    {
+      "id": "07",
+      "status": "passed",
+      "steps": [
+        {
+          "asserted_report_fields": {
+            "review_policy.counts.disabled_controls": 1,
+            "review_policy.counts.justified_checks": 1,
+            "summary.disabled_findings": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 9
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-config",
+            "<SCENARIO_WORKSPACE>/examples/review-config.json",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/07-policy",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "policy",
+          "report_sha256": {
+            "report.html": "f1b09c9f547bef25cbafa7e92cff14a367e674199f7c5ee9adbb90dd9ce76a34",
+            "report.json": "7488006885e036ccd6a3a8619b475bb11daaa64652f5d1f6ca1566cee2bc1398",
+            "report.md": "d31eea70b97db3ed7b516358bfca93fc477a59638d32044954148f7ce3c4aaaa",
+            "report.sarif": "0f13302d84b9b0958dd2b75e0581ab5d1ec5247bb155ea04775caf7d54a0673c"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "b5e762e65ee62ff398b08666ce2e944a4665ef6add3ba33224604ebb59b843be"
+        }
+      ],
+      "title": "Keep justified and disabled exceptions auditable"
+    },
+    {
+      "id": "08",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<CONTROLLER_PYTHON>",
+            "<SCENARIO_WORKSPACE>/examples/scenarios/prepare_reviews.py",
+            "--initial",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/02-source",
+            "--output",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited",
+            "--stale-target",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-changed-source"
+          ],
+          "execution_kind": "controller_fixture_utility",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "prepare",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "fed771b2e2550460bf1b2830564a7386c74a5af07a9f1b9ee1473c7ac6bfcf50"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.html",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-html",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_html",
+          "report_sha256": {
+            "report.html": "52c59f697b9396ad6d21f874b4cce2b9ebb4d7b36e28072e8a895e2ccde0c825",
+            "report.json": "09b801371134f563c4fbc5ec94794e209dd7d9a6a6e80416fd1c61fcb4e8beca",
+            "report.md": "892a36ca1d5aa6ef755305e070b555f4f969f8eb6dde5466852dc1079043323f",
+            "report.sarif": "d67afad17a58498435f73f0f574f77cf093907d2a557239d6e5a6d5aae962683"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "4b87be7e52dc240add8ae5fa4341c82ef87582cefce06bada6cfea8085fb4193"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.md",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-md",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_md",
+          "report_sha256": {
+            "report.html": "7f086392c6f2d6dc5b9c19ccf1d144c658ca464778d2b32e011a1d3f565cfe8b",
+            "report.json": "131b736907353949f17d7bbf9f318a4aa6982fdbe5a71e7a2710676121a4ca81",
+            "report.md": "ba82ad7694e6decd1d46cb3afca98b6db17a80669a3bab2c6cff8cd490b33660",
+            "report.sarif": "a285e4bd4da24a30cedf111ae81288f6b60dc035938f1be7546bec2193bc40d0"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "6e759f2f0f774b06f18ea6a564eb027ea9a3363c63b9a136136e5812050b1bc9"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.json",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-json",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_json",
+          "report_sha256": {
+            "report.html": "11e47d5dd1e2982d432a873a2d1e1a4d48b6a53484e6bcc68cf0a1f5bbd23501",
+            "report.json": "5e49e1c8327950839aac8aa522ffb6afe5ce9c20320f4ec7399583247e0c000c",
+            "report.md": "3375cc1a3125081fa47b5e37ad82fccb54db589f4c416a10b873bb78a2c0db88",
+            "report.sarif": "98772ce4e0d49d1c0605b1bae099c39a22e89b2a46c8a205f97bfb16f3363ade"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "dc15b31882df5c4730ebdc5f325b8c7345777499f245ea85aab8881e85011185"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.sarif",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-sarif",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_sarif",
+          "report_sha256": {
+            "report.html": "4ac1a1fb01d17b13199b8997a544a162ab667e061e08234ce572e4f785301464",
+            "report.json": "e3647e99436d5adf4bcb14ed39e4f4e53eb86007707afdb825fe02da3500f6a5",
+            "report.md": "fd1d7fc94f1ce0dc02c5121fec5dac40dadebda4360ed059ec380c4ca8160611",
+            "report.sarif": "839b2c53d1b4403b1380f859469c24048211d86ea5699249502d2eea518de01b"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "b3523ba5854452c67b752fb34d56f9be021eb5ed5a0b60a2973e9b15003bd21c"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": false,
+            "review_import.counts.applied": 2,
+            "review_import.incomplete": false,
+            "review_policy.counts.justified_checks": 1,
+            "summary.justified_findings": 1,
+            "summary.open_findings": 10
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.pdf",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-final-pdf",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "finding_evidence_unchanged": true,
+          "id": "replay_pdf",
+          "report_sha256": {
+            "report.html": "20371a6cbc0bcdcb90fa77d6e83ea18ff4d1b32c9a1d3d2dcc07cfbd885793ed",
+            "report.json": "551868463c21ba63399559602cdc1e7a8f6800ab8676d99c7ff5f0d90b0e804e",
+            "report.md": "6e040566bcd6190fa55b0db3bb1597e9cbfb717a29b35efcec5c842848200961",
+            "report.sarif": "7faa0b927935a8b20d124eb2c9271e5039021b94344d632dd381d592d3cf852b"
+          },
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "feb7da5a060325108c87e20b2ba826feb4ff4399fa1e464e8eaf2778366dab2f"
+        },
+        {
+          "asserted_report_fields": {
+            "review_import.counts.applied": 0,
+            "review_import.counts.stale": 2,
+            "review_import.incomplete": true
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-changed-source",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/reviewed.json",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-stale",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "stale_review",
+          "report_sha256": {
+            "report.html": "dd17c8adfa5191e4f121bc0e8e3715d1b2560641787f0e36d9e827d0f44dedd5",
+            "report.json": "7c76e88c0f6df812b349ace362cb0af1f1e825569292f280537cf1b97d9ef89d",
+            "report.md": "36a89286f85d32ecd97ddf55cc7175146d2fe968159a73fd0405682bb6133cea",
+            "report.sarif": "c6ffbc941a968a840adb0ca252bda208941e9edd3759cda1881139cb8566a79e"
+          },
+          "status": "passed",
+          "stderr": "Imported review needs follow-up: changed evidence or unresolved runtime/human validation remains; see the review audit.\n",
+          "stdout_sha256": "64fb08e8c2402fe85f2f46377879e274c9a5b70214e9cd6d13eb58c65d76082d"
+        },
+        {
+          "asserted_report_fields": {
+            "execution.finding_gate_triggered": false,
+            "review_import.counts.applied": 1,
+            "review_import.counts.unresolved": 1,
+            "review_import.incomplete": true,
+            "summary.open_findings": 11
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--review-report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-edited/runtime-pending.json",
+            "--fail-on",
+            "none",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/08-runtime-pending",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "runtime_pending",
+          "report_sha256": {
+            "report.html": "e4aabf8a026887913aaf14b3de5521a886ad6e3edbc87a8716726d1530989d7c",
+            "report.json": "9928915d816b2b8f50e045217984517ba445a5fa20611dac83d3fb2704164a2b",
+            "report.md": "d0d562bc42bab9d22969d4786f06e475afceab4b178b85d7f1fc52a6e09aca34",
+            "report.sarif": "a457534fcfe9a4b950f7f7903570dda9e1ec5f3d581214e116bc990ac9a9411a"
+          },
+          "status": "passed",
+          "stderr": "Imported review needs follow-up: changed evidence or unresolved runtime/human validation remains; see the review audit.\n",
+          "stdout_sha256": "0d6689c76e1c61cf83068fd5c900f39e0d523d8804266dc7cc3f185332442a68"
+        }
+      ],
+      "title": "Rescan edited reports in all five formats"
+    },
+    {
+      "id": "09",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<CONTROLLER_PYTHON>",
+            "<SCENARIO_WORKSPACE>/examples/scenarios/local_gateway.py",
+            "--output",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway"
+          ],
+          "execution_kind": "controller_fixture_utility",
+          "expected_exit": 0,
+          "id": "gateway_server",
+          "readiness_verified": true,
+          "real_model": false,
+          "startup_output": "Scripted loopback gateway ready; leave this terminal open during scenario 9. Ctrl+C stops it.\n",
+          "startup_seconds": 0.052,
+          "status": "passed"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/custom.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-custom",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_custom",
+          "optimizer": "headroom",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "0028b8a9fbc64f5c26a680fa2ce796a487d17a20010e0eb69176f31377b4a34a",
+            "report.json": "d643f5f874bd4a23b3698b6f8470161c400a753d6092ef88755191e32ceaa8c9",
+            "report.md": "cd6862f5dc9f7ba75bd53a98bbe190ac39a5ef0dee69a1197488eb97776dc631",
+            "report.sarif": "cbab5d27f29663c37ef3149915e7e76a01f6339aec1231416bce92bbaaef3c4a"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "875e30b8fa5f085fd18efb7911e40f1a13e6fdf26a1e8a0df5dae16ece520e3f"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/openai_chat.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-openai_chat",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_openai_chat",
+          "optimizer": "headroom",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "411e79346bad73eef1f85862c1fb82de14cafa8ab0cc0ddcabb991de7d7faedf",
+            "report.json": "0a7fa64ab49a5522cf8a3d89a36f3ccc3afccc5192bca16509525de92c7cd5e4",
+            "report.md": "2f01e6d1668ba75484d027d98743bbf457f0ad6df24e53039f30d9df3841e08b",
+            "report.sarif": "cbab5d27f29663c37ef3149915e7e76a01f6339aec1231416bce92bbaaef3c4a"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "80aa853380671aa4d1d6960d30aebd0b53575eb636a9f2922ce6838e646a88cb"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/openai_responses.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-openai_responses",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_openai_responses",
+          "optimizer": "headroom",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "c1f5f01488b2f6ec8125b31b551e48ab164e913f30737cd528f0060c4a84d08d",
+            "report.json": "74b8c2e85fef386ce0fe785369bc96f109d025d1f941d5fd23d2e427457ef2c6",
+            "report.md": "77be5f708739bfb04319c2f39c22e5cd1ca64a64da6d6a2a50bfebfb004f6308",
+            "report.sarif": "cbab5d27f29663c37ef3149915e7e76a01f6339aec1231416bce92bbaaef3c4a"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "66d45017bd0b01c43155ca9e00af02ea9b4c3ab6225777057b4eac55eb82dc02"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/anthropic.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-anthropic",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_anthropic",
+          "optimizer": "headroom",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "148886cff4410375cd6f249a6732c8d006b3444778b35ab55cb493cd9551571b",
+            "report.json": "453809f5e2ea882c384ae053c3ae97fbf21547e66028faf17b2d30c20cc94971",
+            "report.md": "6f03ce1650e7539d22a5001a73478e95f13f0c7e7c830919015e8288e6061a39",
+            "report.sarif": "cbab5d27f29663c37ef3149915e7e76a01f6339aec1231416bce92bbaaef3c4a"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "ba28c14ad3650bf790ee5b3629d194e6e6e7db544e33733c6136835a7c3d3296"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/gemini.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gemini",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_gemini",
+          "optimizer": "headroom",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "58a8973867ba4e58fac3683f44301a5e0e6faa61dc8f452e7ad59c82a7d533a0",
+            "report.json": "c3496bb63ff757f57e445ac796e5d8e608c34585537c43087e695588498c54b5",
+            "report.md": "63b7c79354e26d3115eb41223f46879545bcb82702f80fb6cb9123f4213f847c",
+            "report.sarif": "cbab5d27f29663c37ef3149915e7e76a01f6339aec1231416bce92bbaaef3c4a"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "6e3dddb6f9ca6e16925dc9c67cd8d1dc9246867a5c064444d0c5f31f50a3b4c3"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.check_status_counts.insufficient_evidence": 2,
+            "analyst.coverage.reviewed_controls": 1,
+            "analyst.enabled": true,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/ollama.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-time-budget",
+            "60",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-ollama",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "api_ollama",
+          "optimizer": "headroom",
+          "optimizer_requests_verified": 2,
+          "report_sha256": {
+            "report.html": "7aaf450a9c4052dda04bbcefa34a7da4c5517672f2cb083d775eedc3805e3181",
+            "report.json": "2de9e044878fe225afd24711cfe5c2ac54177d52686c12ca0b873fef019dfc24",
+            "report.md": "1c4cbd195cf9270fa25537db761a119669ad153ae1e888d4380d2f90a633b8f8",
+            "report.sarif": "cbab5d27f29663c37ef3149915e7e76a01f6339aec1231416bce92bbaaef3c4a"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "923bb593234ed0a5f20fab6516d6fddcd78241fae16e0e2d9de49b16a2293646"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.investigation.requests_served": 1,
+            "analyst.investigation.rounds_completed": 1,
+            "summary.open_findings": 0
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/investigation/context-tools",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/investigation.json",
+            "--analyst-max-calls",
+            "3",
+            "--analyst-batch-size",
+            "1",
+            "--analyst-investigation-rounds",
+            "1",
+            "--analyst-max-files",
+            "10",
+            "--analyst-max-bytes",
+            "100000",
+            "--analyst-max-chars",
+            "20000",
+            "--analyst-time-budget",
+            "60",
+            "--token-optimizer",
+            "compact",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-investigation",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "investigation",
+          "optimizer": "builtin_compact",
+          "optimizer_requests_verified": 3,
+          "report_sha256": {
+            "report.html": "677952010b5c981a25a93c4b29bec1fa23fc3dda475b5e499ddf8057d91bf4f3",
+            "report.json": "39ec33dd9e1f5ce219b60cf3b38d8ed6c849d6762003279d3dc9d0deec6b7eac",
+            "report.md": "6ce19c0de3028361309a2dea2a923e24bb9faf409b1ac9cd7b6238d555a6699d",
+            "report.sarif": "abfd5ae62115995c2a1977b73e7cbeac3a8d35c00a40f31d8b977cde3db3a887"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "33444c58d17856bc22733adbbae13243addfc97c052e6e3bca06e9d73e97b7e4"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.enabled": false,
+            "judge.enabled": true,
+            "judge.omitted_open_findings": 10,
+            "judge.selected_findings": 1,
+            "summary.open_findings": 11
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/vulnerable",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/custom.json",
+            "--judge-mode",
+            "findings",
+            "--judge-include-source",
+            "--judge-max-findings",
+            "1",
+            "--token-optimizer",
+            "off",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-findings",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 1,
+          "expected_exit": 1,
+          "id": "findings_only",
+          "report_sha256": {
+            "report.html": "e27cfc1eea1dba9a8f3dc33f55ee16d30f1f45f8059009e737a5dae496f2a351",
+            "report.json": "c5a57cdf6a9b65317b868e3249e4f157d5debdee3bfee2cf6c8d3b4fbd3dd4b0",
+            "report.md": "6bef1698d89a0647d9e39fe21ec6530f0c040be2189c25de0e6d0211975d2dc0",
+            "report.sarif": "d91441dc5572378daf4c120120ddabbd5773b8674c84ccfa09e39ca573604d58"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings to the configured provider/service. Redaction is best-effort.\n",
+          "stdout_sha256": "0e7f24ba3ebab3b48d402f12b77668a63c941195de94c88a97b4edae19d3865d"
+        },
+        {
+          "asserted_report_fields": {
+            "analyst.status": "incomplete",
+            "execution.exit_code": 2
+          },
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "<SCENARIO_WORKSPACE>/examples/safer",
+            "--scans",
+            "EXEC-05",
+            "--judge-config",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-gateway/custom.json",
+            "--analyst-max-calls",
+            "0",
+            "--report",
+            "<SCENARIO_WORKSPACE>/scan-report/scenarios/09-exhausted",
+            "--summary-json"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 2,
+          "expected_exit": 2,
+          "id": "exhausted_ai_budget",
+          "report_sha256": {
+            "report.html": "3f728302418949bda306472cd547c6e6c323e241024d37a29557a6449ba3b89b",
+            "report.json": "dd3d23008e09e59c13e303a5c938bc0c13381619ccb6f397087b1852ca23944d",
+            "report.md": "2cff706bf4d96d36807549f31752b1a16f5ebeeca5d829d76192ae3a736ca6b3",
+            "report.sarif": "cbab5d27f29663c37ef3149915e7e76a01f6339aec1231416bce92bbaaef3c4a"
+          },
+          "status": "passed",
+          "stderr": "Optional LLM review enabled: sending redacted open findings and bounded source excerpts for active control checks to the configured provider/service. Redaction is best-effort.\nOptional control analyst review is incomplete; see the optional-review coverage and errors.\n",
+          "stdout_sha256": "121651780205845d034912a55c43c4f89662506fcccb4534c47e89175640de5e"
+        }
+      ],
+      "title": "Exercise API gateways, optimization and bounded investigation"
+    },
+    {
+      "id": "10",
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--help-topic",
+            "login"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "login_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "1aeccda04d4829024df2df11804fb19f6c9c3cd920cf31860a7b77a4d7acae3a"
+        },
+        {
+          "command": [
+            "<DISTRIBUTION>/invscan",
+            "--help-topic",
+            "ai"
+          ],
+          "execution_kind": "native_scanner",
+          "exit_code": 0,
+          "expected_exit": 0,
+          "id": "ai_help",
+          "status": "passed",
+          "stderr": "",
+          "stdout_sha256": "69d1f888fbf4b8e8d4a8b378b170036903bcc57e872ae7819af237757cc01804"
+        }
+      ],
+      "title": "Use authenticated provider CLIs and seamless interactive login"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": {
+    "container_execution": false,
+    "controller_python": "Used by this validation harness and two fixture utilities, never to launch the scanner.",
+    "pdf_form_edits": "Scripted controller edits; no browser interaction claimed.",
+    "provider_logins": 0,
+    "real_model_calls": 0,
+    "target_execution": false
+  },
+  "source_only_aliases_omitted": [
+    "invarune --version",
+    "ai-security-scan --version"
+  ],
+  "status": "passed",
+  "steps_executed": 57,
+  "tls_validation": {
+    "checks": [
+      {
+        "command": [
+          "<DISTRIBUTION>/invscan",
+          "<SCENARIO_WORKSPACE>/examples/vulnerable",
+          "--scans",
+          "AI002",
+          "--judge-config",
+          "<SCENARIO_WORKSPACE>/scan-report/scenarios/tls-fixture/custom-ca-trusted.json",
+          "--judge-mode",
+          "findings",
+          "--report",
+          "<SCENARIO_WORKSPACE>/scan-report/scenarios/custom-ca-trusted",
+          "--summary-json"
+        ],
+        "deterministic_findings_preserved": true,
+        "exit_code": 1,
+        "expected_exit": 1,
+        "id": "custom-ca-trusted",
+        "status": "passed"
+      },
+      {
+        "command": [
+          "<DISTRIBUTION>/invscan",
+          "<SCENARIO_WORKSPACE>/examples/vulnerable",
+          "--scans",
+          "AI002",
+          "--judge-config",
+          "<SCENARIO_WORKSPACE>/scan-report/scenarios/tls-fixture/untrusted-ca-rejected.json",
+          "--judge-mode",
+          "findings",
+          "--report",
+          "<SCENARIO_WORKSPACE>/scan-report/scenarios/untrusted-ca-rejected",
+          "--summary-json"
+        ],
+        "deterministic_findings_preserved": true,
+        "exit_code": 2,
+        "expected_exit": 2,
+        "id": "untrusted-ca-rejected",
+        "status": "passed"
+      }
+    ],
+    "deterministic_evidence_unchanged": true,
+    "https_payload_requests": 1,
+    "native_invocations": 2,
+    "private_keys": "Generated temporarily by controller OpenSSL; deleted with test workspace",
+    "public_network_requests": 0,
+    "real_model_calls": 0,
+    "rejected_before_http_payload": true,
+    "status": "passed",
+    "transport": "Actual HTTPS to loopback scripted fixture"
+  },
+  "unicode_validation": {
+    "exit_code": 1,
+    "expected_exit": 1,
+    "native_invocations": 1,
+    "non_ascii_file_path_preserved": true,
+    "piped_stdout_utf8_decoded_strictly": true,
+    "status": "passed"
+  },
+  "version": "0.15.0"
+}

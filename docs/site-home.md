@@ -8,8 +8,11 @@ Inspect an AI agent, MCP server or skill from its source code or built Linux ima
 
 **Deterministic scanning and `invscan --ask` work without agentic AI, model credentials or a subscription.** Enable the controlled AI analyst when you want additional advisory review.
 
-[Start with invscan](docs/QUICKSTART.md){ .md-button .md-button--primary }
-[Explore the benchmark dashboard](docs/BENCHMARK_DASHBOARD.md){ .md-button }
+[Download the CLI](https://github.com/nimeshbuilds/invarune/releases/latest){ .md-button .md-button--primary }
+[Build from source](docs/INSTALLATION.md#build-from-source){ .md-button }
+[Quick start](docs/QUICKSTART.md){ .md-button }
+
+Native releases for Linux, macOS and Windows include their runtime, PDF support and Headroom. No separate Python installation is needed. [Choose your platform and install](docs/INSTALLATION.md).
 
 </div>
 
@@ -43,7 +46,7 @@ invscan --help
 invscan --help-topic all
 ```
 
-[Install the CLI first](docs/QUICKSTART.md), or [download the v0.15 wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.15.0). Core scanning uses Python 3.9+ and no runtime packages. PDF creation and AI integrations are optional extras.
+[Download a ready-to-run CLI or install from source](docs/INSTALLATION.md), then follow the [quick start](docs/QUICKSTART.md). A Python wheel is also available. AI review remains optional with every installation route.
 
 ## Improvements you can inspect
 
@@ -60,7 +63,7 @@ Trace registered tool inputs through bounded source analysis, inspect malicious 
 
     Install, scan source or an image, interpret exit codes, and read immediate concerns and fixes.
 
-    [Quick start](docs/QUICKSTART.md) · [Ten tested scenarios](docs/SCENARIOS.md) · [CLI reference](docs/CLI.md) · [Troubleshooting](docs/TROUBLESHOOTING.md)
+    [Download or build](docs/INSTALLATION.md) · [Quick start](docs/QUICKSTART.md) · [Ten tested scenarios](docs/SCENARIOS.md) · [CLI reference](docs/CLI.md) · [Troubleshooting](docs/TROUBLESHOOTING.md)
 
 - **Understand the controls**
 

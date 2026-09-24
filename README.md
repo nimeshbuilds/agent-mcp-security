@@ -2,6 +2,10 @@
 
 ![Invarune by NimeshBuild — invscan for AI agents, MCP servers, source and built images](docs/assets/brand/invarune-social.png)
 
+**[Download the built CLI](https://github.com/nimeshbuilds/invarune/releases/latest)** · **[Installation by platform](docs/INSTALLATION.md)** · **[Build from source](docs/INSTALLATION.md#build-from-source)**
+
+Standalone releases for Linux, macOS and Windows include `invscan`, its runtime, PDF support, Headroom and inert examples. No separate Python installation is needed. A Python wheel and source archive are also available.
+
 **Invarune** (IN-vuh-roon) provides the `invscan` CLI to inspect an agent/MCP codebase, skill directory or built Linux container image, identify selected security risks, and produce a detailed report. Source-directory and exported-image archive scans need no Python dependencies; local image references use Docker or Podman. The deterministic scan runs offline and never imports or executes the target application. An optional security analyst reviews every active control through a deterministic evidence and validation layer, using native LLM APIs, a custom HTTP gateway, or an official Codex, Claude Code or Grok Build CLI. The model's judgment remains nondeterministic and advisory.
 
 The research contains **66 controls and 132 acceptance checks**, informed by NSA/CISA and partner guidance, CSA, NIST, OWASP, MITRE ATLAS, MCP, CIS, ISO, OpenSSF/SLSA, and published agent security benchmarks. **47 deterministic rules provide partial static coverage of 30 controls.** The remaining controls require other evidence. These are project-defined checks, not an official compliance certification.
@@ -12,7 +16,8 @@ The research contains **66 controls and 132 acceptance checks**, informed by NSA
 - **[Visual benchmark dashboard](docs/BENCHMARK_DASHBOARD.md)** — fresh measurements, improvements, complementary tool coverage and reproducible evidence.
 - **[Report and PDF library](docs/REPORT_LIBRARY.md)** · **[Developer guide](CONTRIBUTING.md)**
 - **[Ask about security controls offline](docs/SECURITY_EXPLORER.md)**
-- **[Download the v0.15 CLI wheel](https://github.com/nimeshbuilds/invarune/releases/tag/v0.15.0)**
+- **[Download v0.15: native CLI, Python wheel or source archive](https://github.com/nimeshbuilds/invarune/releases/tag/v0.15.0)**
+- [Native release validation on five platforms](benchmarks/standalone-v015/README.md)
 - **[Versioned scan example: fillable PDF, HTML and live AI review](examples/reports/invscan-v011/README.md)**
 - [Edit a report, record justifications and scan again](docs/REVIEW_WORKFLOW.md)
 - [Actual five-format source/image review examples](examples/reports/review-workflow/README.md)
@@ -103,7 +108,16 @@ The expanded landscape includes CSA AICM/CCM and MAESTRO, CIS agent/MCP companio
 
 ## Run a scan
 
-Install once, then use **`invscan`** from any directory. From this checkout, create and activate an isolated environment (Python **3.9+**):
+Install once, then use **`invscan`** from any directory. The [standalone download](docs/INSTALLATION.md#download-a-standalone-release) is ready to run after checksum verification and extraction. Keep its directory intact and add it to your PATH as described in the installation guide:
+
+```sh
+invscan --help
+invscan --examples
+invscan /absolute/path/to/agent-or-mcp-repo --pdf --output ./scan-report
+invscan --image-archive ./agent-image.tar --output ./image-report
+```
+
+Prefer source? From a checkout, create and activate an isolated environment (Python **3.9+**):
 
 ```sh
 python3 -m venv .venv
@@ -117,7 +131,7 @@ invscan --image-archive ./agent-image.tar --output ./image-report
 
 On Windows PowerShell, create the environment with `py -3 -m venv .venv` and add its command directory to this terminal with `$env:Path = "$((Resolve-Path .venv\Scripts).Path);$env:Path"`. The subsequent `pip` and `invscan` commands are the same. [Quickstart](docs/QUICKSTART.md) includes a route without activation.
 
-For AI review with Headroom and fillable PDFs, use Python **3.10+** and install the optional features into that same environment:
+Standalone bundles already include Headroom and PDF support. For a source installation, use Python **3.10+** and add those optional features to the same environment:
 
 ```sh
 pip install '.[ai,pdf]'
@@ -128,7 +142,7 @@ invscan --help-topic review
 
 `-h` / `--help` includes the complete offline reference: every flag/default/range, source and image behavior, exclusions, baselines, reports, analyst budgets, login/model choices, all judge JSON fields, gateway configurations and examples. `--help-topic` provides focused guides, and `--examples` gives copyable recipes. None of these help commands scan files, read provider configuration, log in or call a service.
 
-`invarune` and `ai-security-scan` remain compatible aliases of `invscan`. Direct `scan.py` and module invocation remain available for existing users. The distribution name `agent-mcp-security-scan` and report machine identifiers remain compatible. The canonical repository is now `nimeshbuilds/invarune`. See the [brand kit](docs/BRAND.md).
+Python installations also provide the compatible `invarune` and `ai-security-scan` aliases; standalone bundles provide `invscan`. Direct `scan.py` and module invocation remain available from source for existing users. The distribution name `agent-mcp-security-scan` and report machine identifiers remain compatible. The canonical repository is now `nimeshbuilds/invarune`. See the [brand kit](docs/BRAND.md).
 
 [View the sample Markdown report](examples/reports/v011/source/report.md) or [download the sample HTML report](examples/reports/v011/source/report.html?raw=1) and open it locally. These are deliberately vulnerable fixtures, not a production assessment.
 
@@ -152,15 +166,16 @@ Generated files:
 | `report.md` | Portable executive summary and action plan followed by findings, file/line evidence, severity, confidence, remediation, all 66 controls, and coverage gaps |
 | `report.json` | The same deterministic assessment in structured form, plus stable finding IDs, file hashes, control mappings, suppressions, and optional per-check analyst assessments, evidence excerpts, and request receipts |
 | `report.sarif` | SARIF 2.1.0 findings for compatible code-review and CI consumers; runtime/manual checklist details remain in Markdown/JSON |
-| `report.pdf` (with `--pdf`) | Branded fillable scan report with charts, clickable contents, coverage explanations and user review fields; requires the optional `pdf` extra |
+| `report.pdf` (with `--pdf`) | Branded fillable scan report with charts, clickable contents, coverage explanations and user review fields; included in standalone bundles, or installed with the Python `pdf` extra |
 
 Reports within the documented review-size limits contain editable review data. Fill the HTML or PDF form, or edit the designated JSON fields in Markdown/JSON/SARIF, then pass the saved file to a fresh scan. User justifications stay distinct from validated passes; changed evidence and pending runtime validation remain explicit. If the complete review workspace cannot be exported, static reports remain available with an explicit error and exit 2.
 
 ```sh
-python3 -m pip install '.[pdf]'
 invscan /path/to/repo --pdf --output ./initial-report
 invscan /path/to/repo --review-report ./reviewed-report.html --pdf --output ./final-report
 ```
+
+Source installations need the PDF extra first: `python -m pip install '.[pdf]'` from the checkout's activated environment. Standalone releases already include it.
 
 Use the HTML **Download reviewed HTML** button to preserve form edits. Keep reports outside the source target and select the fresh code/image input explicitly. [Complete five-format review workflow](docs/REVIEW_WORKFLOW.md).
 

@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0",
+  "runs": [
+    {
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041416239",
+      "commit": "e869d467f3cd12e0af165b5c914c0df56817d7d0",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "Package and test (macos-x86_64)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041416239/job/107774233920",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:28:03Z",
+          "completedAt": "2026-09-24T18:33:49Z"
+        },
+        {
+          "name": "Package and test (linux-x86_64)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041416239/job/107774234234",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:28:07Z",
+          "completedAt": "2026-09-24T18:31:12Z"
+        },
+        {
+          "name": "Package and test (macos-arm64)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041416239/job/107774234323",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:28:10Z",
+          "completedAt": "2026-09-24T18:30:28Z"
+        },
+        {
+          "name": "Package and test (linux-arm64)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041416239/job/107774234416",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:28:10Z",
+          "completedAt": "2026-09-24T18:31:02Z"
+        },
+        {
+          "name": "Package and test (windows-x86_64)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041416239/job/107774234549",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:28:01Z",
+          "completedAt": "2026-09-24T18:32:14Z"
+        },
+        {
+          "name": "Assemble hash-verified release files",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041416239/job/107776509113",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:33:52Z",
+          "completedAt": "2026-09-24T18:34:18Z"
+        }
+      ]
+    },
+    {
+      "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992",
+      "commit": "e869d467f3cd12e0af165b5c914c0df56817d7d0",
+      "attempt": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "tests (windows-latest, 3.12)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775675715",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:31:43Z",
+          "completedAt": "2026-09-24T18:34:18Z"
+        },
+        {
+          "name": "built-image-integration",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775675939",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:27:45Z",
+          "completedAt": "2026-09-24T18:27:57Z"
+        },
+        {
+          "name": "tests (ubuntu-latest, 3.9)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775676203",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:27:46Z",
+          "completedAt": "2026-09-24T18:29:04Z"
+        },
+        {
+          "name": "tests (ubuntu-latest, 3.12)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775676639",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:27:45Z",
+          "completedAt": "2026-09-24T18:28:50Z"
+        },
+        {
+          "name": "package-and-schema",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775676869",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:27:45Z",
+          "completedAt": "2026-09-24T18:30:14Z"
+        },
+        {
+          "name": "tests (macos-latest, 3.12)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775677001",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:27:51Z",
+          "completedAt": "2026-09-24T18:29:42Z"
+        },
+        {
+          "name": "documentation-scenarios (ubuntu-latest)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775677121",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:27:46Z",
+          "completedAt": "2026-09-24T18:28:53Z"
+        },
+        {
+          "name": "tests (ubuntu-latest, 3.14)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775677296",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:27:45Z",
+          "completedAt": "2026-09-24T18:28:44Z"
+        },
+        {
+          "name": "documentation-scenarios (windows-latest)",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775725831",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:27:53Z",
+          "completedAt": "2026-09-24T18:30:04Z"
+        },
+        {
+          "name": "headroom-integration",
+          "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/job/107775729039",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-24T18:27:45Z",
+          "completedAt": "2026-09-24T18:28:30Z"
+        }
+      ],
+      "prior_attempt": {
+        "attempt": 1,
+        "conclusion": "failure",
+        "url": "https://github.com/nimeshbuilds/invarune/actions/runs/36041386992/attempts/1",
+        "reason": "Windows HTML-editor Node subprocess exceeded its 10-second test timeout. One failed job was rerun without source changes."
+      }
+    }
+  ],
+  "native_prior_failed_runs": [
+    "https://github.com/nimeshbuilds/invarune/actions/runs/36040137176",
+    "https://github.com/nimeshbuilds/invarune/actions/runs/36040742487"
+  ]
+}
