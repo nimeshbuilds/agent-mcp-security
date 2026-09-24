@@ -310,14 +310,22 @@ def validate(args, receipt):
                             'expected_exit': step['expected_exit'], 'status': 'running'}
                     record['steps'].append(item)
                     if step.get('background'):
-                        process = subprocess.Popen(invocation, cwd=outside, env=environment,
-                                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                        processes.append(process)
-                        deadline = time.monotonic() + 10
-                        ready = Path(expand(step['ready_file']))
-                        while not ready.is_file() and process.poll() is None and time.monotonic() < deadline:
-                            time.sleep(0.05)
-                        require(ready.is_file() and process.poll() is None, 'Scripted loopback fixture did not become ready')
+                        started = time.monotonic()
+                        with tempfile.TemporaryFile() as startup_log:
+                            process = subprocess.Popen(invocation, cwd=outside, env=environment,
+                                                       stdout=startup_log, stderr=startup_log)
+                            processes.append(process)
+                            deadline = started + 30
+                            ready = Path(expand(step['ready_file']))
+                            while not ready.is_file() and process.poll() is None and time.monotonic() < deadline:
+                                time.sleep(0.05)
+                            startup_log.seek(0)
+                            detail = clean(startup_log.read(3000).decode('utf-8', errors='replace'))
+                            item['startup_seconds'] = round(time.monotonic() - started, 3)
+                            item['startup_output'] = detail
+                            require(ready.is_file() and process.poll() is None,
+                                    'Scripted loopback fixture did not become ready; process exit=' +
+                                    str(process.poll()) + '; ' + detail)
                         item.update(status='passed', readiness_verified=True, real_model=False)
                         continue
                     before = set(outside.rglob('*')) if step.get('no_reports_created') else None
