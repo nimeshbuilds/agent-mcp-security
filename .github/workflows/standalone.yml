@@ -1,0 +1,125 @@
+name: Invarune standalone release packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Existing release version whose unchanged scanner source must match
+        required: true
+        default: '0.15.0'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: Package and test (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            target: linux-x86_64
+            extension: tar.gz
+          - os: ubuntu-22.04-arm
+            target: linux-arm64
+            extension: tar.gz
+          - os: macos-15
+            target: macos-arm64
+            extension: tar.gz
+          - os: macos-15-intel
+            target: macos-x86_64
+            extension: tar.gz
+          - os: windows-2022
+            target: windows-x86_64
+            extension: zip
+    env:
+      PYTHONUTF8: '1'
+      INVSCAN_RELEASE_VERSION: ${{ inputs.version }}
+      INVSCAN_RELEASE_TARGET: ${{ matrix.target }}
+      INVSCAN_RELEASE_EXTENSION: ${{ matrix.extension }}
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Verify the scanner matches the named release
+        shell: python
+        run: |
+          import os, re, subprocess, tomllib
+          version = os.environ['INVSCAN_RELEASE_VERSION']
+          assert re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', version), 'Expected a numeric release version'
+          with open('pyproject.toml', 'rb') as stream:
+              assert tomllib.load(stream)['project']['version'] == version
+          subprocess.run(['git', 'diff', '--exit-code', 'v' + version, 'HEAD', '--', 'ai_security_scan', 'pyproject.toml'], check=True)
+      - name: Install pinned native build dependencies
+        run: python -m pip install -r requirements-release.txt '.[ai,pdf]'
+      - name: Build the platform-native distribution
+        shell: python
+        run: |
+          import os, subprocess, sys
+          subprocess.run([sys.executable, 'scripts/build_standalone.py', '--output', 'dist/standalone', '--work-dir', 'build/standalone', '--expected-version', os.environ['INVSCAN_RELEASE_VERSION']], check=True)
+      - name: Test the extracted release with no Python on its PATH
+        shell: python
+        run: |
+          import os, pathlib, shutil, subprocess, sys
+          name = 'invscan-' + os.environ['INVSCAN_RELEASE_VERSION'] + '-' + os.environ['INVSCAN_RELEASE_TARGET']
+          archive = pathlib.Path('dist/standalone') / (name + '.' + os.environ['INVSCAN_RELEASE_EXTENSION'])
+          assert archive.is_file(), 'Native build produced the wrong platform artifact'
+          subprocess.run([sys.executable, 'scripts/validate_standalone.py', '--archive', str(archive), '--output', 'test-output/standalone'], check=True)
+          shutil.copyfile('test-output/standalone/receipt.json', pathlib.Path('dist/standalone') / (name + '.validation.json'))
+      - name: Retain diagnostic validation receipts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: standalone-diagnostics-${{ matrix.target }}
+          path: test-output/standalone/
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: Upload tested release files
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: standalone-${{ matrix.target }}
+          path: dist/standalone/*
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+  assemble:
+    name: Assemble hash-verified release files
+    needs: package
+    runs-on: ubuntu-22.04
+    env:
+      INVSCAN_RELEASE_VERSION: ${{ inputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: standalone-*
+          path: downloaded
+      - name: Require all five exact tested archives before release assembly
+        shell: python
+        run: |
+          import os, subprocess, sys
+          subprocess.run([sys.executable, 'scripts/assemble_standalone_release.py', '--input', 'downloaded', '--output', 'dist/release', '--version', os.environ['INVSCAN_RELEASE_VERSION'], '--commit', os.environ['GITHUB_SHA'], '--run-url', os.environ['GITHUB_SERVER_URL'] + '/' + os.environ['GITHUB_REPOSITORY'] + '/actions/runs/' + os.environ['GITHUB_RUN_ID']], check=True)
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: standalone-release
+          path: dist/release/*
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30

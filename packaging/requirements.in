@@ -1,0 +1,7 @@
+# Re-lock with uv pip compile packaging/requirements.in --python-version 3.12
+# --universal --output-file requirements-release.txt. Build only with Python 3.12.
+PyInstaller==6.22.3
+headroom-ai==0.37.0
+reportlab==4.5.1
+pypdf==6.19.0
+build==1.5.0
