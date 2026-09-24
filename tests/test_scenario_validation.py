@@ -3,7 +3,9 @@ import copy
 import importlib.util
 import json
 from pathlib import Path
+import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -68,6 +70,21 @@ class ScenarioDocumentationTests(unittest.TestCase):
 
 
 class ScenarioGatewayTests(unittest.TestCase):
+    def test_numeric_loopback_gateway_starts_without_dns(self):
+        with tempfile.TemporaryDirectory() as directory, \
+             patch('socket.getfqdn', side_effect=AssertionError('No DNS permitted')):
+            output = Path(directory)
+            server = gateway.create_server(output)
+            try:
+                self.assertEqual(server.server_address[0], '127.0.0.1')
+                self.assertGreater(server.server_port, 0)
+                self.assertTrue((output / 'ready.json').is_file())
+                for provider in gateway.PROVIDERS:
+                    config = json.loads((output / (provider + '.json')).read_text())
+                    self.assertIn('http://127.0.0.1:%d/' % server.server_port, config['endpoint'])
+            finally:
+                server.server_close()
+
     def test_triage_accepts_cli_ids_and_protocol_fixture_ids(self):
         for finding in ({'id': 'F1'}, {'finding_id': 'F1'}):
             response = gateway.answer({'findings': [finding]})

@@ -9,9 +9,18 @@ import hashlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
+from socketserver import TCPServer
 
 PROVIDERS = ("custom", "openai_chat", "openai_responses", "anthropic", "gemini", "ollama")
 MARKER = "UNTRUSTED_REPOSITORY_DATA_JSON:\n"
+
+
+class LoopbackServer(ThreadingHTTPServer):
+    def server_bind(self):
+        # HTTPServer resolves the bound IP through getfqdn(). This numeric-only
+        # local fixture needs no DNS, and must work with unavailable resolvers.
+        TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
 
 
 def request_payload(provider, body):
@@ -100,7 +109,7 @@ def create_server(output):
         def log_message(self, *args):
             pass
 
-    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    server = LoopbackServer(("127.0.0.1", 0), Handler)
     server.daemon_threads = True
     for provider in PROVIDERS:
         config = {"provider": provider, "model": "scripted-local-fixture", "endpoint": "http://127.0.0.1:%d/%s/review" % (server.server_port, provider),
